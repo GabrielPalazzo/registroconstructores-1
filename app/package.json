@@ -1,0 +1,27 @@
+{
+  "name": "registroconstructores",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "tailwind:css": "tailwindcss build styles/main.src.css -o public/style/main.css"
+  },
+  "dependencies": {
+    "antd": "^4.7.3",
+    "next": "9.5.5",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
+    "tailwindcss": "^1.9.6"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.3",
+    "@types/react": "^16.9.53",
+    "typescript": "^4.0.3"
+  }
+}
