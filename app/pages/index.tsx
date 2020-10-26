@@ -1,5 +1,5 @@
 import React from 'react'
 
 export default () => {
-  return <div> Index Page </div>
+  return <div className="text-danger-700"> Index Page </div>
 }
