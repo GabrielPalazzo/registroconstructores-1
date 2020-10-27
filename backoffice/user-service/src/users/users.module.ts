@@ -14,7 +14,7 @@ import { Transport, ClientsModule } from '@nestjs/microservices';
     AccessControlModule.forRoles(roles),
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
     ClientsModule.register([
-      { name: 'COMPANY_SERVICE', transport: Transport.TCP, options : { port: 4042 } },
+      // { name: 'COMPANY_SERVICE', transport: Transport.TCP, options : { port: 4042 } },
     ]),
   ],
   controllers: [UsersController],

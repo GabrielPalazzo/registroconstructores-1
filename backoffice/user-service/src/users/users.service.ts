@@ -13,15 +13,15 @@ import { ClientProxy } from '@nestjs/microservices';
 export class UsersService {
   constructor(
     @InjectModel('User') private readonly userModel: Model<User>,
-    @Inject('COMPANY_SERVICE') private readonly company: ClientProxy
+    // @Inject('COMPANY_SERVICE') private readonly company: ClientProxy
     ) {}
 
   async onApplicationBootstrap() {
-    await this.company.connect();
+    // await this.company.connect();
   } 
     
   async findAll(): Promise<User[]> {
-    this.company.emit('CompanyEvent', "Pablo")
+    // this.company.emit('CompanyEvent', "Pablo")
     return await this.userModel.find();
   }
 
@@ -36,14 +36,14 @@ export class UsersService {
     var company;
 
     
-
+    /*
     await this.company
       .send('getById', user.company)
       .subscribe(result => {
         company = result;
         Logger.log(`${user.firstName}, es empleado de ${company.title}`)
       })
-
+    */
     return user;
   }
 

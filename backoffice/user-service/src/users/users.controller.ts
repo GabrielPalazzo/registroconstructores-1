@@ -30,11 +30,11 @@ export class UsersController {
   constructor(
     private readonly service: UsersService,
     @Inject(Logger) private readonly logger: LoggerService,
-    @Inject('COMPANY_SERVICE') private readonly company: ClientProxy
+    // @Inject('COMPANY_SERVICE') private readonly company: ClientProxy
   ) {}
 
   async onApplicationBootstrap() {
-    await this.company.connect();
+    // await this.company.connect();
   }
 
   @Get()

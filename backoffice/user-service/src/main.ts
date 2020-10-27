@@ -49,7 +49,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('users/doc', app, document);
-  await app.listen(3038);
+  // await app.listen(3038);
 
   const userMicroService = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
@@ -63,9 +63,9 @@ async function bootstrap() {
   );
 
   await Promise.all([
-    app.listen(3032),
+    app.listen(3038),
     userMicroService.listen(
-        () => Logger.log('Microservice User is listening...')
+        () => console.log('Microservice User is listening...')
       )
     ]);
 }
