@@ -1,0 +1,48 @@
+version: "3.8"
+services:
+  user-service:
+    build:
+      context: ./user-service
+      target: development
+    restart: always
+    volumes:
+      - uploads:/public/uploads
+      - ./user-service:/usr/src/app
+      - /user-service/node_modules
+    networks:
+      registroconstructores-network:
+        aliases:
+          - user-service
+    ports:
+      - 3038:3000
+    depends_on:
+      - mongo
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "3"
+  mongo:
+    image: mongo:4.2.5
+    networks:
+      registroconstructores-network:
+        aliases:
+          - mongo
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - datadb:/data/db
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "3"
+
+volumes:
+  datadb:
+  uploads:
+
+networks:
+  registroconstructores-network:
+    driver: bridge
