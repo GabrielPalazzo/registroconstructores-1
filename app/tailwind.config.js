@@ -8,6 +8,7 @@ module.exports = {
           '100':'#F3FAFF',
         },
         sucess: {
+          '900':'#205824',
           '700':'#2e7d33',
           '100':'#f2faf3',
         },
@@ -31,6 +32,9 @@ module.exports = {
         },
         celesteArgentina: {
           '500':'#37bbed',
+        },
+        black:{
+          '700':'#333',
         }
       }
     }
