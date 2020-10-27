@@ -2,5 +2,5 @@
 
 Steps:
 
-docker-compose build
-docker-compose up
+1. docker-compose build
+2. docker-compose up
