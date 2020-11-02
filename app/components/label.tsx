@@ -8,7 +8,7 @@ export default (props) => {
 
   return (<div className="flex">
     <div className="w-3/4">
-      <label>{props.title}</label>
+<label>{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
     </div>
 
     <div className="justify-end w-1/4">

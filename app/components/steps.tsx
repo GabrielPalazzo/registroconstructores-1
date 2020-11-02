@@ -67,6 +67,7 @@ class NavigationStep extends React.Component {
       .ant-steps-item-finish .ant-steps-item-icon{
         border-color:#0072bb;
       }
+      .ant-btn
         `}
         </style>
 
