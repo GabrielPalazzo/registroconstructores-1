@@ -1,14 +1,7 @@
 import React, { useState } from 'react'
-import { Select } from 'antd';
+import { Button, Input } from 'antd';
 import { LikeOutlined, DislikeOutlined } from '@ant-design/icons';
 import LikeDislike from '../components/like_dislike'
-
-
-const { Option } = Select;
-
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
 
 
 export default (props) => {
@@ -25,14 +18,9 @@ export default (props) => {
 
     </div>
     <div className="w-full">
-      <Select mode="multiple"
-        style={{ width: '100%' }}
-        placeholder={props.placeholder}
-        onChange={handleChange}
-        optionLabelProp="label">
-
-        {props.options}
-      </Select>
+      <Input placeholder={props.placeholder} 
+      required={props.required}
+      />
     </div>
 
 

@@ -3,17 +3,7 @@ import { Button, Card } from 'antd';
 import { PlusOutlined ,ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 
-const empresa = [
-  {
-    title: 'Razon Social S.a',
-    
-  },{
-    title: 'FIMBSA S.a',
-  },{
-    title: 'Razon Social2 S.a',
-  }
 
-]
 
 export default () => {
   const router = useRouter()
@@ -25,21 +15,13 @@ export default () => {
       </div>
     </div>
 
-    <div className="px-20 py-6 grid grid-cols-2 ">
-      <div className="text-2xl font-bold py-4"> Empresas</div>
-      <div className="text-2xl font-bold py-4 text-right">
-        <Button type="primary" icon={<PlusOutlined  />} onClick={() => router.push('/company_data')}>Nuevo trámite </Button>
-      </div>
-      </div>
+    <div className="px-20 py-6  ">
+      <div className="text-2xl font-bold py-4"> Bandeja de Tramites</div>
+    </div>
       
       
     <div className="flex px-20  justify-between">
-      {empresa.map(e => (
-        <Card style={{ width: 300 }} className="rounded mr-2">
-        <div className="text-lg font-bold text-black-700 pb-2 "> {e.title}</div>
-        <div  className="text-primary-500 text-sm font-bold mt-2 self-center" onClick={() => router.push('/landing')} ><span className="mt-2">ver mas</span>  <ArrowRightOutlined  style={{fontSize: '10px'}}/></div>
-      </Card>
-      ))}
+     
 
     </div>
   </div>

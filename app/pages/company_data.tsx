@@ -2,14 +2,34 @@ import React from 'react';
 import Header from '../components/header'
 import NavigationStep from '../components/steps'
 import Observations from '../components/observation'
-import { Input, Table, Space, Steps, Select, Radio, Button, Modal } from 'antd';
+import { Input, Table, Space, Steps,Select,  Radio, Button, Modal } from 'antd';
 import LikeDislike from '../components/like_dislike'
+import Label from '../components/label'
+import InputNumber from '../components/input_number'
 
 import { PlusOutlined } from '@ant-design/icons';
-import Label from '../components/label'
+import InputText from '../components/input_text'
 import SelectMultiple from '../components/select_multiple'
+import Select2 from '../components/select'
 
-const { OptGroup } = Select;
+
+
+const tipoPersoneria = [
+  {
+    label: 'Persona Fisica',
+    value: 'PF',
+  },
+  {
+    label: 'Sociedad Anonima',
+    value: 'SA',
+  },
+  {
+    label: 'Sociedad Responsabilidad Limitada',
+    value: 'SRL',
+  },
+  
+
+]
 
 const tipoEmpresa = [
   {
@@ -108,10 +128,6 @@ const data = [
 
 const { Option } = Select;
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
 
 
 
@@ -126,7 +142,7 @@ class CompanyData extends React.Component {
     });
   };
 
-  handleOk = e => {
+  handleSave = e => {
     console.log(e);
     this.setState({
       visible: false,
@@ -150,58 +166,68 @@ class CompanyData extends React.Component {
       </div>
 
       <div className="px-20 py-6 ">
+        
         <div className="text-2xl font-bold py-4"> Datos de la empresa</div>
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="pb-6">
-            <Label title="Tipo de personeria" labelRequired="*" />
-            <Select defaultValue="Seleccione un tipo de empresa" onChange={handleChange}>
-              <OptGroup label=" Persona Fisica">
-                <Option value="PersonaFisica">Persona Física</Option>
-              </OptGroup>
-              <OptGroup label="Persona Jurídica">
-                <Option value="cooperativas">Cooperativas</Option>
-                <Option value="SA">Sociedad Anónima</Option>
-                <Option value="SRL">Sociedad Resposabilidad limitada</Option>
-              </OptGroup>
-            </Select>
+          <div >
+          <Select2
+        title="Tipo de personeria" 
+        defaultOption="Seleccione el tipo de personeria"
+        labelRequired="*" 
+        option={tipoPersoneria.map(u => (
+          <Option value={u.value}>{u.label}</Option>
+         
+        ))}/>
+
           </div>
-          <div className="pb-6">
-            <Label title="Tipo de Empresa" labelRequired="*" />
-            <Select mode="multiple"
+          <div >
+            <SelectMultiple
+              labelRequired="*"
+              defaultValue={['Constructora']}
+              title="Seleccione el tipo de empresa"
               placeholder="seleccione una opcion"
-              defaultValue={['Seleccione una opcion']}
-              onChange={handleChange}
-              optionLabelProp="label"
-            >
-              {tipoEmpresa.map(u => (
+              options={tipoEmpresa.map(u => (
                 <Option value={u.value} label={u.label}>
                   <div className="demo-option-label-item">
-
                     {u.option}
                   </div>
                 </Option>
+              ))
 
-              ))}
-
-            </Select>
-            <Observations title="El tipo de empresa seleccionado no es el correcto"/>
+              } />
+            <Observations title="El tipo de empresa seleccionado no es el correcto" />
           </div>
-          <div className="pb-6">
-            <Label title="Razon Social" labelRequired="*" />
-            <Input placeholder="Constructora del oeste" disabled />
+          <div >
+            <InputText
+              title="Razon Social"
+              labelRequired="*"
+              placeholder="Constructora del oeste" />
+
             <Observations />
           </div>
-          <div className="pb-6">
-            <Label title="CUIT" labelRequired="*" />
-            <Input placeholder="Ingrese el numero de cuit sin guiones" />
+          <div >
+            <InputText
+              title="CUIT"
+              labelRequired="*"
+              placeholder="Ingrese el numero de cuit sin guiones" />
+
           </div>
-          <div className="pb-6">
-            <Label title="Nro de Legajo" />
-            <Input placeholder="Ingrese el numero de legajo" />
+          <div >
+            <InputText
+              title="Nro de Legajo"
+              placeholder="Ingrese el numero de legajo"
+              disabled
+            />
+
           </div>
-          <div className="pb-6">
-            <Label title="Email Institucional" labelRequired="*" />
-            <Input placeholder="Ingrese el email" />
+          <div >
+            <InputText type="email"
+              title="Email institucional"
+              labelRequired="*"
+              placeholder="Email Institucional"
+              value=""
+              required />
+
           </div>
 
 
@@ -209,7 +235,7 @@ class CompanyData extends React.Component {
         <div className="mt-6">
           <div className="flex  content-center ">
             <div className="text-2xl font-bold py-4 w-3/4"> Apoderados y/o Representantes legales</div>
-            <div className=" w-1/4 text-right content-center ">
+            <div className=" w-1/4 text-right content-center mt-4 ">
               <Button type="primary" onClick={this.showModal} icon={<PlusOutlined />}> Agregar</Button>
             </div>
           </div>
@@ -221,39 +247,67 @@ class CompanyData extends React.Component {
         <Modal
           title="Datos de la Persona Física"
           visible={this.state.visible}
-          onOk={this.handleOk}
+          onOk={this.handleSave}
+          okText="Guardar"
           onCancel={this.handleCancel}
+          cancelText="Cancelar"
           width={1000}
         >
           <div className="grid grid-cols-2 gap-4 ">
 
             <div className="pb-6">
-              <Label title="Nombre" labelRequired="*" />
-              <Input placeholder="Ingrese su nombre de pila"  />
+            <InputText 
+              title="Nombre"
+              labelRequired="*"
+              placeholder="Ingrese su nombre de Pila"
+              value=""
+              required />
+              
             </div>
             <div className="pb-6">
-              <Label title="Apellido" labelRequired="*" />
-              <Input placeholder="Ingrese su apellido" />
+            <InputText 
+              title="Apellido"
+              labelRequired="*"
+              placeholder="Ingrese su apellido"
+              value=""
+              required />
             </div>
-            </div>
-            <div className="grid grid-cols-4 gap-4 ">
+          </div>
+          <div className="grid grid-cols-4 gap-4 ">
 
             <div className="pb-6">
-              <Label title="Tipo de Documento"  labelRequired="*" />
+              <Label title="Tipo de Documento" labelRequired="*" />
               <Input placeholder="Ingrese el numero de legajo" />
             </div>
             <div className="pb-6">
-              <Label title="Nro de Documento" labelRequired="*" />
-              <Input placeholder="Ingrese el nro de documentp" />
+            <InputText 
+              title="Nro de Documento"
+              labelRequired="*"
+              placeholder="Ingrese su numero de documento sin deja espacios"
+              value=""
+              required />
+              
             </div>
             <div className="pb-6">
-              <Label title="CUIT / CUIL" labelRequired="*" />
-              <Input placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio" />
+            <InputText 
+              title="CUIT / CUIL"
+              labelRequired="*"
+              placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
+              value=""
+              required />
+              
             </div>
             <div className="pb-6">
-              <Label title="Usuario" labelRequired="*" />
-              <Input placeholder="Ingrese su usuario recuerde que no puede ser su nombre." />
+            <InputText 
+              title="Usuario"
+              labelRequired="*"
+              placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
+              value=""
+              required />
+              
             </div>
+          </div>
+          <div className="grid grid-cols-4 gap-4 ">
 
 
 
