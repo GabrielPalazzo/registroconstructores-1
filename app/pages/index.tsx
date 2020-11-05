@@ -1,7 +1,8 @@
 import React from 'react';
-import Header from '../components/header'
+import { Header } from '../components/Header/index'
 import NavigationStep from '../components/steps'
-import { Input, Table, Space, Steps } from 'antd';
+import { InputText }  from '../components/InputText/index';
+import { Table, Space, Steps } from 'antd';
 
 
 
@@ -83,17 +84,28 @@ const data = [
 
 
 export default () => {
-  
+
   return <div className="">
-    <Header />
+    <Header
+  label="Guardar y Salir"
+  onCreateAccount={() => {}}
+  onLogin={function noRefCheck() {}}
+  onLogout={function noRefCheck() {}}
+  user={{}}
+/>
     <div className="border-gray-200 border-b-2">
       <NavigationStep />
     </div>
 
     <div className="px-20 py-6 ">
       <div className="text-2xl font-bold"> Datos de la empresa</div>
-      <label>CUIT</label> <Input placeholder="Ingrese su cuit recuerde " />
 
+      <InputText
+        label="Nombre de la empresa"
+        labelRequired="*"
+        placeholder="escriba su nombre"
+        size="large"
+      />
       <Table columns={columns} dataSource={data} />
 
     </div>
