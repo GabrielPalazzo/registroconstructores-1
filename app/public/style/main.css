@@ -23695,6 +23695,11 @@ svg{
   height: 40px !important;
 }
 
+.ant-modal-footer{
+  padding:20px !important;
+  text-align: center !important;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

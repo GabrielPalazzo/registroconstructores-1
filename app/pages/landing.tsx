@@ -1,9 +1,14 @@
 import React from 'react';
-import { Button, Card } from 'antd';
+import { Button, Card,Tabs,Table, Space } from 'antd';
 import { PlusOutlined ,ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
+import LikeDislike from '../components/like_dislike'
+const { TabPane } = Tabs;
 
 
+function callback(key) {
+  console.log(key);
+}
 
 export default () => {
   const router = useRouter()
@@ -15,8 +20,32 @@ export default () => {
       </div>
     </div>
 
-    <div className="px-20 py-6  ">
+    <div className="px-4 md:px-20 py-6  ">
       <div className="text-2xl font-bold py-4"> Bandeja de Tramites</div>
+
+      <Tabs defaultActiveKey="1" onChange={callback}>
+    <TabPane tab="Empresa" key="1">
+      <div className="grid md:grid-cols-4 gap-4 pt-4">
+      {empresaInfo.map(e => (
+        <div className=""> 
+        <Card  className="rounded mr-2">
+        <div className="text-xs  text-mutted-700 pb-1 "> {e.label}</div>
+        <div className="text-lg font-bold text-black-700 pb-2 "> {e.title}</div>
+       </Card>
+      </div>
+      ))}
+      </div>
+    </TabPane>
+    <TabPane tab="Acciones" key="2">
+      Content of Tab Pane 2
+    </TabPane>
+    <TabPane tab="Formularios" key="3">
+      Content of Tab Pane 3
+    </TabPane>
+    <TabPane tab="Administradores" key="4">
+    <Table columns={columns} dataSource={data} />
+    </TabPane>
+  </Tabs>
     </div>
       
       
@@ -56,3 +85,104 @@ const Logo = () => (
   </svg>
 
 )
+const data = [
+  {
+    key: '1',
+    name: 'Leonardo',
+    first_name: ' Leenen',
+    cuit: 33333333333,
+    email: 'leonardo.leenen@gmail.com',
+    user: 'LeonardoLeenen',
+    admin_legitimado: 'SI',
+
+  },
+  {
+    key: '1',
+    name: 'Maria Noel',
+    first_name: ' Leenen',
+    cuit: 33444444445,
+    email: 'marianoel.leenen@gmail.com',
+    user: 'MariaNoelLeenen',
+    admin_legitimado: 'NO',
+
+  },
+  {
+    key: '3',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+
+  },
+];
+
+
+const empresaInfo = [
+  {
+    label: ' Razon Social',
+    title: 'Razon Social S.a',
+  },{
+    label: ' CUIT',
+    title: 'FIMBSA S.a',
+  },{
+    label: ' Estado de la Empresa',
+    title: 'Inscripto con actualización',
+  },{
+    label:'Aclaraciones de estado',
+    title: 'Observado',
+  },{
+    label:'Tipo de empresa',
+    title: 'Constructora',
+  },{
+    label :'Capacidad de contratación y ejecución',
+    title: '-',
+  },{
+    label :'Fecha del último cálculo de capacidad',
+    title: '20/09/19',
+  }
+
+]
+
+
+const columns = [
+  {
+    title: 'Action',
+    key: 'action',
+    render: (text) => (
+      <Space size="middle">
+        <LikeDislike />
+      </Space>
+    ),
+  },
+  {
+    title: 'Nombre',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Apellido',
+    dataIndex: 'first_name',
+    key: 'first_name',
+  },
+  {
+    title: 'CUIT',
+    dataIndex: 'cuit',
+    key: 'cuit',
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
+  },
+  {
+    title: 'User',
+    dataIndex: 'user',
+    key: 'user',
+  },
+  {
+    title: 'Admin. Legitimado',
+    dataIndex: 'admin_legitimado',
+    key: 'admin_legitimado',
+  },
+
+
+];

@@ -44,3 +44,7 @@ svg{
     padding: 5px 4px!important;
     height: 40px !important;
 }
+.ant-modal-footer{
+    padding:20px !important;
+    text-align: center !important;
+}

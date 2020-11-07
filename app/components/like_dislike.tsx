@@ -10,10 +10,10 @@ export default (props) => {
     return (<div className=" text-right">
 
         <Button type="link">
-        <LikeFilled  style={{ color: '#2E7D33' }}/>
+        <LikeFilled  style={ props.status }/>
         </Button>
         <Button type="link" >
-        <DislikeFilled />
+        <DislikeFilled style={ props.status } />
         </Button>
 
         <style>

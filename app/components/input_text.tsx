@@ -13,7 +13,7 @@ export default (props) => {
       </div>
 
       <div className="justify-end w-1/4">
-        <LikeDislike />
+        <LikeDislike   />
       </div>
 
     </div>
