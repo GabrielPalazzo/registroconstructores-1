@@ -1,11 +1,9 @@
 import React from 'react';
 import Header from '../components/header'
 import NavigationStep from '../components/steps'
-import Observations from '../components/observation'
 import { Input, Table, Space, Steps,Select,  Radio, Button, Modal } from 'antd';
 import LikeDislike from '../components/like_dislike'
 import Label from '../components/label'
-import InputNumber from '../components/input_number'
 
 import { PlusOutlined } from '@ant-design/icons';
 import InputText from '../components/input_text'
@@ -195,37 +193,52 @@ class CompanyData extends React.Component {
               ))
 
               } />
-            <Observations title="El tipo de empresa seleccionado no es el correcto" />
+           
           </div>
           <div >
             <InputText
-              title="Razon Social"
+            
+              label="Razon Social"
               labelRequired="*"
-              placeholder="Constructora del oeste" />
+              placeholder="Constructora del oeste" 
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError="Este campo es requerido"
+              required/>
 
-            <Observations />
+            
           </div>
           <div >
             <InputText
-              title="CUIT"
+              label="CUIT"
               labelRequired="*"
-              placeholder="Ingrese el numero de cuit sin guiones" />
+              placeholder="Ingrese el numero de cuit sin guiones"
+              labelObservation="Porque me observaron este campo"
+              labeltooltip="no pertece el cuit"
+              labelMessageError=""
+              required />
 
           </div>
           <div >
             <InputText
-              title="Nro de Legajo"
+              label="Nro de Legajo"
               placeholder="Ingrese el numero de legajo"
               disabled
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
             />
 
           </div>
           <div >
             <InputText type="email"
-              title="Email institucional"
+              label="Email institucional"
               labelRequired="*"
               placeholder="Email Institucional"
               value=""
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
               required />
 
           </div>
@@ -257,20 +270,25 @@ class CompanyData extends React.Component {
 
             <div className="pb-6">
             <InputText 
-              title="Nombre"
+              label="Nombre"
               labelRequired="*"
               placeholder="Ingrese su nombre de Pila"
               value=""
-              required />
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              required/>
               
             </div>
             <div className="pb-6">
             <InputText 
-              title="Apellido"
+              label="Apellido"
               labelRequired="*"
-              placeholder="Ingrese su apellido"
               value=""
-              required />
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              required/>
             </div>
           </div>
           <div className="grid grid-cols-4 gap-4 ">
@@ -281,29 +299,38 @@ class CompanyData extends React.Component {
             </div>
             <div className="pb-6">
             <InputText 
-              title="Nro de Documento"
+              label="Nro de Documento"
               labelRequired="*"
               placeholder="Ingrese su numero de documento sin deja espacios"
               value=""
-              required />
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              required/>
               
             </div>
             <div className="pb-6">
             <InputText 
-              title="CUIT / CUIL"
+              label="CUIT / CUIL"
               labelRequired="*"
               placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
               value=""
-              required />
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              required/>
               
             </div>
             <div className="pb-6">
             <InputText 
-              title="Usuario"
+              label="Usuario"
               labelRequired="*"
               placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
               value=""
-              required />
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              required/>
               
             </div>
           </div>
