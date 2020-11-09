@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Select } from 'antd';
-import { LikeOutlined, DislikeOutlined } from '@ant-design/icons';
-import LikeDislike from '../components/like_dislike'
+import { Select, Tooltip, Button } from 'antd';
+import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 
 
 const { Option, OptGroup } = Select;
@@ -11,6 +10,9 @@ function handleChange(value) {
 }
 
 
+const customColors = ['#2897D4'];
+
+
 
 
 export default (props) => {
@@ -18,11 +20,14 @@ export default (props) => {
     return (<div >
         <div className="flex">
             <div className="w-3/4">
-                <label>{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
+            <label className="font-bold text-sm">{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
             </div>
 
             <div className="justify-end w-1/4">
-                <LikeDislike />
+                <div className=" text-right">
+                    <Button type="link" icon={<LikeFilled />} />
+                    <Button type="link" icon={<DislikeFilled />} />
+                </div>
             </div>
 
         </div>
@@ -32,6 +37,21 @@ export default (props) => {
                 defaultValue={props.defaultOption} onChange={handleChange}>
                 {props.option}
             </Select>
+        </div>
+        <div className="w-full text-xs text-danger-700 px-2 ">
+            {props.labelMessageError}
+        </div>
+        <div>
+            {customColors.map(color => (
+                <Tooltip
+                    title={props.labeltooltip}
+                    placement="right"
+                    color={color}
+                    key={color}>
+                    <span className="text-warning-700 font-bold px-2 text-xs  cursor-pointer">{props.labelObservation}</span>
+                </Tooltip>
+            ))}
+
         </div>
 
 

@@ -23651,14 +23651,9 @@ video {
   padding: 8px 4px !important;
 }
 
-.ant-select{
-  border-radius:10px !important;
-  padding: 5px 4px!important;
-}
-
 .ant-select-multiple .ant-select-selector {
   border-radius:10px !important;
-  padding: 5px 4px!important;
+  padding: 5px 0px!important;
 }
 
 .ant-btn-primary{
@@ -23682,7 +23677,7 @@ svg{
 
 .ant-select{
   border-radius:10px !important;
-  padding: 5px 4px!important;
+  padding: 5px 0px!important;
 }
 
 .ant-select svg{
@@ -23698,6 +23693,12 @@ svg{
 .ant-modal-footer{
   padding:20px !important;
   text-align: center !important;
+}
+
+.ant-modal-title{
+  font-weight: bold!important;
+  font-size: 24px!important;
+  color:#333 !important;
 }
 
 @media (min-width: 640px) {

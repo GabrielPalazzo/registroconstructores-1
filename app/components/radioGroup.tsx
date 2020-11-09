@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Select,Tooltip } from 'antd';
-import { LikeOutlined, DislikeOutlined } from '@ant-design/icons';
-import LikeDislike from '../components/like_dislike'
+import { Select,Tooltip,Radio,Button } from 'antd';
+import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 
 
 
@@ -18,23 +17,20 @@ export default (props) => {
   return (<div >
     <div className="flex">
       <div className="w-3/4">
-      <label className="font-bold text-sm">{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
+      <label className="font-bold text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
       </div>
 
-      <div className="justify-end w-1/4">
-        <LikeDislike />
+      <div className="justify-end w-1/4 text-right">
+      <Button type="link" icon={<LikeFilled />} />
+          <Button type="link" icon={<DislikeFilled />} />
       </div>
 
     </div>
     <div className="w-full">
-      <Select mode="multiple"
-        style={{ width: '100%' }}
-        placeholder={props.placeholder}
-        onChange={handleChange}
-        optionLabelProp="label">
-
-        {props.options}
-      </Select>
+    <Radio.Group name="radiogroup" defaultValue={1}>
+      {props.radioOptions}
+     
+    </Radio.Group>
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">
       {props.labelMessageError}
@@ -57,3 +53,6 @@ export default (props) => {
 
   )
 }
+
+
+  
