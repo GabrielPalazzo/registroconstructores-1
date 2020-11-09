@@ -23673,6 +23673,12 @@ svg{
 
 .ant-btn{
   border-radius:25px !important;
+  padding:  0px 20px !important;
+}
+
+.ant-btn-link{
+  border-radius:25px !important;
+  padding:  0px 2px !important;
 }
 
 .ant-select{
@@ -23699,6 +23705,17 @@ svg{
   font-weight: bold!important;
   font-size: 24px!important;
   color:#333 !important;
+}
+
+.ant-picker{
+  border-radius:10px !important;
+  padding: 5px 4px!important;
+  height: 40px !important;
+  width:100% !important;
+}
+
+.ant-picker-suffix > * {
+  vertical-align: middle !important;
 }
 
 @media (min-width: 640px) {

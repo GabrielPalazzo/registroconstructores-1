@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input,Tooltip, } from 'antd';
+import { Button,  DatePicker,Tooltip, } from 'antd';
 import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 
 
@@ -12,7 +12,10 @@ const colors = [
   'green',
 ];
 
-
+function onChange(date, dateString) {
+    console.log(date, dateString);
+  }
+  const dateFormat = 'DD/MM/YYYY';
 
 export default (props) => {
 
@@ -33,9 +36,10 @@ export default (props) => {
 
     </div>
     <div className="w-full">
-      <Input placeholder={props.placeholder}
-        required={props.required}
-      />
+    <DatePicker onChange={onChange} 
+    picker={props.placeholder}
+    format={dateFormat} />
+      
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">
       {props.labelMessageError}

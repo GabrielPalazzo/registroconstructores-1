@@ -25,7 +25,7 @@ export default (props) => {
 
             <div className="justify-end w-1/4">
                 <div className=" text-right">
-                    <Button type="link" icon={<LikeFilled />} />
+                    <Button type="link" icon={<LikeFilled />} className="p-5"/>
                     <Button type="link" icon={<DislikeFilled />} />
                 </div>
             </div>
