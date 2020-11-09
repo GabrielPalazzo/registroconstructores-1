@@ -7,10 +7,12 @@ import { useRouter } from 'next/router'
 import Upload from '../components/upload'
 import { PlusOutlined } from '@ant-design/icons';
 import InputText from '../components/input_text'
+import InputTextModal from '../components/input_text_modal'
 import SelectMultiple from '../components/select_multiple'
 import SelectSimple from '../components/select'
 import Switch from '../components/switch'
 import RadioGroup from '../components/radioGroup'
+import SelectModal from '../components/select_modal'
 
 
 const { Option } = Select;
@@ -30,113 +32,100 @@ const renderNoData = () => {
   </div>)
 }
 
+
+
+
 const renderModal = () => {
   return (<div>
     <div className="grid grid-cols-2 gap-4 ">
-      <div >
-        <InputText
+      <div className="pb-6" >
+      <InputTextModal
           label="Nombre"
           labelRequired="*"
           placeholder="Ingrese su nombre de Pila"
           value=""
-          labelObservation=""
-          labeltooltip=""
           labelMessageError=""
           required />
 
       </div>
-      <div >
-        <InputText
+      <div className="pb-6" >
+      <InputTextModal
           label="Apellido"
           labelRequired="*"
           value=""
-          labelObservation=""
-          labeltooltip=""
           labelMessageError=""
           required />
       </div>
     </div>
     <div className="grid grid-cols-4 gap-4 ">
 
-      <div >
-        <InputText
-          label="Tipo de Doc"
-          labelRequired="*"
-          placeholder="Ingrese su numero de documento sin deja espacios"
-          value=""
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-          required />
+    <div className="pb-6" >
+    <SelectModal
+              title="Tipo de documento"
+              defaultOption="Seleccione el tipo de Doc"
+              labelRequired="*"
+              labelMessageError=""
+              required
+              option={tipoDocumento.map(u => (
+                <Option value={u.value}>{u.label}</Option>
 
+              ))} />
       </div>
-      <div >
-        <InputText
+      <div className="pb-6" >
+      <InputTextModal
           label="Nº de Documento"
           labelRequired="*"
           placeholder="Ingrese su numero de documento sin deja espacios"
           value=""
-          labelObservation=""
-          labeltooltip=""
           labelMessageError=""
           required />
 
       </div>
-      <div >
-        <InputText
+      <div className="pb-6" >
+      <InputTextModal
           label="CUIT / CUIL"
           labelRequired="*"
           placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
           value=""
-          labelObservation=""
-          labeltooltip=""
           labelMessageError=""
           required />
 
       </div>
-      <div >
-        <InputText
+      <div className="pb-6" >
+      <InputTextModal
           label="Usuario"
           labelRequired="*"
           placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
           value=""
-          labelObservation=""
-          labeltooltip=""
           labelMessageError=""
           required />
 
       </div>
     </div>
     <div className="grid grid-cols-2 gap-4 ">
-      <div >
-        <InputText
+    <div className="pb-6" >
+      <InputTextModal
           label="Email"
           labelRequired="*"
           placeholder="Ingrese su email personal"
           value=""
-          labelObservation=""
-          labeltooltip=""
           labelMessageError=""
           required />
 
       </div>
-      <div >
-        <InputText
+      <div className="pb-6" >
+      <InputTextModal
           label="Propuesta Electronica"
           labelRequired="*"
           value=""
-          labelObservation=""
-          labeltooltip=""
           labelMessageError=""
           required />
       </div>
-      <div>
+      <div className="pb-6" >
         <RadioGroup
           label="¿Qué tipo de persona desea dar de alta? "
           labelRequired="*"
           value=""
-          labelObservation=""
-          labeltooltip=""
           labelMessageError=""
           radioOptions={tipoPersona.map(u => (
             <Radio value={u.value} >
@@ -148,7 +137,7 @@ const renderModal = () => {
 
         />
       </div>
-      <div>
+      <div className="pb-6" >
         <Switch
           label="Administrador Legitimado"
           labelRequired="*"
@@ -162,21 +151,22 @@ const renderModal = () => {
 
     </div>
     <div className="grid grid-cols-3 gap-4 ">
-      <div><Upload
+    <div className="pb-6" >
+      <Upload
         label="Adjunte fotos de frente y dorso del DNI"
         labelRequired="*"
         labelMessageError=""
 
       />
       </div>
-      <div>
+      <div className="pb-6" >
         <Upload
           label="Adjunte el poder"
           labelRequired="*"
           labelMessageError=""
         />
       </div>
-      <div >
+      <div className="pb-6" >
         <Upload
           label="Adjunte Acta "
           labelRequired="*"
@@ -386,6 +376,22 @@ const tipoPersoneria = [
   {
     label: 'Sociedad Responsabilidad Limitada',
     value: 'SRL',
+  },
+
+
+]
+const tipoDocumento= [
+  {
+    label: 'DU',
+    value: 'DU',
+  },
+  {
+    label: 'Pasaporte',
+    value: 'Pasaporte',
+  },
+  {
+    label: 'Cedula de indentidad',
+    value: 'CD',
   },
 
 
