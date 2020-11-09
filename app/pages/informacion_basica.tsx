@@ -15,6 +15,7 @@ import RadioGroup from '../components/radioGroup'
 
 const { Option } = Select;
 
+
 const renderNoData = () => {
   return (<div>
     <div className="mt-4">
@@ -29,7 +30,7 @@ const renderNoData = () => {
   </div>)
 }
 
-const renderModalPerson = () => {
+const renderModal = () => {
   return (<div>
     <div className="grid grid-cols-2 gap-4 ">
       <div >
@@ -216,7 +217,7 @@ class CompanyData extends React.Component {
 
 
   render() {
-
+    
 
     return (<div className="">
       <Header />
@@ -233,8 +234,8 @@ class CompanyData extends React.Component {
               title="Tipo de personeria"
               defaultOption="Seleccione el tipo de personeria"
               labelRequired="*"
-              labelObservation=""
-              labeltooltip=""
+              labelObservation="¿Por qué me observaron este campo? "
+              labeltooltip="El tipo de empresa seleccionado es incorrecto"
               labelMessageError=""
               required
               option={tipoPersoneria.map(u => (
@@ -308,7 +309,7 @@ class CompanyData extends React.Component {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              required />
+              status="" />
 
           </div>
 
@@ -331,7 +332,7 @@ class CompanyData extends React.Component {
             cancelText="Cancelar"
             width={1000}
           >
-            {renderModalPerson()}
+            {renderModal()}
           </Modal>
 
 
@@ -355,6 +356,10 @@ class CompanyData extends React.Component {
 }
 
 export default CompanyData;
+
+
+
+
 
 
 const tipoPersona = [
