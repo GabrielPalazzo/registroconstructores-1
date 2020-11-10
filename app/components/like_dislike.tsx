@@ -1,23 +1,50 @@
 import React, { useState } from 'react'
-import { Button } from 'antd';
-import { LikeFilled , DislikeFilled  } from '@ant-design/icons';
+import { Button, Tooltip } from 'antd';
+import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 
-
+const customColors = ['#2897D4'];
 
 export default (props) => {
 
 
-    return (<div className=" text-right">
+  return (<div className=" text-right">
 
-        <Button type="link">
-        <LikeFilled  style={ props.status }/>
-        </Button>
-        <Button type="link" >
-        <DislikeFilled style={ props.status } />
-        </Button>
+    <div>
+    {customColors.map(color => (
+      <Tooltip
+        title={props.labeltooltip}
+        placement="right"
+        color={color}
+        key={color}>
+       <Button type="link">
+        <LikeFilled style={props.status} />
+      </Button>
 
-        <style>
-          {`
+      </Tooltip>
+    ))}
+     {customColors.map(color => (
+      <Tooltip
+        title={props.labeltooltip}
+        placement="right"
+        color={color}
+        key={color}>
+       <Button type="link">
+       <DislikeFilled style={props.status} />
+      </Button>
+      
+      </Tooltip>
+    ))}
+      
+    </div>
+
+    <div>
+    
+
+</div>
+
+
+    <style>
+      {`
           .ant-btn{
               padding:0px 4px;
           }
@@ -32,11 +59,11 @@ export default (props) => {
               opacity:0.15;
           }
         `}
-        </style>
-    </div>
+    </style>
+  </div>
 
 
 
 
-    )
+  )
 }

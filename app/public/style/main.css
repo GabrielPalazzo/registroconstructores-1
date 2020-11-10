@@ -23667,6 +23667,12 @@ video {
   background: #fafafa !important;
 }
 
+.ant-card .EXPIRED{
+  border-radius: 10px !important;
+  background: #fdf5f5 !important;
+  border: 1px solid #c62828!important;
+}
+
 svg{
   margin-top:-5px !important;
 }

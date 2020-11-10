@@ -1,10 +1,12 @@
 import React from 'react';
-import { Button, Card,Tabs,Table, Space } from 'antd';
-import { PlusOutlined ,ArrowRightOutlined } from '@ant-design/icons';
+import { Button, Card, Tabs, Table, Space } from 'antd';
+import { DeleteFilled , EditOutlined,RightCircleOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import LikeDislike from '../components/like_dislike'
 const { TabPane } = Tabs;
 
+const UNEXPIRED = 'bg-warning-100 border-warning-700 text-warning-700 border-warning-700 border-solid'
+const EXPIRED = 'bg-danger-100 border-danger-700 text-danger-700 border-danger-700 border-solid'
 
 function callback(key) {
   console.log(key);
@@ -24,33 +26,53 @@ export default () => {
       <div className="text-2xl font-bold py-4"> Bandeja de Tramites</div>
 
       <Tabs defaultActiveKey="1" onChange={callback}>
-    <TabPane tab="Empresa" key="1">
-      <div className="grid md:grid-cols-4 gap-4 pt-4">
-      {empresaInfo.map(e => (
-        <div className=""> 
-        <Card  className="rounded mr-2">
-        <div className="text-xs  text-mutted-700 pb-1 "> {e.label}</div>
-        <div className="text-lg font-bold text-black-700 pb-2 "> {e.title}</div>
-       </Card>
-      </div>
-      ))}
-      </div>
-    </TabPane>
-    <TabPane tab="Acciones" key="2">
-      Content of Tab Pane 2
-    </TabPane>
-    <TabPane tab="Formularios" key="3">
-      Content of Tab Pane 3
-    </TabPane>
-    <TabPane tab="Administradores" key="4">
-    <Table columns={columns} dataSource={data} />
-    </TabPane>
-  </Tabs>
+        <TabPane tab="Empresa" key="1">
+          <div className="grid md:grid-cols-4 gap-4 pt-4">
+            {empresaInfo.map(e => (
+
+              
+              <div className="">
+                 <div className="rounded bg-muted-100 border-muted-100 mr-2 mt-4 text-muted-700  px-4 py-4 ">
+                  <div className="text-xs  text-mutted-700 pb-1 "> {e.label}</div>
+                  <div className="text-lg font-bold text-black-700 pb-2 "> {e.title}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </TabPane>
+        <TabPane tab="Acciones" key="2">
+          <div className="pt-4 mb-4 pb-4">
+            {tramitesAcciones.map(e => (
+              <div className="mt-4">
+                <div className={`rounded-xl border mr-2 mt-4 text-muted-700  px-4 py-4  ${e.status === 'Vencido' ? EXPIRED : UNEXPIRED}`}>
+                 <div className="flex justify-between">
+                   <div className="flex ">
+                    <div className="text-lg font-bold text-black-700 pb-2 pr-4 pt-3 "> {e.title}</div>
+                    <div>
+                      <div className="text-xs  text-muted-700"> Estado</div>
+                      <div className={`text-sm font-bold  pb-1 ${e.status === 'Vencido' ? EXPIRED : UNEXPIRED}`}> {e.status}</div>
+                    </div>
+                    </div>
+                    <div className="text-right pt-4 "> <RightCircleOutlined style={{color: '#0072BB',fontSize: '16px'}} /></div>
+                     </div>
+
+                </div>
+              </div>
+            ))}
+          </div>
+        </TabPane>
+        <TabPane tab="Formularios" key="3">
+          <Table columns={columns} dataSource={data} />
+        </TabPane>
+        <TabPane tab="Administradores" key="4">
+          <Table columns={columns} dataSource={data} />
+        </TabPane>
+      </Tabs>
     </div>
-      
-      
+
+
     <div className="flex px-20  justify-between">
-     
+
 
     </div>
   </div>
@@ -120,24 +142,39 @@ const empresaInfo = [
   {
     label: ' Razon Social',
     title: 'Razon Social S.a',
-  },{
+  }, {
     label: ' CUIT',
     title: 'FIMBSA S.a',
-  },{
+  }, {
     label: ' Estado de la Empresa',
     title: 'Inscripto con actualización',
-  },{
-    label:'Aclaraciones de estado',
+  }, {
+    label: 'Aclaraciones de estado',
     title: 'Observado',
-  },{
-    label:'Tipo de empresa',
+  }, {
+    label: 'Tipo de empresa',
     title: 'Constructora',
-  },{
-    label :'Capacidad de contratación y ejecución',
+  }, {
+    label: 'Capacidad de contratación y ejecución',
     title: '-',
-  },{
-    label :'Fecha del último cálculo de capacidad',
+  }, {
+    label: 'Fecha del último cálculo de capacidad',
     title: '20/09/19',
+  }
+
+]
+
+
+const tramitesAcciones = [
+  {
+    status: 'Vencido',
+    title: 'Declaración de obra',
+  }, {
+    status: 'Por vencer',
+    title: 'Declaración de obra',
+  }, {
+    status: 'Por vencer',
+    title: 'Declaración de Balances',
   }
 
 ]
@@ -183,6 +220,26 @@ const columns = [
     dataIndex: 'admin_legitimado',
     key: 'admin_legitimado',
   },
+  {
+    title: 'Editar',
+    key: 'edit',
+    render: (text) => (
+      
+      <EditOutlined />
+     
+    ),
+  },
+  ,
+  {
+    title: 'Editar',
+    key: 'edit',
+    render: (text) => (
+      <DeleteFilled style={{color:'#c62828'}} />
+     
+    ),
+  },
+
+ 
 
 
 ];
