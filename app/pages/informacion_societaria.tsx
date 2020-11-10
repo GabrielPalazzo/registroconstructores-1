@@ -2,20 +2,96 @@ import React from 'react';
 import { useRouter } from 'next/router'
 import NavigationStep from '../components/steps'
 import InputText from '../components/input_text'
-import InputTextModal from '../components/input_text'
+import InputTextModal from '../components/input_text_modal'
 import Header from '../components/header'
 import DatePicker from '../components/datePicker'
 import Switch from '../components/switch'
+import DatePickerModal from '../components/datePicker_Modal'
 import Upload from '../components/upload'
 import { Button, Card, Steps,Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 const { Step } = Steps;
+const renderModalCalidad = () => {
+  return (<div>
+    <div className="grid grid-cols-2 gap-4 ">
+    <div className="pb-6" >
+      <InputTextModal
+          label="CUIT / CUIL"
+          labelRequired="*"
+          placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
+          value=""
+          labelMessageError=""
+          required />
+
+      </div>
+      <div className="pb-6" >
+        <InputTextModal
+          label="Norma"
+          labelRequired="*"
+          value=""
+          
+          labelMessageError=""
+          required />
+      </div>
+    </div>
+    <div className="grid grid-cols-2 gap-4 ">
+
+    <div className="pb-6" >
+        <InputTextModal
+          label="Direccion"
+          labelRequired="*"
+          placeholder="Ingrese su numero de documento sin deja espacios"
+          value=""
+          labelMessageError=""
+          required />
+
+      </div>
+      <div className="grid grid-cols-2 gap-4 ">
+      <div className="pb-6" >
+        <DatePickerModal
+          label="Fecha de otorgamiento"
+          labelRequired="*"
+          placeholder="Ingrese su numero de documento sin deja espacios"
+          value=""
+          
+          labelMessageError=""
+          required />
+
+      </div>
+      <div className="pb-6" >
+        <DatePickerModal
+          label="Fecha de expiracion"
+          labelRequired="*"
+          placeholder="Ingrese su numero de documento sin deja espacios"
+          value=""
+        
+          labelMessageError=""
+          required />
+
+      </div>
+      </div>
+      
+     
+    </div>
+    
+    <div className="grid grid-cols-2 gap-4 ">
+    <div className="pb-6" >
+        <Upload
+          label="Adjunte  Documento "
+          labelRequired="*"
+          labelMessageError=""
+        />
+      </div>
+    </div>
+  </div>)
+}
+
 
 const renderModalAutoridad = () => {
   return (<div>
     <div className="grid grid-cols-2 gap-4 ">
-      <div >
+    <div className="pb-6" >
         <InputTextModal
           label="Nombre"
           labelRequired="*"
@@ -26,7 +102,7 @@ const renderModalAutoridad = () => {
           required />
 
       </div>
-      <div >
+      <div className="pb-6" >
       <InputTextModal
           label="Apellido"
           labelRequired="*"
@@ -36,8 +112,7 @@ const renderModalAutoridad = () => {
       </div>
     </div>
     <div className="grid grid-cols-4 gap-4 ">
-
-      <div >
+    <div className="pb-6" >
       <InputTextModal
           label="Tipo de Doc"
           labelRequired="*"
@@ -47,7 +122,7 @@ const renderModalAutoridad = () => {
           required />
 
       </div>
-      <div >
+      <div className="pb-6" >
       <InputTextModal
           label="Nº de Documento"
           labelRequired="*"
@@ -57,7 +132,7 @@ const renderModalAutoridad = () => {
           required />
 
       </div>
-      <div >
+      <div className="pb-6" >
       <InputTextModal
           label="tipo de Organo"
           labelRequired="*"
@@ -67,7 +142,7 @@ const renderModalAutoridad = () => {
           required />
 
       </div>
-      <div >
+      <div className="pb-6" >
       <InputTextModal
           label="Tipo de Cargo"
           labelRequired="*"
@@ -79,7 +154,7 @@ const renderModalAutoridad = () => {
       </div>
     </div>
     <div className="grid grid-cols-2 gap-4 ">
-      <div >
+    <div className="pb-6" >
       <InputTextModal
           label="Direccion"
           labelRequired="*"
@@ -90,7 +165,7 @@ const renderModalAutoridad = () => {
 
       </div>
       <div className="grid grid-cols-2 gap-4 ">
-      <div >
+      <div className="pb-6" >
       <InputTextModal
           label="CUIT"
           labelRequired="*"
@@ -101,7 +176,7 @@ const renderModalAutoridad = () => {
           required />
       </div>
       
-      <div>
+      <div className="pb-6" >
         <Switch
           label="Inhibiciones"
           labelRequired="*"
@@ -117,7 +192,7 @@ const renderModalAutoridad = () => {
 
     </div>
     <div className="grid grid-cols-1 gap-4 ">
-      <div>
+    <div className="pb-6" >
       <InputTextModal
           label="Observaciones"
           labelRequired="*"
@@ -128,7 +203,7 @@ const renderModalAutoridad = () => {
           required />
       </div>
       
-      <div >
+      <div className="pb-6" >
         <Upload
           label="Adjunte Frente y Dorso del documento "
           labelRequired="*"
@@ -139,89 +214,6 @@ const renderModalAutoridad = () => {
   </div>)
 }
 
-const renderModalCalidad = () => {
-  return (<div>
-    <div className="grid grid-cols-2 gap-4 ">
-      <div >
-        <InputText
-          label="Organismo certificante"
-          labelRequired="*"
-          placeholder="Ingrese su nombre de Pila"
-          value=""
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div >
-        <InputText
-          label="Norma"
-          labelRequired="*"
-          value=""
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-          required />
-      </div>
-    </div>
-    <div className="grid grid-cols-2 gap-4 ">
-
-      <div >
-        <InputText
-          label="Direccion"
-          labelRequired="*"
-          placeholder="Ingrese su numero de documento sin deja espacios"
-          value=""
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="grid grid-cols-2 gap-4 ">
-      <div >
-        <DatePicker
-          label="Fecha de otorgamiento"
-          labelRequired="*"
-          placeholder="Ingrese su numero de documento sin deja espacios"
-          value=""
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div >
-        <DatePicker
-          label="Fecha de expiracion"
-          labelRequired="*"
-          placeholder="Ingrese su numero de documento sin deja espacios"
-          value=""
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-          required />
-
-      </div>
-      </div>
-      
-     
-    </div>
-    
-    <div className="grid grid-cols-1 gap-4 ">
-      
-      
-      <div >
-        <Upload
-          label="Adjunte Frente y Dorso del documento "
-          labelRequired="*"
-          labelMessageError=""
-        />
-      </div>
-    </div>
-  </div>)
-}
 
 const renderNoData = () => {
 
@@ -241,27 +233,51 @@ const renderNoData = () => {
 }
 
 class Society extends React.Component {
-  state = { visible: false };
-
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
+  state = { 
+    ModalAutoridad: false,
+    ModalCalidad:false,
   };
-  
-  handleSave = e => {
-    console.log(e);
+
+  showModalAutoridad = (ModalAutoridad) => {
     this.setState({
-      visible: false,
+      ModalAutoridad,
     });
   };
 
-  handleCancel = e => {
-    console.log(e);
+  showModalCalidad = (ModalCalidad) => {
     this.setState({
-      visible: false,
+      ModalCalidad,
     });
   };
+    
+  handleSaveAutoridad = e => {
+    console.log(e);
+    this.setState({
+      ModalAutoridad: false,
+    });
+  };
+
+  handleCancelAutoridad = e => {
+    console.log(e);
+    this.setState({
+      ModalAutoridad: false,
+    });
+  };
+  handleSaveCalidad = e => {
+    console.log(e);
+    this.setState({
+      ModalCalidad: false,
+    });
+  };
+
+  handleCancelCalidad = e => {
+    console.log(e);
+    this.setState({
+      ModalCalidad: false,
+    });
+  };
+
+ 
 
 
   render() {
@@ -350,16 +366,16 @@ class Society extends React.Component {
       <div className="flex  content-center ">
             <div className="text-2xl font-bold py-4 w-3/4"> Autoridad</div>
             <div className=" w-1/4 text-right content-center mt-4 ">
-              <Button type="primary" onClick={this.showModal} icon={<PlusOutlined />}> Agregar</Button>
+              <Button type="primary" onClick={this.showModalAutoridad} icon={<PlusOutlined />}> Agregar</Button>
             </div>
           </div>
           {renderNoData()}
           <Modal
             title="Datos de la Autoridad"
-            visible={this.state.visible}
-            onOk={this.handleSave}
+            visible={this.state.ModalAutoridad}
+            onOk={this.handleSaveAutoridad}
             okText="Guardar"
-            onCancel={this.handleCancel}
+            onCancel={this.handleCancelAutoridad}
             cancelText="Cancelar"
             width={1000}
           >
@@ -370,10 +386,23 @@ class Society extends React.Component {
       <div className="flex  content-center mt-6">
             <div className="text-2xl font-bold py-4 w-3/4"> Sistema de Calidad</div>
             <div className=" w-1/4 text-right content-center mt-4 ">
-              <Button type="primary" onClick={this.showModal} icon={<PlusOutlined />}> Agregar</Button>
+              <Button type="primary" onClick={this.showModalCalidad} icon={<PlusOutlined />}> Agregar</Button>
             </div>
           </div>
           {renderNoData()}
+          <Modal
+            title="Datos del Sistema de Calidad"
+            visible={this.state.ModalCalidad}
+            onOk={this.handleSaveCalidad}
+            okText="Guardar"
+            onCancel={this.handleCancelCalidad}
+            cancelText="Cancelar"
+            width={1000}
+          >
+            {renderModalCalidad()}
+          </Modal>
+
+          
          
 
       <div className="mt-6 text-center">
