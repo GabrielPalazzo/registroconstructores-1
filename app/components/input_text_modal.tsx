@@ -28,6 +28,8 @@ export default (props) => {
     <div className="w-full">
       <Input placeholder={props.placeholder}
         required={props.required}
+        disabled={props.disabled}
+    
       />
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">

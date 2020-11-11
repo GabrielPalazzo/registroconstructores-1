@@ -13,7 +13,7 @@ import SelectSimple from '../components/select'
 import Switch from '../components/switch'
 import RadioGroup from '../components/radioGroup'
 import SelectModal from '../components/select_modal'
-
+import Link from 'next/link'
 
 const { Option } = Select;
 
@@ -212,7 +212,8 @@ class CompanyData extends React.Component {
     return (<div className="">
       <Header />
       <div className="border-gray-200 border-b-2">
-        <NavigationStep />
+        <NavigationStep 
+        current={0} />
       </div>
 
       <div className="px-20 py-6 ">
@@ -332,7 +333,9 @@ class CompanyData extends React.Component {
         <div className="mt-6 text-center">
 
           <Button className="mr-4" > Volver</Button>
-          <Button type="primary" > Guardar y Seguir</Button>
+         <Link href="/domicilio" >
+         <Button type="primary" > Guardar y Seguir</Button>
+         </Link> 
 
         </div>
 

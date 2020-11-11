@@ -10,9 +10,9 @@ export default (props) => {
 
   return <div className="w-2/5 m-auto text-base mt-8">
   <Steps progressDot current={props.current}>
-    <Step title="Domicilio"  />
-    <Step title="Sociedad"  />
-    <Step title="Propietarios"  />
+    <Step title="Domicilio"  onClick={() => router.push('/domicilio')} />
+    <Step title="Sociedad" onClick={() => router.push('/informacion_societaria')}  />
+    <Step title="Propietarios" onClick={() => router.push('/informacion_propietarios')}  />
   </Steps>
   </div>
 }

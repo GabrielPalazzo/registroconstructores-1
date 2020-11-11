@@ -10,6 +10,8 @@ import DatePickerModal from '../components/datePicker_Modal'
 import Upload from '../components/upload'
 import { Button, Card, Steps,Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import Substeps from '../components/subSteps'
+
 
 const { Step } = Steps;
 const renderModalCalidad = () => {
@@ -285,15 +287,11 @@ class Society extends React.Component {
 
     return ( <div>
     <Header />
-    <div className="border-gray-200 border-b-2">
-      <NavigationStep />
+    <div className="border-gray-200 border-b-2 py-4">
+      <NavigationStep current={1} />
     </div>
     <div className="w-2/5 m-auto text-base mt-8">
-      <Steps progressDot current={1}>
-        <Step title="Domicilio" />
-        <Step title="Sociedad" />
-        <Step title="Propietarios" />
-      </Steps>
+    <Substeps progressDot current={1} />
     </div>
 
 
