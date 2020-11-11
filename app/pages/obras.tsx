@@ -13,6 +13,8 @@ import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
 import DatePickerModal from '../components/datePicker_Modal'
 import UploadLine from '../components/uploadLine'
+import Link from 'next/link'
+
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -488,9 +490,14 @@ class Balance extends React.Component {
           {renderModalEjercicios()}
         </Modal>
 
-        <div className="mt-6 text-center">
-          <Button className="mr-4" onClick={() => router.push('/address')}> Volver</Button>
-          <Button type="primary" onClick={() => router.push('/landing')}> Guardar y Seguir</Button>
+        <div className="mt-6 pt-6 text-center">
+        <Link href="/error" >
+
+<Button className="mr-4" > Volver</Button>
+</Link>
+<Link href="/enviar_tramite" >
+<Button type="primary" > Guardar y Seguir</Button>
+</Link>
         </div>
       </div>
     </div>

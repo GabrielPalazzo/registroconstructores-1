@@ -12,22 +12,27 @@ export default (props) => {
     <Steps current={props.current}>
       <Step
         title="Inscripción"
+        className="cursor-pointer"
         onClick={() => router.push('/informacion_basica')}
       />
       <Step
         title="Información"
+        className="cursor-pointer"
         onClick={() => router.push('/domicilio')}
       />
       <Step
         title="DDJ de balances"
+        className="cursor-pointer"
         onClick={() => router.push('/ejercicios')}
       />
       <Step
         title="DDJ de obras"
+        className="cursor-pointer"
         onClick={() => router.push('/obras')}
       />
       <Step
         title="Enviar trámite"
+        className="cursor-pointer"
         onClick={() => router.push('/enviar_tramite')}
       />
     </Steps>

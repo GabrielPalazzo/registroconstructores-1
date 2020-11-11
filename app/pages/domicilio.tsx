@@ -53,9 +53,9 @@ export default () => {
        
       </div>
 
-      <div className="mt-6 pt-4 text-center">
+      <div className="mt-6 pt-6 text-center">
          
-         <Button  className="mr-4"  onClick={() => router.push('/')}> Volver</Button>
+         <Button  className="mr-4"  onClick={() => router.push('/i')}> Volver</Button>
           <Button type="primary"  onClick={() => router.push('/informacion_societaria')}> Guardar y Seguir</Button>
         
          </div>

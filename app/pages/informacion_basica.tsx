@@ -330,7 +330,7 @@ class CompanyData extends React.Component {
           <Table columns={columns} dataSource={data} />
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 pt-6 text-center">
         <Link href="/" >
           <Button className="mr-4" > Volver</Button>
           </Link>

@@ -41,7 +41,7 @@ export default () => {
           </div>
         </TabPane>
         <TabPane tab="Acciones" key="2">
-          <div className="pt-4 mb-4 pb-4">
+          <div className="pt-4 mb-4 pb-4 cursor-pointer" onClick={() => router.push('/obras')}>
             {tramitesAcciones.map(e => (
               <div className="mt-4">
                 <div className={`rounded-xl border mr-2 mt-4 text-muted-700  px-4 py-4  ${e.status === 'Vencido' ? EXPIRED : UNEXPIRED}`}>
@@ -61,10 +61,8 @@ export default () => {
             ))}
           </div>
         </TabPane>
-        <TabPane tab="Formularios" key="3">
-          <Table columns={columns} dataSource={data} />
-        </TabPane>
-        <TabPane tab="Administradores" key="4">
+        
+        <TabPane tab="Administradores" key="3">
           <Table columns={columns} dataSource={data} />
         </TabPane>
       </Tabs>
@@ -225,7 +223,7 @@ const columns = [
     key: 'edit',
     render: (text) => (
       
-      <EditOutlined />
+      <EditOutlined className="cursor-pointer" />
      
     ),
   },
@@ -234,7 +232,7 @@ const columns = [
     title: 'Editar',
     key: 'edit',
     render: (text) => (
-      <DeleteFilled style={{color:'#c62828'}} />
+      <DeleteFilled style={{color:'#c62828'}} className="cursor-pointer" />
      
     ),
   },

@@ -9,9 +9,9 @@ import Switch from '../components/switch'
 import { Button, Card, Steps, Modal, Select, Table } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
-import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
 import Substeps from '../components/subSteps'
+import Link from 'next/link'
 
 const { Step } = Steps;
 const { Option } = Select;
@@ -191,7 +191,7 @@ class Propiedad extends React.Component {
             <Button type="primary" onClick={this.showModalPropietarios} icon={<PlusOutlined />}> Agregar</Button>
           </div>
         </div>
-        <Table columns={columnsPropietarioSoc}  scroll={{ x: 1500 }}/>
+        <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} />
         <Modal
           title="Datos de propietario de sociedad"
           visible={this.state.ModalPropietarios}
@@ -295,7 +295,7 @@ class Propiedad extends React.Component {
           </div>
           <div className="mt-6 text-center pb-6">
 
-            <Button className="mr-4" type="primary" icon={<PlusOutlined />} onClick={() => router.push('/address')}> Agregar</Button>
+            <Button className="mr-4" type="primary" icon={<PlusOutlined />} > Agregar</Button>
 
 
           </div>
@@ -303,11 +303,14 @@ class Propiedad extends React.Component {
           <Table columns={columnsInversiones} />
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6  pt-6 text-center">
+          <Link href="/informacion_societaria" >
 
-          <Button className="mr-4" onClick={() => router.push('/address')}> Volver</Button>
-          <Button type="primary" onClick={() => router.push('/landing')}> Guardar y Seguir</Button>
-
+            <Button className="mr-4" > Volver</Button>
+          </Link>
+          <Link href="/ejercicios" >
+            <Button type="primary" > Guardar y Seguir</Button>
+          </Link>
         </div>
 
       </div>

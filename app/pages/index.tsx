@@ -42,10 +42,10 @@ export default () => {
       
     <div className="px-4 md:px-20  gap-y-4 grid md:grid-cols-4 gap-2  ">
       {empresa.map(e => (
-        <div className=""> 
+        <div className="cursor-pointer" onClick={() => router.push('/landing')}> 
         <Card className="rounded mr-2">
         <div className="text-lg font-bold text-black-700 pb-2 "> {e.title}</div>
-        <div  className="text-primary-500 text-sm font-bold mt-2 self-center" onClick={() => router.push('/landing')} ><span className="mt-2">ver mas</span>  <ArrowRightOutlined  style={{fontSize: '10px'}}/></div>
+        <div  className="text-primary-500 text-sm font-bold mt-2 self-center"  ><span className="mt-2">ver mas</span>  <ArrowRightOutlined  style={{fontSize: '10px'}}/></div>
       </Card>
       </div>
       ))}
