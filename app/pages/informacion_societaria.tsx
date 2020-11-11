@@ -11,6 +11,7 @@ import Upload from '../components/upload'
 import { Button, Card, Steps,Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Substeps from '../components/subSteps'
+import Link from 'next/link'
 
 
 const { Step } = Steps;
@@ -404,9 +405,13 @@ class Society extends React.Component {
          
 
       <div className="mt-6 text-center">
+      <Link href="/domicilio" >
 
-        <Button className="mr-4" onClick={() => router.push('/address')}> Volver</Button>
-        <Button type="primary" onClick={() => router.push('/landing')}> Guardar y Seguir</Button>
+        <Button className="mr-4" > Volver</Button>
+        </Link>
+        <Link href="/domicilio" >
+        <Button type="primary" > Guardar y Seguir</Button>
+        </Link>
 
       </div>
 

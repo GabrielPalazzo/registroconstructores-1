@@ -8,7 +8,7 @@ const { Step } = Steps;
 export default (props) => {
   const router = useRouter()
 
-  return <div className="w-2/5 m-auto text-base mt-8">
+  return <div className="m-auto text-base mt-8">
   <Steps progressDot current={props.current}>
     <Step title="Domicilio"  onClick={() => router.push('/domicilio')} />
     <Step title="Sociedad" onClick={() => router.push('/informacion_societaria')}  />

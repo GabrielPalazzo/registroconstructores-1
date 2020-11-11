@@ -331,8 +331,9 @@ class CompanyData extends React.Component {
         </div>
 
         <div className="mt-6 text-center">
-
+        <Link href="/" >
           <Button className="mr-4" > Volver</Button>
+          </Link>
          <Link href="/domicilio" >
          <Button type="primary" > Guardar y Seguir</Button>
          </Link> 
