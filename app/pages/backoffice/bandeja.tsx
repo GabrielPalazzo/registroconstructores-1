@@ -1,7 +1,8 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Button, Card, Tabs, Collapse, Tag } from 'antd';
 import { DeleteFilled, DownCircleOutlined, CloudDownloadOutlined, LockFilled } from '@ant-design/icons';
 import { useRouter } from 'next/router'
+import Link from 'next/link';
 const { TabPane } = Tabs;
 const Panel = Collapse.Panel;
 
@@ -17,19 +18,17 @@ const customPanelStyle = {
   overflow: 'hidden',
 };
 
-function myFunction() {
-  var x = document.getElementById("content");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
 
-export default () => {
-  const router = useRouter()
+class Bandeja extends React.Component {
+  state = { showing: false };
 
-  return <div>
+
+
+  render() {
+    const { showing } = this.state;
+    return (
+  
+ <div>
     <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
       <div className="px-4 pt-4 py-2">
         <Logo />
@@ -53,13 +52,18 @@ export default () => {
                     CUIT: {e.cuit}<br />
                     Exp: {e.expediente}</div>
               </div>
-              <div className="text-right"   >
-                <DownCircleOutlined />
+             
+              <div className="text-right"  onClick={() => this.setState({ showing: !showing })}   >
+                  <DownCircleOutlined />
+               
               </div>
+             
+             
 
             </div>
-
-            <div className="grid grid-cols-3 gap-4 content">
+            { showing
+? 
+            <div className="grid grid-cols-3 gap-4 caja">
               <div>
                 <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
                 <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
@@ -99,6 +103,8 @@ export default () => {
               </div>
 
             </div>
+            : null
+          }
           </div>
         ))}
 
@@ -120,7 +126,9 @@ export default () => {
 
     </div>
   </div>
+    )}
 }
+export default Bandeja;
 
 
 
