@@ -5,6 +5,7 @@ import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal } from '
 import LikeDislike from '../components/like_dislike'
 import { useRouter } from 'next/router'
 import Upload from '../components/upload'
+
 import { PlusOutlined } from '@ant-design/icons';
 import InputText from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
@@ -14,6 +15,7 @@ import Switch from '../components/switch'
 import RadioGroup from '../components/radioGroup'
 import SelectModal from '../components/select_modal'
 import Link from 'next/link'
+import uploadLine from '../components/uploadLine';
 
 const { Option } = Select;
 
@@ -301,6 +303,25 @@ class CompanyData extends React.Component {
               labeltooltip=""
               labelMessageError=""
               status="" />
+
+          </div>
+          <div >
+            <InputText 
+              label="IERIC"
+              labelRequired="*"
+              placeholder="IERIC"
+              value=""
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              status="" />
+
+          </div>
+          <div >
+            <Upload
+              label="Adjunte certificado"
+              labelRequired="*"
+              labelMessageError="" />
 
           </div>
 
