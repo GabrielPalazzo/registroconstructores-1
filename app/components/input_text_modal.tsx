@@ -29,6 +29,7 @@ export default (props) => {
       <Input placeholder={props.placeholder}
         required={props.required}
         disabled={props.disabled}
+        type={props.type}
     
       />
     </div>
