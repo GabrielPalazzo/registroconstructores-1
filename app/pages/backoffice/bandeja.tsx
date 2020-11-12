@@ -1,6 +1,6 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Tabs, Collapse, Tag } from 'antd';
-import { DeleteFilled, DownCircleOutlined, CloudDownloadOutlined, LockFilled } from '@ant-design/icons';
+import {ArrowRightOutlined, DownCircleOutlined, CloudDownloadOutlined, LockFilled } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
 const { TabPane } = Tabs;
@@ -27,106 +27,190 @@ class Bandeja extends React.Component {
   render() {
     const { showing } = this.state;
     return (
-  
- <div>
-    <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
-      <div className="px-4 pt-4 py-2">
-        <Logo />
-      </div>
-    </div>
 
-    <div className="px-4 md:px-20 py-6  ">
-      <div className="text-2xl font-bold py-4">Hola </div>
+      <div>
+        <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
+          <div className="px-4 pt-4 py-2">
+            <Logo />
+          </div>
+        </div>
 
-      <Tabs defaultActiveKey="1" onChange={callback}>
-        <TabPane tab="Todos los trámites" key="1">
-        {expediente.map(e => (
-          <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
-            <div className="flex justify-between">
-              <div>
-                <Tag color="#a0aec0" className="bg-gray-500 mb-2 pb-4 " >
-                  <LockFilled /> {e.user}
-                  </Tag>
-                <div className=" text-lg font-bold mt-2 text-black-700">{e.company}</div>
-                <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {e.date}<br />
+        <div className="px-4 md:px-20 py-6  ">
+          <div className="text-2xl font-bold py-4">Hola </div>
+
+          <Tabs defaultActiveKey="1" onChange={callback}>
+            <TabPane tab="Todos los trámites" key="1">
+              {expediente.map(e => (
+                <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+                  <div className="flex justify-between">
+                    <div>
+                      <Tag color="#a0aec0" className="bg-gray-500 mb-2 pb-4 " >
+                        <LockFilled /> {e.user}
+                      </Tag>
+                      <div className=" text-lg font-bold mt-2 text-black-700">{e.company}</div>
+                      <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {e.date}<br />
                     CUIT: {e.cuit}<br />
                     Exp: {e.expediente}</div>
-              </div>
-             
-              <div className="text-right"  onClick={() => this.setState({ showing: !showing })}   >
-                  <DownCircleOutlined />
-               
-              </div>
-             
-             
+                    </div>
 
-            </div>
-            { showing
-? 
-            <div className="grid grid-cols-3 gap-4 caja">
-              <div>
-                <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
-                <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-              </div>
-              <div>
-                <div className="font-bold text-black-700 text-sm">Confirmación de observaciones del supervisor:</div>
-                <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-              </div>
-              <div>
-                <div className="font-bold text-black-700 text-sm">Contestación a observaciones:</div>
-                <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-              </div>
+                    <div className="text-right" onClick={() => this.setState({ showing: !showing })}   >
+                      <DownCircleOutlined />
 
-              <div>
-                <div className="font-bold text-black-700 text-sm">Fecha de envío a aprobar:</div>
-                <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-              </div>
-              <div>
-                <div className="font-bold text-black-700 text-sm">Aprobación:</div>
-                <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-              </div>
-              <div>
-                <div className="font-bold text-black-700 text-sm">Fecha y hora:</div>
-                <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-              </div>
-              <div>
-                <div className="font-bold text-black-700 text-sm">Usuario actual:</div>
-                <div className=" text-muted-700 text-xs">Técnico:</div>
-              </div>
-              <div>
-                <div className="font-bold text-black-700 text-sm">Estado del trámite:</div>
-                <div className=" text-muted-700 text-xs">Técnico:</div>
-              </div>
-              <div>
-                <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
-
-              </div>
-
-            </div>
-            : null
-          }
-          </div>
-        ))}
+                    </div>
 
 
-        </TabPane>
-        <TabPane tab="Mis Asignados" key="2">
 
-        </TabPane>
+                  </div>
+                  { showing
+                    ?
+                    <div>
+                    <div className="grid grid-cols-3 gap-4 caja">
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Confirmación de observaciones del supervisor:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Contestación a observaciones:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
 
-        <TabPane tab="Supervisados" key="3">
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Fecha de envío a aprobar:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Aprobación:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Fecha y hora:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Usuario actual:</div>
+                        <div className=" text-muted-700 text-xs">Técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Estado del trámite:</div>
+                        <div className=" text-muted-700 text-xs">Técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
 
-        </TabPane>
-      </Tabs>
-    </div>
+                      </div>
+
+                    </div>
+                    <div className="text-right mt-4">
+                      <Button type="primary">ver tramite <ArrowRightOutlined /> </Button>
+                    </div>
+                    </div>
+
+                    : null
+                  }
+                </div>
+              ))}
 
 
-    <div className="flex px-20  justify-between">
+            </TabPane>
+            <TabPane tab="Mis Asignados" key="2">
+            {expediente.map(e => (
+                <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+                  <div className="flex justify-between">
+                    <div>
+                      <Tag color="#a0aec0" className="bg-gray-500 mb-2 pb-4 mr-4 " >
+                        <LockFilled /> {e.user}
+                      </Tag>
+                      <Tag color="#6EA100" className="bg-gray-500 mb-2 pb-4 " >
+                        Observado en supervision
+                      </Tag>
+                      <div className=" text-lg font-bold mt-2 text-black-700">{e.company}</div>
+                      <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {e.date}<br />
+                    CUIT: {e.cuit}<br />
+                    Exp: {e.expediente}</div>
+                    </div>
+
+                    <div className="text-right" onClick={() => this.setState({ showing: !showing })}   >
+                      <DownCircleOutlined />
+
+                    </div>
 
 
-    </div>
-  </div>
-    )}
+
+                  </div>
+                  { showing
+                    ?
+                    <div>
+                    <div className="grid grid-cols-3 gap-4 caja">
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Confirmación de observaciones del supervisor:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Contestación a observaciones:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
+
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Fecha de envío a aprobar:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Aprobación:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Fecha y hora:</div>
+                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Usuario actual:</div>
+                        <div className=" text-muted-700 text-xs">Técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-black-700 text-sm">Estado del trámite:</div>
+                        <div className=" text-muted-700 text-xs">Técnico:</div>
+                      </div>
+                      <div>
+                        <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
+
+                      </div>
+
+                    </div>
+                    <div className="text-right mt-4">
+                      <Button type="primary">ver tramite <ArrowRightOutlined /> </Button>
+                    </div>
+                    </div>
+
+                    : null
+                  }
+                </div>
+              ))}
+
+
+            </TabPane>
+
+            <TabPane tab="Supervisados" key="3">
+
+            </TabPane>
+          </Tabs>
+        </div>
+
+
+        <div className="flex px-20  justify-between">
+
+
+        </div>
+      </div>
+    )
+  }
 }
 export default Bandeja;
 
@@ -162,17 +246,17 @@ const Logo = () => (
 
 const expediente = [
   {
-   user:'Leonardo G. Leenen',
-   company:'Flicktrip SAS',
-   date:'03/02/2020',
-   cuit:'3333333333',
-   expediente:'1234-09990-99009'
-  },{
-    user:'Juan Caneva',
-    company:'Cosntructora Lanusse SAS',
-    date:'12/05/2020',
-    cuit:'55555555555',
-    expediente:'1234-09990-99009'
-   },
+    user: 'Leonardo G. Leenen',
+    company: 'Flicktrip SAS',
+    date: '03/02/2020',
+    cuit: '3333333333',
+    expediente: '1234-09990-99009'
+  }, {
+    user: 'Juan Caneva',
+    company: 'Cosntructora Lanusse SAS',
+    date: '12/05/2020',
+    cuit: '55555555555',
+    expediente: '1234-09990-99009'
+  },
 
 ]
