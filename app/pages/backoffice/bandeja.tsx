@@ -105,7 +105,10 @@ class Bandeja extends React.Component {
 
                     </div>
                     <div className="text-right mt-4">
+                      <Link href="/informacion_basica">
                       <Button type="primary">ver tramite <ArrowRightOutlined /> </Button>
+                      </Link>
+
                     </div>
                     </div>
 
@@ -185,7 +188,9 @@ class Bandeja extends React.Component {
 
                     </div>
                     <div className="text-right mt-4">
+                    <Link href="/informacion_basica">
                       <Button type="primary">ver tramite <ArrowRightOutlined /> </Button>
+                      </Link>
                     </div>
                     </div>
 
