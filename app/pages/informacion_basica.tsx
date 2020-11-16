@@ -1,11 +1,11 @@
 import React from 'react';
 import Header from '../components/header'
 import NavigationStep from '../components/steps'
-import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal } from 'antd';
+import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal,Checkbox } from 'antd';
 import LikeDislike from '../components/like_dislike'
 import { useRouter } from 'next/router'
 import Upload from '../components/upload'
-
+import DatePicker from '../components/datePicker'
 import { PlusOutlined } from '@ant-design/icons';
 import InputText from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
@@ -18,7 +18,9 @@ import Link from 'next/link'
 import uploadLine from '../components/uploadLine';
 
 const { Option } = Select;
-
+function onChange(e) {
+  console.log(`checked = ${e.target.checked}`);
+}
 
 const renderNoData = () => {
   return (<div>
@@ -152,6 +154,7 @@ const renderModal = () => {
       </div>
 
     </div>
+    
     <div className="grid grid-cols-3 gap-4 ">
     <div className="pb-6" >
       <Upload
@@ -175,6 +178,10 @@ const renderModal = () => {
           labelMessageError=""
         />
       </div>
+    </div>
+    <div>
+    <Checkbox onChange={onChange}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
+    asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox>
     </div>
   </div>)
 }
@@ -310,6 +317,18 @@ class CompanyData extends React.Component {
               label="IERIC"
               labelRequired="*"
               placeholder="IERIC"
+              value=""
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              status="" />
+
+          </div>
+          <div >
+            <DatePicker 
+              label="Fecha vencimiento IERIC"
+              labelRequired="*"
+              placeholder="dd/mm/aaaa"
               value=""
               labelObservation=""
               labeltooltip=""

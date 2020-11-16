@@ -12,10 +12,78 @@ import SelectModal from '../components/select_modal'
 import LikeDislike from '../components/like_dislike'
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
+import DatePickerModal from '../components/datePicker_Modal'
 
 const { Step } = Steps;
 const { Option } = Select;
 
+const renderModalSanciones = () => {
+  return (<div>
+    <div className="grid grid-cols-2 gap-4 ">
+      <div className="pb-6" >
+        <InputTextModal
+          label="Autoridad que la aplico"
+          labelRequired="*"
+          placeholder="Ingrese el Nombre y apellido"
+          value=""
+          labelMessageError=""
+          required />
+
+      </div>
+      <div className="pb-6" >
+        <InputTextModal
+          label="Titular"
+          labelRequired="*"
+          placeholder="Numero de Resolucion o norma"
+          value=""
+          labelMessageError=""
+          required />
+
+      </div>
+      <div className="pb-6" >
+        <SelectModal
+          title="Tipo de Sancion"
+          labelRequired="*"
+         
+          value=""
+          labelMessageError=""
+          required />
+
+      </div>
+      <div className="pb-6" >
+        <InputTextModal
+          label="Obra de Origen"
+          labelRequired="*"
+          placeholder="Numero de Resolucion o norma"
+          value=""
+          labelMessageError=""
+          required />
+
+      </div>
+      <div className="pb-6" >
+        <DatePickerModal
+          label="Fecha de Sancion"
+          labelRequired="*"
+          placeholder="dd/mm/aaaa"
+          value=""
+          labelMessageError=""
+          required />
+
+      </div>
+      <div className="pb-6" >
+        <DatePickerModal
+          label="Fecha de Vencimiento"
+          labelRequired="*"
+          placeholder="dd/mm/aaaa"
+          value=""
+          labelMessageError=""
+          required />
+
+      </div>
+      </div>
+      </div>
+  )
+}
 const renderModalPropietarios = () => {
   return (<div>
     <div className="grid grid-cols-2 gap-4 ">
@@ -143,6 +211,7 @@ const renderNoData = () => {
 class Propiedad extends React.Component {
   state = {
     ModalPropietarios: false,
+    ModalSanciones: false,
   };
 
   showModalPropietarios = (ModalPropietarios) => {
@@ -164,6 +233,28 @@ class Propiedad extends React.Component {
     console.log(e);
     this.setState({
       ModalPropietarios: false,
+    });
+  };
+
+  showModalSanciones = (ModalSanciones) => {
+    this.setState({
+      ModalSanciones,
+    });
+  };
+
+
+
+  handleSaveSanciones = e => {
+    console.log(e);
+    this.setState({
+      ModalSanciones: false,
+    });
+  };
+
+  handleCancelSanciones = e => {
+    console.log(e);
+    this.setState({
+      ModalSanciones: false,
     });
   };
 
@@ -301,6 +392,40 @@ class Propiedad extends React.Component {
           </div>
 
           <Table columns={columnsInversiones} />
+        </div>
+
+        <div className="mt-6 rounded-lg border px-4 py-4">
+          <div>
+          <div className="flex  content-center ">
+
+          <div className="text-2xl font-bold py-4 w-3/4">  Antecedentes Sancionatorios</div>
+            <div className=" w-1/4 text-right content-center ">
+              <Switch
+                SwitchLabel1="Si"
+                SwitchLabel2="No"
+                labelMessageError=""
+              />
+            </div>
+            </div>
+            <div className="w-full text-center m-auto content-center mt-4 ">
+              <Button type="primary" onClick={this.showModalSanciones} icon={<PlusOutlined />}> Agregar</Button>
+            </div>
+          </div>
+
+          <Modal
+          title="Antecedentes Sancionatorios"
+          visible={this.state.ModalSanciones}
+          onOk={this.handleSaveSanciones}
+          okText="Guardar"
+          onCancel={this.handleCancelSanciones}
+          cancelText="Cancelar"
+          width={1000}
+        >
+           {renderModalSanciones()}
+          </Modal>
+
+
+       
         </div>
 
         <div className="mt-6  pt-6 text-center">
