@@ -7,6 +7,7 @@ import {
   WinstonModule,
 } from 'nest-winston';
 import * as winston from 'winston';
+import { LoggingInterceptor } from './auth/auth.interceptor';
 // import * as Sentry from 'winston-raven-sentry';
 
 // import { SentryService } from '@ntegral/nestjs-sentry';
@@ -37,6 +38,7 @@ async function bootstrap() {
     }),
   });
   app.enableCors();
+  app.useGlobalInterceptors(new LoggingInterceptor());
   const options = new DocumentBuilder()
     .setTitle('User Service')
     .setDescription('The users API description')
