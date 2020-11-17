@@ -17,6 +17,14 @@ type Usuario= {
 type Apoderado= {
     persona: Persona
     esAdministrador: Boolean
+    imagenesDni: Array<Archivo>
+}
+
+type Archivo= {
+    id: string
+    uri?: string
+    nombreArchivo: string
+    fechaCreacion: number
 }
 
 type TramiteAlta = {
@@ -27,4 +35,5 @@ type TramiteAlta = {
     apoderados: Array<Apoderado>
     status: "BORRADOR"|"A VERIFICAR"|"VERIFICADO"
     propietario: Usuario
+    certificadoFiscal: Archivo
 }
