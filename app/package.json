@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
+    "@types/mongoose": "^5.10.1",
     "antd": "^4.7.3",
     "bluebird": "^3.7.2",
     "mongoose": "^5.10.15",
@@ -23,7 +24,8 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "tailwindcss": "^1.9.6"
+    "tailwindcss": "^1.9.6",
+    "ts-mongoose": "0.0.21"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

@@ -3,9 +3,11 @@ import mongoose from 'mongoose';
 // we'll import all the schemas here and return them
 // on the mongo connection object
 // for use in the handlers
-import UserSchema from '../../data/models/User';
+import Tramite from '../../data/models/Tramite';
+import User  from '../../data/models/User';
 
 const connectToMongo = async () => {
+  if (!mongoose.connection) {
   const connection = await mongoose.createConnection(
     process.env.MONGO_URI,
     {
@@ -15,13 +17,14 @@ const connectToMongo = async () => {
       useUnifiedTopology: true
     }
   );
-  const User = connection.model("User", UserSchema);
   return {
     connection,
     models: {
+      Tramite,
       User
     }
   };
+}
 }
 
 export default connectToMongo;
