@@ -1,4 +1,5 @@
-//Actualizar el estado y la base de datos.
+//Actualizar el estado y grabar en la base de datos. De estado BORRADOR a VERIFICAR.
+
 export default (req, res) => {
     const tp:TramiteAlta = null;
     res.statusCode = 200

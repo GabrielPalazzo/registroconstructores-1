@@ -1,3 +1,7 @@
+/*
+Dado un id de tramite, levanto de la base el documento y lo devuelvo
+*/
+
 //Actualizar el estado y la base de datos.
 export default (req, res) => {
     const tp:TramiteAlta = null;

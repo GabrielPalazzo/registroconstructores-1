@@ -1,3 +1,8 @@
+/*
+Si se proporciona ID, es un evento de grabar y devuelve el ID.
+Si no se proporciona es un evento de crear y devuelve el ID.
+*/
+
 export default (req, res) => {
     const tp:TramiteAlta = null;
     res.statusCode = 200
