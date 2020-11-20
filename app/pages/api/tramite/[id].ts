@@ -1,5 +1,5 @@
 import nextConnect from 'next-connect';
-import middleware from '../../middlewares/middleware';
+import middleware from '../../../middlewares/middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = nextConnect();
@@ -7,16 +7,19 @@ const handler = nextConnect();
 handler.use(middleware);
 
 handler.get(async (req: any, res: NextApiResponse) => {
+  const {
+    query: { id },
+  } = req
+
   console.log('ingreso a la funcion')
   // Pagination: Fetch posts from before the input date or fetch from newest
   //const creatorId = req.query.by;
-  const tramites = await req.db
+  const tramite = await req.db
     .collection('tramites')
-    .find({
+    .findOne({"id": id
       }
-    )
-    .toArray();
-  res.send({ tramites });
+    );
+  res.send({tramite});
 });
 
 

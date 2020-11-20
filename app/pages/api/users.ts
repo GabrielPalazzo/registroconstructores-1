@@ -1,25 +1,23 @@
-import mongoMiddleware from '../../lib/api/mongo-middleware';
-import apiHandler from '../../lib/api/api-handler';
+import nextConnect from 'next-connect';
+import middleware from '../../middlewares/middleware';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default mongoMiddleware(async (req, res, connection, models) => {
-  const {
-    method
-  } = req
+const handler = nextConnect();
 
-  apiHandler(res, method, {
-    GET: (response) => {
-      console.log('Inicio el get')
-      models.User.find({}, (error, user) => {
-        if (error) {
-          console.log('Error en la busqueda')
-          connection.close();
-          response.status(500).json({ error });
-        } else {
-          console.log('Con exito')
-          response.status(200).json(user);
-          connection.close();
-        }
-      })
-    }
-  });
-})
+handler.use(middleware);
+
+handler.get(async (req: any, res: NextApiResponse) => {
+  console.log('ingreso a la funcion')
+  // Pagination: Fetch posts from before the input date or fetch from newest
+  //const creatorId = req.query.by;
+  const users = await req.db
+    .collection('users')
+    .find({
+      }
+    )
+    .toArray();
+  res.send({ users });
+});
+
+
+export default handler
