@@ -13,20 +13,20 @@ handler.post(async (req: any, res: NextApiResponse) => {
     return res.status(401).send('unauthenticated');
   }
   */
+  console.dir(req.body);
+  const { tramite } = req.body;
 
-  const { content } = req.body;
+  if (!tramite) return res.status(400).send('You must write something');
 
-  if (!content) return res.status(400).send('You must write something');
-
-  const tramite = {
+  const newTramite = {
     _id: nanoid(),
-    content,
+    tramite,
     createdAt: new Date(),
-    creatorId: req.user._id,
+    creatorId: req.user,
   };
 
-  await req.db.collection('tramites').insertOne(tramite);
-  return res.send(tramite);
+  await req.db.collection('tramites').insertOne(newTramite);
+  return res.send(newTramite);
 });
 
 export default handler;
