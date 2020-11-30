@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/header'
 import NavigationStep from '../components/steps'
-import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal,Checkbox } from 'antd';
+import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox } from 'antd';
 import LikeDislike from '../components/like_dislike'
 import { useRouter } from 'next/router'
 import Upload from '../components/upload'
@@ -15,7 +15,9 @@ import Switch from '../components/switch'
 import RadioGroup from '../components/radioGroup'
 import SelectModal from '../components/select_modal'
 import Link from 'next/link'
-import uploadLine from '../components/uploadLine';
+import { useSelector, useDispatch } from 'react-redux'
+import { saveTramite } from '../redux/actions/main'
+
 
 const { Option } = Select;
 function onChange(e) {
@@ -43,7 +45,7 @@ const renderModal = () => {
   return (<div>
     <div className="grid grid-cols-2 gap-4 ">
       <div className="pb-6" >
-      <InputTextModal
+        <InputTextModal
           label="Nombre"
           labelRequired="*"
           placeholder="Ingrese su nombre de Pila"
@@ -53,7 +55,7 @@ const renderModal = () => {
 
       </div>
       <div className="pb-6" >
-      <InputTextModal
+        <InputTextModal
           label="Apellido"
           labelRequired="*"
           value=""
@@ -63,20 +65,20 @@ const renderModal = () => {
     </div>
     <div className="grid grid-cols-4 gap-4 ">
 
-    <div className="pb-6" >
-    <SelectModal
-              title="Tipo de documento"
-              defaultOption="Seleccione el tipo de Doc"
-              labelRequired="*"
-              labelMessageError=""
-              required
-              option={tipoDocumento.map(u => (
-                <Option value={u.value}>{u.label}</Option>
+      <div className="pb-6" >
+        <SelectModal
+          title="Tipo de documento"
+          defaultOption="Seleccione el tipo de Doc"
+          labelRequired="*"
+          labelMessageError=""
+          required
+          option={tipoDocumento.map(u => (
+            <Option value={u.value}>{u.label}</Option>
 
-              ))} />
+          ))} />
       </div>
       <div className="pb-6" >
-      <InputTextModal
+        <InputTextModal
           label="Nº de Documento"
           labelRequired="*"
           placeholder="Ingrese su numero de documento sin deja espacios"
@@ -86,7 +88,7 @@ const renderModal = () => {
 
       </div>
       <div className="pb-6" >
-      <InputTextModal
+        <InputTextModal
           label="CUIT / CUIL"
           labelRequired="*"
           placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
@@ -96,7 +98,7 @@ const renderModal = () => {
 
       </div>
       <div className="pb-6" >
-      <InputTextModal
+        <InputTextModal
           label="Usuario"
           labelRequired="*"
           placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
@@ -107,8 +109,8 @@ const renderModal = () => {
       </div>
     </div>
     <div className="grid grid-cols-2 gap-4 ">
-    <div className="pb-6" >
-      <InputTextModal
+      <div className="pb-6" >
+        <InputTextModal
           label="Email"
           labelRequired="*"
           placeholder="Ingrese su email personal"
@@ -118,7 +120,7 @@ const renderModal = () => {
 
       </div>
       <div className="pb-6" >
-      <InputTextModal
+        <InputTextModal
           label="Propuesta Electronica"
           labelRequired="*"
           value=""
@@ -154,15 +156,15 @@ const renderModal = () => {
       </div>
 
     </div>
-    
-    <div className="grid grid-cols-3 gap-4 ">
-    <div className="pb-6" >
-      <Upload
-        label="Adjunte fotos de frente y dorso del DNI"
-        labelRequired="*"
-        labelMessageError=""
 
-      />
+    <div className="grid grid-cols-3 gap-4 ">
+      <div className="pb-6" >
+        <Upload
+          label="Adjunte fotos de frente y dorso del DNI"
+          labelRequired="*"
+          labelMessageError=""
+
+        />
       </div>
       <div className="pb-6" >
         <Upload
@@ -180,216 +182,219 @@ const renderModal = () => {
       </div>
     </div>
     <div>
-    <Checkbox onChange={onChange}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
+      <Checkbox onChange={onChange}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
     asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox>
     </div>
   </div>)
 }
 
 
+export default () => {
+
+  const [visible, setVisible] = useState<boolean>(false)
+  const [razonSocial, setRazonSocial] = useState('')
+  const [cuit, setCuit] = useState('')
+  const [tipoEmpresa, setTipoEmpresa] = useState(null)
+  const [personeria, setPersoneria] = useState(null)
+  const [nroLegajo, setNroLegajo] = useState('') 
+  const [email, setEmail] = useState('')
+  const [ieric, setIeric] = useState('')
+  const [vtoIERIC, setVtoIERIC] = useState('')
+  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || {}
+  const dispatch = useDispatch()
+  const paso = useSelector(state => state.appStatus.paso)
 
 
-class CompanyData extends React.Component {
+  const showModal = () => {
+    setVisible(true)
+  }
+
+  const handleSave = e => {
+    setVisible(false)
+  }
+
+  const handleCancel = e => {
+    setVisible(false)
+  }
+
+  const save = () => {
+
+    tramite.razonSocial = razonSocial
+    tramite.nroLegajo = nroLegajo
+    tramite.cuit = cuit
+    tramite.tipoEmpresa = tipoEmpresa
+    tramite.personeria = personeria
+    tramite.email = email
+    dispatch(saveTramite(tramite))
+  }
 
 
-  state = { visible: false };
-
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleSave = e => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  };
-
-  handleCancel = e => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  };
-
-
-  render() {
-    
-
-    return (<div className="">
-      <Header />
-      <div className="border-gray-200 border-b-2">
-        <NavigationStep 
+  return (<div className="">
+    <Header />
+    <div className="border-gray-200 border-b-2">
+      <NavigationStep
         current={0} />
+    </div>
+
+    <div className="px-20 py-6 ">
+
+      <div className="text-2xl font-bold py-4"> Datos de la empresa</div>
+      <div className="grid grid-cols-2 gap-4 ">
+        <div >
+          <SelectSimple
+            value={personeria}
+            bindFunction={setPersoneria}
+            title="Tipo de personeria"
+            defaultOption="Seleccione el tipo de personeria"
+            labelRequired="*"
+            labelObservation="¿Por qué me observaron este campo? "
+            labeltooltip="El tipo de empresa seleccionado es incorrecto"
+            labelMessageError=""
+            required
+            option={tipoPersoneria.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))} />
+
+        </div>
+        <div >
+          <SelectMultiple
+            labelRequired="*"
+            value={tipoEmpresa}
+            bindFunction={setTipoEmpresa}
+            defaultValue={['CONSTRUCTORA']}
+            title="Seleccione el tipo de empresa"
+            placeholder="seleccione una opcion"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+            required
+            options={tipoEmpresas.map(u => (
+              <Option value={u.value} label={u.label}>
+                <div className="demo-option-label-item">
+                  {u.option}
+                </div>
+              </Option>
+            ))
+
+            } />
+
+        </div>
+        <div >
+          <InputText
+            label="Razon Social"
+            placeHolder="Constructora del oeste"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+            value={razonSocial}
+            bindFunction={setRazonSocial}
+            required />
+
+
+        </div>
+        <div >
+          <InputText
+            label="CUIT"
+            value={cuit}
+            bindFunction={setCuit}
+            placeHolder="Ingrese el numero de cuit sin guiones"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+            required />
+
+        </div>
+        <div >
+          <InputText
+            label="Nro de Legajo"
+            value={nroLegajo}
+            bindFunction={setNroLegajo}
+            placeHolder="Ingrese el numero de legajo"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+          />
+
+        </div>
+        <div >
+          <InputText type="email"
+            label="Email institucional"
+            value={email}
+            bindFunction={setEmail}
+            placeHolder="Email Institucional"
+          />
+
+        </div>
+        <div >
+          <InputText
+            label="IERIC"
+            placeHolder="IERIC"
+            value={ieric}
+            bindFunction={setIeric}
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+          />
+
+        </div>
+        <div >
+          <DatePicker
+            value={vtoIERIC}
+            bindFunction={setVtoIERIC}
+            label="Fecha vencimiento IERIC"
+            labelRequired="*"
+            placeholder="dd/mm/aaaa"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+          />
+
+        </div>
+        <div >
+          <Upload
+            label="Adjunte certificado"
+            labelRequired="*"
+            labelMessageError="" />
+
+        </div>
+
+
+      </div>
+      <div className="mt-6">
+        <div className="flex  content-center ">
+          <div className="text-2xl font-bold py-4 w-3/4"> Apoderados y/o Representantes legales</div>
+          <div className=" w-1/4 text-right content-center mt-4 ">
+            <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
+          </div>
+        </div>
+
+        <Modal
+          title="Datos de la Persona Física"
+          visible={visible}
+          onOk={handleSave}
+          okText="Guardar"
+          onCancel={handleCancel}
+          cancelText="Cancelar"
+          width={1000}
+        >
+          {renderModal()}
+        </Modal>
+
+        <Table columns={columns} dataSource={data} />
       </div>
 
-      <div className="px-20 py-6 ">
-
-        <div className="text-2xl font-bold py-4"> Datos de la empresa</div>
-        <div className="grid grid-cols-2 gap-4 ">
-          <div >
-            <SelectSimple
-              title="Tipo de personeria"
-              defaultOption="Seleccione el tipo de personeria"
-              labelRequired="*"
-              labelObservation="¿Por qué me observaron este campo? "
-              labeltooltip="El tipo de empresa seleccionado es incorrecto"
-              labelMessageError=""
-              required
-              option={tipoPersoneria.map(u => (
-                <Option value={u.value}>{u.label}</Option>
-
-              ))} />
-
-          </div>
-          <div >
-            <SelectMultiple
-              labelRequired="*"
-              defaultValue={['Constructora']}
-              title="Seleccione el tipo de empresa"
-              placeholder="seleccione una opcion"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              required
-              options={tipoEmpresa.map(u => (
-                <Option value={u.value} label={u.label}>
-                  <div className="demo-option-label-item">
-                    {u.option}
-                  </div>
-                </Option>
-              ))
-
-              } />
-
-          </div>
-          <div >
-            <InputText
-
-              label="Razon Social"
-              labelRequired="*"
-              placeholder="Constructora del oeste"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              required />
-
-
-          </div>
-          <div >
-            <InputText
-              label="CUIT"
-              labelRequired="*"
-              placeholder="Ingrese el numero de cuit sin guiones"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              required />
-
-          </div>
-          <div >
-            <InputText
-              label="Nro de Legajo"
-              placeholder="Ingrese el numero de legajo"
-              disabled
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-            />
-
-          </div>
-          <div >
-            <InputText type="email"
-              label="Email institucional"
-              labelRequired="*"
-              placeholder="Email Institucional"
-              value=""
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              status="" />
-
-          </div>
-          <div >
-            <InputText 
-              label="IERIC"
-              labelRequired="*"
-              placeholder="IERIC"
-              value=""
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              status="" />
-
-          </div>
-          <div >
-            <DatePicker 
-              label="Fecha vencimiento IERIC"
-              labelRequired="*"
-              placeholder="dd/mm/aaaa"
-              value=""
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              status="" />
-
-          </div>
-          <div >
-            <Upload
-              label="Adjunte certificado"
-              labelRequired="*"
-              labelMessageError="" />
-
-          </div>
-
-
-        </div>
-        <div className="mt-6">
-          <div className="flex  content-center ">
-            <div className="text-2xl font-bold py-4 w-3/4"> Apoderados y/o Representantes legales</div>
-            <div className=" w-1/4 text-right content-center mt-4 ">
-              <Button type="primary" onClick={this.showModal} icon={<PlusOutlined />}> Agregar</Button>
-            </div>
-          </div>
-
-          <Modal
-            title="Datos de la Persona Física"
-            visible={this.state.visible}
-            onOk={this.handleSave}
-            okText="Guardar"
-            onCancel={this.handleCancel}
-            cancelText="Cancelar"
-            width={1000}
-          >
-            {renderModal()}
-          </Modal>
-
-
-          <Table columns={columns} dataSource={data} />
-        </div>
-
-        <div className="mt-6 pt-6 text-center">
+      <div className="mt-6 pt-6 text-center">
         <Link href="/" >
           <Button className="mr-4" > Volver</Button>
-          </Link>
-         <Link href="/domicilio" >
-         <Button type="primary" > Guardar y Seguir</Button>
-         </Link> 
-
-        </div>
-
-
-
+        </Link>
+        <Button type="primary" onClick={save} > Guardar y Seguir</Button>
       </div>
-
     </div>
-    )
-  }
-}
 
-export default CompanyData;
+  </div>
+  )
+}
 
 
 
@@ -424,7 +429,7 @@ const tipoPersoneria = [
 
 
 ]
-const tipoDocumento= [
+const tipoDocumento = [
   {
     label: 'DU',
     value: 'DU',
@@ -441,20 +446,20 @@ const tipoDocumento= [
 
 ]
 
-const tipoEmpresa = [
+const tipoEmpresas = [
   {
     label: 'Constructora',
-    value: 'Constructora',
+    value: 'CONSTRUCTORA',
     option: 'Constructora',
   },
   {
     label: 'Provedora',
-    value: 'Provedora',
+    value: 'PROVEEDORA',
     option: 'Provedora',
   },
   {
     label: 'Consultora',
-    value: 'Consultora',
+    value: 'CONSULTORA',
     option: 'Consultora',
   },
 
@@ -517,7 +522,7 @@ const data = [
 
   },
   {
-    key: '1',
+    key: '2',
     name: 'Maria Noel',
     first_name: ' Leenen',
     cuit: 33444444445,

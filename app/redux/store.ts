@@ -5,16 +5,18 @@ import {
   import thunkMiddleware from 'redux-thunk'
 
 
-import {initialStateReducer} from './reducers/main'
+import {initialStateReducer,SET_PASOS} from './reducers/main'
 
 export const initialState = {
-  user: {
-    firstName: null
+  appStatus: {
+    tipoAccion: null,
+    tramiteAlta: null,
+    paso: SET_PASOS.SET_PASO_INSCRIPCION
   }
 }
 
 const reducers = combineReducers({
-  user: initialStateReducer,
+  appStatus: initialStateReducer,
 })
 
 export default () => createStore(

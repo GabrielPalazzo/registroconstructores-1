@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Select,Tooltip } from 'antd';
-import { LikeOutlined, DislikeOutlined } from '@ant-design/icons';
+import { Select,Tooltip, Button } from 'antd'
 import LikeDislike from '../components/like_dislike'
+import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 
 
 
@@ -12,8 +12,22 @@ function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
+interface Props {
+  value: any,
+  title: string
+  bindFunction: Function
+  placeholder: string
+  options?: any
+  labeltooltip?: string
+  labelMessageError?: string
+  labelObservation?: string
+  labelRequired?: string
+  defaultValue?: Array<string>
+  required?: boolean
+  showHands? : boolean
+}
 
-export default (props) => {
+export default (props: Props) => {
 
   return (<div >
     <div className="flex">
@@ -21,16 +35,19 @@ export default (props) => {
       <label className="font-bold text-sm">{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
       </div>
 
-      <div className="justify-end w-1/4">
-        <LikeDislike />
-      </div>
+      {props.showHands ? <div className="justify-end w-1/4">
+        <div className=" text-right">
+          <Button type="link" icon={<LikeFilled />} />
+          <Button type="link" icon={<DislikeFilled />} />
+        </div>
+      </div> : ''}
 
     </div>
     <div className="w-full">
       <Select mode="multiple"
         style={{ width: '100%' }}
         placeholder={props.placeholder}
-        onChange={handleChange}
+        onChange={(v) => props.bindFunction(v)}
         optionLabelProp="label">
 
         {props.options}

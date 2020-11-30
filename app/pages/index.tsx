@@ -2,6 +2,9 @@ import React from 'react';
 import { Button, Card } from 'antd';
 import { PlusOutlined ,ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
+import {setActionType} from '../redux/actions/main'
+import {SET_TRAMITE_NUEVO} from '../redux/reducers/main'
+import {useDispatch} from 'react-redux'
 
 const empresa = [
   {
@@ -24,6 +27,7 @@ const empresa = [
 
 export default () => {
   const router = useRouter()
+  const dispatch  = useDispatch()
 
   return <div>
     <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
@@ -35,7 +39,10 @@ export default () => {
     <div className="md:px-20 py-6 grid grid-cols-2 px-4 ">
       <div className="text-2xl font-bold py-4"> Empresas</div>
       <div className="text-2xl font-bold py-4 text-right">
-        <Button type="primary" icon={<PlusOutlined  />} onClick={() => router.push('/informacion_basica')}>Nuevo trámite </Button>
+        <Button type="primary" icon={<PlusOutlined  />} onClick={() => {
+          dispatch(setActionType(SET_TRAMITE_NUEVO))
+          router.push('/informacion_basica')
+          }}>Nuevo trámite </Button>
       </div>
       </div>
       

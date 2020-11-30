@@ -17,7 +17,19 @@ function onChange(date, dateString) {
   }
   const dateFormat = 'DD/MM/YYYY';
 
-export default (props) => {
+interface Props {
+  value: string
+  bindFunction: Function
+  label: string, 
+  labelRequired: string 
+  placeholder: any
+  labelMessageError?: string
+  labeltooltip?: string
+  labelObservation: string
+  showHands? : boolean
+}  
+
+export default (props: Props) => {
 
   return (<div >
     <div className="flex">
@@ -25,14 +37,12 @@ export default (props) => {
       <label className="font-bold text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
       </div>
 
-      <div className="justify-end w-2/5">
+      {props.showHands ? <div className="justify-end w-2/5">
         <div className=" text-right">
-
-        
-          <Button type="link" icon={<LikeFilled />}  />
+          <Button type="link" icon={<LikeFilled />} />
           <Button type="link" icon={<DislikeFilled />} />
         </div>
-      </div>
+      </div> : ''}
 
     </div>
     <div className="w-full">

@@ -1,11 +1,11 @@
-type Persona= {
+type Persona = {
     nombre: string
     apellido: string
     email: string
     cuit: string
 }
 
-type Usuario= {
+type Usuario = {
     nombre: string
     apellido: string
     email: string
@@ -30,10 +30,20 @@ type Archivo= {
 type TramiteAlta = {
     id: string
     razonSocial: string
-    personería: string
+    personeria: string
     tipoEmpresa: string
+    cuit: string
+    nroLegajo: string
+    tipoEmpresa: {
+      label: string
+      value: string
+      option: string
+    }
     apoderados: Array<Apoderado>
     status: "BORRADOR"|"A VERIFICAR"|"VERIFICADO"
     propietario: Usuario
     certificadoFiscal: Archivo
+    email: string
+    ieric: string
+    vtoIeric: string
 }

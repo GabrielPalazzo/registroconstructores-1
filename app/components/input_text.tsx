@@ -12,29 +12,43 @@ const colors = [
   'green',
 ];
 
+interface Props {
+  placeHolder?: string
+  required?: boolean
+  disabled?: boolean
+  labelMessageError? : string
+  labelObservation? : string
+  labeltooltip?: string
+  value: string
+  label: string
+  showHands? : boolean
+  bindFunction: Function
+  type?: string
+}
 
-
-export default (props) => {
+export default (props: Props) => {
 
   return (<div >
     <div className="flex">
       <div className="w-3/5">
-        <label className="font-bold text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
+        <label className="font-bold text-sm">{props.label}<span className="text-danger-700 ml-1">*</span></label>
       </div>
 
-      <div className="justify-end w-2/5">
+      {props.showHands ? <div className="justify-end w-2/5">
         <div className=" text-right">
           <Button type="link" icon={<LikeFilled />} />
           <Button type="link" icon={<DislikeFilled />} />
         </div>
-      </div>
+      </div> : ''}
+      
 
     </div>
     <div className="w-full">
       <Input
-        placeholder={props.placeholder}
+        placeholder={props.placeHolder}
         required={props.required}
         disabled={props.disabled}
+        onChange={(e) => props.bindFunction(e.target.value)}
       />
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">
