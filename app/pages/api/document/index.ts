@@ -42,7 +42,7 @@ export const config = {
     bodyParser: false,
 },
 
-export default async (req, res) => {
+const file = async (req, res) => {
 
   // parse form with a Promise wrapper
   const data = await new Promise((resolve, reject) => {

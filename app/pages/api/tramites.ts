@@ -10,6 +10,7 @@ handler.get(async (req: any, res: NextApiResponse) => {
   console.log('ingreso a la funcion')
   // Pagination: Fetch posts from before the input date or fetch from newest
   //const creatorId = req.query.by;
+  console.dir(req.user);
   const tramites = await req.db
     .collection('tramites')
     .find({

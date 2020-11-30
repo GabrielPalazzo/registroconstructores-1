@@ -22,5 +22,4 @@ handler.get(async (req: any, res: NextApiResponse) => {
   res.send({tramite});
 });
 
-
 export default handler

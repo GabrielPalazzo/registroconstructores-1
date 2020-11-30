@@ -15,7 +15,20 @@ handler.post(async (req: any, res: NextApiResponse) => {
   */
   // const { tramite } = req.body;
 
+  //TODO: if (_id is not null) ..... update
+
+
   if (!req.body) return res.status(400).send('You must write something');
+
+  if(req.body._id) {
+    // get by id
+    const tramite = await req.db
+    .collection('tramites')
+    .findById(req.body._id);
+    
+    
+    //update
+  }
 
   const newTramite = {
     _id: nanoid(),
