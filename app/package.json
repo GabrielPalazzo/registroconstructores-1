@@ -24,6 +24,7 @@
     "next": "9.5.5",
     "next-connect": "^0.9.1",
     "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "postcss-import": "^13.0.0",
     "react": "17.0.1",
