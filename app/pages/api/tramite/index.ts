@@ -22,23 +22,23 @@ handler.post(async (req: any, res: NextApiResponse) => {
 
   if(req.body._id) {
     // get by id
-    const tramite = await req.db
+    await req.db
     .collection('tramites')
-    .findById(req.body._id);
-    
+    .replaceOne({'_id': req.body._id}, req.body);
+    return res.send(req.body);
     
     //update
+  } else {
+    const newTramite = {
+      _id: nanoid(),
+      ...req.body,
+      createdAt: new Date(),
+      creatorId: req.user,
+    };
+  
+    await req.db.collection('tramites').insertOne(newTramite);
+    return res.send(newTramite);  
   }
-
-  const newTramite = {
-    _id: nanoid(),
-    ...req.body,
-    createdAt: new Date(),
-    creatorId: req.user,
-  };
-
-  await req.db.collection('tramites').insertOne(newTramite);
-  return res.send(newTramite);
 });
 
 export default handler;
