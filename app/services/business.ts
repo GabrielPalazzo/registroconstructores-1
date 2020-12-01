@@ -5,10 +5,13 @@ export const getToken = () => {
 }
 
 export const saveTramiteService = (tramite: TramiteAlta) : Promise<TramiteAlta> => {
+  console.dir(tramite)
   return axios.post('/api/tramite',tramite,{
     headers: {
       Authorization: 'Bearer ' + getToken()
-  }})
+  }}).then((createdTramite) => {
+    return createdTramite.data
+  })
 
   // return new Promise((accept, reject) => accept(tramite))
 } 

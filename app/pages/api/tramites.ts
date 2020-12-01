@@ -13,8 +13,7 @@ handler.get(async (req: any, res: NextApiResponse) => {
   console.dir(req.user);
   const tramites = await req.db
     .collection('tramites')
-    .find({
-      }
+    .find({creatorId: req.user}
     )
     .toArray();
   res.send({ tramites });
