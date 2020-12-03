@@ -2370,6 +2370,13 @@
   "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.6.tgz"
   "version" "7.0.6"
 
+"@types/jsonwebtoken@^8.5.0":
+  "integrity" "sha512-9bVao7LvyorRGZCw0VmH/dr7Og+NdjYSsKAxB43OQoComFbBgsEpoR9JW6+qSq/ogwVBg8GI2MfAlk4SYI4OLg=="
+  "resolved" "https://registry.npmjs.org/@types/jsonwebtoken/-/jsonwebtoken-8.5.0.tgz"
+  "version" "8.5.0"
+  dependencies:
+    "@types/node" "*"
+
 "@types/markdown-to-jsx@^6.11.0":
   "integrity" "sha512-30nFYpceM/ZEvhGiqWjm5quLUxNeld0HCzJEXMZZDpq53FPkS85mTwkWtCXzCqq8s5JYLgM5W392a02xn8Bdaw=="
   "resolved" "https://registry.npmjs.org/@types/markdown-to-jsx/-/markdown-to-jsx-6.11.3.tgz"
@@ -7173,6 +7180,11 @@
     "merge-stream" "^2.0.0"
     "supports-color" "^6.1.0"
 
+"jose@^3.2.0":
+  "integrity" "sha512-H7Ho/MP9YBiFTHibyvak8rxn+gSr9ZngUEcvnk5XxoPF4Ler05z3NtRZrU0VzjRx6J00YZgZ7VSgsuPWtE/LFw=="
+  "resolved" "https://registry.npmjs.org/jose/-/jose-3.2.0.tgz"
+  "version" "3.2.0"
+
 "js-string-escape@^1.0.1":
   "integrity" "sha1-4mJbrbwNZ8dTPp7cEGjFh65BN+8="
   "resolved" "https://registry.npmjs.org/js-string-escape/-/js-string-escape-1.0.1.tgz"
@@ -7264,7 +7276,7 @@
     "graceful-fs" "^4.1.6"
     "universalify" "^2.0.0"
 
-"jsonwebtoken@^8.2.0":
+"jsonwebtoken@^8.2.0", "jsonwebtoken@^8.5.1":
   "integrity" "sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w=="
   "resolved" "https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz"
   "version" "8.5.1"

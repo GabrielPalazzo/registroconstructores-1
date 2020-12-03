@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.10.1",
     "antd": "^4.7.3",
     "axios": "^0.21.0",
@@ -19,6 +20,8 @@
     "bluebird": "^3.7.2",
     "connect-mongo": "^3.2.0",
     "express-session": "^1.17.1",
+    "jose": "^3.2.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.15",
     "nanoid": "^3.1.17",
     "next": "9.5.5",
