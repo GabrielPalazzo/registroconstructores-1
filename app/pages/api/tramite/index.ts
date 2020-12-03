@@ -8,11 +8,11 @@ const handler = nextConnect();
 handler.use(middleware);
 
 handler.post(async (req: any, res: NextApiResponse) => {
-  /*
+  
   if (!req.user) {
     return res.status(401).send('unauthenticated');
   }
-  */
+  
   // const { tramite } = req.body;
 
   //TODO: if (_id is not null) ..... update

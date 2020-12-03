@@ -20,6 +20,8 @@
     "bluebird": "^3.7.2",
     "connect-mongo": "^3.2.0",
     "express-session": "^1.17.1",
+    "formidable": "^1.2.2",
+    "formidable-serverless": "^1.0.3",
     "jose": "^3.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.15",

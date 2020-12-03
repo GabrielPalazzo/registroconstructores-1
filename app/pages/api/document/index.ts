@@ -2,62 +2,41 @@ import nextConnect from 'next-connect';
 import { nanoid } from 'nanoid';
 import middleware from '../../../middlewares/middleware';
 import { NextApiResponse } from 'next';
+import { File } from "formidable";
+import Formidable from "formidable-serverless";
+import fs from "fs";
 
 const handler = nextConnect();
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 handler.use(middleware);
 
 handler.post(async (req: any, res: NextApiResponse) => {
-  /*
-  if (!req.user) {
-    return res.status(401).send('unauthenticated');
-  }
-  */
+  return new Promise(async (resolve, reject) => {
+    const form = new Formidable.IncomingForm({
+      multiples: true,
+      keepExtensions: true,
+    });
 
-  const { content } = req.body;
+    form
+      .on("file", (name: string, file: File) => {
+        const data = fs.readFileSync(file.path);
+        fs.writeFileSync(`public/upload/${file.name}`, data);
+        fs.unlinkSync(file.path);
+      })
+      .on("aborted", () => {
+        reject(res.status(500).send('Aborted'))  
+      })
+      .on("end", () => {
+        resolve(res.status(200).send('done'));
+      });
 
-  if (!content) return res.status(400).send('You must write something');
+    await form.parse(req)
 
-  const document = {
-    _id: nanoid(),
-    content,
-    uri: , 
-    createdAt: new Date(),
-    creatorId: req.document._id,
-  };
-
-  await req.db.collection('users').insertOne(document);
-  return res.send(document);
+    });
 });
-
-export default handler;
-
-import { IncomingForm } from 'formidable'
-// you might want to use regular 'fs' and not a promise one
-import { promises as fs } from 'fs'
-
-// first we need to disable the default body parser
-export const config = {
-  api: {
-    bodyParser: false,
-},
-
-const file = async (req, res) => {
-
-  // parse form with a Promise wrapper
-  const data = await new Promise((resolve, reject) => {
-    const form = new IncomingForm()
-
-    form.parse(req, (err, fields, files) => {
-      if (err) return reject(err)
-      resolve({ fields, files })
-    })
-  })
-
-  // read file from the temporary path
-  const contents = await fs.readFile(data?.files?.nameOfTheInput.path, {
-    encoding: 'utf8',
-  })
-
-  // contents is a string with the content of uploaded file, so you can read it or store
-}
