@@ -21,6 +21,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
   if (!req.body) return res.status(400).send('You must write something');
 
   if(req.body._id) {
+    console.log('update');
     // get by id
     await req.db
     .collection('tramites')
@@ -29,6 +30,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
     
     //update
   } else {
+    console.log('update');
     const newTramite = {
       _id: nanoid(),
       ...req.body,
