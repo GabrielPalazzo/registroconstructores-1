@@ -15,7 +15,12 @@ type Usuario = {
 }
 
 type Apoderado= {
-    persona: Persona
+    nombre: string,
+    apellido: string,
+    email: string, 
+    nroDocumento: string,
+    tipoDocumento :string, 
+    cuit: string 
     esAdministrador: Boolean
     imagenesDni: Array<Archivo>
 }

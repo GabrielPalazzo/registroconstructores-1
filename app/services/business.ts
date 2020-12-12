@@ -15,3 +15,21 @@ export const saveTramiteService = (tramite: TramiteAlta) : Promise<TramiteAlta> 
 
   // return new Promise((accept, reject) => accept(tramite))
 } 
+
+export const getEmptyTramiteAlta = () : TramiteAlta=> {
+  return  {
+    apoderados:[],
+    certificadoFiscal:null,
+    cuit:'',
+    email:'',
+    id:'',
+    ieric:'',
+    nroLegajo: '',
+    personeria:'',
+    propietario: null,
+    razonSocial:'',
+    status: 'BORRADOR',
+    tipoEmpresa: null,
+    vtoIeric: ''
+  }
+}

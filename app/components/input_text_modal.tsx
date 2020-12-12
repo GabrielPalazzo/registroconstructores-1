@@ -14,7 +14,19 @@ const colors = [
 
 
 
-export default (props) => {
+interface Props { 
+  label:string
+  labelMessageError: string
+  labelRequired: string
+  value: string
+  bindFunction: Function
+  placeholder?: string
+  required?: boolean 
+  disabled?: boolean
+  type?:string
+}
+
+export default (props: Props) => {
 
   return (<div >
     <div className="flex">
@@ -26,7 +38,10 @@ export default (props) => {
 
     </div>
     <div className="w-full">
-      <Input placeholder={props.placeholder}
+      <Input 
+        value={props.value}
+        onChange={  e => props.bindFunction(e.target.value)}
+        placeholder={props.placeholder}
         required={props.required}
         disabled={props.disabled}
         type={props.type}

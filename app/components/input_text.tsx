@@ -45,6 +45,7 @@ export default (props: Props) => {
     </div>
     <div className="w-full">
       <Input
+        value={props.value}
         placeholder={props.placeHolder}
         required={props.required}
         disabled={props.disabled}

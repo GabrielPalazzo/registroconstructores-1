@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/header'
 import NavigationStep from '../components/steps'
 import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox } from 'antd';
 import LikeDislike from '../components/like_dislike'
+
 import { useRouter } from 'next/router'
 import Upload from '../components/upload'
 import DatePicker from '../components/datePicker'
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import InputText from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import SelectMultiple from '../components/select_multiple'
@@ -17,6 +18,8 @@ import SelectModal from '../components/select_modal'
 import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
+import { getEmptyTramiteAlta } from '../services/business';
+import { Loading } from '../components/loading';
 
 
 const { Option } = Select;
@@ -41,175 +44,47 @@ const renderNoData = () => {
 
 
 
-const renderModal = () => {
-  return (<div>
-    <div className="grid grid-cols-2 gap-4 ">
-      <div className="pb-6" >
-        <InputTextModal
-          label="Nombre"
-          labelRequired="*"
-          placeholder="Ingrese su nombre de Pila"
-          value=""
-          labelMessageError=""
-          required />
 
-      </div>
-      <div className="pb-6" >
-        <InputTextModal
-          label="Apellido"
-          labelRequired="*"
-          value=""
-          labelMessageError=""
-          required />
-      </div>
-    </div>
-    <div className="grid grid-cols-4 gap-4 ">
-
-      <div className="pb-6" >
-        <SelectModal
-          title="Tipo de documento"
-          defaultOption="Seleccione el tipo de Doc"
-          labelRequired="*"
-          labelMessageError=""
-          required
-          option={tipoDocumento.map(u => (
-            <Option value={u.value}>{u.label}</Option>
-
-          ))} />
-      </div>
-      <div className="pb-6" >
-        <InputTextModal
-          label="Nº de Documento"
-          labelRequired="*"
-          placeholder="Ingrese su numero de documento sin deja espacios"
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="pb-6" >
-        <InputTextModal
-          label="CUIT / CUIL"
-          labelRequired="*"
-          placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="pb-6" >
-        <InputTextModal
-          label="Usuario"
-          labelRequired="*"
-          placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-    </div>
-    <div className="grid grid-cols-2 gap-4 ">
-      <div className="pb-6" >
-        <InputTextModal
-          label="Email"
-          labelRequired="*"
-          placeholder="Ingrese su email personal"
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="pb-6" >
-        <InputTextModal
-          label="Propuesta Electronica"
-          labelRequired="*"
-          value=""
-          labelMessageError=""
-          required />
-      </div>
-      <div className="pb-6" >
-        <RadioGroup
-          label="¿Qué tipo de persona desea dar de alta? "
-          labelRequired="*"
-          value=""
-          labelMessageError=""
-          radioOptions={tipoPersona.map(u => (
-            <Radio value={u.value} >
-              {u.label}
-            </Radio>
-          ))
-
-          }
-
-        />
-      </div>
-      <div className="pb-6" >
-        <Switch
-          label="Administrador Legitimado"
-          labelRequired="*"
-          SwitchLabel1="Si"
-          SwitchLabel2="No"
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-        />
-      </div>
-
-    </div>
-
-    <div className="grid grid-cols-3 gap-4 ">
-      <div className="pb-6" >
-        <Upload
-          label="Adjunte fotos de frente y dorso del DNI"
-          labelRequired="*"
-          labelMessageError=""
-
-        />
-      </div>
-      <div className="pb-6" >
-        <Upload
-          label="Adjunte el poder"
-          labelRequired="*"
-          labelMessageError=""
-        />
-      </div>
-      <div className="pb-6" >
-        <Upload
-          label="Adjunte Acta "
-          labelRequired="*"
-          labelMessageError=""
-        />
-      </div>
-    </div>
-    <div>
-      <Checkbox onChange={onChange}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
-    asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox>
-    </div>
-  </div>)
-}
 
 
 export default () => {
 
   const [visible, setVisible] = useState<boolean>(false)
-  const [razonSocial, setRazonSocial] = useState('')
-  const [cuit, setCuit] = useState('')
+  
   const [tipoEmpresa, setTipoEmpresa] = useState(null)
   const [personeria, setPersoneria] = useState(null)
-  const [nroLegajo, setNroLegajo] = useState('') 
-  const [email, setEmail] = useState('')
-  const [ieric, setIeric] = useState('')
-  const [vtoIERIC, setVtoIERIC] = useState('')
-  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || {}
+  
+  // const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
+  const [tramite, setTramite] = useState<TramiteAlta>(getEmptyTramiteAlta())
+  const tipoAccion : string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
+  const [nombre, setNombre] = useState(' ')
+  const [apellido, setApellido] = useState('')
+  const [email,setEmail] = useState('')
+  const [propuestaElectronica, setPropuestaElectronica] = useState('')
+  const [cuit,setCuit] = useState('')
+  const [nroDocumento,setNroDocumento] = useState('')
+  const [tipoDocumentoApoderado,setTipoDocumentoApoderado] = useState('')
   const dispatch = useDispatch()
   const paso = useSelector(state => state.appStatus.paso)
+  const [isLoading,setIsLoading] = useState(false)
 
 
   const showModal = () => {
     setVisible(true)
   }
 
-  const handleSave = e => {
+  const handleSaveApoderado = () => {
+    tramite.apoderados.push({
+      esAdministrador: false,
+      imagenesDni: [],
+      apellido,
+      nombre,
+      email,
+      cuit,
+      nroDocumento,
+      tipoDocumento: tipoDocumentoApoderado
+    })
+    save()
     setVisible(false)
   }
 
@@ -217,18 +92,206 @@ export default () => {
     setVisible(false)
   }
 
-  const save = () => {
-
-    tramite.razonSocial = razonSocial
-    tramite.nroLegajo = nroLegajo
-    tramite.cuit = cuit
-    tramite.tipoEmpresa = tipoEmpresa
-    tramite.personeria = personeria
-    tramite.email = email
-    dispatch(saveTramite(tramite))
+  const save = async () => {
+    setIsLoading(true)
+    await dispatch(saveTramite(tramite))
+    setIsLoading(false)
   }
 
 
+  const removeApoderadoFromList = (record: Apoderado) => {
+    tramite.apoderados = tramite.apoderados.filter( (a:Apoderado) => a.cuit !== record.cuit)
+    save()
+  }
+
+  const columns = [
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text,record) => (tipoAccion ==='SET_TRAMITE_NUEVO' || !tipoAccion ? <div onClick={() => removeApoderadoFromList(record)}><DeleteOutlined /></div> :<Space size="middle">
+      <LikeDislike />
+    </Space>),
+    },
+    {
+      title: 'Nombre',
+      dataIndex: 'nombre'
+    },
+    {
+      title: 'Apellido',
+      dataIndex: 'apellido',
+      key: 'apellido',
+    },
+    {
+      title: 'CUIT',
+      dataIndex: 'cuit',
+      key: 'cuit',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    }
+  
+  
+  ];
+
+  const updateObjTramite = () => {
+    setTramite(Object.assign({},tramite))
+  } 
+
+  const renderApoderadosSection = () => {
+    return (<div>
+      <div className="grid grid-cols-2 gap-4 ">
+        <div className="pb-6" >
+          <InputTextModal
+            label="Nombre"
+            labelRequired="*"
+            placeholder="Ingrese su nombre de Pila"
+            value={nombre}
+            bindFunction={setNombre}
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <InputTextModal
+            label="Apellido"
+            labelRequired="*"
+            value={apellido}
+            bindFunction={setApellido}
+            labelMessageError=""
+            required />
+        </div>
+      </div>
+      <div className="grid grid-cols-4 gap-4 ">
+  
+        <div className="pb-6" >
+          <SelectModal
+            title="Tipo de documento"
+            defaultOption="Seleccione el tipo de Doc"
+            labelRequired="*"
+            labelMessageError=""
+            required
+            option={tipoDocumento.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+  
+            ))} />
+        </div>
+        <div className="pb-6" >
+          <InputTextModal
+  
+            label="Nº de Documento"
+            labelRequired="*"
+            placeholder="Ingrese su numero de documento sin deja espacios"
+            value={nroDocumento}
+            bindFunction={setNroDocumento}
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <InputTextModal
+            label="CUIT / CUIL"
+            labelRequired="*"
+            placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
+            value={cuit}
+            bindFunction={setCuit}
+            labelMessageError=""
+            required />
+  
+        </div>
+        
+      </div>
+      <div className="grid grid-cols-2 gap-4 ">
+        <div className="pb-6" >
+          <InputTextModal
+            label="Email"
+            labelRequired="*"
+            placeholder="Ingrese su email personal"
+            value={email}
+            bindFunction={setEmail}
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <InputTextModal
+            label="Propuesta Electronica"
+            labelRequired="*"
+            value={propuestaElectronica}
+            bindFunction={setPropuestaElectronica}
+            labelMessageError=""
+            required />
+        </div>
+        <div className="pb-6" >
+          <RadioGroup
+            label="¿Qué tipo de persona desea dar de alta? "
+            labelRequired="*"
+            value=""
+            labelMessageError=""
+            radioOptions={tipoPersona.map(u => (
+              <Radio value={u.value} >
+                {u.label}
+              </Radio>
+            ))
+  
+            }
+  
+          />
+        </div>
+        <div className="pb-6" >
+          <Switch
+            label="Administrador Legitimado"
+            labelRequired="*"
+            SwitchLabel1="Si"
+            SwitchLabel2="No"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+          />
+        </div>
+  
+      </div>
+  
+      <div className="grid grid-cols-3 gap-4 ">
+        <div className="pb-6" >
+          <Upload
+            label="Adjunte fotos de frente y dorso del DNI"
+            labelRequired="*"
+            labelMessageError=""
+  
+          />
+        </div>
+        <div className="pb-6" >
+          <Upload
+            label="Adjunte el poder"
+            labelRequired="*"
+            labelMessageError=""
+          />
+        </div>
+        <div className="pb-6" >
+          <Upload
+            label="Adjunte Acta "
+            labelRequired="*"
+            labelMessageError=""
+          />
+        </div>
+      </div>
+      <div>
+        <Checkbox onChange={onChange}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
+      asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox>
+      </div>
+    </div>)
+  }
+
+  
+
+  if (isLoading)
+    return <Loading message=""/>
+
+
+  
+  
   return (<div className="">
     <Header />
     <div className="border-gray-200 border-b-2">
@@ -287,8 +350,11 @@ export default () => {
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
-            value={razonSocial}
-            bindFunction={setRazonSocial}
+            value={tramite.razonSocial}
+            bindFunction={(value) => {
+              tramite.razonSocial= value
+              updateObjTramite()
+            }}
             required />
 
 
@@ -296,8 +362,11 @@ export default () => {
         <div >
           <InputText
             label="CUIT"
-            value={cuit}
-            bindFunction={setCuit}
+            value={tramite.cuit}
+            bindFunction={(value) => {
+              tramite.cuit= value
+              setTramite(Object.assign({},tramite))
+            }}
             placeHolder="Ingrese el numero de cuit sin guiones"
             labelObservation=""
             labeltooltip=""
@@ -308,8 +377,11 @@ export default () => {
         <div >
           <InputText
             label="Nro de Legajo"
-            value={nroLegajo}
-            bindFunction={setNroLegajo}
+            value={tramite.nroLegajo}
+            bindFunction={(value) => {
+              tramite.nroLegajo= value
+              updateObjTramite()
+            }}
             placeHolder="Ingrese el numero de legajo"
             labelObservation=""
             labeltooltip=""
@@ -320,8 +392,11 @@ export default () => {
         <div >
           <InputText type="email"
             label="Email institucional"
-            value={email}
-            bindFunction={setEmail}
+            value={tramite.email}
+            bindFunction={(value) => {
+              tramite.email= value
+              updateObjTramite()
+            }}
             placeHolder="Email Institucional"
           />
 
@@ -330,8 +405,11 @@ export default () => {
           <InputText
             label="IERIC"
             placeHolder="IERIC"
-            value={ieric}
-            bindFunction={setIeric}
+            value={tramite.ieric}
+            bindFunction={(value) => {
+              tramite.ieric= value
+              updateObjTramite()
+            }}
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
@@ -340,8 +418,11 @@ export default () => {
         </div>
         <div >
           <DatePicker
-            value={vtoIERIC}
-            bindFunction={setVtoIERIC}
+            value={tramite.vtoIeric}
+            bindFunction={(value) => {
+              tramite.vtoIeric= value
+              updateObjTramite()
+            }}
             label="Fecha vencimiento IERIC"
             labelRequired="*"
             placeholder="dd/mm/aaaa"
@@ -372,16 +453,16 @@ export default () => {
         <Modal
           title="Datos de la Persona Física"
           visible={visible}
-          onOk={handleSave}
+          onOk={handleSaveApoderado}
           okText="Guardar"
           onCancel={handleCancel}
           cancelText="Cancelar"
           width={1000}
         >
-          {renderModal()}
+          {renderApoderadosSection()}
         </Modal>
 
-        <Table columns={columns} dataSource={data} />
+        <Table  columns={columns} dataSource={tramite.apoderados} />
       </div>
 
       <div className="mt-6 pt-6 text-center">
@@ -466,76 +547,4 @@ const tipoEmpresas = [
 ]
 
 
-const columns = [
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text) => (
-      <Space size="middle">
-        <LikeDislike />
-      </Space>
-    ),
-  },
-  {
-    title: 'Nombre',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Apellido',
-    dataIndex: 'first_name',
-    key: 'first_name',
-  },
-  {
-    title: 'CUIT',
-    dataIndex: 'cuit',
-    key: 'cuit',
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-  },
-  {
-    title: 'User',
-    dataIndex: 'user',
-    key: 'user',
-  },
-  {
-    title: 'Admin. Legitimado',
-    dataIndex: 'admin_legitimado',
-    key: 'admin_legitimado',
-  },
 
-
-];
-
-const data = [
-  {
-    key: '1',
-    name: 'Leonardo',
-    first_name: ' Leenen',
-    cuit: 33333333333,
-    email: 'leonardo.leenen@gmail.com',
-    user: 'LeonardoLeenen',
-    admin_legitimado: 'SI',
-
-  },
-  {
-    key: '2',
-    name: 'Maria Noel',
-    first_name: ' Leenen',
-    cuit: 33444444445,
-    email: 'marianoel.leenen@gmail.com',
-    user: 'MariaNoelLeenen',
-    admin_legitimado: 'NO',
-
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-
-  },
-];
