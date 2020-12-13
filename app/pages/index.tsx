@@ -28,7 +28,7 @@ export default () => {
   },[])
 
   if (isLoading)
-    return <Loading message='' />
+    return <Loading message='' type='waiting' />
 
   return <div>
     <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">

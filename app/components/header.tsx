@@ -1,19 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router'
+import { Button, Modal } from 'antd';
 
 
-export default () => {
+export interface HeaderPrincipalProps {
+  tramite: TramiteAlta
+  onExit: () => void
+  onSave: () => void
+}
+
+
+export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
+  tramite = {},
+  onExit,
+  onSave
+  }) => {
   const router = useRouter()
+  const [showCancelar, setShowCancelar] = useState(false)
+
+  const confirmCancel = () => {
+    setShowCancelar(false)
+    onSave()
+  }
+
   return <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
+    <Modal
+        title="Cancelar operación"
+        visible={showCancelar}
+        onOk={confirmCancel}
+        onCancel={() => setShowCancelar(false)}
+      >
+        <p>Realmente desea cancelar la operación?</p>
+        <p>Esto significa que los datos que haya agregado y no han sido guardados se perderán</p>
+        <p>Desea continuar?</p>
+      </Modal>
     <div className="px-4 pt-4 py-2">
       <Logo />
     </div>
     <div className="text-sm font-bold text-info-700 pr-6 text-right py-4">
-     <div onClick={() => router.push('/')}> Guardar y Salir</div>
+     <Button danger type="text" onClick={() => setShowCancelar(true)}>Cancelar</Button>
+     {tramite && tramite.cuit ? <Button type="primary">Guardar y salir</Button> : '' }
     </div>
-
-
-
 
   </div>
 }

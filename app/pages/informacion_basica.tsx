@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../components/header'
+import {HeaderPrincipal} from '../components/header'
 import NavigationStep from '../components/steps'
 import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox } from 'antd';
 import LikeDislike from '../components/like_dislike'
@@ -55,6 +55,7 @@ export default () => {
   
   const [tipoEmpresa, setTipoEmpresa] = useState(null)
   const [personeria, setPersoneria] = useState(null)
+  const [waitingType, setWaitingType] = useState<'sync'  | 'waiting'>('waiting')
   
   //const tramiteSesion: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
@@ -95,18 +96,15 @@ export default () => {
   }
 
   const save = async () => {
+    setWaitingType('sync')
     
     setIsLoading(true)
-    if (!tramite._id) {
-      if (!(await getTramiteByCUIT(tramite.cuit))){
+    if (tramite._id){
+      await dispatch(saveTramite(tramite))
+    } else {
+      if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
-      }else {
-        console.log(' Repetido')
-      }
     }
-
-    
-   
     setIsLoading(false)
   }
 
@@ -297,10 +295,13 @@ export default () => {
   }
 
   if (isLoading)
-    return <Loading message=""/>
+    return <Loading message="" type={waitingType}/>
 
   return (<div className="">
-    <Header />
+    <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
+      save()
+      router.push('/')
+    }}/>
     <div className="border-gray-200 border-b-2">
       <NavigationStep
         current={0} />

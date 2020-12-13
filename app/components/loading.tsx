@@ -4,16 +4,18 @@ import Lottie from 'react-lottie';
 
 export interface LoadingProps {
   message: string
+  type: 'sync' | 'waiting'
 }
 
 export const Loading: React.FC<LoadingProps> = ({
-  message = ''
+  message = '',
+  type='sync'
 }) => {
 
   const [isStopped, setIsStopped] = useState(false)
   const [isPaused,setIsPaused ] = useState(false)
 
-  const animationData = require('../public/lotties/sync.json')
+  const animationData = require(`../public/lotties/${type}.json`)
 
   const buttonStyle = {
     display: 'block',
