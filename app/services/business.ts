@@ -33,3 +33,22 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     vtoIeric: ''
   }
 }
+
+export const getColorStatus = (tramite: TramiteAlta) => {
+  if (!tramite) return 'gray'
+  
+  switch(tramite.status){
+    case 'BORRADOR':
+      return 'red'
+    case 'VERIFICADO':
+      return 'green'
+    case 'A VERIFICAR':
+      return 'orange'
+    default:
+      return 'gray'
+  }
+}
+
+export const getStatusObsParsed = (tramite: TramiteAlta) : string => {
+  return tramite && tramite.statusObs ? tramite.statusObs.map( e => e.obs).join(', ') : 'No tiene observaciones'
+} 

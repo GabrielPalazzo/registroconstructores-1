@@ -45,6 +45,10 @@ type TramiteAlta = {
       option: string
     }
     apoderados: Array<Apoderado>
+    statusObs?: Array<{
+      attribute: string
+      obs: string
+    }>
     status: "BORRADOR"|"A VERIFICAR"|"VERIFICADO"
     propietario: Usuario
     certificadoFiscal: Archivo

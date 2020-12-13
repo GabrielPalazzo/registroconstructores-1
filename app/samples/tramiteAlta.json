@@ -1,0 +1,87 @@
+[{
+    "_id" : "PvAjzEO3p485Dc1tb3cRZ",
+    "apoderados" : [ 
+        {
+            "esAdministrador" : false,
+            "imagenesDni" : [],
+            "apellido" : "Leenen",
+            "nombre" : "Leonardo ",
+            "email" : "leonardoleenen@gmail.com",
+            "cuit" : "2300232342",
+            "nroDocumento" : "25878320",
+            "tipoDocumento" : ""
+        }
+    ],
+    "certificadoFiscal" : null,
+    "cuit" : "33711310229",
+    "email" : "",
+    "id" : "",
+    "ieric" : "",
+    "nroLegajo" : "",
+    "personeria" : "",
+    "propietario" : null,
+    "razonSocial" : "Flicktrip",
+    "status" : "BORRADOR",
+    "statusObs":[],
+    "tipoEmpresa" : null,
+    "vtoIeric" : "",
+    "createdAt" : "2020-12-13T14:17:07.313Z",
+    "creatorId" : {
+        "iss" : "Registro de Constructores",
+        "iat" : 1607868414,
+        "aud" : "http://localhost",
+        "sub" : "leonardoleenen@gmail.com",
+        "GivenName" : "Leonardo ",
+        "Surname" : "Leenen",
+        "Email" : "leonardoleenen@gmail.com",
+        "Role" : [ 
+            "CONSTRUCTOR"
+        ]
+    }
+},
+{
+    "_id" : "75vE3-Kjj78ocmTwjkIAd",
+    "apoderados" : [ 
+        {
+            "esAdministrador" : false,
+            "imagenesDni" : [],
+            "apellido" : "Leenen",
+            "nombre" : " Leonardo",
+            "email" : "",
+            "cuit" : "2025878320",
+            "nroDocumento" : "",
+            "tipoDocumento" : ""
+        }
+    ],
+    "certificadoFiscal" : null,
+    "cuit" : "33711310229",
+    "email" : "leonardoleenen@gmail.com",
+    "id" : "",
+    "ieric" : "2321",
+    "nroLegajo" : "qwer",
+    "personeria" : "",
+    "propietario" : null,
+    "razonSocial" : "Avant Garde Technologies",
+    "statusObs" : [ 
+        {
+            "attribute" : "ieric",
+            "obs" : "El código de IERIC no es válido"
+        }
+    ],
+    "status" : "A VERIFICAR",
+    "tipoEmpresa" : null,
+    "vtoIeric" : "",
+    "createdAt" :"2020-12-13T15:50:32.611Z",
+    "creatorId" : {
+        "iss" : "Registro de Constructores",
+        "iat" : 1607868414,
+        "aud" : "http://localhost",
+        "sub" : "leonardoleenen@gmail.com",
+        "GivenName" : "Leonardo ",
+        "Surname" : "Leenen",
+        "Email" : "leonardoleenen@gmail.com",
+        "Role" : [ 
+            "CONSTRUCTOR"
+        ]
+    }
+}]
