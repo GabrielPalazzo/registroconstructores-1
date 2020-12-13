@@ -56,8 +56,8 @@ export default () => {
   const [tipoEmpresa, setTipoEmpresa] = useState(null)
   const [personeria, setPersoneria] = useState(null)
   
-  // const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
-  const [tramite, setTramite] = useState<TramiteAlta>(getEmptyTramiteAlta())
+  //const tramiteSesion: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const tipoAccion : string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const [nombre, setNombre] = useState(' ')
   const [apellido, setApellido] = useState('')
@@ -95,6 +95,7 @@ export default () => {
   }
 
   const save = async () => {
+    
     setIsLoading(true)
     if (!tramite._id) {
       if (!(await getTramiteByCUIT(tramite.cuit))){
@@ -471,10 +472,8 @@ export default () => {
         <Table  columns={columns} dataSource={tramite.apoderados} />
       </div>
 
-      <div className="mt-6 pt-6 text-center">
-        <Link href="/" >
-          <Button className="mr-4" > Volver</Button>
-        </Link>
+      
+      <div className="flex mt-6 pt-6 text-center">
         <Button type="primary" onClick={() => {
           save()
           router.push('/')

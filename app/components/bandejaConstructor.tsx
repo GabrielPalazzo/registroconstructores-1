@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { Button, Card, Divider, Drawer, Tag, Statistic, Row, Col, } from 'antd'
 import { Space } from 'antd'
 import { getColorStatus, getStatusObsParsed } from '../services/business'
+import {useDispatch} from 'react-redux'
+import { setUpdateBorrador } from '../redux/actions/main'
+import {useRouter} from 'next/router'
 
 export interface BandejaConstructorProps {
   tramites: Array<TramiteAlta>
@@ -11,6 +14,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
   tramites = []
 }) => {
 
+  const dispatch = useDispatch()
+  const router = useRouter()
   const [showProfile, setShowProfile] = useState(false)
   const [activeProfile, setActiveProfile] = useState<TramiteAlta>(null)
 
@@ -82,7 +87,11 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   setActiveProfile(e)
                   setShowProfile(true)
                 }}>Previsualizar</Button>
-                <Button type="primary">Ingresar</Button>
+                <Button type="primary" onClick={() => {
+                  dispatch(setUpdateBorrador(e)).then( r =>{
+                    router.push('/informacion_basica')
+                  })
+                }}>Ingresar</Button>
               </Space>
             </div>
           </Card>
