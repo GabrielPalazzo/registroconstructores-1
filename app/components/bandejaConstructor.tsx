@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { Button, Card, Divider, Drawer, Tag, Statistic, Row, Col, } from 'antd'
+import { Button, Card, Divider, Drawer, Tag, } from 'antd'
 import { Space } from 'antd'
 import { getColorStatus, getStatusObsParsed } from '../services/business'
 import {useDispatch} from 'react-redux'
 import { setUpdateBorrador } from '../redux/actions/main'
 import {useRouter} from 'next/router'
+import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined } from '@ant-design/icons';
+
 
 export interface BandejaConstructorProps {
   tramites: Array<TramiteAlta>
@@ -32,38 +34,38 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Razón Social:</div>
-          <div className="text-lg font-bold text-black-700 pb-2 ">{activeProfile && activeProfile.razonSocial}</div>
+          <div className="text-lg font-bold text-black-700 ">{activeProfile && activeProfile.razonSocial}</div>
         </Card>
 
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">CUIT:</div>
-          <div className="text-lg font-bold text-black-700 pb-2 ">{activeProfile && activeProfile.cuit}</div>
+          <div className="text-lg font-bold text-black-700  ">{activeProfile && activeProfile.cuit}</div>
         </Card>
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Estado de la empresa:</div>
-          <div className="text-lg font-bold text-black-700 pb-2 ">{activeProfile && activeProfile.status}</div>
+          <div className="text-lg font-bold text-black-700  ">{activeProfile && activeProfile.status}</div>
         </Card>
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Aclaraciones al estado:</div>
-          <div className="text-lg font-bold text-black-700 pb-2 "> {getStatusObsParsed(activeProfile)}</div>
+          <div className="text-lg font-bold text-black-700  "> {getStatusObsParsed(activeProfile)}</div>
         </Card>
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Tipo de empresa:</div>
-          <div className="text-lg font-bold text-black-700 pb-2 ">{activeProfile && activeProfile.tipoEmpresa}</div>
+          <div className="text-lg font-bold text-black-700  ">{activeProfile && activeProfile.tipoEmpresa}</div>
         </Card>
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Capacidad de contratación y ejecución:</div>
-          <div className="text-lg font-bold text-black-700 pb-2 "> --</div>
+          <div className="text-lg font-bold text-black-700  "> --</div>
         </Card>
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Fecha del último cálculo de capacidad:</div>
-          <div className="text-lg font-bold text-black-700 pb-2 "> --</div>
+          <div className="text-lg font-bold text-black-700  "> --</div>
         </Card>
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Constancia de Inscripción</div>
-          <div className="text-lg font-bold text-primary-700 pb-2 "> 
-          <Button style={{ marginTop: 16  }} type="text">
-            Descargar
+          <div className="text-lg font-bold text-primary-700  "> 
+          <Button style={{ color:"#0072bb", fontWeight: "bold", textAlign: "left", padding: 0 ,  }} type="link">
+          <CloudDownloadOutlined /> Descargar
       </Button>
         </div>
         </Card>
@@ -80,19 +82,20 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
             <div className="pb-2">
               <Tag color={getColorStatus(e)}>{e.status}</Tag>
             </div>
-            <div className="text-lg font-bold text-black-700 pb-2 "> {e.razonSocial}</div>
-            <div className="flex  items-end">
-              <Space>
-                <Button type="text" onClick={() => {
+            <div className="text-lg font-bold text-black-700 pb-4 "> {e.razonSocial}</div>
+            <div className="flex  justify-between">
+              
+                <Button type="link" style={{ color:"#525252",  textAlign:"left", padding: 0   }}
+                 onClick={() => {
                   setActiveProfile(e)
                   setShowProfile(true)
-                }}>Previsualizar</Button>
+                }}> <EyeOutlined /> Previsualizar</Button>
                 <Button type="primary" onClick={() => {
                   dispatch(setUpdateBorrador(e)).then( r =>{
                     router.push('/informacion_basica')
                   })
-                }}>Ingresar</Button>
-              </Space>
+                }}>Ingresar <ArrowRightOutlined /> </Button>
+              
             </div>
           </Card>
         </div>
