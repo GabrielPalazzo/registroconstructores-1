@@ -58,7 +58,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Constancia de Inscripción</div>
           <div className="text-lg font-bold text-primary-700 pb-2 "> 
-          <Button style={{ marginTop: 16 , color:"#0072bb" }} type="text">
+          <Button style={{ marginTop: 16  }} type="text">
             Descargar
       </Button>
         </div>
