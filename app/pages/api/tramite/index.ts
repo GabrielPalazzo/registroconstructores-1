@@ -30,7 +30,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
     
     //update
   } else {
-    console.log('update');
+    console.log('create a new one');
     const newTramite = {
       _id: nanoid(),
       ...req.body,
