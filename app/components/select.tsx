@@ -44,7 +44,7 @@ export default (props: Props) => {
     <div className="w-full">
       <Select
         style={{ width: '100%' }}
-        defaultValue={props.defaultOption} onChange={(value) => {
+        defaultValue={!props.value ? props.defaultOption : props.value} onChange={(value) => {
           props.bindFunction(value)
         }}>
         {props.option}

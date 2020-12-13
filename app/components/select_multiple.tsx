@@ -46,6 +46,7 @@ export default (props: Props) => {
     <div className="w-full">
       <Select mode="multiple"
         style={{ width: '100%' }}
+        defaultValue={props.value ? props.value : []}
         placeholder={props.placeholder}
         onChange={(v) => props.bindFunction(v)}
         optionLabelProp="label">

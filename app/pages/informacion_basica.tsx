@@ -313,8 +313,11 @@ export default () => {
       <div className="grid grid-cols-2 gap-4 ">
         <div >
           <SelectSimple
-            value={personeria}
-            bindFunction={setPersoneria}
+            value={tramite.personeria}
+            bindFunction={(value) => {
+              tramite.personeria= value
+              updateObjTramite()
+            }}
             title="Tipo de personeria"
             defaultOption="Seleccione el tipo de personeria"
             labelRequired="*"
@@ -323,17 +326,18 @@ export default () => {
             labelMessageError=""
             required
             option={tipoPersoneria.map(u => (
-              <Option value={u.value}>{u.label}</Option>
-
+              <Option  value={u.value}>{u.label}</Option>
             ))} />
 
         </div>
         <div >
           <SelectMultiple
             labelRequired="*"
-            value={tipoEmpresa}
-            bindFunction={setTipoEmpresa}
-            defaultValue={['CONSTRUCTORA']}
+            value={tramite.tipoEmpresa}
+            bindFunction={(value) => {
+              tramite.tipoEmpresa= value
+              updateObjTramite()
+            }}
             title="Seleccione el tipo de empresa"
             placeholder="seleccione una opcion"
             labelObservation=""
@@ -477,7 +481,6 @@ export default () => {
       <div className="flex mt-6 pt-6 text-center">
         <Button type="primary" onClick={() => {
           save()
-          router.push('/')
         }} > Guardar y Seguir</Button>
       </div>
     </div>
