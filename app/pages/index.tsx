@@ -1,33 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card } from 'antd';
-import { PlusOutlined ,ArrowRightOutlined } from '@ant-design/icons';
+import { PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
-import {setActionType} from '../redux/actions/main'
-import {SET_TRAMITE_NUEVO} from '../redux/reducers/main'
-import {useDispatch} from 'react-redux'
-
-const empresa = [
-  {
-    title: 'Razon Social S.a',
-    
-  },{
-    title: 'FIMBSA S.a',
-  },{
-    title: 'Razon Social2 S.a',
-  },{
-    title: 'Razon Social S.a',
-    
-  },{
-    title: 'FIMBSA S.a',
-  },{
-    title: 'Razon Social2 S.a',
-  }
-
-]
+import { setActionType } from '../redux/actions/main'
+import { SET_TRAMITE_NUEVO } from '../redux/reducers/main'
+import { useDispatch } from 'react-redux'
+import { BandejaConstructor } from '../components/bandejaConstructor';
+import { getTramites, getUsuario } from '../services/business';
+import { Loading } from '../components/loading'
 
 export default () => {
   const router = useRouter()
-  const dispatch  = useDispatch()
+  const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(true)
+  const [tramites, setTramites] = useState<Array<TramiteAlta>>([])
+
+  useEffect(() => {
+    (async () => {
+      const usuario = getUsuario().userData()
+      if (!usuario) {
+        router.push('/login')
+        return
+      }
+      setTramites(await getTramites())
+      setIsLoading(false)
+    })()
+  },[])
+
+  if (isLoading)
+    return <Loading message='' />
 
   return <div>
     <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
@@ -39,31 +40,16 @@ export default () => {
     <div className="md:px-20 py-6 grid grid-cols-2 px-4 ">
       <div className="text-2xl font-bold py-4"> Empresas administradas</div>
       <div className="text-2xl font-bold py-4 text-right">
-        <Button type="primary" icon={<PlusOutlined  />} onClick={() => {
+        <Button type="primary" icon={<PlusOutlined />} onClick={() => {
           dispatch(setActionType(SET_TRAMITE_NUEVO))
           router.push('/informacion_basica')
-          }}>Nuevo trámite </Button>
+        }}>Nuevo trámite </Button>
       </div>
-      </div>
-      
-      
-    <div className="px-4 md:px-20  gap-y-4 grid md:grid-cols-4 gap-2  ">
-      {empresa.map(e => (
-        <div className="cursor-pointer" onClick={() => router.push('/landing')}> 
-        <Card className="rounded mr-2">
-        <div className="text-lg font-bold text-black-700 pb-2 "> {e.title}</div>
-        <div  className="text-primary-500 text-sm font-bold mt-2 self-center"  ><span className="mt-2">ver mas</span>  <ArrowRightOutlined  style={{fontSize: '10px'}}/></div>
-      </Card>
-      </div>
-      ))}
-
     </div>
+
+    <BandejaConstructor tramites={tramites} />
   </div>
 }
-
-
-
-
 
 
 

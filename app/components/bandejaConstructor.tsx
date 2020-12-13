@@ -16,7 +16,6 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
   
   return <div>
-
     <Drawer
       title='Información Resumida'
       placement="right"

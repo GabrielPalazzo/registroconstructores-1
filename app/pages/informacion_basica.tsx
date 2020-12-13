@@ -4,7 +4,7 @@ import NavigationStep from '../components/steps'
 import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox } from 'antd';
 import LikeDislike from '../components/like_dislike'
 
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
 import Upload from '../components/upload'
 import DatePicker from '../components/datePicker'
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -18,7 +18,7 @@ import SelectModal from '../components/select_modal'
 import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
 import { Loading } from '../components/loading';
 
 
@@ -48,6 +48,8 @@ const renderNoData = () => {
 
 
 export default () => {
+
+  const router = useRouter()
 
   const [visible, setVisible] = useState<boolean>(false)
   
@@ -94,7 +96,16 @@ export default () => {
 
   const save = async () => {
     setIsLoading(true)
-    await dispatch(saveTramite(tramite))
+    if (!tramite._id) {
+      if (!(await getTramiteByCUIT(tramite.cuit))){
+        await dispatch(saveTramite(tramite))
+      }else {
+        console.log(' Repetido')
+      }
+    }
+
+    
+   
     setIsLoading(false)
   }
 
@@ -284,14 +295,9 @@ export default () => {
     </div>)
   }
 
-  
-
   if (isLoading)
     return <Loading message=""/>
 
-
-  
-  
   return (<div className="">
     <Header />
     <div className="border-gray-200 border-b-2">
@@ -469,7 +475,10 @@ export default () => {
         <Link href="/" >
           <Button className="mr-4" > Volver</Button>
         </Link>
-        <Button type="primary" onClick={save} > Guardar y Seguir</Button>
+        <Button type="primary" onClick={() => {
+          save()
+          router.push('/')
+        }} > Guardar y Seguir</Button>
       </div>
     </div>
 

@@ -6,12 +6,14 @@ type Persona = {
 }
 
 type Usuario = {
-    nombre: string
-    apellido: string
-    email: string
-    cuit: string
-    sub: string
-    rol: string
+    "iss": string,
+    "iat": string,
+    "aud": string,
+    "sub": string,
+    "GivenName":string,
+    "Surname": string,
+    "Email":string,
+    "Role": Array<string>  
 }
 
 type Apoderado= {
@@ -33,6 +35,7 @@ type Archivo= {
 }
 
 type TramiteAlta = {
+    _id?: string,
     id: string
     razonSocial: string
     personeria: string
