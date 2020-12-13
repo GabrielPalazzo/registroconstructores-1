@@ -4,7 +4,7 @@ import NavigationStep from '../components/steps'
 import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox } from 'antd';
 import LikeDislike from '../components/like_dislike'
 
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
 import Upload from '../components/upload'
 import DatePicker from '../components/datePicker'
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -18,7 +18,7 @@ import SelectModal from '../components/select_modal'
 import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
 import { Loading } from '../components/loading';
 
 
@@ -49,13 +49,15 @@ const renderNoData = () => {
 
 export default () => {
 
+  const router = useRouter()
+
   const [visible, setVisible] = useState<boolean>(false)
   
   const [tipoEmpresa, setTipoEmpresa] = useState(null)
   const [personeria, setPersoneria] = useState(null)
   
-  // const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
-  const [tramite, setTramite] = useState<TramiteAlta>(getEmptyTramiteAlta())
+  //const tramiteSesion: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const tipoAccion : string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const [nombre, setNombre] = useState(' ')
   const [apellido, setApellido] = useState('')
@@ -93,8 +95,18 @@ export default () => {
   }
 
   const save = async () => {
+    
     setIsLoading(true)
-    await dispatch(saveTramite(tramite))
+    if (!tramite._id) {
+      if (!(await getTramiteByCUIT(tramite.cuit))){
+        await dispatch(saveTramite(tramite))
+      }else {
+        console.log(' Repetido')
+      }
+    }
+
+    
+   
     setIsLoading(false)
   }
 
@@ -284,14 +296,9 @@ export default () => {
     </div>)
   }
 
-  
-
   if (isLoading)
     return <Loading message=""/>
 
-
-  
-  
   return (<div className="">
     <Header />
     <div className="border-gray-200 border-b-2">
@@ -465,11 +472,12 @@ export default () => {
         <Table  columns={columns} dataSource={tramite.apoderados} />
       </div>
 
-      <div className="mt-6 pt-6 text-center">
-        <Link href="/" >
-          <Button className="mr-4" > Volver</Button>
-        </Link>
-        <Button type="primary" onClick={save} > Guardar y Seguir</Button>
+      
+      <div className="flex mt-6 pt-6 text-center">
+        <Button type="primary" onClick={() => {
+          save()
+          router.push('/')
+        }} > Guardar y Seguir</Button>
       </div>
     </div>
 
