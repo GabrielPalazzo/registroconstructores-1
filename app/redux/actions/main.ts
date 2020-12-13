@@ -28,6 +28,7 @@ export const setUpdateBorrador = (tramite: TramiteAlta) => async (dispatch,getSt
   const t = await saveTramiteService(tramite)
   return dispatch({
     type: SET_UPDATE_BORRADOR,
+    tipoAccion: 'UPDATE_BORRADOR',
     tramite: t
   })
 }
