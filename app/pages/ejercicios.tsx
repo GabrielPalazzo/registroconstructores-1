@@ -241,7 +241,7 @@ export default () => {
 
           <TabPane tab="Balances" key="1">
             <div className="overflow-x-auto" >
-              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} scroll={{ x: 1800 }} />}
+              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} dataSource={tramite.ejercicios}  scroll={{ x: 1800 }} />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
@@ -268,6 +268,7 @@ export default () => {
             ventasEjercicio: ventasDelEjercicio
           })
           save()
+          setModalEjercicios(false)
         }}
         okText="Guardar"
         onCancel={() => setModalEjercicios(false)}
@@ -296,23 +297,14 @@ export default () => {
 
 const columnsBalances = [
   {
-    title: 'Accion',
-    key: 'accion',
-    render: (text) => (
-      <LikeDislike />
-
-    ),
-  },
-
-  {
     title: 'Inicio de ejercicio',
-    dataIndex: 'inicioEfecicio',
-    key: 'inicioEfecicio',
+    dataIndex: 'fechaInicio',
+    key: 'fechaInicio',
   },
   {
     title: 'Cierre de ejercicio',
-    dataIndex: 'cierreEjercicio',
-    key: 'cierreEjercicio',
+    dataIndex: 'fechaCierre',
+    key: 'fechaCierre',
   },
   {
     title: 'Activo Corriente',
