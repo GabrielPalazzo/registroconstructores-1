@@ -12,10 +12,13 @@ import SelectModal from '../components/select_modal'
 import LikeDislike from '../components/like_dislike'
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
+import UploadLine from '../components/uploadLine'
+
 import DatePickerModal from '../components/datePicker_Modal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTramiteByCUIT, getEmptyTramiteAlta } from '../services/business'
 import { saveTramite } from '../redux/actions/main'
+
 
 const { Step } = Steps;
 const { Option } = Select;
@@ -266,6 +269,18 @@ export default () => {
           <Button type="primary" onClick={() => setModalPropietarios(true)} icon={<PlusOutlined />}> Agregar</Button>
         </div>
       </div>
+      <div className="grid grid-cols-1 gap-4 mt-8">
+        <div className="pb-6" >
+          <UploadLine
+            label="Adjuntar Contrato Social inscripto en la Inspeccion General de
+            Justicia o Registro Publico de Comercio "
+            labelRequired="*"
+            labelMessageError=""
+          />
+        </div>
+       
+
+      </div>
       <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} />
       <Modal
         title="Datos de propietario de sociedad"
@@ -279,20 +294,9 @@ export default () => {
         {renderModalPropietarios()}
       </Modal>
 
-      <div className="grid grid-cols-2 gap-4 mt-8">
-        <div className="pb-6" >
-          <Upload
-            label="Adjuntar Contrato Social inscripto en la Inspeccion General de
-            Justicia o Registro Publico de Comercio "
-            labelRequired="*"
-            labelMessageError=""
-          />
-        </div>
-       
+     
 
-      </div>
-
-      <div className="rounded-lg border px-4 py-4">
+      <div className="rounded-lg border mt-8 px-4 py-4">
 
         <div className="flex  content-center ">
           <div className="text-2xl font-bold py-4 w-3/4">  Inversiones permanentes</div>
