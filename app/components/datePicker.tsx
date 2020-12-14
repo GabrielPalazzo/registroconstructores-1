@@ -46,7 +46,7 @@ export default (props: Props) => {
     <div className="w-full">
       <DatePicker 
         onChange={(value) => {
-          props.bindFunction(moment(value,dateFormat))
+          props.bindFunction(moment(value,dateFormat).format(dateFormat))
         }}
         defaultValue={props.value &&  moment(props.value,dateFormat) }
         picker={props.placeholder}
