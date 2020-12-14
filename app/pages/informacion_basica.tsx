@@ -223,15 +223,7 @@ export default () => {
             required />
   
         </div>
-        <div className="pb-6" >
-          <InputTextModal
-            label="Propuesta Electronica"
-            labelRequired="*"
-            value={propuestaElectronica}
-            bindFunction={setPropuestaElectronica}
-            labelMessageError=""
-            required />
-        </div>
+       
         <div className="pb-6" >
           <RadioGroup
             label="¿Qué tipo de persona desea dar de alta? "
@@ -355,6 +347,7 @@ export default () => {
         <div >
           <InputText
             label="Razon Social"
+            labelRequired="*"
             placeHolder="Constructora del oeste"
             labelObservation=""
             labeltooltip=""
@@ -371,6 +364,7 @@ export default () => {
         <div >
           <InputText
             label="CUIT"
+            labelRequired="*"
             value={tramite.cuit}
             bindFunction={(value) => {
               tramite.cuit= value
@@ -413,6 +407,7 @@ export default () => {
         <div >
           <InputText
             label="IERIC"
+            labelRequired="*"
             placeHolder="IERIC"
             value={tramite.ieric}
             bindFunction={(value) => {
@@ -427,6 +422,7 @@ export default () => {
         </div>
         <div >
           <DatePicker
+          
             value={tramite.vtoIeric}
             bindFunction={(value) => {
               tramite.vtoIeric=value
@@ -442,8 +438,46 @@ export default () => {
 
         </div>
         <div >
+          <InputText
+            label="Nro Matricula Comerciante"
+            labelRequired="*"
+            placeHolder="1111-111"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+          />
+
+        </div>
+        <div >
+          <DatePicker
+            
+            label="Fecha de Inscripcion"
+            labelRequired="*"
+            placeholder="dd/mm/aaaa"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+          />
+
+        </div>
+        <div >
           <Upload
-            label="Adjunte certificado"
+            label="Adjunte certificado IERIC"
+            labelRequired="*"
+            labelMessageError="" />
+
+        </div>
+        <div >
+          <Upload
+            label="Adjunte constancia CUIT"
+            labelRequired="*"
+            labelMessageError="" />
+
+        </div>
+        
+        <div >
+          <Upload
+            label="Adjunte comprobante de Incripcion"
             labelRequired="*"
             labelMessageError="" />
 
@@ -516,6 +550,22 @@ const tipoPersoneria = [
   {
     label: 'Sociedad Responsabilidad Limitada',
     value: 'SRL',
+  },
+  {
+    label: 'Cooperativa',
+    value: 'Cooperativa',
+  },
+  {
+    label: 'UTE',
+    value: 'UTE',
+  },
+  {
+    label: 'Personeria Juridica extranjera con sucursal en el Pais',
+    value: 'PJESP',
+  },
+  {
+    label: 'Otras Formas Societarias',
+    value: 'OFS',
   },
 
 
