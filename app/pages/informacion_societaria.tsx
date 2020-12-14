@@ -8,15 +8,17 @@ import DatePicker from '../components/datePicker'
 import Switch from '../components/switch'
 import DatePickerModal from '../components/datePicker_Modal'
 import Upload from '../components/upload'
-import { Button, Card, Steps, Modal } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button, Card, Steps, Modal, Space, Table } from 'antd';
+import { PlusOutlined , DeleteOutlined} from '@ant-design/icons';
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
+import LikeDislike from '../components/like_dislike'
+
+
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
-
 
 
 
@@ -33,6 +35,24 @@ export default () => {
   const [waitingType, setWaitingType] = useState('sync')
   const [isLoading, setIsLoading] = useState(false)
 
+  const [nombre,setNombre] = useState('')
+  const [apellido, setApellido] = useState('')
+  const [tipoDocumento,setTipoDocumento] = useState('')
+  const [nroDocumento, setNroDocumento] = useState('')
+  const [tipoOrgano, setTipoOrgano] = useState('')
+  const [tipoCargo,setTipoCargo] = useState('')
+  const [direccion,setDireccion] = useState('')
+  const [cuit,setCuit] = useState('')
+  const [inhibiciones, setInhibiciones] = useState(false)
+  const [observaciones, setObservaciones] = useState('')
+
+  const [cuitSistemaCalidad, setCuitSistemaCalidad] = useState('')
+  const [norma, setNorma] = useState('')
+  const [direccionSistemaCalidad, setDireccionSistemaCalidad] = useState('')
+  const [fechaOtorgamiento, setFechaOtorgamiento] = useState('')
+  const [fechaExpiracion,setFechaExpiracion] = useState('')
+
+
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
 
   const { Step } = Steps;
@@ -42,9 +62,11 @@ export default () => {
         <div className="pb-6" >
           <InputTextModal
             label="CUIT / CUIL"
+            value={cuitSistemaCalidad}
+            bindFunction={(value) => setCuitSistemaCalidad(value)}
             labelRequired="*"
             placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
-            value=""
+          
             labelMessageError=""
             required />
 
@@ -53,7 +75,8 @@ export default () => {
           <InputTextModal
             label="Norma"
             labelRequired="*"
-            value=""
+            value={norma}
+            bindFunction={(value) => setNorma(value)}
 
             labelMessageError=""
             required />
@@ -66,7 +89,8 @@ export default () => {
             label="Direccion"
             labelRequired="*"
             placeholder="Ingrese su numero de documento sin deja espacios"
-            value=""
+            value={direccionSistemaCalidad}
+            bindFunction={(value) => setDireccionSistemaCalidad(value)}
             labelMessageError=""
             required />
 
@@ -77,8 +101,8 @@ export default () => {
               label="Fecha de otorgamiento"
               labelRequired="*"
               placeholder="Ingrese su numero de documento sin deja espacios"
-              value=""
-
+              value={fechaOtorgamiento}
+              bindFunction={(value) => setFechaOtorgamiento(value)}
               labelMessageError=""
               required />
 
@@ -88,11 +112,10 @@ export default () => {
               label="Fecha de expiracion"
               labelRequired="*"
               placeholder="Ingrese su numero de documento sin deja espacios"
-              value=""
-
+              value={fechaExpiracion}
+              bindFunction={(value) => setFechaExpiracion(value)}
               labelMessageError=""
               required />
-
           </div>
         </div>
 
@@ -113,15 +136,16 @@ export default () => {
 
 
   const renderModalAutoridad = () => {
+
     return (<div>
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
           <InputTextModal
+            value={nombre}
+            bindFunction={setNombre}
             label="Nombre"
             labelRequired="*"
             placeholder="Ingrese su nombre de Pila"
-            value=""
-
             labelMessageError=""
             required />
 
@@ -129,8 +153,9 @@ export default () => {
         <div className="pb-6" >
           <InputTextModal
             label="Apellido"
+            value={apellido}
+            bindFunction={setApellido}
             labelRequired="*"
-            value=""
             labelMessageError=""
             required />
         </div>
@@ -141,7 +166,8 @@ export default () => {
             label="Tipo de Doc"
             labelRequired="*"
             placeholder="Ingrese su numero de documento sin deja espacios"
-            value=""
+            value={tipoDocumento}
+            bindFunction={setTipoDocumento}
             labelMessageError=""
             required />
 
@@ -151,7 +177,8 @@ export default () => {
             label="Nº de Documento"
             labelRequired="*"
             placeholder="Ingrese su numero de documento sin deja espacios"
-            value=""
+            value={nroDocumento}
+            bindFunction={setNroDocumento}
             labelMessageError=""
             required />
 
@@ -161,7 +188,8 @@ export default () => {
             label="tipo de Organo"
             labelRequired="*"
             placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
-            value=""
+            value={tipoOrgano}
+            bindFunction={setTipoOrgano}
             labelMessageError=""
             required />
 
@@ -171,7 +199,8 @@ export default () => {
             label="Tipo de Cargo"
             labelRequired="*"
             placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
-            value=""
+            value={tipoCargo}
+            bindFunction={setTipoCargo}
             labelMessageError=""
             required />
 
@@ -183,7 +212,8 @@ export default () => {
             label="Direccion"
             labelRequired="*"
             placeholder="Ingrese su email personal"
-            value=""
+            value={direccion}
+            bindFunction={setDireccion}
             labelMessageError=""
             required />
 
@@ -193,15 +223,17 @@ export default () => {
             <InputTextModal
               label="CUIT"
               labelRequired="*"
-              value=""
-              labelObservation=""
-              labeltooltip=""
+              value={cuit}
+               bindFunction={setCuit}
+              
               labelMessageError=""
               required />
           </div>
 
           <div className="pb-6" >
             <Switch
+              value={inhibiciones}
+              bindFunction={setInhibiciones}
               label="Inhibiciones"
               labelRequired="*"
               SwitchLabel1="Si"
@@ -220,9 +252,8 @@ export default () => {
           <InputTextModal
             label="Observaciones"
             labelRequired="*"
-            value=""
-            labelObservation=""
-            labeltooltip=""
+            value={observaciones}
+            bindFunction={setObservaciones}
             labelMessageError=""
             required />
         </div>
@@ -274,6 +305,86 @@ export default () => {
     setTramite(Object.assign({}, tramite))
   }
 
+  const removeAutoridad = (record) => {
+    tramite.autoridadesSociedad = tramite.autoridadesSociedad.filter( a => a.cuit !== record.cuit)
+    save()
+  }
+
+  const columnsAutoridad = [
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text,record) => (tramite.status==='BORRADOR' ? <div onClick={() => removeAutoridad(record)}><DeleteOutlined /></div> :<Space size="middle">
+      <LikeDislike />
+    </Space>),
+    },
+    {
+      title: 'Nombre',
+      dataIndex: 'nombre'
+    },
+    {
+      title: 'Apellido',
+      dataIndex: 'apellido',
+      key: 'apellido',
+    },
+    {
+      title: 'CUIT',
+      dataIndex: 'cuit',
+      key: 'cuit',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Tipo Cargo',
+      dataIndex: 'tipoCargo',
+      key: 'tipoCargo',
+    },
+    {
+      title: 'Tipo de Organo',
+      dataIndex: 'tipoOrgano',
+      key: 'tipoOrgano',
+    }
+  ]
+
+
+  const removeSistemaCalidad  = (record) => {
+    tramite.sistemaCalidad = tramite.sistemaCalidad.filter(s => s.norma !==record.norma)
+    save()
+  } 
+  const columnsCalidad = [
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text,record) => (tramite.status==='BORRADOR' ? <div onClick={() => removeSistemaCalidad(record)}><DeleteOutlined /></div> :<Space size="middle">
+      <LikeDislike />
+    </Space>),
+    },
+    {
+      title: 'CUIT',
+      dataIndex: 'cuit',
+      key:'cuit'
+    },
+    {
+      title: 'Norma',
+      dataIndex: 'norma',
+      key: 'norma',
+    },
+    {
+      title: 'Fecha Otorgamiento',
+      dataIndex: 'fechaOtorgamiento',
+      key: 'fechaOtorgamiento',
+    },
+    {
+      title: 'Fecha Expiración',
+      dataIndex: 'fechaExpiracion',
+      key: 'fechaExpiracion',
+    }
+  ]
+
+
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
@@ -285,7 +396,6 @@ export default () => {
     <div className="w-2/5 m-auto text-base mt-8">
       <Substeps progressDot current={1} />
     </div>
-
 
 
     <div className="px-20 py-6 ">
@@ -376,11 +486,29 @@ export default () => {
           <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
         </div>
       </div>
-      {renderNoData()}
+      { tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table  columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
       <Modal
         title="Datos de la Autoridad"
         visible={modalAutoridad}
-        onOk={() => console.log('')}
+        onOk={() => {
+          if (!tramite.autoridadesSociedad)
+            tramite.autoridadesSociedad=[]
+
+          tramite.autoridadesSociedad.push({
+            nombre,
+            apellido,
+            tipoDocumento,
+            nroDocumento,
+            tipoCargo,
+            tipoOrgano,
+            direccion,
+            observaciones,
+            cuit,
+            inhibiciones
+          })
+          setModalAutoridad(false)
+          save()
+        }}
         okText="Guardar"
         onCancel={() => setModalAutoridad(false)}
         cancelText="Cancelar"
@@ -396,11 +524,24 @@ export default () => {
           <Button type="primary" onClick={() => setModalCalidad(true)} icon={<PlusOutlined />}> Agregar</Button>
         </div>
       </div>
-      {renderNoData()}
+      { tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table  columns={columnsCalidad} dataSource={tramite.sistemaCalidad} /> : renderNoData()}
       <Modal
         title="Datos del Sistema de Calidad"
         visible={modalCalidad}
-        onOk={() => console.log('')}
+        onOk={() => {
+          if (!tramite.sistemaCalidad)
+            tramite.sistemaCalidad=[]
+
+          tramite.sistemaCalidad.push({
+            cuit: cuitSistemaCalidad,
+            norma,
+            fechaExpiracion,
+            fechaOtorgamiento,
+            direccion
+          })
+          setModalCalidad(false)
+          save()
+        }}
         okText="Guardar"
         onCancel={() => setModalCalidad(false)}
         cancelText="Cancelar"

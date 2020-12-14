@@ -67,4 +67,23 @@ type TramiteAlta = {
         fecha:string 
         datos: string
     }
+    autoridadesSociedad:Array<{
+        nombre: string
+        apellido: string
+        tipoDocumento: string
+        nroDocumento: string
+        tipoOrgano:string
+        tipoCargo:string
+        direccion:string
+        cuit: string
+        inhibiciones: boolean
+        observaciones: string
+    }>
+    sistemaCalidad: Array<{
+        cuit: string,
+        norma: string,
+        direccion: string,
+        fechaOtorgamiento: string
+        fechaExpiracion: string
+    }>
 }

@@ -59,7 +59,9 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
       lugar:'',
       fecha:'',
       datos:''
-    }
+    },
+    autoridadesSociedad:[],
+    sistemaCalidad: []
   }
 }
 
