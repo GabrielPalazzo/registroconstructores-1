@@ -6,7 +6,7 @@
 
 .ant-input{
     border-radius:10px !important;
-    padding: 8px 4px !important;
+    padding: 8px 8px !important;
 }
 
 .ant-select-multiple .ant-select-selector {
@@ -59,4 +59,10 @@ color:#333 !important;
 }
 .ant-picker-suffix > * {
     vertical-align: middle !important;
+}
+.ant-select-multiple .ant-select-selection-item{
+    margin-left: 8px;
+}
+.ant-select-single.ant-select-show-arrow .ant-select-selection-item, .ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder{
+    margin-left: 8px;
 }

@@ -23648,7 +23648,7 @@ video {
 
 .ant-input{
   border-radius:10px !important;
-  padding: 8px 4px !important;
+  padding: 8px 8px !important;
 }
 
 .ant-select-multiple .ant-select-selector {
@@ -23660,17 +23660,6 @@ video {
   border-radius:25px !important;
   padding:  0px 20px !important;
   background:#0072BB !important;
-}
-
-.ant-card{
-  border-radius: 10px !important;
-  background: #fafafa !important;
-}
-
-.ant-card .EXPIRED{
-  border-radius: 10px !important;
-  background: #fdf5f5 !important;
-  border: 1px solid #c62828!important;
 }
 
 svg{
@@ -23722,6 +23711,14 @@ svg{
 
 .ant-picker-suffix > * {
   vertical-align: middle !important;
+}
+
+.ant-select-multiple .ant-select-selection-item{
+  margin-left: 8px;
+}
+
+.ant-select-single.ant-select-show-arrow .ant-select-selection-item, .ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder{
+  margin-left: 8px;
 }
 
 @media (min-width: 640px) {
