@@ -88,6 +88,10 @@ export default () => {
             labelRequired="*"
             labelMessageError=""
             required
+            option={EstadoObra.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))}
           />
         </div>
         <div className="pb-6" >
@@ -97,6 +101,10 @@ export default () => {
             labelRequired="*"
             labelMessageError=""
             required
+            option={TipoContratacion.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))}
           />
         </div>
         <div className="pb-6" >
@@ -106,6 +114,10 @@ export default () => {
             labelRequired="*"
             labelMessageError=""
             required
+            option={TipoNivel.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))}
           />
         </div>
       </div>
@@ -301,15 +313,22 @@ export default () => {
 
       <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
         <div className="text-xl font-bold py-2 w-3/4">  Certificaciones Vigentes</div>
-        <div className="grid grid-cols-4 gap-4 ">
+        <div className="grid grid-cols-2 gap-4 ">
           <div className="pb-6" >
             <InputTextModal
-              label="Nro Certificacion"
+              label="Nro Certificación / Factura"
               labelRequired="*"
               value=""
               labelMessageError=""
             />
-
+          </div>
+          <div className="pb-6" >
+            <InputTextModal
+              label="Descripcion"
+              labelRequired="*"
+              value=""
+              labelMessageError=""
+            />
           </div>
           <div className="pb-6" >
             <DatePickerModal
@@ -534,3 +553,67 @@ const columnsEstado = [
 
 
 ];
+
+const EstadoObra = [
+  {
+    label: 'Preadjudicada',
+    value: 'Preadjudicada',
+  },
+  {
+    label: 'Ejecución',
+    value: 'Ejecucion',
+  },
+  {
+    label: 'Finalizada',
+    value: 'Finalizada',
+  },
+  {
+    label: 'Suspendida ',
+    value: 'Suspendida',
+  },
+  {
+    label: 'Adjudicada ',
+    value: 'Adjudicada',
+  },
+  {
+    label: 'Anulada ',
+    value: 'Anulada',
+  },
+];
+
+const TipoContratacion = [
+  {
+    label: 'Pública',
+    value: 'Publica',
+  },
+  {
+    label: 'Privada',
+    value: 'Privada',
+  },
+  {
+    label: 'Subcontratación pública',
+    value: 'SubPublica',
+  },
+  {
+    label: 'Subcontratación privada ',
+    value: 'SubPrivada',
+  }
+];
+const TipoNivel = [
+  {
+    label: 'Municipal',
+    value: 'Municipal',
+  },
+  {
+    label: 'Provincial',
+    value: 'Provincial',
+  },
+  {
+    label: 'Nacional',
+    value: 'Nacional',
+  },
+  {
+    label: 'Privado ',
+    value: 'Privado',
+  }
+]

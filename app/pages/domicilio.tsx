@@ -54,6 +54,7 @@ export default () => {
         <div >
           <InputText
             label="Domicilio"
+            labelRequired="*"
             value={tramite.domicilioLegal}
             bindFunction={(value) => {
               tramite.domicilioLegal = value
@@ -69,11 +70,13 @@ export default () => {
         <div>
           <InputText
             value={tramite.domicilioReal}
+
             bindFunction={(value) => {
               tramite.domicilioReal = value
               updateObjTramite()
             }}
             label="Domicilio"
+            labelRequired="*"
             placeHolder="Indique calle,numero,provincia"
             labelObservation=""
             labeltooltip=""

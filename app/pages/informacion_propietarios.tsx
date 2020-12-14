@@ -13,9 +13,9 @@ import LikeDislike from '../components/like_dislike'
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
 import DatePickerModal from '../components/datePicker_Modal'
-import {useDispatch, useSelector} from 'react-redux'
-import {getTramiteByCUIT, getEmptyTramiteAlta} from '../services/business'
-import {saveTramite} from '../redux/actions/main'
+import { useDispatch, useSelector } from 'react-redux'
+import { getTramiteByCUIT, getEmptyTramiteAlta } from '../services/business'
+import { saveTramite } from '../redux/actions/main'
 
 const { Step } = Steps;
 const { Option } = Select;
@@ -44,14 +44,14 @@ const renderNoData = () => {
 
 export default () => {
 
- 
+
 
   const [modalPropietarios, setModalPropietarios] = useState(false)
   const [modalSanciones, setModalSanciones] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [waitingType, setWaitingType] = useState('sync')
   const dispatch = useDispatch()
-  const router =useRouter()
+  const router = useRouter()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
 
 
@@ -84,7 +84,7 @@ export default () => {
             value=""
             labelMessageError=""
             required />
-  
+
         </div>
         <div className="pb-6" >
           <InputTextModal
@@ -94,17 +94,17 @@ export default () => {
             value=""
             labelMessageError=""
             required />
-  
+
         </div>
         <div className="pb-6" >
           <SelectModal
             title="Tipo de Sancion"
             labelRequired="*"
-           
+
             value=""
             labelMessageError=""
             required />
-  
+
         </div>
         <div className="pb-6" >
           <InputTextModal
@@ -114,7 +114,7 @@ export default () => {
             value=""
             labelMessageError=""
             required />
-  
+
         </div>
         <div className="pb-6" >
           <DatePickerModal
@@ -124,7 +124,7 @@ export default () => {
             value=""
             labelMessageError=""
             required />
-  
+
         </div>
         <div className="pb-6" >
           <DatePickerModal
@@ -134,10 +134,10 @@ export default () => {
             value=""
             labelMessageError=""
             required />
-  
+
         </div>
-        </div>
-        </div>
+      </div>
+    </div>
     )
   }
   const renderModalPropietarios = () => {
@@ -151,7 +151,7 @@ export default () => {
             value=""
             labelMessageError=""
             required />
-  
+
         </div>
         <div className="pb-6" >
           <InputTextModal
@@ -159,13 +159,13 @@ export default () => {
             placeholder="Ingrese el Nro de CUIT"
             labelRequired="*"
             value=""
-  
+
             labelMessageError=""
             required />
         </div>
       </div>
       <div className="grid grid-cols-4 gap-4 ">
-  
+
         <div className="pb-6" >
           <InputTextModal
             label="% del capital"
@@ -174,9 +174,9 @@ export default () => {
             value=""
             labelMessageError=""
             required />
-  
+
         </div>
-  
+
         <div className="pb-6" >
           <InputTextModal
             label="Monto del capital"
@@ -185,7 +185,7 @@ export default () => {
             value=""
             labelMessageError=""
             required />
-  
+
         </div>
         <div className="pb-6" >
           <InputTextModal
@@ -195,7 +195,7 @@ export default () => {
             value=""
             labelMessageError=""
             required />
-  
+
         </div>
         <div className="pb-6" >
           <SelectModal
@@ -208,9 +208,9 @@ export default () => {
             required
             option={tipoPersoneria.map(u => (
               <Option value={u.value}>{u.label}</Option>
-  
+
             ))} />
-  
+
         </div>
       </div>
       <div className="grid grid-cols-1  ">
@@ -222,7 +222,7 @@ export default () => {
             value=""
             labelMessageError=""
             required />
-  
+
         </div>
         <div className="pb-6" >
           <Upload
@@ -247,9 +247,9 @@ export default () => {
 
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
-    save()
-    router.push('/')
-  }} />
+      save()
+      router.push('/')
+    }} />
     <div className="border-gray-200 border-b-2 py-4">
       <NavigationStep current={1} />
     </div>
@@ -288,14 +288,7 @@ export default () => {
             labelMessageError=""
           />
         </div>
-        <div className="pb-6" >
-          <Upload
-            label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
-            General de Justicia o Registro Publico de comercio"
-            labelRequired="*"
-            labelMessageError=""
-          />
-        </div>
+       
 
       </div>
 
@@ -377,7 +370,7 @@ export default () => {
 
         <Table columns={columnsInversiones} />
       </div>
-
+      {/*
       <div className="mt-6 rounded-lg border px-4 py-4">
         <div>
         <div className="flex  content-center ">
@@ -408,9 +401,8 @@ export default () => {
          {renderModalSanciones()}
         </Modal>
 
-
-     
       </div>
+*/}
 
       <div className="mt-6  pt-6 text-center">
         <Link href="/informacion_societaria" >

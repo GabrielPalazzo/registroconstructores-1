@@ -8,12 +8,13 @@ import DatePicker from '../components/datePicker'
 import Switch from '../components/switch'
 import DatePickerModal from '../components/datePicker_Modal'
 import Upload from '../components/upload'
-import { Button, Card, Steps, Modal, Space, Table } from 'antd';
+import { Button, Card, Steps, Modal, Space, Table ,Select} from 'antd';
 import { PlusOutlined , DeleteOutlined} from '@ant-design/icons';
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
 import LikeDislike from '../components/like_dislike'
-
+import SelectModal from '../components/select_modal'
+import UploadLine from '../components/uploadLine'
 
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
@@ -21,6 +22,7 @@ import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 
 
+const { Option } = Select;
 
 export default () => {
 
@@ -136,7 +138,6 @@ export default () => {
 
 
   const renderModalAutoridad = () => {
-
     return (<div>
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
@@ -162,6 +163,18 @@ export default () => {
       </div>
       <div className="grid grid-cols-4 gap-4 ">
         <div className="pb-6" >
+        <SelectModal
+            title="Tipo de Doc"
+            defaultOption="Tipo de Doc"
+            labelRequired="*"
+            labelMessageError=""
+            required
+            option={TipoDocumento.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))}
+          />
+          {/*
           <InputTextModal
             label="Tipo de Doc"
             labelRequired="*"
@@ -170,7 +183,8 @@ export default () => {
             bindFunction={setTipoDocumento}
             labelMessageError=""
             required />
-
+          
+          */}
         </div>
         <div className="pb-6" >
           <InputTextModal
@@ -184,7 +198,19 @@ export default () => {
 
         </div>
         <div className="pb-6" >
-          <InputTextModal
+        <SelectModal
+            title="Tipo de Organo"
+            defaultOption="Tipo de Organo"
+            labelRequired="*"
+            labelMessageError=""
+            required
+            option={TipoOrgano.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))}
+          />
+
+         {/* <InputTextModal
             label="tipo de Organo"
             labelRequired="*"
             placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
@@ -192,9 +218,23 @@ export default () => {
             bindFunction={setTipoOrgano}
             labelMessageError=""
             required />
+            */} 
 
         </div>
         <div className="pb-6" >
+        <SelectModal
+            title="Tipo de Cargo"
+            defaultOption="Tipo de Cargo"
+            labelRequired="*"
+            labelMessageError=""
+            required
+            option={TipoCargo.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))}
+          />
+
+         {/*
           <InputTextModal
             label="Tipo de Cargo"
             labelRequired="*"
@@ -203,6 +243,7 @@ export default () => {
             bindFunction={setTipoCargo}
             labelMessageError=""
             required />
+         */}
 
         </div>
       </div>
@@ -349,6 +390,29 @@ export default () => {
     }
   ]
 
+  const columnsModificacionEstatuto = [
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text,record) => (tramite.status==='BORRADOR' ? <div ><DeleteOutlined /></div> :<Space size="middle">
+      <LikeDislike />
+    </Space>),
+    },
+    {
+      title: 'Fecha',
+      dataIndex: 'Fecha'
+    },
+    {
+      title: 'Dato',
+      dataIndex: 'Dato',
+      key: 'Dato',
+    },
+    {
+      title: 'Archivo',
+      dataIndex: 'Archivo',
+      key: 'archivo',
+    }
+  ]
 
   const removeSistemaCalidad  = (record) => {
     tramite.sistemaCalidad = tramite.sistemaCalidad.filter(s => s.norma !==record.norma)
@@ -401,8 +465,10 @@ export default () => {
     <div className="px-20 py-6 ">
 
       <div className="text-2xl font-bold py-4"> Constitución Societaria</div>
-      <div className="grid grid-cols-2 gap-4 ">
+      <div className="grid grid-cols-1 gap-4 ">
+        {/*
         <div >
+         
           <InputText
             label="Registro publico  de comercio"
             labelRequired="*"
@@ -417,9 +483,10 @@ export default () => {
             labelMessageError=""
             required />
         </div>
+         */} 
         <div >
           <InputText
-            label="Inspeccion General de Justicia"
+            label="Direccioón Inspección Persona jurídica / Inspeccion General"
             labelRequired="*"
             value={tramite.igj}
             bindFunction={(value) => {
@@ -433,7 +500,45 @@ export default () => {
             required />
         </div>
       </div>
+        <div className="rounded-lg mt-4 border px-4 py-4">
+      <div className="text-2xl font-bold"> Modificación Estatuto</div>
+      <div className="grid grid-cols-4 gap-4 ">
+        <div >
+          <InputTextModal
+          label="Datos"
+          labelRequired="*"
+          placeHolder=""
+          
+          labelObservation=""
+          labeltooltip=""
+          labelMessageError=""
+          required /></div>
+        <div >
+          <DatePickerModal
+            label="Fecha"
+            
+            labelRequired="*"
+            placeholder="Fecha"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+             />
+          </div>
 
+        <div >
+        <UploadLine
+            label="Adjuntar Documento respaldatorio"
+            labelRequired="*"
+            labelMessageError=""
+          />
+          </div>
+          <div className="mt-8 ">
+          <Button type="primary"  icon={<PlusOutlined />}> Agregar</Button>
+        </div>
+        
+      </div>
+      <Table  columns={columnsModificacionEstatuto}/>
+      </div>
       <div className="text-2xl font-bold py-4 mt-4"> Inscripción en el rubro de construcción</div>
       <div className="grid grid-cols-4 gap-4 ">
         <div ><InputText
@@ -482,10 +587,20 @@ export default () => {
 
       <div className="flex  content-center ">
         <div className="text-2xl font-bold py-4 w-3/4"> Autoridad</div>
+        
         <div className=" w-1/4 text-right content-center mt-4 ">
           <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
         </div>
+        
       </div>
+      <div className="pb-6" >
+          <UploadLine
+            label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
+            General de Justicia o Registro Publico de comercio"
+            labelRequired="*"
+            labelMessageError=""
+          />
+        </div>
       { tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table  columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
       <Modal
         title="Datos de la Autoridad"
@@ -572,3 +687,74 @@ export default () => {
 }
 
 
+const TipoOrgano = [
+  {
+    label: 'Administracion',
+    value: 'administracion',
+  },
+  {
+    label: 'Fiscalizacion',
+    value: 'Fiscalizacion',
+  },
+  {
+    label: 'Representante',
+    value: 'Representante',
+  }
+];
+const TipoDocumento = [
+  {
+    label: 'DU',
+    value: 'DU',
+  },
+  {
+    label: 'Pasaporte',
+    value: 'Pasaporte',
+  },
+  {
+    label: 'Cedula de identidad',
+    value: 'CE',
+  }
+];
+
+const TipoCargo = [
+  {
+    label: 'Presidente',
+    value: 'Presidente',
+  },
+  {
+    label: 'Vice Presidente',
+    value: 'vice_presidente',
+  },
+  {
+    label: 'Socio Gerente',
+    value: 'socio_gerente',
+  },
+  {
+    label: 'Gerente General',
+    value: 'gerente_general',
+  },
+  {
+    label: 'Gerente Especial',
+    value: 'gerente_especial',
+  },
+  {
+    label: 'Director Titular',
+    value: 'director_titular',
+  },
+  {
+    label: 'Director Suplente',
+    value: 'director_suplente',
+  },
+  {
+    label: 'Sindico Titular',
+    value: 'sindico_titular',
+  },
+  {
+    label: 'Sindico Suplente',
+    value: 'sindico_suplente',
+  },
+  {
+    label: 'Representante',
+    value: 'Representante',
+  }
+];
