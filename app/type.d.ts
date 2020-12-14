@@ -58,4 +58,13 @@ type TramiteAlta = {
     email: string
     ieric: string
     vtoIeric: string
+    domicilioReal: string
+    domicilioLegal: string
+    registroPublicoDeComercio: string
+    igj: string
+    rubroConstruccion: {
+        lugar: string,
+        fecha:string 
+        datos: string
+    }
 }

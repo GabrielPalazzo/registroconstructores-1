@@ -31,6 +31,8 @@ export const getTramiteByCUIT = (cuit: string) : Promise<TramiteAlta> => {
       Authorization: 'Bearer ' + getToken()
   }}).then((t) => {
     return t.data['tramites'] as TramiteAlta
+  }).catch(err => {
+    return null
   })
 } 
 
@@ -48,7 +50,16 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     razonSocial:'',
     status: 'BORRADOR',
     tipoEmpresa: null,
-    vtoIeric: ''
+    vtoIeric: '',
+    registroPublicoDeComercio: '',
+    igj:'',
+    domicilioLegal:'',
+    domicilioReal:'',
+    rubroConstruccion: {
+      lugar:'',
+      fecha:'',
+      datos:''
+    }
   }
 }
 

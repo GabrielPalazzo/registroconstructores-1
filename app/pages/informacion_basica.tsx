@@ -15,7 +15,6 @@ import SelectSimple from '../components/select'
 import Switch from '../components/switch'
 import RadioGroup from '../components/radioGroup'
 import SelectModal from '../components/select_modal'
-import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
 import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
@@ -432,7 +431,7 @@ export default () => {
           <DatePicker
             value={tramite.vtoIeric}
             bindFunction={(value) => {
-              tramite.vtoIeric= value
+              tramite.vtoIeric=value
               updateObjTramite()
             }}
             label="Fecha vencimiento IERIC"

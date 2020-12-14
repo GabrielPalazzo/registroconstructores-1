@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router'
 import NavigationStep from '../components/steps'
 import InputText from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
-import Header from '../components/header'
+import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
 import { Button, Card, Steps, Modal, Select, Table } from 'antd';
@@ -13,180 +13,14 @@ import LikeDislike from '../components/like_dislike'
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
 import DatePickerModal from '../components/datePicker_Modal'
+import {useDispatch, useSelector} from 'react-redux'
+import {getTramiteByCUIT, getEmptyTramiteAlta} from '../services/business'
+import {saveTramite} from '../redux/actions/main'
 
 const { Step } = Steps;
 const { Option } = Select;
 
-const renderModalSanciones = () => {
-  return (<div>
-    <div className="grid grid-cols-2 gap-4 ">
-      <div className="pb-6" >
-        <InputTextModal
-          label="Autoridad que la aplico"
-          labelRequired="*"
-          placeholder="Ingrese el Nombre y apellido"
-          value=""
-          labelMessageError=""
-          required />
 
-      </div>
-      <div className="pb-6" >
-        <InputTextModal
-          label="Titular"
-          labelRequired="*"
-          placeholder="Numero de Resolucion o norma"
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="pb-6" >
-        <SelectModal
-          title="Tipo de Sancion"
-          labelRequired="*"
-         
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="pb-6" >
-        <InputTextModal
-          label="Obra de Origen"
-          labelRequired="*"
-          placeholder="Numero de Resolucion o norma"
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="pb-6" >
-        <DatePickerModal
-          label="Fecha de Sancion"
-          labelRequired="*"
-          placeholder="dd/mm/aaaa"
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="pb-6" >
-        <DatePickerModal
-          label="Fecha de Vencimiento"
-          labelRequired="*"
-          placeholder="dd/mm/aaaa"
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      </div>
-      </div>
-  )
-}
-const renderModalPropietarios = () => {
-  return (<div>
-    <div className="grid grid-cols-2 gap-4 ">
-      <div className="pb-6" >
-        <InputTextModal
-          label="Titular"
-          labelRequired="*"
-          placeholder="Ingrese el Nombre y apellido"
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="pb-6" >
-        <InputTextModal
-          label="CUIT"
-          placeholder="Ingrese el Nro de CUIT"
-          labelRequired="*"
-          value=""
-
-          labelMessageError=""
-          required />
-      </div>
-    </div>
-    <div className="grid grid-cols-4 gap-4 ">
-
-      <div className="pb-6" >
-        <InputTextModal
-          label="% del capital"
-          labelRequired="*"
-          placeholder="Ingrese El porcentaje del Capital debe "
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-
-      <div className="pb-6" >
-        <InputTextModal
-          label="Monto del capital"
-          labelRequired="*"
-          placeholder="Ingrese El porcentaje del Capital debe "
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="pb-6" >
-        <InputTextModal
-          label="Cantidad de votos"
-          labelRequired="*"
-          placeholder="Ingrese El porcentaje del Capital debe "
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="pb-6" >
-        <SelectModal
-          title="Tipo de personeria"
-          defaultOption="Seleccione el tipo de personeria"
-          labelRequired="*"
-          labelObservation="¿Por qué me observaron este campo? "
-          labeltooltip="El tipo de empresa seleccionado es incorrecto"
-          labelMessageError=""
-          required
-          option={tipoPersoneria.map(u => (
-            <Option value={u.value}>{u.label}</Option>
-
-          ))} />
-
-      </div>
-    </div>
-    <div className="grid grid-cols-1  ">
-      <div className="pb-6" >
-        <InputTextModal
-          label="Observaciones"
-          labelRequired="*"
-          placeholder="descripcion "
-          value=""
-          labelMessageError=""
-          required />
-
-      </div>
-      <div className="pb-6" >
-        <Upload
-          label="Adjunte  Documento "
-          labelRequired="*"
-          labelMessageError=""
-        />
-      </div>
-    </div>
-    <div className="grid grid-cols-2 gap-4 ">
-      <div className="pb-6" >
-        <Upload
-          label="Adjunte  Documento "
-          labelRequired="*"
-          labelMessageError=""
-        />
-      </div>
-    </div>
-  </div>)
-}
 
 
 
@@ -208,244 +42,391 @@ const renderNoData = () => {
   </div>)
 }
 
-class Propiedad extends React.Component {
-  state = {
-    ModalPropietarios: false,
-    ModalSanciones: false,
-  };
+export default () => {
 
-  showModalPropietarios = (ModalPropietarios) => {
-    this.setState({
-      ModalPropietarios,
-    });
-  };
+ 
 
-
-
-  handleSavePropietarios = e => {
-    console.log(e);
-    this.setState({
-      ModalPropietarios: false,
-    });
-  };
-
-  handleCancelPropietarios = e => {
-    console.log(e);
-    this.setState({
-      ModalPropietarios: false,
-    });
-  };
-
-  showModalSanciones = (ModalSanciones) => {
-    this.setState({
-      ModalSanciones,
-    });
-  };
+  const [modalPropietarios, setModalPropietarios] = useState(false)
+  const [modalSanciones, setModalSanciones] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [waitingType, setWaitingType] = useState('sync')
+  const dispatch = useDispatch()
+  const router =useRouter()
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
 
 
+  const save = async () => {
+    setWaitingType('sync')
 
-  handleSaveSanciones = e => {
-    console.log(e);
-    this.setState({
-      ModalSanciones: false,
-    });
-  };
+    setIsLoading(true)
+    if (tramite._id) {
+      await dispatch(saveTramite(tramite))
+    } else {
+      if (!(await getTramiteByCUIT(tramite.cuit)))
+        await dispatch(saveTramite(tramite))
+    }
+    setIsLoading(false)
+  }
 
-  handleCancelSanciones = e => {
-    console.log(e);
-    this.setState({
-      ModalSanciones: false,
-    });
-  };
-
-
-
-
-  render() {
+  const updateObjTramite = () => {
+    setTramite(Object.assign({}, tramite))
+  }
 
 
+  const renderModalSanciones = () => {
     return (<div>
-      <Header />
-      <div className="border-gray-200 border-b-2 py-4">
-        <NavigationStep current={1} />
+      <div className="grid grid-cols-2 gap-4 ">
+        <div className="pb-6" >
+          <InputTextModal
+            label="Autoridad que la aplico"
+            labelRequired="*"
+            placeholder="Ingrese el Nombre y apellido"
+            value=""
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <InputTextModal
+            label="Titular"
+            labelRequired="*"
+            placeholder="Numero de Resolucion o norma"
+            value=""
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <SelectModal
+            title="Tipo de Sancion"
+            labelRequired="*"
+           
+            value=""
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <InputTextModal
+            label="Obra de Origen"
+            labelRequired="*"
+            placeholder="Numero de Resolucion o norma"
+            value=""
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <DatePickerModal
+            label="Fecha de Sancion"
+            labelRequired="*"
+            placeholder="dd/mm/aaaa"
+            value=""
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <DatePickerModal
+            label="Fecha de Vencimiento"
+            labelRequired="*"
+            placeholder="dd/mm/aaaa"
+            value=""
+            labelMessageError=""
+            required />
+  
+        </div>
+        </div>
+        </div>
+    )
+  }
+  const renderModalPropietarios = () => {
+    return (<div>
+      <div className="grid grid-cols-2 gap-4 ">
+        <div className="pb-6" >
+          <InputTextModal
+            label="Titular"
+            labelRequired="*"
+            placeholder="Ingrese el Nombre y apellido"
+            value=""
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <InputTextModal
+            label="CUIT"
+            placeholder="Ingrese el Nro de CUIT"
+            labelRequired="*"
+            value=""
+  
+            labelMessageError=""
+            required />
+        </div>
       </div>
-      <div className="w-2/5 m-auto text-base mt-8">
-        <Substeps progressDot current={2} />
+      <div className="grid grid-cols-4 gap-4 ">
+  
+        <div className="pb-6" >
+          <InputTextModal
+            label="% del capital"
+            labelRequired="*"
+            placeholder="Ingrese El porcentaje del Capital debe "
+            value=""
+            labelMessageError=""
+            required />
+  
+        </div>
+  
+        <div className="pb-6" >
+          <InputTextModal
+            label="Monto del capital"
+            labelRequired="*"
+            placeholder="Ingrese El porcentaje del Capital debe "
+            value=""
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <InputTextModal
+            label="Cantidad de votos"
+            labelRequired="*"
+            placeholder="Ingrese El porcentaje del Capital debe "
+            value=""
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <SelectModal
+            title="Tipo de personeria"
+            defaultOption="Seleccione el tipo de personeria"
+            labelRequired="*"
+            labelObservation="¿Por qué me observaron este campo? "
+            labeltooltip="El tipo de empresa seleccionado es incorrecto"
+            labelMessageError=""
+            required
+            option={tipoPersoneria.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+  
+            ))} />
+  
+        </div>
+      </div>
+      <div className="grid grid-cols-1  ">
+        <div className="pb-6" >
+          <InputTextModal
+            label="Observaciones"
+            labelRequired="*"
+            placeholder="descripcion "
+            value=""
+            labelMessageError=""
+            required />
+  
+        </div>
+        <div className="pb-6" >
+          <Upload
+            label="Adjunte  Documento "
+            labelRequired="*"
+            labelMessageError=""
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4 ">
+        <div className="pb-6" >
+          <Upload
+            label="Adjunte  Documento "
+            labelRequired="*"
+            labelMessageError=""
+          />
+        </div>
+      </div>
+    </div>)
+  }
+
+
+  return (<div>
+    <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
+    save()
+    router.push('/')
+  }} />
+    <div className="border-gray-200 border-b-2 py-4">
+      <NavigationStep current={1} />
+    </div>
+    <div className="w-2/5 m-auto text-base mt-8">
+      <Substeps progressDot current={2} />
+    </div>
+
+
+
+    <div className="px-20 py-6 ">
+      <div className="flex  content-center  ">
+        <div className="text-2xl font-bold py-4 w-3/4">  Propietario de sociedad</div>
+        <div className=" w-1/4 text-right content-center mt-4 ">
+          <Button type="primary" onClick={() => setModalPropietarios(true)} icon={<PlusOutlined />}> Agregar</Button>
+        </div>
+      </div>
+      <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} />
+      <Modal
+        title="Datos de propietario de sociedad"
+        visible={modalPropietarios}
+        onOk={() => console.log('')}
+        okText="Guardar"
+        onCancel={() => setModalPropietarios(false)}
+        cancelText="Cancelar"
+        width={1000}
+      >
+        {renderModalPropietarios()}
+      </Modal>
+
+      <div className="grid grid-cols-2 gap-4 mt-8">
+        <div className="pb-6" >
+          <Upload
+            label="Adjuntar Contrato Social inscripto en la Inspeccion General de
+            Justicia o Registro Publico de Comercio "
+            labelRequired="*"
+            labelMessageError=""
+          />
+        </div>
+        <div className="pb-6" >
+          <Upload
+            label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
+            General de Justicia o Registro Publico de comercio"
+            labelRequired="*"
+            labelMessageError=""
+          />
+        </div>
+
       </div>
 
+      <div className="rounded-lg border px-4 py-4">
 
-
-      <div className="px-20 py-6 ">
-        <div className="flex  content-center  ">
-          <div className="text-2xl font-bold py-4 w-3/4">  Propietario de sociedad</div>
-          <div className=" w-1/4 text-right content-center mt-4 ">
-            <Button type="primary" onClick={this.showModalPropietarios} icon={<PlusOutlined />}> Agregar</Button>
+        <div className="flex  content-center ">
+          <div className="text-2xl font-bold py-4 w-3/4">  Inversiones permanentes</div>
+          <div className=" w-1/4 text-right content-center ">
+            <Switch
+              SwitchLabel1="Si"
+              SwitchLabel2="No"
+              labelMessageError=""
+            />
           </div>
         </div>
-        <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} />
+        <div className="grid grid-cols-2 gap-4 pb-6  ">
+
+          <div >
+            <InputTextModal
+
+              label="CUIT NIT"
+              labelRequired="*"
+              placeholder="33333333333"
+
+              labelMessageError=""
+              required />
+
+
+          </div>
+          <div >
+            <InputTextModal
+              label="Empresa participada"
+              labelRequired="*"
+              placeholder="Sa"
+
+              labelMessageError=""
+              required />
+
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-4 pb-6 ">
+          <div >
+            <InputTextModal
+              label="Actividad"
+              placeholder="Constructora"
+              disabled
+
+              labelMessageError=""
+            />
+
+          </div>
+          <div >
+            <InputTextModal
+              label="% de capital"
+              labelRequired="*"
+              placeholder="debe ser numerico"
+              value=""
+              labelMessageError=""
+              status="" />
+
+          </div>
+          <div >
+            <InputTextModal
+              label="Votos posibles en el otro ente"
+              labelRequired="*"
+              placeholder="debe ser numerico"
+              value=""
+              labelMessageError=""
+              status="" />
+
+          </div>
+        </div>
+        <div className="mt-6 text-center pb-6">
+
+          <Button className="mr-4" type="primary" icon={<PlusOutlined />} > Agregar</Button>
+
+
+        </div>
+
+        <Table columns={columnsInversiones} />
+      </div>
+
+      <div className="mt-6 rounded-lg border px-4 py-4">
+        <div>
+        <div className="flex  content-center ">
+
+        <div className="text-2xl font-bold py-4 w-3/4">  Antecedentes Sancionatorios</div>
+          <div className=" w-1/4 text-right content-center ">
+            <Switch
+              SwitchLabel1="Si"
+              SwitchLabel2="No"
+              labelMessageError=""
+            />
+          </div>
+          </div>
+          <div className="w-full text-center m-auto content-center mt-4 ">
+            <Button type="primary" onClick={() => setModalSanciones(true)} icon={<PlusOutlined />}> Agregar</Button>
+          </div>
+        </div>
+
         <Modal
-          title="Datos de propietario de sociedad"
-          visible={this.state.ModalPropietarios}
-          onOk={this.handleSavePropietarios}
-          okText="Guardar"
-          onCancel={this.handleCancelPropietarios}
-          cancelText="Cancelar"
-          width={1000}
-        >
-          {renderModalPropietarios()}
+        title="Antecedentes Sancionatorios"
+        visible={modalSanciones}
+        onOk={() => console.log('')}
+        okText="Guardar"
+        onCancel={() => setModalSanciones(false)}
+        cancelText="Cancelar"
+        width={1000}
+      >
+         {renderModalSanciones()}
         </Modal>
 
-        <div className="grid grid-cols-2 gap-4 mt-8">
-          <div className="pb-6" >
-            <Upload
-              label="Adjuntar Contrato Social inscripto en la Inspeccion General de
-              Justicia o Registro Publico de Comercio "
-              labelRequired="*"
-              labelMessageError=""
-            />
-          </div>
-          <div className="pb-6" >
-            <Upload
-              label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
-              General de Justicia o Registro Publico de comercio"
-              labelRequired="*"
-              labelMessageError=""
-            />
-          </div>
 
-        </div>
+     
+      </div>
 
-        <div className="rounded-lg border px-4 py-4">
+      <div className="mt-6  pt-6 text-center">
+        <Link href="/informacion_societaria" >
 
-          <div className="flex  content-center ">
-            <div className="text-2xl font-bold py-4 w-3/4">  Inversiones permanentes</div>
-            <div className=" w-1/4 text-right content-center ">
-              <Switch
-                SwitchLabel1="Si"
-                SwitchLabel2="No"
-                labelMessageError=""
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4 pb-6  ">
-
-            <div >
-              <InputTextModal
-
-                label="CUIT NIT"
-                labelRequired="*"
-                placeholder="33333333333"
-
-                labelMessageError=""
-                required />
-
-
-            </div>
-            <div >
-              <InputTextModal
-                label="Empresa participada"
-                labelRequired="*"
-                placeholder="Sa"
-
-                labelMessageError=""
-                required />
-
-            </div>
-          </div>
-          <div className="grid grid-cols-3 gap-4 pb-6 ">
-            <div >
-              <InputTextModal
-                label="Actividad"
-                placeholder="Constructora"
-                disabled
-
-                labelMessageError=""
-              />
-
-            </div>
-            <div >
-              <InputTextModal
-                label="% de capital"
-                labelRequired="*"
-                placeholder="debe ser numerico"
-                value=""
-                labelMessageError=""
-                status="" />
-
-            </div>
-            <div >
-              <InputTextModal
-                label="Votos posibles en el otro ente"
-                labelRequired="*"
-                placeholder="debe ser numerico"
-                value=""
-                labelMessageError=""
-                status="" />
-
-            </div>
-          </div>
-          <div className="mt-6 text-center pb-6">
-
-            <Button className="mr-4" type="primary" icon={<PlusOutlined />} > Agregar</Button>
-
-
-          </div>
-
-          <Table columns={columnsInversiones} />
-        </div>
-
-        <div className="mt-6 rounded-lg border px-4 py-4">
-          <div>
-          <div className="flex  content-center ">
-
-          <div className="text-2xl font-bold py-4 w-3/4">  Antecedentes Sancionatorios</div>
-            <div className=" w-1/4 text-right content-center ">
-              <Switch
-                SwitchLabel1="Si"
-                SwitchLabel2="No"
-                labelMessageError=""
-              />
-            </div>
-            </div>
-            <div className="w-full text-center m-auto content-center mt-4 ">
-              <Button type="primary" onClick={this.showModalSanciones} icon={<PlusOutlined />}> Agregar</Button>
-            </div>
-          </div>
-
-          <Modal
-          title="Antecedentes Sancionatorios"
-          visible={this.state.ModalSanciones}
-          onOk={this.handleSaveSanciones}
-          okText="Guardar"
-          onCancel={this.handleCancelSanciones}
-          cancelText="Cancelar"
-          width={1000}
-        >
-           {renderModalSanciones()}
-          </Modal>
-
-
-       
-        </div>
-
-        <div className="mt-6  pt-6 text-center">
-          <Link href="/informacion_societaria" >
-
-            <Button className="mr-4" > Volver</Button>
-          </Link>
-          <Link href="/ejercicios" >
-            <Button type="primary" > Guardar y Seguir</Button>
-          </Link>
-        </div>
-
+          <Button className="mr-4" > Volver</Button>
+        </Link>
+        <Link href="/ejercicios" >
+          <Button type="primary" > Guardar y Seguir</Button>
+        </Link>
       </div>
 
     </div>
-    )
-  }
-}
 
-export default Propiedad;
+  </div>
+  )
+}
 
 
 

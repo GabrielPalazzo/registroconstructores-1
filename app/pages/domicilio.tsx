@@ -1,19 +1,48 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useRouter } from 'next/router'
 import NavigationStep from '../components/steps'
 import InputText from '../components/input_text'
-import Header from '../components/header'
+import {HeaderPrincipal} from '../components/header'
 import Upload from '../components/upload'
 import { Button, Steps } from 'antd';
 import Substeps from '../components/subSteps'
-import like_dislike from '../components/like_dislike';
+import {useSelector} from 'react-redux'
+import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
+import {useDispatch} from 'react-redux'
+import { saveTramite } from '../redux/actions/main'
 
 const { Step } = Steps;
 export default () => {
   const router = useRouter()
+  const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(false)
+  const [waitingType, setWaitingType] = useState('sync')
+
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+
+  const updateObjTramite = () => {
+    setTramite(Object.assign({},tramite))
+  } 
+
+  const save = async () => {
+    setWaitingType('sync')
+    
+    setIsLoading(true)
+    if (tramite._id){
+      await dispatch(saveTramite(tramite))
+    } else {
+      if (!(await getTramiteByCUIT(tramite.cuit)))
+        await dispatch(saveTramite(tramite))
+    }
+    setIsLoading(false)
+  }
+
 
   return <div>
-    <Header />
+   <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
+      save()
+      router.push('/')
+    }}/>
     <div className="border-gray-200 border-b-2 py-4">
       <NavigationStep current={1} />
     </div>
@@ -25,8 +54,12 @@ export default () => {
         <div >
           <InputText
             label="Domicilio"
-            labelRequired="*"
-            placeholder="Indique calle,numero,provincia"
+            value={tramite.domicilioLegal}
+            bindFunction={(value) => {
+              tramite.domicilioLegal = value
+              updateObjTramite()
+            }}
+            placeHolder="Indique calle,numero,provincia"
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
@@ -35,9 +68,13 @@ export default () => {
       <div className="text-2xl font-bold py-4"> Domicilio Real</div>
         <div>
           <InputText
+            value={tramite.domicilioReal}
+            bindFunction={(value) => {
+              tramite.domicilioReal = value
+              updateObjTramite()
+            }}
             label="Domicilio"
-            labelRequired="*"
-            placeholder="Indique calle,numero,provincia"
+            placeHolder="Indique calle,numero,provincia"
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
@@ -54,10 +91,12 @@ export default () => {
       </div>
 
       <div className="mt-6 pt-6 text-center">
-         
-         <Button  className="mr-4"  onClick={() => router.push('/i')}> Volver</Button>
-          <Button type="primary"  onClick={() => router.push('/informacion_societaria')}> Guardar y Seguir</Button>
-        
+          <Button type="primary"  onClick={() => {
+            if (!tramite || !tramite.cuit)
+              return 
+            save()
+            router.push('/informacion_societaria')
+          }}> Guardar y Seguir</Button>
          </div>
 
     </div>

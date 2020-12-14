@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Button,  DatePicker,Tooltip, } from 'antd';
+import { Button, DatePicker, Tooltip, } from 'antd';
 import { LikeFilled, DislikeFilled } from '@ant-design/icons';
+import moment from 'moment';
 
 
 const customColors = ['#2897D4'];
@@ -12,29 +13,26 @@ const colors = [
   'green',
 ];
 
-function onChange(date, dateString) {
-    console.log(date, dateString);
-  }
-  const dateFormat = 'DD/MM/YYYY';
+const dateFormat = 'DD/MM/YYYY';
 
 interface Props {
-  value: string
+  value: any
   bindFunction: Function
-  label: string, 
-  labelRequired: string 
+  label: string,
+  labelRequired: string
   placeholder: any
   labelMessageError?: string
   labeltooltip?: string
   labelObservation: string
-  showHands? : boolean
-}  
+  showHands?: boolean
+}
 
 export default (props: Props) => {
 
   return (<div >
     <div className="flex">
       <div className="w-3/5">
-      <label className="font-bold text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
+        <label className="font-bold text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
       </div>
 
       {props.showHands ? <div className="justify-end w-2/5">
@@ -46,26 +44,30 @@ export default (props: Props) => {
 
     </div>
     <div className="w-full">
-    <DatePicker onChange={onChange} 
-    picker={props.placeholder}
-    format={dateFormat} />
-      
+      <DatePicker 
+        onChange={(value) => {
+          props.bindFunction(moment(value,dateFormat))
+        }}
+        defaultValue={props.value &&  moment(props.value,dateFormat) }
+        picker={props.placeholder}
+        format={dateFormat} />
+
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">
       {props.labelMessageError}
     </div>
     <div>
-    {customColors.map(color => (
-      <Tooltip
-        title={props.labeltooltip}
-        placement="right"
-        color={color}
-        key={color}>
-        <span className="text-warning-700 font-bold px-2 text-xs  cursor-pointer">{props.labelObservation}</span>
-      </Tooltip>
-    ))}
+      {customColors.map(color => (
+        <Tooltip
+          title={props.labeltooltip}
+          placement="right"
+          color={color}
+          key={color}>
+          <span className="text-warning-700 font-bold px-2 text-xs  cursor-pointer">{props.labelObservation}</span>
+        </Tooltip>
+      ))}
 
-</div>
+    </div>
 
   </div>
 

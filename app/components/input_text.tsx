@@ -19,6 +19,7 @@ interface Props {
   labelMessageError? : string
   labelObservation? : string
   labeltooltip?: string
+  labelRequired?: string
   value: string
   label: string
   showHands? : boolean
