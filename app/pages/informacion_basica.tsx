@@ -320,8 +320,6 @@ export default () => {
             title="Tipo de personeria"
             defaultOption="Seleccione el tipo de personeria"
             labelRequired="*"
-            labelObservation="¿Por qué me observaron este campo? "
-            labeltooltip="El tipo de empresa seleccionado es incorrecto"
             labelMessageError=""
             required
             option={tipoPersoneria.map(u => (
