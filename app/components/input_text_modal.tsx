@@ -16,10 +16,10 @@ const colors = [
 
 interface Props { 
   label:string
-  labelMessageError: string
-  labelRequired: string
-  value: string
-  bindFunction: Function
+  labelMessageError?: string
+  labelRequired?: string
+  value?: any
+  bindFunction?: Function
   placeholder?: string
   required?: boolean 
   disabled?: boolean

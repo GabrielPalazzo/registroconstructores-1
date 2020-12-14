@@ -36,6 +36,15 @@ export default () => {
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
 
+  const [inicioEjercicio, setInicioEjercicio] = useState('')
+  const [cierreEjercicio, setCierreEjercicio] = useState('')
+  const [activoCorriente,setActivoCorriente] = useState(0)
+  const [activoNoCorriente,setActivoNoCorriente] = useState(0)
+  const [pasivoCorriente, setPasivoCorriente] = useState(0)
+  const [pasivoNoCorriente, setPasivoNoCorriente] = useState(0)
+  const [ventasDelEjercicio, setVentasDelEjercicio] = useState(0)
+  const [capitalSuscripto, setCapitalSuscripto] = useState(0)
+
 
   const save = async () => {
     setWaitingType('sync')
@@ -67,7 +76,8 @@ export default () => {
             label="Inicio del ejercicio"
             labelRequired="*"
             placeholder="dd/mm/aaaa"
-            value=""
+            value={inicioEjercicio}
+            bindFunction={setInicioEjercicio}
             labelMessageError=""
             required />
 
@@ -77,7 +87,8 @@ export default () => {
             label="Cierre del ejercicio"
             labelRequired="*"
             placeholder="dd/mm/aaaa"
-            value=""
+            value={cierreEjercicio}
+            bindFunction={setCierreEjercicio}
             labelMessageError=""
             required />
         </div>
@@ -89,7 +100,8 @@ export default () => {
             label="Activo Corriente"
             labelRequired="*"
             placeholder="000000,000 "
-            value=""
+            value={activoCorriente}
+            bindFunction={setActivoCorriente}
             labelMessageError=""
             required />
 
@@ -100,7 +112,8 @@ export default () => {
             label="Activo no Corriente"
             labelRequired="*"
             placeholder="000000,000 "
-            value=""
+            value={activoNoCorriente}
+            bindFunction={setActivoNoCorriente}
             labelMessageError=""
             required />
 
@@ -109,9 +122,9 @@ export default () => {
           <InputTextModal
             label="Activo Total"
             placeholder="000000,000 "
-            value=""
+            value={activoCorriente + activoNoCorriente}
             labelMessageError=""
-            disabled="disabled" />
+            disabled />
 
         </div>
         <div className="pb-6" >
@@ -119,7 +132,8 @@ export default () => {
             label="Pasivo Corriente"
             labelRequired="*"
             placeholder="000000,000 "
-            value=""
+            value={pasivoCorriente}
+            bindFunction={setPasivoCorriente}
             labelMessageError=""
             required />
 
@@ -130,7 +144,8 @@ export default () => {
             label="Pasivo no Corriente"
             labelRequired="*"
             placeholder="000000,000 "
-            value=""
+            value={pasivoNoCorriente}
+            bindFunction={setPasivoNoCorriente}
             labelMessageError=""
             required />
 
@@ -139,9 +154,9 @@ export default () => {
           <InputTextModal
             label="Pasivo Total"
             placeholder="000000,000 "
-            value=""
+            value={pasivoNoCorriente + pasivoCorriente}
             labelMessageError=""
-            disabled="disabled" />
+            disabled />
 
         </div>
         <div className="pb-6" >
@@ -149,7 +164,8 @@ export default () => {
             label="Ventas del ejercicio"
             labelRequired="*"
             placeholder="000000,000 "
-            value=""
+            value={ventasDelEjercicio}
+            bindFunction={setVentasDelEjercicio}
             labelMessageError=""
             required />
 
@@ -160,7 +176,8 @@ export default () => {
             label="Capital Suscripto"
             labelRequired="*"
             placeholder="000000,000 "
-            value=""
+            value={capitalSuscripto}
+            bindFunction={setCapitalSuscripto}
             labelMessageError=""
             required />
 
@@ -169,9 +186,9 @@ export default () => {
           <InputTextModal
             label="Patrimonio Neto"
             placeholder="000000,000 "
-            value=""
+            value={(activoNoCorriente + activoCorriente) - (pasivoCorriente + pasivoNoCorriente)}
             labelMessageError=""
-            disabled="disabled" />
+            disabled />
 
         </div>
         <div className="pb-6" >
@@ -224,7 +241,7 @@ export default () => {
 
           <TabPane tab="Balances" key="1">
             <div className="overflow-x-auto" >
-              {renderNoData()}
+              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} scroll={{ x: 1800 }} />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
@@ -236,7 +253,22 @@ export default () => {
       <Modal
         title="Nuevo Ejercicio"
         visible={modalEjercicios}
-        onOk={() => console.log('')}
+        onOk={() => {
+          if (!tramite.ejercicios)
+            tramite.ejercicios = []
+
+          tramite.ejercicios.push({
+            fechaCierre: inicioEjercicio,
+            fechaInicio: cierreEjercicio,
+            activoCorriente,
+            activoNoCorriente,
+            pasivoCorriente,
+            pasivoNoCorriente,
+            capitalSuscripto,
+            ventasEjercicio: ventasDelEjercicio
+          })
+          save()
+        }}
         okText="Guardar"
         onCancel={() => setModalEjercicios(false)}
         cancelText="Cancelar"
@@ -274,65 +306,43 @@ const columnsBalances = [
 
   {
     title: 'Inicio de ejercicio',
-    dataIndex: 'Inicio de ejercicio',
-    key: 'Inicio de ejercicio',
+    dataIndex: 'inicioEfecicio',
+    key: 'inicioEfecicio',
   },
   {
     title: 'Cierre de ejercicio',
-    dataIndex: 'Cierre de ejercicio',
-    key: 'Cierre de ejercicio',
+    dataIndex: 'cierreEjercicio',
+    key: 'cierreEjercicio',
   },
   {
     title: 'Activo Corriente',
-    dataIndex: 'activo_corriente',
-    key: 'activo_corriente',
+    dataIndex: 'activoCorriente',
+    key: 'activoCorriente',
   },
   {
     title: 'Activo no Corriente',
-    dataIndex: 'activo_no_corriente',
-    key: 'activo_no_corriente',
+    dataIndex: 'activoNoCorriente',
+    key: 'activoNoCorriente',
   },
-  {
-    title: 'Activo Total',
-    dataIndex: 'activo_total',
-    key: 'activo_total',
-  },
+  
   {
     title: 'Pasivo Corriente',
-    dataIndex: 'pasivo_corriente',
-    key: 'pasivo_corriente',
+    dataIndex: 'pasivoCorriente',
+    key: 'pasivoCorriente',
   },
   {
     title: 'Pasivo no  Corriente',
-    dataIndex: 'pasivo_no_corriente',
-    key: 'pasivo_no_corriente',
-  },
-  {
-    title: 'Pasivo total',
-    dataIndex: 'pasivo_total',
-    key: 'pasivo_total',
+    dataIndex: 'pasivoNoCorriente',
+    key: 'pasivoNoCorriente',
   },
   {
     title: 'Ventas del ejercicio',
-    dataIndex: 'ventas_ejercicio',
-    key: 'ventas_ejercicio',
+    dataIndex: 'ventasEjercicio',
+    key: 'ventasEjercicio',
   },
   {
     title: 'Capital suscripto',
-    dataIndex: 'capital_suscripto',
-    key: 'capital_suscripto',
-  },
-
-  {
-    title: 'Patrimonio Neto',
-    dataIndex: 'patrimonio',
-    key: 'patrimonio',
-  },
-  {
-    title: 'Adjunto',
-    dataIndex: 'adjunto',
-    key: 'adjunto',
+    dataIndex: 'capitalSuscripto',
+    key: 'capitalSuscripto',
   }
-
-
-];
+]

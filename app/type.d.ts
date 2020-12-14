@@ -85,5 +85,15 @@ type TramiteAlta = {
         direccion: string,
         fechaOtorgamiento: string
         fechaExpiracion: string
+    }>,
+    ejercicios: Array<{
+        fechaInicio: string
+        fechaCierre: string
+        activoCorriente: number
+        activoNoCorriente: number
+        pasivoCorriente: number
+        pasivoNoCorriente: number
+        ventasEjercicio: number
+        capitalSuscripto: number
     }>
 }

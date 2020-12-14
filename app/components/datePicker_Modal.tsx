@@ -1,12 +1,26 @@
 import React, { useState } from 'react'
 import { Button, DatePicker, Tooltip, } from 'antd';
+import moment from 'moment'
 
 function onChange(date, dateString) {
   console.log(date, dateString);
 }
 const dateFormat = 'DD/MM/YYYY';
 
-export default (props) => {
+interface Props {
+  value: any
+  bindFunction: Function
+  label: string,
+  labelRequired: string
+  placeholder: any
+  labelMessageError?: string
+  labeltooltip?: string
+  labelObservation?: string
+  showHands?: boolean
+  required?: boolean
+}
+
+export default (props: Props) => {
 
   return (<div >
     <div className="flex">
@@ -15,7 +29,11 @@ export default (props) => {
       </div>
     </div>
     <div className="w-full">
-      <DatePicker onChange={onChange}
+    <DatePicker 
+        onChange={(value) => {
+          props.bindFunction(moment(value,dateFormat).format(dateFormat))
+        }}
+        defaultValue={props.value &&  moment(props.value,dateFormat) }
         picker={props.placeholder}
         format={dateFormat} />
 
