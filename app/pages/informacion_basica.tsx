@@ -117,7 +117,7 @@ export default () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text,record) => (tipoAccion ==='SET_TRAMITE_NUEVO' || !tipoAccion ? <div onClick={() => removeApoderadoFromList(record)}><DeleteOutlined /></div> :<Space size="middle">
+      render: (text,record) => (tramite.status==='BORRADOR' ? <div onClick={() => removeApoderadoFromList(record)}><DeleteOutlined /></div> :<Space size="middle">
       <LikeDislike />
     </Space>),
     },
@@ -478,6 +478,7 @@ export default () => {
       <div className="flex mt-6 pt-6 text-center">
         <Button type="primary" onClick={() => {
           save()
+          router.push('/domicilio')
         }} > Guardar y Seguir</Button>
       </div>
     </div>
