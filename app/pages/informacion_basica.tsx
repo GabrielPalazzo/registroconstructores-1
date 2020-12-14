@@ -475,7 +475,7 @@ export default () => {
       </div>
 
       
-      <div className="flex mt-6 pt-6 text-center">
+      <div className=" mt-6 pt-6 text-center">
         <Button type="primary" onClick={() => {
           save()
           router.push('/domicilio')
@@ -544,9 +544,9 @@ const tipoEmpresas = [
     option: 'Constructora',
   },
   {
-    label: 'Provedora',
+    label: 'Proveedora',
     value: 'PROVEEDORA',
-    option: 'Provedora',
+    option: 'Proveedora',
   },
   {
     label: 'Consultora',

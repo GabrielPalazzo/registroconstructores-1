@@ -23721,6 +23721,16 @@ svg{
   margin-left: 8px;
 }
 
+.ant-picker-input > input{
+  margin-left: 8px;
+}
+
+.ant-card{
+  border-radius: 10px !important;
+  background: #FAFAFA !important;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
