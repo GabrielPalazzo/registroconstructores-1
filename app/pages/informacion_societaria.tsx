@@ -342,12 +342,17 @@ export default () => {
         <div >
           <DatePicker
             label="Fecha"
+            value={tramite.rubroConstruccion.fecha}
+            bindFunction={(value) => {
+              tramite.rubroConstruccion.fecha = value
+              updateObjTramite()
+            }}
             labelRequired="*"
             placeholder="Inspeccion General de Justicia"
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
-            required /></div>
+             /></div>
 
         <div >
           <InputText
@@ -412,10 +417,10 @@ export default () => {
 
           <Button className="mr-4" > Volver</Button>
         </Link>
-        <Link href="/informacion_propietarios" >
-          <Button type="primary" > Guardar y Seguir</Button>
-        </Link>
-
+          <Button type="primary" onClick={() => {
+            save()
+            router.push('/informacion_propietarios')
+          }} > Guardar y Seguir</Button>
       </div>
 
     </div>
