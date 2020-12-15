@@ -584,7 +584,7 @@ export default () => {
             labelMessageError=""
             required /></div>
       </div>
-
+      <div className=" content-center  rounded-lg border  px-4 py-4">
       <div className="flex  content-center ">
         <div className="text-2xl font-bold py-4 w-3/4"> Autoridad</div>
         
@@ -602,6 +602,7 @@ export default () => {
           />
         </div>
       { tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table  columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
+     </div>
       <Modal
         title="Datos de la Autoridad"
         visible={modalAutoridad}
@@ -633,13 +634,24 @@ export default () => {
       </Modal>
 
 
-      <div className="flex  content-center mt-6">
-        <div className="text-2xl font-bold py-4 w-3/4"> Sistema de Calidad</div>
-        <div className=" w-1/4 text-right content-center mt-4 ">
+      <div className=" content-center  rounded-lg border mt-8 px-4 py-4">
+      <div className="flex  content-center ">
+          <div className="text-2xl font-bold py-4 w-3/4">  Sistema de Calidad</div>
+          <div className=" w-1/4 text-right content-center ">
+            <Switch
+              SwitchLabel1="Si"
+              SwitchLabel2="No"
+              labelMessageError=""
+            />
+          </div>
+        </div>
+       
+        <div className="  text-center content-center mt-2 mb-4 ">
           <Button type="primary" onClick={() => setModalCalidad(true)} icon={<PlusOutlined />}> Agregar</Button>
         </div>
+        { tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table  columns={columnsCalidad} dataSource={tramite.sistemaCalidad} /> : renderNoData()}
+    
       </div>
-      { tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table  columns={columnsCalidad} dataSource={tramite.sistemaCalidad} /> : renderNoData()}
       <Modal
         title="Datos del Sistema de Calidad"
         visible={modalCalidad}
