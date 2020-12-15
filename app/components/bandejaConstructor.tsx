@@ -45,10 +45,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
           <div className="text-xs  text-mutted-700 pb-1 ">Estado de la empresa:</div>
           <div className="text-lg font-bold text-black-700  ">{activeProfile && activeProfile.status}</div>
         </Card>
-        <Card>
-          <div className="text-xs  text-mutted-700 pb-1 ">Aclaraciones al estado:</div>
-          <div className="text-lg font-bold text-black-700  "> {getStatusObsParsed(activeProfile)}</div>
-        </Card>
+        
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Tipo de empresa:</div>
           <div className="text-lg font-bold text-black-700  ">{activeProfile && activeProfile.tipoEmpresa}</div>
@@ -70,6 +67,13 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
         </div>
         </Card>
       </div>
+      <div className="mt-4">
+      <Card>
+          <div className="text-xs  text-mutted-700 pb-1 ">Aclaraciones al estado:</div>
+          <div className="text-lg font-bold text-black-700  "> {getStatusObsParsed(activeProfile)}</div>
+        </Card>
+      </div>
+      
      
 
     </Drawer>
