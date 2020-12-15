@@ -97,6 +97,7 @@ export default () => {
 
         <div className="pb-6" >
           <InputTextModal
+          type="number" step="any"
             label="Activo Corriente"
             labelRequired="*"
             placeholder="000000,000 "
@@ -110,6 +111,7 @@ export default () => {
         <div className="pb-6" >
           <InputTextModal
             label="Activo no Corriente"
+            type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
             value={activoNoCorriente}
@@ -120,6 +122,7 @@ export default () => {
         </div>
         <div className="pb-6" >
           <InputTextModal
+          type="number" step="any"
             label="Activo Total"
             placeholder="000000,000 "
             value={activoCorriente + activoNoCorriente}
@@ -130,6 +133,7 @@ export default () => {
         <div className="pb-6" >
           <InputTextModal
             label="Pasivo Corriente"
+            type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
             value={pasivoCorriente}
@@ -142,6 +146,7 @@ export default () => {
         <div className="pb-6" >
           <InputTextModal
             label="Pasivo no Corriente"
+            type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
             value={pasivoNoCorriente}
@@ -153,6 +158,7 @@ export default () => {
         <div className="pb-6" >
           <InputTextModal
             label="Pasivo Total"
+            type="number" step="any"
             placeholder="000000,000 "
             value={pasivoNoCorriente + pasivoCorriente}
             labelMessageError=""
@@ -162,6 +168,7 @@ export default () => {
         <div className="pb-6" >
           <InputTextModal
             label="Ventas del ejercicio"
+            type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
             value={ventasDelEjercicio}
@@ -174,6 +181,7 @@ export default () => {
         <div className="pb-6" >
           <InputTextModal
             label="Capital Suscripto"
+            type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
             value={capitalSuscripto}

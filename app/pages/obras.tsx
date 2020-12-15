@@ -257,7 +257,9 @@ export default () => {
             </div>
             <div className="pb-6" >
               <InputTextModal
+              type="number" step="any"
                 label="Monto inicial del contrato"
+                
                 labelRequired="*"
                 value=""
                 labelMessageError=""
@@ -282,6 +284,7 @@ export default () => {
           <div className="pb-6" >
             <InputTextModal
               label="Monto"
+              type="number" step="any"
               labelRequired="*"
               value=""
               labelMessageError=""
@@ -319,7 +322,9 @@ export default () => {
         <div className="grid grid-cols-2 gap-4 ">
           <div className="pb-6" >
             <InputTextModal
+            type="number" step="any"
               label="Nro Certificación / Factura"
+              
               labelRequired="*"
               value=""
               labelMessageError=""
@@ -343,6 +348,7 @@ export default () => {
           </div>
           <div className="pb-6" >
             <InputTextModal
+            type="number" step="any"
               label="Monto"
               labelRequired="*"
               value=""
@@ -391,6 +397,7 @@ export default () => {
           </div>
           <div className="pb-6" >
           <InputTextModal
+          type="number" step="any"
             label="Montos certificados del ultimo balance"
             labelRequired="*"
             value=""
