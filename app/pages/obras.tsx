@@ -121,7 +121,7 @@ export default () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4 ">
+      <div className="grid grid-cols-3 gap-4 ">
         <div className="pb-6" >
           <InputTextModal
             label="Denominacion"
@@ -137,6 +137,9 @@ export default () => {
             labelRequired="*"
             labelMessageError=""
           />
+        </div>
+        <div className="mt-6 ">
+          <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
         </div>
 
       </div>
@@ -386,15 +389,23 @@ export default () => {
               required="required" />
 
           </div>
-        </div>
-        <div className="pb-6" >
+          <div className="pb-6" >
           <InputTextModal
-            label="Montos certificados por periodo del ultimo balance que acaba de cargar"
+            label="Montos certificados del ultimo balance"
             labelRequired="*"
             value=""
             labelMessageError=""
           />
         </div>
+        <div className="mt-8 ">
+          <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
+        </div>
+
+        </div>
+        <div className="mt-4 ">
+          {renderNoData()}
+        </div>
+        
       </div>
 
 

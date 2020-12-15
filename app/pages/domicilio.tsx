@@ -83,6 +83,16 @@ export default () => {
             labelMessageError=""
             required />
         </div>
+        <div className="text-2xl font-bold py-4"> Domicilio Electronico</div>
+        <div>
+        <InputText type="email"
+            label="Email institucional"
+            labelRequired="*"
+            placeHolder="Email Institucional"
+          />
+        </div>
+
+       
       <div className="pt-4">
         <Upload
             label="Adjunte un documento en donde conste el ultimo domicilio real inscripto en la IGJ o Registro de Comercio "

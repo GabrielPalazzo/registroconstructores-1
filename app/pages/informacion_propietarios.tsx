@@ -159,7 +159,7 @@ export default () => {
         <div className="pb-6" >
           <InputTextModal
             label="CUIT"
-            placeholder="Ingrese el Nro de CUIT"
+            placeholder="Ingrese el Codigo Tributario de su pais de origen"
             labelRequired="*"
             value=""
 
