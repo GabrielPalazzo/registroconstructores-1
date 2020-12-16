@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card } from 'antd';
+import { Button, Card,Avatar ,Menu,Dropdown } from 'antd';
 import { PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import { setActionType } from '../redux/actions/main'
@@ -34,6 +34,15 @@ export default () => {
     <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
       <div className="px-4 pt-4 py-2">
         <Logo />
+      </div>
+      <div className="text-sm font-bold text-info-700 pr-6 text-right pt-2">
+      <Dropdown overlay={menu} trigger={['click']}>
+        <div onClick={e => e.preventDefault()}>
+        <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2' }} >U</Avatar>
+        </div>
+      </Dropdown>
+   
+   
       </div>
     </div>
 
@@ -76,3 +85,14 @@ const Logo = () => (
   </svg>
 
 )
+
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="#">
+        Cerrar sesion
+      </a>
+    </Menu.Item>
+    
+  </Menu>
+);

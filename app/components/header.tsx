@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router'
-import { Button, Modal } from 'antd';
+import { Button, Modal,Avatar,Dropdown,Menu } from 'antd';
 
 
 export interface HeaderPrincipalProps {
@@ -37,9 +37,16 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     <div className="px-4 pt-4 py-2">
       <Logo />
     </div>
-    <div className="text-sm font-bold text-info-700 pr-6 text-right py-4">
+    <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4">
+    
      <Button danger type="text" onClick={() => setShowCancelar(true)}>Cancelar</Button>
      {tramite && tramite.cuit ? <Button type="link" style={{ fontWeight: 'bold'  }}  onClick={onSave}>Guardar y salir</Button> : '' }
+     <Dropdown overlay={menu} trigger={['click']}>
+        <div onClick={e => e.preventDefault()}>
+        <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2' }} >U</Avatar>
+        </div>
+      </Dropdown>
+    
     </div>
 
   </div>
@@ -67,3 +74,13 @@ const Logo = () => (
 </svg>
 
 )
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="#">
+        Cerrar sesion
+      </a>
+    </Menu.Item>
+    
+  </Menu>
+);

@@ -20,6 +20,7 @@ export default () => {
       <div className="px-4 pt-4 py-2">
         <Logo />
       </div>
+      
     </div>
 
     <div className="px-4 md:px-20 py-6  ">
