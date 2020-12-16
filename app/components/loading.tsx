@@ -31,9 +31,21 @@ export const Loading: React.FC<LoadingProps> = ({
     }
   }
 
-  return <div className="h-screen"><Lottie options={defaultOptions}
-              height={400}
-              width={400}
+  return <div className="">
+    <div className=" mtop">
+    <Lottie options={defaultOptions}
+              height={200}
+              width={200}
               isStopped={isStopped}
-              isPaused={isPaused}/></div>
+              isPaused={isPaused}/>
+    </div>
+    <style>
+    {` 
+      .mtop{
+        margin-top:20%;
+      }
+      `}
+  </style>
+    </div>
+    
 }
