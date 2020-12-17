@@ -7,7 +7,7 @@
 
 html, body, #__next {
     height: 100%;
-    font-family:"Encode Sans";
+    font-family: 'Encode Sans', sans-serif;
   }
 .ant-input{
     border-radius:10px !important;
