@@ -335,6 +335,7 @@ export default () => {
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
+            placeholder="Tipo de Empresa (Constructora, Proveedora, Consultora)"
             required
             options={tipoEmpresas.map(u => (
               <Option value={u.value} label={u.label}>
@@ -449,6 +450,7 @@ export default () => {
               tramite.fechaInscripcionMatriculaComerciante = value
               updateObjTramite()
             }}
+            placeholder="Fecha de inscripcion (dd/mm/yyyy)"
             label="Fecha de Inscripcion"
             labelRequired="*"
             labelObservation=""
