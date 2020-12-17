@@ -92,7 +92,6 @@ export default () => {
             defaultOption="Tipo de Estado"
             labelRequired="*"
             labelMessageError=""
-            required
             option={EstadoObra.map(u => (
               <Option value={u.value}>{u.label}</Option>
 
@@ -105,7 +104,6 @@ export default () => {
             defaultOption="Tipo de contratacion"
             labelRequired="*"
             labelMessageError=""
-            required
             option={TipoContratacion.map(u => (
               <Option value={u.value}>{u.label}</Option>
 
@@ -118,7 +116,6 @@ export default () => {
             defaultOption="Nivel"
             labelRequired="*"
             labelMessageError=""
-            required
             option={TipoNivel.map(u => (
               <Option value={u.value}>{u.label}</Option>
 
