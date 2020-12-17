@@ -19,6 +19,9 @@ export default () => {
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
 
   const [erroresSeccionInformacionBasica, setErroresSeccionInformacionBasica] = useState<Array<ValidatorErrorElement>>([])
+  const [erroresSeccionDomicilio, setErroresSeccionDomicilio] = useState<Array<ValidatorErrorElement>>([])
+  const [erroresSeccionDDJJ, setErroresSeccionDDJJ] = useState<Array<ValidatorErrorElement>>([])
+  const [erroresSeccionObras, setErroresSeccionObras] = useState<Array<ValidatorErrorElement>>([])
 
   const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
@@ -28,7 +31,14 @@ export default () => {
     
     validatorTramite.load(tramite)
     setErroresSeccionInformacionBasica(validatorTramite.parseInfomacionBasicaSection())
-    dispatch(setStatusGeneralTramite([validatorTramite.parseInfomacionBasicaSection().length > 0 ? 'error': 'finish','error','wait','wait','wait']))
+    setErroresSeccionDomicilio(validatorTramite.parseDomicilioSection())
+    
+    dispatch(setStatusGeneralTramite([
+      validatorTramite.parseInfomacionBasicaSection().length > 0 ? 'error': 'finish',
+      validatorTramite.parseDomicilioSection().length > 0 ? 'error' : 'finish',
+      validatorTramite.parseDDJJSection().length > 0 ? 'error' : 'finish',
+      validatorTramite.parseObrasSection().length > 0 ? 'error' : 'finish',
+      validatorTramite.parseDomicilioSection().length > 0 ? 'error' : 'finish']))
   },[])
 
   const save = async () => {
@@ -62,7 +72,10 @@ export default () => {
 
     <div className="px-20 py-6 text-center m-auto mt-6">
       <div className="text-2xl font-bold py-4 text-center"> Enviar trámite</div>
-      {erroresSeccionInformacionBasica.length ===0 ? 
+      {erroresSeccionInformacionBasica.length ===0 
+        && erroresSeccionDomicilio.length === 0 
+        && erroresSeccionDDJJ.length === 0 
+        && erroresSeccionObras.length === 0 ? 
       <div>
         <Card className="rounded mr-2 text-center m-autop" style={{ width: 500, margin: 'auto' }}>
           <div className="text-base font-bold text-primary-700 pb-2 "> ¿Desea confirmar el envío de su trámite?</div>
@@ -79,10 +92,20 @@ export default () => {
           Usted tiene items incompletos que deberá completar para poder enviar el trámite
         </div>
         <div className="text-gray-800 text-left p-2 font-thin">
-          <div className="font-bold">Información Básica</div>
-          <li>
-            {erroresSeccionInformacionBasica.map( (e:ValidatorErrorElement) => <ul>{e.error}</ul>)}
-          </li>
+          {erroresSeccionInformacionBasica.length > 0 ? 
+          <div>
+            <div className="font-bold">Información Básica</div>
+            <li>
+              {erroresSeccionInformacionBasica.map( (e:ValidatorErrorElement) => <ul>{e.error}</ul>)}
+            </li>
+          </div> : ''}
+          {erroresSeccionDomicilio.length > 0 ? 
+          <div>
+            <div className="font-bold">Domicilio</div>
+            <li>
+              {erroresSeccionDomicilio.map( (e:ValidatorErrorElement) => <ul>{e.error}</ul>)}
+            </li>
+          </div> : ''}
         </div>
         </div>
       </Card>}
