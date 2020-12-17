@@ -80,16 +80,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
      
 
     </Drawer>
-    <div>
-      <div className="w-3/4 ">
-
-      </div>
-      <div className="w-1/4 ">
-      <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
-   
-      </div>
-      
-    </div>
+    
     
 
     <div className="px-4 md:px-20 grid grid-cols-3  gap-4  ">
