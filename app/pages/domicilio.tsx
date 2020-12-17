@@ -20,11 +20,12 @@ export default () => {
   const [isLoading, setIsLoading] = useState(false)
   const [waitingType, setWaitingType] = useState<'sync' | 'waiting'>('waiting')
   const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion)
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
 
 
   useEffect(() => {
-    if (!tramite.cuit)
+    if (!tramite.cuit && tipoAccion!=='SET_TRAMITE_NUEVO')
       router.push('/')
   },[])
 

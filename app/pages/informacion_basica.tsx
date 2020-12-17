@@ -69,7 +69,7 @@ export default () => {
 
 
   useEffect(() => {
-    if (!tramite.cuit)
+    if (!tramite.cuit && tipoAccion!=='SET_TRAMITE_NUEVO') 
       router.push('/')
   }, [])
 

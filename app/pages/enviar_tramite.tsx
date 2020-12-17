@@ -17,7 +17,7 @@ export default () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
-
+  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const [erroresSeccionInformacionBasica, setErroresSeccionInformacionBasica] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionDomicilio, setErroresSeccionDomicilio] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionDDJJ, setErroresSeccionDDJJ] = useState<Array<ValidatorErrorElement>>([])
@@ -26,7 +26,7 @@ export default () => {
   const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   useEffect(() => {
-    if (!tramite.cuit)
+    if (!tramite.cuit && tipoAccion!=='SET_TRAMITE_NUEVO')
       router.push('/')
     
     validatorTramite.load(tramite)
