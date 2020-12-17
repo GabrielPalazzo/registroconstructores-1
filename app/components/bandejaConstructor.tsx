@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Divider, Drawer, Tag, Input } from 'antd'
+import { Button, Card, Divider, Drawer, Tag, Input, Collapse } from 'antd'
 import { Space } from 'antd'
 import { getColorStatus, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
@@ -10,6 +10,11 @@ import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined } from '@ant-des
 
 const onSearch = value => console.log(value);
 const { Search } = Input;
+const { Panel } = Collapse;
+
+function callback(key) {
+  console.log(key);
+}
 
 export interface BandejaConstructorProps {
   tramites: Array<TramiteAlta>
@@ -34,51 +39,39 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       onClose={() => setShowProfile(false)}
       visible={showProfile}
     >
-      <div className="grid grid-cols-2 gap-4">
-        <Card>
-          <div className="text-xs  text-mutted-700 pb-1 ">Razón Social:</div>
-          <div className="text-lg font-bold text-black-700 ">{activeProfile && activeProfile.razonSocial}</div>
-        </Card>
-
-        <Card>
-          <div className="text-xs  text-mutted-700 pb-1 ">CUIT:</div>
-          <div className="text-lg font-bold text-black-700  ">{activeProfile && activeProfile.cuit}</div>
-        </Card>
-        <Card>
-          <div className="text-xs  text-mutted-700 pb-1 ">Estado de la empresa:</div>
-          <div className="text-lg font-bold text-black-700  ">{activeProfile && activeProfile.status}</div>
-        </Card>
-
-        <Card>
-          <div className="text-xs  text-mutted-700 pb-1 ">Tipo de empresa:</div>
-          <div className="text-lg font-bold text-black-700  ">{activeProfile && activeProfile.tipoEmpresa}</div>
-        </Card>
-        <Card>
-          <div className="text-xs  text-mutted-700 pb-1 ">Capacidad de contratación y ejecución:</div>
-          <div className="text-lg font-bold text-black-700  "> {activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
-        </Card>
-        <Card>
-          <div className="text-xs  text-mutted-700 pb-1 ">Fecha del último cálculo de capacidad:</div>
-          <div className="text-lg font-bold text-black-700  "> --</div>
-        </Card>
-        <Card>
-          <div className="text-xs  text-mutted-700 pb-1 ">Constancia de Inscripción</div>
-          <div className="text-lg font-bold text-primary-700  ">
-            <Button style={{ color: "#0072bb", fontWeight: "bold", textAlign: "left", padding: 0, }} type="link">
-              <CloudDownloadOutlined /> Descargar
-      </Button>
-          </div>
-        </Card>
-      </div>
-      <div className="mt-4">
-        <Card>
-          <div className="text-xs  text-mutted-700 pb-1 ">Aclaraciones al estado:</div>
-          <div className="text-lg font-bold text-black-700  "> {getStatusObsParsed(activeProfile)}</div>
-        </Card>
-      </div>
-
-
-
+     <Collapse defaultActiveKey={['1']} onChange={callback}>
+          <Panel header="Razón Social:" key="1">
+            <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.razonSocial}</div>
+          </Panel>
+          <Panel header="CUIT:" key="2">
+            <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.cuit}</div>
+          </Panel>
+          <Panel header="Estado de la empresa:" key="3">
+            <div className="text-sm  text-black-700 "> <Tag color={getColorStatus(activeProfile)}>{activeProfile && activeProfile.status}</Tag></div>
+          </Panel>
+          <Panel header="Aclaraciones al estado:" key="4">
+            <div className="text-sm  text-black-700 ">
+              <ul>
+                <li>{getStatusObsParsed(activeProfile)}</li>
+                </ul></div>
+          </Panel>
+          <Panel header="Tipo de empresa:" key="5">
+            <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.tipoEmpresa}</div>
+          </Panel>
+          <Panel header="Capacidad de contratación y ejecución:" key="6">
+            <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
+          </Panel>
+          <Panel header="Fecha del último cálculo de capacidad:" key="7">
+            <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
+          </Panel>
+          <Panel header="Constancia de Inscripción" key="8">
+            <div className="text-lg font-bold text-black-700  ">
+              <Button style={{ color: "#0072bb", fontWeight: "bold", textAlign: "left", padding: 0, }} type="link">
+                <CloudDownloadOutlined /> Descargar
+              </Button>
+            </div>
+          </Panel>
+        </Collapse>
     </Drawer>
 
 
@@ -88,7 +81,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
         <div className="cursor-pointer  mr-4    " >
           <Card className="rounded h-full " style={{ background: "#525252" }}
             actions={[
-              <Button type="link" style={{textAlign: "left !important", padding: 0 }}
+              <Button type="link" style={{ textAlign: "left !important", padding: 0 }}
                 onClick={() => {
                   setActiveProfile(e)
                   setShowProfile(true)
