@@ -23,28 +23,28 @@ class Validator implements ValidatorInterface {
         toValidate.push({
           attribute:'razonSocial',
           dataId:'',
-          error:'La razon social es requerida'
+          error:'La Razon Social es requerida'
         })
 
       if(!this.tramite.tipoEmpresa)
         toValidate.push({
           attribute:'tipoEmpresa',
           dataId:'',
-          error:'Debera seleccionar al menos un tipo de empresa'
+          error:'Deberá seleccionar al menos un tipo de empresa'
         })
 
       if(!this.tramite.cuit)
         toValidate.push({
           attribute:'cuit',
           dataId:'',
-          error:'El CUIT es obligatorio'
+          error:'El CUIT es requerido'
         })
       
       if(!this.tramite.nroMatriculaComerciante)
         toValidate.push({
           attribute:'nroMatriculaComerciante',
           dataId:'',
-          error:'El Nro de matricula es Obligatorio'
+          error:'El Nro de Matrícula es requerido'
         })
       
       if(!this.tramite.fechaInscripcionMatriculaComerciante)
@@ -53,19 +53,19 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:'La fecha de inscripción de la Matrícula de Comerciante en rubro Construcción no puede ser anterior al alta en AFIP'
         })
-
-      if(!this.tramite.domicilioReal)
+      
+      if(!this.tramite.ieric)
         toValidate.push({
-          attribute:'domicilioReal',
+          attribute:'ieric',
           dataId:'',
-          error:'Indique el domicilio real'
+          error:'El número de Ieric es requerido'
         })
       
-      if(!this.tramite.domicilioLegal)
+      if(!this.tramite.vtoIeric)
         toValidate.push({
-          attribute:'domicilioLegal',
+          attribute:'vtoIeric',
           dataId:'',
-          error:'Indique el domicilio legal '
+          error:'La fecha de Vto de Ieric es requerido'
         })
 
       return toValidate
@@ -73,6 +73,29 @@ class Validator implements ValidatorInterface {
 
     parseDomicilioSection(): ValidatorErrorElement[] {
       const toValidate : Array<ValidatorErrorElement> = []
+
+      if(!this.tramite.domicilioReal)
+        toValidate.push({
+          attribute:'domicilioReal',
+          dataId:'',
+          error:'Indíque el domicilio real'
+        })
+      
+      if(!this.tramite.domicilioLegal)
+        toValidate.push({
+          attribute:'domicilioLegal',
+          dataId:'',
+          error:'Indíque el domicilio legal'
+        })
+      
+
+      if(!this.tramite.emailInstitucional)
+        toValidate.push({
+          attribute:'emailInstitucional',
+          dataId:'',
+          error:'El domicilio electrónico es obligatorio, en el email declarado recibirá todas las notificaciones. '
+        })
+        
       return toValidate
     }
     parseDDJJSection(): ValidatorErrorElement[] {

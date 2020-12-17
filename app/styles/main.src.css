@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .ant-input{
     border-radius:10px !important;
     padding: 8px 8px !important;
