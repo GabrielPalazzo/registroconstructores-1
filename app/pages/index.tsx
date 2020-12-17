@@ -7,7 +7,7 @@ import { SET_TRAMITE_NUEVO } from '../redux/reducers/main'
 import { useDispatch } from 'react-redux'
 import { BandejaConstructor } from '../components/bandejaConstructor';
 import { getTramites, getUsuario } from '../services/business';
-import { Loading } from '../components/loading'
+import { Loading } from '../components/loading';
 
 export default () => {
   const router = useRouter()
@@ -45,7 +45,7 @@ export default () => {
 
       </div>
     </div>
-    
+   
     <div className="md:px-20 py-6 grid grid-cols-2 px-4 ">
       <div className="text-2xl font-bold py-4"> Empresas administradas</div>
       <div className="text-2xl font-bold py-4 text-right">
