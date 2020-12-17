@@ -2,13 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet');
 
-
-html, body, #__next {
-    height: 100%;
-    font-family: 'Encode Sans', sans-serif;
-  }
 .ant-input{
     border-radius:10px !important;
     padding: 8px 8px !important;
