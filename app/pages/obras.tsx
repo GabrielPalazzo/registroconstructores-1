@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import { NavigationStep } from '../components/steps'
+import {NavigationStep} from '../components/steps'
 import InputText from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
@@ -11,12 +11,12 @@ import { PlusOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
-import  { DatePickerModal }  from '../components/datePicker_Modal'
+import DatePickerModal from '../components/datePicker_Modal'
 import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora,isPersonaFisica } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 
 
@@ -38,12 +38,21 @@ export default () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
-  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+
+
+  const [redeterminacionFecha, setRedeterminacionFecha]  = useState('')
+
+  const [certificacionFecha, setCertificacionFecha] = useState('')
+
+  const [cecFechaInicio, setCecFechaInicio] = useState('')
+  const [cecFechaCierre, setCecFechaCierre] = useState('')
+
 
   useEffect(() => {
     if (!tramite.cuit)
       router.push('/')
-  }, [])
+  },[])
 
 
   const save = async () => {
@@ -104,7 +113,6 @@ export default () => {
             defaultOption="Tipo de contratacion"
             labelRequired="*"
             labelMessageError=""
-            required
             option={TipoContratacion.map(u => (
               <Option value={u.value}>{u.label}</Option>
 
@@ -117,7 +125,6 @@ export default () => {
             defaultOption="Nivel"
             labelRequired="*"
             labelMessageError=""
-            required
             option={TipoNivel.map(u => (
               <Option value={u.value}>{u.label}</Option>
 
@@ -168,7 +175,7 @@ export default () => {
               labelRequired="*"
               value=""
               labelMessageError=""
-            />
+              />
           </div>
           <div className="pb-6" >
             <InputTextModal
@@ -176,7 +183,7 @@ export default () => {
               labelRequired="*"
               value=""
               labelMessageError=""
-            />
+               />
 
           </div>
           <div className="pb-6" >
@@ -185,7 +192,7 @@ export default () => {
               labelRequired="*"
               value=""
               labelMessageError=""
-            />
+               />
           </div>
         </div>
         <div className="mt-6 text-center">
@@ -261,9 +268,9 @@ export default () => {
             </div>
             <div className="pb-6" >
               <InputTextModal
-                type="number" step="any"
+              type="number" step="any"
                 label="Monto inicial del contrato"
-
+                
                 labelRequired="*"
                 value=""
                 labelMessageError=""
@@ -297,14 +304,13 @@ export default () => {
           </div>
           <div className="pb-6" >
             <DatePickerModal
-              placeholder="Fecha  (dd/mm/yyyy)"
-              label="Fecha de Inscripción"
+              label="Fecha"
+              value={redeterminacionFecha}
+              bindFunction={setRedeterminacionFecha}
               labelRequired="*"
-              labelObservation=""
-              labeltooltip=""
+              placeholder="Fecha de redeterminación"
               labelMessageError=""
-              value=""
-            />
+               />
           </div>
 
           <div className="pb-6" >
@@ -329,9 +335,9 @@ export default () => {
         <div className="grid grid-cols-2 gap-4 ">
           <div className="pb-6" >
             <InputTextModal
-              type="number" step="any"
+            type="number" step="any"
               label="Nro Certificación / Factura"
-
+              
               labelRequired="*"
               value=""
               labelMessageError=""
@@ -349,13 +355,14 @@ export default () => {
             <DatePickerModal
               label="Fecha Certificacion"
               labelRequired="*"
-              value=""
+              value={certificacionFecha}
+              bindFunction={setCertificacionFecha}
               labelMessageError=""
-            />
+              />
           </div>
           <div className="pb-6" >
             <InputTextModal
-              type="number" step="any"
+            type="number" step="any"
               label="Monto"
               labelRequired="*"
               value=""
@@ -389,37 +396,39 @@ export default () => {
             <DatePickerModal
               label="Inicio"
               labelRequired="*"
-              value=""
+              value={cecFechaInicio}
+              bindFunction={setCecFechaInicio}
               labelMessageError=""
-            />
+              />
           </div>
           <div className="pb-6" >
             <DatePickerModal
               label="Fin"
               labelRequired="*"
-              value=""
+              value={cecFechaCierre}
+              bindFunction={setCecFechaCierre}
               labelMessageError=""
-            />
+              />
 
           </div>
           <div className="pb-6" >
-            <InputTextModal
-              type="number" step="any"
-              label="Montos certificados del ultimo balance"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-          </div>
-          <div className="mt-8 ">
-            <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
-          </div>
+          <InputTextModal
+          type="number" step="any"
+            label="Montos certificados del ultimo balance"
+            labelRequired="*"
+            value=""
+            labelMessageError=""
+          />
+        </div>
+        <div className="mt-8 ">
+          <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
+        </div>
 
         </div>
         <div className="mt-4 ">
           {renderNoData()}
         </div>
-
+        
       </div>
 
 
@@ -493,7 +502,7 @@ export default () => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep generalStatus={statusGeneralTramite} current={3} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
+      <NavigationStep generalStatus={statusGeneralTramite} current={3}  completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) } />
     </div>
     <div className="px-20 py-6 ">
       <div className="flex  content-center  ">
