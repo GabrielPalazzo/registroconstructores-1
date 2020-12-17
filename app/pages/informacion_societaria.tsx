@@ -54,6 +54,8 @@ export default () => {
   const [fechaOtorgamiento, setFechaOtorgamiento] = useState('')
   const [fechaExpiracion,setFechaExpiracion] = useState('')
 
+  const [modificacionEstatutoDatos, setModificacionEstatutoDatos] = useState('')
+  const [modificacionEstatutoFecha,setModificacionEstatutoFecha] = useState('')
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
@@ -511,18 +513,18 @@ export default () => {
         <div >
           <InputTextModal
           label="Datos"
+          value={modificacionEstatutoDatos}
+          bindFunction={setModificacionEstatutoDatos}
           labelRequired="*"
-          placeHolder=""
-          
-          labelObservation=""
-          labeltooltip=""
+          placeholder=""
           labelMessageError=""
           required /></div>
         <div >
           <DatePickerModal
             label="Fecha"
-            
-            labelRequired="*"
+            value={modificacionEstatutoFecha}
+            bindFunction={setModificacionEstatutoFecha}
+            labelRequired= "*"
             placeholder="Fecha"
             labelObservation=""
             labeltooltip=""

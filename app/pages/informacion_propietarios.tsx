@@ -81,73 +81,7 @@ export default () => {
   }
 
 
-  const renderModalSanciones = () => {
-    return (<div>
-      <div className="grid grid-cols-2 gap-4 ">
-        <div className="pb-6" >
-          <InputTextModal
-            label="Autoridad que la aplico"
-            labelRequired="*"
-            placeholder="Ingrese el Nombre y apellido"
-            value=""
-            labelMessageError=""
-            required />
 
-        </div>
-        <div className="pb-6" >
-          <InputTextModal
-            label="Titular"
-            labelRequired="*"
-            placeholder="Numero de Resolucion o norma"
-            value=""
-            labelMessageError=""
-            required />
-
-        </div>
-        <div className="pb-6" >
-          <SelectModal
-            title="Tipo de Sancion"
-            labelRequired="*"
-
-            value=""
-            labelMessageError=""
-            required />
-
-        </div>
-        <div className="pb-6" >
-          <InputTextModal
-            label="Obra de Origen"
-            labelRequired="*"
-            placeholder="Numero de Resolucion o norma"
-            value=""
-            labelMessageError=""
-            required />
-
-        </div>
-        <div className="pb-6" >
-          <DatePickerModal
-            label="Fecha de Sancion"
-            labelRequired="*"
-            placeholder="dd/mm/aaaa"
-            value=""
-            labelMessageError=""
-            required />
-
-        </div>
-        <div className="pb-6" >
-          <DatePickerModal
-            label="Fecha de Vencimiento"
-            labelRequired="*"
-            placeholder="dd/mm/aaaa"
-            value=""
-            labelMessageError=""
-            required />
-
-        </div>
-      </div>
-    </div>
-    )
-  }
   const renderModalPropietarios = () => {
     return (<div>
       <div className="grid grid-cols-2 gap-4 ">
@@ -356,7 +290,7 @@ export default () => {
               placeholder="debe ser numerico"
               value=""
               labelMessageError=""
-              status="" />
+             />
 
           </div>
           <div >
@@ -366,7 +300,7 @@ export default () => {
               placeholder="debe ser numerico"
               value=""
               labelMessageError=""
-              status="" />
+               />
 
           </div>
         </div>
