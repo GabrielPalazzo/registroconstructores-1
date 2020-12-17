@@ -37,17 +37,17 @@ class Validator implements ValidatorInterface {
     }
 
     parseDomicilioSection(): ValidatorErrorElement[] {
-        throw new Error("Method not implemented.")
+      const toValidate : Array<ValidatorErrorElement> = []
+      return toValidate
     }
     parseDDJJSection(): ValidatorErrorElement[] {
-        throw new Error("Method not implemented.")
+      const toValidate : Array<ValidatorErrorElement> = []
+      return toValidate
     }
     parseObrasSection(): ValidatorErrorElement[] {
-        throw new Error("Method not implemented.")
-    }
-   
-    
-         
+      const toValidate : Array<ValidatorErrorElement> = []
+      return toValidate
+    }      
 }
 
 export const validatorTramite = new Validator()
