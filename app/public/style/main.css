@@ -23644,13 +23644,6 @@ video {
           animation: bounce 1s infinite;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet');
-
-html, body, #__next {
-  height: 100%;
-  font-family: 'Encode Sans', sans-serif !important;
-}
-
 .ant-input{
   border-radius:10px !important;
   padding: 8px 8px !important;
@@ -23665,10 +23658,6 @@ html, body, #__next {
   border-radius:25px !important;
   padding:  0px 20px !important;
   background:#0072BB !important;
-}
-
-svg{
-  margin-top:-5px !important;
 }
 
 .ant-btn{
@@ -23742,6 +23731,10 @@ svg{
 
 .ant-btn-icon-only{
   padding: 2.4px 0 !important;
+}
+
+.anticon svg{
+  display: block !important;
 }
 
 @media (min-width: 640px) {
