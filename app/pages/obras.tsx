@@ -40,6 +40,15 @@ export default () => {
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
+
+  const [redeterminacionFecha, setRedeterminacionFecha]  = useState('')
+
+  const [certificacionFecha, setCertificacionFecha] = useState('')
+
+  const [cecFechaInicio, setCecFechaInicio] = useState('')
+  const [cecFechaCierre, setCecFechaCierre] = useState('')
+
+
   useEffect(() => {
     if (!tramite.cuit)
       router.push('/')
@@ -299,8 +308,10 @@ export default () => {
           <div className="pb-6" >
             <DatePickerModal
               label="Fecha"
+              value={redeterminacionFecha}
+              bindFunction={setRedeterminacionFecha}
               labelRequired="*"
-              value=""
+              placeholder="Fecha de redeterminación"
               labelMessageError=""
                />
           </div>
@@ -347,7 +358,8 @@ export default () => {
             <DatePickerModal
               label="Fecha Certificacion"
               labelRequired="*"
-              value=""
+              value={certificacionFecha}
+              bindFunction={setCertificacionFecha}
               labelMessageError=""
               />
           </div>
@@ -387,7 +399,8 @@ export default () => {
             <DatePickerModal
               label="Inicio"
               labelRequired="*"
-              value=""
+              value={cecFechaInicio}
+              bindFunction={setCecFechaInicio}
               labelMessageError=""
               />
           </div>
@@ -395,7 +408,8 @@ export default () => {
             <DatePickerModal
               label="Fin"
               labelRequired="*"
-              value=""
+              value={cecFechaCierre}
+              bindFunction={setCecFechaCierre}
               labelMessageError=""
               />
 
