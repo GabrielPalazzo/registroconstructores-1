@@ -396,8 +396,7 @@ export default () => {
           />
 
         </div>
-
-        {isConstructora(tramite) ? <div className="flex">
+        <div className="flex">
           <div className="w-full" >
             <InputText
               label="IERIC"
@@ -412,7 +411,6 @@ export default () => {
               labeltooltip=""
               labelMessageError=""
             />
-
           </div>
           <div className="w-full ml-4" >
             <DatePicker
@@ -429,8 +427,7 @@ export default () => {
               labelMessageError=""
             />
           </div>
-        </div>
-          : ''}
+        </div> 
         <div >
           <InputText
             label="Nro Matricula Comerciante"

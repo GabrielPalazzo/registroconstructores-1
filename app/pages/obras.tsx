@@ -169,7 +169,7 @@ export default () => {
               labelRequired="*"
               value=""
               labelMessageError=""
-              required="required" />
+              />
           </div>
           <div className="pb-6" >
             <InputTextModal
@@ -177,7 +177,7 @@ export default () => {
               labelRequired="*"
               value=""
               labelMessageError=""
-              required="required" />
+               />
 
           </div>
           <div className="pb-6" >
@@ -186,7 +186,7 @@ export default () => {
               labelRequired="*"
               value=""
               labelMessageError=""
-              required="required" />
+               />
           </div>
         </div>
         <div className="mt-6 text-center">
@@ -302,7 +302,7 @@ export default () => {
               labelRequired="*"
               value=""
               labelMessageError=""
-              required="required" />
+               />
           </div>
 
           <div className="pb-6" >
@@ -349,7 +349,7 @@ export default () => {
               labelRequired="*"
               value=""
               labelMessageError=""
-              required="required" />
+              />
           </div>
           <div className="pb-6" >
             <InputTextModal
@@ -389,7 +389,7 @@ export default () => {
               labelRequired="*"
               value=""
               labelMessageError=""
-              required="required" />
+              />
           </div>
           <div className="pb-6" >
             <DatePickerModal
@@ -397,7 +397,7 @@ export default () => {
               labelRequired="*"
               value=""
               labelMessageError=""
-              required="required" />
+              />
 
           </div>
           <div className="pb-6" >
