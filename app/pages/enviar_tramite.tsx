@@ -7,6 +7,7 @@ import { Button, Steps, Card } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
 import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora,isPersonaFisica } from '../services/business';
+import {validatorTramite} from '../services/validator'
 import { Loading } from '../components/loading';
 
 const { Step } = Steps;
@@ -22,8 +23,10 @@ export default () => {
   useEffect(() => {
     if (!tramite.cuit)
       router.push('/')
+    
+    validatorTramite.load(tramite)
 
-    dispatch(setStatusGeneralTramite(['finish','error','wait','wait','wait']))
+    dispatch(setStatusGeneralTramite([validatorTramite.parseInfomacionBasicaSection().length > 0 ? 'error': 'finish','error','wait','wait','wait']))
   },[])
 
   const save = async () => {
@@ -43,6 +46,9 @@ export default () => {
     setTramite(Object.assign({}, tramite))
   }
 
+  if (!tramite.cuit)
+    return <Loading message="" type="waiting"/>
+
   return <div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
@@ -54,18 +60,36 @@ export default () => {
 
     <div className="px-20 py-6 text-center m-auto mt-6">
       <div className="text-2xl font-bold py-4 text-center"> Enviar trámite</div>
-      <Card className="rounded mr-2 text-center m-autop" style={{ width: 500, margin: 'auto' }}>
-        <div className="text-base font-bold text-primary-700 pb-2 "> ¿Desea confirmar el envío de su trámite?</div>
-        <div className="text-muted-700 text-sm  mt-2 self-center"  > Puede revisar cada uno de los pasos haciendo click en los mismos</div>
-      </Card>
-
-
-      <div className="mt-6 pt-4 text-center">
-
-        <Button type="primary" onClick={() => router.push('/success')}> Enviar Tramite</Button>
-
+      {validatorTramite.parseInfomacionBasicaSection().length ===0 ? 
+      <div>
+        <Card className="rounded mr-2 text-center m-autop" style={{ width: 500, margin: 'auto' }}>
+          <div className="text-base font-bold text-primary-700 pb-2 "> ¿Desea confirmar el envío de su trámite?</div>
+          <div className="text-muted-700 text-sm  mt-2 self-center"  > Puede revisar cada uno de los pasos haciendo click en los mismos</div>
+        </Card>
+        <div className="mt-6 pt-4 text-center">
+          <Button type="primary" onClick={() => router.push('/success')}> Enviar Tramite</Button>
+        </div>
       </div>
+        : 
+      <Card className="rounded mr-2 text-center m-autop" style={{ width: 500 , margin: 'auto' }}>
+        <div className="text-base font-bold text-warning-700 px-8 pb-2 "> 
+        <div>
+          Usted tiene items incompletos que deberá completar para poder enviar el trámite
+        </div>
+        <div className="text-gray-800 text-left p-2 font-thin">
+          <div className="font-bold">Información Básica</div>
+          <li>
+            {validatorTramite.parseInfomacionBasicaSection().map( (e:ValidatorErrorElement) => <ul>{e.error}</ul>)}
+          </li>
+        </div>
+        </div>
+      </Card>}
+      
 
+      
+
+
+      
     </div>
 
   </div>

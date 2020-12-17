@@ -100,3 +100,9 @@ type TramiteAlta = {
     nroMatriculaComerciante: string, 
     fechaInscripcionMatriculaComerciante: string
 }
+
+type ValidatorErrorElement = {
+    attribute : string 
+    dataId: string
+    error: string
+}

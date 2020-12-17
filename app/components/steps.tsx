@@ -3,7 +3,7 @@ import { Steps } from 'antd';
 import { PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import {useDispatch} from 'react-redux'
-import {setPaso} from '../redux/actions/main'
+import {setPaso, setStatusGeneralTramite} from '../redux/actions/main'
 import {SET_PASOS} from '../redux/reducers/main'
 const { Step } = Steps;
 
@@ -22,14 +22,19 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
   const dispatch = useDispatch()
   const router = useRouter()
 
+  const cleanErrors = () => {
+    dispatch(setStatusGeneralTramite(['wait','wait','wait','wait','wait']))
+  }
   return <div className="px-20 py-4">
     <Steps current={current}>
       <Step
+        
         status={generalStatus[0]}
         title="Inscripción"
         className="cursor-pointer"
         onClick={() => {
           dispatch(setPaso(SET_PASOS.SET_PASO_INSCRIPCION))
+          cleanErrors()
           router.push('/informacion_basica')
         }}
       />
@@ -39,6 +44,7 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
         className="cursor-pointer"
         onClick={() =>{ 
           dispatch(setPaso(SET_PASOS.SET_PASO_INFORMACION))
+          cleanErrors()
           router.push('/domicilio')
         }}
       />
@@ -50,6 +56,7 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
         className="cursor-pointer"
         onClick={() => {
           dispatch(setPaso(SET_PASOS.SET_PASO_BALANCES))
+          cleanErrors()
           router.push('/ejercicios')
         }}
       />
@@ -61,6 +68,7 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
         className="cursor-pointer"
         onClick={() => {
           dispatch(setPaso(SET_PASOS.SET_PASO_OBRAS))
+          cleanErrors()
           router.push('/obras')
         }}/> 
       
@@ -70,6 +78,7 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
         className="cursor-pointer"
         onClick={() => {
           dispatch(setPaso(SET_PASOS.SET_PASO_ENVIAR))
+          cleanErrors()
           router.push('/enviar_tramite')}}
       />
     </Steps>
