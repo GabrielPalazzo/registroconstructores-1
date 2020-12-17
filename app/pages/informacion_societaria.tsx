@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useRouter } from 'next/router'
-import NavigationStep from '../components/steps'
+import {NavigationStep} from '../components/steps'
 import InputText from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
@@ -18,7 +18,7 @@ import UploadLine from '../components/uploadLine'
 
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora,isPersonaFisica } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 
 
@@ -56,6 +56,12 @@ export default () => {
 
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+
+  useEffect(() => {
+    if (!tramite.cuit)
+      router.push('/')
+  },[])
 
   const { Step } = Steps;
   const renderModalCalidad = () => {
@@ -339,7 +345,6 @@ export default () => {
       if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
     }
-    setIsLoading(false)
   }
 
   const updateObjTramite = () => {
@@ -455,7 +460,7 @@ export default () => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep current={1} />
+      <NavigationStep generalStatus={statusGeneralTramite} current={1}  completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) } />
     </div>
     <div className="w-2/5 m-auto text-base mt-8">
       <Substeps progressDot current={1} />

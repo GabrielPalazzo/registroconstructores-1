@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {HeaderPrincipal} from '../components/header'
-import NavigationStep from '../components/steps'
+import { HeaderPrincipal } from '../components/header'
+import { NavigationStep } from '../components/steps'
 import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox } from 'antd';
 import LikeDislike from '../components/like_dislike'
 
@@ -17,8 +17,9 @@ import RadioGroup from '../components/radioGroup'
 import SelectModal from '../components/select_modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
 import { Loading } from '../components/loading';
+import generateCalendar from 'antd/lib/calendar/generateCalendar';
 
 
 const { Option } = Select;
@@ -41,35 +42,36 @@ const renderNoData = () => {
 }
 
 
-
-
-
-
-
 export default () => {
 
   const router = useRouter()
 
   const [visible, setVisible] = useState<boolean>(false)
-  
+
   const [tipoEmpresa, setTipoEmpresa] = useState(null)
   const [personeria, setPersoneria] = useState(null)
-  const [waitingType, setWaitingType] = useState<'sync'  | 'waiting'>('waiting')
-  
+  const [waitingType, setWaitingType] = useState<'sync' | 'waiting'>('waiting')
+
   //const tramiteSesion: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
-  const tipoAccion : string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
+  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const [nombre, setNombre] = useState(' ')
   const [apellido, setApellido] = useState('')
-  const [email,setEmail] = useState('')
+  const [email, setEmail] = useState('')
   const [propuestaElectronica, setPropuestaElectronica] = useState('')
-  const [cuit,setCuit] = useState('')
-  const [nroDocumento,setNroDocumento] = useState('')
-  const [tipoDocumentoApoderado,setTipoDocumentoApoderado] = useState('')
+  const [cuit, setCuit] = useState('')
+  const [nroDocumento, setNroDocumento] = useState('')
+  const [tipoDocumentoApoderado, setTipoDocumentoApoderado] = useState('')
   const dispatch = useDispatch()
   const paso = useSelector(state => state.appStatus.paso)
-  const [isLoading,setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
+
+  useEffect(() => {
+    if (!tramite.cuit)
+      router.push('/')
+  }, [])
 
   const showModal = () => {
     setVisible(true)
@@ -96,20 +98,20 @@ export default () => {
 
   const save = async () => {
     setWaitingType('sync')
-    
+
     setIsLoading(true)
-    if (tramite._id){
+    if (tramite._id) {
       await dispatch(saveTramite(tramite))
     } else {
       if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
     }
-    setIsLoading(false)
+    // setIsLoading(false)
   }
 
 
   const removeApoderadoFromList = (record: Apoderado) => {
-    tramite.apoderados = tramite.apoderados.filter( (a:Apoderado) => a.cuit !== record.cuit)
+    tramite.apoderados = tramite.apoderados.filter((a: Apoderado) => a.cuit !== record.cuit)
     save()
   }
 
@@ -117,9 +119,9 @@ export default () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text,record) => (tramite.status==='BORRADOR' ? <div onClick={() => removeApoderadoFromList(record)}><DeleteOutlined /></div> :<Space size="middle">
-      <LikeDislike />
-    </Space>),
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => removeApoderadoFromList(record)}><DeleteOutlined /></div> : <Space size="middle">
+        <LikeDislike />
+      </Space>),
     },
     {
       title: 'Nombre',
@@ -140,13 +142,13 @@ export default () => {
       dataIndex: 'email',
       key: 'email',
     }
-  
-  
+
+
   ];
 
   const updateObjTramite = () => {
-    setTramite(Object.assign({},tramite))
-  } 
+    setTramite(Object.assign({}, tramite))
+  }
 
   const renderApoderadosSection = () => {
     return (<div>
@@ -160,7 +162,7 @@ export default () => {
             bindFunction={setNombre}
             labelMessageError=""
             required />
-  
+
         </div>
         <div className="pb-6" >
           <InputTextModal
@@ -173,7 +175,7 @@ export default () => {
         </div>
       </div>
       <div className="grid grid-cols-4 gap-4 ">
-  
+
         <div className="pb-6" >
           <SelectModal
             title="Tipo de documento"
@@ -183,12 +185,12 @@ export default () => {
             required
             option={tipoDocumento.map(u => (
               <Option value={u.value}>{u.label}</Option>
-  
+
             ))} />
         </div>
         <div className="pb-6" >
           <InputTextModal
-  
+
             label="Nº de Documento"
             labelRequired="*"
             placeholder="Ingrese su numero de documento sin deja espacios"
@@ -196,7 +198,7 @@ export default () => {
             bindFunction={setNroDocumento}
             labelMessageError=""
             required />
-  
+
         </div>
         <div className="pb-6" >
           <InputTextModal
@@ -207,9 +209,9 @@ export default () => {
             bindFunction={setCuit}
             labelMessageError=""
             required />
-  
+
         </div>
-        
+
       </div>
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
@@ -221,9 +223,9 @@ export default () => {
             bindFunction={setEmail}
             labelMessageError=""
             required />
-  
+
         </div>
-       
+
         <div className="pb-6" >
           <RadioGroup
             label="¿Qué tipo de persona desea dar de alta? "
@@ -235,9 +237,9 @@ export default () => {
                 {u.label}
               </Radio>
             ))
-  
+
             }
-  
+
           />
         </div>
         <div className="pb-6" >
@@ -251,16 +253,16 @@ export default () => {
             labelMessageError=""
           />
         </div>
-  
+
       </div>
-  
+
       <div className="grid grid-cols-3 gap-4 ">
         <div className="pb-6" >
           <Upload
             label="Adjunte fotos de frente y dorso del DNI"
             labelRequired="*"
             labelMessageError=""
-  
+
           />
         </div>
         <div className="pb-6" >
@@ -286,15 +288,17 @@ export default () => {
   }
 
   if (isLoading)
-    return <Loading message="" type={waitingType}/>
+    return <Loading message="" type={waitingType} />
 
   return (<div className="">
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
       router.push('/')
-    }}/>
+    }} />
     <div className="border-gray-200 border-b-2">
       <NavigationStep
+        generalStatus={statusGeneralTramite}
+        completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)}
         current={0} />
     </div>
 
@@ -306,7 +310,7 @@ export default () => {
           <SelectSimple
             value={tramite.personeria}
             bindFunction={(value) => {
-              tramite.personeria= value
+              tramite.personeria = value
               updateObjTramite()
             }}
             title="Tipo de personeria"
@@ -315,7 +319,7 @@ export default () => {
             labelMessageError=""
             required
             option={tipoPersoneria.map(u => (
-              <Option  value={u.value}>{u.label}</Option>
+              <Option value={u.value}>{u.label}</Option>
             ))} />
 
         </div>
@@ -324,7 +328,7 @@ export default () => {
             labelRequired="*"
             value={tramite.tipoEmpresa}
             bindFunction={(value) => {
-              tramite.tipoEmpresa= value
+              tramite.tipoEmpresa = value
               updateObjTramite()
             }}
             title="Seleccione el tipo de empresa"
@@ -354,7 +358,7 @@ export default () => {
             labelMessageError=""
             value={tramite.razonSocial}
             bindFunction={(value) => {
-              tramite.razonSocial= value
+              tramite.razonSocial = value
               updateObjTramite()
             }}
             required />
@@ -367,8 +371,8 @@ export default () => {
             labelRequired="*"
             value={tramite.cuit}
             bindFunction={(value) => {
-              tramite.cuit= value
-              setTramite(Object.assign({},tramite))
+              tramite.cuit = value
+              setTramite(Object.assign({}, tramite))
             }}
             placeHolder="Ingrese el numero de cuit sin guiones"
             labelObservation=""
@@ -382,7 +386,7 @@ export default () => {
             label="Nro de Legajo"
             value={tramite.nroLegajo}
             bindFunction={(value) => {
-              tramite.nroLegajo= value
+              tramite.nroLegajo = value
               updateObjTramite()
             }}
             placeHolder="Ingrese el numero de legajo"
@@ -392,54 +396,49 @@ export default () => {
           />
 
         </div>
-        <div >
-          <InputText type="email"
-            label="Email institucional"
-            value={tramite.email}
-            bindFunction={(value) => {
-              tramite.email= value
-              updateObjTramite()
-            }}
-            placeHolder="Email Institucional"
-          />
 
-        </div>
-        <div >
-          <InputText
-            label="IERIC"
-            labelRequired="*"
-            placeHolder="IERIC"
-            value={tramite.ieric}
-            bindFunction={(value) => {
-              tramite.ieric= value
-              updateObjTramite()
-            }}
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-          />
+        {isConstructora(tramite) ? <div className="flex">
+          <div className="w-full" >
+            <InputText
+              label="IERIC"
+              labelRequired="*"
+              placeHolder="IERIC"
+              value={tramite.ieric}
+              bindFunction={(value) => {
+                tramite.ieric = value
+                updateObjTramite()
+              }}
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+            />
 
+          </div>
+          <div className="w-full ml-4" >
+            <DatePicker
+              value={tramite.vtoIeric}
+              bindFunction={(value) => {
+                tramite.vtoIeric = value
+                updateObjTramite()
+              }}
+              label="Fecha vencimiento IERIC"
+              labelRequired="*"
+              placeholder="dd/mm/aaaa"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+            />
+          </div>
         </div>
-        <div >
-          <DatePicker
-          
-            value={tramite.vtoIeric}
-            bindFunction={(value) => {
-              tramite.vtoIeric=value
-              updateObjTramite()
-            }}
-            label="Fecha vencimiento IERIC"
-            labelRequired="*"
-            placeholder="dd/mm/aaaa"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-          />
-
-        </div>
+          : ''}
         <div >
           <InputText
             label="Nro Matricula Comerciante"
+            value={tramite.nroMatriculaComerciante}
+            bindFunction={(value) => {
+              tramite.nroMatriculaComerciante = value
+              updateObjTramite()
+            }}
             labelRequired="*"
             placeHolder="1111-111"
             labelObservation=""
@@ -450,7 +449,11 @@ export default () => {
         </div>
         <div >
           <DatePicker
-            
+            value={tramite.fechaInscripcionMatriculaComerciante}
+            bindFunction={value => {
+              tramite.fechaInscripcionMatriculaComerciante = value
+              updateObjTramite()
+            }}
             label="Fecha de Inscripcion"
             labelRequired="*"
             placeholder="dd/mm/aaaa"
@@ -460,13 +463,14 @@ export default () => {
           />
 
         </div>
-        <div >
+        {isConstructora(tramite) ? <div >
           <Upload
             label="Adjunte certificado IERIC"
             labelRequired="*"
             labelMessageError="" />
 
-        </div>
+        </div> : ''}
+
         <div >
           <Upload
             label="Adjunte constancia CUIT"
@@ -474,7 +478,7 @@ export default () => {
             labelMessageError="" />
 
         </div>
-        
+
         <div >
           <Upload
             label="Adjunte comprobante de Incripcion"
@@ -487,7 +491,7 @@ export default () => {
       </div>
       <div className="mt-6">
         <div className="flex  content-center ">
-          <div className="text-2xl font-bold py-4 w-3/4"> Apoderados y/o Representantes legales</div>
+          <div className="text-2xl font-bold py-4 w-3/4"> {isPersonaFisica ? 'Apoderados' : 'Apoderados y/o Representantes legales'}</div>
           <div className=" w-1/4 text-right content-center mt-4 ">
             <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
           </div>
@@ -505,13 +509,14 @@ export default () => {
           {renderApoderadosSection()}
         </Modal>
 
-        <Table  columns={columns} dataSource={tramite.apoderados} />
+        <Table columns={columns} dataSource={tramite.apoderados} />
       </div>
 
-      
+
       <div className=" mt-6 pt-6 text-center">
         <Button type="primary" onClick={() => {
           save()
+          
           router.push('/domicilio')
         }} > Guardar y Seguir</Button>
       </div>

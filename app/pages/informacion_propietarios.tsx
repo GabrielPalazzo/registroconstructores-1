@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import NavigationStep from '../components/steps'
+import {NavigationStep} from '../components/steps'
 import InputText from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
@@ -16,7 +16,7 @@ import UploadLine from '../components/uploadLine'
 
 import DatePickerModal from '../components/datePicker_Modal'
 import { useDispatch, useSelector } from 'react-redux'
-import { getTramiteByCUIT, getEmptyTramiteAlta } from '../services/business'
+import { getTramiteByCUIT, getEmptyTramiteAlta, isConstructora, isPersonaFisica } from '../services/business'
 import { saveTramite } from '../redux/actions/main'
 
 
@@ -57,6 +57,12 @@ export default () => {
   const router = useRouter()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
 
+  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+
+  useEffect(() => {
+    if (!tramite.cuit)
+      router.push('/')
+  },[])
 
   const save = async () => {
     setWaitingType('sync')
@@ -68,7 +74,6 @@ export default () => {
       if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
     }
-    setIsLoading(false)
   }
 
   const updateObjTramite = () => {
@@ -254,7 +259,7 @@ export default () => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep current={1} />
+      <NavigationStep generalStatus={statusGeneralTramite} current={1}  completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) } />
     </div>
     <div className="w-2/5 m-auto text-base mt-8">
       <Substeps progressDot current={2} />

@@ -47,9 +47,10 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     nroLegajo: '',
     personeria:'',
     propietario: null,
+    emailInstitucional: '',
     razonSocial:'',
     status: 'BORRADOR',
-    tipoEmpresa: null,
+    tipoEmpresa: [],
     vtoIeric: '',
     registroPublicoDeComercio: '',
     igj:'',
@@ -62,7 +63,9 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     },
     autoridadesSociedad:[],
     sistemaCalidad: [],
-    ejercicios:[]
+    ejercicios:[],
+    nroMatriculaComerciante: '',
+    fechaInscripcionMatriculaComerciante:''
   }
 }
 
@@ -71,13 +74,13 @@ export const getColorStatus = (tramite: TramiteAlta) => {
   
   switch(tramite.status){
     case 'BORRADOR':
-      return 'red'
+      return 'gray'
     case 'VERIFICADO':
       return 'green'
-    case 'A VERIFICAR':
-      return 'orange'
+    case 'OBSERVADO':
+      return 'red'
     default:
-      return 'gray'
+      return 'blue'
   }
 }
 
@@ -103,3 +106,11 @@ export const getUsuario  = () => {
   }
 }
 
+export const isConstructora = (tramite: TramiteAlta) : boolean => {
+  return tramite.tipoEmpresa.filter(te => te === 'CONSTRUCTORA').length === 1
+}
+
+
+export const isPersonaFisica = (tramite: TramiteAlta) : boolean=> {
+  return tramite.personeria ==='PF'
+}

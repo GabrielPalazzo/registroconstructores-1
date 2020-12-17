@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import NavigationStep from '../components/steps'
+import {NavigationStep} from '../components/steps'
 import InputText from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
@@ -16,7 +16,7 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora,isPersonaFisica } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 
 
@@ -38,6 +38,12 @@ export default () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+
+  useEffect(() => {
+    if (!tramite.cuit)
+      router.push('/')
+  },[])
 
 
   const save = async () => {
@@ -50,7 +56,6 @@ export default () => {
       if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
     }
-    setIsLoading(false)
   }
 
   const updateObjTramite = () => {
@@ -486,7 +491,7 @@ export default () => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep current={3} />
+      <NavigationStep generalStatus={statusGeneralTramite} current={3}  completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) } />
     </div>
     <div className="px-20 py-6 ">
       <div className="flex  content-center  ">

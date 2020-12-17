@@ -7,13 +7,25 @@ import {setPaso} from '../redux/actions/main'
 import {SET_PASOS} from '../redux/reducers/main'
 const { Step } = Steps;
 
-export default (props) => {
+
+export interface NavigationStepProps {
+  current: number,
+  generalStatus?:Array<any>,
+  completaBalanceYObras: boolean
+}
+
+export const NavigationStep: React.FC<NavigationStepProps> = ({
+  current =0 ,
+  generalStatus=['wait','wait','wait','wait','wait'],
+  completaBalanceYObras=false
+}) =>{
   const dispatch = useDispatch()
   const router = useRouter()
 
   return <div className="px-20 py-4">
-    <Steps current={props.current}>
+    <Steps current={current}>
       <Step
+        status={generalStatus[0]}
         title="Inscripción"
         className="cursor-pointer"
         onClick={() => {
@@ -23,6 +35,7 @@ export default (props) => {
       />
       <Step
         title="Información"
+        status={generalStatus[1]}
         className="cursor-pointer"
         onClick={() =>{ 
           dispatch(setPaso(SET_PASOS.SET_PASO_INFORMACION))
@@ -30,6 +43,9 @@ export default (props) => {
         }}
       />
       <Step
+        disabled={!completaBalanceYObras}
+        status={generalStatus[2]}
+        description={!completaBalanceYObras ? "No es Necesario": ''}
         title="DDJ de balances"
         className="cursor-pointer"
         onClick={() => {
@@ -38,15 +54,19 @@ export default (props) => {
         }}
       />
       <Step
+        disabled={!completaBalanceYObras}
+        status={generalStatus[3]}
+        description={!completaBalanceYObras ? "No es Necesario": ''}
         title="DDJ de obras"
         className="cursor-pointer"
         onClick={() => {
           dispatch(setPaso(SET_PASOS.SET_PASO_OBRAS))
           router.push('/obras')
-        }}
-      />
+        }}/> 
+      
       <Step
         title="Enviar trámite"
+        status={generalStatus[4]}
         className="cursor-pointer"
         onClick={() => {
           dispatch(setPaso(SET_PASOS.SET_PASO_ENVIAR))

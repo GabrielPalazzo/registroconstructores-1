@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import NavigationStep from '../components/steps'
+import {NavigationStep} from '../components/steps'
 import InputText from '../components/input_text'
 import { HeaderPrincipal } from '../components/header'
 import { Button, Steps, Card } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
-import { saveTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
+import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
+import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora,isPersonaFisica } from '../services/business';
 import { Loading } from '../components/loading';
 
 const { Step } = Steps;
@@ -17,6 +17,14 @@ export default () => {
   const router = useRouter()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
 
+  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+
+  useEffect(() => {
+    if (!tramite.cuit)
+      router.push('/')
+
+    dispatch(setStatusGeneralTramite(['finish','error','wait','wait','wait']))
+  },[])
 
   const save = async () => {
     setWaitingType('sync')
@@ -41,7 +49,7 @@ export default () => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep current={4} />
+      <NavigationStep current={4}  generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) }/>
     </div>
 
     <div className="px-20 py-6 text-center m-auto mt-6">

@@ -1,24 +1,33 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { useRouter } from 'next/router'
-import NavigationStep from '../components/steps'
+import {NavigationStep} from '../components/steps'
 import InputText from '../components/input_text'
 import {HeaderPrincipal} from '../components/header'
 import Upload from '../components/upload'
 import { Button, Steps } from 'antd';
 import Substeps from '../components/subSteps'
 import {useSelector} from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora ,isPersonaFisica} from '../services/business';
 import {useDispatch} from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
+import { Loading } from '../components/loading';
+
 
 const { Step } = Steps;
 export default () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
-  const [waitingType, setWaitingType] = useState('sync')
-
+  const [waitingType, setWaitingType] = useState<'sync' | 'waiting'>('waiting')
+  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+
+
+  useEffect(() => {
+    if (!tramite.cuit)
+      router.push('/')
+  },[])
+
 
   const updateObjTramite = () => {
     setTramite(Object.assign({},tramite))
@@ -34,9 +43,10 @@ export default () => {
       if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
     }
-    setIsLoading(false)
   }
 
+  if (isLoading)
+    return <Loading message="" type={waitingType} />
 
   return <div>
    <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
@@ -44,11 +54,11 @@ export default () => {
       router.push('/')
     }}/>
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep current={1} />
+      <NavigationStep current={1}  generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) }/>
     </div>
-    <div className="w-2/5 m-auto text-base mt-8">
-    <Substeps progressDot current={0} />
-    </div>
+    {!isPersonaFisica(tramite) ? <div className="w-2/5 m-auto text-base mt-8">
+      <Substeps progressDot current={0} />
+    </div>:''}
     <div className="px-20 py-6 ">
       <div className="text-2xl font-bold py-4"> Domicilio Legal</div>
         <div >
@@ -85,7 +95,13 @@ export default () => {
         </div>
         <div className="text-2xl font-bold py-4"> Domicilio Electronico</div>
         <div>
-        <InputText type="email"
+          <InputText
+            value={tramite.emailInstitucional}
+            bindFunction={(value) => {
+              tramite.emailInstitucional = value
+              updateObjTramite()
+            }} 
+            type="email"
             label="Email institucional"
             labelRequired="*"
             placeHolder="Email Institucional"
@@ -108,7 +124,11 @@ export default () => {
             if (!tramite || !tramite.cuit)
               return 
             save()
-            router.push('/informacion_societaria')
+            setIsLoading(true)
+            if (isPersonaFisica)
+              router.push('/enviar_tramite')
+            else
+              router.push('/informacion_societaria')
           }}> Guardar y Seguir</Button>
          </div>
 
