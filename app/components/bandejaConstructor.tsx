@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Button, Card, Divider, Drawer, Tag,Input } from 'antd'
+import { Button, Card, Divider, Drawer, Tag, Input } from 'antd'
 import { Space } from 'antd'
 import { getColorStatus, getStatusObsParsed } from '../services/business'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setUpdateBorrador } from '../redux/actions/main'
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
 import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined } from '@ant-design/icons';
 
 
@@ -48,14 +48,14 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
           <div className="text-xs  text-mutted-700 pb-1 ">Estado de la empresa:</div>
           <div className="text-lg font-bold text-black-700  ">{activeProfile && activeProfile.status}</div>
         </Card>
-        
+
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Tipo de empresa:</div>
           <div className="text-lg font-bold text-black-700  ">{activeProfile && activeProfile.tipoEmpresa}</div>
         </Card>
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Capacidad de contratación y ejecución:</div>
-          <div className="text-lg font-bold text-black-700  "> {activeProfile && activeProfile.status ==='VERIFICADO' ? 1 : 0}</div>
+          <div className="text-lg font-bold text-black-700  "> {activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
         </Card>
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Fecha del último cálculo de capacidad:</div>
@@ -63,53 +63,60 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
         </Card>
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Constancia de Inscripción</div>
-          <div className="text-lg font-bold text-primary-700  "> 
-          <Button style={{ color:"#0072bb", fontWeight: "bold", textAlign: "left", padding: 0 ,  }} type="link">
-          <CloudDownloadOutlined /> Descargar
+          <div className="text-lg font-bold text-primary-700  ">
+            <Button style={{ color: "#0072bb", fontWeight: "bold", textAlign: "left", padding: 0, }} type="link">
+              <CloudDownloadOutlined /> Descargar
       </Button>
-        </div>
+          </div>
         </Card>
       </div>
       <div className="mt-4">
-      <Card>
+        <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Aclaraciones al estado:</div>
           <div className="text-lg font-bold text-black-700  "> {getStatusObsParsed(activeProfile)}</div>
         </Card>
       </div>
-      
-     
+
+
 
     </Drawer>
-    
-    
+
+
 
     <div className="px-4 md:px-20 grid grid-cols-3  gap-4  ">
       {tramites.map((e: TramiteAlta) => (
         <div className="cursor-pointer  mr-4    " >
-          <Card className="rounded h-full   ">
+          <Card className="rounded h-full " style={{ background: "#525252" }}
+            actions={[
+              <Button type="link" style={{textAlign: "left !important", padding: 0 }}
+                onClick={() => {
+                  setActiveProfile(e)
+                  setShowProfile(true)
+                }}> <EyeOutlined /> Previsualizar</Button>,
+              <Button type="link" onClick={() => {
+                dispatch(setUpdateBorrador(e)).then(r => {
+                  router.push('/informacion_basica')
+                })
+              }}>Ingresar <ArrowRightOutlined /> </Button>,
+            ]}>
             <div className="pb-2">
               <Tag color={getColorStatus(e)}>{e.status}</Tag>
             </div>
-            <div className="text-lg font-bold text-black-700 pb-4 "> {e.razonSocial}</div>
-            <div className="flex  justify-between">
-              
-                <Button type="link" style={{ color:"#525252",  textAlign:"left", padding: 0   }}
-                 onClick={() => {
-                  setActiveProfile(e)
-                  setShowProfile(true)
-                }}> <EyeOutlined /> Previsualizar</Button>
-                <Button type="primary" onClick={() => {
-                  dispatch(setUpdateBorrador(e)).then( r =>{
-                    router.push('/informacion_basica')
-                  })
-                }}>Ingresar <ArrowRightOutlined /> </Button>
-              
-            </div>
+            <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
+
           </Card>
         </div>
       ))}
 
     </div>
+    <style>
+      {` 
+      .ant-card-actions{
+        border-radius: 10px !important;
+        background: #FAFAFA !important;
+      }
+      `}
+    </style>
 
   </div>
 }
