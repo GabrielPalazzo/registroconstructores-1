@@ -30,7 +30,7 @@ export default (props: Props) => {
   return (<div >
     <div className="flex">
       <div className="w-3/4">
-        <label className="font-bold text-sm">{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
+        <label className="font-bold text-muted-700 text-sm">{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
       </div>
 
       {props.showHands ? <div className="justify-end w-1/4">
