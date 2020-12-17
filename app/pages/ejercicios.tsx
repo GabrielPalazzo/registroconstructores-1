@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import NavigationStep from '../components/steps'
+import {NavigationStep} from '../components/steps'
 import InputText from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
@@ -15,7 +15,7 @@ import DatePickerModal from '../components/datePicker_Modal'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT,isPersonaFisica, isConstructora } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 
 const { TabPane } = Tabs;
@@ -35,6 +35,7 @@ export default () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   const [inicioEjercicio, setInicioEjercicio] = useState('')
   const [cierreEjercicio, setCierreEjercicio] = useState('')
@@ -44,6 +45,11 @@ export default () => {
   const [pasivoNoCorriente, setPasivoNoCorriente] = useState(0)
   const [ventasDelEjercicio, setVentasDelEjercicio] = useState(0)
   const [capitalSuscripto, setCapitalSuscripto] = useState(0)
+
+  useEffect(() => {
+    if (!tramite.cuit)
+      router.push('/')
+  },[])
 
 
   const save = async () => {
@@ -56,7 +62,6 @@ export default () => {
       if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
     }
-    setIsLoading(false)
   }
 
   const updateObjTramite = () => {
@@ -234,7 +239,7 @@ export default () => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep current={2} />
+      <NavigationStep  generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) } current={2} />
     </div>
     <div className="px-20 py-6 ">
       <div className="flex  content-center  ">

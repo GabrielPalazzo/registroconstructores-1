@@ -55,7 +55,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
         </Card>
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Capacidad de contratación y ejecución:</div>
-          <div className="text-lg font-bold text-black-700  "> --</div>
+          <div className="text-lg font-bold text-black-700  "> {activeProfile && activeProfile.status ==='VERIFICADO' ? 1 : 0}</div>
         </Card>
         <Card>
           <div className="text-xs  text-mutted-700 pb-1 ">Fecha del último cálculo de capacidad:</div>

@@ -39,7 +39,8 @@ type TramiteAlta = {
     id: string
     razonSocial: string
     personeria: string
-    tipoEmpresa: string
+    tipoEmpresa: []
+    emailInstitucional: string
     cuit: string
     nroLegajo: string
     tipoEmpresa: {
@@ -52,7 +53,7 @@ type TramiteAlta = {
       attribute: string
       obs: string
     }>
-    status: "BORRADOR"|"A VERIFICAR"|"VERIFICADO"
+    status: "PRE INSCRIPTO" | "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION"
     propietario: Usuario
     certificadoFiscal: Archivo
     email: string
@@ -95,5 +96,13 @@ type TramiteAlta = {
         pasivoNoCorriente: number
         ventasEjercicio: number
         capitalSuscripto: number
-    }>
+    }>,
+    nroMatriculaComerciante: string, 
+    fechaInscripcionMatriculaComerciante: string
+}
+
+type ValidatorErrorElement = {
+    attribute : string 
+    dataId: string
+    error: string
 }

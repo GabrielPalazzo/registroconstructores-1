@@ -11,6 +11,7 @@ export const initialState = {
   appStatus: {
     tipoAccion: null,
     tramiteAlta: null,
+    resultadoAnalisisTramiteGeneral:["wait","wait","wait","wait","wait"],
     paso: SET_PASOS.SET_PASO_INSCRIPCION
   }
 }

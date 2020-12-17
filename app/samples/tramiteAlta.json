@@ -1,31 +1,40 @@
 [{
-    "_id" : "PvAjzEO3p485Dc1tb3cRZ",
+    "_id" : "XOhDHn8NDb7Qkt0vToTEn",
     "apoderados" : [ 
         {
             "esAdministrador" : false,
             "imagenesDni" : [],
-            "apellido" : "Leenen",
-            "nombre" : "Leonardo ",
-            "email" : "leonardoleenen@gmail.com",
-            "cuit" : "2300232342",
-            "nroDocumento" : "25878320",
+            "apellido" : "Argento",
+            "nombre" : " Pepe",
+            "email" : "pepe@argento.com",
+            "cuit" : "2345432",
+            "nroDocumento" : "23",
             "tipoDocumento" : ""
         }
     ],
     "certificadoFiscal" : null,
-    "cuit" : "33711310229",
-    "email" : "",
+    "cuit" : "1234567890",
+    "email" : "mail@institucional.com",
     "id" : "",
-    "ieric" : "",
-    "nroLegajo" : "",
-    "personeria" : "",
+    "ieric" : "1233",
+    "nroLegajo" : "12312543",
+    "personeria" : "SA",
     "propietario" : null,
-    "razonSocial" : "Flicktrip",
+    "razonSocial" : "Corralon Ciudadela 2",
     "status" : "BORRADOR",
-    "statusObs":[],
-    "tipoEmpresa" : null,
-    "vtoIeric" : "",
-    "createdAt" : "2020-12-13T14:17:07.313Z",
+    "tipoEmpresa" : [ 
+        "CONSTRUCTORA"
+    ],
+    "registroPublicoDeComercio" : "Registro",
+    "igj" : "",
+    "domicilioLegal" : "Acceso Oeste 44, Ciudadela, Buenos Aires, Argentina",
+    "domicilioReal" : "Acceso oeste 44, Ciudadela, Buenos Aires, Argentina",
+    "rubroConstruccion" : {
+        "lugar" : "CABA",
+        "fecha" : "14/12/2020",
+        "datos" : "Datos"
+    },
+    "createdAt" : "2020-12-13T21:52:41.736Z",
     "creatorId" : {
         "iss" : "Registro de Constructores",
         "iat" : 1607868414,
@@ -37,51 +46,30 @@
         "Role" : [ 
             "CONSTRUCTOR"
         ]
-    }
-},
-{
-    "_id" : "75vE3-Kjj78ocmTwjkIAd",
-    "apoderados" : [ 
+    },
+    "vtoIeric" : "08/12/2020",
+    "autoridadesSociedad" : [],
+    "sistemaCalidad" : [],
+    "ejercicios" : [ 
         {
-            "esAdministrador" : false,
-            "imagenesDni" : [],
-            "apellido" : "Leenen",
-            "nombre" : " Leonardo",
-            "email" : "",
-            "cuit" : "2025878320",
-            "nroDocumento" : "",
-            "tipoDocumento" : ""
-        }
-    ],
-    "certificadoFiscal" : null,
-    "cuit" : "33711310229",
-    "email" : "leonardoleenen@gmail.com",
-    "id" : "",
-    "ieric" : "2321",
-    "nroLegajo" : "qwer",
-    "personeria" : "",
-    "propietario" : null,
-    "razonSocial" : "Avant Garde Technologies",
-    "statusObs" : [ 
+            "fechaCierre" : "15/12/2020",
+            "fechaInicio" : "28/12/2020",
+            "activoCorriente" : 0,
+            "activoNoCorriente" : 0,
+            "pasivoCorriente" : 0,
+            "pasivoNoCorriente" : 0,
+            "capitalSuscripto" : 0,
+            "ventasEjercicio" : 0
+        }, 
         {
-            "attribute" : "ieric",
-            "obs" : "El código de IERIC no es válido"
+            "fechaCierre" : "14/12/2020",
+            "fechaInicio" : "15/12/2020",
+            "activoCorriente" : "100",
+            "activoNoCorriente" : "122",
+            "pasivoCorriente" : 0,
+            "pasivoNoCorriente" : 0,
+            "capitalSuscripto" : 0,
+            "ventasEjercicio" : 0
         }
-    ],
-    "status" : "A VERIFICAR",
-    "tipoEmpresa" : null,
-    "vtoIeric" : "",
-    "createdAt" :"2020-12-13T15:50:32.611Z",
-    "creatorId" : {
-        "iss" : "Registro de Constructores",
-        "iat" : 1607868414,
-        "aud" : "http://localhost",
-        "sub" : "leonardoleenen@gmail.com",
-        "GivenName" : "Leonardo ",
-        "Surname" : "Leenen",
-        "Email" : "leonardoleenen@gmail.com",
-        "Role" : [ 
-            "CONSTRUCTOR"
-        ]
-    }
+    ]
 }]

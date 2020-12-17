@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import NavigationStep from '../components/steps'
+import {NavigationStep} from '../components/steps'
 import InputText from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
@@ -16,7 +16,7 @@ import UploadLine from '../components/uploadLine'
 
 import DatePickerModal from '../components/datePicker_Modal'
 import { useDispatch, useSelector } from 'react-redux'
-import { getTramiteByCUIT, getEmptyTramiteAlta } from '../services/business'
+import { getTramiteByCUIT, getEmptyTramiteAlta, isConstructora, isPersonaFisica } from '../services/business'
 import { saveTramite } from '../redux/actions/main'
 
 
@@ -57,6 +57,12 @@ export default () => {
   const router = useRouter()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
 
+  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+
+  useEffect(() => {
+    if (!tramite.cuit)
+      router.push('/')
+  },[])
 
   const save = async () => {
     setWaitingType('sync')
@@ -68,7 +74,6 @@ export default () => {
       if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
     }
-    setIsLoading(false)
   }
 
   const updateObjTramite = () => {
@@ -76,73 +81,7 @@ export default () => {
   }
 
 
-  const renderModalSanciones = () => {
-    return (<div>
-      <div className="grid grid-cols-2 gap-4 ">
-        <div className="pb-6" >
-          <InputTextModal
-            label="Autoridad que la aplico"
-            labelRequired="*"
-            placeholder="Ingrese el Nombre y apellido"
-            value=""
-            labelMessageError=""
-            required />
 
-        </div>
-        <div className="pb-6" >
-          <InputTextModal
-            label="Titular"
-            labelRequired="*"
-            placeholder="Numero de Resolucion o norma"
-            value=""
-            labelMessageError=""
-            required />
-
-        </div>
-        <div className="pb-6" >
-          <SelectModal
-            title="Tipo de Sancion"
-            labelRequired="*"
-
-            value=""
-            labelMessageError=""
-            required />
-
-        </div>
-        <div className="pb-6" >
-          <InputTextModal
-            label="Obra de Origen"
-            labelRequired="*"
-            placeholder="Numero de Resolucion o norma"
-            value=""
-            labelMessageError=""
-            required />
-
-        </div>
-        <div className="pb-6" >
-          <DatePickerModal
-            label="Fecha de Sancion"
-            labelRequired="*"
-            placeholder="dd/mm/aaaa"
-            value=""
-            labelMessageError=""
-            required />
-
-        </div>
-        <div className="pb-6" >
-          <DatePickerModal
-            label="Fecha de Vencimiento"
-            labelRequired="*"
-            placeholder="dd/mm/aaaa"
-            value=""
-            labelMessageError=""
-            required />
-
-        </div>
-      </div>
-    </div>
-    )
-  }
   const renderModalPropietarios = () => {
     return (<div>
       <div className="grid grid-cols-2 gap-4 ">
@@ -254,7 +193,7 @@ export default () => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep current={1} />
+      <NavigationStep generalStatus={statusGeneralTramite} current={1}  completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) } />
     </div>
     <div className="w-2/5 m-auto text-base mt-8">
       <Substeps progressDot current={2} />
@@ -351,7 +290,7 @@ export default () => {
               placeholder="debe ser numerico"
               value=""
               labelMessageError=""
-              status="" />
+             />
 
           </div>
           <div >
@@ -361,7 +300,7 @@ export default () => {
               placeholder="debe ser numerico"
               value=""
               labelMessageError=""
-              status="" />
+               />
 
           </div>
         </div>

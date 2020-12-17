@@ -24,6 +24,7 @@ interface Props {
   required?: boolean 
   disabled?: boolean
   type?:string
+  step?:any
 }
 
 export default (props: Props) => {
