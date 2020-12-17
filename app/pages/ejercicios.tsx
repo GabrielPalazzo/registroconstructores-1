@@ -35,6 +35,7 @@ export default () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   const [inicioEjercicio, setInicioEjercicio] = useState('')
@@ -47,7 +48,7 @@ export default () => {
   const [capitalSuscripto, setCapitalSuscripto] = useState(0)
 
   useEffect(() => {
-    if (!tramite.cuit)
+    if (!tramite.cuit && tipoAccion!=='SET_TRAMITE_NUEVO')
       router.push('/')
   },[])
 
