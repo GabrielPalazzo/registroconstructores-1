@@ -350,7 +350,7 @@ export default () => {
         </div>
         <div >
           <InputText
-            label="Razon Social"
+            label="Razón Social"
             labelRequired="*"
             placeHolder="Constructora del oeste"
             labelObservation=""
@@ -419,7 +419,7 @@ export default () => {
                 tramite.vtoIeric = value
                 updateObjTramite()
               }}
-              label="Fecha vencimiento IERIC"
+              label="Vencimiento IERIC"
               labelRequired="*"
               placeholder="dd/mm/aaaa"
               labelObservation=""
@@ -451,7 +451,7 @@ export default () => {
               updateObjTramite()
             }}
             placeholder="Fecha de inscripcion (dd/mm/yyyy)"
-            label="Fecha de Inscripcion"
+            label="Fecha de Inscripción"
             labelRequired="*"
             labelObservation=""
             labeltooltip=""
