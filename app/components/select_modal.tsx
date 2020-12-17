@@ -12,7 +12,19 @@ function handleChange(value) {
 
 const customColors = ['#2897D4'];
 
-
+interface Props {
+  value: any
+  bindFunction: Function
+  title: string
+  labelRequired?: string
+  defaultOption: string
+  option: any
+  labelMessageError?: string
+  labeltooltip?: string
+  labelObservation? : string
+  required: boolean
+  showHands? : boolean
+}
 
 
 export default (props) => {

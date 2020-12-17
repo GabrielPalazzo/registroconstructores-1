@@ -115,7 +115,7 @@ export default () => {
               value={fechaOtorgamiento}
               bindFunction={(value) => setFechaOtorgamiento(value)}
               labelMessageError=""
-              required />
+              />
 
           </div>
           <div className="pb-6" >
@@ -126,7 +126,7 @@ export default () => {
               value={fechaExpiracion}
               bindFunction={(value) => setFechaExpiracion(value)}
               labelMessageError=""
-              required />
+               />
           </div>
         </div>
 

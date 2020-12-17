@@ -17,8 +17,8 @@ interface Props {
   labeltooltip?: string
   labelObservation?: string
   showHands?: boolean
-  required?: boolean
 }
+
 
 export default (props: Props) => {
 

@@ -85,7 +85,7 @@ export default () => {
             value={inicioEjercicio}
             bindFunction={setInicioEjercicio}
             labelMessageError=""
-            required />
+             />
 
         </div>
         <div className="pb-6" >
@@ -96,7 +96,7 @@ export default () => {
             value={cierreEjercicio}
             bindFunction={setCierreEjercicio}
             labelMessageError=""
-            required />
+           />
         </div>
       </div>
       <div className="grid grid-cols-3 gap-4 ">

@@ -81,7 +81,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
         <div className="cursor-pointer  mr-4    " >
           <Card className="rounded h-full " style={{ background: "#525252" }}
             actions={[
-              <Button type="link" style={{ textAlign: "left !important", padding: 0 }}
+              <Button type="link" style={{ textAlign: "left", padding: 0 }}
                 onClick={() => {
                   setActiveProfile(e)
                   setShowProfile(true)
