@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Divider, Drawer, Tag, } from 'antd'
+import { Button, Card, Divider, Drawer, Tag,Input } from 'antd'
 import { Space } from 'antd'
 import { getColorStatus, getStatusObsParsed } from '../services/business'
 import {useDispatch} from 'react-redux'
@@ -7,6 +7,9 @@ import { setUpdateBorrador } from '../redux/actions/main'
 import {useRouter} from 'next/router'
 import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined } from '@ant-design/icons';
 
+
+const onSearch = value => console.log(value);
+const { Search } = Input;
 
 export interface BandejaConstructorProps {
   tramites: Array<TramiteAlta>
@@ -77,7 +80,17 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
      
 
     </Drawer>
+    <div>
+      <div className="w-3/4 ">
 
+      </div>
+      <div className="w-1/4 ">
+      <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
+   
+      </div>
+      
+    </div>
+    
 
     <div className="px-4 md:px-20 grid grid-cols-3  gap-4  ">
       {tramites.map((e: TramiteAlta) => (
