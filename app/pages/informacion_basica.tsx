@@ -332,7 +332,6 @@ export default () => {
               updateObjTramite()
             }}
             title="Seleccione el tipo de empresa"
-            placeholder="seleccione una opcion"
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
@@ -440,7 +439,6 @@ export default () => {
               updateObjTramite()
             }}
             labelRequired="*"
-            placeHolder="1111-111"
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
@@ -456,7 +454,6 @@ export default () => {
             }}
             label="Fecha de Inscripcion"
             labelRequired="*"
-            placeholder="dd/mm/aaaa"
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
