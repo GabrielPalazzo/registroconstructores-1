@@ -235,84 +235,7 @@ export default () => {
 
      
 
-      <div className="rounded-lg border mt-8 px-4 py-4">
-
-        <div className="flex  content-center ">
-          <div className="text-2xl font-bold py-4 w-3/4">  Inversiones permanentes</div>
-          <div className=" w-1/4 text-right content-center ">
-            <Switch
-              SwitchLabel1="Si"
-              SwitchLabel2="No"
-              labelMessageError=""
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4 pb-6  ">
-
-          <div >
-            <InputTextModal
-
-              label="CUIT NIT"
-              labelRequired="*"
-              placeholder="33333333333"
-
-              labelMessageError=""
-              required />
-
-
-          </div>
-          <div >
-            <InputTextModal
-              label="Empresa participada"
-              labelRequired="*"
-              placeholder="Sa"
-
-              labelMessageError=""
-              required />
-
-          </div>
-        </div>
-        <div className="grid grid-cols-3 gap-4 pb-6 ">
-          <div >
-            <InputTextModal
-              label="Actividad"
-              placeholder="Constructora"
-              disabled
-
-              labelMessageError=""
-            />
-
-          </div>
-          <div >
-            <InputTextModal
-              label="% de capital"
-              labelRequired="*"
-              placeholder="debe ser numerico"
-              value=""
-              labelMessageError=""
-             />
-
-          </div>
-          <div >
-            <InputTextModal
-              label="Votos posibles en el otro ente"
-              labelRequired="*"
-              placeholder="debe ser numerico"
-              value=""
-              labelMessageError=""
-               />
-
-          </div>
-        </div>
-        <div className="mt-6 text-center pb-6">
-
-          <Button className="mr-4" type="primary" icon={<PlusOutlined />} > Agregar</Button>
-
-
-        </div>
-
-        <Table columns={columnsInversiones} />
-      </div>
+      
       {/*
       <div className="mt-6 rounded-lg border px-4 py-4">
         <div>
@@ -431,45 +354,6 @@ const columnsPropietarioSoc = [
     dataIndex: 'attachment',
     key: 'attachment',
   },
-
-
-];
-const columnsInversiones = [
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text) => (
-      <LikeDislike />
-
-    ),
-  },
-
-  {
-    title: 'CUIT',
-    dataIndex: 'cuit',
-    key: 'cuit',
-  },
-  {
-    title: 'Empresa Participada',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Actividad',
-    dataIndex: 'actividad',
-    key: 'actividad',
-  },
-  {
-    title: '%  de Capital',
-    dataIndex: 'capital',
-    key: 'capital',
-  },
-
-  {
-    title: 'Cantidad de Votos',
-    dataIndex: 'votos',
-    key: 'votos',
-  }
 
 
 ];

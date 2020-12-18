@@ -1,6 +1,6 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import {NavigationStep} from '../components/steps'
+import { NavigationStep } from '../components/steps'
 import InputText from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
@@ -8,8 +8,8 @@ import DatePicker from '../components/datePicker'
 import Switch from '../components/switch'
 import DatePickerModal from '../components/datePicker_Modal'
 import Upload from '../components/upload'
-import { Button, Card, Steps, Modal, Space, Table ,Select} from 'antd';
-import { PlusOutlined , DeleteOutlined} from '@ant-design/icons';
+import { Button, Card, Steps, Modal, Space, Table, Select } from 'antd';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
 import LikeDislike from '../components/like_dislike'
@@ -18,7 +18,7 @@ import UploadLine from '../components/uploadLine'
 
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora,isPersonaFisica } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 
 
@@ -37,14 +37,14 @@ export default () => {
   const [waitingType, setWaitingType] = useState('sync')
   const [isLoading, setIsLoading] = useState(false)
 
-  const [nombre,setNombre] = useState('')
+  const [nombre, setNombre] = useState('')
   const [apellido, setApellido] = useState('')
-  const [tipoDocumento,setTipoDocumento] = useState('')
+  const [tipoDocumento, setTipoDocumento] = useState('')
   const [nroDocumento, setNroDocumento] = useState('')
   const [tipoOrgano, setTipoOrgano] = useState('')
-  const [tipoCargo,setTipoCargo] = useState('')
-  const [direccion,setDireccion] = useState('')
-  const [cuit,setCuit] = useState('')
+  const [tipoCargo, setTipoCargo] = useState('')
+  const [direccion, setDireccion] = useState('')
+  const [cuit, setCuit] = useState('')
   const [inhibiciones, setInhibiciones] = useState(false)
   const [observaciones, setObservaciones] = useState('')
 
@@ -52,19 +52,19 @@ export default () => {
   const [norma, setNorma] = useState('')
   const [direccionSistemaCalidad, setDireccionSistemaCalidad] = useState('')
   const [fechaOtorgamiento, setFechaOtorgamiento] = useState('')
-  const [fechaExpiracion,setFechaExpiracion] = useState('')
+  const [fechaExpiracion, setFechaExpiracion] = useState('')
 
   const [modificacionEstatutoDatos, setModificacionEstatutoDatos] = useState('')
-  const [modificacionEstatutoFecha,setModificacionEstatutoFecha] = useState('')
+  const [modificacionEstatutoFecha, setModificacionEstatutoFecha] = useState('')
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
-  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   useEffect(() => {
-    if (!tramite.cuit && tipoAccion!=='SET_TRAMITE_NUEVO')
+    if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
-  },[])
+  }, [])
 
   const { Step } = Steps;
   const renderModalCalidad = () => {
@@ -77,7 +77,7 @@ export default () => {
             bindFunction={(value) => setCuitSistemaCalidad(value)}
             labelRequired="*"
             placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
-          
+
             labelMessageError=""
             required />
 
@@ -115,7 +115,7 @@ export default () => {
               value={fechaOtorgamiento}
               bindFunction={(value) => setFechaOtorgamiento(value)}
               labelMessageError=""
-              />
+            />
 
           </div>
           <div className="pb-6" >
@@ -126,7 +126,7 @@ export default () => {
               value={fechaExpiracion}
               bindFunction={(value) => setFechaExpiracion(value)}
               labelMessageError=""
-               />
+            />
           </div>
         </div>
 
@@ -172,7 +172,7 @@ export default () => {
       </div>
       <div className="grid grid-cols-4 gap-4 ">
         <div className="pb-6" >
-        <SelectModal
+          <SelectModal
             title="Tipo de Doc"
             defaultOption="Tipo de Doc"
             labelRequired="*"
@@ -207,7 +207,7 @@ export default () => {
 
         </div>
         <div className="pb-6" >
-        <SelectModal
+          <SelectModal
             title="Tipo de Organo"
             defaultOption="Tipo de Organo"
             labelRequired="*"
@@ -219,7 +219,7 @@ export default () => {
             ))}
           />
 
-         {/* <InputTextModal
+          {/* <InputTextModal
             label="tipo de Organo"
             labelRequired="*"
             placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
@@ -227,11 +227,11 @@ export default () => {
             bindFunction={setTipoOrgano}
             labelMessageError=""
             required />
-            */} 
+            */}
 
         </div>
         <div className="pb-6" >
-        <SelectModal
+          <SelectModal
             title="Tipo de Cargo"
             defaultOption="Tipo de Cargo"
             labelRequired="*"
@@ -243,7 +243,7 @@ export default () => {
             ))}
           />
 
-         {/*
+          {/*
           <InputTextModal
             label="Tipo de Cargo"
             labelRequired="*"
@@ -274,8 +274,8 @@ export default () => {
               label="CUIT"
               labelRequired="*"
               value={cuit}
-               bindFunction={setCuit}
-              
+              bindFunction={setCuit}
+
               labelMessageError=""
               required />
           </div>
@@ -355,7 +355,7 @@ export default () => {
   }
 
   const removeAutoridad = (record) => {
-    tramite.autoridadesSociedad = tramite.autoridadesSociedad.filter( a => a.cuit !== record.cuit)
+    tramite.autoridadesSociedad = tramite.autoridadesSociedad.filter(a => a.cuit !== record.cuit)
     save()
   }
 
@@ -363,9 +363,9 @@ export default () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text,record) => (tramite.status==='BORRADOR' ? <div onClick={() => removeAutoridad(record)}><DeleteOutlined /></div> :<Space size="middle">
-      <LikeDislike />
-    </Space>),
+      render: (text, record) => (tramite.status === 'BORRADOR' ? <div onClick={() => removeAutoridad(record)}><DeleteOutlined /></div> : <Space size="middle">
+        <LikeDislike />
+      </Space>),
     },
     {
       title: 'Nombre',
@@ -402,9 +402,9 @@ export default () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text,record) => (tramite.status==='BORRADOR' ? <div ><DeleteOutlined /></div> :<Space size="middle">
-      <LikeDislike />
-    </Space>),
+      render: (text, record) => (tramite.status === 'BORRADOR' ? <div ><DeleteOutlined /></div> : <Space size="middle">
+        <LikeDislike />
+      </Space>),
     },
     {
       title: 'Fecha',
@@ -422,22 +422,22 @@ export default () => {
     }
   ]
 
-  const removeSistemaCalidad  = (record) => {
-    tramite.sistemaCalidad = tramite.sistemaCalidad.filter(s => s.norma !==record.norma)
+  const removeSistemaCalidad = (record) => {
+    tramite.sistemaCalidad = tramite.sistemaCalidad.filter(s => s.norma !== record.norma)
     save()
-  } 
+  }
   const columnsCalidad = [
     {
       title: 'Action',
       key: 'action',
-      render: (text,record) => (tramite.status==='BORRADOR' ? <div onClick={() => removeSistemaCalidad(record)}><DeleteOutlined /></div> :<Space size="middle">
-      <LikeDislike />
-    </Space>),
+      render: (text, record) => (tramite.status === 'BORRADOR' ? <div onClick={() => removeSistemaCalidad(record)}><DeleteOutlined /></div> : <Space size="middle">
+        <LikeDislike />
+      </Space>),
     },
     {
       title: 'CUIT',
       dataIndex: 'cuit',
-      key:'cuit'
+      key: 'cuit'
     },
     {
       title: 'Norma',
@@ -463,7 +463,7 @@ export default () => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep generalStatus={statusGeneralTramite} current={1}  completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) } />
+      <NavigationStep generalStatus={statusGeneralTramite} current={1} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
     <div className="w-2/5 m-auto text-base mt-8">
       <Substeps progressDot current={1} />
@@ -491,7 +491,7 @@ export default () => {
             labelMessageError=""
             required />
         </div>
-         */} 
+         */}
         <div >
           <InputText
             label="Direccioón Inspección Persona jurídica / Inspeccion General"
@@ -508,44 +508,44 @@ export default () => {
             required />
         </div>
       </div>
-        <div className="rounded-lg mt-4 border px-4 py-4">
-      <div className="text-2xl font-bold"> Modificación Estatuto</div>
-      <div className="grid grid-cols-4 gap-4 ">
-        <div >
-          <InputTextModal
-          label="Datos"
-          value={modificacionEstatutoDatos}
-          bindFunction={setModificacionEstatutoDatos}
-          labelRequired="*"
-          placeholder=""
-          labelMessageError=""
-          required /></div>
-        <div >
-          <DatePickerModal
-            label="Fecha"
-            value={modificacionEstatutoFecha}
-            bindFunction={setModificacionEstatutoFecha}
-            labelRequired= "*"
-            placeholder="Fecha"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-             />
+      <div className="rounded-lg mt-4 border px-4 py-4">
+        <div className="text-2xl font-bold"> Modificación Estatuto</div>
+        <div className="grid grid-cols-4 gap-4 ">
+          <div >
+            <InputTextModal
+              label="Datos"
+              value={modificacionEstatutoDatos}
+              bindFunction={setModificacionEstatutoDatos}
+              labelRequired="*"
+              placeholder=""
+              labelMessageError=""
+              required /></div>
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              value={modificacionEstatutoFecha}
+              bindFunction={setModificacionEstatutoFecha}
+              labelRequired="*"
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+            />
           </div>
 
-        <div >
-        <UploadLine
-            label="Adjuntar Documento respaldatorio"
-            labelRequired="*"
-            labelMessageError=""
-          />
+          <div >
+            <UploadLine
+              label="Adjuntar Documento respaldatorio"
+              labelRequired="*"
+              labelMessageError=""
+            />
           </div>
           <div className="mt-8 ">
-          <Button type="primary"  icon={<PlusOutlined />}> Agregar</Button>
+            <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
+          </div>
+
         </div>
-        
-      </div>
-      <Table  columns={columnsModificacionEstatuto}/>
+        <Table columns={columnsModificacionEstatuto} />
       </div>
       <div className="text-2xl font-bold py-4 mt-4"> Inscripción en el rubro de construcción</div>
       <div className="grid grid-cols-4 gap-4 ">
@@ -575,7 +575,7 @@ export default () => {
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
-             /></div>
+          /></div>
 
         <div >
           <InputText
@@ -593,15 +593,15 @@ export default () => {
             required /></div>
       </div>
       <div className=" content-center  rounded-lg border  px-4 py-4">
-      <div className="flex  content-center ">
-        <div className="text-2xl font-bold py-4 w-3/4"> Autoridad</div>
-        
-        <div className=" w-1/4 text-right content-center mt-4 ">
-          <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+        <div className="flex  content-center ">
+          <div className="text-2xl font-bold py-4 w-3/4"> Autoridad</div>
+
+          <div className=" w-1/4 text-right content-center mt-4 ">
+            <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+          </div>
+
         </div>
-        
-      </div>
-      <div className="pb-6" >
+        <div className="pb-6" >
           <UploadLine
             label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
             General de Justicia o Registro Publico de comercio"
@@ -609,14 +609,15 @@ export default () => {
             labelMessageError=""
           />
         </div>
-      { tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table  columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
-     </div>
+        {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
+      </div>
+
       <Modal
         title="Datos de la Autoridad"
         visible={modalAutoridad}
         onOk={() => {
           if (!tramite.autoridadesSociedad)
-            tramite.autoridadesSociedad=[]
+            tramite.autoridadesSociedad = []
 
           tramite.autoridadesSociedad.push({
             nombre,
@@ -643,7 +644,7 @@ export default () => {
 
 
       <div className=" content-center  rounded-lg border mt-8 px-4 py-4">
-      <div className="flex  content-center ">
+        <div className="flex  content-center ">
           <div className="text-2xl font-bold py-4 w-3/4">  Sistema de Calidad</div>
           <div className=" w-1/4 text-right content-center ">
             <Switch
@@ -653,19 +654,19 @@ export default () => {
             />
           </div>
         </div>
-       
+
         <div className="  text-center content-center mt-2 mb-4 ">
           <Button type="primary" onClick={() => setModalCalidad(true)} icon={<PlusOutlined />}> Agregar</Button>
         </div>
-        { tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table  columns={columnsCalidad} dataSource={tramite.sistemaCalidad} /> : renderNoData()}
-    
+        {tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table columns={columnsCalidad} dataSource={tramite.sistemaCalidad} /> : renderNoData()}
+
       </div>
       <Modal
         title="Datos del Sistema de Calidad"
         visible={modalCalidad}
         onOk={() => {
           if (!tramite.sistemaCalidad)
-            tramite.sistemaCalidad=[]
+            tramite.sistemaCalidad = []
 
           tramite.sistemaCalidad.push({
             cuit: cuitSistemaCalidad,
@@ -685,7 +686,84 @@ export default () => {
         {renderModalCalidad()}
       </Modal>
 
+      <div className="rounded-lg border mt-8 px-4 py-4">
 
+        <div className="flex  content-center ">
+          <div className="text-2xl font-bold py-4 w-3/4">  Inversiones permanentes</div>
+          <div className=" w-1/4 text-right content-center ">
+            <Switch
+              SwitchLabel1="Si"
+              SwitchLabel2="No"
+              labelMessageError=""
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4 pb-6  ">
+
+          <div >
+            <InputTextModal
+
+              label="CUIT NIT"
+              labelRequired="*"
+              placeholder="33333333333"
+
+              labelMessageError=""
+              required />
+
+
+          </div>
+          <div >
+            <InputTextModal
+              label="Empresa participada"
+              labelRequired="*"
+              placeholder="Sa"
+
+              labelMessageError=""
+              required />
+
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-4 pb-6 ">
+          <div >
+            <InputTextModal
+              label="Actividad"
+              placeholder="Constructora"
+              disabled
+
+              labelMessageError=""
+            />
+
+          </div>
+          <div >
+            <InputTextModal
+              label="% de capital"
+              labelRequired="*"
+              placeholder="debe ser numerico"
+              value=""
+              labelMessageError=""
+            />
+
+          </div>
+          <div >
+            <InputTextModal
+              label="Votos posibles en el otro ente"
+              labelRequired="*"
+              placeholder="debe ser numerico"
+              value=""
+              labelMessageError=""
+            />
+
+          </div>
+        </div>
+        <div className="mt-6 text-center pb-6">
+
+          <Button className="mr-4" type="primary" icon={<PlusOutlined />} > Agregar</Button>
+
+
+        </div>
+
+        <Table columns={columnsInversiones} />
+      </div>
 
 
       <div className="mt-6 pt-6 text-center">
@@ -693,10 +771,10 @@ export default () => {
 
           <Button className="mr-4" > Volver</Button>
         </Link>
-          <Button type="primary" onClick={() => {
-            save()
-            router.push('/informacion_propietarios')
-          }} > Guardar y Seguir</Button>
+        <Button type="primary" onClick={() => {
+          save()
+          router.push('/informacion_propietarios')
+        }} > Guardar y Seguir</Button>
       </div>
 
     </div>
@@ -777,4 +855,44 @@ const TipoCargo = [
     label: 'Representante',
     value: 'Representante',
   }
+];
+
+const columnsInversiones = [
+  {
+    title: 'Action',
+    key: 'action',
+    render: (text) => (
+      <LikeDislike />
+
+    ),
+  },
+
+  {
+    title: 'CUIT',
+    dataIndex: 'cuit',
+    key: 'cuit',
+  },
+  {
+    title: 'Empresa Participada',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Actividad',
+    dataIndex: 'actividad',
+    key: 'actividad',
+  },
+  {
+    title: '%  de Capital',
+    dataIndex: 'capital',
+    key: 'capital',
+  },
+
+  {
+    title: 'Cantidad de Votos',
+    dataIndex: 'votos',
+    key: 'votos',
+  }
+
+
 ];

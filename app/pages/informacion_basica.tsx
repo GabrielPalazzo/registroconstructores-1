@@ -54,7 +54,7 @@ export default () => {
 
   //const tramiteSesion: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
-  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const [nombre, setNombre] = useState(' ')
   const [apellido, setApellido] = useState('')
@@ -69,7 +69,7 @@ export default () => {
 
 
   useEffect(() => {
-    if (!tramite.cuit && tipoAccion!=='SET_TRAMITE_NUEVO') 
+    if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
   }, [])
 
@@ -348,7 +348,31 @@ export default () => {
             } />
 
         </div>
-        <div >
+
+        {isPersonaFisica (tramite) ? <div className="flex">
+          <div className="w-full mr-2" >
+          <InputText
+            label="Nombre"
+            labelRequired="*"
+            placeHolder="Nombre"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+
+            required />
+        </div>
+        <div className="w-full " >
+          <InputText
+            label="Apellido"
+            labelRequired="*"
+            placeHolder="Apellido"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+
+            required />
+        </div></div>
+          :<div >
           <InputText
             label="Razón Social"
             labelRequired="*"
@@ -365,6 +389,7 @@ export default () => {
 
 
         </div>
+         }
         <div >
           <InputText
             label="CUIT"
@@ -427,7 +452,7 @@ export default () => {
               labelMessageError=""
             />
           </div>
-        </div> 
+        </div>
         <div >
           <InputText
             label="Nro Matricula Comerciante"
@@ -487,7 +512,7 @@ export default () => {
       </div>
       <div className="mt-6">
         <div className="flex  content-center ">
-          <div className="text-2xl font-bold py-4 w-3/4"> {isPersonaFisica ? 'Apoderados' : 'Apoderados y/o Representantes legales'}</div>
+          <div className="text-2xl font-bold py-4 w-3/4"> {isPersonaFisica ? 'Apoderados / Usuarios' : 'Apoderados y/o Representantes legales'}</div>
           <div className=" w-1/4 text-right content-center mt-4 ">
             <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
           </div>
@@ -512,7 +537,7 @@ export default () => {
       <div className=" mt-6 pt-6 text-center">
         <Button type="primary" onClick={() => {
           save()
-          
+
           router.push('/domicilio')
         }} > Guardar y Seguir</Button>
       </div>
