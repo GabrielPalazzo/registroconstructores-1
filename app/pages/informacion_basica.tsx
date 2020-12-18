@@ -358,8 +358,11 @@ export default () => {
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
-
-            required />
+            value=""
+            bindFunction={(value) => {
+              
+            }}
+ />
         </div>
         <div className="w-full " >
           <InputText
@@ -369,8 +372,11 @@ export default () => {
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
-
-            required />
+            value=""
+            bindFunction={(value) => {
+              
+            }}
+/>
         </div></div>
           :<div >
           <InputText
