@@ -1,20 +1,32 @@
 version: "3.8"
 services:
-  user-service:
+  web:
     build:
-      context: ./user-service
+      context: ./app
       target: development
     restart: always
-    volumes:
-      - uploads:/public/uploads
-      - ./user-service:/usr/src/app
-      - /user-service/node_modules
-    networks:
-      registroconstructores-network:
-        aliases:
-          - user-service
     ports:
-      - 3038:3000
+      - 3000:3000
+    networks:
+      fichap-network:
+        aliases:
+          - app
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "3"
+  backoffice:
+    build:
+      context: ./backoffice
+      target: development
+    restart: always
+    ports:
+      - 3030:3030
+    networks:
+      fichap-network:
+        aliases:
+          - backoffice
     depends_on:
       - mongo
     logging:
@@ -22,14 +34,15 @@ services:
       options:
         max-size: "50m"
         max-file: "3"
+
   mongo:
     image: mongo:4.2.5
     networks:
-      registroconstructores-network:
+      fichap-network:
         aliases:
           - mongo
     ports:
-      - 27017:27017
+      - 27018:27017
     restart: always
     volumes:
       - datadb:/data/db
@@ -41,8 +54,7 @@ services:
 
 volumes:
   datadb:
-  uploads:
 
 networks:
-  registroconstructores-network:
+  fichap-network:
     driver: bridge
