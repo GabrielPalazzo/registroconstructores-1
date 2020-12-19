@@ -9,7 +9,7 @@ export default (props) => {
 
   return (<div >
     <div className="flex">
-      <div className="w-3/5">
+      <div className="">
       <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
       </div>
 

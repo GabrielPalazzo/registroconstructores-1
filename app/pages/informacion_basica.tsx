@@ -349,53 +349,56 @@ export default () => {
 
         </div>
 
-        {isPersonaFisica (tramite) ? <div className="flex">
+        {isPersonaFisica(tramite) ? <div className="flex">
           <div className="w-full mr-2" >
-          <InputText
-            label="Nombre"
-            labelRequired="*"
-            placeHolder="Nombre"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-            value=""
-            bindFunction={(value) => {
-              
-            }}
- />
-        </div>
-        <div className="w-full " >
-          <InputText
-            label="Apellido"
-            labelRequired="*"
-            placeHolder="Apellido"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-            value=""
-            bindFunction={(value) => {
-              
-            }}
-/>
-        </div></div>
-          :<div >
-          <InputText
-            label="Razón Social"
-            labelRequired="*"
-            placeHolder="Constructora del oeste"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-            value={tramite.razonSocial}
-            bindFunction={(value) => {
-              tramite.razonSocial = value
-              updateObjTramite()
-            }}
-            required />
+            <InputText
+              label="Nombre"
+              labelRequired="*"
+              placeHolder="Nombre"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={(value) => {
 
+              }}
+            />
+          </div>
+          <div className="w-full mr-2" >
+            <InputText
+              label="Apellido"
+              labelRequired="*"
+              placeHolder="Apellido"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={(value) => {
+
+              }}
+            />
+          </div>
 
         </div>
-         }
+          : <div >
+            <InputText
+              label="Razón Social"
+              labelRequired="*"
+              placeHolder="Constructora del oeste"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value={tramite.razonSocial}
+              bindFunction={(value) => {
+                tramite.razonSocial = value
+                updateObjTramite()
+              }}
+              required />
+
+
+          </div>
+        }
+
         <div >
           <InputText
             label="CUIT"
@@ -539,6 +542,136 @@ export default () => {
         <Table columns={columns} dataSource={tramite.apoderados} />
       </div>
 
+      <div className=" content-center  rounded-lg border mt-8 px-4 py-4">
+        <div className="flex  content-center ">
+          <div className="text-2xl font-bold py-4 w-3/4">  INFORMACIÓN DECRETO 202/2017</div>
+        </div>
+        <div className="grid grid-cols-2 gap-4 ">
+          <div >
+            <InputText
+              label="Razón Social"
+              labelRequired="*"
+              placeHolder="Constructora del oeste"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={(value) => {
+
+              }}
+              required />
+          </div>
+          <div >
+            <InputText
+              label="CUIT / NIT"
+              labelRequired="*"
+              placeHolder="CCUIT / NIT"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={(value) => {
+
+              }}
+              required />
+          </div>
+        </div>
+        <div className="text-xl font-bold py-4 w-3/4">  Vinculos a Declarar</div>
+        <div className="rounded-lg border  px-4 py-4 bg-gray-300">
+          <p>Artículo 1.- Toda persona que se presente en un procedimiento de contratación pública o de otorgamiento de una licencia, permiso, autorización, habilitación o derecho real sobre un bien de dominio público o privado del Estado, llevado a cabo por cualquiera de los organismos y entidades del Sector Público Nacional comprendidas en el artículo 8 de la Ley N° 24156, debe presentar una “Declaración Jurada de Intereses” en la que deberá declarar si se encuentra o no alcanzada por alguno de los siguientes supuestos de vinculación, respecto del Presidente y Vicepresidente de la Nación, Jefe de Gabinete de Ministros y demás Ministros y autoridades de igual rango en el Poder Ejecutivo Nacional, aunque estos no tuvieran competencia para decidir sobre la contratación o acto de que se trata:
+              <br /> a - Parentesco por consanguinidad dentro del cuarto grado y segundo de afinidad
+              <br /> b - Sociedad o comunidad,
+              <br /> c - Pleito pendiente,
+              <br />d - Ser deudor o acreedor,
+              <br /> e - Haber recibido beneficios de importancia,
+              <br /> f - Amistad pública que se manifieste por gran familiaridad y frecuencia en el trato.
+              <br />En caso de que el declarante sea una persona jurídica, deberá consignarse cualquiera de los vínculos anteriores, existentes en forma actual o dentro del último año calendario, entre los funcionarios alcanzados y los representantes legales, sociedades controlantes o controladas o con interés directo en los resultados económicos o financieros, director, socio o accionista que posea participación, por cualquier título, idónea para formar la voluntad social o que ejerza una influencia dominante como consecuencia de acciones, cuotas o partes de interés poseídas.
+              <br />Para el caso de sociedades sujetas al régimen de oferta pública conforme a la Ley N° 26831 la vinculación se entenderá referida a cualquier accionista o socio que posea más del CINCO POR CIENTO (5%) del capital social.
+              <br />Artículo 2.- Deberá presentarse idéntica declaración y en los mismos supuestos previstos en el artículo 1º, cuando la vinculación exista en relación al funcionario de rango inferior a ministro que tenga competencia o capacidad para decidir sobre la contratación o acto que interese al declarante.</p>
+        </div>
+
+        <div className="grid grid-cols-1  mt-2 ">
+          <div className="mt-4" >
+            <Switch
+              label="La persona jurídica declarante tiene vinculación con los funcionarios enunciados en los art 1 y 2 del Decreto 202/2017"
+              labelRequired="*"
+              SwitchLabel1="Si"
+              SwitchLabel2="No"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+            />
+          </div>
+          <div >
+            <InputText
+              label="Observaciones"
+              labelRequired=""
+              placeHolder=""
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={(value) => {
+
+              }}
+              required />
+          </div>
+        </div>
+        <div className="grid grid-cols-2  gap-4 mt-2 ">
+          <div >
+            <SelectSimple
+              value=""
+              bindFunction={(value) => {
+                
+              }}
+              title="¿Con cuál de los siguientes funcionarios?"
+              defaultOption="Seleccione el tipo de personeria"
+              labelRequired="*"
+              labelMessageError=""
+              required
+              option={tipoFuncionarios.map(u => (
+                <Option value={u.value}>{u.label}</Option>
+              ))} />
+
+          </div>
+          <div >
+            <SelectSimple
+              value=""
+              bindFunction={(value) => {
+                
+              }}
+              title="Tipo de vinculo"
+              defaultOption="Seleccione el tipo de vinculo"
+              labelRequired="*"
+              labelMessageError=""
+              required
+              option={tipoVinculo.map(u => (
+                <Option value={u.value}>{u.label}</Option>
+              ))} />
+
+          </div>
+          <div >
+            <InputText
+              label="Observaciones"
+              labelRequired=""
+              placeHolder=""
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={(value) => {
+
+              }}
+              required />
+          </div>
+          <div className="  mt-8 ">
+            <Button type="primary" > Agregar</Button>
+          </div>
+        </div>
+        <Table columns={columnsDecreto} dataSource={tramite.apoderados} />
+
+      </div>
+
 
       <div className=" mt-6 pt-6 text-center">
         <Button type="primary" onClick={() => {
@@ -566,6 +699,10 @@ const tipoPersona = [
   {
     label: 'Representante Legal',
     value: 'Rep Legal',
+  },
+  {
+    label: 'Administrador / Gestor',
+    value: 'gestor',
   }
 
 ]
@@ -637,6 +774,87 @@ const tipoEmpresas = [
   },
 
 ]
+const tipoFuncionarios = [
+  {
+    label: 'Presidente',
+    value: 'Presidente',
+  },
+  {
+    label: 'Vicepresidente',
+    value: 'Vicepresidente',
+  },
+  {
+    label: 'Jefe de Gabinete de Ministros ',
+    value: 'JefeGabinete',
+  },
+  {
+    label: 'Ministros',
+    value: 'Ministros',
+  },
+  {
+    label: 'Autoridad con rango de ministro en el Poder Ejecutivo Nacional',
+    value: 'AutoridadPE',
+  },
+  {
+    label: 'Autoridad con rango inferior a Ministro con capacidad para decidir',
+    value: 'Autoridad',
+  },
+] 
+
+const tipoVinculo = [
+  {
+    label: 'Sociedad o comunidad',
+    value: 'sociedad',
+  },
+  {
+    label: 'Parentesco por consanguinidad dentro del cuarto grado y segundo deafinidad',
+    value: 'Parentesco',
+  },
+  {
+    label: 'Pleito pendiente ',
+    value: 'Pleito',
+  },
+  {
+    label: 'Ser deudor',
+    value: 'SerDeudor',
+  },
+  {
+    label: 'Ser acreedor',
+    value: 'Acreedor',
+  },
+  {
+    label: 'Haber recibido beneficios de importancia de parte del funcionario',
+    value: 'BeneficiosFuncionario',
+  },
+] 
 
 
 
+const columnsDecreto = [
+ 
+  {
+    title: 'Razon Social',
+    dataIndex: 'Razon Social'
+  },
+  {
+    title: 'Cuit',
+    dataIndex: 'Cuit',
+    key: 'CUIT',
+  },
+  {
+    title: 'Vinculo',
+    dataIndex: 'Vinculo',
+    key: 'Vinculo',
+  },
+  {
+    title: 'Funcionario',
+    dataIndex: 'Funcionario',
+    key: 'Funcionario',
+  },{
+    title: 'Observaciones',
+    dataIndex: 'Observaciones',
+    key: 'Observaciones',
+  }
+
+
+];
