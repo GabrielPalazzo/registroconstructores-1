@@ -519,6 +519,78 @@ export default () => {
 
 
       </div>
+      {isPersonaFisica(tramite) ?<div>
+      <div className="grid grid-cols-1 gap-4 ">
+      <div className="mt-4" >
+            <Switch
+              label="Estado civil casado?"
+              labelRequired="*"
+              SwitchLabel1="Si"
+              SwitchLabel2="No"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+            />
+          </div>
+        </div>
+      </div>:''}
+      {isPersonaFisica(tramite) ? <div> 
+        <div className="text-2xl font-bold py-4"> Datos del Conyuge</div>
+      <div className="grid grid-cols-2 gap-4 ">
+      <div className="" >
+            <InputText
+              label="Nombre"
+              labelRequired="*"
+              placeHolder="Nombre"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={(value) => {
+
+              }}
+            />
+          </div>
+          <div className="" >
+            <InputText
+              label="Apellido"
+              labelRequired="*"
+              placeHolder="Apellido"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={(value) => {
+
+              }}
+            />
+          </div>
+          <div className="pb-6" >
+          <SelectModal
+            title="Tipo de documento"
+            defaultOption="Seleccione el tipo de Doc"
+            labelRequired="*"
+            labelMessageError=""
+            required
+            option={tipoDocumento.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))} />
+        </div>
+        <div className="pb-6" >
+          <InputTextModal
+
+            label="Nº de Documento"
+            labelRequired="*"
+            placeholder="Ingrese su numero de documento sin deja espacios"
+            value={nroDocumento}
+            bindFunction={setNroDocumento}
+            labelMessageError=""
+            required />
+
+        </div>
+        </div>
+      </div>:''}
       <div className="mt-6">
         <div className="flex  content-center ">
           <div className="text-2xl font-bold py-4 w-3/4"> {isPersonaFisica ? 'Apoderados / Usuarios' : 'Apoderados y/o Representantes legales'}</div>
