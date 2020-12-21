@@ -508,20 +508,21 @@ export default () => {
             labelMessageError="" />
 
         </div>
+        {isPersonaFisica(tramite) ? '' :
+          <div >
+            <Upload
+              label="Adjunte comprobante de Incripcion"
+              labelRequired="*"
+              labelMessageError="" />
 
-        <div >
-          <Upload
-            label="Adjunte comprobante de Incripcion"
-            labelRequired="*"
-            labelMessageError="" />
-
-        </div>
+          </div>
+        }
 
 
       </div>
-      {isPersonaFisica(tramite) ?<div>
-      <div className="grid grid-cols-1 gap-4 ">
-      <div className="mt-4" >
+      {isPersonaFisica(tramite) ? <div>
+        <div className="grid grid-cols-1 gap-4 ">
+          <div className="mt-4" >
             <Switch
               label="Estado civil casado?"
               labelRequired="*"
@@ -533,11 +534,11 @@ export default () => {
             />
           </div>
         </div>
-      </div>:''}
-      {isPersonaFisica(tramite) ? <div> 
+      </div> : ''}
+      {isPersonaFisica(tramite) ? <div>
         <div className="text-2xl font-bold py-4"> Datos del Conyuge</div>
-      <div className="grid grid-cols-2 gap-4 ">
-      <div className="" >
+        <div className="grid grid-cols-2 gap-4 ">
+          <div className="" >
             <InputText
               label="Nombre"
               labelRequired="*"
@@ -566,31 +567,31 @@ export default () => {
             />
           </div>
           <div className="pb-6" >
-          <SelectModal
-            title="Tipo de documento"
-            defaultOption="Seleccione el tipo de Doc"
-            labelRequired="*"
-            labelMessageError=""
-            required
-            option={tipoDocumento.map(u => (
-              <Option value={u.value}>{u.label}</Option>
+            <SelectModal
+              title="Tipo de documento"
+              defaultOption="Seleccione el tipo de Doc"
+              labelRequired="*"
+              labelMessageError=""
+              required
+              option={tipoDocumento.map(u => (
+                <Option value={u.value}>{u.label}</Option>
 
-            ))} />
-        </div>
-        <div className="pb-6" >
-          <InputTextModal
+              ))} />
+          </div>
+          <div className="pb-6" >
+            <InputTextModal
 
-            label="Nº de Documento"
-            labelRequired="*"
-            placeholder="Ingrese su numero de documento sin deja espacios"
-            value={nroDocumento}
-            bindFunction={setNroDocumento}
-            labelMessageError=""
-            required />
+              label="Nº de Documento"
+              labelRequired="*"
+              placeholder="Ingrese su numero de documento sin deja espacios"
+              value={nroDocumento}
+              bindFunction={setNroDocumento}
+              labelMessageError=""
+              required />
 
+          </div>
         </div>
-        </div>
-      </div>:''}
+      </div> : ''}
       <div className="mt-6">
         <div className="flex  content-center ">
           <div className="text-2xl font-bold py-4 w-3/4"> {isPersonaFisica ? 'Apoderados / Usuarios' : 'Apoderados y/o Representantes legales'}</div>
@@ -694,7 +695,7 @@ export default () => {
             <SelectSimple
               value=""
               bindFunction={(value) => {
-                
+
               }}
               title="¿Con cuál de los siguientes funcionarios?"
               defaultOption="Seleccione el tipo de personeria"
@@ -710,7 +711,7 @@ export default () => {
             <SelectSimple
               value=""
               bindFunction={(value) => {
-                
+
               }}
               title="Tipo de vinculo"
               defaultOption="Seleccione el tipo de vinculo"
@@ -871,7 +872,7 @@ const tipoFuncionarios = [
     label: 'Autoridad con rango inferior a Ministro con capacidad para decidir',
     value: 'Autoridad',
   },
-] 
+]
 
 const tipoVinculo = [
   {
@@ -898,12 +899,12 @@ const tipoVinculo = [
     label: 'Haber recibido beneficios de importancia de parte del funcionario',
     value: 'BeneficiosFuncionario',
   },
-] 
+]
 
 
 
 const columnsDecreto = [
- 
+
   {
     title: 'Razon Social',
     dataIndex: 'Razon Social'
@@ -922,7 +923,7 @@ const columnsDecreto = [
     title: 'Funcionario',
     dataIndex: 'Funcionario',
     key: 'Funcionario',
-  },{
+  }, {
     title: 'Observaciones',
     dataIndex: 'Observaciones',
     key: 'Observaciones',
