@@ -49,6 +49,13 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     propietario: null,
     emailInstitucional: '',
     razonSocial:'',
+    nombreTitular:'',
+    apellidoTitular:'',
+    esCasadoTitular: false,
+    nombreConyuge: '',
+    apellidoConyuge:'',
+    tipoDocumentoConyuge: '',
+    documentoConyugue:'',
     status: 'BORRADOR',
     tipoEmpresa: [],
     vtoIeric: '',
@@ -65,7 +72,9 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     sistemaCalidad: [],
     ejercicios:[],
     nroMatriculaComerciante: '',
-    fechaInscripcionMatriculaComerciante:''
+    fechaInscripcionMatriculaComerciante:'',
+    aplicaDecretoDoscientosDos: false,
+    datosDecretoDoscientosDos:[]
   }
 }
 

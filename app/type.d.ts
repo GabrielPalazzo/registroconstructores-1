@@ -25,6 +25,7 @@ type Apoderado= {
     cuit: string 
     esAdministrador: Boolean
     imagenesDni: Array<Archivo>
+    tipoApoderado: string
 }
 
 type Archivo= {
@@ -38,6 +39,13 @@ type TramiteAlta = {
     _id?: string,
     id: string
     razonSocial: string
+    nombreTitular: string
+    apellidoTitular:  string
+    esCasadoTitular: boolean
+    nombreConyuge: string
+    apellidoConyuge: string
+    tipoDocumentoConyuge: string
+    documentoConyugue: string
     personeria: string
     tipoEmpresa: []
     emailInstitucional: string
@@ -99,6 +107,14 @@ type TramiteAlta = {
     }>,
     nroMatriculaComerciante: string, 
     fechaInscripcionMatriculaComerciante: string
+    aplicaDecretoDoscientosDos: boolean
+    datosDecretoDoscientosDos:Array<{
+        razonSocial: string
+        cuit: string
+        tipoFuncionario: string
+        tipoVinculo: string
+        observaciones: string
+    }>
 }
 
 type ValidatorErrorElement = {

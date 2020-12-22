@@ -61,13 +61,24 @@ export default () => {
   const [email, setEmail] = useState('')
   const [propuestaElectronica, setPropuestaElectronica] = useState('')
   const [cuit, setCuit] = useState('')
-  const [nroDocumento, setNroDocumento] = useState('')
+  const [nroDocumentoApoderado, setNroDocumentoApoderado] = useState('')
+  const [tipoApoderado, setTipoApoderado]= useState('')
   const [tipoDocumentoApoderado, setTipoDocumentoApoderado] = useState('')
+  const [cuitApoderado, setCuitApoderado] = useState('')
+  const [emailApoderado, setEmailApoderado]= useState('')
+  const [esAdministradorLegitimado, setEsAdministradorLegitimado] = useState(false)
   const dispatch = useDispatch()
   const paso = useSelector(state => state.appStatus.paso)
   const [isLoading, setIsLoading] = useState(false)
+  const [aplicaDecretoDocientosDos, setAplicaDecretoDoscientosDos] = useState(false)
 
 
+  const [decretoRazonSocial, setDecretoRazonSocial] = useState('')
+  const [decretoCuit, setDecretoCuit] = useState('')
+  const [decretoTipoFuncionarios, setDecretoTipoFuncionarios] = useState('')
+  const [decretoTipoVinculo, setDecretoTipoVinculo] = useState('')
+  const [decretoObservaciones, setDecretoObservaciones] = useState('')
+ 
   useEffect(() => {
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
@@ -79,14 +90,15 @@ export default () => {
 
   const handleSaveApoderado = () => {
     tramite.apoderados.push({
-      esAdministrador: false,
       imagenesDni: [],
       apellido,
       nombre,
-      email,
-      cuit,
-      nroDocumento,
-      tipoDocumento: tipoDocumentoApoderado
+      email:emailApoderado,
+      cuit: cuitApoderado,
+      nroDocumento: nroDocumentoApoderado,
+      tipoDocumento: tipoDocumentoApoderado,
+      tipoApoderado,
+      esAdministrador: esAdministradorLegitimado
     })
     save()
     setVisible(false)
@@ -106,7 +118,7 @@ export default () => {
       if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
     }
-    // setIsLoading(false)
+    setIsLoading(false)
   }
 
 
@@ -125,7 +137,8 @@ export default () => {
     },
     {
       title: 'Nombre',
-      dataIndex: 'nombre'
+      dataIndex: 'nombre',
+      key: 'nombreApoderado'
     },
     {
       title: 'Apellido',
@@ -141,10 +154,37 @@ export default () => {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
+    },
+    {
+      title: 'Tipo Apoderado',
+      dataIndex: 'tipoApoderado',
+      key: 'tipoApoderado',
+    },
+    {
+      title: 'Es Adminsitrador Leg.',
+      dataIndex: 'esAdministrador',
+      key: 'esAdministrador',
+      render: text => <div>{text ? 'Si' : 'No'}</div>
     }
 
 
-  ];
+  ]
+
+  const addPersonasAlDecreto = () => {
+    if (!tramite.datosDecretoDoscientosDos)
+      tramite.datosDecretoDoscientosDos=[]
+
+    tramite.aplicaDecretoDoscientosDos=true
+    tramite.datosDecretoDoscientosDos.push({
+      razonSocial: decretoRazonSocial,
+      cuit: decretoCuit,
+      observaciones: decretoObservaciones,
+      tipoFuncionario: decretoTipoFuncionarios,
+      tipoVinculo: decretoTipoVinculo,
+    })
+    setTramite(tramite)
+    save()
+  }
 
   const updateObjTramite = () => {
     setTramite(Object.assign({}, tramite))
@@ -179,6 +219,8 @@ export default () => {
         <div className="pb-6" >
           <SelectModal
             title="Tipo de documento"
+            value={tipoDocumentoApoderado}
+            bindFunction={setTipoDocumentoApoderado}
             defaultOption="Seleccione el tipo de Doc"
             labelRequired="*"
             labelMessageError=""
@@ -190,12 +232,11 @@ export default () => {
         </div>
         <div className="pb-6" >
           <InputTextModal
-
             label="Nº de Documento"
             labelRequired="*"
             placeholder="Ingrese su numero de documento sin deja espacios"
-            value={nroDocumento}
-            bindFunction={setNroDocumento}
+            value={nroDocumentoApoderado}
+            bindFunction={setNroDocumentoApoderado}
             labelMessageError=""
             required />
 
@@ -205,11 +246,10 @@ export default () => {
             label="CUIT / CUIL"
             labelRequired="*"
             placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
-            value={cuit}
-            bindFunction={setCuit}
+            value={cuitApoderado}
+            bindFunction={setCuitApoderado}
             labelMessageError=""
             required />
-
         </div>
 
       </div>
@@ -219,8 +259,8 @@ export default () => {
             label="Email"
             labelRequired="*"
             placeholder="Ingrese su email personal"
-            value={email}
-            bindFunction={setEmail}
+            value={emailApoderado}
+            bindFunction={setEmailApoderado}
             labelMessageError=""
             required />
 
@@ -230,7 +270,8 @@ export default () => {
           <RadioGroup
             label="¿Qué tipo de persona desea dar de alta? "
             labelRequired="*"
-            value=""
+            value={tipoApoderado}
+            bindFunction={setTipoApoderado}
             labelMessageError=""
             radioOptions={tipoPersona.map(u => (
               <Radio value={u.value} >
@@ -244,6 +285,8 @@ export default () => {
         </div>
         <div className="pb-6" >
           <Switch
+            value={esAdministradorLegitimado}
+            onChange={setEsAdministradorLegitimado}
             label="Administrador Legitimado"
             labelRequired="*"
             SwitchLabel1="Si"
@@ -358,9 +401,11 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
+              value={tramite.nombreTitular}
               bindFunction={(value) => {
-
+                tramite.nombreTitular = value
+                tramite.razonSocial = `${tramite.apellidoTitular} ${tramite.nombreTitular}`
+                updateObjTramite()
               }}
             />
           </div>
@@ -372,9 +417,11 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
+              value={tramite.apellidoTitular}
               bindFunction={(value) => {
-
+                tramite.apellidoTitular = value
+                tramite.razonSocial = `${tramite.apellidoTitular} ${tramite.nombreTitular}`
+                updateObjTramite()
               }}
             />
           </div>
@@ -535,7 +582,7 @@ export default () => {
           </div>
         </div>
       </div> : ''}
-      {isPersonaFisica(tramite) ? <div>
+      {isPersonaFisica(tramite) && tramite.esCasadoTitular ? <div>
         <div className="text-2xl font-bold py-4"> Datos del Conyuge</div>
         <div className="grid grid-cols-2 gap-4 ">
           <div className="" >
@@ -546,9 +593,10 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
+              value={tramite.nombreConyuge}
               bindFunction={(value) => {
-
+                tramite.nombreConyuge = value
+                setTramite(Object.assign({},tramite))
               }}
             />
           </div>
@@ -560,9 +608,10 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
+              value={tramite.apellidoConyuge}
               bindFunction={(value) => {
-
+                tramite.apellidoConyuge = value
+                setTramite(Object.assign({},tramite))
               }}
             />
           </div>
@@ -571,6 +620,11 @@ export default () => {
               title="Tipo de documento"
               defaultOption="Seleccione el tipo de Doc"
               labelRequired="*"
+              value={tramite.tipoDocumentoConyuge}
+              bindFunction={ value => {
+                tramite.tipoDocumentoConyuge = value
+                setTramite(Object.assign({},tramite))
+              }}
               labelMessageError=""
               required
               option={tipoDocumento.map(u => (
@@ -580,12 +634,14 @@ export default () => {
           </div>
           <div className="pb-6" >
             <InputTextModal
-
               label="Nº de Documento"
               labelRequired="*"
               placeholder="Ingrese su numero de documento sin deja espacios"
-              value={nroDocumento}
-              bindFunction={setNroDocumento}
+              value={tramite.documentoConyugue}
+              bindFunction={value => {
+                tramite.documentoConyugue = value
+                setTramite(Object.assign({},tramite))
+              }}
               labelMessageError=""
               required />
 
@@ -644,23 +700,26 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
+              value={tramite.aplicaDecretoDoscientosDos}
+              onChange={value=>{
+                tramite.aplicaDecretoDoscientosDos=value
+                setTramite(Object.assign({},tramite))
+              }}
             />
           </div>
           </div>
-          {isPersonaFisica(tramite) ? '' : <div>
+          {!tramite.aplicaDecretoDoscientosDos ? '' : <div>
         <div className="grid grid-cols-2 gap-4 ">
           <div >
             <InputText
               label="Razón Social"
+              value={decretoRazonSocial}
               labelRequired="*"
               placeHolder="Constructora del oeste"
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
-              bindFunction={(value) => {
-
-              }}
+              bindFunction={setDecretoRazonSocial}
               required />
           </div>
           <div >
@@ -671,22 +730,17 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
-              bindFunction={(value) => {
-
-              }}
+              value={decretoCuit}
+              bindFunction={setDecretoCuit}
               required />
           </div>
         </div>
-        </div>}
         
         <div className="grid grid-cols-2  gap-4 mt-2 ">
           <div >
             <SelectSimple
-              value=""
-              bindFunction={(value) => {
-
-              }}
+              value={decretoTipoFuncionarios}
+              bindFunction={setDecretoTipoFuncionarios}
               title="¿Con cuál de los siguientes funcionarios?"
               defaultOption="Seleccione el tipo de personeria"
               labelRequired="*"
@@ -699,10 +753,8 @@ export default () => {
           </div>
           <div >
             <SelectSimple
-              value=""
-              bindFunction={(value) => {
-
-              }}
+              value={decretoTipoVinculo}
+              bindFunction={setDecretoTipoVinculo}
               title="Tipo de vinculo"
               defaultOption="Seleccione el tipo de vinculo"
               labelRequired="*"
@@ -721,18 +773,17 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
-              bindFunction={(value) => {
-
-              }}
+              value={decretoObservaciones}
+              bindFunction={setDecretoObservaciones}
               required />
           </div>
           <div className="  mt-8 ">
-            <Button type="primary" > Agregar</Button>
+            <Button type="primary" onClick={addPersonasAlDecreto} > Agregar</Button>
           </div>
         </div>
-        <Table columns={columnsDecreto} dataSource={tramite.apoderados} />
+        <Table columns={columnsDecreto} dataSource={tramite.datosDecretoDoscientosDos} />
 
+        </div>}
       </div>
 
 
@@ -897,26 +948,27 @@ const columnsDecreto = [
 
   {
     title: 'Razon Social',
-    dataIndex: 'Razon Social'
+    dataIndex: 'razonSocial',
+    key:'decretoRazonSocial'
   },
   {
     title: 'Cuit',
-    dataIndex: 'Cuit',
-    key: 'CUIT',
+    dataIndex: 'cuit',
+    key: 'decretoCuit',
   },
   {
     title: 'Vinculo',
-    dataIndex: 'Vinculo',
-    key: 'Vinculo',
+    dataIndex: 'tipoVinculo',
+    key: 'tipoVinculo',
   },
   {
     title: 'Funcionario',
-    dataIndex: 'Funcionario',
-    key: 'Funcionario',
+    dataIndex: 'tipoFuncionario',
+    key: 'tipoFuncionario',
   }, {
     title: 'Observaciones',
-    dataIndex: 'Observaciones',
-    key: 'Observaciones',
+    dataIndex: 'observaciones',
+    key: 'decretoObervaciones',
   }
 
 
