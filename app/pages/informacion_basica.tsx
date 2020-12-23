@@ -450,6 +450,7 @@ export default () => {
           <InputText
             label="CUIT"
             labelRequired="*"
+            disabled={tramite._id ? true: false}
             value={tramite.cuit}
             bindFunction={(value) => {
               tramite.cuit = value

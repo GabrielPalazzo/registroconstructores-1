@@ -49,7 +49,6 @@ export default () => {
     return <Loading message='' type='waiting' />
 
   
-
   return <div>
     <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
       <div className="px-4 pt-4 py-2">
