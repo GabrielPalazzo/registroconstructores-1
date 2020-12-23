@@ -6,7 +6,7 @@ import { HeaderPrincipal } from '../components/header'
 import { Button, Steps, Card } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora,isPersonaFisica } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora,isPersonaFisica, sendTramite } from '../services/business';
 import {validatorTramite} from '../services/validator'
 import { Loading } from '../components/loading';
 
@@ -82,7 +82,10 @@ export default () => {
           <div className="text-muted-700 text-sm  mt-2 self-center"  > Puede revisar cada uno de los pasos haciendo click en los mismos</div>
         </Card>
         <div className="mt-6 pt-4 text-center">
-          <Button type="primary" onClick={() => router.push('/success')}> Enviar Tramite</Button>
+          <Button type="primary" onClick={() => {
+            dispatch(sendTramite(tramite))
+              .then(() => router.push('/success'))
+          }}> Enviar Tramite</Button>
         </div>
       </div>
         : 

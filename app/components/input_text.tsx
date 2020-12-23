@@ -33,9 +33,6 @@ export default (props: Props) => {
   const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
 
 
-  if (!tramite)
-    return <div></div>
-
   return (<div >
     <div className="flex pb-2">
       <div className="w-3/5">
