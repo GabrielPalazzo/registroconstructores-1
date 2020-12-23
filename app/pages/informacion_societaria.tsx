@@ -283,7 +283,7 @@ export default () => {
           <div className="pb-6" >
             <Switch
               value={inhibiciones}
-              bindFunction={setInhibiciones}
+              onChange={setInhibiciones}
               label="Inhibiciones"
               labelRequired="*"
               SwitchLabel1="Si"
@@ -496,6 +496,11 @@ export default () => {
         <div className="grid grid-cols-3 gap-4 ">
           <div >
             <InputTextModal
+              value={tramite.altaAFIP.datos}
+              bindFunction={value => {
+                tramite.altaAFIP.datos = value
+                setTramite(Object.assign({},tramite))
+              }}
               label="Datos"
               labelRequired="*"
               placeholder=""
@@ -509,8 +514,10 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
-              bindFunction={(value) => {
+              value={tramite.altaAFIP.fecha}
+              bindFunction={value => {
+                tramite.altaAFIP.fecha = value
+                setTramite(Object.assign({},tramite))
               }}
             />
           </div>
@@ -526,6 +533,11 @@ export default () => {
         <div className="grid grid-cols-3 gap-4 ">
           <div >
             <InputTextModal
+              value={tramite.matriculaComerciante.datos}
+              bindFunction={value => {
+                tramite.matriculaComerciante.datos = value
+                setTramite(Object.assign({},tramite))
+              }}
               label="Datos"
               labelRequired="*"
               placeholder=""
@@ -538,8 +550,12 @@ export default () => {
               placeholder="Fecha"
               labelObservation=""
               labeltooltip=""
-              labelMessageError=""value=""
-              bindFunction={(value) => {
+              labelMessageError=""
+              
+              value={tramite.matriculaComerciante.fecha}
+              bindFunction={value => {
+                tramite.matriculaComerciante.fecha = value
+                setTramite(Object.assign({},tramite))
               }}
             />
           </div>
@@ -559,6 +575,11 @@ export default () => {
               labelRequired="*"
               placeholder=""
               labelMessageError=""
+              value={tramite.ultimaModificacionMatriculaOActividadesAFIP.datos}
+              bindFunction={value => {
+                tramite.ultimaModificacionMatriculaOActividadesAFIP.datos = value
+                setTramite(Object.assign({},tramite))
+              }}
               required /></div>
           <div >
             <DatePickerModal
@@ -568,8 +589,10 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
-              bindFunction={(value) => {
+              value={tramite.ultimaModificacionMatriculaOActividadesAFIP.fecha}
+              bindFunction={value => {
+                tramite.ultimaModificacionMatriculaOActividadesAFIP.fecha = value
+                setTramite(Object.assign({},tramite))
               }}
             />
           </div>

@@ -1,3 +1,4 @@
+import { isPersonaFisica } from "./business"
 
 
 interface ValidatorInterface {
@@ -40,12 +41,6 @@ class Validator implements ValidatorInterface {
           error:'El CUIT es requerido'
         })
       
-      if(!this.tramite.nroMatriculaComerciante)
-        toValidate.push({
-          attribute:'nroMatriculaComerciante',
-          dataId:'',
-          error:'El Nro de Matrícula es requerido'
-        })
       
       if(!this.tramite.fechaInscripcionMatriculaComerciante)
         toValidate.push({
@@ -67,6 +62,8 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:'La fecha de Vto de Ieric es requerido'
         })
+
+      
 
       return toValidate
     }
@@ -94,6 +91,13 @@ class Validator implements ValidatorInterface {
           attribute:'emailInstitucional',
           dataId:'',
           error:'El domicilio electrónico es obligatorio, en el email declarado recibirá todas las notificaciones. '
+        })
+
+      if (isPersonaFisica(this.tramite) && (!this.tramite.altaAFIP ||  !this.tramite.altaAFIP.datos))
+        toValidate.push({
+          attribute:'fechaAltaAfip',
+          dataId:'',
+          error:'En la sección domicilio, datos societarios, los datos en el alta de AFIP es obligatorio'
         })
         
       return toValidate

@@ -71,10 +71,21 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     autoridadesSociedad:[],
     sistemaCalidad: [],
     ejercicios:[],
-    nroMatriculaComerciante: '',
     fechaInscripcionMatriculaComerciante:'',
     aplicaDecretoDoscientosDos: false,
-    datosDecretoDoscientosDos:[]
+    datosDecretoDoscientosDos:[],
+    matriculaComerciante:{
+      datos:'',
+      fecha:''
+    },
+    altaAFIP:{
+      datos:'',
+      fecha:''
+    },
+    ultimaModificacionMatriculaOActividadesAFIP:{
+      datos:'',
+      fecha:''
+    }
   }
 }
 
