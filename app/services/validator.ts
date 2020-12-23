@@ -46,7 +46,7 @@ class Validator implements ValidatorInterface {
         toValidate.push({
           attribute:'fechaInscripcionMatriculaComerciante',
           dataId:'',
-          error:'La fecha de Incripcion de la Matricula es requerida"
+          error:'La fecha de Incripcion de la Matricula es requerida'
         })
       
       if(!this.tramite.ieric)
