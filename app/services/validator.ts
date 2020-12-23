@@ -46,7 +46,7 @@ class Validator implements ValidatorInterface {
         toValidate.push({
           attribute:'fechaInscripcionMatriculaComerciante',
           dataId:'',
-          error:'La fecha de inscripción de la Matrícula de Comerciante en rubro Construcción no puede ser anterior al alta en AFIP'
+          error:'La fecha de Incripcion de la Matricula es requerida"
         })
       
       if(!this.tramite.ieric)
@@ -70,21 +70,21 @@ class Validator implements ValidatorInterface {
           error:'El nombre del conyuge es requerido'
         })
         
-        if (this.tramite.apellidoConyuge)
+        if(this.tramite.apellidoConyuge)
         toValidate.push({
           attribute:'apellidoConyuge',
           dataId:'',
           error:'El apellido del conyuge es requerido'
         })
         
-        if  (this.tramite.tipoDocumentoConyuge)
+        if(this.tramite.tipoDocumentoConyuge)
         toValidate.push({
           attribute:'tipoDocumentoConyuge',
           dataId:'',
           error:'El Tipo de documento del conyuge es requerido'
         })
         
-        if (this.tramite.documentoConyugue)
+        if(this.tramite.documentoConyugue)
         toValidate.push({
           attribute:'documentoConyugue',
           dataId:'',

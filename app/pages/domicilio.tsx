@@ -75,6 +75,15 @@ export default () => {
             labelMessageError=""
             required />
         </div>
+        <div className="pt-4">
+        <Upload
+            label="Adjunte un documento en donde conste el último domicilio legal inscripto en la IGJ o Registro de Comercio "
+            labelRequired="*"
+            labelMessageError=""
+          />
+          
+       
+      </div>
       <div className="text-2xl font-bold py-4"> Domicilio Real</div>
         <div>
           <InputText
@@ -92,6 +101,7 @@ export default () => {
             labelMessageError=""
             required />
         </div>
+        
         <div className="text-2xl font-bold py-4"> Domicilio Electronico</div>
         <div>
           <InputText
@@ -108,15 +118,7 @@ export default () => {
         </div>
 
        
-      <div className="pt-4">
-        <Upload
-            label="Adjunte un documento en donde conste el ultimo domicilio real inscripto en la IGJ o Registro de Comercio "
-            labelRequired="*"
-            labelMessageError=""
-          />
-          
-       
-      </div>
+      
 
       <div className="mt-6 pt-6 text-center">
           <Button type="primary"  onClick={() => {

@@ -792,7 +792,7 @@ const tipoPersona = [
     value: 'Rep Legal',
   },
   {
-    label: 'Administrador / Gestor',
+    label: 'Administrativo/Gestor',
     value: 'gestor',
   }
 
