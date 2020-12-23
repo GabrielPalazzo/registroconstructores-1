@@ -45,7 +45,6 @@ export default () => {
 
       </div>
     </div>
-   
     <div className="md:px-20 py-6 grid grid-cols-2 px-4 ">
       <div className="text-2xl font-bold py-4"> Empresas administradas</div>
       <div className="text-2xl font-bold py-4 text-right">
