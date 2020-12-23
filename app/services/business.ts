@@ -1,5 +1,6 @@
 import axios from 'axios'
 import * as jwt from "jsonwebtoken"
+import Tramite from '../data/models/Tramite'
 
 export const getToken = () => {
   return localStorage.getItem('token') ? localStorage.getItem('token')  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNlYmEgQnJvbWJlcmciLCJpYXQiOjE1MTYyMzkwMjJ9.vM1mo49C9FazAkIbDe2UnUXQY7Qfkm3IC4eDpVFLviM' 
@@ -139,5 +140,10 @@ export const isPersonaFisica = (tramite: TramiteAlta) : boolean=> {
 }
 
 export const isTramiteEditable = (tramite: TramiteAlta) : boolean => {
-  return tramite && tramite.status ==='BORRADOR'
+  return (tramite  && tramite.status ==='BORRADOR') || (tramite && !tramite.cuit) || (!tramite)
 } 
+
+export const sendTramite = (tramite: TramiteAlta) : Promise<TramiteAlta> => {
+  tramite.status="PENDIENTE DE REVISION"
+  return saveTramiteService(tramite)
+}
