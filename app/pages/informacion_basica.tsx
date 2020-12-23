@@ -302,7 +302,7 @@ export default () => {
       <div className="grid grid-cols-3 gap-4 ">
         <div className="pb-6" >
           <Upload
-            label="Adjunte fotos de frente y dorso del DNI"
+            label=" Adjunte fotos de frente y dorso del DNI"
             labelRequired="*"
             labelMessageError=""
 
@@ -315,13 +315,14 @@ export default () => {
             labelMessageError=""
           />
         </div>
-        <div className="pb-6" >
-          <Upload
-            label="Adjunte Acta "
-            labelRequired="*"
-            labelMessageError=""
-          />
-        </div>
+        {!esAdministradorLegitimado ? 
+        '':<div className="pb-6" >
+        <Upload
+          label="Adjuntar Acta de Adm. Legitimado"
+          labelRequired="*"
+          labelMessageError=""
+        />
+      </div>}
       </div>
       <div>
         <Checkbox onChange={onChange}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
