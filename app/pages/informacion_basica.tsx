@@ -599,6 +599,7 @@ export default () => {
               labelRequired="*"
               value={tramite.tipoDocumentoConyuge}
               bindFunction={ value => {
+                console.log(value)
                 tramite.tipoDocumentoConyuge = value
                 setTramite(Object.assign({},tramite))
               }}
