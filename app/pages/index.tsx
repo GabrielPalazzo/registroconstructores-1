@@ -6,13 +6,14 @@ import { setActionType } from '../redux/actions/main'
 import { SET_TRAMITE_NUEVO } from '../redux/reducers/main'
 import { useDispatch } from 'react-redux'
 import { BandejaConstructor } from '../components/bandejaConstructor';
-import { getTramites, getUsuario } from '../services/business';
+import { closeSession, getTramites, getUsuario } from '../services/business';
 import { Loading } from '../components/loading';
 
 export default () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(true)
+  const [user,setUser] = useState<Usuario>(null)
   const [tramites, setTramites] = useState<Array<TramiteAlta>>([])
 
   useEffect(() => {
@@ -24,11 +25,30 @@ export default () => {
       }
       setTramites(await getTramites())
       setIsLoading(false)
+      setUser(usuario)
     })()
   }, [])
 
-  if (isLoading)
+  const cerrarSesion = () => {
+    closeSession()
+    router.push('/login')
+  }
+  
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <div onClick={cerrarSesion}>
+          Cerra sesión
+        </div>
+      </Menu.Item>
+  
+    </Menu>
+  );
+
+  if (isLoading || !user)
     return <Loading message='' type='waiting' />
+
+  
 
   return <div>
     <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
@@ -38,7 +58,7 @@ export default () => {
       <div className="text-sm font-bold text-info-700 pr-6 text-right pt-2">
         <Dropdown overlay={menu} trigger={['click']}>
           <div onClick={e => e.preventDefault()}>
-            <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2' }} >U</Avatar>
+            <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2' }} >{user.GivenName.substring(0,1)}</Avatar>
           </div>
         </Dropdown>
 

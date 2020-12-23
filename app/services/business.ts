@@ -119,11 +119,14 @@ export const getUsuario  = () => {
     })
   }
   
-
   return {
     userData: () => user,
     isConstructor: () => user &&  user.Role.filter(r => r ==='CONSTRUCTOR')
   }
+}
+
+export const closeSession =() => {
+  localStorage.clear()
 }
 
 export const isConstructora = (tramite: TramiteAlta) : boolean => {
