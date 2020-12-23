@@ -63,7 +63,33 @@ class Validator implements ValidatorInterface {
           error:'La fecha de Vto de Ieric es requerido'
         })
 
-      
+        if(this.tramite.nombreConyuge)
+        toValidate.push({
+          attribute:'nombreConyuge',
+          dataId:'',
+          error:'El nombre del conyuge es requerido'
+        })
+        
+        if (this.tramite.apellidoConyuge)
+        toValidate.push({
+          attribute:'apellidoConyuge',
+          dataId:'',
+          error:'El apellido del conyuge es requerido'
+        })
+        
+        if  (this.tramite.tipoDocumentoConyuge)
+        toValidate.push({
+          attribute:'tipoDocumentoConyuge',
+          dataId:'',
+          error:'El Tipo de documento del conyuge es requerido'
+        })
+        
+        if (this.tramite.documentoConyugue)
+        toValidate.push({
+          attribute:'documentoConyugue',
+          dataId:'',
+          error:'El Nro de documento del conyuge es requerido'
+        })
 
       return toValidate
     }
@@ -99,6 +125,8 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:'En la sección domicilio, datos societarios, los datos en el alta de AFIP es obligatorio'
         })
+
+       
         
       return toValidate
     }
