@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Select,Tooltip, Button } from 'antd'
 import LikeDislike from '../components/like_dislike'
 import { LikeFilled, DislikeFilled } from '@ant-design/icons';
-
+import {useSelector} from 'react-redux'
+import { isTramiteEditable } from '../services/business';
 
 
 const customColors = ['#2897D4'];
@@ -29,6 +30,8 @@ interface Props {
 
 export default (props: Props) => {
 
+  const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+
   return (<div >
     <div className="flex">
       <div className="w-3/4">
@@ -44,7 +47,9 @@ export default (props: Props) => {
 
     </div>
     <div className="w-full">
-      <Select mode="multiple"
+      <Select
+        disabled={!isTramiteEditable(tramite)} 
+        mode="multiple"
         style={{ width: '100%' }}
         defaultValue={props.value ? props.value : []}
         placeholder={props.placeholder}

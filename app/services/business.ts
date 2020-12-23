@@ -137,3 +137,7 @@ export const isConstructora = (tramite: TramiteAlta) : boolean => {
 export const isPersonaFisica = (tramite: TramiteAlta) : boolean=> {
   return tramite.personeria ==='PF'
 }
+
+export const isTramiteEditable = (tramite: TramiteAlta) : boolean => {
+  return tramite && tramite.status ==='BORRADOR'
+} 
