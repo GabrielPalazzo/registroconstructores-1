@@ -33,6 +33,12 @@ export default () => {
     closeSession()
     router.push('/login')
   }
+
+  
+
+  const noData =() => {
+    return <div> Juan martin, deja algo completo salame! </div>
+  }
   
   const menu = (
     <Menu>
@@ -74,7 +80,7 @@ export default () => {
       </div>
     </div>
 
-    <BandejaConstructor tramites={tramites} />
+   {tramites.length === 0 ? noData() :  <BandejaConstructor tramites={tramites} />} 
   </div>
 }
 
