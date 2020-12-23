@@ -450,6 +450,7 @@ export default () => {
           <InputText
             label="CUIT"
             labelRequired="*"
+            disabled={tramite._id ? true: false}
             value={tramite.cuit}
             bindFunction={(value) => {
               tramite.cuit = value
@@ -509,37 +510,7 @@ export default () => {
             />
           </div>
         </div>
-        <div >
-          <InputText
-            label="Nro Matricula Comerciante"
-            value={tramite.nroMatriculaComerciante}
-            bindFunction={(value) => {
-              tramite.nroMatriculaComerciante = value
-              updateObjTramite()
-            }}
-            labelRequired="*"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-          />
-
-        </div>
-        <div >
-          <DatePicker
-            value={tramite.fechaInscripcionMatriculaComerciante}
-            bindFunction={value => {
-              tramite.fechaInscripcionMatriculaComerciante = value
-              updateObjTramite()
-            }}
-            placeholder="Fecha de inscripcion (dd/mm/yyyy)"
-            label="Fecha de Inscripción"
-            labelRequired="*"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-          />
-
-        </div>
+        
         {isConstructora(tramite) ? <div >
           <Upload
             label="Adjunte certificado IERIC"
@@ -571,6 +542,11 @@ export default () => {
         <div className="grid grid-cols-1 gap-4 ">
           <div className="mt-4" >
             <Switch
+              value={tramite.esCasadoTitular}
+              onChange={ value => {
+                tramite.esCasadoTitular=value
+                setTramite(Object.assign({},tramite))
+              }}
               label="Estado civil casado?"
               labelRequired="*"
               SwitchLabel1="Si"

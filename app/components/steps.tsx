@@ -26,7 +26,7 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
     dispatch(setStatusGeneralTramite(['wait','wait','wait','wait','wait']))
   }
   return <div className="px-20 py-4">
-    <Steps current={current}>
+    {completaBalanceYObras ? <Steps current={current}>
       <Step
         
         status={generalStatus[0]}
@@ -51,8 +51,7 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
       <Step
         disabled={!completaBalanceYObras}
         status={generalStatus[2]}
-        description={!completaBalanceYObras ? "No es Necesario": ''}
-        title="DDJ de balances"
+        title="DDJ de Ejercicios"
         className="cursor-pointer"
         onClick={() => {
           dispatch(setPaso(SET_PASOS.SET_PASO_BALANCES))
@@ -63,7 +62,6 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
       <Step
         disabled={!completaBalanceYObras}
         status={generalStatus[3]}
-        description={!completaBalanceYObras ? "No es Necesario": ''}
         title="DDJ de obras"
         className="cursor-pointer"
         onClick={() => {
@@ -81,7 +79,38 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
           cleanErrors()
           router.push('/enviar_tramite')}}
       />
-    </Steps>
+    </Steps>: <Steps current={current}>
+      <Step
+        
+        status={generalStatus[0]}
+        title="Inscripción"
+        className="cursor-pointer"
+        onClick={() => {
+          dispatch(setPaso(SET_PASOS.SET_PASO_INSCRIPCION))
+          cleanErrors()
+          router.push('/informacion_basica')
+        }}
+      />
+      <Step
+        title="Información"
+        status={generalStatus[1]}
+        className="cursor-pointer"
+        onClick={() =>{ 
+          dispatch(setPaso(SET_PASOS.SET_PASO_INFORMACION))
+          cleanErrors()
+          router.push('/domicilio')
+        }}
+      />    
+      <Step
+        title="Enviar trámite"
+        status={generalStatus[4]}
+        className="cursor-pointer"
+        onClick={() => {
+          dispatch(setPaso(SET_PASOS.SET_PASO_ENVIAR))
+          cleanErrors()
+          router.push('/enviar_tramite')}}
+      />
+    </Steps>}
   </div>
 }
 

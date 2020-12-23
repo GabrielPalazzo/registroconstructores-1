@@ -57,9 +57,7 @@ export default () => {
     <div className="border-gray-200 border-b-2 py-4">
       <NavigationStep current={1}  generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) }/>
     </div>
-    {!isPersonaFisica(tramite) ? <div className="w-2/5 m-auto text-base mt-8">
-      <Substeps progressDot current={0} />
-    </div>:''}
+    <Substeps progressDot current={0} esPersonaFisica={isPersonaFisica(tramite)} />
     <div className="px-20 py-6 ">
       <div className="text-2xl font-bold py-4"> Domicilio Legal</div>
         <div >

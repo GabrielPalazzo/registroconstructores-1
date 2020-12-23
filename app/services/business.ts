@@ -71,10 +71,21 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     autoridadesSociedad:[],
     sistemaCalidad: [],
     ejercicios:[],
-    nroMatriculaComerciante: '',
     fechaInscripcionMatriculaComerciante:'',
     aplicaDecretoDoscientosDos: false,
-    datosDecretoDoscientosDos:[]
+    datosDecretoDoscientosDos:[],
+    matriculaComerciante:{
+      datos:'',
+      fecha:''
+    },
+    altaAFIP:{
+      datos:'',
+      fecha:''
+    },
+    ultimaModificacionMatriculaOActividadesAFIP:{
+      datos:'',
+      fecha:''
+    }
   }
 }
 
@@ -108,11 +119,14 @@ export const getUsuario  = () => {
     })
   }
   
-
   return {
     userData: () => user,
     isConstructor: () => user &&  user.Role.filter(r => r ==='CONSTRUCTOR')
   }
+}
+
+export const closeSession =() => {
+  localStorage.clear()
 }
 
 export const isConstructora = (tramite: TramiteAlta) : boolean => {
