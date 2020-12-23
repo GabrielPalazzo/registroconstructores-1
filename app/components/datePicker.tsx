@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Button, DatePicker, Tooltip, } from 'antd';
 import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 import moment from 'moment';
-
+import {useSelector} from 'react-redux'
+import { isTramiteEditable } from '../services/business';
 
 const customColors = ['#2897D4'];
 const colors = [
@@ -28,6 +29,7 @@ interface Props {
 }
 
 export default (props: Props) => {
+  const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
 
   return (<div >
     <div className="flex pb-2">
@@ -45,6 +47,7 @@ export default (props: Props) => {
     </div>
     <div className="w-full">
       <DatePicker 
+        disabled={!isTramiteEditable(tramite)}
         onChange={(value) => {
           props.bindFunction(moment(value,dateFormat).format(dateFormat))
         }}

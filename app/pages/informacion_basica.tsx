@@ -55,7 +55,7 @@ export default () => {
   //const tramiteSesion: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
-  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
+  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) 
   const [nombre, setNombre] = useState(' ')
   const [apellido, setApellido] = useState('')
   const [email, setEmail] = useState('')
@@ -80,7 +80,7 @@ export default () => {
   const [decretoObservaciones, setDecretoObservaciones] = useState('')
  
   useEffect(() => {
-    if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
+    if (!tramite.cuit && !tipoAccion)
       router.push('/')
   }, [])
 

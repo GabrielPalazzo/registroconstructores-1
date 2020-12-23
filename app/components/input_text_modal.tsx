@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Input,Tooltip, } from 'antd';
 import { LikeFilled, DislikeFilled } from '@ant-design/icons';
-
+import {useSelector} from 'react-redux'
+import { isTramiteEditable } from '../services/business';
 
 const customColors = ['#2897D4'];
 const colors = [
@@ -29,6 +30,8 @@ interface Props {
 
 export default (props: Props) => {
 
+  const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+
   return (<div >
     <div className="flex">
       <div className="w-5/5 mb-2">
@@ -44,7 +47,7 @@ export default (props: Props) => {
         onChange={  e => props.bindFunction(e.target.value)}
         placeholder={props.placeholder}
         required={props.required}
-        disabled={props.disabled}
+        disabled={!isTramiteEditable(tramite)}
         type={props.type}
     
       />

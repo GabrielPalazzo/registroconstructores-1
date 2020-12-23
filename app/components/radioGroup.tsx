@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Select, Tooltip, Radio, Button } from 'antd';
 import { LikeFilled, DislikeFilled } from '@ant-design/icons';
-
+import {useSelector} from 'react-redux'
+import { isTramiteEditable } from '../services/business';
 
 
 const customColors = ['#2897D4'];
@@ -25,6 +26,8 @@ interface Props {
 
 export default (props:Props) => {
 
+  const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+
   return (<div >
     <div className="flex">
       <div className="w-3/4">
@@ -39,7 +42,7 @@ export default (props:Props) => {
 
     </div>
     <div className="w-full">
-      <Radio.Group onChange={e => props.bindFunction(e.target.value)} name="radiogroup" defaultValue={props.value}>
+      <Radio.Group disabled={isTramiteEditable(tramite)} onChange={e => props.bindFunction(e.target.value)} name="radiogroup" defaultValue={props.value}>
         {props.radioOptions}
       </Radio.Group>
     </div>

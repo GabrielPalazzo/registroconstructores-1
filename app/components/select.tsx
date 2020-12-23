@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Select, Tooltip, Button } from 'antd';
 import { LikeFilled, DislikeFilled } from '@ant-design/icons';
-
+import {useSelector} from 'react-redux'
+import { isTramiteEditable } from '../services/business';
 
 const { Option, OptGroup } = Select;
 
@@ -27,6 +28,8 @@ interface Props {
 
 export default (props: Props) => {
 
+  const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+
   return (<div >
     <div className="flex">
       <div className="w-3/4">
@@ -43,6 +46,7 @@ export default (props: Props) => {
     </div>
     <div className="w-full">
       <Select
+        disabled={!isTramiteEditable(tramite)}
         style={{ width: '100%' }}
         defaultValue={!props.value ? props.defaultOption : props.value} onChange={(value) => {
           props.bindFunction(value)
