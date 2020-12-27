@@ -624,6 +624,13 @@ export default () => {
               required />
 
           </div>
+          <div >
+            <Upload
+              label="Adjunte Frente y Dorso del DNI"
+              labelRequired="*"
+              labelMessageError="" />
+
+          </div>
         </div>
       </div> : ''}
       <div className="mt-6">
@@ -653,8 +660,74 @@ export default () => {
         <div className="flex  content-center ">
           <div className="text-2xl font-bold py-4 w-3/4">  INFORMACIÓN DECRETO 202/2017</div>
         </div>
+        <div className="grid grid-cols-2 gap-4 ">
+        {isPersonaFisica(tramite) ? <div className="flex">
+          <div className="w-full mr-2" >
+            <InputText
+              label="Nombre"
+              value=""
+              labelRequired="*"
+              placeHolder="Nombre de pila"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              bindFunction={value => {
+               }}
+              required />
+          </div>
+          <div className="w-full " >
+            <InputText
+              label="Apellido"
+              value=""
+              labelRequired="*"
+              placeHolder="Nombre de pila"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              bindFunction={value => {
+              }}
+              required />
+          </div>
+          </div>:
+          <div >
+            <InputText
+              label="Razón Social"
+              value={decretoRazonSocial}
+              labelRequired="*"
+              placeHolder="Constructora del oeste"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              bindFunction={setDecretoRazonSocial}
+              required />
+          </div>
+          }
+          <div >
+            <InputText
+              label="CUIT / NIT"
+              labelRequired="*"
+              placeHolder="CUIT / NIT"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value={decretoCuit}
+              bindFunction={setDecretoCuit}
+              required />
+          </div>
+          <div >
+            <InputText
+              label="Observaciones"
+              labelRequired=""
+              placeHolder=""
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value={decretoObservaciones}
+              bindFunction={setDecretoObservaciones}
+              required />
+          </div>
+        </div>
        
-        <div className="text-xl font-bold py-4 w-3/4">  Vinculos a Declarar</div>
         <div className="rounded-lg border  px-4 py-4 bg-gray-300">
           <p>Artículo 1.- Toda persona que se presente en un procedimiento de contratación pública o de otorgamiento de una licencia, permiso, autorización, habilitación o derecho real sobre un bien de dominio público o privado del Estado, llevado a cabo por cualquiera de los organismos y entidades del Sector Público Nacional comprendidas en el artículo 8 de la Ley N° 24156, debe presentar una “Declaración Jurada de Intereses” en la que deberá declarar si se encuentra o no alcanzada por alguno de los siguientes supuestos de vinculación, respecto del Presidente y Vicepresidente de la Nación, Jefe de Gabinete de Ministros y demás Ministros y autoridades de igual rango en el Poder Ejecutivo Nacional, aunque estos no tuvieran competencia para decidir sobre la contratación o acto de que se trata:
               <br /> a - Parentesco por consanguinidad dentro del cuarto grado y segundo de afinidad
@@ -687,32 +760,8 @@ export default () => {
           </div>
           </div>
           {!tramite.aplicaDecretoDoscientosDos ? '' : <div>
-        <div className="grid grid-cols-2 gap-4 ">
-          <div >
-            <InputText
-              label="Razón Social"
-              value={decretoRazonSocial}
-              labelRequired="*"
-              placeHolder="Constructora del oeste"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              bindFunction={setDecretoRazonSocial}
-              required />
-          </div>
-          <div >
-            <InputText
-              label="CUIT / NIT"
-              labelRequired="*"
-              placeHolder="CUIT / NIT"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={decretoCuit}
-              bindFunction={setDecretoCuit}
-              required />
-          </div>
-        </div>
+        
+          <div className="text-xl font-bold py-4 w-3/4">  Vinculos a Declarar</div>
         
         <div className="grid grid-cols-2  gap-4 mt-2 ">
           <div >
@@ -743,18 +792,7 @@ export default () => {
               ))} />
 
           </div>
-          <div >
-            <InputText
-              label="Observaciones"
-              labelRequired=""
-              placeHolder=""
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={decretoObservaciones}
-              bindFunction={setDecretoObservaciones}
-              required />
-          </div>
+          
           <div className="  mt-8 ">
             <Button type="primary" onClick={addPersonasAlDecreto} > Agregar</Button>
           </div>
