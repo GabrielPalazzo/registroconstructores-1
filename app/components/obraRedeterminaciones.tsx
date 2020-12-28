@@ -16,7 +16,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 
 }) => {
 	/*const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
-	const [monto, setMonto] = useState('')
+	const [monto, setMonto] = useState(0)
 	const [fecha, setFecha] = useState('')
 	const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>([])
 	const [error, setError] = useState('')
