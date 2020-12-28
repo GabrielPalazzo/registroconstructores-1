@@ -34,6 +34,50 @@ type Archivo = {
   nombreArchivo: string
   fechaCreacion: number
 }
+type UbicacionGeografica ={
+  lat: number
+  lng: number
+  slug: string
+}
+type DatosObraGeneral = {
+  codigo: string
+  estado: string
+  tipoContratacion:string
+  nivel:string
+  denominacion:string
+  fechaAdjudicacion:string
+  fechaInicio:string
+  fechaFin:string
+}
+
+type DDJJObra ={
+  datosObra:Array<DatosObraGeneral>
+  ubicacionGeografica:Array<UbicacionGeografica>
+  razonSocialUTE:string
+  cuitUTE:string
+  participacionUTE:string
+  razonSocialComitente:string
+  cuitComitente:string
+  montoInicial:string
+  redeterminaciones:Array<{
+    monto:number
+    fecha:string
+  }>
+  certificacionesVigentes:Array<{
+    numeroCertificacion:number
+    descripcion:string
+    monto:number
+  }>
+  certificacionesEjercicioCerrado:Array<{
+    fechaInicio:string
+    fechaFin:string
+    monto:number
+  }>
+  plazoPorContrato:number
+  prorroga:number
+  transcurrido:number
+  restante:number
+}
 
 type TramiteAlta = {
   _id?: string,
@@ -105,6 +149,7 @@ type TramiteAlta = {
     ventasEjercicio: number
     capitalSuscripto: number
   }>,
+  ddjjObras: Array<DDJJObra>,
   matriculaComerciante: {
     datos: string,
     fecha: string,
