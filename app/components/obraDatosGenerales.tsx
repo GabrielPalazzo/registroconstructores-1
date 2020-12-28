@@ -4,7 +4,7 @@ import { getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import UploadLine from './uploadLine'
-import { Button, Select, Table } from 'antd';
+import { Button, Select, Table, Alert } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 
@@ -26,26 +26,31 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 	const [fechaInicio, setfechaInicio] = useState('')
 	const [fechaFin, setfechaFin] = useState('')
 	const [dataSource, setDataSource] = useState<Array<DatosObraGeneral>>([])
-
+  const [error,setError] = useState('')
+  const [showError, setShowError] = useState(false)
 	useEffect(() => {
 
 	}, [])
 	const add = () => {
-		dataSource.push({tipoContratacion,nivel,codigo,estado,denominacion,fechaFin,fechaInicio,fechaAdjudicacion})
-		setDataSource(Object.assign({},dataSource))
-	/*	setDataSource([{
-			fechaFin: "10",
-			codigo: "nnn",
-			fechaInicio: "90",
-			fechaAdjudicacion: "333",
-			denominacion: "peppe",
-			tipoContratacion: "dhdhdh",
-			nivel: "eeee",
-			estado: "yyyy"
 
-		}])*/
+    if ((estado==='Anulada' || estado ==='Finalizada') && (!fechaFin)){
+      setError('La fecha de fin es requerida')
+      setShowError(true)
+      return
+    }
+
+		dataSource.push({tipoContratacion,nivel,codigo,estado,denominacion,fechaFin,fechaInicio,fechaAdjudicacion})
+		setDataSource(Object.assign([],dataSource))
 	}
 	return <div> <div className="grid grid-cols-4 gap-4 ">
+		{showError ? <Alert
+			message='Error'
+			description={error}
+			type="error"
+      showIcon
+      closable 
+      afterClose={() => setShowError(false)}
+		/>: ''}
 		<div className="pb-6" >
 			<InputTextModal
 				label="Codigo"
@@ -116,18 +121,6 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 			<div className="pb-6" >
 				<DatePickerModal
 					placeholder="Fecha  (dd/mm/yyyy)"
-					label="Fecha de Adjuducacion"
-					labelRequired="*"
-					labelObservation=""
-					labeltooltip=""
-					labelMessageError=""
-					value={fechaAdjudicacion}
-					bindFunction={(value) => { setfechaAdjudicacion(value) }}
-				/>
-			</div>
-			<div className="pb-6" >
-				<DatePickerModal
-					placeholder="Fecha  (dd/mm/yyyy)"
 					label="Fecha  de Inicio"
 					labelRequired="*"
 					labelObservation=""
@@ -137,7 +130,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 					bindFunction={(value) => { setfechaInicio(value) }}
 				/>
 			</div>
-			<div className="pb-6" >
+			{estado === 'Finalizada' || estado === 'Anulada' ? <div className="pb-6" >
 				<DatePickerModal
 					placeholder="Fecha  (dd/mm/yyyy)"
 					label="Fecha Fin"
@@ -148,7 +141,8 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 					value={fechaFin}
 					bindFunction={(value) => { setfechaFin(value) }}
 				/>
-			</div>
+			</div>: ''}
+			
 			<div className="pb-6" >
 				<UploadLine
 					label="Adjunte Acta "
