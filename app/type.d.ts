@@ -49,6 +49,14 @@ type DatosObraGeneral = {
   fechaInicio:string
   fechaFin:string
 }
+type Redeterminaciones ={
+  monto:number
+  fecha:string
+}
+type AmpliacionesObras ={
+  monto:number
+  fecha:string
+}
 
 type DDJJObra ={
   datosObra:Array<DatosObraGeneral>
@@ -59,10 +67,8 @@ type DDJJObra ={
   razonSocialComitente:string
   cuitComitente:string
   montoInicial:string
-  redeterminaciones:Array<{
-    monto:number
-    fecha:string
-  }>
+  redeterminaciones:Array<Redeterminaciones>
+  redeterminaciones:Array<AmpliacionesObras>
   certificacionesVigentes:Array<{
     numeroCertificacion:number
     descripcion:string

@@ -8,17 +8,17 @@ import { Button, Select, Table, Alert } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 
-export interface ObrasRedeterminacionesProps {
+export interface ObrasAmpliacionesProps {
 
 }
 
-export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
+export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
 
 }) => {
 	/*const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
 	const [monto, setMonto] = useState('')
 	const [fecha, setFecha] = useState('')
-	const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>([])
+	const [dataSource, setDataSource] = useState<Array<AmpliacionesObras>>([])
 	const [error, setError] = useState('')
 	const [showError, setShowError] = useState(false)
 
@@ -52,7 +52,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				afterClose={() => setShowError(false)}
 			/></div> : ''}
 		<div className="rounded-lg px-4 py-2  pb-4 border mt-6">
-			<div className="text-xl font-bold py-2 w-3/4">  Redeterminaciones</div>
+			<div className="text-xl font-bold py-2 w-3/4">  Ampliaciones</div>
 			<div className="grid grid-cols-3 gap-4 ">
 				<div className="pb-6" >
 					<InputTextModal
@@ -69,7 +69,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				<div className="pb-6" >
 					<DatePickerModal
 						placeholder="Fecha  (dd/mm/yyyy)"
-						label="Fecha de la redeterminacion"
+						label="Fecha de la Ampliacion"
 						labelRequired="*"
 						labelObservation=""
 						labeltooltip=""
@@ -91,14 +91,14 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
 			</div>
 			<div className="mt-4 ">
-				<Table columns={columnsRedeterminaciones} dataSource={dataSource} />
+				<Table columns={columnsAmpliaciones} dataSource={dataSource} />
 			</div>
 
 		</div>
 	</div>
 }
 
-const columnsRedeterminaciones = [
+const columnsAmpliaciones = [
 
 	{
 		title: 'fecha',
