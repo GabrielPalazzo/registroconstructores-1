@@ -57,6 +57,18 @@ type AmpliacionesObras ={
   monto:number
   fecha:string
 }
+type Certificaciones ={
+  numeroCertificacion:number
+  descripcion:string
+  monto:number
+  fecha:string
+}
+type CertificacionesCerradas={
+  fecha:string
+  monto:number
+  numeroCertificacion:number
+  descripcion:string
+}
 
 type DDJJObra ={
   datosObra:Array<DatosObraGeneral>
@@ -69,16 +81,8 @@ type DDJJObra ={
   montoInicial:string
   redeterminaciones:Array<Redeterminaciones>
   redeterminaciones:Array<AmpliacionesObras>
-  certificacionesVigentes:Array<{
-    numeroCertificacion:number
-    descripcion:string
-    monto:number
-  }>
-  certificacionesEjercicioCerrado:Array<{
-    fechaInicio:string
-    fechaFin:string
-    monto:number
-  }>
+  certificacionesVigentes:Array<Certificaciones>
+  certificacionesEjercicioCerrado:Array<CertificacionesCerradas>
   plazoPorContrato:number
   prorroga:number
   transcurrido:number
