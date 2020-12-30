@@ -1,4 +1,4 @@
-import { isPersonaFisica } from "./business"
+import { getUsuario, isPersonaFisica } from "./business"
 
 
 interface ValidatorInterface {
@@ -75,6 +75,17 @@ class Validator implements ValidatorInterface {
           attribute:'documentoConyugue',
           dataId:'',
           error:'El Nro de documento del conyuge es requerido'
+        })
+      }
+
+      
+
+      if((isPersonaFisica(this.tramite) &&  (this.tramite.cuit != getUsuario().userData().iat))){
+        toValidate.push({
+          attribute:'noMismaPersona',
+          dataId:'',
+          error:`Siendo una persona físca Los tramites son personales y no puede iniciar uno a nombre de terceros.
+          Si quiere realizar un trámite a nombre de un tercero deberá agregarlo como usuario en la sección de apoderados / usuarios`
         })
       }
 
