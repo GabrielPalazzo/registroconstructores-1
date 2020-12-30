@@ -674,7 +674,7 @@ export default () => {
         <div >
             <InputText
               label="Declarante"
-              value={`${usuario.GivenName} ${usuario.Surname}}`}
+              value={`${usuario.GivenName} ${usuario.Surname}`}
               disabled={true}
               labelRequired="*"
               placeHolder="Constructora del oeste"
