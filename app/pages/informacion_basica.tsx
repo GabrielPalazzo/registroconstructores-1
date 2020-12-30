@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HeaderPrincipal } from '../components/header'
 import { NavigationStep } from '../components/steps'
-import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox } from 'antd';
+import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox,Alert } from 'antd';
 import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
@@ -78,6 +78,8 @@ export default () => {
   const [decretoTipoFuncionarios, setDecretoTipoFuncionarios] = useState('')
   const [decretoTipoVinculo, setDecretoTipoVinculo] = useState('')
   const [decretoObservaciones, setDecretoObservaciones] = useState('')
+  const [error,setError] = useState('')
+  const [showError, setShowError] = useState(false)
  
   useEffect(() => {
     if (!tramite.cuit && !tipoAccion)
@@ -89,6 +91,11 @@ export default () => {
   }
 
   const handleSaveApoderado = () => {
+   if (!nombre.trim()) {
+			setError('El nombre  es requerido')
+			setShowError(true)
+			return
+		}
     tramite.apoderados.push({
       imagenesDni: [],
       apellido,
@@ -100,8 +107,11 @@ export default () => {
       tipoApoderado,
       esAdministrador: esAdministradorLegitimado
     })
+    
+    /*setTramite(Object.assign({},tramite))*/
     save()
     setVisible(false)
+    
   }
 
   const handleCancel = e => {
@@ -192,6 +202,15 @@ export default () => {
 
   const renderApoderadosSection = () => {
     return (<div>
+      {showError ? <div className="mb-4">
+			<Alert
+			message='Error'
+			description={error}
+			type="error"
+      showIcon
+      closable 
+      afterClose={() => setShowError(false)}
+		/></div>: ''}
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
           <InputTextModal
@@ -283,6 +302,7 @@ export default () => {
 
           />
         </div>
+        {tipoApoderado === 'Administrativo/Gestor' ? '' :
         <div className="pb-6" >
           <Switch
             value={esAdministradorLegitimado}
@@ -296,6 +316,7 @@ export default () => {
             labelMessageError=""
           />
         </div>
+  }
 
       </div>
 
@@ -310,7 +331,7 @@ export default () => {
         </div>
         <div className="pb-6" >
           <Upload
-            label="Adjunte el poder"
+            label={tipoApoderado === 'Apoderado' ? 'Adjuntar Poder' : ' Acta de designación de autoridades'}
             labelRequired="*"
             labelMessageError=""
           />
