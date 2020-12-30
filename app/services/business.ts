@@ -87,7 +87,8 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     ultimaModificacionMatriculaOActividadesAFIP:{
       datos:'',
       fecha:''
-    }
+    },
+    poseeIERIC: true
     
   }
 }

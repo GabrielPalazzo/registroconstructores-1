@@ -17,7 +17,7 @@ import RadioGroup from '../components/radioGroup'
 import SelectModal from '../components/select_modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
 import { Loading } from '../components/loading';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
 
@@ -718,9 +718,10 @@ export default () => {
       <div className="mt-6">
         <div className="flex  content-center ">
           <div className="text-2xl font-bold py-4 w-3/4"> {isPersonaFisica ? 'Apoderados / Usuarios' : 'Apoderados y/o Representantes legales'}</div>
-          <div className=" w-1/4 text-right content-center mt-4 ">
+          {isTramiteEditable(tramite) ? <div className=" w-1/4 text-right content-center mt-4 ">
             <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
-          </div>
+          </div>: ''}
+          
         </div>
 
         <Modal

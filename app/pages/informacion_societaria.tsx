@@ -62,7 +62,7 @@ export default () => {
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   useEffect(() => {
-    if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
+    if (!tramite.cuit)
       router.push('/')
   }, [])
 
@@ -766,12 +766,14 @@ export default () => {
         <div className="text-2xl font-bold"> Inscripción en I.E.R.I.C. (Instituto de Estadística y Registro de la Industria de la Construcción)</div>
         <div className="grid grid-cols-1 mb-4 mt-4  ">
           {isPersonaFisica(tramite) ?
-            <Checkbox >Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
-                asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox>
+            <Checkbox value={tramite.poseeIERIC}  onChange={ e => {
+              tramite.poseeIERIC = !e.target.checked
+              save()
+            }}>Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1.</Checkbox>
             : <Checkbox >Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a) y b).</Checkbox>
           }
         </div>
-        <div className="grid grid-cols-3 gap-4 ">
+        {tramite.poseeIERIC ? <div className="grid grid-cols-3 gap-4 ">
           <div>
             <InputText
               label="IERIC"
@@ -811,7 +813,7 @@ export default () => {
           </div>
 
 
-        </div>
+        </div>: ''}
       </div>
 
       <div className=" content-center  rounded-lg border mt-8 px-4 py-4">
@@ -942,8 +944,8 @@ export default () => {
 
           <Button className="mr-4" > Volver</Button>
         </Link>
-        <Button type="primary" onClick={() => {
-          save()
+        <Button type="primary" onClick={async () => {
+          await save()
           if (isPersonaFisica)
               router.push('/enviar_tramite')
           else

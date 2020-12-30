@@ -36,10 +36,9 @@ export default () => {
     setErroresSeccionComercial(validatorTramite.parseDatosComercialesSection())
     dispatch(setStatusGeneralTramite([
       validatorTramite.parseInfomacionBasicaSection().length > 0 ? 'error': 'finish',
-      validatorTramite.parseDomicilioSection().length > 0 ? 'error' : 'finish',
+      validatorTramite.parseDomicilioSection().length > 0  || validatorTramite.parseDatosComercialesSection().length > 0 ? 'error' : 'finish',
       validatorTramite.parseDDJJSection().length > 0 ? 'error' : 'finish',
-      validatorTramite.parseObrasSection().length > 0 ? 'error' : 'finish',
-      validatorTramite.parseDomicilioSection().length > 0 ? 'error' : 'finish']))
+      validatorTramite.parseObrasSection().length > 0 ? 'error' : 'finish']))
   },[])
 
   const save = async () => {
@@ -76,7 +75,10 @@ export default () => {
       {erroresSeccionInformacionBasica.length ===0 
         && erroresSeccionDomicilio.length === 0 
         && erroresSeccionDDJJ.length === 0 
-        && erroresSeccionObras.length === 0 ? 
+        && erroresSeccionComercial.length === 0 
+        && erroresSeccionObras.length === 0 
+        ? 
+        
       <div>
         <Card className="rounded mr-2 text-center m-autop" style={{ width: 500, margin: 'auto' }}>
           <div className="text-base font-bold text-primary-700 pb-2 "> ¿Desea confirmar el envío de su trámite?</div>

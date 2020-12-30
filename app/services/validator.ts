@@ -46,19 +46,7 @@ class Validator implements ValidatorInterface {
       
       
       
-      if(!this.tramite.ieric)
-        toValidate.push({
-          attribute:'ieric',
-          dataId:'',
-          error:'El número de Ieric es requerido'
-        })
       
-      if(!this.tramite.vtoIeric)
-        toValidate.push({
-          attribute:'vtoIeric',
-          dataId:'',
-          error:'La fecha de Vto de Ieric es requerido'
-        })
 
       if(this.tramite.esCasadoTitular){
         if(!this.tramite.nombreConyuge)
@@ -140,12 +128,34 @@ class Validator implements ValidatorInterface {
     }    
     parseDatosComercialesSection(): ValidatorErrorElement[] {
       const toValidate : Array<ValidatorErrorElement> = []
-      if(!this.tramite.fechaInscripcionMatriculaComerciante)
+      if(!this.tramite.matriculaComerciante.datos)
         toValidate.push({
-          attribute:'fechaInscripcionMatriculaComerciante',
+          attribute:'matriculaComercianteDatos',
+          dataId:'',
+          error:"Los datos de la matricula comerciante son requeridos"
+        })
+      if(!this.tramite.matriculaComerciante.fecha)
+        toValidate.push({
+          attribute:'matriculaComercianteFecha',
           dataId:'',
           error:"La fecha de Incripcion de la Matricula es requerida"
         })
+
+      if (this.tramite.poseeIERIC){
+        if(!this.tramite.ieric)
+          toValidate.push({
+            attribute:'ieric',
+            dataId:'',
+            error:'El número de Ieric es requerido'
+          })
+      
+        if(!this.tramite.vtoIeric)
+          toValidate.push({
+            attribute:'vtoIeric',
+            dataId:'',
+            error:'La fecha de Vto de Ieric es requerido'
+          })
+      }
       return toValidate
     }  
 }

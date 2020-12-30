@@ -183,7 +183,8 @@ type TramiteAlta = {
     tipoFuncionario: string
     tipoVinculo: string
     observaciones: string
-  }>
+  }>,
+  poseeIERIC: boolean
 }
 
 type ValidatorErrorElement = {
