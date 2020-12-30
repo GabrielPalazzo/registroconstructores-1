@@ -466,7 +466,7 @@ export default () => {
       <NavigationStep generalStatus={statusGeneralTramite} current={1} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
     <div className="w-2/5 m-auto text-base mt-8">
-      <Substeps progressDot current={1} />
+      <Substeps progressDot current={1} esPersonaFisica={isPersonaFisica(tramite)}/>
     </div>
 
 
@@ -892,7 +892,10 @@ export default () => {
         </Link>
         <Button type="primary" onClick={() => {
           save()
-          router.push('/informacion_propietarios')
+          if (isPersonaFisica)
+              router.push('/enviar_tramite')
+          else
+            router.push('/informacion_propietarios')
         }} > Guardar y Seguir</Button>
       </div>
 

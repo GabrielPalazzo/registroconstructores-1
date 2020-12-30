@@ -20,6 +20,7 @@ export default () => {
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const [erroresSeccionInformacionBasica, setErroresSeccionInformacionBasica] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionDomicilio, setErroresSeccionDomicilio] = useState<Array<ValidatorErrorElement>>([])
+  const [erroresSeccionComercial, setErroresSeccionComercial] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionDDJJ, setErroresSeccionDDJJ] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionObras, setErroresSeccionObras] = useState<Array<ValidatorErrorElement>>([])
 
@@ -32,7 +33,7 @@ export default () => {
     validatorTramite.load(tramite)
     setErroresSeccionInformacionBasica(validatorTramite.parseInfomacionBasicaSection())
     setErroresSeccionDomicilio(validatorTramite.parseDomicilioSection())
-    
+    setErroresSeccionComercial(validatorTramite.parseDatosComercialesSection())
     dispatch(setStatusGeneralTramite([
       validatorTramite.parseInfomacionBasicaSection().length > 0 ? 'error': 'finish',
       validatorTramite.parseDomicilioSection().length > 0 ? 'error' : 'finish',
@@ -58,7 +59,7 @@ export default () => {
     setTramite(Object.assign({}, tramite))
   }
 
-  if (!tramite.cuit)
+  if ((!tramite.cuit) || (isLoading))
     return <Loading message="" type="waiting"/>
 
   return <div>
@@ -83,8 +84,11 @@ export default () => {
         </Card>
         <div className="mt-6 pt-4 text-center">
           <Button type="primary" onClick={() => {
-            dispatch(sendTramite(tramite))
-              .then(() => router.push('/success'))
+            setIsLoading(true)
+            sendTramite(tramite).then(result => {
+              dispatch(saveTramite(result))
+              router.push('/success')
+            })
           }}> Enviar Tramite</Button>
         </div>
       </div>
@@ -107,6 +111,13 @@ export default () => {
             <div className="font-bold">Domicilio</div>
             <li>
               {erroresSeccionDomicilio.map( (e:ValidatorErrorElement) => <ul>{e.error}</ul>)}
+            </li>
+          </div> : ''}
+          {erroresSeccionComercial.length > 0 ? 
+          <div>
+            <div className="font-bold">Información Comercial</div>
+            <li>
+              {erroresSeccionComercial.map( (e:ValidatorErrorElement) => <ul>{e.error}</ul>)}
             </li>
           </div> : ''}
         </div>

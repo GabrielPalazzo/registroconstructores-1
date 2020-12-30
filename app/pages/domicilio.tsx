@@ -126,10 +126,7 @@ export default () => {
               return 
             save()
             setIsLoading(true)
-            if (isPersonaFisica)
-              router.push('/enviar_tramite')
-            else
-              router.push('/informacion_societaria')
+            router.push('/informacion_societaria')
           }}> Guardar y Seguir</Button>
          </div>
 

@@ -196,7 +196,7 @@ export default () => {
       <NavigationStep generalStatus={statusGeneralTramite} current={1}  completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) } />
     </div>
     <div className="w-2/5 m-auto text-base mt-8">
-      <Substeps progressDot current={2} />
+      <Substeps progressDot current={2} esPersonaFisica={isPersonaFisica(tramite)} />
     </div>
 
 
