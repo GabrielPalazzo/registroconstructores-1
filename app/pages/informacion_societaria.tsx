@@ -8,7 +8,7 @@ import DatePicker from '../components/datePicker'
 import Switch from '../components/switch'
 import DatePickerModal from '../components/datePicker_Modal'
 import Upload from '../components/upload'
-import { Button, Card, Steps, Modal, Space, Table, Select, Checkbox } from 'antd';
+import { Button, Card, Steps, Modal, Space, Table, Select, Checkbox, Collapse } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
@@ -21,7 +21,7 @@ import { useDispatch } from 'react-redux'
 import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 
-
+const { Panel } = Collapse;
 const { Option } = Select;
 
 export default () => {
@@ -491,7 +491,7 @@ export default () => {
             required />
         </div>
          */}
-      {isPersonaFisica(tramite) ? <div >
+      {isPersonaFisica(tramite) ? <div>
         <div className="text-2xl font-bold py-4"> Alta en AFIP (actividad referente a rubro Construcción)</div>
         <div className="grid grid-cols-3 gap-4 ">
           <div >
@@ -505,7 +505,8 @@ export default () => {
               labelRequired="*"
               placeholder=""
               labelMessageError=""
-              required /></div>
+              required />
+          </div>
           <div >
             <DatePickerModal
               label="Fecha"
@@ -666,19 +667,21 @@ export default () => {
           </div>
           <div className="text-2xl font-bold py-4 mt-4"> Inscripción en el rubro de construcción</div>
           <div className="grid grid-cols-4 gap-4 ">
-            <div ><InputText
-              label="Lugar"
-              labelRequired="*"
-              placeHolder=""
-              value={tramite.rubroConstruccion.lugar}
-              bindFunction={(value) => {
-                tramite.rubroConstruccion.lugar = value
-                updateObjTramite()
-              }}
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              required /></div>
+            <div >
+              <InputText
+                label="Lugar"
+                labelRequired="*"
+                placeHolder=""
+                value={tramite.rubroConstruccion.lugar}
+                bindFunction={(value) => {
+                  tramite.rubroConstruccion.lugar = value
+                  updateObjTramite()
+                }}
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                required />
+            </div>
             <div >
               <DatePicker
                 label="Fecha"
@@ -692,7 +695,8 @@ export default () => {
                 labelObservation=""
                 labeltooltip=""
                 labelMessageError=""
-              /></div>
+              />
+            </div>
 
             <div >
               <InputText
@@ -707,7 +711,8 @@ export default () => {
                 labelObservation=""
                 labeltooltip=""
                 labelMessageError=""
-                required /></div>
+                required />
+            </div>
           </div>
           <div className=" content-center  rounded-lg border  px-4 py-4">
             <div className="flex  content-center ">
@@ -765,10 +770,10 @@ export default () => {
       <div className="rounded-lg mt-4 border px-4 py-4">
         <div className="text-2xl font-bold"> Inscripción en I.E.R.I.C. (Instituto de Estadística y Registro de la Industria de la Construcción)</div>
         <div className="grid grid-cols-1 mb-4 mt-4  ">
-          {isPersonaFisica(tramite) ?
+          {isPersonaFisica(tramite) ? <div>
             <Checkbox >Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
-                asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox>
-            : <Checkbox >Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a) y b).</Checkbox>
+                asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox></div>
+            : <div> <Checkbox >Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b.</Checkbox></div>
           }
         </div>
         <div className="grid grid-cols-3 gap-4 ">
@@ -813,130 +818,106 @@ export default () => {
 
         </div>
       </div>
+      <div className="mt-4">
+        <Collapse accordion>
+          <Panel header=" Sistema de Calidad" key="1">
+            <div className="  text-center content-center mt-2 mb-4 ">
+              <Button type="primary" onClick={() => setModalCalidad(true)} icon={<PlusOutlined />}> Agregar</Button>
+            </div>
+            {tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table columns={columnsCalidad} dataSource={tramite.sistemaCalidad} /> : renderNoData()}
+            <Modal
+              title="Datos del Sistema de Calidad"
+              visible={modalCalidad}
+              onOk={() => {
+                if (!tramite.sistemaCalidad)
+                  tramite.sistemaCalidad = []
 
-      <div className=" content-center  rounded-lg border mt-8 px-4 py-4">
-        <div className="flex  content-center ">
-          <div className="text-2xl font-bold py-4 w-3/4">  Sistema de Calidad</div>
-          <div className=" w-1/4 text-right content-center ">
-            <Switch
-              SwitchLabel1="Si"
-              SwitchLabel2="No"
-              labelMessageError=""
-            />
-          </div>
-        </div>
+                tramite.sistemaCalidad.push({
+                  cuit: cuitSistemaCalidad,
+                  norma,
+                  fechaExpiracion,
+                  fechaOtorgamiento,
+                  direccion
+                })
+                setModalCalidad(false)
+                save()
+              }}
+              okText="Guardar"
+              onCancel={() => setModalCalidad(false)}
+              cancelText="Cancelar"
+              width={1000}
+            >
+              {renderModalCalidad()}
+            </Modal>
+          </Panel>
+          <Panel header="Inversiones permanentes" key="2">
+            <div className="grid grid-cols-2 gap-4 pb-6  ">
 
-        <div className="  text-center content-center mt-2 mb-4 ">
-          <Button type="primary" onClick={() => setModalCalidad(true)} icon={<PlusOutlined />}> Agregar</Button>
-        </div>
-        {tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table columns={columnsCalidad} dataSource={tramite.sistemaCalidad} /> : renderNoData()}
+              <div >
+                <InputTextModal
 
+                  label="CUIT NIT"
+                  labelRequired="*"
+                  placeholder="33333333333"
+
+                  labelMessageError=""
+                  required />
+
+
+              </div>
+              <div >
+                <InputTextModal
+                  label="Empresa participada"
+                  labelRequired="*"
+                  placeholder="Sa"
+
+                  labelMessageError=""
+                  required />
+
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-4 pb-6 ">
+              <div >
+                <InputTextModal
+                  label="Actividad"
+                  placeholder="Constructora"
+                  disabled
+
+                  labelMessageError=""
+                />
+
+              </div>
+              <div >
+                <InputTextModal
+                  label="% de capital"
+                  labelRequired="*"
+                  placeholder="debe ser numerico"
+                  value=""
+                  labelMessageError=""
+                />
+
+              </div>
+              <div >
+                <InputTextModal
+                  label="Votos posibles en el otro ente"
+                  labelRequired="*"
+                  placeholder="debe ser numerico"
+                  value=""
+                  labelMessageError=""
+                />
+
+              </div>
+            </div>
+            <div className="mt-6 text-center pb-6">
+              <Button className="mr-4" type="primary" icon={<PlusOutlined />} > Agregar</Button>
+            </div>
+
+            <Table columns={columnsInversiones} />
+
+          </Panel>
+
+        </Collapse>
       </div>
-      <Modal
-        title="Datos del Sistema de Calidad"
-        visible={modalCalidad}
-        onOk={() => {
-          if (!tramite.sistemaCalidad)
-            tramite.sistemaCalidad = []
-
-          tramite.sistemaCalidad.push({
-            cuit: cuitSistemaCalidad,
-            norma,
-            fechaExpiracion,
-            fechaOtorgamiento,
-            direccion
-          })
-          setModalCalidad(false)
-          save()
-        }}
-        okText="Guardar"
-        onCancel={() => setModalCalidad(false)}
-        cancelText="Cancelar"
-        width={1000}
-      >
-        {renderModalCalidad()}
-      </Modal>
-
-      <div className="rounded-lg border mt-8 px-4 py-4">
-
-        <div className="flex  content-center ">
-          <div className="text-2xl font-bold py-4 w-3/4">  Inversiones permanentes</div>
-          <div className=" w-1/4 text-right content-center ">
-            <Switch
-              SwitchLabel1="Si"
-              SwitchLabel2="No"
-              labelMessageError=""
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4 pb-6  ">
-
-          <div >
-            <InputTextModal
-
-              label="CUIT NIT"
-              labelRequired="*"
-              placeholder="33333333333"
-
-              labelMessageError=""
-              required />
-
-
-          </div>
-          <div >
-            <InputTextModal
-              label="Empresa participada"
-              labelRequired="*"
-              placeholder="Sa"
-
-              labelMessageError=""
-              required />
-
-          </div>
-        </div>
-        <div className="grid grid-cols-3 gap-4 pb-6 ">
-          <div >
-            <InputTextModal
-              label="Actividad"
-              placeholder="Constructora"
-              disabled
-
-              labelMessageError=""
-            />
-
-          </div>
-          <div >
-            <InputTextModal
-              label="% de capital"
-              labelRequired="*"
-              placeholder="debe ser numerico"
-              value=""
-              labelMessageError=""
-            />
-
-          </div>
-          <div >
-            <InputTextModal
-              label="Votos posibles en el otro ente"
-              labelRequired="*"
-              placeholder="debe ser numerico"
-              value=""
-              labelMessageError=""
-            />
-
-          </div>
-        </div>
-        <div className="mt-6 text-center pb-6">
-
-          <Button className="mr-4" type="primary" icon={<PlusOutlined />} > Agregar</Button>
-
-
-        </div>
-
-        <Table columns={columnsInversiones} />
-      </div>
-
-
       <div className="mt-6 pt-6 text-center">
         <Link href="/domicilio" >
 
@@ -949,6 +930,16 @@ export default () => {
       </div>
 
     </div>
+    <style>
+      {`
+      .ant-collapse > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow{
+        top:26px;
+      }
+      .ant-collapse > .ant-collapse-item > .ant-collapse-header{
+        font-size: 1.5rem;
+    font-weight: bold;
+      }`}
+    </style>
 
   </div>
   )
