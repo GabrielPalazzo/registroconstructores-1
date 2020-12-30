@@ -568,7 +568,7 @@ export default () => {
           />
 
         </div>
-        <div className="flex">
+       {/* <div className="flex">
           <div className="w-full" >
             <InputText
               label="IERIC"
@@ -599,15 +599,15 @@ export default () => {
               labelMessageError=""
             />
           </div>
-        </div>
+        </div>*/} 
 
-        {isConstructora(tramite) ? <div >
+       {/* {isConstructora(tramite) ? <div >
           <Upload
             label="Adjunte certificado IERIC"
             labelRequired="*"
             labelMessageError="" />
 
-        </div> : ''}
+       </div> : ''}*/}
 
         <div >
           <Upload
