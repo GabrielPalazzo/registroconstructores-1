@@ -93,11 +93,47 @@ export default () => {
   }
 
   const handleSaveApoderado = () => {
-   if (!nombre.trim()) {
+   if (!apellido.trim()) {
+			setError('El Apellido  es requerido')
+			setShowError(true)
+			return
+    }
+    if (!nombre.trim()) {
 			setError('El nombre  es requerido')
 			setShowError(true)
 			return
-		}
+    }
+    if (!emailApoderado.trim()) {
+			setError('El email  es requerido')
+			setShowError(true)
+			return
+    }
+
+    if (!cuitApoderado.trim()) {
+			setError('El cuit  es requerido')
+			setShowError(true)
+			return
+    }
+    if (!nroDocumentoApoderado.trim()) {
+			setError('El Numero de Documento  es requerido')
+			setShowError(true)
+			return
+    }
+    if (!tipoDocumentoApoderado.trim()) {
+			setError('El Tipo  de Documento  es requerido')
+			setShowError(true)
+			return
+    }
+    if (!nroDocumentoApoderado.trim()) {
+			setError('El Numero de Documento  es requerido')
+			setShowError(true)
+			return
+    }
+    if (!tipoApoderado.trim()) {
+			setError('El Tipo de Usuario  es requerido')
+			setShowError(true)
+			return
+    }
     tramite.apoderados.push({
       imagenesDni: [],
       apellido,
@@ -860,7 +896,7 @@ const tipoPersona = [
   },
   {
     label: 'Administrativo/Gestor',
-    value: 'gestor',
+    value: 'Administrativo/Gestor',
   }
 
 ]
