@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HeaderPrincipal } from '../components/header'
 import { NavigationStep } from '../components/steps'
-import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox,Alert } from 'antd';
+import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox, Alert } from 'antd';
 import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
@@ -55,17 +55,17 @@ export default () => {
   //const tramiteSesion: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
-  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) 
+  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion)
   const [nombre, setNombre] = useState(' ')
   const [apellido, setApellido] = useState('')
   const [email, setEmail] = useState('')
   const [propuestaElectronica, setPropuestaElectronica] = useState('')
   const [cuit, setCuit] = useState('')
   const [nroDocumentoApoderado, setNroDocumentoApoderado] = useState('')
-  const [tipoApoderado, setTipoApoderado]= useState('')
+  const [tipoApoderado, setTipoApoderado] = useState('')
   const [tipoDocumentoApoderado, setTipoDocumentoApoderado] = useState('')
   const [cuitApoderado, setCuitApoderado] = useState('')
-  const [emailApoderado, setEmailApoderado]= useState('')
+  const [emailApoderado, setEmailApoderado] = useState('')
   const [esAdministradorLegitimado, setEsAdministradorLegitimado] = useState(false)
   const dispatch = useDispatch()
   const paso = useSelector(state => state.appStatus.paso)
@@ -78,9 +78,9 @@ export default () => {
   const [decretoTipoFuncionarios, setDecretoTipoFuncionarios] = useState('')
   const [decretoTipoVinculo, setDecretoTipoVinculo] = useState('')
   const [decretoObservaciones, setDecretoObservaciones] = useState('')
-  const [error,setError] = useState('')
+  const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
- 
+
   const [aceptaTerminosYCondiciones, setAceptTerminosYCondiciones] = useState(false)
 
   useEffect(() => {
@@ -93,66 +93,66 @@ export default () => {
   }
 
   const handleSaveApoderado = () => {
-   if (!apellido.trim()) {
-			setError('El Apellido  es requerido')
-			setShowError(true)
-			return
+    if (!apellido.trim()) {
+      setError('El Apellido  es requerido')
+      setShowError(true)
+      return
     }
     if (!nombre.trim()) {
-			setError('El nombre  es requerido')
-			setShowError(true)
-			return
+      setError('El nombre  es requerido')
+      setShowError(true)
+      return
     }
     if (!emailApoderado.trim()) {
-			setError('El email  es requerido')
-			setShowError(true)
-			return
+      setError('El email  es requerido')
+      setShowError(true)
+      return
     }
 
     if (!cuitApoderado.trim()) {
-			setError('El cuit  es requerido')
-			setShowError(true)
-			return
+      setError('El cuit  es requerido')
+      setShowError(true)
+      return
     }
     if (!nroDocumentoApoderado.trim()) {
-			setError('El Numero de Documento  es requerido')
-			setShowError(true)
-			return
+      setError('El Numero de Documento  es requerido')
+      setShowError(true)
+      return
     }
     if (!tipoDocumentoApoderado.trim()) {
-			setError('El Tipo  de Documento  es requerido')
-			setShowError(true)
-			return
+      setError('El Tipo  de Documento  es requerido')
+      setShowError(true)
+      return
     }
     if (!nroDocumentoApoderado.trim()) {
-			setError('El Numero de Documento  es requerido')
-			setShowError(true)
-			return
+      setError('El Numero de Documento  es requerido')
+      setShowError(true)
+      return
     }
     if (!tipoApoderado.trim()) {
-			setError('El Tipo de Usuario  es requerido')
-			setShowError(true)
-			return
+      setError('El Tipo de Usuario  es requerido')
+      setShowError(true)
+      return
     }
     tramite.apoderados.push({
       imagenesDni: [],
       apellido,
       nombre,
-      email:emailApoderado,
+      email: emailApoderado,
       cuit: cuitApoderado,
       nroDocumento: nroDocumentoApoderado,
       tipoDocumento: tipoDocumentoApoderado,
       tipoApoderado,
       esAdministrador: esAdministradorLegitimado
     })
-    
+
     /*setTramite(Object.assign({},tramite))*/
     save()
     setVisible(false)
-    
+
   }
 
-  
+
   const handleCancel = e => {
     setVisible(false)
   }
@@ -221,9 +221,19 @@ export default () => {
 
   const addPersonasAlDecreto = () => {
     if (!tramite.datosDecretoDoscientosDos)
-      tramite.datosDecretoDoscientosDos=[]
+      tramite.datosDecretoDoscientosDos = []
 
-    tramite.aplicaDecretoDoscientosDos=true
+    tramite.aplicaDecretoDoscientosDos = true
+    if (!decretoTipoFuncionarios.trim()) {
+      setError('El Tipo de Funcionarios es obligatorio ')
+      setShowError(true)
+      return
+    }
+    if (!decretoTipoVinculo.trim()) {
+      setError('El Tipo de Vinculo es obligatorio  ')
+      setShowError(true)
+      return
+    }
     tramite.datosDecretoDoscientosDos.push({
       razonSocial: decretoRazonSocial,
       cuit: decretoCuit,
@@ -242,14 +252,14 @@ export default () => {
   const renderApoderadosSection = () => {
     return (<div>
       {showError ? <div className="mb-4">
-			<Alert
-			message='Error'
-			description={error}
-			type="error"
-      showIcon
-      closable 
-      afterClose={() => setShowError(false)}
-		/></div>: ''}
+        <Alert
+          message=''
+          description={error}
+          type="error"
+          showIcon
+          closable
+          afterClose={() => setShowError(false)}
+        /></div> : ''}
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
           <InputTextModal
@@ -342,20 +352,20 @@ export default () => {
           />
         </div>
         {tipoApoderado === 'Administrativo/Gestor' ? '' :
-        <div className="pb-6" >
-          <Switch
-            value={esAdministradorLegitimado}
-            onChange={setEsAdministradorLegitimado}
-            label="Administrador Legitimado"
-            labelRequired="*"
-            SwitchLabel1="Si"
-            SwitchLabel2="No"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-          />
-        </div>
-  }
+          <div className="pb-6" >
+            <Switch
+              value={esAdministradorLegitimado}
+              onChange={setEsAdministradorLegitimado}
+              label="Administrador Legitimado"
+              labelRequired="*"
+              SwitchLabel1="Si"
+              SwitchLabel2="No"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+            />
+          </div>
+        }
 
       </div>
 
@@ -368,24 +378,26 @@ export default () => {
 
           />
         </div>
-        <div className="pb-6" >
-          <Upload
-            label={tipoApoderado === 'Apoderado' ? 'Adjuntar Poder' : ' Acta de designación de autoridades'}
-            labelRequired="*"
-            labelMessageError=""
-          />
-        </div>
-        {!esAdministradorLegitimado ? 
-        '':<div className="pb-6" >
-        <Upload
-          label="Adjuntar Acta de Adm. Legitimado"
-          labelRequired="*"
-          labelMessageError=""
-        />
-      </div>}
+        {tipoApoderado === 'Administrativo/Gestor' ? '' :
+          <div className="pb-6" >
+            <Upload
+              label={tipoApoderado === 'Apoderado' ? 'Adjuntar Poder' : ' Acta de designación de autoridades'}
+              labelRequired="*"
+              labelMessageError=""
+            />
+          </div>
+        }
+        {!esAdministradorLegitimado ?
+          '' : <div className="pb-6" >
+            <Upload
+              label="Adjuntar Acta de Adm. Legitimado"
+              labelRequired="*"
+              labelMessageError=""
+            />
+          </div>}
       </div>
       <div>
-        <Checkbox onChange={ e => setAceptTerminosYCondiciones(e.target.checked)}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
+        <Checkbox onChange={e => setAceptTerminosYCondiciones(e.target.checked)}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
       asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox>
       </div>
     </div>)
@@ -395,6 +407,7 @@ export default () => {
     return <Loading message="" type={waitingType} />
 
   return (<div className="">
+
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
       router.push('/')
@@ -407,6 +420,7 @@ export default () => {
     </div>
 
     <div className="px-20 py-6 ">
+
 
       <div className="text-2xl font-bold py-4"> Datos de la empresa</div>
       <div className="grid grid-cols-2 gap-4 ">
@@ -511,7 +525,7 @@ export default () => {
           <InputText
             label="CUIT"
             labelRequired="*"
-            disabled={tramite._id ? true: false}
+            disabled={tramite._id ? true : false}
             value={tramite.cuit}
             bindFunction={(value) => {
               tramite.cuit = value
@@ -571,7 +585,7 @@ export default () => {
             />
           </div>
         </div>
-        
+
         {isConstructora(tramite) ? <div >
           <Upload
             label="Adjunte certificado IERIC"
@@ -604,9 +618,9 @@ export default () => {
           <div className="mt-4" >
             <Switch
               value={tramite.esCasadoTitular}
-              onChange={ value => {
-                tramite.esCasadoTitular=value
-                setTramite(Object.assign({},tramite))
+              onChange={value => {
+                tramite.esCasadoTitular = value
+                setTramite(Object.assign({}, tramite))
               }}
               label="Estado civil casado?"
               labelRequired="*"
@@ -633,7 +647,7 @@ export default () => {
               value={tramite.nombreConyuge}
               bindFunction={(value) => {
                 tramite.nombreConyuge = value
-                setTramite(Object.assign({},tramite))
+                setTramite(Object.assign({}, tramite))
               }}
             />
           </div>
@@ -648,7 +662,7 @@ export default () => {
               value={tramite.apellidoConyuge}
               bindFunction={(value) => {
                 tramite.apellidoConyuge = value
-                setTramite(Object.assign({},tramite))
+                setTramite(Object.assign({}, tramite))
               }}
             />
           </div>
@@ -658,10 +672,10 @@ export default () => {
               defaultOption="Seleccione el tipo de Doc"
               labelRequired="*"
               value={tramite.tipoDocumentoConyuge}
-              bindFunction={ value => {
+              bindFunction={value => {
                 console.log(value)
                 tramite.tipoDocumentoConyuge = value
-                setTramite(Object.assign({},tramite))
+                setTramite(Object.assign({}, tramite))
               }}
               labelMessageError=""
               required
@@ -678,7 +692,7 @@ export default () => {
               value={tramite.documentoConyugue}
               bindFunction={value => {
                 tramite.documentoConyugue = value
-                setTramite(Object.assign({},tramite))
+                setTramite(Object.assign({}, tramite))
               }}
               labelMessageError=""
               required />
@@ -706,7 +720,7 @@ export default () => {
           visible={visible}
           onOk={handleSaveApoderado}
           footer={[
-            <Button  onClick={handleCancel}>Cancelar</Button>,
+            <Button onClick={handleCancel}>Cancelar</Button>,
             <Button type="primary" onClick={handleSaveApoderado} disabled={!aceptaTerminosYCondiciones}>Agregar</Button>
           ]}
           okText="Guardar"
@@ -725,46 +739,46 @@ export default () => {
           <div className="text-2xl font-bold py-4 w-3/4">  INFORMACIÓN DECRETO 202/2017</div>
         </div>
         <div className="grid grid-cols-2 gap-4 ">
-        {isPersonaFisica(tramite) ? <div className="flex">
-          <div className="w-full mr-2" >
-            <InputText
-              label="Nombre"
-              value=""
-              labelRequired="*"
-              placeHolder="Nombre de pila"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              bindFunction={value => {
-               }}
-              required />
-          </div>
-          <div className="w-full " >
-            <InputText
-              label="Apellido"
-              value=""
-              labelRequired="*"
-              placeHolder="Nombre de pila"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              bindFunction={value => {
-              }}
-              required />
-          </div>
-          </div>:
-          <div >
-            <InputText
-              label="Razón Social"
-              value={decretoRazonSocial}
-              labelRequired="*"
-              placeHolder="Constructora del oeste"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              bindFunction={setDecretoRazonSocial}
-              required />
-          </div>
+          {isPersonaFisica(tramite) ? <div className="flex">
+            <div className="w-full mr-2" >
+              <InputText
+                label="Nombre"
+                value=""
+                labelRequired="*"
+                placeHolder="Nombre de pila"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                bindFunction={value => {
+                }}
+                required />
+            </div>
+            <div className="w-full " >
+              <InputText
+                label="Apellido"
+                value=""
+                labelRequired="*"
+                placeHolder="Nombre de pila"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                bindFunction={value => {
+                }}
+                required />
+            </div>
+          </div> :
+            <div >
+              <InputText
+                label="Razón Social"
+                value={decretoRazonSocial}
+                labelRequired="*"
+                placeHolder="Constructora del oeste"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                bindFunction={setDecretoRazonSocial}
+                required />
+            </div>
           }
           <div >
             <InputText
@@ -791,7 +805,7 @@ export default () => {
               required />
           </div>
         </div>
-       
+
         <div className="rounded-lg border  px-4 py-4 bg-gray-300">
           <p>Artículo 1.- Toda persona que se presente en un procedimiento de contratación pública o de otorgamiento de una licencia, permiso, autorización, habilitación o derecho real sobre un bien de dominio público o privado del Estado, llevado a cabo por cualquiera de los organismos y entidades del Sector Público Nacional comprendidas en el artículo 8 de la Ley N° 24156, debe presentar una “Declaración Jurada de Intereses” en la que deberá declarar si se encuentra o no alcanzada por alguno de los siguientes supuestos de vinculación, respecto del Presidente y Vicepresidente de la Nación, Jefe de Gabinete de Ministros y demás Ministros y autoridades de igual rango en el Poder Ejecutivo Nacional, aunque estos no tuvieran competencia para decidir sobre la contratación o acto de que se trata:
               <br /> a - Parentesco por consanguinidad dentro del cuarto grado y segundo de afinidad
@@ -816,52 +830,62 @@ export default () => {
               labeltooltip=""
               labelMessageError=""
               value={tramite.aplicaDecretoDoscientosDos}
-              onChange={value=>{
-                tramite.aplicaDecretoDoscientosDos=value
-                setTramite(Object.assign({},tramite))
+              onChange={value => {
+                tramite.aplicaDecretoDoscientosDos = value
+                setTramite(Object.assign({}, tramite))
               }}
             />
           </div>
-          </div>
-          {!tramite.aplicaDecretoDoscientosDos ? '' : <div>
-        
-          <div className="text-xl font-bold py-4 w-3/4">  Vinculos a Declarar</div>
-        
-        <div className="grid grid-cols-2  gap-4 mt-2 ">
-          <div >
-            <SelectSimple
-              value={decretoTipoFuncionarios}
-              bindFunction={setDecretoTipoFuncionarios}
-              title="¿Con cuál de los siguientes funcionarios?"
-              defaultOption="Seleccione el tipo de personeria"
-              labelRequired="*"
-              labelMessageError=""
-              required
-              option={tipoFuncionarios.map(u => (
-                <Option value={u.value}>{u.label}</Option>
-              ))} />
-
-          </div>
-          <div >
-            <SelectSimple
-              value={decretoTipoVinculo}
-              bindFunction={setDecretoTipoVinculo}
-              title="Tipo de vinculo"
-              defaultOption="Seleccione el tipo de vinculo"
-              labelRequired="*"
-              labelMessageError=""
-              required
-              option={tipoVinculo.map(u => (
-                <Option value={u.value}>{u.label}</Option>
-              ))} />
-
-          </div>
-          
-          <div className="  mt-8 ">
-            <Button type="primary" onClick={addPersonasAlDecreto} > Agregar</Button>
-          </div>
         </div>
-        <Table columns={columnsDecreto} dataSource={tramite.datosDecretoDoscientosDos} />
+        {showError ? <div className="mb-4">
+        <Alert
+          message=''
+          description={error}
+          type="error"
+          showIcon
+          closable
+          afterClose={() => setShowError(false)}
+        /></div> : ''}
+
+        {!tramite.aplicaDecretoDoscientosDos ? '' : <div>
+
+          <div className="text-xl font-bold py-4 w-3/4">  Vinculos a Declarar</div>
+
+          <div className="grid grid-cols-3  gap-4 mt-2 ">
+            <div >
+              <SelectSimple
+                value={decretoTipoFuncionarios}
+                bindFunction={setDecretoTipoFuncionarios}
+                title="¿Con cuál de los siguientes funcionarios?"
+                defaultOption="Seleccione el tipo de personeria"
+                labelRequired="*"
+                labelMessageError=""
+                required
+                option={tipoFuncionarios.map(u => (
+                  <Option value={u.value}>{u.label}</Option>
+                ))} />
+
+            </div>
+            <div >
+              <SelectSimple
+                value={decretoTipoVinculo}
+                bindFunction={setDecretoTipoVinculo}
+                title="Tipo de vinculo"
+                defaultOption="Seleccione el tipo de vinculo"
+                labelRequired="*"
+                labelMessageError=""
+                required
+                option={tipoVinculo.map(u => (
+                  <Option value={u.value}>{u.label}</Option>
+                ))} />
+
+            </div>
+            <div className=" mt-6  mb-2 ">
+              <Button type="primary" onClick={addPersonasAlDecreto} > Agregar</Button>
+            </div>
+            
+          </div>
+          <Table columns={columnsDecreto} dataSource={tramite.datosDecretoDoscientosDos} />
 
         </div>}
       </div>
@@ -1029,7 +1053,7 @@ const columnsDecreto = [
   {
     title: 'Razon Social',
     dataIndex: 'razonSocial',
-    key:'decretoRazonSocial'
+    key: 'decretoRazonSocial'
   },
   {
     title: 'Cuit',
