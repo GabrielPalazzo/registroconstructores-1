@@ -22,10 +22,10 @@ import { Loading } from '../components/loading';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
 
 
+
 const { Option } = Select;
-function onChange(e) {
-  console.log(`checked = ${e.target.checked}`);
-}
+
+
 
 const renderNoData = () => {
   return (<div>
@@ -79,6 +79,8 @@ export default () => {
   const [decretoTipoVinculo, setDecretoTipoVinculo] = useState('')
   const [decretoObservaciones, setDecretoObservaciones] = useState('')
  
+  const [aceptaTerminosYCondiciones, setAceptTerminosYCondiciones] = useState(false)
+
   useEffect(() => {
     if (!tramite.cuit && !tipoAccion)
       router.push('/')
@@ -104,6 +106,7 @@ export default () => {
     setVisible(false)
   }
 
+  
   const handleCancel = e => {
     setVisible(false)
   }
@@ -325,7 +328,7 @@ export default () => {
       </div>}
       </div>
       <div>
-        <Checkbox onChange={onChange}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
+        <Checkbox onChange={ e => setAceptTerminosYCondiciones(e.target.checked)}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
       asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox>
       </div>
     </div>)
@@ -645,6 +648,10 @@ export default () => {
           title="Datos de la Persona Física"
           visible={visible}
           onOk={handleSaveApoderado}
+          footer={[
+            <Button  onClick={handleCancel}>Cancelar</Button>,
+            <Button type="primary" onClick={handleSaveApoderado} disabled={!aceptaTerminosYCondiciones}>Agregar</Button>
+          ]}
           okText="Guardar"
           onCancel={handleCancel}
           cancelText="Cancelar"

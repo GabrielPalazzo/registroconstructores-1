@@ -42,7 +42,7 @@ export default (props:Props) => {
 
     </div>
     <div className="w-full">
-      <Radio.Group disabled={isTramiteEditable(tramite)} onChange={e => props.bindFunction(e.target.value)} name="radiogroup" defaultValue={props.value}>
+      <Radio.Group disabled={!isTramiteEditable(tramite)} onChange={e => props.bindFunction(e.target.value)} name="radiogroup" defaultValue={props.value}>
         {props.radioOptions}
       </Radio.Group>
     </div>
