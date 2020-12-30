@@ -4,11 +4,7 @@ import { getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import UploadLine from './uploadLine'
-import { Button, Select, Table } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
 
-
-const { Option } = Select;
 export interface ObrasUbicacionGeograficaProps {
 
 }

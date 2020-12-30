@@ -26,6 +26,7 @@ interface Props {
   disabled?: boolean
   type?:string
   step?:any
+  min?:any
 }
 
 export default (props: Props) => {
@@ -49,6 +50,7 @@ export default (props: Props) => {
         required={props.required}
         disabled={!isTramiteEditable(tramite)}
         type={props.type}
+        min={props.min}
     
       />
     </div>

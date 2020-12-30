@@ -4,7 +4,7 @@ import { getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import UploadLine from './uploadLine'
-import { Button, Select, Table } from 'antd';
+import { Button, Select, Table, Alert } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 
@@ -16,23 +16,49 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 
 }) => {
 	/*const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
-	const [monto, setMonto] = useState('')
+	const [monto, setMonto] = useState(0)
 	const [fecha, setFecha] = useState('')
+	const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>([])
+	const [error, setError] = useState('')
+	const [showError, setShowError] = useState(false)
 
 	useEffect(() => {
 
 	}, [])
 	const add = () => {
+		if ((!monto)) {
+			setError('El monto  es requerido')
+			setShowError(true)
+			return
+		}
+		if ((!fecha)) {
+			setError('La fecha es requerida')
+			setShowError(true)
+			return
+		}
 
+
+		dataSource.push({ monto, fecha })
+		setDataSource(Object.assign([], dataSource))
 	}
 	return <div>
+		{showError ? <div className="mb-4">
+			<Alert
+				message='Error'
+				description={error}
+				type="error"
+				showIcon
+				closable
+				afterClose={() => setShowError(false)}
+			/></div> : ''}
 		<div className="rounded-lg px-4 py-2  pb-4 border mt-6">
 			<div className="text-xl font-bold py-2 w-3/4">  Redeterminaciones</div>
 			<div className="grid grid-cols-3 gap-4 ">
 				<div className="pb-6" >
 					<InputTextModal
 						label="Monto"
-						type="number" step="any"
+						type="number" step="any" 
+						min="0" 
 						labelRequired="*"
 						labelMessageError=""
 						value={monto}
@@ -43,7 +69,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				<div className="pb-6" >
 					<DatePickerModal
 						placeholder="Fecha  (dd/mm/yyyy)"
-						label="Fecha de Inscripción"
+						label="Fecha de la redeterminacion"
 						labelRequired="*"
 						labelObservation=""
 						labeltooltip=""
@@ -62,10 +88,10 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				</div>
 			</div>
 			<div className="mt-6 text-center">
-				<Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
+				<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
 			</div>
 			<div className="mt-4 ">
-				<Table columns={columnsRedeterminaciones} />
+				<Table columns={columnsRedeterminaciones} dataSource={dataSource} />
 			</div>
 
 		</div>
@@ -75,17 +101,15 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 const columnsRedeterminaciones = [
 
 	{
-		title: 'fecha Adjudicacion',
-		dataIndex: 'fechaAdjudicacion',
-		key: 'fechaAdjudicacion'
+		title: 'fecha',
+		dataIndex: 'fecha',
+		key: 'fecha'
 	},
 	{
 		title: 'monto',
 		dataIndex: 'monto',
 		key: 'monto'
 	},
-
-
 	{
 		title: 'Adjunto',
 		dataIndex: 'adjunto',

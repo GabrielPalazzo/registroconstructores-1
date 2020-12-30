@@ -33,24 +33,59 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 	}, [])
 	const add = () => {
 
-    if ((estado==='Anulada' || estado ==='Finalizada') && (!fechaFin)){
+    if ((estado==='Anulada' || estado ==='Finalizada' || estado ==='Suspendida') && (!fechaFin)){
       setError('La fecha de fin es requerida')
       setShowError(true)
       return
-    }
+		}
+		if ((estado==='Ejecucion' || estado === 'Finalizada' || estado === 'Anulada'  || estado === 'Suspendida') && (!fechaInicio)){
+      setError('La fecha de Inicio  es requerida')
+      setShowError(true)
+      return
+		}
+		if ((!estado)){
+      setError('El tipo de estado  es requerido')
+      setShowError(true)
+      return
+		}
+		if ((!tipoContratacion)){
+      setError('El tipo de Contratación es requerido')
+      setShowError(true)
+      return
+		}
+		if ((!nivel)){
+      setError('El tipo tipo de nivel  es requerido')
+      setShowError(true)
+      return
+		}
+		if ((!denominacion)){
+      setError('La denominación es requerida')
+      setShowError(true)
+      return
+		}
+		if ((!fechaAdjudicacion)){
+      setError('La fecha   es requerida')
+      setShowError(true)
+      return
+		}
+		
 
 		dataSource.push({tipoContratacion,nivel,codigo,estado,denominacion,fechaFin,fechaInicio,fechaAdjudicacion})
 		setDataSource(Object.assign([],dataSource))
 	}
-	return <div> <div className="grid grid-cols-4 gap-4 ">
-		{showError ? <Alert
+	return <div> 
+		{showError ? <div className="mb-4">
+			<Alert
 			message='Error'
 			description={error}
 			type="error"
       showIcon
       closable 
       afterClose={() => setShowError(false)}
-		/>: ''}
+		/></div>: ''}
+		
+		<div className="grid grid-cols-4 gap-4 ">
+		
 		<div className="pb-6" >
 			<InputTextModal
 				label="Codigo"
@@ -121,6 +156,19 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 			<div className="pb-6" >
 				<DatePickerModal
 					placeholder="Fecha  (dd/mm/yyyy)"
+					label={estado === 'Preadjudicada' ? 'Fecha de Pre Adjudicación' : 'Fecha de Adjudicación'}
+					labelRequired="*"
+					labelObservation=""
+					labeltooltip=""
+					labelMessageError=""
+					value={fechaAdjudicacion}
+					bindFunction={(value) => { setfechaAdjudicacion(value) }}
+				/>
+			</div>
+			{estado === 'Ejecucion' || estado === 'Finalizada' || estado === 'Anulada'  || estado === 'Suspendida'?
+			<div className="pb-6" >
+				<DatePickerModal
+					placeholder="Fecha  (dd/mm/yyyy)"
 					label="Fecha  de Inicio"
 					labelRequired="*"
 					labelObservation=""
@@ -129,11 +177,11 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 					value={fechaInicio}
 					bindFunction={(value) => { setfechaInicio(value) }}
 				/>
-			</div>
-			{estado === 'Finalizada' || estado === 'Anulada' ? <div className="pb-6" >
+			</div>:''}
+			{estado === 'Finalizada' || estado === 'Anulada'|| estado === 'Suspendida' ? <div className="pb-6" >
 				<DatePickerModal
 					placeholder="Fecha  (dd/mm/yyyy)"
-					label="Fecha Fin"
+					label={estado === 'Finalizada' ? 'Fecha de Finalizacion' : 'Fecha de Suspencion'				}
 					labelRequired="*"
 					labelObservation=""
 					labeltooltip=""
