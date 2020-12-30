@@ -145,7 +145,7 @@ export const isTramiteEditable = (tramite: TramiteAlta) : boolean => {
   return (tramite  && tramite.status ==='BORRADOR') || (tramite && !tramite.cuit) || (!tramite)
 } 
 
-export const sendTramite = (tramite: TramiteAlta) : Promise<TramiteAlta> => {
+export const sendTramite = async (tramite: TramiteAlta) : Promise<TramiteAlta>=> {
   tramite.status="PENDIENTE DE REVISION"
-  return saveTramiteService(tramite)
+  return  saveTramiteService(tramite)
 }

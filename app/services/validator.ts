@@ -5,12 +5,14 @@ interface ValidatorInterface {
     load: (t:TramiteAlta) => void
     parseInfomacionBasicaSection(): Array<ValidatorErrorElement>
     parseDomicilioSection() : Array<ValidatorErrorElement>
+    parseDatosComercialesSection():  Array<ValidatorErrorElement>
     parseDDJJSection() : Array<ValidatorErrorElement>
     parseObrasSection() : Array<ValidatorErrorElement>
    
 }
 
 class Validator implements ValidatorInterface {
+    
     private tramite: TramiteAlta
 
     load(t:TramiteAlta) {
@@ -42,12 +44,7 @@ class Validator implements ValidatorInterface {
         })
       
       
-      if(!this.tramite.fechaInscripcionMatriculaComerciante)
-        toValidate.push({
-          attribute:'fechaInscripcionMatriculaComerciante',
-          dataId:'',
-          error:"La fecha de Incripcion de la Matricula es requerida"
-        })
+      
       
       if(!this.tramite.ieric)
         toValidate.push({
@@ -63,6 +60,7 @@ class Validator implements ValidatorInterface {
           error:'La fecha de Vto de Ieric es requerido'
         })
 
+      if(this.tramite.esCasadoTitular){
         if(!this.tramite.nombreConyuge)
         toValidate.push({
           attribute:'nombreConyuge',
@@ -70,26 +68,27 @@ class Validator implements ValidatorInterface {
           error:'El nombre del conyuge es requerido'
         })
         
-        if(!this.tramite.apellidoConyuge)
+      if(!this.tramite.apellidoConyuge)
         toValidate.push({
           attribute:'apellidoConyuge',
           dataId:'',
           error:'El apellido del conyuge es requerido'
         })
         
-        if(!this.tramite.tipoDocumentoConyuge)
+      if(!this.tramite.tipoDocumentoConyuge)
         toValidate.push({
           attribute:'tipoDocumentoConyuge',
           dataId:'',
           error:'El Tipo de documento del conyuge es requerido'
         })
         
-        if(!this.tramite.documentoConyugue)
+      if(!this.tramite.documentoConyugue)
         toValidate.push({
           attribute:'documentoConyugue',
           dataId:'',
           error:'El Nro de documento del conyuge es requerido'
         })
+      }
 
         
 
@@ -128,6 +127,7 @@ class Validator implements ValidatorInterface {
           error:'En la sección domicilio, datos societarios, los datos en el alta de AFIP es obligatorio'
         })
 
+      
        
         
       return toValidate
@@ -139,7 +139,17 @@ class Validator implements ValidatorInterface {
     parseObrasSection(): ValidatorErrorElement[] {
       const toValidate : Array<ValidatorErrorElement> = []
       return toValidate
-    }      
+    }    
+    parseDatosComercialesSection(): ValidatorErrorElement[] {
+      const toValidate : Array<ValidatorErrorElement> = []
+      if(!this.tramite.fechaInscripcionMatriculaComerciante)
+        toValidate.push({
+          attribute:'fechaInscripcionMatriculaComerciante',
+          dataId:'',
+          error:"La fecha de Incripcion de la Matricula es requerida"
+        })
+      return toValidate
+    }  
 }
 
 export const validatorTramite = new Validator()
