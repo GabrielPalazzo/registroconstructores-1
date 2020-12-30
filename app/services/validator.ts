@@ -78,6 +78,8 @@ class Validator implements ValidatorInterface {
         })
       }
 
+        
+
       return toValidate
     }
 
