@@ -108,6 +108,11 @@ export default () => {
       setShowError(true)
       return
     }
+    if (emailApoderado.trim() && !/\S+@\S+\.\S+/.test(emailApoderado.trim())) {
+      setError('El campo Email se debe ser xxxxx@jjjj.jjj')
+      setShowError(true)
+      return
+    }
 
     if (!cuitApoderado.trim()) {
       setError('El cuit  es requerido')
@@ -146,11 +151,21 @@ export default () => {
       esAdministrador: esAdministradorLegitimado
     })
 
+    
     /*setTramite(Object.assign({},tramite))*/
     save()
     setVisible(false)
-
+    clearState()
   }
+  const clearState = () => {
+    setNombre('')
+    setApellido('')
+    setTipoDocumentoApoderado('')
+    setTipoApoderado('')
+    setNroDocumentoApoderado('')
+    setCuitApoderado('')
+    setEmailApoderado('')
+}
 
 
   const handleCancel = e => {
