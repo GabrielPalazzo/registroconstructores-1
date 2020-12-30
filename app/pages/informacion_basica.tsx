@@ -17,7 +17,7 @@ import RadioGroup from '../components/radioGroup'
 import SelectModal from '../components/select_modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica } from '../services/business';
 import { Loading } from '../components/loading';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
 
@@ -71,7 +71,7 @@ export default () => {
   const paso = useSelector(state => state.appStatus.paso)
   const [isLoading, setIsLoading] = useState(false)
   const [aplicaDecretoDocientosDos, setAplicaDecretoDoscientosDos] = useState(false)
-
+  const [usuario,setUsuario] = useState<Usuario>(null)
 
   const [decretoRazonSocial, setDecretoRazonSocial] = useState('')
   const [decretoCuit, setDecretoCuit] = useState('')
@@ -84,6 +84,8 @@ export default () => {
   useEffect(() => {
     if (!tramite.cuit && !tipoAccion)
       router.push('/')
+
+    setUsuario(getUsuario().userData())
   }, [])
 
   const showModal = () => {
@@ -334,9 +336,10 @@ export default () => {
     </div>)
   }
 
-  if (isLoading)
+  if ((isLoading) || (!usuario))
     return <Loading message="" type={waitingType} />
 
+    
   return (<div className="">
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
@@ -668,69 +671,17 @@ export default () => {
           <div className="text-2xl font-bold py-4 w-3/4">  INFORMACIÓN DECRETO 202/2017</div>
         </div>
         <div className="grid grid-cols-2 gap-4 ">
-        {isPersonaFisica(tramite) ? <div className="flex">
-          <div className="w-full mr-2" >
+        <div >
             <InputText
-              label="Nombre"
-              value=""
-              labelRequired="*"
-              placeHolder="Nombre de pila"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              bindFunction={value => {
-               }}
-              required />
-          </div>
-          <div className="w-full " >
-            <InputText
-              label="Apellido"
-              value=""
-              labelRequired="*"
-              placeHolder="Nombre de pila"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              bindFunction={value => {
-              }}
-              required />
-          </div>
-          </div>:
-          <div >
-            <InputText
-              label="Razón Social"
-              value={decretoRazonSocial}
+              label="Declarante"
+              value={`${usuario.GivenName} ${usuario.Surname}}`}
+              disabled={true}
               labelRequired="*"
               placeHolder="Constructora del oeste"
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              bindFunction={setDecretoRazonSocial}
-              required />
-          </div>
-          }
-          <div >
-            <InputText
-              label="CUIT / NIT"
-              labelRequired="*"
-              placeHolder="CUIT / NIT"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={decretoCuit}
-              bindFunction={setDecretoCuit}
-              required />
-          </div>
-          <div >
-            <InputText
-              label="Observaciones"
-              labelRequired=""
-              placeHolder=""
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={decretoObservaciones}
-              bindFunction={setDecretoObservaciones}
+              bindFunction={() => null}
               required />
           </div>
         </div>
