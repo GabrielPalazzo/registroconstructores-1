@@ -1,22 +1,43 @@
 
-import {SAVE_TRAMITE, SET_TRAMITE_NUEVO, SET_UPDATE_BORRADOR,SET_STATUS_GENERAL_TRAMITE} from '../reducers/main'
-import {saveTramiteService} from '../../services/business'
+import { SAVE_TRAMITE, SET_TRAMITE_NUEVO, SET_UPDATE_BORRADOR, SET_STATUS_GENERAL_TRAMITE, SET_TRAMITE_VIEW, LOCK_TRAMITE, UNLOCK_TRAMITE } from '../reducers/main'
+import { saveTramiteService } from '../../services/business'
 
-export const setActionType = (tipoAccion: string) => async (dispatch,getState) => {    
-    return dispatch({
-      type: tipoAccion,
-      tipoAccion
-    })
-  }
+export const setActionType = (tipoAccion: string) => async (dispatch, getState) => {
+  return dispatch({
+    type: tipoAccion,
+    tipoAccion
+  })
+}
 
-export const setPaso = (paso: string) => async (dispatch,getState) => {    
+export const setTramiteView = (tramite:TramiteAlta) => async (dispatch, getState) => {
+  return dispatch({
+    type: SET_TRAMITE_VIEW,
+    tramite
+  })
+}
+
+export const lockTramite = (tramite:TramiteAlta) => async (dispatch, getState) => {
+  return dispatch({
+    type: LOCK_TRAMITE,
+    tramite
+  })
+}
+
+export const unLockTramite = (tramite:TramiteAlta) => async (dispatch, getState) => {
+  return dispatch({
+    type: UNLOCK_TRAMITE,
+    tramite
+  })
+}
+
+export const setPaso = (paso: string) => async (dispatch, getState) => {
   return dispatch({
     type: paso,
     paso
   })
 }
 
-export const saveTramite = (tramite: TramiteAlta) => async (dispatch,getState) => {  
+export const saveTramite = (tramite: TramiteAlta) => async (dispatch, getState) => {
   const t = await saveTramiteService(tramite)
   return dispatch({
     type: SAVE_TRAMITE,
@@ -24,14 +45,14 @@ export const saveTramite = (tramite: TramiteAlta) => async (dispatch,getState) =
   })
 }
 
-export const setStatusGeneralTramite = (status: Array<string>) => async (dispatch,getState) => {  
+export const setStatusGeneralTramite = (status: Array<string>) => async (dispatch, getState) => {
   return dispatch({
     type: SET_STATUS_GENERAL_TRAMITE,
     status
   })
 }
 
-export const setUpdateBorrador = (tramite: TramiteAlta) => async (dispatch,getState) => {  
+export const setUpdateBorrador = (tramite: TramiteAlta) => async (dispatch, getState) => {
   const t = await saveTramiteService(tramite)
   return dispatch({
     type: SET_UPDATE_BORRADOR,

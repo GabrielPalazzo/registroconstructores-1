@@ -17,6 +17,15 @@ export const saveTramiteService = (tramite: TramiteAlta) : Promise<TramiteAlta> 
   // return new Promise((accept, reject) => accept(tramite))
 } 
 
+export const getTramitesParaVerificar = () :  Promise<Array<TramiteAlta>> =>{
+  return axios.get('/api/tramite/getTramitesParaVerificar',{
+    headers: {
+      Authorization: 'Bearer ' + getToken()
+  }}).then((tramites) => {
+    return tramites.data['tramites'] as any
+  })
+}
+
 export const getTramites = () :  Promise<Array<TramiteAlta>> =>{
   return axios.get('/api/tramites',{
     headers: {

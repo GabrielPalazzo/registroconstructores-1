@@ -4,7 +4,7 @@ import { PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import { setActionType } from '../redux/actions/main'
 import { SET_TRAMITE_NUEVO } from '../redux/reducers/main'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { BandejaConstructor } from '../components/bandejaConstructor';
 import { closeSession, getTramites, getUsuario } from '../services/business';
 import { Loading } from '../components/loading';
@@ -15,17 +15,17 @@ export default () => {
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState<Usuario>(null)
   const [tramites, setTramites] = useState<Array<TramiteAlta>>([])
+  const tipoAccion = useSelector( state => state.appStatus.tipoAccion)
 
   useEffect(() => {
     (async () => {
       const usuario = getUsuario().userData()
-      debugger
       if (!usuario) {
         router.push('/login')
         return
       }
 
-      if (usuario.Role.filter(r => 'CONTROLADOR').length >0)
+      if ((usuario.Role.filter(r => 'CONTROLADOR').length >0) && (!tipoAccion))
         router.push('/backoffice/bandeja')
         
       setTramites(await getTramites())

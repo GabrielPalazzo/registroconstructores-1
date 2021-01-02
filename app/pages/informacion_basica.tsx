@@ -430,7 +430,12 @@ export default () => {
 
     <div className="px-20 py-6 ">
 
-      <div className="text-2xl font-bold py-4"> Datos de la empresa</div>
+      <div className="flex justify-between text-2xl font-bold py-4"> 
+        <div>Datos de la empresa</div>
+        <div>
+          asignado
+        </div>
+      </div>
       <div className="grid grid-cols-2 gap-4 ">
         <div >
           <SelectSimple

@@ -92,6 +92,7 @@ type DDJJObra ={
 type TramiteAlta = {
   _id?: string,
   id: string
+  createdAt?: Date
   razonSocial: string
   nombreTitular: string
   apellidoTitular: string
@@ -105,6 +106,7 @@ type TramiteAlta = {
   emailInstitucional: string
   cuit: string
   nroLegajo: string
+  asignadoA?: Usuario
   tipoEmpresa: {
     label: string
     value: string

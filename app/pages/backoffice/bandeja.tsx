@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Tabs, Collapse, Tag } from 'antd';
-import {ArrowRightOutlined, DownCircleOutlined, CloudDownloadOutlined, LockFilled } from '@ant-design/icons';
+import {ArrowRightOutlined, DownCircleOutlined, CloudDownloadOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
+import { getUsuario } from '../../services/business';
+import {Loading} from '../../components/loading'
+import {getTramitesParaVerificar} from '../../services/business'
+import {useDispatch, useSelector} from 'react-redux'
+import moment from 'moment'
+import { setTramiteView } from '../../redux/actions/main';
+import { SET_TRAMITE_NUEVO, SET_TRAMITE_VIEW } from '../../redux/reducers/main';
+
 const { TabPane } = Tabs;
 const Panel = Collapse.Panel;
 
@@ -19,205 +27,224 @@ const customPanelStyle = {
 };
 
 
-class Bandeja extends React.Component {
-  state = { showing: false };
 
+export default () => {
 
+  const [showing, setShowing] = useState(false)
+  const [usuario,setUsuario] = useState<Usuario>(null)
+  const [tramites,setTramites] = useState<Array<TramiteAlta>>(null)
+  const router = useRouter()
+  const dispatch = useDispatch()
 
-  render() {
-    const { showing } = this.state;
-    return (
+  useEffect(() => {
+    (async () => {
+      setUsuario(getUsuario().userData())
+      setTramites(await getTramitesParaVerificar())
+    })()
+  },[])
 
-      <div>
-        <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
-          <div className="px-4 pt-4 py-2">
-            <Logo />
-          </div>
-        </div>
+  if ((!usuario) ||(!tramites))
+    return <Loading message="wait" type="waiting"/>
+  
 
-        <div className="px-4 md:px-20 py-6  ">
-          <div className="text-2xl font-bold py-4">Hola </div>
+  return (
 
-          <Tabs defaultActiveKey="1" onChange={callback}>
-            <TabPane tab="Todos los trámites" key="1">
-              {expediente.map(e => (
-                <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
-                  <div className="flex justify-between">
-                    <div>
-                      <Tag color="#a0aec0" className="bg-gray-500 mb-2 pb-4 " >
-                        <LockFilled /> {e.user}
-                      </Tag>
-                      <div className=" text-lg font-bold mt-2 text-black-700">{e.company}</div>
-                      <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {e.date}<br />
-                    CUIT: {e.cuit}<br />
-                    Exp: {e.expediente}</div>
-                    </div>
-
-                    <div className="text-right" onClick={() => this.setState({ showing: !showing })}   >
-                      <DownCircleOutlined />
-
-                    </div>
-
-
-
-                  </div>
-                  { showing
-                    ?
-                    <div>
-                    <div className="grid grid-cols-3 gap-4 caja">
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Confirmación de observaciones del supervisor:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Contestación a observaciones:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Fecha de envío a aprobar:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Aprobación:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Fecha y hora:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Usuario actual:</div>
-                        <div className=" text-muted-700 text-xs">Técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Estado del trámite:</div>
-                        <div className=" text-muted-700 text-xs">Técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
-
-                      </div>
-
-                    </div>
-                    <div className="text-right mt-4">
-                      <Link href="/informacion_basica">
-                      <Button type="primary">ver tramite <ArrowRightOutlined /> </Button>
-                      </Link>
-
-                    </div>
-                    </div>
-
-                    : null
-                  }
-                </div>
-              ))}
-
-
-            </TabPane>
-            <TabPane tab="Mis Asignados" key="2">
-            {expediente.map(e => (
-                <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
-                  <div className="flex justify-between">
-                    <div>
-                      <Tag color="#a0aec0" className="bg-gray-500 mb-2 pb-4 mr-4 " >
-                        <LockFilled /> {e.user}
-                      </Tag>
-                      <Tag color="#6EA100" className="bg-gray-500 mb-2 pb-4 " >
-                        Observado en supervision
-                      </Tag>
-                      <div className=" text-lg font-bold mt-2 text-black-700">{e.company}</div>
-                      <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {e.date}<br />
-                    CUIT: {e.cuit}<br />
-                    Exp: {e.expediente}</div>
-                    </div>
-
-                    <div className="text-right" onClick={() => this.setState({ showing: !showing })}   >
-                      <DownCircleOutlined />
-
-                    </div>
-
-
-
-                  </div>
-                  { showing
-                    ?
-                    <div>
-                    <div className="grid grid-cols-3 gap-4 caja">
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Confirmación de observaciones del supervisor:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Contestación a observaciones:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Fecha de envío a aprobar:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Aprobación:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Fecha y hora:</div>
-                        <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Usuario actual:</div>
-                        <div className=" text-muted-700 text-xs">Técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-black-700 text-sm">Estado del trámite:</div>
-                        <div className=" text-muted-700 text-xs">Técnico:</div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
-
-                      </div>
-
-                    </div>
-                    <div className="text-right mt-4">
-                    <Link href="/informacion_basica">
-                      <Button type="primary">ver tramite <ArrowRightOutlined /> </Button>
-                      </Link>
-                    </div>
-                    </div>
-
-                    : null
-                  }
-                </div>
-              ))}
-
-
-            </TabPane>
-
-            <TabPane tab="Supervisados" key="3">
-
-            </TabPane>
-          </Tabs>
-        </div>
-
-
-        <div className="flex px-20  justify-between">
-
-
+    <div>
+      <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
+        <div className="px-4 pt-4 py-2">
+          <Logo />
         </div>
       </div>
-    )
-  }
+
+      <div className="px-4 md:px-20 py-6  ">
+        <div className="text-2xl font-bold py-4">{`Hola ${usuario.GivenName} ${usuario.Surname}`} </div>
+
+        <Tabs defaultActiveKey="1" onChange={callback}>
+          <TabPane tab="Todos los trámites" key="1">
+            {tramites.map( (t:TramiteAlta) => (
+              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+                <div className="flex justify-between">
+                  <div>
+                    {!t.asignadoA ? <Tag color="green" className="bg-green-500 mb-2 pb-4 " >
+                      <div><UnlockFilled /> Sin asignar </div>
+                    </Tag>: <Tag color="red" className="bg-red-500 mb-2 pb-4 " >
+                      <div><LockFilled /> 'Asignado asignar' </div>
+                    </Tag>}
+                    <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
+                  CUIT: {t.cuit}<br />
+                  Exp: {'A Definir'}</div>
+                  </div>
+
+                  <div className="text-right" onClick={() => setShowing(!showing)}   >
+                    <DownCircleOutlined />
+
+                  </div>
+
+
+
+                </div>
+                { showing
+                  ?
+                  <div>
+                  <div className="grid grid-cols-3 gap-4 caja">
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Confirmación de observaciones del supervisor:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Contestación a observaciones:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Fecha de envío a aprobar:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Aprobación:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Fecha y hora:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Usuario actual:</div>
+                      <div className=" text-muted-700 text-xs">Técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Estado del trámite:</div>
+                      <div className=" text-muted-700 text-xs">Técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
+
+                    </div>
+
+                  </div>
+                  <div className="text-right mt-4">
+                    
+                    <Button type="primary" onClick={() => {
+                      dispatch(setTramiteView(t)).then( r => {
+                        router.push('/informacion_basica')
+                      })
+                      
+                    }}>ver tramite <ArrowRightOutlined /> </Button>
+                    
+
+                  </div>
+                  </div>
+
+                  : null
+                }
+              </div>
+            ))}
+
+
+          </TabPane>
+          <TabPane tab="Mis Asignados" key="2">
+          {expediente.map(e => (
+              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+                <div className="flex justify-between">
+                  <div>
+                    <Tag color="#a0aec0" className="bg-gray-500 mb-2 pb-4 mr-4 " >
+                      <LockFilled /> {e.user}
+                    </Tag>
+                    <Tag color="#6EA100" className="bg-gray-500 mb-2 pb-4 " >
+                      Observado en supervision
+                    </Tag>
+                    <div className=" text-lg font-bold mt-2 text-black-700">{e.company}</div>
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {e.date}<br />
+                  CUIT: {e.cuit}<br />
+                  Exp: {e.expediente}</div>
+                  </div>
+
+                  <div className="text-right" onClick={() => setShowing(!showing)}   >
+                    <DownCircleOutlined />
+
+                  </div>
+
+
+
+                </div>
+                { showing
+                  ?
+                  <div>
+                  <div className="grid grid-cols-3 gap-4 caja">
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Confirmación de observaciones del supervisor:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Contestación a observaciones:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Fecha de envío a aprobar:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Aprobación:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Fecha y hora:</div>
+                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Usuario actual:</div>
+                      <div className=" text-muted-700 text-xs">Técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Estado del trámite:</div>
+                      <div className=" text-muted-700 text-xs">Técnico:</div>
+                    </div>
+                    <div>
+                      <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
+
+                    </div>
+
+                  </div>
+                  <div className="text-right mt-4">
+                  <Link href="/informacion_basica">
+                    <Button type="primary">ver tramite <ArrowRightOutlined /> </Button>
+                    </Link>
+                  </div>
+                  </div>
+
+                  : null
+                }
+              </div>
+            ))}
+
+
+          </TabPane>
+
+          <TabPane tab="Supervisados" key="3">
+
+          </TabPane>
+        </Tabs>
+      </div>
+
+
+      <div className="flex px-20  justify-between">
+
+
+      </div>
+    </div>
+  )
 }
-export default Bandeja;
+
 
 
 
