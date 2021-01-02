@@ -17,7 +17,7 @@ export default () => {
         </div>
         <div className="pb-4 text-center  w-full">
         <Button type="primary" onClick={() => {
-            localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZWdpc3RybyBkZSBDb25zdHJ1Y3RvcmVzIiwiaWF0IjoyMjMzNDQ1NTY2NzcsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJzdWIiOiJsZW9uYXJkb2xlZW5lbkBnbWFpbC5jb20iLCJHaXZlbk5hbWUiOiJNYXJ0aW4gIiwiU3VybmFtZSI6IklnbGVzaWFzIiwiRW1haWwiOiJsZW9uYXJkb2xlZW5lbkBnbWFpbC5jb20iLCJSb2xlIjpbIkNPTlRST0xBRE9yIl19.lgzTyC-E-VwH7wqnAQAe2d8Oivd8fBQheA8NpHNUTTo')
+            localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZWdpc3RybyBkZSBDb25zdHJ1Y3RvcmVzIiwiaWF0IjoyMjMzNDQ1NTY2NzcsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJzdWIiOiJsZW9uYXJkb2xlZW5lbkBnbWFpbC5jb20iLCJHaXZlbk5hbWUiOiJNYXJ0aW4gIiwiU3VybmFtZSI6IklnbGVzaWFzIiwiRW1haWwiOiJsZW9uYXJkb2xlZW5lbkBnbWFpbC5jb20iLCJSb2xlIjpbIkNPTlRST0xBRE9SIl19.7uIIGKpwTvL2EnzLY1UWPmEgVwR3Xw-xW9BwtZHWCb0')
             router.push('/backoffice/bandeja')
           }} block>Revisor Back Office</Button>
         </div >

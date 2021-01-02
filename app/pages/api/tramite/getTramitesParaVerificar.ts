@@ -7,17 +7,17 @@ const handler = nextConnect();
 handler.use(middleware);
 
 handler.get(async (req: any, res: NextApiResponse) => {
-  //console.log(req.user.Role)
-  /*const tramites = await req.db
+  if (req.user.Role.filter(r => 'CONTROLADOR').length ===0)
+    res.status(401).send('Forbidden')
+
+
+  const tramites = await req.db
     .collection('tramites')
-    .find({'creatorId.iat': req.user.iat}
+    .find({'status': 'PENDIENTE DE REVISION'}
     )
     .toArray();
-  res.send({ tramites });*/
-  console.log('Paso por aca')
-  res.status(200).json({
-    reponse:"ok"
-  })
+  res.send({ tramites });
+  
 });
 
 

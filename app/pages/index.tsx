@@ -19,10 +19,15 @@ export default () => {
   useEffect(() => {
     (async () => {
       const usuario = getUsuario().userData()
+      debugger
       if (!usuario) {
         router.push('/login')
         return
       }
+
+      if (usuario.Role.filter(r => 'CONTROLADOR').length >0)
+        router.push('/backoffice/bandeja')
+        
       setTramites(await getTramites())
       setIsLoading(false)
       setUser(usuario)
