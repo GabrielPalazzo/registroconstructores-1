@@ -68,7 +68,7 @@ export default () => {
                     {!t.asignadoA ? <Tag color="green" className="bg-green-500 mb-2 pb-4 " >
                       <div><UnlockFilled /> Sin asignar </div>
                     </Tag>: <Tag color="red" className="bg-red-500 mb-2 pb-4 " >
-                      <div><LockFilled /> 'Asignado asignar' </div>
+                      <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
                     </Tag>}
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />

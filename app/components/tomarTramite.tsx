@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tag } from 'antd'
 import { UnlockFilled, LockFilled } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { lockTramite, unLockTramite } from '../redux/actions/main'
+import { getUsuario } from '../services/business'
 
 export interface TomarTramiteProps {
   user: Usuario
@@ -14,23 +15,32 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
 
   const dispatch = useDispatch()
   const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || {})
+  const [usuarioLogueado, setUsuarioLogueado] = useState(null)
+
+  useEffect(() => {
+    setUsuarioLogueado(getUsuario().userData())
+  },[])
+
+  if ((!usuarioLogueado) || (!tramite))
+    return <div></div>
 
   const Locked = () => {
-    tramite.asignadoA = null
-
-    return <div onClick={() => dispatch(unLockTramite(Object.assign({},tramite)))}>
+    return <div onClick={() => {
+      tramite.asignadoA = null
+      if (tramite.asignadoA.iat === user.iat)
+        dispatch(unLockTramite(Object.assign({},tramite)))
+    }}>
       <Tag color="red" className="bg-red-500 mb-2 pb-4 " >
-        <div><LockFilled /> Liberar Tramite </div>
+        <div><LockFilled /> {usuarioLogueado.iat === tramite.asignadoA.iat ? 'Liberar Tramite' : tramite.asignadoA.GivenName + ', ' + tramite.asignadoA.Surname} </div>
       </Tag>
     </div>
   }
 
   const UnLocked = () => {
-
-    tramite.asignadoA = user as Usuario
-
     return <div onClick={async () => {
-      await dispatch(lockTramite(Object.assign({},tramite)))
+      tramite.asignadoA = user as Usuario
+      if (tramite.asignadoA.iat === user.iat)
+        await dispatch(lockTramite(Object.assign({},tramite)))
     }}>
       <Tag color="green" className="bg-green-500 mb-2 pb-4 " >
         <div><UnlockFilled /> Tomar Tramite </div>

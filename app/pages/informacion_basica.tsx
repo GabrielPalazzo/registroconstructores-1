@@ -20,6 +20,7 @@ import { saveTramite } from '../redux/actions/main'
 import { getEmptyTramiteAlta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
 import { Loading } from '../components/loading';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
+import { TomarTramite } from '../components/tomarTramite';
 
 
 
@@ -71,7 +72,7 @@ export default () => {
   const paso = useSelector(state => state.appStatus.paso)
   const [isLoading, setIsLoading] = useState(false)
   const [aplicaDecretoDocientosDos, setAplicaDecretoDoscientosDos] = useState(false)
-  const [usuario, setUsuario] = useState<Usuario>(null)
+  const [usuario, setUsuario] = useState(null)
 
   const [decretoRazonSocial, setDecretoRazonSocial] = useState('')
   const [decretoCuit, setDecretoCuit] = useState('')
@@ -87,7 +88,7 @@ export default () => {
     if (!tramite.cuit && !tipoAccion)
       router.push('/')
 
-    setUsuario(getUsuario().userData())
+    setUsuario(getUsuario())
   }, [])
 
   const showModal = () => {
@@ -433,7 +434,7 @@ export default () => {
       <div className="flex justify-between text-2xl font-bold py-4"> 
         <div>Datos de la empresa</div>
         <div>
-          asignado
+          <TomarTramite user={usuario.userData()}/>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4 ">
@@ -756,7 +757,7 @@ export default () => {
           <div >
             <InputText
               label="Declarante"
-              value={`${usuario.GivenName} ${usuario.Surname}`}
+              value={`${usuario.userData().GivenName} ${usuario.userData().Surname}`}
               disabled={true}
               labelRequired="*"
               placeHolder="Constructora del oeste"

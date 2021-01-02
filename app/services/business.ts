@@ -134,7 +134,8 @@ export const getUsuario  = () => {
   
   return {
     userData: () => user,
-    isConstructor: () => user &&  user.Role.filter(r => r ==='CONSTRUCTOR')
+    isConstructor: () => user &&  user.Role.filter(r => r ==='CONSTRUCTOR').length>0,
+    isBackOffice: () => user && user.Role.filter(r => r ==='CONTROLADOR').length >0
   }
 }
 

@@ -17,6 +17,7 @@ export const setTramiteView = (tramite:TramiteAlta) => async (dispatch, getState
 }
 
 export const lockTramite = (tramite:TramiteAlta) => async (dispatch, getState) => {
+  saveTramiteService(tramite)
   return dispatch({
     type: LOCK_TRAMITE,
     tramite
@@ -24,6 +25,7 @@ export const lockTramite = (tramite:TramiteAlta) => async (dispatch, getState) =
 }
 
 export const unLockTramite = (tramite:TramiteAlta) => async (dispatch, getState) => {
+  saveTramiteService(tramite)
   return dispatch({
     type: UNLOCK_TRAMITE,
     tramite
