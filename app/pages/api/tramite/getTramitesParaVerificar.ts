@@ -7,13 +7,17 @@ const handler = nextConnect();
 handler.use(middleware);
 
 handler.get(async (req: any, res: NextApiResponse) => {
-  console.log(req.user.Role)
-  const tramites = await req.db
+  //console.log(req.user.Role)
+  /*const tramites = await req.db
     .collection('tramites')
     .find({'creatorId.iat': req.user.iat}
     )
     .toArray();
-  res.send({ tramites });
+  res.send({ tramites });*/
+  console.log('Paso por aca')
+  res.status(200).json({
+    reponse:"ok"
+  })
 });
 
 
