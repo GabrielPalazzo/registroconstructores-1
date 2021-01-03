@@ -15,19 +15,23 @@ export default () => {
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState<Usuario>(null)
   const [tramites, setTramites] = useState<Array<TramiteAlta>>([])
-  const tipoAccion = useSelector( state => state.appStatus.tipoAccion)
+  const tipoAccion = useSelector(state => state.appStatus.tipoAccion)
 
   useEffect(() => {
     (async () => {
       const usuario = getUsuario().userData()
+
       if (!usuario) {
         router.push('/login')
         return
       }
 
-      if ((usuario.Role.filter(r => 'CONTROLADOR').length >0) && (!tipoAccion))
+      if ((usuario.Role.filter(r => r === 'CONTROLADOR').length > 0) && (!tipoAccion)){
         router.push('/backoffice/bandeja')
+        return
+      }
         
+
       setTramites(await getTramites())
       setIsLoading(false)
       setUser(usuario)

@@ -91,6 +91,7 @@ type DDJJObra ={
 
 type TramiteAlta = {
   _id?: string,
+  revisiones?: Array<RevisionTramite>
   id: string
   createdAt?: Date
   razonSocial: string
@@ -187,10 +188,17 @@ type TramiteAlta = {
     observaciones: string
   }>,
   poseeIERIC: boolean
+  
 }
 
 type ValidatorErrorElement = {
   attribute: string
   dataId: string
   error: string
+}
+
+type RevisionTramite ={
+  version: number
+  creator: Usuario
+  status: 'ABIERTA' | 'CERRADA'
 }

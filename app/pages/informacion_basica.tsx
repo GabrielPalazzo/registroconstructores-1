@@ -8,7 +8,7 @@ import { Router, useRouter } from 'next/router'
 import Upload from '../components/upload'
 import DatePicker from '../components/datePicker'
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import InputText from '../components/input_text'
+import {InputText} from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import SelectMultiple from '../components/select_multiple'
 import SelectSimple from '../components/select'
@@ -167,16 +167,20 @@ export default () => {
   }
 
   const save = async () => {
-    setWaitingType('sync')
+    if (tramite.status==='BORRADOR'){
+      setWaitingType('sync')
 
-    setIsLoading(true)
-    if (tramite._id) {
-      await dispatch(saveTramite(tramite))
-    } else {
-      if (!(await getTramiteByCUIT(tramite.cuit)))
+      setIsLoading(true)
+      if (tramite._id) {
         await dispatch(saveTramite(tramite))
-    }
+      } else {
+        if (!(await getTramiteByCUIT(tramite.cuit)))
+          await dispatch(saveTramite(tramite))
+      }
     setIsLoading(false)
+    }
+      
+    
   }
 
 

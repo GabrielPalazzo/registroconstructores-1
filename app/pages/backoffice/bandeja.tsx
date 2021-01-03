@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Tabs, Collapse, Tag } from 'antd';
+import { Button, Card, Tabs, Collapse, Tag, Menu, Dropdown, Avatar } from 'antd';
 import {ArrowRightOutlined, DownCircleOutlined, CloudDownloadOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
-import { getUsuario } from '../../services/business';
+import { closeSession, getUsuario } from '../../services/business';
 import {Loading} from '../../components/loading'
 import {getTramitesParaVerificar} from '../../services/business'
 import {useDispatch, useSelector} from 'react-redux'
@@ -47,14 +47,39 @@ export default () => {
     return <Loading message="wait" type="waiting"/>
   
 
+    const cerrarSesion = () => {
+      closeSession()
+      router.push('/login')
+    }
+    
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <div onClick={cerrarSesion}>
+            Cerra sesión
+          </div>
+        </Menu.Item>
+    
+      </Menu>
+    );
+    
   return (
 
     <div>
       <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
-        <div className="px-4 pt-4 py-2">
-          <Logo />
-        </div>
+      <div className="px-4 pt-4 py-2">
+        <Logo />
       </div>
+      <div className="text-sm font-bold text-info-700 pr-6 text-right pt-2">
+        <Dropdown overlay={menu} trigger={['click']}>
+          <div onClick={e => e.preventDefault()}>
+            <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2' }} >{usuario.GivenName.substring(0, 1)}</Avatar>
+          </div>
+        </Dropdown>
+
+
+      </div>
+    </div>
 
       <div className="px-4 md:px-20 py-6  ">
         <div className="text-2xl font-bold py-4">{`Hola ${usuario.GivenName} ${usuario.Surname}`} </div>

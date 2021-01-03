@@ -339,14 +339,16 @@ export default () => {
 
 
   const save = async () => {
-    setWaitingType('sync')
+    if (tramite.status==='BORRADOR'){
+      setWaitingType('sync')
 
-    setIsLoading(true)
-    if (tramite._id) {
-      await dispatch(saveTramite(tramite))
-    } else {
-      if (!(await getTramiteByCUIT(tramite.cuit)))
+      setIsLoading(true)
+      if (tramite._id) {
         await dispatch(saveTramite(tramite))
+      } else {
+        if (!(await getTramiteByCUIT(tramite.cuit)))
+          await dispatch(saveTramite(tramite))
+      } 
     }
   }
 
