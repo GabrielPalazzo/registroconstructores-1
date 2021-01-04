@@ -1,10 +1,14 @@
 
 import { SAVE_TRAMITE, SET_TRAMITE_NUEVO, SET_UPDATE_BORRADOR, SET_STATUS_GENERAL_TRAMITE, SET_TRAMITE_VIEW, LOCK_TRAMITE, UNLOCK_TRAMITE } from '../reducers/main'
-import { saveTramiteService } from '../../services/business'
+import { getEmptyTramiteAlta, saveTramiteService } from '../../services/business'
 
 export const setActionType = (tipoAccion: string) => async (dispatch, getState) => {
   return dispatch({
     type: tipoAccion,
+    tramiteAlta:{
+      ...getEmptyTramiteAlta(),
+      status: 'BORRADOR',
+    },
     tipoAccion
   })
 }

@@ -17,10 +17,12 @@ import RadioGroup from '../components/radioGroup'
 import SelectModal from '../components/select_modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
+import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isInReview, isPersonaFisica, isTramiteEditable } from '../services/business';
 import { Loading } from '../components/loading';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
 import { TomarTramite } from '../components/tomarTramite';
+import { updateRevisionTramite } from '../redux/actions/revisionTramite';
+import { userInfo } from 'os';
 
 
 
@@ -89,6 +91,10 @@ export default () => {
       router.push('/')
 
     setUsuario(getUsuario())
+
+    if (isInReview(tramite)){
+      dispatch(updateRevisionTramite(getReviewAbierta(tramite)))
+    }
   }, [])
 
   const showModal = () => {
@@ -437,9 +443,9 @@ export default () => {
 
       <div className="flex justify-between text-2xl font-bold py-4"> 
         <div>Datos de la empresa</div>
-        <div>
+        {usuario.isBackOffice() ? <div>
           <TomarTramite user={usuario.userData()}/>
-        </div>
+        </div>: ''}
       </div>
       <div className="grid grid-cols-2 gap-4 ">
         <div >
@@ -488,6 +494,7 @@ export default () => {
         {isPersonaFisica(tramite) ? <div className="flex">
           <div className="w-full mr-2" >
             <InputText
+              attributeName="NombrePersonaFisica"
               label="Nombre"
               labelRequired="*"
               placeHolder="Nombre"
@@ -505,6 +512,7 @@ export default () => {
           <div className="w-full mr-2" >
             <InputText
               label="Apellido"
+              attributeName="ApellidoPersonaFisica"
               labelRequired="*"
               placeHolder="Apellido"
               labelObservation=""
@@ -522,6 +530,7 @@ export default () => {
         </div>
           : <div >
             <InputText
+              attributeName="razonSocial"
               label="Razón Social"
               labelRequired="*"
               placeHolder="Constructora del oeste"
@@ -542,6 +551,7 @@ export default () => {
         <div >
           <InputText
             label="CUIT"
+            attributeName="cuit"
             labelRequired="*"
             disabled={tramite._id ? true : false}
             value={tramite.cuit}
@@ -558,6 +568,7 @@ export default () => {
         </div>
         <div >
           <InputText
+            attributeName="nroDeLegajo"
             label="Nro de Legajo"
             value={tramite.nroLegajo}
             bindFunction={(value) => {
@@ -656,6 +667,7 @@ export default () => {
         <div className="grid grid-cols-2 gap-4 ">
           <div className="" >
             <InputText
+              attributeName="NombreConyuge"
               label="Nombre"
               labelRequired="*"
               placeHolder="Nombre"
@@ -671,6 +683,7 @@ export default () => {
           </div>
           <div className="" >
             <InputText
+              attributeName="apellidoConyuge"
               label="Apellido"
               labelRequired="*"
               placeHolder="Apellido"
@@ -761,6 +774,7 @@ export default () => {
           <div >
             <InputText
               label="Declarante"
+              attributeName="declarante"
               value={`${usuario.userData().GivenName} ${usuario.userData().Surname}`}
               disabled={true}
               labelRequired="*"
@@ -859,9 +873,8 @@ export default () => {
 
 
       <div className=" mt-6 pt-6 text-center">
-        <Button type="primary" onClick={() => {
-          save()
-
+        <Button type="primary" onClick={async () => {
+          await save()
           router.push('/domicilio')
         }} > Guardar y Seguir</Button>
       </div>

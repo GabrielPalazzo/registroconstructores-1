@@ -46,7 +46,6 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
     return <div onClick={async () => {
       tramite.asignadoA = user as Usuario
       await dispatch(InitRevisionTramite())
-      console.log(revisionTramite)
       await dispatch(lockTramite(Object.assign({},tramite)))
         
     }}>

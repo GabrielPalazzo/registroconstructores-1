@@ -9,6 +9,7 @@ import { BandejaConstructor } from '../components/bandejaConstructor';
 import { closeSession, getTramites, getUsuario } from '../services/business';
 import { Loading } from '../components/loading';
 
+
 export default () => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -90,8 +91,8 @@ export default () => {
     <div className="md:px-20 py-6 grid grid-cols-2 px-4 ">
       <div className="text-2xl font-bold py-4"> Empresas administradas</div>
       <div className="text-2xl font-bold py-4 text-right">
-        <Button type="primary" icon={<PlusOutlined />} onClick={() => {
-          dispatch(setActionType(SET_TRAMITE_NUEVO))
+        <Button type="primary" icon={<PlusOutlined />} onClick={async () => {
+          await dispatch(setActionType(SET_TRAMITE_NUEVO))
           router.push('/informacion_basica')
         }}>Nuevo trámite </Button>
       </div>

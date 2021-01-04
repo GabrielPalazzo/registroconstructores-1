@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import { useRouter } from 'next/router'
 import {NavigationStep} from '../components/steps'
-import InputText from '../components/input_text'
+import {InputText} from '../components/input_text'
 import {HeaderPrincipal} from '../components/header'
 import Upload from '../components/upload'
 import { Button, Steps } from 'antd';
@@ -65,6 +65,7 @@ export default () => {
       <div className="text-2xl font-bold py-4"> Domicilio Legal</div>
         <div >
           <InputText
+            attributeName='domicilioLegal'
             label="Domicilio"
             labelRequired="*"
             value={tramite.domicilioLegal}
@@ -91,7 +92,7 @@ export default () => {
         <div>
           <InputText
             value={tramite.domicilioReal}
-
+            attributeName='domicilioReal'
             bindFunction={(value) => {
               tramite.domicilioReal = value
               updateObjTramite()
@@ -108,6 +109,7 @@ export default () => {
         <div className="text-2xl font-bold py-4"> Domicilio Electronico</div>
         <div>
           <InputText
+            attributeName="emailInstitucional"
             value={tramite.emailInstitucional}
             bindFunction={(value) => {
               tramite.emailInstitucional = value

@@ -19,7 +19,7 @@ export const SET_PASOS ={
 export const initialStateReducer = (state, action) => {
     switch (action.type) {
       case SET_TRAMITE_NUEVO:
-        return {...state,tipoAccion: action.tipoAccion, tramiteAlta:null}
+        return {...state,tipoAccion: action.tipoAccion, tramiteAlta:action.tramiteAlta}
       case SET_TRAMITE_VIEW:
         return {...state, tramiteAlta: action.tramite}
       case SET_STATUS_GENERAL_TRAMITE:

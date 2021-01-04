@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { setUpdateBorrador } from '../redux/actions/main'
 import { useRouter } from 'next/router'
 import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite'
 
 
 const onSearch = value => console.log(value);
@@ -39,39 +40,39 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       onClose={() => setShowProfile(false)}
       visible={showProfile}
     >
-     <Collapse defaultActiveKey={['1']} onChange={callback}>
-          <Panel header="Razón Social:" key="1">
-            <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.razonSocial}</div>
-          </Panel>
-          <Panel header="CUIT:" key="2">
-            <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.cuit}</div>
-          </Panel>
-          <Panel header="Estado de la empresa:" key="3">
-            <div className="text-sm  text-black-700 "> <Tag color={getColorStatus(activeProfile)}>{activeProfile && activeProfile.status}</Tag></div>
-          </Panel>
-          <Panel header="Aclaraciones al estado:" key="4">
-            <div className="text-sm  text-black-700 ">
-              <ul>
-                <li>{getStatusObsParsed(activeProfile)}</li>
-                </ul></div>
-          </Panel>
-          <Panel header="Tipo de empresa:" key="5">
-            <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.tipoEmpresa}</div>
-          </Panel>
-          <Panel header="Capacidad de contratación y ejecución:" key="6">
-            <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
-          </Panel>
-          <Panel header="Fecha del último cálculo de capacidad:" key="7">
-            <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
-          </Panel>
-          <Panel header="Constancia de Inscripción" key="8">
-            <div className="text-lg font-bold text-black-700  ">
-              <Button style={{ color: "#0072bb", fontWeight: "bold", textAlign: "left", padding: 0, }} type="link">
-                <CloudDownloadOutlined /> Descargar
+      <Collapse defaultActiveKey={['1']} onChange={callback}>
+        <Panel header="Razón Social:" key="1">
+          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.razonSocial}</div>
+        </Panel>
+        <Panel header="CUIT:" key="2">
+          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.cuit}</div>
+        </Panel>
+        <Panel header="Estado de la empresa:" key="3">
+          <div className="text-sm  text-black-700 "> <Tag color={getColorStatus(activeProfile)}>{activeProfile && activeProfile.status}</Tag></div>
+        </Panel>
+        <Panel header="Aclaraciones al estado:" key="4">
+          <div className="text-sm  text-black-700 ">
+            <ul>
+              <li>{getStatusObsParsed(activeProfile)}</li>
+            </ul></div>
+        </Panel>
+        <Panel header="Tipo de empresa:" key="5">
+          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.tipoEmpresa}</div>
+        </Panel>
+        <Panel header="Capacidad de contratación y ejecución:" key="6">
+          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
+        </Panel>
+        <Panel header="Fecha del último cálculo de capacidad:" key="7">
+          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
+        </Panel>
+        <Panel header="Constancia de Inscripción" key="8">
+          <div className="text-lg font-bold text-black-700  ">
+            <Button style={{ color: "#0072bb", fontWeight: "bold", textAlign: "left", padding: 0, }} type="link">
+              <CloudDownloadOutlined /> Descargar
               </Button>
-            </div>
-          </Panel>
-        </Collapse>
+          </div>
+        </Panel>
+      </Collapse>
     </Drawer>
 
 
@@ -88,12 +89,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                 }}> <EyeOutlined /> Previsualizar</Button>,
               <Button type="link" onClick={() => {
                 dispatch(setUpdateBorrador(e)).then(r => {
+                  dispatch(cargarUltimaRevisionAbierta(e))
                   router.push('/informacion_basica')
                 })
               }}>Ingresar <ArrowRightOutlined /> </Button>,
             ]}>
             <div className="pb-2">
-              <Tag color={getColorStatus(e)}>{e.status}</Tag>
+              <div className="flex">
+              <Tag color={getColorStatus(e)}>{e.status ==='PENDIENTE DE REVISION' ? 'PRE INSCRIPTO' : e.status}</Tag>
+              {e.status ==='PENDIENTE DE REVISION' ? e.asignadoA ? <Tag color="green">En revision</Tag> :<Tag color="red">Pendiente de revisión</Tag> : ''}
+              </div>
             </div>
             <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
 

@@ -200,5 +200,10 @@ type ValidatorErrorElement = {
 type RevisionTramite ={
   version: number
   creator: Usuario
-  status: 'ABIERTA' | 'CERRADA'
+  status: 'ABIERTA' | 'CERRADA',
+  reviews:Array<{
+    field: string
+    review: string
+    isOk: boolean
+  }>
 }

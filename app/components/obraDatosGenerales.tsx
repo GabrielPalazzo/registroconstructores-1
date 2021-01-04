@@ -26,121 +26,121 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 	const [fechaInicio, setfechaInicio] = useState('')
 	const [fechaFin, setfechaFin] = useState('')
 	const [dataSource, setDataSource] = useState<Array<DatosObraGeneral>>([])
-  const [error,setError] = useState('')
-  const [showError, setShowError] = useState(false)
+	const [error, setError] = useState('')
+	const [showError, setShowError] = useState(false)
 	useEffect(() => {
 
 	}, [])
 	const add = () => {
 
-    if ((estado==='Anulada' || estado ==='Finalizada' || estado ==='Suspendida') && (!fechaFin)){
-      setError('La fecha de fin es requerida')
-      setShowError(true)
-      return
+		if ((estado === 'Anulada' || estado === 'Finalizada' || estado === 'Suspendida') && (!fechaFin)) {
+			setError('La fecha de fin es requerida')
+			setShowError(true)
+			return
 		}
-		if ((estado==='Ejecucion' || estado === 'Finalizada' || estado === 'Anulada'  || estado === 'Suspendida') && (!fechaInicio)){
-      setError('La fecha de Inicio  es requerida')
-      setShowError(true)
-      return
+		if ((estado === 'Ejecucion' || estado === 'Finalizada' || estado === 'Anulada' || estado === 'Suspendida') && (!fechaInicio)) {
+			setError('La fecha de Inicio  es requerida')
+			setShowError(true)
+			return
 		}
-		if ((!estado)){
-      setError('El tipo de estado  es requerido')
-      setShowError(true)
-      return
+		if ((!estado)) {
+			setError('El tipo de estado  es requerido')
+			setShowError(true)
+			return
 		}
-		if ((!tipoContratacion)){
-      setError('El tipo de Contratación es requerido')
-      setShowError(true)
-      return
+		if ((!tipoContratacion)) {
+			setError('El tipo de Contratación es requerido')
+			setShowError(true)
+			return
 		}
-		if ((!nivel)){
-      setError('El tipo tipo de nivel  es requerido')
-      setShowError(true)
-      return
+		if ((!nivel)) {
+			setError('El tipo tipo de nivel  es requerido')
+			setShowError(true)
+			return
 		}
-		if ((!denominacion)){
-      setError('La denominación es requerida')
-      setShowError(true)
-      return
+		if ((!denominacion)) {
+			setError('La denominación es requerida')
+			setShowError(true)
+			return
 		}
-		if ((!fechaAdjudicacion)){
-      setError('La fecha   es requerida')
-      setShowError(true)
-      return
+		if ((!fechaAdjudicacion)) {
+			setError('La fecha   es requerida')
+			setShowError(true)
+			return
 		}
-		
 
-		dataSource.push({tipoContratacion,nivel,codigo,estado,denominacion,fechaFin,fechaInicio,fechaAdjudicacion})
-		setDataSource(Object.assign([],dataSource))
+
+		dataSource.push({ tipoContratacion, nivel, codigo, estado, denominacion, fechaFin, fechaInicio, fechaAdjudicacion })
+		setDataSource(Object.assign([], dataSource))
 	}
-	return <div> 
+	return <div>
 		{showError ? <div className="mb-4">
 			<Alert
-			message='Error'
-			description={error}
-			type="error"
-      showIcon
-      closable 
-      afterClose={() => setShowError(false)}
-		/></div>: ''}
-		
+				message='Error'
+				description={error}
+				type="error"
+				showIcon
+				closable
+				afterClose={() => setShowError(false)}
+			/></div> : ''}
+
 		<div className="grid grid-cols-4 gap-4 ">
-		
-		<div className="pb-6" >
-			<InputTextModal
-				label="Codigo"
-				labelRequired="*"
-				value={codigo}
-				bindFunction={(value) => { setCodigo(value) }}
-				labelMessageError=""
-				disabled />
 
-		</div>
-		<div className="pb-6" >
-			<SelectModal
-				title="Estado"
-				defaultOption="Tipo de Estado"
-				labelRequired="*"
-				labelMessageError=""
-				value={estado}
-				bindFunction={(value) => { setEstado(value) }}
-				option={EstadoObra.map(u => (
-					<Option value={u.value}>{u.label}</Option>
+			<div className="pb-6" >
+				<InputTextModal
+					label="Codigo"
+					labelRequired="*"
+					value={codigo}
+					bindFunction={(value) => { setCodigo(value) }}
+					labelMessageError=""
+					disabled />
 
-				))}
-			/>
-		</div>
-		<div className="pb-6" >
-			<SelectModal
-				title="Tipo de Contratacion"
-				defaultOption="Tipo de contratacion"
-				labelRequired="*"
-				labelMessageError=""
-				value={tipoContratacion}
-				bindFunction={(value) => { settipoContratacion(value) }}
-				required
-				option={TipoContratacion.map(u => (
-					<Option value={u.value}>{u.label}</Option>
+			</div>
+			<div className="pb-6" >
+				<SelectModal
+					title="Estado"
+					defaultOption="Tipo de Estado"
+					labelRequired="*"
+					labelMessageError=""
+					value={estado}
+					bindFunction={(value) => { setEstado(value) }}
+					option={EstadoObra.map(u => (
+						<Option value={u.value}>{u.label}</Option>
 
-				))}
-			/>
-		</div>
-		<div className="pb-6" >
-			<SelectModal
-				title="Nivel"
-				defaultOption="Nivel"
-				labelRequired="*"
-				labelMessageError=""
-				value={nivel}
-				bindFunction={(value) => { setNivel(value) }}
-				required
-				option={TipoNivel.map(u => (
-					<Option value={u.value}>{u.label}</Option>
+					))}
+				/>
+			</div>
+			<div className="pb-6" >
+				<SelectModal
+					title="Tipo de Contratacion"
+					defaultOption="Tipo de contratacion"
+					labelRequired="*"
+					labelMessageError=""
+					value={tipoContratacion}
+					bindFunction={(value) => { settipoContratacion(value) }}
+					required
+					option={TipoContratacion.map(u => (
+						<Option value={u.value}>{u.label}</Option>
 
-				))}
-			/>
+					))}
+				/>
+			</div>
+			<div className="pb-6" >
+				<SelectModal
+					title="Nivel"
+					defaultOption="Nivel"
+					labelRequired="*"
+					labelMessageError=""
+					value={nivel}
+					bindFunction={(value) => { setNivel(value) }}
+					required
+					option={TipoNivel.map(u => (
+						<Option value={u.value}>{u.label}</Option>
+
+					))}
+				/>
+			</div>
 		</div>
-	</div>
 		<div className="grid grid-cols-4 gap-4 ">
 			<div className="pb-6" >
 				<InputTextModal
@@ -165,23 +165,23 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 					bindFunction={(value) => { setfechaAdjudicacion(value) }}
 				/>
 			</div>
-			{estado === 'Ejecucion' || estado === 'Finalizada' || estado === 'Anulada'  || estado === 'Suspendida'?
-			<div className="pb-6" >
+			{estado === 'Ejecucion' || estado === 'Finalizada' || estado === 'Anulada' || estado === 'Suspendida' ?
+				<div className="pb-6" >
+					<DatePickerModal
+						placeholder="Fecha  (dd/mm/yyyy)"
+						label="Fecha  de Inicio"
+						labelRequired="*"
+						labelObservation=""
+						labeltooltip=""
+						labelMessageError=""
+						value={fechaInicio}
+						bindFunction={(value) => { setfechaInicio(value) }}
+					/>
+				</div> : ''}
+			{estado === 'Finalizada' || estado === 'Anulada' || estado === 'Suspendida' ? <div className="pb-6" >
 				<DatePickerModal
 					placeholder="Fecha  (dd/mm/yyyy)"
-					label="Fecha  de Inicio"
-					labelRequired="*"
-					labelObservation=""
-					labeltooltip=""
-					labelMessageError=""
-					value={fechaInicio}
-					bindFunction={(value) => { setfechaInicio(value) }}
-				/>
-			</div>:''}
-			{estado === 'Finalizada' || estado === 'Anulada'|| estado === 'Suspendida' ? <div className="pb-6" >
-				<DatePickerModal
-					placeholder="Fecha  (dd/mm/yyyy)"
-					label={estado === 'Finalizada' ? 'Fecha de Finalizacion' : 'Fecha de Suspencion'				}
+					label={estado === 'Finalizada' ? 'Fecha de Finalizacion' : 'Fecha de Suspencion'}
 					labelRequired="*"
 					labelObservation=""
 					labeltooltip=""
@@ -189,8 +189,8 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 					value={fechaFin}
 					bindFunction={(value) => { setfechaFin(value) }}
 				/>
-			</div>: ''}
-			
+			</div> : ''}
+
 			<div className="pb-6" >
 				<UploadLine
 					label="Adjunte Acta "

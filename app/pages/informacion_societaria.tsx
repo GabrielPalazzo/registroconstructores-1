@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
 import { NavigationStep } from '../components/steps'
-import InputText from '../components/input_text'
+import {InputText} from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import DatePicker from '../components/datePicker'
@@ -614,6 +614,7 @@ export default () => {
           <div className="grid grid-cols-1 gap-4 ">
             <div >
               <InputText
+                attributeName="IGJ"
                 label="Dirección Inspección Persona jurídica / Inspeccion General"
                 labelRequired="*"
                 value={tramite.igj}
@@ -671,6 +672,7 @@ export default () => {
           <div className="grid grid-cols-4 gap-4 ">
             <div >
               <InputText
+                attributeName="rubroConstruccionLugar"
                 label="Lugar"
                 labelRequired="*"
                 placeHolder=""
@@ -703,6 +705,7 @@ export default () => {
             <div >
               <InputText
                 label="Datos"
+                attributeName="rubroConsutrccionDatos"
                 labelRequired="*"
                 value={tramite.rubroConstruccion.datos}
                 bindFunction={(value) => {
@@ -784,6 +787,7 @@ export default () => {
           <div>
             <InputText
               label="IERIC"
+              attributeName="ieric"
               labelRequired="*"
               placeHolder="IERIC"
               value={tramite.ieric}
