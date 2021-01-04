@@ -108,7 +108,7 @@ export default () => {
             labelRequired="*"
             placeholder="000000,000 "
             value={activoCorriente}
-            bindFunction={setActivoCorriente}
+            bindFunction={(val) => setActivoCorriente(parseInt(val,10))}
             labelMessageError=""
             required />
 
@@ -121,7 +121,7 @@ export default () => {
             labelRequired="*"
             placeholder="000000,000 "
             value={activoNoCorriente}
-            bindFunction={setActivoNoCorriente}
+            bindFunction={(val) => setActivoNoCorriente(parseInt(val,10))}
             labelMessageError=""
             required />
 
@@ -133,7 +133,7 @@ export default () => {
             placeholder="000000,000 "
             value={activoCorriente + activoNoCorriente}
             labelMessageError=""
-            disabled />
+            disabled={true} />
 
         </div>
         <div className="pb-6" >
@@ -143,7 +143,7 @@ export default () => {
             labelRequired="*"
             placeholder="000000,000 "
             value={pasivoCorriente}
-            bindFunction={setPasivoCorriente}
+            bindFunction={(val) => setPasivoCorriente(parseInt(val,10))}
             labelMessageError=""
             required />
 
@@ -156,7 +156,7 @@ export default () => {
             labelRequired="*"
             placeholder="000000,000 "
             value={pasivoNoCorriente}
-            bindFunction={setPasivoNoCorriente}
+            bindFunction={(val) => setPasivoNoCorriente(parseInt(val,10))}
             labelMessageError=""
             required />
 
