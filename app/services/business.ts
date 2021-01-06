@@ -68,6 +68,7 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     tipoDocumentoConyuge: '',
     documentoConyugue:'',
     status: 'BORRADOR',
+    categoria:'PRE INSCRIPTO',
     tipoEmpresa: [],
     vtoIeric: '',
     registroPublicoDeComercio: '',

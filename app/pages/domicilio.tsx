@@ -126,10 +126,10 @@ export default () => {
       
 
       <div className="mt-6 pt-6 text-center">
-          <Button type="primary"  onClick={() => {
+          <Button type="primary"  onClick={async () => {
             if (!tramite || !tramite.cuit)
               return 
-            save()
+            await save()
             setIsLoading(true)
             router.push('/informacion_societaria')
           }}> Guardar y Seguir</Button>

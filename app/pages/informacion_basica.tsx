@@ -8,7 +8,7 @@ import { Router, useRouter } from 'next/router'
 import Upload from '../components/upload'
 import DatePicker from '../components/datePicker'
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import {InputText} from '../components/input_text'
+import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import SelectMultiple from '../components/select_multiple'
 import SelectSimple from '../components/select'
@@ -92,7 +92,7 @@ export default () => {
 
     setUsuario(getUsuario())
 
-    if (isInReview(tramite)){
+    if (isInReview(tramite)) {
       dispatch(updateRevisionTramite(getReviewAbierta(tramite)))
     }
   }, [])
@@ -173,20 +173,17 @@ export default () => {
   }
 
   const save = async () => {
-    if (tramite.status==='BORRADOR'){
-      setWaitingType('sync')
-
-      setIsLoading(true)
-      if (tramite._id) {
+    setWaitingType('sync')
+    setIsLoading(true)
+    if (tramite._id) {
+      await dispatch(saveTramite(tramite))
+    } else {
+      if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
-      } else {
-        if (!(await getTramiteByCUIT(tramite.cuit)))
-          await dispatch(saveTramite(tramite))
-      }
-    setIsLoading(false)
     }
-      
-    
+    setIsLoading(false)
+
+
   }
 
 
@@ -441,11 +438,11 @@ export default () => {
 
     <div className="px-20 py-6 ">
 
-      <div className="flex justify-between text-2xl font-bold py-4"> 
+      <div className="flex justify-between text-2xl font-bold py-4">
         <div>Datos de la empresa</div>
         {usuario.isBackOffice() ? <div>
-          <TomarTramite user={usuario.userData()}/>
-        </div>: ''}
+          <TomarTramite user={usuario.userData()} />
+        </div> : ''}
       </div>
       <div className="grid grid-cols-2 gap-4 ">
         <div >
@@ -743,8 +740,8 @@ export default () => {
           <div className="text-2xl font-bold py-4 w-3/4"> {isPersonaFisica ? 'Apoderados / Usuarios' : 'Apoderados y/o Representantes legales'}</div>
           {isTramiteEditable(tramite) ? <div className=" w-1/4 text-right content-center mt-4 ">
             <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
-          </div>: ''}
-          
+          </div> : ''}
+
         </div>
 
         <Modal

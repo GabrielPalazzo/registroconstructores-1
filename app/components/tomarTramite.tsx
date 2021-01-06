@@ -36,7 +36,7 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
       }
         
     }}>
-      <Tag color="red" className="bg-red-500 mb-2 pb-4 " >
+      <Tag color="red" className="" >
         <div><LockFilled /> {usuarioLogueado.iat === tramite.asignadoA.iat ? 'Liberar Tramite' : tramite.asignadoA.GivenName + ', ' + tramite.asignadoA.Surname} </div>
       </Tag>
     </div>
@@ -49,7 +49,7 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
       await dispatch(lockTramite(Object.assign({},tramite)))
         
     }}>
-      <Tag color="green" className="bg-green-500 mb-2 pb-4 " >
+      <Tag color="green" className="" >
         <div><UnlockFilled /> Tomar Tramite </div>
       </Tag>
     </div>

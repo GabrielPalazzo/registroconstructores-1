@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
 import { NavigationStep } from '../components/steps'
-import {InputText} from '../components/input_text'
+import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import DatePicker from '../components/datePicker'
@@ -339,16 +339,14 @@ export default () => {
 
 
   const save = async () => {
-    if (tramite.status==='BORRADOR'){
-      setWaitingType('sync')
+    setWaitingType('sync')
 
-      setIsLoading(true)
-      if (tramite._id) {
+    setIsLoading(true)
+    if (tramite._id) {
+      await dispatch(saveTramite(tramite))
+    } else {
+      if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
-      } else {
-        if (!(await getTramiteByCUIT(tramite.cuit)))
-          await dispatch(saveTramite(tramite))
-      } 
     }
   }
 
@@ -468,7 +466,7 @@ export default () => {
       <NavigationStep generalStatus={statusGeneralTramite} current={1} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
     <div className="w-2/5 m-auto text-base mt-8">
-      <Substeps progressDot current={1} esPersonaFisica={isPersonaFisica(tramite)}/>
+      <Substeps progressDot current={1} esPersonaFisica={isPersonaFisica(tramite)} />
     </div>
 
 
@@ -776,7 +774,7 @@ export default () => {
         <div className="text-2xl font-bold"> Inscripción en I.E.R.I.C. (Instituto de Estadística y Registro de la Industria de la Construcción)</div>
         <div className="grid grid-cols-1 mb-4 mt-4  ">
           {isPersonaFisica(tramite) ?
-            <Checkbox value={tramite.poseeIERIC}  onChange={ e => {
+            <Checkbox value={tramite.poseeIERIC} onChange={e => {
               tramite.poseeIERIC = !e.target.checked
               save()
             }}>Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1.</Checkbox>
@@ -824,7 +822,7 @@ export default () => {
           </div>
 
 
-        </div>: ''}
+        </div> : ''}
       </div>
       <div className="mt-4">
         <Collapse accordion>
@@ -934,7 +932,7 @@ export default () => {
         <Button type="primary" onClick={async () => {
           await save()
           if (isPersonaFisica)
-              router.push('/enviar_tramite')
+            router.push('/enviar_tramite')
           else
             router.push('/informacion_propietarios')
         }} > Guardar y Seguir</Button>

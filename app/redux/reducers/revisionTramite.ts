@@ -10,8 +10,6 @@ export const initialStateReducer = (state, action) => {
       return {...state,revision:action.revision}
     case LOAD_REVISION:
       return {...state,revision:action.revision}
-    case LOCK_TRAMITE:
-      return {...state,revision:action.revision}
     case UPDATE_REVISION_TRAMITE:
       return {...state,revision: action.revision}
     default:

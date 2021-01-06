@@ -1,6 +1,6 @@
 
 import { SAVE_TRAMITE, SET_TRAMITE_NUEVO, SET_UPDATE_BORRADOR, SET_STATUS_GENERAL_TRAMITE, SET_TRAMITE_VIEW, LOCK_TRAMITE, UNLOCK_TRAMITE } from '../reducers/main'
-import { getEmptyTramiteAlta, saveTramiteService } from '../../services/business'
+import { getEmptyTramiteAlta, getUsuario, saveTramiteService } from '../../services/business'
 
 export const setActionType = (tipoAccion: string) => async (dispatch, getState) => {
   return dispatch({
@@ -44,6 +44,13 @@ export const setPaso = (paso: string) => async (dispatch, getState) => {
 }
 
 export const saveTramite = (tramite: TramiteAlta) => async (dispatch, getState) => {
+  const revisionTramite = getState().revisionTramites.revision
+  
+  if ((tramite.status==='PENDIENTE DE REVISION') && (getUsuario().isBackOffice()) && tramite.asignadoA && tramite.asignadoA.iat ===getUsuario().userData().iat) {
+    tramite.revisiones = tramite.revisiones.filter(r => r.status!=='ABIERTA')
+    tramite.revisiones.push(revisionTramite)
+  }
+
   const t = await saveTramiteService(tramite)
   return dispatch({
     type: SAVE_TRAMITE,

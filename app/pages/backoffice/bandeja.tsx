@@ -90,9 +90,9 @@ export default () => {
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>
-                    {!t.asignadoA ? <Tag color="green" className="bg-green-500 mb-2 pb-4 " >
+                    {!t.asignadoA ? <Tag color="green" className="" >
                       <div><UnlockFilled /> Sin asignar </div>
-                    </Tag>: <Tag color="red" className="bg-red-500 mb-2 pb-4 " >
+                    </Tag>: <Tag color="red" className="" >
                       <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
                     </Tag>}
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>

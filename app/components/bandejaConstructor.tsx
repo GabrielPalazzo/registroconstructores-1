@@ -96,8 +96,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
             ]}>
             <div className="pb-2">
               <div className="flex">
-              <Tag color={getColorStatus(e)}>{e.status ==='PENDIENTE DE REVISION' ? 'PRE INSCRIPTO' : e.status}</Tag>
-              {e.status ==='PENDIENTE DE REVISION' ? e.asignadoA ? <Tag color="green">En revision</Tag> :<Tag color="red">Pendiente de revisión</Tag> : ''}
+              <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
+              {e.categoria ==='PRE INSCRIPTO' ? e.asignadoA ? <Tag color="green">En revision</Tag> :<Tag color="red">Pendiente de revisión</Tag> : ''}
               </div>
             </div>
             <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
