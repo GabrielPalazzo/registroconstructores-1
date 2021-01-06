@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import { useRouter } from 'next/router'
 import {NavigationStep} from '../components/steps'
-import InputText from '../components/input_text'
+import {InputText} from '../components/input_text'
 import {HeaderPrincipal} from '../components/header'
 import Upload from '../components/upload'
 import { Button, Steps } from 'antd';
@@ -35,15 +35,18 @@ export default () => {
   } 
 
   const save = async () => {
-    setWaitingType('sync')
-    
-    setIsLoading(true)
-    if (tramite._id){
-      await dispatch(saveTramite(tramite))
-    } else {
-      if (!(await getTramiteByCUIT(tramite.cuit)))
+    if (tramite.status==='BORRADOR'){
+      setWaitingType('sync')
+      setIsLoading(true)
+      if (tramite._id){
         await dispatch(saveTramite(tramite))
+      } else {
+        if (!(await getTramiteByCUIT(tramite.cuit)))
+          await dispatch(saveTramite(tramite))
+      }
     }
+
+    
   }
 
   if (isLoading)
@@ -62,6 +65,7 @@ export default () => {
       <div className="text-2xl font-bold py-4"> Domicilio Legal</div>
         <div >
           <InputText
+            attributeName='domicilioLegal'
             label="Domicilio"
             labelRequired="*"
             value={tramite.domicilioLegal}
@@ -88,7 +92,7 @@ export default () => {
         <div>
           <InputText
             value={tramite.domicilioReal}
-
+            attributeName='domicilioReal'
             bindFunction={(value) => {
               tramite.domicilioReal = value
               updateObjTramite()
@@ -105,6 +109,7 @@ export default () => {
         <div className="text-2xl font-bold py-4"> Domicilio Electronico</div>
         <div>
           <InputText
+            attributeName="emailInstitucional"
             value={tramite.emailInstitucional}
             bindFunction={(value) => {
               tramite.emailInstitucional = value
@@ -121,10 +126,10 @@ export default () => {
       
 
       <div className="mt-6 pt-6 text-center">
-          <Button type="primary"  onClick={() => {
+          <Button type="primary"  onClick={async () => {
             if (!tramite || !tramite.cuit)
               return 
-            save()
+            await save()
             setIsLoading(true)
             router.push('/informacion_societaria')
           }}> Guardar y Seguir</Button>

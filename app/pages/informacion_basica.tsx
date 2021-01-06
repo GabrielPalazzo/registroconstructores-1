@@ -8,7 +8,7 @@ import { Router, useRouter } from 'next/router'
 import Upload from '../components/upload'
 import DatePicker from '../components/datePicker'
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import InputText from '../components/input_text'
+import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import SelectMultiple from '../components/select_multiple'
 import SelectSimple from '../components/select'
@@ -17,9 +17,12 @@ import RadioGroup from '../components/radioGroup'
 import SelectModal from '../components/select_modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
+import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isInReview, isPersonaFisica, isTramiteEditable } from '../services/business';
 import { Loading } from '../components/loading';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
+import { TomarTramite } from '../components/tomarTramite';
+import { updateRevisionTramite } from '../redux/actions/revisionTramite';
+import { userInfo } from 'os';
 
 
 
@@ -71,7 +74,7 @@ export default () => {
   const paso = useSelector(state => state.appStatus.paso)
   const [isLoading, setIsLoading] = useState(false)
   const [aplicaDecretoDocientosDos, setAplicaDecretoDoscientosDos] = useState(false)
-  const [usuario, setUsuario] = useState<Usuario>(null)
+  const [usuario, setUsuario] = useState(null)
 
   const [decretoRazonSocial, setDecretoRazonSocial] = useState('')
   const [decretoCuit, setDecretoCuit] = useState('')
@@ -87,7 +90,11 @@ export default () => {
     if (!tramite.cuit && !tipoAccion)
       router.push('/')
 
-    setUsuario(getUsuario().userData())
+    setUsuario(getUsuario())
+
+    if (isInReview(tramite)) {
+      dispatch(updateRevisionTramite(getReviewAbierta(tramite)))
+    }
   }, [])
 
   const showModal = () => {
@@ -167,7 +174,6 @@ export default () => {
 
   const save = async () => {
     setWaitingType('sync')
-
     setIsLoading(true)
     if (tramite._id) {
       await dispatch(saveTramite(tramite))
@@ -176,6 +182,8 @@ export default () => {
         await dispatch(saveTramite(tramite))
     }
     setIsLoading(false)
+
+
   }
 
 
@@ -430,7 +438,12 @@ export default () => {
 
     <div className="px-20 py-6 ">
 
-      <div className="text-2xl font-bold py-4"> Datos de la empresa</div>
+      <div className="flex justify-between text-2xl font-bold py-4">
+        <div>Datos de la empresa</div>
+        {usuario.isBackOffice() ? <div>
+          <TomarTramite user={usuario.userData()} />
+        </div> : ''}
+      </div>
       <div className="grid grid-cols-2 gap-4 ">
         <div >
           <SelectSimple
@@ -478,6 +491,7 @@ export default () => {
         {isPersonaFisica(tramite) ? <div className="flex">
           <div className="w-full mr-2" >
             <InputText
+              attributeName="NombrePersonaFisica"
               label="Nombre"
               labelRequired="*"
               placeHolder="Nombre"
@@ -495,6 +509,7 @@ export default () => {
           <div className="w-full mr-2" >
             <InputText
               label="Apellido"
+              attributeName="ApellidoPersonaFisica"
               labelRequired="*"
               placeHolder="Apellido"
               labelObservation=""
@@ -512,6 +527,7 @@ export default () => {
         </div>
           : <div >
             <InputText
+              attributeName="razonSocial"
               label="Razón Social"
               labelRequired="*"
               placeHolder="Constructora del oeste"
@@ -532,6 +548,7 @@ export default () => {
         <div >
           <InputText
             label="CUIT"
+            attributeName="cuit"
             labelRequired="*"
             disabled={tramite._id ? true : false}
             value={tramite.cuit}
@@ -548,6 +565,7 @@ export default () => {
         </div>
         <div >
           <InputText
+            attributeName="nroDeLegajo"
             label="Nro de Legajo"
             value={tramite.nroLegajo}
             bindFunction={(value) => {
@@ -646,6 +664,7 @@ export default () => {
         <div className="grid grid-cols-2 gap-4 ">
           <div className="" >
             <InputText
+              attributeName="NombreConyuge"
               label="Nombre"
               labelRequired="*"
               placeHolder="Nombre"
@@ -661,6 +680,7 @@ export default () => {
           </div>
           <div className="" >
             <InputText
+              attributeName="apellidoConyuge"
               label="Apellido"
               labelRequired="*"
               placeHolder="Apellido"
@@ -720,8 +740,8 @@ export default () => {
           <div className="text-2xl font-bold py-4 w-3/4"> {isPersonaFisica ? 'Apoderados / Usuarios' : 'Apoderados y/o Representantes legales'}</div>
           {isTramiteEditable(tramite) ? <div className=" w-1/4 text-right content-center mt-4 ">
             <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
-          </div>: ''}
-          
+          </div> : ''}
+
         </div>
 
         <Modal
@@ -751,7 +771,8 @@ export default () => {
           <div >
             <InputText
               label="Declarante"
-              value={`${usuario.GivenName} ${usuario.Surname}`}
+              attributeName="declarante"
+              value={`${usuario.userData().GivenName} ${usuario.userData().Surname}`}
               disabled={true}
               labelRequired="*"
               placeHolder="Constructora del oeste"
@@ -849,9 +870,8 @@ export default () => {
 
 
       <div className=" mt-6 pt-6 text-center">
-        <Button type="primary" onClick={() => {
-          save()
-
+        <Button type="primary" onClick={async () => {
+          await save()
           router.push('/domicilio')
         }} > Guardar y Seguir</Button>
       </div>

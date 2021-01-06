@@ -91,7 +91,9 @@ type DDJJObra ={
 
 type TramiteAlta = {
   _id?: string,
+  revisiones?: Array<RevisionTramite>
   id: string
+  createdAt?: Date
   razonSocial: string
   nombreTitular: string
   apellidoTitular: string
@@ -105,6 +107,7 @@ type TramiteAlta = {
   emailInstitucional: string
   cuit: string
   nroLegajo: string
+  asignadoA?: Usuario
   tipoEmpresa: {
     label: string
     value: string
@@ -115,7 +118,8 @@ type TramiteAlta = {
     attribute: string
     obs: string
   }>
-  status: "PRE INSCRIPTO" | "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION"
+  categoria: 'PRE INSCRIPTO' | 'INSCRIPTO' | 'DESACTUALIZADO'
+  status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION"
   propietario: Usuario
   certificadoFiscal: Archivo
   email: string
@@ -185,10 +189,22 @@ type TramiteAlta = {
     observaciones: string
   }>,
   poseeIERIC: boolean
+  
 }
 
 type ValidatorErrorElement = {
   attribute: string
   dataId: string
   error: string
+}
+
+type RevisionTramite ={
+  version: number
+  creator: Usuario
+  status: 'ABIERTA' | 'CERRADA',
+  reviews:Array<{
+    field: string
+    review: string
+    isOk: boolean
+  }>
 }

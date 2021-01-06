@@ -6,6 +6,7 @@ import {
 
 
 import {initialStateReducer,SET_PASOS} from './reducers/main'
+import {initialStateReducer as initialStateReducerRevisionTramites} from './reducers/revisionTramite'
 
 export const initialState = {
   appStatus: {
@@ -13,11 +14,13 @@ export const initialState = {
     tramiteAlta: null,
     resultadoAnalisisTramiteGeneral:["wait","wait","wait","wait","wait"],
     paso: SET_PASOS.SET_PASO_INSCRIPCION
-  }
+  },
+  revisionTramites:null
 }
 
 const reducers = combineReducers({
   appStatus: initialStateReducer,
+  revisionTramites: initialStateReducerRevisionTramites
 })
 
 export default () => createStore(

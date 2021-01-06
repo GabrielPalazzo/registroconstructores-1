@@ -4,10 +4,11 @@ import { PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import { setActionType } from '../redux/actions/main'
 import { SET_TRAMITE_NUEVO } from '../redux/reducers/main'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { BandejaConstructor } from '../components/bandejaConstructor';
 import { closeSession, getTramites, getUsuario } from '../services/business';
 import { Loading } from '../components/loading';
+
 
 export default () => {
   const router = useRouter()
@@ -15,14 +16,23 @@ export default () => {
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState<Usuario>(null)
   const [tramites, setTramites] = useState<Array<TramiteAlta>>([])
+  const tipoAccion = useSelector(state => state.appStatus.tipoAccion)
 
   useEffect(() => {
     (async () => {
       const usuario = getUsuario().userData()
+
       if (!usuario) {
         router.push('/login')
         return
       }
+
+      if ((usuario.Role.filter(r => r === 'CONTROLADOR').length > 0) && (!tipoAccion)){
+        router.push('/backoffice/bandeja')
+        return
+      }
+        
+
       setTramites(await getTramites())
       setIsLoading(false)
       setUser(usuario)
@@ -81,8 +91,8 @@ export default () => {
     <div className="md:px-20 py-6 grid grid-cols-2 px-4 ">
       <div className="text-2xl font-bold py-4"> Empresas administradas</div>
       <div className="text-2xl font-bold py-4 text-right">
-        <Button type="primary" icon={<PlusOutlined />} onClick={() => {
-          dispatch(setActionType(SET_TRAMITE_NUEVO))
+        <Button type="primary" icon={<PlusOutlined />} onClick={async () => {
+          await dispatch(setActionType(SET_TRAMITE_NUEVO))
           router.push('/informacion_basica')
         }}>Nuevo trámite </Button>
       </div>

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import {NavigationStep} from '../components/steps'
-import InputText from '../components/input_text'
+import { NavigationStep } from '../components/steps'
+import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Space } from 'antd';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
@@ -15,8 +15,8 @@ import DatePickerModal from '../components/datePicker_Modal'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT,isPersonaFisica, isConstructora } from '../services/business';
-import { saveTramite } from '../redux/actions/main'
+import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora } from '../services/business';
+import { saveTramite, setTramiteView } from '../redux/actions/main'
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -36,21 +36,22 @@ export default () => {
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
-  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   const [inicioEjercicio, setInicioEjercicio] = useState('')
   const [cierreEjercicio, setCierreEjercicio] = useState('')
-  const [activoCorriente,setActivoCorriente] = useState(0)
-  const [activoNoCorriente,setActivoNoCorriente] = useState(0)
+  const [activoCorriente, setActivoCorriente] = useState(0)
+  const [activoNoCorriente, setActivoNoCorriente] = useState(0)
   const [pasivoCorriente, setPasivoCorriente] = useState(0)
   const [pasivoNoCorriente, setPasivoNoCorriente] = useState(0)
   const [ventasDelEjercicio, setVentasDelEjercicio] = useState(0)
   const [capitalSuscripto, setCapitalSuscripto] = useState(0)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (!tramite.cuit && tipoAccion!=='SET_TRAMITE_NUEVO')
+    if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
-  },[])
+  }, [])
 
 
   const save = async () => {
@@ -85,7 +86,7 @@ export default () => {
             value={inicioEjercicio}
             bindFunction={setInicioEjercicio}
             labelMessageError=""
-             />
+          />
 
         </div>
         <div className="pb-6" >
@@ -96,19 +97,19 @@ export default () => {
             value={cierreEjercicio}
             bindFunction={setCierreEjercicio}
             labelMessageError=""
-           />
+          />
         </div>
       </div>
       <div className="grid grid-cols-3 gap-4 ">
 
         <div className="pb-6" >
           <InputTextModal
-          type="number" step="any"
+            type="number" step="any"
             label="Activo Corriente"
             labelRequired="*"
             placeholder="000000,000 "
             value={activoCorriente}
-            bindFunction={setActivoCorriente}
+            bindFunction={(val) => setActivoCorriente(parseInt(val, 10))}
             labelMessageError=""
             required />
 
@@ -121,19 +122,19 @@ export default () => {
             labelRequired="*"
             placeholder="000000,000 "
             value={activoNoCorriente}
-            bindFunction={setActivoNoCorriente}
+            bindFunction={(val) => setActivoNoCorriente(parseInt(val, 10))}
             labelMessageError=""
             required />
 
         </div>
         <div className="pb-6" >
           <InputTextModal
-          type="number" step="any"
+            type="number" step="any"
             label="Activo Total"
             placeholder="000000,000 "
             value={activoCorriente + activoNoCorriente}
             labelMessageError=""
-            disabled />
+            disabled={true} />
 
         </div>
         <div className="pb-6" >
@@ -143,7 +144,7 @@ export default () => {
             labelRequired="*"
             placeholder="000000,000 "
             value={pasivoCorriente}
-            bindFunction={setPasivoCorriente}
+            bindFunction={(val) => setPasivoCorriente(parseInt(val, 10))}
             labelMessageError=""
             required />
 
@@ -156,7 +157,7 @@ export default () => {
             labelRequired="*"
             placeholder="000000,000 "
             value={pasivoNoCorriente}
-            bindFunction={setPasivoNoCorriente}
+            bindFunction={(val) => setPasivoNoCorriente(parseInt(val, 10))}
             labelMessageError=""
             required />
 
@@ -234,13 +235,88 @@ export default () => {
     </div>)
   }
 
+  const columnsBalances = [
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarEjercicio(record)}><DeleteOutlined /></div> : <Space size="middle">
+
+      </Space>),
+    },
+    {
+      title: 'Inicio de ejercicio',
+      dataIndex: 'fechaInicio',
+      key: 'fechaInicio',
+    },
+    {
+      title: 'Cierre de ejercicio',
+      dataIndex: 'fechaCierre',
+      key: 'fechaCierre',
+    },
+    {
+      title: 'Activo Corriente',
+      dataIndex: 'activoCorriente',
+      key: 'activoCorriente',
+    },
+    {
+      title: 'Activo no Corriente',
+      dataIndex: 'activoNoCorriente',
+      key: 'activoNoCorriente',
+    },
+
+    {
+      title: 'Pasivo Corriente',
+      dataIndex: 'pasivoCorriente',
+      key: 'pasivoCorriente',
+    },
+    {
+      title: 'Pasivo no  Corriente',
+      dataIndex: 'pasivoNoCorriente',
+      key: 'pasivoNoCorriente',
+    },
+    {
+      title: 'Ventas del ejercicio',
+      dataIndex: 'ventasEjercicio',
+      key: 'ventasEjercicio',
+    },
+    {
+      title: 'Capital suscripto',
+      dataIndex: 'capitalSuscripto',
+      key: 'capitalSuscripto',
+    }
+  ]
+
+
+  const eliminarEjercicio = (r) => {
+    tramite.ejercicios = tramite.ejercicios.filter(e => ((e.fechaInicio !== r.fechaInicio) && (r.fechaCierre !== e.fechaCierre)))
+    setTramite(Object.assign({}, tramite))
+  }
+
+  const agregarEjercicio = (e) => {
+    if (!tramite.ejercicios)
+      tramite.ejercicios = []
+
+    tramite.ejercicios.push({
+      fechaCierre: inicioEjercicio,
+      fechaInicio: cierreEjercicio,
+      activoCorriente,
+      activoNoCorriente,
+      pasivoCorriente,
+      pasivoNoCorriente,
+      capitalSuscripto,
+      ventasEjercicio: ventasDelEjercicio
+    })
+    save()
+    setModalEjercicios(false)
+  }
+
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep  generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) } current={2} />
+      <NavigationStep generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} current={2} />
     </div>
     <div className="px-20 py-6 ">
       <div className="flex  content-center  ">
@@ -255,7 +331,7 @@ export default () => {
 
           <TabPane tab="Balances" key="1">
             <div className="overflow-x-auto" >
-              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} dataSource={tramite.ejercicios}  scroll={{ x: 1800 }} />}
+              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} dataSource={tramite.ejercicios} scroll={{ x: 1800 }} />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
@@ -268,21 +344,7 @@ export default () => {
         title="Nuevo Ejercicio"
         visible={modalEjercicios}
         onOk={() => {
-          if (!tramite.ejercicios)
-            tramite.ejercicios = []
 
-          tramite.ejercicios.push({
-            fechaCierre: inicioEjercicio,
-            fechaInicio: cierreEjercicio,
-            activoCorriente,
-            activoNoCorriente,
-            pasivoCorriente,
-            pasivoNoCorriente,
-            capitalSuscripto,
-            ventasEjercicio: ventasDelEjercicio
-          })
-          save()
-          setModalEjercicios(false)
         }}
         okText="Guardar"
         onCancel={() => setModalEjercicios(false)}
@@ -309,46 +371,3 @@ export default () => {
 
 
 
-const columnsBalances = [
-  {
-    title: 'Inicio de ejercicio',
-    dataIndex: 'fechaInicio',
-    key: 'fechaInicio',
-  },
-  {
-    title: 'Cierre de ejercicio',
-    dataIndex: 'fechaCierre',
-    key: 'fechaCierre',
-  },
-  {
-    title: 'Activo Corriente',
-    dataIndex: 'activoCorriente',
-    key: 'activoCorriente',
-  },
-  {
-    title: 'Activo no Corriente',
-    dataIndex: 'activoNoCorriente',
-    key: 'activoNoCorriente',
-  },
-  
-  {
-    title: 'Pasivo Corriente',
-    dataIndex: 'pasivoCorriente',
-    key: 'pasivoCorriente',
-  },
-  {
-    title: 'Pasivo no  Corriente',
-    dataIndex: 'pasivoNoCorriente',
-    key: 'pasivoNoCorriente',
-  },
-  {
-    title: 'Ventas del ejercicio',
-    dataIndex: 'ventasEjercicio',
-    key: 'ventasEjercicio',
-  },
-  {
-    title: 'Capital suscripto',
-    dataIndex: 'capitalSuscripto',
-    key: 'capitalSuscripto',
-  }
-]
