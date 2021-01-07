@@ -137,7 +137,10 @@ export const getUsuario  = () => {
   return {
     userData: () => user,
     isConstructor: () => user &&  user.Role.filter(r => r ==='CONSTRUCTOR').length>0,
-    isBackOffice: () => user && user.Role.filter(r => r ==='CONTROLADOR').length >0
+    isBackOffice: () => user && user.Role.filter(r => r ==='CONTROLADOR' || r ==='SUPERVISOR').length >0,
+    isControlador: () => user && user.Role.filter(r => r ==='CONTROLADOR').length >0,
+    isSupervisor: () => user && user.Role.filter(r =>  r ==='SUPERVISOR').length >0,
+    isAprobador: () => user && user.Role.filter(r =>  r ==='APROBADOR').length >0
   }
 }
 
@@ -151,8 +154,10 @@ export const isInReview = (tramite:TramiteAlta) => {
       tramite.asignadoA.iat === getUsuario().userData().iat
 }
 
-export const getReviewAbierta = (tramite: TramiteAlta) => {
-  return _.last(tramite.revisiones.filter( r => r.status ==='ABIERTA'))
+export const getReviewAbierta = (tramite: TramiteAlta) : RevisionTramite => {
+  if (!tramite) return null
+
+  return tramite.revisiones ? _.last(tramite.revisiones.filter( r => r.status ==='ABIERTA')) : null
 }
 
 export const closeSession =() => {
@@ -174,6 +179,75 @@ export const isTramiteEditable = (tramite: TramiteAlta) : boolean => {
 } 
 
 export const sendTramite = async (tramite: TramiteAlta) : Promise<TramiteAlta>=> {
-  tramite.status="PENDIENTE DE REVISION"
-  return  saveTramiteService(tramite)
+  
+  if (tramite.status ==='BORRADOR'){
+    tramite.status="PENDIENTE DE REVISION"
+    return  saveTramiteService(tramite)
+  }
+    
+
+  if (tramite.status==='PENDIENTE DE REVISION' && getUsuario().isBackOffice()){
+    tramite.status='A SUPERVISAR'
+    tramite.asignadoA=null
+    return  saveTramiteService(tramite)
+  }
+
+  if (tramite.status ==='OBSERVADO' && getUsuario().isConstructor()){
+    tramite.status='SUBSANADO'
+    tramite.asignadoA=null
+    return  saveTramiteService(tramite)
+  }
+
+  if ((tramite.status==='SUBSANADO')&&(getUsuario().isControlador())){
+    tramite.status='A SUPERVISAR'
+    tramite.asignadoA=null
+    return  saveTramiteService(tramite)
+  }
+
+  if (tramite.status ==='A SUPERVISAR' && getUsuario().isSupervisor()){
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0){
+      tramite.status='OBSERVADO'
+    } else {
+      tramite.status='PENDIENTE DE APROBACION'
+      //tramite.revisiones=[]
+    }
+    tramite.asignadoA=null
+    return  saveTramiteService(tramite)
+  }
+
+  if (tramite.status ==='PENDIENTE DE APROBACION'){
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0){
+      tramite.status='OBSERVADO'
+      tramite.asignadoA=null
+    } else {
+      tramite.categoria='INSCRIPTO'
+      tramite.status='VERIFICADO'
+      //tramite.revisiones=[]
+    }
+    return  saveTramiteService(tramite)
+  }
+    
+  
+}
+
+export const getObservacionesTecnicoRaw = (revisionTramite:RevisionTramite) : string => {
+  return revisionTramite ? revisionTramite.reviews.filter(r => !r.isOk).map( r => r.review ).join(', ') : ''
+}
+
+export const allowGuardar = (tramite:TramiteAlta) => {
+  if (['BORRADOR','OBSERVADO'].includes(tramite.status) && getUsuario().isConstructor())
+    return true
+
+  if (getUsuario().isControlador() && ['PENDIENTE DE REVISION','SUBSANADO'].includes(tramite.status) )
+    return true
+
+  if (getUsuario().isSupervisor() && ['PENDIENTE DE REVISION','SUBSANADO','A SUPERVISAR'].includes(tramite.status) )
+    return true
+
+  if (getUsuario().isAprobador() && ['PENDIENTE DE REVISION','SUBSANADO','A SUPERVISAR','A APROBAR'].includes(tramite.status) )
+    return true
+
+
+  
+  return false
 }

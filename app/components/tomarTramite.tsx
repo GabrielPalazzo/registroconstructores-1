@@ -21,7 +21,7 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
   const [usuarioLogueado, setUsuarioLogueado] = useState(null)
 
   useEffect(() => {
-    setUsuarioLogueado(getUsuario().userData())
+    setUsuarioLogueado(getUsuario())
   },[])
 
   if ((!usuarioLogueado) || (!tramite))
@@ -37,16 +37,19 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
         
     }}>
       <Tag color="red" className="" >
-        <div><LockFilled /> {usuarioLogueado.iat === tramite.asignadoA.iat ? 'Liberar Tramite' : tramite.asignadoA.GivenName + ', ' + tramite.asignadoA.Surname} </div>
+        <div><LockFilled /> {usuarioLogueado.userData().iat === tramite.asignadoA.iat ? 'Liberar Tramite' : tramite.asignadoA.GivenName + ', ' + tramite.asignadoA.Surname} </div>
       </Tag>
     </div>
   }
 
   const UnLocked = () => {
     return <div onClick={async () => {
-      tramite.asignadoA = user as Usuario
-      await dispatch(InitRevisionTramite())
-      await dispatch(lockTramite(Object.assign({},tramite)))
+      if ((tramite.status==='PENDIENTE DE REVISION')||(tramite.status==='A SUPERVISAR')||(tramite.status==='SUBSANADO')) {
+        tramite.asignadoA = user as Usuario
+        await dispatch(InitRevisionTramite())
+        await dispatch(lockTramite(Object.assign({},tramite)))
+      }
+      
         
     }}>
       <Tag color="green" className="" >
@@ -58,7 +61,28 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
   if (!tramite)
     return <div></div>
 
+  const showComponente = () => {
+    /*
+    if (tramite.status ==='PENDIENTE DE REVISION' && (usuarioLogueado.isControlador() || usuarioLogueado.isSupervisor()))
+      return true
+
+    if (tramite.status ==='A VERIFICAR' && usuarioLogueado.isSupervisor())
+      return true*/
+
+    if (tramite.status==='PENDIENTE DE REVISION' || (tramite.status==='A SUPERVISAR' && getUsuario().isSupervisor()) || (tramite.status=='SUBSANADO' && getUsuario().isBackOffice()))
+      return true
+
+    return false
+  }
+
+  const isLocked = () => {
+    return tramite.asignadoA!==null
+  }
+
+  
+
+  console.log(showComponente(),isLocked())
   return <div>
-    {!tramite.asignadoA ? <UnLocked ></UnLocked> : <Locked />}
+    {showComponente() ? !isLocked() ? <UnLocked />: <Locked />: ''}
   </div>
 }

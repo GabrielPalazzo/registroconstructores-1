@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Tabs, Collapse, Tag, Menu, Dropdown, Avatar } from 'antd';
-import {ArrowRightOutlined, DownCircleOutlined, CloudDownloadOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
+import { ArrowRightOutlined, DownCircleOutlined, CloudDownloadOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
-import { closeSession, getUsuario } from '../../services/business';
-import {Loading} from '../../components/loading'
-import {getTramitesParaVerificar} from '../../services/business'
-import {useDispatch, useSelector} from 'react-redux'
+import { closeSession, getObservacionesTecnicoRaw, getReviewAbierta, getUsuario } from '../../services/business';
+import { Loading } from '../../components/loading'
+import { getTramitesParaVerificar } from '../../services/business'
+import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import { setTramiteView } from '../../redux/actions/main';
 import { SET_TRAMITE_NUEVO, SET_TRAMITE_VIEW } from '../../redux/reducers/main';
+import { cargarUltimaRevisionAbierta } from '../../redux/actions/revisionTramite';
 
 const { TabPane } = Tabs;
 const Panel = Collapse.Panel;
@@ -31,232 +32,309 @@ const customPanelStyle = {
 export default () => {
 
   const [showing, setShowing] = useState(false)
-  const [usuario,setUsuario] = useState<Usuario>(null)
-  const [tramites,setTramites] = useState<Array<TramiteAlta>>(null)
+  const [usuario, setUsuario] = useState<Usuario>(null)
+  const [tramites, setTramites] = useState<Array<TramiteAlta>>(null)
   const router = useRouter()
   const dispatch = useDispatch()
 
   useEffect(() => {
     (async () => {
       setUsuario(getUsuario().userData())
-      setTramites(await getTramitesParaVerificar())
+      setTramites((await getTramitesParaVerificar()).filter( (t:TramiteAlta ) => t.status==='SUBSANADO' 
+          || t.status==='A SUPERVISAR'
+          || t.status ==='PENDIENTE DE APROBACION' 
+          || t.status ==='PENDIENTE DE REVISION'))
     })()
-  },[])
+  }, [])
 
-  if ((!usuario) ||(!tramites))
-    return <Loading message="wait" type="waiting"/>
-  
+  if ((!usuario) || (!tramites))
+    return <Loading message="wait" type="waiting" />
 
-    const cerrarSesion = () => {
-      closeSession()
-      router.push('/login')
-    }
-    
-    const menu = (
-      <Menu>
-        <Menu.Item>
-          <div onClick={cerrarSesion}>
-            Cerra sesión
+
+  const cerrarSesion = () => {
+    closeSession()
+    router.push('/login')
+  }
+
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <div onClick={cerrarSesion}>
+          Cerra sesión
           </div>
-        </Menu.Item>
-    
-      </Menu>
-    );
-    
+      </Menu.Item>
+
+    </Menu>
+  );
+
+
+  const getDefaultTabActive = () => {
+    if (getUsuario().isControlador())
+      return "3"
+
+    if (getUsuario().isSupervisor())
+      return '4'
+
+    if (getUsuario().isAprobador())
+      return '5'
+  }
+
   return (
 
     <div>
       <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
-      <div className="px-4 pt-4 py-2">
-        <Logo />
-      </div>
-      <div className="text-sm font-bold text-info-700 pr-6 text-right pt-2">
-        <Dropdown overlay={menu} trigger={['click']}>
-          <div onClick={e => e.preventDefault()}>
-            <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2' }} >{usuario.GivenName.substring(0, 1)}</Avatar>
-          </div>
-        </Dropdown>
+        <div className="px-4 pt-4 py-2">
+          <Logo />
+        </div>
+        <div className="text-sm font-bold text-info-700 pr-6 text-right pt-2">
+          <Dropdown overlay={menu} trigger={['click']}>
+            <div onClick={e => e.preventDefault()}>
+              <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2' }} >{usuario.GivenName.substring(0, 1)}</Avatar>
+            </div>
+          </Dropdown>
 
 
+        </div>
       </div>
-    </div>
 
       <div className="px-4 md:px-20 py-6  ">
         <div className="text-2xl font-bold py-4">{`Hola ${usuario.GivenName} ${usuario.Surname}`} </div>
 
-        <Tabs defaultActiveKey="1" onChange={callback}>
+        <Tabs defaultActiveKey={getDefaultTabActive()} onChange={callback}>
           <TabPane tab="Todos los trámites" key="1">
-            {tramites.map( (t:TramiteAlta) => (
+            {tramites.map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>
-                    {!t.asignadoA ? <Tag color="green" className="" >
-                      <div><UnlockFilled /> Sin asignar </div>
-                    </Tag>: <Tag color="red" className="" >
-                      <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
-                    </Tag>}
+                    <div className="flex">
+                      <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
+                      {!t.asignadoA ? <Tag color="green" className="" >
+                        <div><UnlockFilled /> Sin asignar </div>
+                      </Tag> : <Tag color="red" className="" >
+                          <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                        </Tag>}
+                    </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
-
-                  <div className="text-right" onClick={() => setShowing(!showing)}   >
-                    <DownCircleOutlined />
-
-                  </div>
-
-
-
                 </div>
-                { showing
-                  ?
-                  <div>
-                  <div className="grid grid-cols-3 gap-4 caja">
+
+                <div>
+                  <div className="">
                     <div>
                       <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      <div className=" text-muted-700 text-xs">{`Observaciones del técnico: ${getObservacionesTecnicoRaw(getReviewAbierta(t))}`}</div>
                     </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Confirmación de observaciones del supervisor:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Contestación a observaciones:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                    </div>
-
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Fecha de envío a aprobar:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Aprobación:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Fecha y hora:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Usuario actual:</div>
-                      <div className=" text-muted-700 text-xs">Técnico:</div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Estado del trámite:</div>
-                      <div className=" text-muted-700 text-xs">Técnico:</div>
-                    </div>
-                    <div>
+                    <div className="mt-4">
                       <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
-
                     </div>
-
                   </div>
                   <div className="text-right mt-4">
-                    
                     <Button type="primary" onClick={() => {
-                      dispatch(setTramiteView(t)).then( r => {
+                      dispatch(setTramiteView(t)).then(r => {
+                        dispatch(cargarUltimaRevisionAbierta(t))
                         router.push('/informacion_basica')
                       })
-                      
+
                     }}>ver tramite <ArrowRightOutlined /> </Button>
-                    
+
 
                   </div>
-                  </div>
+                </div>
 
-                  : null
-                }
               </div>
             ))}
 
 
           </TabPane>
           <TabPane tab="Mis Asignados" key="2">
-          {expediente.map(e => (
+            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.iat === usuario.iat).map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
-                  <div>
-                    <Tag color="#a0aec0" className="bg-gray-500 mb-2 pb-4 mr-4 " >
-                      <LockFilled /> {e.user}
-                    </Tag>
-                    <Tag color="#6EA100" className="bg-gray-500 mb-2 pb-4 " >
-                      Observado en supervision
-                    </Tag>
-                    <div className=" text-lg font-bold mt-2 text-black-700">{e.company}</div>
-                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {e.date}<br />
-                  CUIT: {e.cuit}<br />
-                  Exp: {e.expediente}</div>
+                  <div className="">
+                    <div className="flex">
+                      <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
+                      {!t.asignadoA ? <Tag color="green" className="" >
+                        <div><UnlockFilled /> Sin asignar </div>
+                      </Tag> : <Tag color="red" className="" >
+                          <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                        </Tag>}
+                    </div>
+                    <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
+                  CUIT: {t.cuit}<br />
+                  Exp: {'A Definir'}</div>
                   </div>
-
-                  <div className="text-right" onClick={() => setShowing(!showing)}   >
-                    <DownCircleOutlined />
-
-                  </div>
-
-
-
                 </div>
-                { showing
-                  ?
-                  <div>
-                  <div className="grid grid-cols-3 gap-4 caja">
+
+                <div>
+                  <div className="">
                     <div>
                       <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
+                      <div className=" text-muted-700 text-xs">{`Observaciones del técnico: ${getObservacionesTecnicoRaw(getReviewAbierta(t))}`}</div>
                     </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Confirmación de observaciones del supervisor:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Contestación a observaciones:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                    </div>
-
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Fecha de envío a aprobar:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Aprobación:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Fecha y hora:</div>
-                      <div className=" text-muted-700 text-xs">Observaciones del técnico:</div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Usuario actual:</div>
-                      <div className=" text-muted-700 text-xs">Técnico:</div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-black-700 text-sm">Estado del trámite:</div>
-                      <div className=" text-muted-700 text-xs">Técnico:</div>
-                    </div>
-                    <div>
+                    <div className="mt-4">
                       <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
-
                     </div>
-
                   </div>
                   <div className="text-right mt-4">
-                  <Link href="/informacion_basica">
-                    <Button type="primary">ver tramite <ArrowRightOutlined /> </Button>
-                    </Link>
-                  </div>
-                  </div>
+                    <Button type="primary" onClick={() => {
+                      dispatch(setTramiteView(t)).then(r => {
+                        dispatch(cargarUltimaRevisionAbierta(t))
+                        router.push('/informacion_basica')
+                      })
 
-                  : null
-                }
+                    }}>ver tramite <ArrowRightOutlined /> </Button>
+
+
+                  </div>
+                </div>
+
               </div>
             ))}
 
-
           </TabPane>
 
-          <TabPane tab="Supervisados" key="3">
+          <TabPane tab="A Revisar / Controlar" key="3">
+            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION').map((t: TramiteAlta) => (
+              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+                <div className="flex justify-between">
+                  <div>
+                    <div className="flex">
+                      <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
+                      {!t.asignadoA ? <Tag color="green" className="" >
+                        <div><UnlockFilled /> Sin asignar </div>
+                      </Tag> : <Tag color="red" className="" >
+                          <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                        </Tag>}
+                    </div>
+                    <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
+                  CUIT: {t.cuit}<br />
+                  Exp: {'A Definir'}</div>
+                  </div>
+                </div>
 
+                <div>
+                  <div className="">
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
+                      <div className=" text-muted-700 text-xs">{`Observaciones del técnico: ${getObservacionesTecnicoRaw(getReviewAbierta(t))}`}</div>
+                    </div>
+                    <div className="mt-4">
+                      <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
+                    </div>
+                  </div>
+                  <div className="text-right mt-4">
+                    <Button type="primary" onClick={() => {
+                      dispatch(setTramiteView(t)).then(r => {
+                        dispatch(cargarUltimaRevisionAbierta(t))
+                        router.push('/informacion_basica')
+                      })
+
+                    }}>ver tramite <ArrowRightOutlined /> </Button>
+
+
+                  </div>
+                </div>
+
+              </div>
+            ))}
+          </TabPane>
+
+          <TabPane tab="A Supervisar" key="4">
+            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').map((t: TramiteAlta) => (
+              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+                <div className="flex justify-between">
+                  <div>
+                    <div className="flex">
+                      <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
+                      {!t.asignadoA ? <Tag color="green" className="" >
+                        <div><UnlockFilled /> Sin asignar </div>
+                      </Tag> : <Tag color="red" className="" >
+                          <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                        </Tag>}
+                    </div>
+                    <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
+                  CUIT: {t.cuit}<br />
+                  Exp: {'A Definir'}</div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="">
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
+                      <div className=" text-muted-700 text-xs">{`Observaciones del técnico: ${getObservacionesTecnicoRaw(getReviewAbierta(t))}`}</div>
+                    </div>
+                    <div className="mt-4">
+                      <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
+                    </div>
+                  </div>
+                  <div className="text-right mt-4">
+                    <Button type="primary" onClick={() => {
+                      dispatch(setTramiteView(t)).then(r => {
+                        dispatch(cargarUltimaRevisionAbierta(t))
+                        router.push('/informacion_basica')
+                      })
+
+                    }}>ver tramite <ArrowRightOutlined /> </Button>
+
+
+                  </div>
+                </div>
+
+              </div>
+            ))}
+          </TabPane>
+          <TabPane tab="Pendientes de Aprobación" key="5">
+            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE APROBACION').map((t: TramiteAlta) => (
+              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+                <div className="flex justify-between">
+                  <div>
+                    <div className="flex">
+                      <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
+                      {!t.asignadoA ? <Tag color="green" className="" >
+                        <div><UnlockFilled /> Sin asignar </div>
+                      </Tag> : <Tag color="red" className="" >
+                          <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                        </Tag>}
+                    </div>
+                    <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
+                  CUIT: {t.cuit}<br />
+                  Exp: {'A Definir'}</div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="">
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
+                      <div className=" text-muted-700 text-xs">{`Observaciones del técnico: ${getObservacionesTecnicoRaw(getReviewAbierta(t))}`}</div>
+                    </div>
+                    <div className="mt-4">
+                      <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
+                    </div>
+                  </div>
+                  <div className="text-right mt-4">
+                    <Button type="primary" onClick={() => {
+                      dispatch(setTramiteView(t)).then(r => {
+                        dispatch(cargarUltimaRevisionAbierta(t))
+                        router.push('/informacion_basica')
+                      })
+
+                    }}>ver tramite <ArrowRightOutlined /> </Button>
+
+
+                  </div>
+                </div>
+
+              </div>
+            ))}
           </TabPane>
         </Tabs>
       </div>

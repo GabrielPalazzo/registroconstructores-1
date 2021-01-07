@@ -16,13 +16,22 @@ export default () => {
           }} block>Constructor</Button>
         </div>
         <div className="pb-4 text-center  w-full">
-        <Button type="primary" onClick={() => {
+          <Button type="primary" onClick={() => {
             localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZWdpc3RybyBkZSBDb25zdHJ1Y3RvcmVzIiwiaWF0IjoyMjMzNDQ1NTY2NzcsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJzdWIiOiJsZW9uYXJkb2xlZW5lbkBnbWFpbC5jb20iLCJHaXZlbk5hbWUiOiJNYXJ0aW4gIiwiU3VybmFtZSI6IklnbGVzaWFzIiwiRW1haWwiOiJsZW9uYXJkb2xlZW5lbkBnbWFpbC5jb20iLCJSb2xlIjpbIkNPTlRST0xBRE9SIl19.7uIIGKpwTvL2EnzLY1UWPmEgVwR3Xw-xW9BwtZHWCb0')
             router.push('/backoffice/bandeja')
           }} block>Revisor Back Office</Button>
         </div >
         <div className="pb-4  text-center w-full">
-          <Button type="primary" block>Supervisor Back Office</Button>
+          <Button type="primary" onClick={() => {
+            localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZWdpc3RybyBkZSBDb25zdHJ1Y3RvcmVzIiwiaWF0IjoxNjA3ODY4NDE0LCJhdWQiOiJodHRwOi8vbG9jYWxob3N0Iiwic3ViIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiR2l2ZW5OYW1lIjoiQW1hbmNpbyAiLCJTdXJuYW1lIjoiQWxjb3J0YSIsIkVtYWlsIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiUm9sZSI6WyJTVVBFUlZJU09SIl19.HwSjupVi7GBMZPh6O0ZJq4bQpYFu_xxeGzQjwhTB_j8')
+            router.push('/backoffice/bandeja')
+          }} block>Supervisor Back Office</Button>
+        </div>
+        <div className="pb-4  text-center w-full">
+          <Button type="primary" onClick={() => {
+            localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZWdpc3RybyBkZSBDb25zdHJ1Y3RvcmVzIiwiaWF0IjoxNjA3ODY4NDE0LCJhdWQiOiJodHRwOi8vbG9jYWxob3N0Iiwic3ViIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiR2l2ZW5OYW1lIjoiUm9xdWUgIiwiU3VybmFtZSI6IlBlcmV6IiwiRW1haWwiOiJsZW9uYXJkb2xlZW5lbkBnbWFpbC5jb20iLCJSb2xlIjpbIkFQUk9CQURPUiJdfQ.KwDoqXASZ8AtnGw8fQu1KhL3eeKYNl-3Y6dAgbjlFZ4')
+            router.push('/backoffice/bandeja')
+          }} block>Aprobador Back Office</Button>
         </div>
       </Card>
       <style>

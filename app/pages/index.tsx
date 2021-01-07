@@ -27,7 +27,7 @@ export default () => {
         return
       }
 
-      if ((usuario.Role.filter(r => r === 'CONTROLADOR').length > 0) && (!tipoAccion)){
+      if (getUsuario().isBackOffice()){
         router.push('/backoffice/bandeja')
         return
       }
