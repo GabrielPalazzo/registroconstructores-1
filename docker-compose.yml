@@ -20,6 +20,9 @@ services:
         max-size: "50m"
         max-file: "3"
   backoffice:
+    environment:
+      - DB_URI=mongodb://mongo:27017/registroconstructores
+      - JWT_SECRET=registroconstructores-secret-shhhhhh
     build:
       context: ./backoffice
       target: development
