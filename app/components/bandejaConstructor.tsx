@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { Button, Card, Divider, Drawer, Tag, Input, Collapse } from 'antd'
 import { Space } from 'antd'
-import { getColorStatus, getStatusObsParsed } from '../services/business'
+import { getColorStatus, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
 import { setUpdateBorrador } from '../redux/actions/main'
 import { useRouter } from 'next/router'
 import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite'
-
+import moment from 'moment'
 
 const onSearch = value => console.log(value);
 const { Search } = Input;
@@ -52,9 +52,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
         </Panel>
         <Panel header="Aclaraciones al estado:" key="4">
           <div className="text-sm  text-black-700 ">
-            <ul>
-              <li>{getStatusObsParsed(activeProfile)}</li>
-            </ul></div>
+            {getObservacionesTecnicoRaw(getReviewAbierta(activeProfile)) ? `Trámite correspondiente a Inscripción ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas iniciado el ${moment(activeProfile.createdAt).format('LLL')}.` : ''}
+            </div>
         </Panel>
         <Panel header="Tipo de empresa:" key="5">
           <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.tipoEmpresa}</div>
@@ -97,7 +96,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
             <div className="pb-2">
               <div className="flex">
               <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
-              {e.categoria ==='PRE INSCRIPTO' ? e.asignadoA ? <Tag color="green">En revision</Tag> :<Tag color="red">Pendiente de revisión</Tag> : ''}
+              <Tag color="green">{e.status}</Tag>
               </div>
             </div>
             <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>

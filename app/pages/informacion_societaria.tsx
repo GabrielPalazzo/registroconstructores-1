@@ -18,7 +18,7 @@ import UploadLine from '../components/uploadLine'
 
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
+import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 
 const { Panel } = Collapse;
@@ -456,6 +456,22 @@ export default () => {
     }
   ]
 
+
+  const showSaveButton = () => {
+    if (!allowGuardar(tramite))
+      return <div></div>
+
+    return <div className="mt-6 pt-6 text-center">
+
+      <Button type="primary" onClick={async () => {
+        await save()
+        if (isPersonaFisica)
+          router.push('/enviar_tramite')
+        else
+          router.push('/informacion_propietarios')
+      }} > Guardar y Seguir</Button>
+    </div>
+  }
 
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
@@ -924,19 +940,7 @@ export default () => {
 
         </Collapse>
       </div>
-      <div className="mt-6 pt-6 text-center">
-        <Link href="/domicilio" >
-
-          <Button className="mr-4" > Volver</Button>
-        </Link>
-        <Button type="primary" onClick={async () => {
-          await save()
-          if (isPersonaFisica)
-            router.push('/enviar_tramite')
-          else
-            router.push('/informacion_propietarios')
-        }} > Guardar y Seguir</Button>
-      </div>
+      {showSaveButton()}
 
     </div>
     <style>

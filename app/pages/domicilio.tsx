@@ -1,14 +1,14 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import {NavigationStep} from '../components/steps'
-import {InputText} from '../components/input_text'
-import {HeaderPrincipal} from '../components/header'
+import { NavigationStep } from '../components/steps'
+import { InputText } from '../components/input_text'
+import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import { Button, Steps } from 'antd';
 import Substeps from '../components/subSteps'
-import {useSelector} from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora ,isPersonaFisica} from '../services/business';
-import {useDispatch} from 'react-redux'
+import { useSelector } from 'react-redux'
+import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
+import { useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
 import { Loading } from '../components/loading';
 
@@ -19,26 +19,26 @@ export default () => {
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
   const [waitingType, setWaitingType] = useState<'sync' | 'waiting'>('waiting')
-  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion)
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
 
 
   useEffect(() => {
-    if (!tramite.cuit && tipoAccion!=='SET_TRAMITE_NUEVO')
+    if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
-  },[])
+  }, [])
 
 
   const updateObjTramite = () => {
-    setTramite(Object.assign({},tramite))
-  } 
+    setTramite(Object.assign({}, tramite))
+  }
 
   const save = async () => {
-    if (tramite.status==='BORRADOR'){
+    if (tramite.status === 'BORRADOR') {
       setWaitingType('sync')
       setIsLoading(true)
-      if (tramite._id){
+      if (tramite._id) {
         await dispatch(saveTramite(tramite))
       } else {
         if (!(await getTramiteByCUIT(tramite.cuit)))
@@ -46,94 +46,102 @@ export default () => {
       }
     }
 
-    
+
   }
 
   if (isLoading)
     return <Loading message="" type={waitingType} />
 
+
+  const showBotonGuardar = () => {
+    if (!allowGuardar(tramite))
+      return <div></div>
+
+
+    return <div className="mt-6 pt-6 text-center">
+      <Button type="primary" onClick={async () => {
+        if (!tramite || !tramite.cuit)
+          return
+        await save()
+        setIsLoading(true)
+        router.push('/informacion_societaria')
+      }}> Guardar y Seguir</Button>
+    </div>
+  }
   return <div>
-   <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
+    <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
       router.push('/')
-    }}/>
+    }} />
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep current={1}  generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) }/>
+      <NavigationStep current={1} generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
     <Substeps progressDot current={0} esPersonaFisica={isPersonaFisica(tramite)} />
     <div className="px-20 py-6 ">
       <div className="text-2xl font-bold py-4"> Domicilio Legal</div>
-        <div >
-          <InputText
-            attributeName='domicilioLegal'
-            label="Domicilio"
-            labelRequired="*"
-            value={tramite.domicilioLegal}
-            bindFunction={(value) => {
-              tramite.domicilioLegal = value
-              updateObjTramite()
-            }}
-            placeHolder="Indique calle,numero,provincia"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-            required />
-        </div>
-        <div className="pt-4">
+      <div >
+        <InputText
+          attributeName='domicilioLegal'
+          label="Domicilio"
+          labelRequired="*"
+          value={tramite.domicilioLegal}
+          bindFunction={(value) => {
+            tramite.domicilioLegal = value
+            updateObjTramite()
+          }}
+          placeHolder="Indique calle,numero,provincia"
+          labelObservation=""
+          labeltooltip=""
+          labelMessageError=""
+          required />
+      </div>
+      <div className="pt-4">
         <Upload
-            label="Adjunte un documento en donde conste el último domicilio legal inscripto en la IGJ o Registro de Comercio "
-            labelRequired="*"
-            labelMessageError=""
-          />
-          
-       
+          label="Adjunte un documento en donde conste el último domicilio legal inscripto en la IGJ o Registro de Comercio "
+          labelRequired="*"
+          labelMessageError=""
+        />
+
+
       </div>
       <div className="text-2xl font-bold py-4"> Domicilio Real</div>
-        <div>
-          <InputText
-            value={tramite.domicilioReal}
-            attributeName='domicilioReal'
-            bindFunction={(value) => {
-              tramite.domicilioReal = value
-              updateObjTramite()
-            }}
-            label="Domicilio"
-            labelRequired="*"
-            placeHolder="Indique calle,numero,provincia"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-            required />
-        </div>
-        
-        <div className="text-2xl font-bold py-4"> Domicilio Electronico</div>
-        <div>
-          <InputText
-            attributeName="emailInstitucional"
-            value={tramite.emailInstitucional}
-            bindFunction={(value) => {
-              tramite.emailInstitucional = value
-              updateObjTramite()
-            }} 
-            type="email"
-            label="Email institucional"
-            labelRequired="*"
-            placeHolder="Email Institucional"
-          />
-        </div>
+      <div>
+        <InputText
+          value={tramite.domicilioReal}
+          attributeName='domicilioReal'
+          bindFunction={(value) => {
+            tramite.domicilioReal = value
+            updateObjTramite()
+          }}
+          label="Domicilio"
+          labelRequired="*"
+          placeHolder="Indique calle,numero,provincia"
+          labelObservation=""
+          labeltooltip=""
+          labelMessageError=""
+          required />
+      </div>
 
-       
-      
+      <div className="text-2xl font-bold py-4"> Domicilio Electronico</div>
+      <div>
+        <InputText
+          attributeName="emailInstitucional"
+          value={tramite.emailInstitucional}
+          bindFunction={(value) => {
+            tramite.emailInstitucional = value
+            updateObjTramite()
+          }}
+          type="email"
+          label="Email institucional"
+          labelRequired="*"
+          placeHolder="Email Institucional"
+        />
+      </div>
 
-      <div className="mt-6 pt-6 text-center">
-          <Button type="primary"  onClick={async () => {
-            if (!tramite || !tramite.cuit)
-              return 
-            await save()
-            setIsLoading(true)
-            router.push('/informacion_societaria')
-          }}> Guardar y Seguir</Button>
-         </div>
+
+
+
+      {showBotonGuardar()}
 
     </div>
 

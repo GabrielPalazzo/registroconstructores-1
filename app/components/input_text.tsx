@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Input, Tooltip, Modal } from 'antd';
 import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 import { useSelector } from 'react-redux'
-import { isTramiteEditable } from '../services/business';
+import { getReviewAbierta, getUsuario, isTramiteEditable } from '../services/business';
 import _ from 'lodash'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import { useDispatch } from 'react-redux'
@@ -119,6 +119,17 @@ export const InputText: React.FC<IProps> = ({
     return _.last(r).review
   }
 
+  const isEditable = () => {
+    console.log(getReviewAbierta(tramite))
+    console.log(getUsuario().isConstructor())
+    
+    return tramite.status ==='BORRADOR' ||
+      (tramite.status ==='OBSERVADO' && getReviewAbierta(tramite).reviews.filter(r => (r.field ===attributeName.toUpperCase()) && !r.isOk).length >0) && getUsuario().isConstructor()
+
+    
+  }
+
+
   return <div >
     <Modal
       visible={showObs}
@@ -149,7 +160,7 @@ export const InputText: React.FC<IProps> = ({
         value={value}
         placeholder={placeHolder}
         required={required}
-        disabled={!isTramiteEditable(tramite)}
+        disabled={!isEditable()}
         onChange={(e) => bindFunction(e.target.value)}
       />
     </div>

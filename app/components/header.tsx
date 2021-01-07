@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import { Button, Modal, Avatar, Dropdown, Menu } from 'antd';
-import { closeSession, getUsuario } from '../services/business';
+import { allowGuardar, closeSession, getUsuario } from '../services/business';
 
 
 export interface HeaderPrincipalProps {
@@ -12,12 +12,12 @@ export interface HeaderPrincipalProps {
 
 
 export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
-  tramite = {},
+  tramite,
   onExit,
   onSave
 }) => {
   const router = useRouter()
-  const [user,setUser] = useState<Usuario>(null)
+  const [user, setUser] = useState<Usuario>(null)
   const [showCancelar, setShowCancelar] = useState(false)
 
   const confirmCancel = () => {
@@ -41,7 +41,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
           Cerra sesión
         </div>
       </Menu.Item>
-  
+
     </Menu>
   );
 
@@ -67,10 +67,10 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4">
 
       <Button danger type="text" onClick={() => setShowCancelar(true)}>Cancelar</Button>
-      {tramite && tramite.cuit ? <Button type="link" style={{ fontWeight: 'bold' }} onClick={onSave}>Guardar y salir</Button> : ''}
+      {tramite && tramite.cuit && allowGuardar(tramite)? <Button type="link" style={{ fontWeight: 'bold' }} onClick={onSave}>Guardar y salir</Button> : ''}
       <Dropdown overlay={menu} trigger={['click']}>
         <div onClick={e => e.preventDefault()}>
-          <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2' }} >{user.GivenName.substring(0,1)}</Avatar>
+          <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2' }} >{user.GivenName.substring(0, 1)}</Avatar>
         </div>
       </Dropdown>
 

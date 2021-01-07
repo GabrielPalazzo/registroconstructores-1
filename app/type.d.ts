@@ -119,7 +119,7 @@ type TramiteAlta = {
     obs: string
   }>
   categoria: 'PRE INSCRIPTO' | 'INSCRIPTO' | 'DESACTUALIZADO'
-  status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION"
+  status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION" | "A SUPERVISAR" | "SUBSANADO" | "PENDIENTE DE APROBACION"
   propietario: Usuario
   certificadoFiscal: Archivo
   email: string

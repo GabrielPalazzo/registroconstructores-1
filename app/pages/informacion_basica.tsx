@@ -17,7 +17,7 @@ import RadioGroup from '../components/radioGroup'
 import SelectModal from '../components/select_modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isInReview, isPersonaFisica, isTramiteEditable } from '../services/business';
+import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isInReview, isPersonaFisica, isTramiteEditable, allowGuardar } from '../services/business';
 import { Loading } from '../components/loading';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
 import { TomarTramite } from '../components/tomarTramite';
@@ -423,6 +423,17 @@ export default () => {
   if ((isLoading) || (!usuario))
     return <Loading message="" type={waitingType} />
 
+  const showSaveButton = () => {
+    if (!allowGuardar(tramite))
+      return <div></div>
+
+    return <div className=" mt-6 pt-6 text-center">
+      <Button type="primary" onClick={async () => {
+        await save()
+        router.push('/domicilio')
+      }} > Guardar y Seguir</Button>
+    </div>
+  }
 
   return (<div className="">
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
@@ -869,12 +880,7 @@ export default () => {
       </div>
 
 
-      <div className=" mt-6 pt-6 text-center">
-        <Button type="primary" onClick={async () => {
-          await save()
-          router.push('/domicilio')
-        }} > Guardar y Seguir</Button>
-      </div>
+      {showSaveButton()}
     </div>
 
   </div>

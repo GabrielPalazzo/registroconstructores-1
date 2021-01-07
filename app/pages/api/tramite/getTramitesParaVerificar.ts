@@ -13,8 +13,7 @@ handler.get(async (req: any, res: NextApiResponse) => {
 
   const tramites = await req.db
     .collection('tramites')
-    .find({'status': 'PENDIENTE DE REVISION'}
-    )
+    .find({'categoria': 'PRE INSCRIPTO'})
     .toArray();
   res.send({ tramites });
   
