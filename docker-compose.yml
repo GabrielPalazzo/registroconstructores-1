@@ -9,7 +9,7 @@ services:
       target: development
     restart: always
     ports:
-      - 3000:3000
+      - 8080:3000
     networks:
       registroconstructores-network:
         aliases:
@@ -64,3 +64,6 @@ volumes:
 networks:
   registroconstructores-network:
     driver: bridge
+    ipam:
+    config:
+        - subnet: 172.24.0.0/16
