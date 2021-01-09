@@ -99,11 +99,15 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
 	const EstadoObra = [
 		{
-			label: 'Preadjudicada',
+			label: 'Pre Adjudicada',
 			value: 'Preadjudicada',
+    },
+    {
+			label: 'Adjudicada ',
+			value: 'Adjudicada',
 		},
 		{
-			label: 'Ejecución',
+			label: 'En Ejecución',
 			value: 'Ejecucion',
 		},
 		{
@@ -115,10 +119,6 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 			value: 'Suspendida',
 		},
 		{
-			label: 'Adjudicada ',
-			value: 'Adjudicada',
-		},
-		{
 			label: 'Anulada ',
 			value: 'Anulada',
 		},
@@ -126,34 +126,34 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
 	const TipoContratacion = [
 		{
-			label: 'Pública',
+			label: 'Público',
 			value: 'Publica',
 		},
 		{
-			label: 'Privada',
+			label: 'Privado',
 			value: 'Privada',
 		},
 		{
-			label: 'Subcontratación pública',
+			label: 'Subcontratación público',
 			value: 'SubPublica',
 		},
 		{
-			label: 'Subcontratación privada ',
+			label: 'Subcontratación privado ',
 			value: 'SubPrivada',
 		}
 	];
 	const TipoNivel = [
 		{
-			label: 'Municipal',
-			value: 'Municipal',
-		},
-		{
+			label: 'Nacional',
+			value: 'Nacional',
+    },
+    {
 			label: 'Provincial',
 			value: 'Provincial',
 		},
 		{
-			label: 'Nacional',
-			value: 'Nacional',
+			label: 'Municipal',
+			value: 'Municipal',
 		},
 		{
 			label: 'Privado ',
