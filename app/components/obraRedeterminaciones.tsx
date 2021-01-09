@@ -53,7 +53,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			/></div> : ''}
 		<div className="rounded-lg px-4 py-2  pb-4 border mt-6">
 			<div className="text-xl font-bold py-2 w-3/4">  Redeterminaciones</div>
-			<div className="grid grid-cols-3 gap-4 ">
+			<div className="grid grid-cols-2 gap-4 ">
 				<div className="pb-6" >
 					<InputTextModal
 						label="Monto"
@@ -81,15 +81,16 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 
 				<div className="pb-6" >
 					<UploadLine
-						label="Adjunte Acta "
+						label="Adjuntar documento de respaldo de la redeterminación "
 						labelRequired="*"
 						labelMessageError=""
 					/>
 				</div>
-			</div>
-			<div className="mt-6 text-center">
+				<div className="mt-8 ">
 				<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
 			</div>
+			</div>
+			
 			<div className="mt-4 ">
 				<Table columns={columnsRedeterminaciones} dataSource={dataSource} />
 			</div>
