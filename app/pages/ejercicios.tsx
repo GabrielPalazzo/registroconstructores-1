@@ -6,7 +6,7 @@ import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Space } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -60,10 +60,10 @@ export default () => {
 
     setIsLoading(true)
     if (tramite._id) {
-      await dispatch(saveTramite(Object.assign({},tramite)))
+      await dispatch(saveTramite(Object.assign({}, tramite)))
     } else {
       if (!(await getTramiteByCUIT(tramite.cuit)))
-        await dispatch(saveTramite(Object.assign({},tramite)))
+        await dispatch(saveTramite(Object.assign({}, tramite)))
     }
   }
 
@@ -78,6 +78,15 @@ export default () => {
 
   const renderModalEjercicios = () => {
     return (<div>
+      {error ? <div className="mb-4">
+        <Alert
+          message='Error'
+          description={error}
+          type="error"
+          showIcon
+          closable
+          afterClose={() => setError('')}
+        /></div> : ''}
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
           <DatePickerModal
@@ -188,7 +197,7 @@ export default () => {
 
         <div className="pb-6" >
           <InputTextModal
-            label= {isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto'}
+            label={isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto'}
             type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
@@ -298,6 +307,11 @@ export default () => {
     if (!tramite.ejercicios)
       tramite.ejercicios = []
 
+    if (isPersonaFisica(tramite) && (cierreEjercicio.split('/')[0] !=='31' && cierreEjercicio.split('/')[1] !=='12')){
+      setError("La fecha de cierre para personas físicas debe ser 31/12/AAAA")
+      return
+    }
+
     tramite.ejercicios.push({
       fechaCierre: inicioEjercicio,
       fechaInicio: cierreEjercicio,
@@ -308,12 +322,11 @@ export default () => {
       capitalSuscripto,
       ventasEjercicio: ventasDelEjercicio
     })
-    setTramite(Object.assign({},tramite))
+    setTramite(Object.assign({}, tramite))
     save()
     setModalEjercicios(false)
   }
 
-  console.log(tramite)
 
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
