@@ -188,7 +188,7 @@ export default () => {
 
         <div className="pb-6" >
           <InputTextModal
-            label="Capital Suscripto"
+            label= {isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto'}
             type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
@@ -281,7 +281,7 @@ export default () => {
       key: 'ventasEjercicio',
     },
     {
-      title: 'Capital suscripto',
+      title: isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto',
       dataIndex: 'capitalSuscripto',
       key: 'capitalSuscripto',
     }
