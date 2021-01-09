@@ -229,7 +229,7 @@ export default () => {
             </div>
             <div className="pb-6" >
               <Upload
-                label="Adjunte Contrato "
+                label="Adjuntar Contrato Inicial / Orden de Compra "
                 labelRequired="*"
                 labelMessageError=""
               />
