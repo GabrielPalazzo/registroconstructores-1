@@ -112,7 +112,7 @@ export const ObrasCertificaciones: React.FC<ObrasCertificacionesProps> = ({
 
         <div className="pb-6" >
           <UploadLine
-            label="Adjunte Certificación y facturación "
+            label="Adjunte Certificación y  su respectiva  facturación "
             labelRequired="*"
             labelMessageError=""
           />
