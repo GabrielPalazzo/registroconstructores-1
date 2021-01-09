@@ -8,22 +8,8 @@ import {
 } from 'nest-winston';
 import * as winston from 'winston';
 import { LoggingInterceptor } from './auth/auth.interceptor';
-// import * as Sentry from 'winston-raven-sentry';
-
-// import { SentryService } from '@ntegral/nestjs-sentry';
 
 async function bootstrap() {
-  const sentryOptions = {
-    dsn:
-      'https://754be57d97c44b20afdcbd077a3f4ff0@o411788.ingest.sentry.io/5287511',
-    level: 'debug',
-    sendTimeout: 5,
-    format: winston.format.combine(
-      winston.format.timestamp(),
-      nestWinstonModuleUtilities.format.nestLike(),
-    ),
-  };
-
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger({
       transports: [
