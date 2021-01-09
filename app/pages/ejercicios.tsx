@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux'
 import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora } from '../services/business';
 import { saveTramite, setTramiteView } from '../redux/actions/main'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
+import moment from 'moment';
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -307,10 +308,32 @@ export default () => {
     if (!tramite.ejercicios)
       tramite.ejercicios = []
 
+    
+
+    const errores = []
+
+    if (!inicioEjercicio) errores.push('Debe indicar la fecha de inicio de ejercicio')
+    if (!cierreEjercicio) errores.push('Debe indicar la fecha de cierre de ejercicio')
+
+
+    if (errores.length>0){
+      setError(errores.map(e => e).join(', '))
+      return
+    }
+    
+    const fechaInicio = moment(inicioEjercicio,'DD/MM/YYYY')
+    const fechaCierre = moment(cierreEjercicio,'DD/MM/YYYY')
+
+    if (fechaCierre.diff(fechaInicio,'M')>12){
+      setError('El balance no puede tener más de un año calendario. Revise sus fechas de inicio y cierre')
+      return
+    }
+
     if (isPersonaFisica(tramite) && (cierreEjercicio.split('/')[0] !=='31' && cierreEjercicio.split('/')[1] !=='12')){
       setError("La fecha de cierre para personas físicas debe ser 31/12/AAAA")
       return
     }
+
 
     tramite.ejercicios.push({
       fechaCierre: inicioEjercicio,
