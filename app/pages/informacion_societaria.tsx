@@ -735,7 +735,7 @@ export default () => {
           </div>
           <div className=" content-center  rounded-lg border  px-4 py-4">
             <div className="flex  content-center ">
-              <div className="text-2xl font-bold py-4 w-3/4"> Autoridad</div>
+              <div className="text-2xl font-bold py-4 w-3/4"> Autoridades</div>
 
               <div className=" w-1/4 text-right content-center mt-4 ">
                 <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
@@ -794,7 +794,7 @@ export default () => {
               tramite.poseeIERIC = !e.target.checked
               save()
             }}>Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1.</Checkbox>
-            : <Checkbox >Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a) y b).</Checkbox>
+            : <Checkbox >Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b.</Checkbox>
           }
         </div>
         {tramite.poseeIERIC ? <div className="grid grid-cols-3 gap-4 ">
