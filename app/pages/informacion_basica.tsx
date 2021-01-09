@@ -633,12 +633,12 @@ export default () => {
 
         <div >
           <Upload
-            label="Adjunte constancia CUIT"
+            label="Adjunte Constancia de Inscripción en AFIP"
             labelRequired="*"
             labelMessageError="" />
 
         </div>
-        {isPersonaFisica(tramite) ? '' :
+      {/*   {isPersonaFisica(tramite) ? '' :
           <div >
             <Upload
               label="Adjunte comprobante de Incripcion"
@@ -648,7 +648,7 @@ export default () => {
           </div>
         }
 
-
+*/}
       </div>
       {isPersonaFisica(tramite) ? <div>
         <div className="grid grid-cols-1 gap-4 ">
