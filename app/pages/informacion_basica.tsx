@@ -756,7 +756,7 @@ export default () => {
         </div>
 
         <Modal
-          title="Datos de la Persona Física"
+          title="Datos del Usuario"
           visible={visible}
           onOk={handleSaveApoderado}
           footer={[

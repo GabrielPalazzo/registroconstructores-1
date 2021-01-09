@@ -101,8 +101,8 @@ export default () => {
         <div className="text-2xl font-bold py-4">{`Hola ${usuario.GivenName} ${usuario.Surname}`} </div>
 
         <Tabs defaultActiveKey={getDefaultTabActive()} onChange={callback}>
-          <TabPane tab="Todos los trámites" key="1">
-            {tramites.map((t: TramiteAlta) => (
+          <TabPane tab="Bandeja de trabajo" key="1">
+            {tramites.filter((ft: TramiteAlta) => ft.asignadoA===null ).map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>

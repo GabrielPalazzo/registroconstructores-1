@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import {NavigationStep} from '../components/steps'
-import {InputText} from '../components/input_text'
+import { NavigationStep } from '../components/steps'
+import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, DatePicker } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space } from 'antd';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
@@ -16,9 +16,12 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora,isPersonaFisica } from '../services/business';
+import { getCodigoObra, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
-
+import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
+import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
+import { ObrasCertificacionesCerradas } from '../components/obrasCertificacionesCerradas';
+import { ObrasCertificaciones } from '../components/obrasCertificaciones';
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -38,21 +41,31 @@ export default () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
-  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
-
-  const [redeterminacionFecha, setRedeterminacionFecha]  = useState('')
-
-  const [certificacionFecha, setCertificacionFecha] = useState('')
-
-  const [cecFechaInicio, setCecFechaInicio] = useState('')
-  const [cecFechaCierre, setCecFechaCierre] = useState('')
-
+  const [obra, setObra] = useState<DDJJObra>({
+    id:null,
+    datosObra:[],
+    ubicacionGeografica:[],
+    razonSocialUTE:'',
+    cuitUTE:'',
+    participacionUTE:'',
+    razonSocialComitente:'',
+    cuitComitente:'',
+    montoInicial:'',
+    redeterminaciones:[],
+    certificacionesVigentes:[],
+    certificacionesEjercicioCerrado:[],
+    plazoPorContrato:0,
+    prorroga:0,
+    transcurrido:0,
+    restante:0
+  })
 
   useEffect(() => {
     if (!tramite.cuit)
       router.push('/')
-  },[])
+  }, [])
 
 
   const save = async () => {
@@ -85,401 +98,213 @@ export default () => {
 
   const renderModalEjercicios = () => {
     return (<div>
-      <div className="grid grid-cols-4 gap-4 ">
-        <div className="pb-6" >
-          <InputTextModal
-            label="Codigo"
-            labelRequired="*"
-            value=""
-            labelMessageError=""
-            disabled />
 
-        </div>
-        <div className="pb-6" >
-          <SelectModal
-            title="Estado"
-            defaultOption="Tipo de Estado"
-            labelRequired="*"
-            labelMessageError=""
-            option={EstadoObra.map(u => (
-              <Option value={u.value}>{u.label}</Option>
+      <Tabs defaultActiveKey="datosGenerales" onChange={callback}>
+        <TabPane tab="Datos Generales" key="datosGenerales">
+          <ObrasDatosGenerales obra={obra} onChange={setObra} />
+        </TabPane>
+        <TabPane tab="Ubicacion Geografica" key="ubicacionGeografica">
+          <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
+            <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
+            <div className="grid grid-cols-4 gap-4 ">
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Pais"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
 
-            ))}
-          />
-        </div>
-        <div className="pb-6" >
-          <SelectModal
-            title="Tipo de Contratacion"
-            defaultOption="Tipo de contratacion"
-            labelRequired="*"
-            labelMessageError=""
-            option={TipoContratacion.map(u => (
-              <Option value={u.value}>{u.label}</Option>
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Provincia"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Localidad"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
 
-            ))}
-          />
-        </div>
-        <div className="pb-6" >
-          <SelectModal
-            title="Nivel"
-            defaultOption="Nivel"
-            labelRequired="*"
-            labelMessageError=""
-            option={TipoNivel.map(u => (
-              <Option value={u.value}>{u.label}</Option>
-
-            ))}
-          />
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-4 ">
-        <div className="pb-6" >
-          <InputTextModal
-            label="Denominacion"
-            labelRequired="*"
-            value=""
-            labelMessageError=""
-            disabled />
-
-        </div>
-        <div className="pb-6" >
-          <UploadLine
-            label="Adjunte Acta "
-            labelRequired="*"
-            labelMessageError=""
-          />
-        </div>
-        <div className="mt-6 ">
-          <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
-        </div>
-
-      </div>
-      <div className="mt-4">
-        <Table columns={columnsEstado} />
-      </div>
-      <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
-        <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
-        <div className="grid grid-cols-4 gap-4 ">
-          <div className="pb-6" >
-            <InputTextModal
-              label="Pais"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Departamento"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+            </div>
+            <div className="mt-6 text-center">
+              <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
+            </div>
+            <div className="mt-4 ">
+              <Tag closable onClose={log} color="#50B7B2">
+                Lomas de Zamora
+        </Tag>
+            </div>
 
           </div>
-          <div className="pb-6" >
-            <InputTextModal
-              label="Provincia"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-              />
-          </div>
-          <div className="pb-6" >
-            <InputTextModal
-              label="Localidad"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-               />
+        </TabPane>
+        <TabPane tab="Especialidades" key="especialidades">
+          <div className="mt-4 pt-6">
+            <div className="grid grid-cols-2 gap-4 ">
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Especialidades"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Subespecialidades"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Razón Social de la UTE"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4 ">
+                <div className="pb-6" >
+                  <InputTextModal
+                    label="CUIT de la UTE"
+                    labelRequired="*"
+                    value=""
+                    labelMessageError=""
+                  />
+                </div>
+                <div className="pb-6" >
+                  <InputTextModal
+                    label="% de participación"
+                    labelRequired="*"
+                    value=""
+                    labelMessageError=""
+                  />
+                </div>
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Razón Social Comitente"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4 ">
+                <div className="pb-6" >
+                  <InputTextModal
+                    label="CUIT comitente"
+                    labelRequired="*"
+                    value=""
+                    labelMessageError=""
+                  />
+                </div>
+                <div className="pb-6" >
+                  <InputTextModal
+                    type="number" step="any"
+                    label="Monto inicial del contrato"
 
-          </div>
-          <div className="pb-6" >
-            <InputTextModal
-              label="Departamento"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-               />
-          </div>
-        </div>
-        <div className="mt-6 text-center">
-          <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
-        </div>
-        <div className="mt-4 ">
-          <Tag closable onClose={log} color="#50B7B2">
-            Lomas de Zamora
-      </Tag>
-        </div>
-
-      </div>
-      <div className="mt-4 pt-6">
-        <div className="grid grid-cols-2 gap-4 ">
-          <div className="pb-6" >
-            <InputTextModal
-              label="Especialidades"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-          </div>
-          <div className="pb-6" >
-            <InputTextModal
-              label="Subespecialidades"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-          </div>
-          <div className="pb-6" >
-            <InputTextModal
-              label="Razón Social de la UTE"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-4 ">
+                    labelRequired="*"
+                    value=""
+                    labelMessageError=""
+                  />
+                </div>
+              </div>
+            </div>
             <div className="pb-6" >
-              <InputTextModal
-                label="CUIT de la UTE"
+              <Upload
+                label="Adjunte Contrato "
+                labelRequired="*"
+                labelMessageError=""
+              />
+            </div>
+          </div>
+
+        </TabPane>
+        <TabPane tab="Redeterminaciones" key="redeterminaciones">
+          <ObrasRedeterminaciones />
+        </TabPane>
+        <TabPane tab="Certificaciones Vigentes" key="certificaciones">
+          <ObrasCertificaciones />
+        </TabPane>
+        <TabPane tab="Certificaciones y Ej. Cerrados" key="certificacionesEjerciciosCerrados">
+          <ObrasCertificacionesCerradas />
+        </TabPane>
+        <TabPane tab="Plazos" key="plazos">
+          <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
+            <div className="text-xl font-bold py-2 w-3/4">  Plazos en meses</div>
+            <div className="grid grid-cols-4 gap-4 ">
+
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Por contrato"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Prórroga"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Transcurrido"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Restante"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+            </div>
+            <div className="pb-6" >
+              <Upload
+                label="Adjuntar Acta"
                 labelRequired="*"
                 value=""
                 labelMessageError=""
               />
             </div>
-            <div className="pb-6" >
-              <InputTextModal
-                label="% de participación"
-                labelRequired="*"
-                value=""
-                labelMessageError=""
-              />
-            </div>
           </div>
-          <div className="pb-6" >
-            <InputTextModal
-              label="Razón Social Comitente"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-4 ">
-            <div className="pb-6" >
-              <InputTextModal
-                label="CUIT comitente"
-                labelRequired="*"
-                value=""
-                labelMessageError=""
-              />
-            </div>
-            <div className="pb-6" >
-              <InputTextModal
-              type="number" step="any"
-                label="Monto inicial del contrato"
-                
-                labelRequired="*"
-                value=""
-                labelMessageError=""
-              />
-            </div>
-          </div>
-        </div>
-        <div className="pb-6" >
-          <Upload
-            label="Adjunte Contrato "
-            labelRequired="*"
-            labelMessageError=""
-          />
-        </div>
-      </div>
-
-
-
-      <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
-        <div className="text-xl font-bold py-2 w-3/4">  Redeterminaciones</div>
-        <div className="grid grid-cols-3 gap-4 ">
-          <div className="pb-6" >
-            <InputTextModal
-              label="Monto"
-              type="number" step="any"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-
-          </div>
-          <div className="pb-6" >
-            <DatePickerModal
-              label="Fecha"
-              value={redeterminacionFecha}
-              bindFunction={setRedeterminacionFecha}
-              labelRequired="*"
-              placeholder="Fecha de redeterminación"
-              labelMessageError=""
-               />
-          </div>
-
-          <div className="pb-6" >
-            <UploadLine
-              label="Adjunte Acta "
-              labelRequired="*"
-              labelMessageError=""
-            />
-          </div>
-        </div>
-        <div className="mt-6 text-center">
-          <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
-        </div>
-        <div className="mt-4 ">
-          {renderNoData()}
-        </div>
-
-      </div>
-
-      <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
-        <div className="text-xl font-bold py-2 w-3/4">  Certificaciones Vigentes</div>
-        <div className="grid grid-cols-2 gap-4 ">
-          <div className="pb-6" >
-            <InputTextModal
-            type="number" step="any"
-              label="Nro Certificación / Factura"
-              
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-          </div>
-          <div className="pb-6" >
-            <InputTextModal
-              label="Descripcion"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-          </div>
-          <div className="pb-6" >
-            <DatePickerModal
-              label="Fecha Certificacion"
-              labelRequired="*"
-              value={certificacionFecha}
-              bindFunction={setCertificacionFecha}
-              labelMessageError=""
-              />
-          </div>
-          <div className="pb-6" >
-            <InputTextModal
-            type="number" step="any"
-              label="Monto"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-
-          </div>
-
-          <div className="pb-6" >
-            <UploadLine
-              label="Adjunte Comprobante "
-              labelRequired="*"
-              labelMessageError=""
-            />
-          </div>
-        </div>
-        <div className="mt-6 text-center">
-          <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
-        </div>
-        <div className="mt-4 ">
-          {renderNoData()}
-        </div>
-
-      </div>
-
-      <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
-        <div className="text-xl font-bold py-2 w-3/4">  Certificaciones ejercicio cerrados</div>
-        <div className="grid grid-cols-2 gap-4 ">
-
-          <div className="pb-6" >
-            <DatePickerModal
-              label="Inicio"
-              labelRequired="*"
-              value={cecFechaInicio}
-              bindFunction={setCecFechaInicio}
-              labelMessageError=""
-              />
-          </div>
-          <div className="pb-6" >
-            <DatePickerModal
-              label="Fin"
-              labelRequired="*"
-              value={cecFechaCierre}
-              bindFunction={setCecFechaCierre}
-              labelMessageError=""
-              />
-
-          </div>
-          <div className="pb-6" >
-          <InputTextModal
-          type="number" step="any"
-            label="Montos certificados del ultimo balance"
-            labelRequired="*"
-            value=""
-            labelMessageError=""
-          />
-        </div>
-        <div className="mt-8 ">
-          <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
-        </div>
-
-        </div>
-        <div className="mt-4 ">
-          {renderNoData()}
-        </div>
-        
-      </div>
-
-
-      <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
-        <div className="text-xl font-bold py-2 w-3/4">  Plazos en meses</div>
-        <div className="grid grid-cols-4 gap-4 ">
-
-          <div className="pb-6" >
-            <InputTextModal
-              label="Por contrato"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-          </div>
-          <div className="pb-6" >
-            <InputTextModal
-              label="Prórroga"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-          </div>
-          <div className="pb-6" >
-            <InputTextModal
-              label="Transcurrido"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-          </div>
-          <div className="pb-6" >
-            <InputTextModal
-              label="Restante"
-              labelRequired="*"
-              value=""
-              labelMessageError=""
-            />
-          </div>
-        </div>
-        <div className="pb-6" >
-          <Upload
-            label="Adjuntar Acta"
-            labelRequired="*"
-            value=""
-            labelMessageError=""
-          />
-        </div>
-      </div>
+        </TabPane>
+      </Tabs>
     </div>)
   }
+
+  const eliminarObra = (r) => {
+    tramite.ejercicios = tramite.ejercicios.filter(e => ((e.fechaInicio !== r.fechaInicio) && (r.fechaCierre !== e.fechaCierre)))
+    setTramite(Object.assign({}, tramite))
+    save()
+  }
+
+
 
   const renderNoData = () => {
     return (<div>
@@ -502,13 +327,17 @@ export default () => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 py-4">
-      <NavigationStep generalStatus={statusGeneralTramite} current={3}  completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) } />
+      <NavigationStep generalStatus={statusGeneralTramite} current={3} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
     <div className="px-20 py-6 ">
       <div className="flex  content-center  ">
         <div className="text-2xl font-bold py-4 w-3/4">  Declaración jurada de Obras</div>
         <div className=" w-1/4 text-right content-center mt-4 ">
-          <Button type="primary" onClick={() => setModalObras(true)} icon={<PlusOutlined />}> Agregar</Button>
+          <Button type="primary" onClick={() => {
+            obra.id = getCodigoObra()
+            setObra(Object.assign({},obra))
+            setModalObras(true)
+          }} icon={<PlusOutlined />}> Agregar</Button>
         </div>
       </div>
       <div>
@@ -552,102 +381,3 @@ export default () => {
 
 
 
-
-const columnsEstado = [
-  {
-    title: 'Codigo',
-    dataIndex: 'codigo',
-    key: 'codigo',
-  },
-  {
-    title: 'Estado',
-    dataIndex: 'estado',
-    key: 'estado',
-  },
-  {
-    title: 'Tipo de Contratacion',
-    dataIndex: 'tipo_contratacion',
-    key: 'tipo_contratacion',
-  },
-  {
-    title: 'Nivel',
-    dataIndex: 'nivel',
-    key: 'nivel',
-  },
-  {
-    title: 'Denominacion',
-    dataIndex: 'denominacion',
-    key: 'denominacion',
-  },
-  {
-    title: 'Adjunto',
-    dataIndex: 'adjunto',
-    key: 'adjunto',
-  }
-
-
-];
-
-const EstadoObra = [
-  {
-    label: 'Preadjudicada',
-    value: 'Preadjudicada',
-  },
-  {
-    label: 'Ejecución',
-    value: 'Ejecucion',
-  },
-  {
-    label: 'Finalizada',
-    value: 'Finalizada',
-  },
-  {
-    label: 'Suspendida ',
-    value: 'Suspendida',
-  },
-  {
-    label: 'Adjudicada ',
-    value: 'Adjudicada',
-  },
-  {
-    label: 'Anulada ',
-    value: 'Anulada',
-  },
-];
-
-const TipoContratacion = [
-  {
-    label: 'Pública',
-    value: 'Publica',
-  },
-  {
-    label: 'Privada',
-    value: 'Privada',
-  },
-  {
-    label: 'Subcontratación pública',
-    value: 'SubPublica',
-  },
-  {
-    label: 'Subcontratación privada ',
-    value: 'SubPrivada',
-  }
-];
-const TipoNivel = [
-  {
-    label: 'Municipal',
-    value: 'Municipal',
-  },
-  {
-    label: 'Provincial',
-    value: 'Provincial',
-  },
-  {
-    label: 'Nacional',
-    value: 'Nacional',
-  },
-  {
-    label: 'Privado ',
-    value: 'Privado',
-  }
-]

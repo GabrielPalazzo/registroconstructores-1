@@ -9,7 +9,7 @@ services:
       target: development
     restart: always
     ports:
-      - 3000:3000
+      - 8080:3000
     networks:
       registroconstructores-network:
         aliases:
@@ -20,6 +20,9 @@ services:
         max-size: "50m"
         max-file: "3"
   backoffice:
+    environment:
+      - DB_URI=mongodb://mongo:27017/registroconstructores
+      - JWT_SECRET=registroconstructores-secret-shhhhhh
     build:
       context: ./backoffice
       target: development
@@ -61,3 +64,6 @@ volumes:
 networks:
   registroconstructores-network:
     driver: bridge
+    ipam:
+    config:
+        - subnet: 172.24.0.0/16

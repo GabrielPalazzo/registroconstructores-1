@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getEmptyTramiteAlta } from '../services/business'
+import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import UploadLine from './uploadLine'
-import { Button, Select, Table, Alert } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button, Select, Table, Alert, Space } from 'antd';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 
 const { Option } = Select;
 export interface ObrasDatosGeneralesProps {
-
+  obra: DDJJObra
+  onChange: Function
 }
 
 export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
-
+  obra=null,
+  onChange = () => null
 }) => {
-	/*const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
-	const [codigo, setCodigo] = useState('')
+	const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
+	const [codigo, setCodigo] = useState(getCodigoObra())
 	const [estado, setEstado] = useState('')
 	const [tipoContratacion, settipoContratacion] = useState('')
 	const [nivel, setNivel] = useState('')
@@ -31,6 +33,134 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 	useEffect(() => {
 
 	}, [])
+
+	const eliminarDatos = (r: DatosObraGeneral) => {
+		setDataSource(dataSource.filter((d: DatosObraGeneral) => r.codigo !== d.codigo))
+	}
+
+
+	const columnsEstado = [
+		{
+			title: 'Action',
+			key: 'action',
+			render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
+
+			</Space>),
+		},
+		{
+			title: 'Codigo',
+			dataIndex: 'codigo',
+			key: 'codigo',
+		},
+		{
+			title: 'Estado',
+			dataIndex: 'estado',
+			key: 'estado',
+		},
+		{
+			title: 'Tipo de Contratacion',
+			dataIndex: 'tipoContratacion',
+			key: 'tipoContratacion',
+		},
+		{
+			title: 'Nivel',
+			dataIndex: 'nivel',
+			key: 'nivel',
+		},
+		{
+			title: 'Denominacion',
+			dataIndex: 'denominacion',
+			key: 'denominacion',
+		},
+		{
+			title: 'fecha Adjudicacion',
+			dataIndex: 'fechaAdjudicacion',
+			key: 'fechaAdjudicacion'
+		},
+		{
+			title: 'fecha Inicio',
+			dataIndex: 'fechaInicio',
+			key: 'fechaInicio'
+		},
+		{
+			title: 'fecha Fin',
+			dataIndex: 'fechaFin',
+			key: 'fechaFin'
+		},
+
+		{
+			title: 'Adjunto',
+			dataIndex: 'adjunto',
+			key: 'adjunto',
+		}
+
+
+	];
+
+	const EstadoObra = [
+		{
+			label: 'Preadjudicada',
+			value: 'Preadjudicada',
+		},
+		{
+			label: 'Ejecución',
+			value: 'Ejecucion',
+		},
+		{
+			label: 'Finalizada',
+			value: 'Finalizada',
+		},
+		{
+			label: 'Suspendida ',
+			value: 'Suspendida',
+		},
+		{
+			label: 'Adjudicada ',
+			value: 'Adjudicada',
+		},
+		{
+			label: 'Anulada ',
+			value: 'Anulada',
+		},
+	];
+
+	const TipoContratacion = [
+		{
+			label: 'Pública',
+			value: 'Publica',
+		},
+		{
+			label: 'Privada',
+			value: 'Privada',
+		},
+		{
+			label: 'Subcontratación pública',
+			value: 'SubPublica',
+		},
+		{
+			label: 'Subcontratación privada ',
+			value: 'SubPrivada',
+		}
+	];
+	const TipoNivel = [
+		{
+			label: 'Municipal',
+			value: 'Municipal',
+		},
+		{
+			label: 'Provincial',
+			value: 'Provincial',
+		},
+		{
+			label: 'Nacional',
+			value: 'Nacional',
+		},
+		{
+			label: 'Privado ',
+			value: 'Privado',
+		}
+	]
+
 	const add = () => {
 
 		if ((estado === 'Anulada' || estado === 'Finalizada' || estado === 'Suspendida') && (!fechaFin)) {
@@ -69,9 +199,23 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 			return
 		}
 
+		setCodigo(getCodigoObra())
+		setEstado("")
+		settipoContratacion("")
+		setNivel("")
+		setDenominacion("")
+		setfechaAdjudicacion("")
+		setfechaFin("")
+		setfechaInicio("")
+		setError('')
+		setShowError(false)
+
 
 		dataSource.push({ tipoContratacion, nivel, codigo, estado, denominacion, fechaFin, fechaInicio, fechaAdjudicacion })
-		setDataSource(Object.assign([], dataSource))
+    setDataSource(Object.assign([], dataSource))
+    obra.datosObra=obra.datosObra.filter( (o:DatosObraGeneral) => o.codigo!==codigo)
+    obra.datosObra = Object.assign({},dataSource)
+
 	}
 	return <div>
 		{showError ? <div className="mb-4">
@@ -91,9 +235,9 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 					label="Codigo"
 					labelRequired="*"
 					value={codigo}
-					bindFunction={(value) => { setCodigo(value) }}
+					bindFunction={(value) => null}
 					labelMessageError=""
-					disabled />
+					disabled={true} />
 
 			</div>
 			<div className="pb-6" >
@@ -103,7 +247,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 					labelRequired="*"
 					labelMessageError=""
 					value={estado}
-					bindFunction={(value) => { setEstado(value) }}
+					bindFunction={(value) => setEstado(value)}
 					option={EstadoObra.map(u => (
 						<Option value={u.value}>{u.label}</Option>
 
@@ -209,117 +353,3 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 	</div>
 }
 
-const columnsEstado = [
-	{
-		title: 'Codigo',
-		dataIndex: 'codigo',
-		key: 'codigo',
-	},
-	{
-		title: 'Estado',
-		dataIndex: 'estado',
-		key: 'estado',
-	},
-	{
-		title: 'Tipo de Contratacion',
-		dataIndex: 'tipoContratacion',
-		key: 'tipoContratacion',
-	},
-	{
-		title: 'Nivel',
-		dataIndex: 'nivel',
-		key: 'nivel',
-	},
-	{
-		title: 'Denominacion',
-		dataIndex: 'denominacion',
-		key: 'denominacion',
-	},
-	{
-		title: 'fecha Adjudicacion',
-		dataIndex: 'fechaAdjudicacion',
-		key: 'fechaAdjudicacion'
-	},
-	{
-		title: 'fecha Inicio',
-		dataIndex: 'fechaInicio',
-		key: 'fechaInicio'
-	},
-	{
-		title: 'fecha Fin',
-		dataIndex: 'fechaFin',
-		key: 'fechaFin'
-	},
-
-	{
-		title: 'Adjunto',
-		dataIndex: 'adjunto',
-		key: 'adjunto',
-	}
-
-
-];
-
-const EstadoObra = [
-	{
-		label: 'Preadjudicada',
-		value: 'Preadjudicada',
-	},
-	{
-		label: 'Ejecución',
-		value: 'Ejecucion',
-	},
-	{
-		label: 'Finalizada',
-		value: 'Finalizada',
-	},
-	{
-		label: 'Suspendida ',
-		value: 'Suspendida',
-	},
-	{
-		label: 'Adjudicada ',
-		value: 'Adjudicada',
-	},
-	{
-		label: 'Anulada ',
-		value: 'Anulada',
-	},
-];
-
-const TipoContratacion = [
-	{
-		label: 'Pública',
-		value: 'Publica',
-	},
-	{
-		label: 'Privada',
-		value: 'Privada',
-	},
-	{
-		label: 'Subcontratación pública',
-		value: 'SubPublica',
-	},
-	{
-		label: 'Subcontratación privada ',
-		value: 'SubPrivada',
-	}
-];
-const TipoNivel = [
-	{
-		label: 'Municipal',
-		value: 'Municipal',
-	},
-	{
-		label: 'Provincial',
-		value: 'Provincial',
-	},
-	{
-		label: 'Nacional',
-		value: 'Nacional',
-	},
-	{
-		label: 'Privado ',
-		value: 'Privado',
-	}
-]

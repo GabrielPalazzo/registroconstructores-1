@@ -2,6 +2,7 @@ import axios from 'axios'
 import * as jwt from "jsonwebtoken"
 import Tramite from '../data/models/Tramite'
 import _ from 'lodash'
+import { customAlphabet } from 'nanoid'
 
 export const getToken = () => {
   return localStorage.getItem('token') ? localStorage.getItem('token')  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNlYmEgQnJvbWJlcmciLCJpYXQiOjE1MTYyMzkwMjJ9.vM1mo49C9FazAkIbDe2UnUXQY7Qfkm3IC4eDpVFLviM' 
@@ -250,4 +251,9 @@ export const allowGuardar = (tramite:TramiteAlta) => {
 
   
   return false
+}
+
+export const getCodigoObra = () => {
+  const nanoid = customAlphabet('1234567890abcdef', 10)
+  return nanoid().toUpperCase()
 }
