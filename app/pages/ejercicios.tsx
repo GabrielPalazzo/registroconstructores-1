@@ -118,6 +118,7 @@ export default () => {
             type="number" step="any"
             label="Activo Corriente"
             labelRequired="*"
+            min={0}
             placeholder="000000,000 "
             value={activoCorriente}
             bindFunction={(val) => setActivoCorriente(parseInt(val, 10))}
@@ -132,6 +133,7 @@ export default () => {
             type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
+            min={0}
             value={activoNoCorriente}
             bindFunction={(val) => setActivoNoCorriente(parseInt(val, 10))}
             labelMessageError=""
@@ -144,6 +146,7 @@ export default () => {
             label="Activo Total"
             placeholder="000000,000 "
             value={activoCorriente + activoNoCorriente}
+            bindFunction={() => null}
             labelMessageError=""
             disabled={true} />
 
@@ -153,6 +156,7 @@ export default () => {
             label="Pasivo Corriente"
             type="number" step="any"
             labelRequired="*"
+            min={0}
             placeholder="000000,000 "
             value={pasivoCorriente}
             bindFunction={(val) => setPasivoCorriente(parseInt(val, 10))}
@@ -168,6 +172,7 @@ export default () => {
             labelRequired="*"
             placeholder="000000,000 "
             value={pasivoNoCorriente}
+            min={0}
             bindFunction={(val) => setPasivoNoCorriente(parseInt(val, 10))}
             labelMessageError=""
             required />
@@ -178,6 +183,7 @@ export default () => {
             label="Pasivo Total"
             type="number" step="any"
             placeholder="000000,000 "
+            bindFunction={()=>null}
             value={pasivoNoCorriente + pasivoCorriente}
             labelMessageError=""
             disabled />
@@ -188,6 +194,7 @@ export default () => {
             label="Ventas del ejercicio"
             type="number" step="any"
             labelRequired="*"
+            min={0}
             placeholder="000000,000 "
             value={ventasDelEjercicio}
             bindFunction={setVentasDelEjercicio}
@@ -202,6 +209,7 @@ export default () => {
             type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
+            min={0}
             value={capitalSuscripto}
             bindFunction={setCapitalSuscripto}
             labelMessageError=""
@@ -212,6 +220,7 @@ export default () => {
           <InputTextModal
             label="Patrimonio Neto"
             placeholder="000000,000 "
+            min={0}
             value={(activoNoCorriente + activoCorriente) - (pasivoCorriente + pasivoNoCorriente)}
             labelMessageError=""
             disabled />
@@ -331,6 +340,21 @@ export default () => {
 
     if (isPersonaFisica(tramite) && (cierreEjercicio.split('/')[0] !=='31' && cierreEjercicio.split('/')[1] !=='12')){
       setError("La fecha de cierre para personas físicas debe ser 31/12/AAAA")
+      return
+    }
+
+    if (capitalSuscripto===0){
+      setError(isPersonaFisica(tramite) ? 'El rubro Caja/Bancos no puede ser 0' : 'El capital suscripto no puede ser 0')
+      return
+    }
+
+    if ((activoCorriente + activoNoCorriente) ===0){
+      setError('El activo no puede ser 0')
+      return
+    }
+
+    if ((pasivoCorriente + pasivoNoCorriente) ===0){
+      setError('El pasivo no puede ser 0')
       return
     }
 
