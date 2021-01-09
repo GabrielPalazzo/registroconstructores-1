@@ -79,9 +79,7 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
     return tramite.asignadoA!==null
   }
 
-  
 
-  console.log(showComponente(),isLocked())
   return <div>
     {showComponente() ? !isLocked() ? <UnLocked />: <Locked />: ''}
   </div>

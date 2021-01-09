@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora } from '../services/business';
 import { saveTramite, setTramiteView } from '../redux/actions/main'
+import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -59,10 +60,10 @@ export default () => {
 
     setIsLoading(true)
     if (tramite._id) {
-      await dispatch(saveTramite(tramite))
+      await dispatch(saveTramite(Object.assign({},tramite)))
     } else {
       if (!(await getTramiteByCUIT(tramite.cuit)))
-        await dispatch(saveTramite(tramite))
+        await dispatch(saveTramite(Object.assign({},tramite)))
     }
   }
 
@@ -290,6 +291,7 @@ export default () => {
   const eliminarEjercicio = (r) => {
     tramite.ejercicios = tramite.ejercicios.filter(e => ((e.fechaInicio !== r.fechaInicio) && (r.fechaCierre !== e.fechaCierre)))
     setTramite(Object.assign({}, tramite))
+    save()
   }
 
   const agregarEjercicio = (e) => {
@@ -306,9 +308,12 @@ export default () => {
       capitalSuscripto,
       ventasEjercicio: ventasDelEjercicio
     })
+    setTramite(Object.assign({},tramite))
     save()
     setModalEjercicios(false)
   }
+
+  console.log(tramite)
 
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
@@ -343,9 +348,7 @@ export default () => {
       <Modal
         title="Nuevo Ejercicio"
         visible={modalEjercicios}
-        onOk={() => {
-
-        }}
+        onOk={agregarEjercicio}
         okText="Guardar"
         onCancel={() => setModalEjercicios(false)}
         cancelText="Cancelar"
