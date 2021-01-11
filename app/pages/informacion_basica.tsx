@@ -443,7 +443,7 @@ export default () => {
     <div className="border-gray-200 border-b-2">
       <NavigationStep
         generalStatus={statusGeneralTramite}
-        completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)}
+        completaBalanceYObras={isConstructora(tramite)}
         current={0} />
     </div>
 
