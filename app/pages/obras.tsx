@@ -22,6 +22,7 @@ import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
 import { ObrasCertificacionesCerradas } from '../components/obrasCertificacionesCerradas';
 import { ObrasCertificaciones } from '../components/obrasCertificaciones';
+import {ObrasAmpliaciones} from '../components/obrasAmpliaciones'
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -262,6 +263,9 @@ export default () => {
             </div>
           </div>
 
+        </TabPane>
+        <TabPane tab="Ampliaciones" key="ampliaciones">
+          <ObrasAmpliaciones />
         </TabPane>
         <TabPane tab="Redeterminaciones" key="redeterminaciones">
           <ObrasRedeterminaciones />
