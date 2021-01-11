@@ -9,11 +9,13 @@ services:
       target: development
     restart: always
     ports:
-      - 8080:3000
+      - 3000:3000
     networks:
       registroconstructores-network:
         aliases:
           - app
+    depends_on:
+      - backoffice
     logging:
       driver: json-file
       options:
@@ -40,7 +42,16 @@ services:
       options:
         max-size: "50m"
         max-file: "3"
-
+  nginx: 
+    build: ./nginx
+    ports:
+      - 8080:80
+    networks:
+      registroconstructores-network:
+        aliases:
+          - nginx
+    depends_on:
+      - web
   mongo:
     image: mongo:4.2.5
     networks:
@@ -65,5 +76,5 @@ networks:
   registroconstructores-network:
     driver: bridge
     ipam:
-    config:
+      config:
         - subnet: 172.24.0.0/16
