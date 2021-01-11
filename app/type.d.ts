@@ -40,11 +40,10 @@ type UbicacionGeografica ={
   slug: string
 }
 type DatosObraGeneral = {
-  codigo: string
   estado: string
+  codigo: string
   tipoContratacion:string
   nivel:string
-  denominacion:string
   fechaAdjudicacion:string
   fechaInicio:string
   fechaFin:string
@@ -72,6 +71,7 @@ type CertificacionesCerradas={
 
 type DDJJObra ={
   id: string
+  denominacion:string
   datosObra:Array<DatosObraGeneral>
   ubicacionGeografica:Array<UbicacionGeografica>
   razonSocialUTE:string

@@ -7,7 +7,7 @@ import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
 import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined , EditOutlined} from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
@@ -44,22 +44,23 @@ export default () => {
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   const [obra, setObra] = useState<DDJJObra>({
-    id:null,
-    datosObra:[],
-    ubicacionGeografica:[],
-    razonSocialUTE:'',
-    cuitUTE:'',
-    participacionUTE:'',
-    razonSocialComitente:'',
-    cuitComitente:'',
-    montoInicial:'',
-    redeterminaciones:[],
-    certificacionesVigentes:[],
-    certificacionesEjercicioCerrado:[],
-    plazoPorContrato:0,
-    prorroga:0,
-    transcurrido:0,
-    restante:0
+    id: null,
+    denominacion: '',
+    datosObra: [],
+    ubicacionGeografica: [],
+    razonSocialUTE: '',
+    cuitUTE: '',
+    participacionUTE: '',
+    razonSocialComitente: '',
+    cuitComitente: '',
+    montoInicial: '',
+    redeterminaciones: [],
+    certificacionesVigentes: [],
+    certificacionesEjercicioCerrado: [],
+    plazoPorContrato: 0,
+    prorroga: 0,
+    transcurrido: 0,
+    restante: 0
   })
 
   useEffect(() => {
@@ -151,58 +152,6 @@ export default () => {
 
           </div>
         </TabPane>
-        
-{/*     <TabPane tab="Ubicacion Geografica" key="ubicacionGeografica">
-          <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
-            <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
-            <div className="grid grid-cols-4 gap-4 ">
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Pais"
-                  labelRequired="*"
-                  value=""
-                  labelMessageError=""
-                />
-
-              </div>
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Provincia"
-                  labelRequired="*"
-                  value=""
-                  labelMessageError=""
-                />
-              </div>
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Localidad"
-                  labelRequired="*"
-                  value=""
-                  labelMessageError=""
-                />
-
-              </div>
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Departamento"
-                  labelRequired="*"
-                  value=""
-                  labelMessageError=""
-                />
-              </div>
-            </div>
-            <div className="mt-6 text-center">
-              <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
-            </div>
-            <div className="mt-4 ">
-              <Tag closable onClose={log} color="#50B7B2">
-                Lomas de Zamora
-        </Tag>
-            </div>
-
-          </div>
-        </TabPane>
-         */}   
         <TabPane tab="Datos Iniciales" key="especialidades">
           <div className="mt-4 pt-6">
             <div className="grid grid-cols-2 gap-4 ">
@@ -348,11 +297,45 @@ export default () => {
     </div>)
   }
 
-  const eliminarObra = (r) => {
-    tramite.ejercicios = tramite.ejercicios.filter(e => ((e.fechaInicio !== r.fechaInicio) && (r.fechaCierre !== e.fechaCierre)))
+  const eliminarObra = (obra: DDJJObra) => {
+    // tramite.ejercicios = tramite.ejercicios.filter(e => ((e.fechaInicio !== r.fechaInicio) && (r.fechaCierre !== e.fechaCierre)))
+    tramite.ddjjObras = tramite.ddjjObras.filter( (o:DDJJObra) => o.id!== obra.id)
     setTramite(Object.assign({}, tramite))
     save()
   }
+
+
+
+  const editarObrar = (obra: DDJJObra) => {
+    setObra(tramite.ddjjObras.filter((o:DDJJObra) => o.id===obra.id)[0])
+    setModalObras(true)
+  }
+
+  const columns = [
+    {
+      title: 'Eliminar',
+      key: 'action',
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarObra(record)}><DeleteOutlined /></div> : <Space size="middle">
+      </Space>),
+    },
+    {
+      title: 'Editar',
+      key: 'editar',
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarObra(record)}><EditOutlined /></div> : <Space size="middle">
+      </Space>),
+    },
+
+    {
+      title: 'codigo',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: 'Denominación',
+      dataIndex: 'denominacion',
+      key: 'denominacion',
+    }
+  ]
 
 
 
@@ -371,6 +354,13 @@ export default () => {
     </div>)
   }
 
+  const saveObra = async () => {
+    tramite.ddjjObras = tramite.ddjjObras.filter((o: DDJJObra) => o.id !== obra.id)
+    tramite.ddjjObras.push(obra)
+    await save()
+    setModalObras(false)
+  }
+
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
@@ -385,7 +375,7 @@ export default () => {
         <div className=" w-1/4 text-right content-center mt-4 ">
           <Button type="primary" onClick={() => {
             obra.id = getCodigoObra()
-            setObra(Object.assign({},obra))
+            setObra(Object.assign({}, obra))
             setModalObras(true)
           }} icon={<PlusOutlined />}> Agregar</Button>
         </div>
@@ -394,7 +384,7 @@ export default () => {
         <Tabs defaultActiveKey="1" onChange={callback} >
           <TabPane tab="Obras" key="1">
             <div className="overflow-x-auto" >
-              {renderNoData()}
+              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
@@ -404,9 +394,9 @@ export default () => {
       </div>
 
       <Modal
-        title="Datos de la obra"
+        title={`Datos de la obra ${obra.id}`}
         visible={modalObras}
-        onOk={() => console.log('')}
+        onOk={saveObra}
         okText="Guardar"
         onCancel={() => setModalObras(false)}
         cancelText="Cancelar"
