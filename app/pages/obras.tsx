@@ -100,10 +100,8 @@ export default () => {
     return (<div>
 
       <Tabs defaultActiveKey="datosGenerales" onChange={callback}>
-        <TabPane tab="Datos Generales" key="datosGenerales">
+        <TabPane tab="General" key="datosGenerales">
           <ObrasDatosGenerales obra={obra} onChange={setObra} />
-        </TabPane>
-        <TabPane tab="Ubicacion Geografica" key="ubicacionGeografica">
           <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
             <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
             <div className="grid grid-cols-4 gap-4 ">
@@ -153,7 +151,59 @@ export default () => {
 
           </div>
         </TabPane>
-        <TabPane tab="Especialidades" key="especialidades">
+        
+{/*     <TabPane tab="Ubicacion Geografica" key="ubicacionGeografica">
+          <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
+            <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
+            <div className="grid grid-cols-4 gap-4 ">
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Pais"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Provincia"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Localidad"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+
+              </div>
+              <div className="pb-6" >
+                <InputTextModal
+                  label="Departamento"
+                  labelRequired="*"
+                  value=""
+                  labelMessageError=""
+                />
+              </div>
+            </div>
+            <div className="mt-6 text-center">
+              <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
+            </div>
+            <div className="mt-4 ">
+              <Tag closable onClose={log} color="#50B7B2">
+                Lomas de Zamora
+        </Tag>
+            </div>
+
+          </div>
+        </TabPane>
+         */}   
+        <TabPane tab="Datos Iniciales" key="especialidades">
           <div className="mt-4 pt-6">
             <div className="grid grid-cols-2 gap-4 ">
               <div className="pb-6" >
@@ -175,7 +225,7 @@ export default () => {
               <div className="pb-6" >
                 <InputTextModal
                   label="Razón Social de la UTE"
-                  labelRequired="*"
+                  labelRequired=""
                   value=""
                   labelMessageError=""
                 />
@@ -184,7 +234,7 @@ export default () => {
                 <div className="pb-6" >
                   <InputTextModal
                     label="CUIT de la UTE"
-                    labelRequired="*"
+                    labelRequired=""
                     value=""
                     labelMessageError=""
                   />
@@ -192,7 +242,7 @@ export default () => {
                 <div className="pb-6" >
                   <InputTextModal
                     label="% de participación"
-                    labelRequired="*"
+                    labelRequired=""
                     value=""
                     labelMessageError=""
                   />
@@ -240,10 +290,10 @@ export default () => {
         <TabPane tab="Redeterminaciones" key="redeterminaciones">
           <ObrasRedeterminaciones />
         </TabPane>
-        <TabPane tab="Certificaciones Vigentes" key="certificaciones">
+        <TabPane tab="Certificaciones del Ejercicio Vigente" key="certificaciones">
           <ObrasCertificaciones />
         </TabPane>
-        <TabPane tab="Certificaciones y Ej. Cerrados" key="certificacionesEjerciciosCerrados">
+        <TabPane tab="Certificaciones de Ejercicios Cerrados" key="certificacionesEjerciciosCerrados">
           <ObrasCertificacionesCerradas />
         </TabPane>
         <TabPane tab="Plazos" key="plazos">
@@ -360,7 +410,7 @@ export default () => {
         okText="Guardar"
         onCancel={() => setModalObras(false)}
         cancelText="Cancelar"
-        width={1000}
+        width={1200}
       >
         {renderModalEjercicios()}
       </Modal>
