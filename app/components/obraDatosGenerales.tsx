@@ -134,11 +134,11 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 			value: 'Privada',
 		},
 		{
-			label: 'Subcontratación público',
+			label: 'Subcontrato público',
 			value: 'SubPublica',
 		},
 		{
-			label: 'Subcontratación privado ',
+			label: 'Subcontrato privado ',
 			value: 'SubPrivada',
 		}
 	];

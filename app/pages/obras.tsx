@@ -107,38 +107,14 @@ export default () => {
             <div className="grid grid-cols-4 gap-4 ">
               <div className="pb-6" >
                 <InputTextModal
-                  label="Pais"
+                  label="Ubicacion"
                   labelRequired="*"
                   value=""
                   labelMessageError=""
                 />
 
               </div>
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Provincia"
-                  labelRequired="*"
-                  value=""
-                  labelMessageError=""
-                />
-              </div>
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Localidad"
-                  labelRequired="*"
-                  value=""
-                  labelMessageError=""
-                />
-
-              </div>
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Departamento"
-                  labelRequired="*"
-                  value=""
-                  labelMessageError=""
-                />
-              </div>
+              
             </div>
             <div className="mt-6 text-center">
               <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
