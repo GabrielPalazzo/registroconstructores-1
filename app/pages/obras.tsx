@@ -22,6 +22,7 @@ import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
 import { ObrasCertificacionesCerradas } from '../components/obrasCertificacionesCerradas';
 import { ObrasCertificaciones } from '../components/obrasCertificaciones';
+import {ObrasAmpliaciones} from '../components/obrasAmpliaciones'
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -108,38 +109,14 @@ export default () => {
             <div className="grid grid-cols-4 gap-4 ">
               <div className="pb-6" >
                 <InputTextModal
-                  label="Pais"
+                  label="Ubicacion"
                   labelRequired="*"
                   value=""
                   labelMessageError=""
                 />
 
               </div>
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Provincia"
-                  labelRequired="*"
-                  value=""
-                  labelMessageError=""
-                />
-              </div>
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Localidad"
-                  labelRequired="*"
-                  value=""
-                  labelMessageError=""
-                />
-
-              </div>
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Departamento"
-                  labelRequired="*"
-                  value=""
-                  labelMessageError=""
-                />
-              </div>
+              
             </div>
             <div className="mt-6 text-center">
               <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
@@ -235,6 +212,9 @@ export default () => {
             </div>
           </div>
 
+        </TabPane>
+        <TabPane tab="Ampliaciones" key="ampliaciones">
+          <ObrasAmpliaciones />
         </TabPane>
         <TabPane tab="Redeterminaciones" key="redeterminaciones">
           <ObrasRedeterminaciones />

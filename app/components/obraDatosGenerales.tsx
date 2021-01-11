@@ -14,6 +14,9 @@ export interface ObrasDatosGeneralesProps {
   onChange: Function
 }
 
+
+
+
 export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   obra = null,
   onChange = () => null
@@ -38,13 +41,12 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     setDataSource(dataSource.filter((d: DatosObraGeneral) => r.codigo !== d.codigo))
   }
 
-
   const columnsEstado = [
     {
       title: 'Action',
       key: 'action',
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
-
+  
       </Space>),
     },
     {
@@ -77,16 +79,16 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       dataIndex: 'fechaFin',
       key: 'fechaFin'
     },
-
+  
     {
       title: 'Adjunto',
       dataIndex: 'adjunto',
       key: 'adjunto',
     }
-
-
+  
+  
   ];
-
+  
   const EstadoObra = [
     {
       label: 'Pre Adjudicada',
@@ -113,7 +115,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       value: 'Anulada',
     },
   ];
-
+  
   const TipoContratacion = [
     {
       label: 'Público',
@@ -124,11 +126,11 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       value: 'Privada',
     },
     {
-      label: 'Subcontratación público',
+      label: 'Subcontrato público',
       value: 'SubPublica',
     },
     {
-      label: 'Subcontratación privado ',
+      label: 'Subcontrato privado ',
       value: 'SubPrivada',
     }
   ];
@@ -138,19 +140,13 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       value: 'Nacional',
     },
     {
-      label: 'Provincial',
-      value: 'Provincial',
+      label: 'Anulada ',
+      value: 'Anulada',
     },
-    {
-      label: 'Municipal',
-      value: 'Municipal',
-    },
-    {
-      label: 'Privado ',
-      value: 'Privado',
-    }
-  ]
-
+  ];
+  
+ 
+ 
   const add = () => {
 
     if ((estado === 'Anulada' || estado === 'Finalizada' || estado === 'Suspendida') && (!fechaFin)) {
