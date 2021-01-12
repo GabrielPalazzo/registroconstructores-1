@@ -26,6 +26,9 @@ html, body, #__next {
     background:#0072BB !important;
     font-family:'Encode Sans', sans-serif !important;
 }
+.ant-drawer-body{
+    font-family:'Encode Sans', sans-serif !important;
+}
 
 
 .ant-btn{
