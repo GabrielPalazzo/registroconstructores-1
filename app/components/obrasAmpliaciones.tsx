@@ -52,10 +52,11 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         afterClose={() => setShowError(false)}
       /></div> : ''}
     <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
+      
+      <div className="text-xl font-bold py-2 w-3/4">  Ampliaciones</div>
       <div className="mb-4">
         <Alert message="En esta sección podrá cargar ampliaciones de contrato, adendas, economías, reducciones contractuales, etc." type="info" />
       </div>
-      <div className="text-xl font-bold py-2 w-3/4">  Ampliaciones</div>
       <div className="grid grid-cols-3 gap-4 ">
         <div className="pb-6" >
           <InputTextModal
