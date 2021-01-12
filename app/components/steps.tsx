@@ -247,7 +247,14 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
       {`
       .ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item{
         padding-bottom:14px;
-      }`}
+      }
+      .ant-steps-item::after{
+        display:none !important;
+      }
+      .ant-steps-item-icon, .ant-steps-item-content{
+        margin-right:20px
+      }
+      `}
     </style>
   </div>
 }
