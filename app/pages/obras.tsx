@@ -139,7 +139,7 @@ export default () => {
           </div>
         </TabPane>
         <TabPane tab="Datos Iniciales" key="especialidades">
-          <div className="mt-4 pt-6">
+          <div className="mt-4 pt-2">
             <div className="grid grid-cols-2 gap-4 ">
               <div className="pb-6" >
                 <InputTextModal
