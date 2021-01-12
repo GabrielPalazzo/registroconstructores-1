@@ -170,6 +170,15 @@ export const isConstructora = (tramite: TramiteAlta) : boolean => {
   return tramite.tipoEmpresa.filter(te => te === 'CONSTRUCTORA').length === 1
 }
 
+export const requiereBalance = (tramite: TramiteAlta) : boolean => {
+  if (tramite.personeria==='UTE') return false 
+  return true
+} 
+
+export const requiereObras = (tramite:TramiteAlta) : boolean => {
+  if (tramite.personeria==='UTE') return false 
+  return true
+}
 
 export const isPersonaFisica = (tramite: TramiteAlta) : boolean=> {
   return tramite.personeria ==='PF'

@@ -279,6 +279,7 @@ export default () => {
                 <InputTextModal
                   label="Por contrato"
                   labelRequired="*"
+                  type="number"
                   value={obra.plazoPorContrato}
                   bindFunction={e => {
                     obra.plazoPorContrato = e
@@ -309,7 +310,7 @@ export default () => {
                   min={0}
                   value={obra.transcurrido}
                   bindFunction={e => {
-                    obra.transcurrido = e
+                    obra.transcurrido =e
                     setObra(Object.assign({}, obra))
                   }}
                   labelMessageError=""
@@ -319,13 +320,11 @@ export default () => {
                 <InputTextModal
                   label="Restante"
                   type="number"
+                  disabled={true}
                   min={0}
                   labelRequired="*"
-                  value={obra.restante}
-                  bindFunction={e => {
-                    obra.restante = e
-                    setObra(Object.assign({}, obra))
-                  }}
+                  value={(obra.plazoPorContrato + obra.prorroga) -obra.transcurrido }
+                  bindFunction={e => null}
                   labelMessageError=""
                 />
               </div>
