@@ -8,7 +8,7 @@ export default () => {
 
   return <div className="bg-indigo-500  text-center text-white h-screen mtop">
     
-    <div className="w-2/6 border border-indigo-700 m-auto px-10 py-12 rounded-xl">
+    <div className="w-3/6 border border-indigo-700 m-auto px-10 py-12 rounded-xl">
     <div className="m-auto text-center w-1/6 pb-4"><IconConstructor/></div>
       <div className="text-3xl font-bold pb-2"> Estamos trabajando en el sistema en este momento</div>
       <div className="text-xl">Pronto estaremos en linea nuevamente.</div>

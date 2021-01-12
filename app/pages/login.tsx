@@ -12,8 +12,8 @@ export default () => {
         <div>
           <img src="../img/logo.png" style={{ width: '150px' }} />
         </div>
-        <div className="text-3xl font-bold"> Hola, te damos la bienvenida al<br />
-          <div className="text-primary-500">Registro de Constructores</div>
+        <div className="text-3xl font-bold"> Hola, te damos la bienvenida al
+          <span className="text-primary-500 ml-2">Registro de Constructores</span>
         </div>
         <div className="text-lg pt-2">El Registro Nacional de Constructores de Obra Pública es donde deben inscribirse las empresas que deseen contratar obras con el Estado Nacional.</div>
       </div>
@@ -58,9 +58,10 @@ export default () => {
         padding-top:20%;
       }
       .btn{backgroung:#ffffff;
-      width: 220px;
-    margin-right: 20px;
+      width: 210px;
+    margin-right: 10px;
     font-weight: 600;
+    margin-bottom: 20px;
   }
       `}
       </style>
