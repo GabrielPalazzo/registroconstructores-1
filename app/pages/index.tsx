@@ -27,11 +27,11 @@ export default () => {
         return
       }
 
-      if (getUsuario().isBackOffice()){
+      if (getUsuario().isBackOffice()) {
         router.push('/backoffice/bandeja')
         return
       }
-        
+
 
       setTramites(await getTramites())
       setIsLoading(false)
@@ -91,14 +91,18 @@ export default () => {
     <div className="md:px-20 py-6 grid grid-cols-2 px-4 ">
       <div className="text-2xl font-bold py-4"> Empresas administradas</div>
       <div className="text-2xl font-bold py-4 text-right">
-        <Button type="primary" icon={<PlusOutlined />} onClick={async () => {
-          await dispatch(setActionType(SET_TRAMITE_NUEVO))
-          router.push('/informacion_basica')
-        }}>Nuevo trámite </Button>
+        <Button type="primary" icon={<PlusOutlined />}
+          style={{ fontWeight: 600 }}
+          onClick={async () => {
+            await dispatch(setActionType(SET_TRAMITE_NUEVO))
+            router.push('/informacion_basica')
+          }}>Nuevo trámite </Button>
       </div>
     </div>
+    <div className="pb-10">
+      {tramites.length === 0 ? noData() : <BandejaConstructor tramites={tramites} />}
+    </div>
 
-    {tramites.length === 0 ? noData() : <BandejaConstructor tramites={tramites} />}
   </div>
 }
 

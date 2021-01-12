@@ -81,17 +81,20 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
         <div className="cursor-pointer  mr-4    " >
           <Card className="rounded h-full " style={{ background: "#525252" }}
             actions={[
-              <Button type="link" style={{ textAlign: "left", padding: 0 }}
+              <div className="text-left pl-4">
+              <Button type="link" style={{ textAlign: "left", padding: 0,color:'#0072bb' }}
                 onClick={() => {
                   setActiveProfile(e)
                   setShowProfile(true)
-                }}> <EyeOutlined /> Previsualizar</Button>,
-              <Button type="link" onClick={() => {
+                }}> <EyeOutlined /> Previsualizar</Button></div>,
+                <div className="text-right pr-4 text-primary-500">
+              <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color:'#0072bb'}}
+              onClick={() => {
                 dispatch(setUpdateBorrador(e)).then(r => {
                   dispatch(cargarUltimaRevisionAbierta(e))
                   router.push('/informacion_basica')
                 })
-              }}>Ingresar <ArrowRightOutlined /> </Button>,
+              }}>Ingresar <ArrowRightOutlined /> </Button></div>,
             ]}>
             <div className="pb-2">
               <div className="flex">
@@ -111,6 +114,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       .ant-card-actions{
         border-radius: 10px !important;
         background: #FAFAFA !important;
+      }
+      .ant-card-actions > li:not(:last-child){
+        border-right: 0px solid #f0f0f0;
       }
       `}
     </style>
