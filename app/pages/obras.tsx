@@ -117,7 +117,7 @@ export default () => {
           <ObrasDatosGenerales obra={obra} onChange={setObra} />
           <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
             <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
-            <div className="grid grid-cols-4 gap-4 ">
+            <div className="grid grid-cols-2 gap-4 ">
               <div className="pb-6" >
                 <InputTextModal
                   label="Ubicacion"
@@ -127,10 +127,11 @@ export default () => {
                   labelMessageError=""
                 />
               </div>  
-            </div>
-            <div className="mt-6 text-center">
+              <div className="mt-8 ">
               <Button  onClick={agregarUbicacion} type="primary" icon={<PlusOutlined />}> Agregar</Button>
             </div>
+            </div>
+           
             <div className="mt-4 ">
               {obra.ubicacion.map( u => <Tag closable onClose={() => removerUbicacion(u)} color="#50B7B2">{u}</Tag>)}
             </div>
