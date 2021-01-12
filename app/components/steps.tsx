@@ -46,9 +46,7 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
       }}
     />
   }
-
-  
-
+ 
   const completo = () => {
     return <Steps current={current}>
       <Step
@@ -86,7 +84,7 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
       <Step
         disabled={!completaBalanceYObras}
         status={generalStatus[3]}
-        title="Declaración Jurada de obras"
+        title="Declaración Jurada de Obras"
         className="cursor-pointer"
         onClick={() => {
           dispatch(setPaso(SET_PASOS.SET_PASO_OBRAS))

@@ -435,11 +435,11 @@ export default () => {
         <Tabs defaultActiveKey="1" onChange={callback} >
           <TabPane tab="Obras" key="1">
             <div className="overflow-x-auto" >
-              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} />}
+              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: "No hay información cargada"}} />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
-
+          <Table columns={columns}  locale={{ emptyText: "No hay información cargada"}}></Table>
           </TabPane>
         </Tabs>
       </div>

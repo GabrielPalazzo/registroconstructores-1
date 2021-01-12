@@ -771,7 +771,7 @@ export default () => {
           {renderApoderadosSection()}
         </Modal>
 
-        <Table columns={columns} dataSource={tramite.apoderados} />
+        <Table columns={columns} dataSource={tramite.apoderados} locale={{ emptyText: "No hay Apoderados y/o Usuarios"}} />
       </div>
 
       <div className=" content-center  rounded-lg border mt-8 px-4 py-4">

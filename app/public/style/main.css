@@ -23670,7 +23670,7 @@ html, body, #__next {
   font-family:'Encode Sans', sans-serif !important;
 }
 
-.ant-drawer-body, .ant-dropdown{
+.ant-drawer-body, .ant-dropdown, .ant-modal-content{
   font-family:'Encode Sans', sans-serif !important;
 }
 
