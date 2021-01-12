@@ -313,7 +313,7 @@ export default () => {
     save()
   }
 
-  const agregarEjercicio = (e) => {
+  const agregarEjercicio = async (e) => {
     if (!tramite.ejercicios)
       tramite.ejercicios = []
 
@@ -360,8 +360,8 @@ export default () => {
 
 
     tramite.ejercicios.push({
-      fechaCierre: inicioEjercicio,
-      fechaInicio: cierreEjercicio,
+      fechaCierre: cierreEjercicio,
+      fechaInicio: inicioEjercicio,
       activoCorriente,
       activoNoCorriente,
       pasivoCorriente,
@@ -370,7 +370,7 @@ export default () => {
       ventasEjercicio: ventasDelEjercicio
     })
     setTramite(Object.assign({}, tramite))
-    save()
+    await save()
     setModalEjercicios(false)
   }
 

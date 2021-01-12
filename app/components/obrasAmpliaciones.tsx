@@ -1,30 +1,67 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getEmptyTramiteAlta } from '../services/business'
+import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import UploadLine from './uploadLine'
-import { Button, Select, Table, Alert } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button, Select, Table, Alert , Space} from 'antd';
+import { PlusOutlined ,DeleteOutlined} from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 
 export interface ObrasAmpliacionesProps {
-
+  obra: DDJJObra
+  onChange: Function
 }
 
 export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
-
+  obra = null,
+  onChange = () => null
 }) => {
-  /*const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
+  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
+  //const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
   const [monto, setMonto] = useState(0)
   const [fecha, setFecha] = useState('')
-  const [dataSource, setDataSource] = useState<Array<AmpliacionesObras>>([])
+  const [dataSource, setDataSource] = useState<Array<AmpliacionesObras>>(obra.ampliaciones)
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
 
   useEffect(() => {
 
   }, [])
+
+  const eliminarDatos = (o:AmpliacionesObras) => {
+    setDataSource(dataSource.filter( (a:AmpliacionesObras) => o.id!== a.id))
+    obra.ampliaciones = Object.assign([],dataSource)
+    onChange(Object.assign({},obra))
+  }
+
+  const columnsAmpliaciones = [
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
+  
+      </Space>),
+    },
+    {
+      title: 'fecha',
+      dataIndex: 'fecha',
+      key: 'fecha'
+    },
+    {
+      title: 'monto',
+      dataIndex: 'monto',
+      key: 'monto'
+    },
+    {
+      title: 'Adjunto',
+      dataIndex: 'adjunto',
+      key: 'adjunto',
+    }
+  
+  
+  ];
+
   const add = () => {
     if ((!monto)) {
       setError('El monto  es requerido')
@@ -37,9 +74,10 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       return
     }
 
-
-    dataSource.push({ monto, fecha })
+    dataSource.push({ id:getCodigoObra(), monto, fecha })
     setDataSource(Object.assign([], dataSource))
+    obra.ampliaciones = Object.assign([],dataSource)
+    onChange(obra)
   }
   return <div>
     {showError ? <div className="mb-4">
@@ -99,23 +137,4 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     </div>
   </div>
 }
-const columnsAmpliaciones = [
 
-	{
-		title: 'fecha',
-		dataIndex: 'fecha',
-		key: 'fecha'
-	},
-	{
-		title: 'monto',
-		dataIndex: 'monto',
-		key: 'monto'
-	},
-	{
-		title: 'Adjunto',
-		dataIndex: 'adjunto',
-		key: 'adjunto',
-	}
-
-
-];

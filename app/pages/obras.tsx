@@ -49,6 +49,7 @@ export default () => {
     denominacion: '',
     ubicacion:[],
     datosObra: [],
+    ampliaciones:[],
     ubicacionGeografica: [],
     razonSocialUTE: '',
     cuitUTE: '',
@@ -222,8 +223,8 @@ export default () => {
           </div>
 
         </TabPane>
-        <TabPane tab="Ampliaciones" key="ampliaciones">
-          <ObrasAmpliaciones />
+        < TabPane tab="Ampliaciones" key="ampliaciones">
+          <ObrasAmpliaciones obra={obra} onChange={setObra} />
         </TabPane>
         <TabPane tab="Redeterminaciones" key="redeterminaciones">
           <ObrasRedeterminaciones />

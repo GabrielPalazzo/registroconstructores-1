@@ -53,6 +53,7 @@ type Redeterminaciones ={
   fecha:string
 }
 type AmpliacionesObras ={
+  id: string
   monto:number
   fecha:string
 }
@@ -75,6 +76,7 @@ type DDJJObra ={
   ubicacion:Array<string>
   datosObra:Array<DatosObraGeneral>
   ubicacionGeografica:Array<UbicacionGeografica>
+  ampliaciones:Array<AmpliacionesObras>
   razonSocialUTE:string
   cuitUTE:string
   participacionUTE:string
