@@ -2,14 +2,12 @@ version: "3.8"
 services:
   web:
     environment:
-      - MONGO_URI=mongodb+srv://registroconstructores:registroconstructores1@registroconstructores-d.dsbj6.mongodb.net/registroconstructores-dev?retryWrites=true&w=majority
+      - MONGO_URI=mongodb://mongo:27017
       - SESSION_SECRET=registroconstructores
     build:
       context: ./app
       target: development
     restart: always
-    ports:
-      - 3000:3000
     networks:
       registroconstructores-network:
         aliases:
@@ -45,7 +43,7 @@ services:
   nginx: 
     build: ./nginx
     ports:
-      - 8080:80
+      - 8082:80
     networks:
       registroconstructores-network:
         aliases:
@@ -58,8 +56,6 @@ services:
       registroconstructores-network:
         aliases:
           - mongo
-    ports:
-      - 27018:27017
     restart: always
     volumes:
       - datadb:/data/db
