@@ -72,6 +72,7 @@ type CertificacionesCerradas={
 type DDJJObra ={
   id: string
   denominacion:string
+  ubicacion:Array<string>
   datosObra:Array<DatosObraGeneral>
   ubicacionGeografica:Array<UbicacionGeografica>
   razonSocialUTE:string

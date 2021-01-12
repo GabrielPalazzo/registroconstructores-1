@@ -43,10 +43,11 @@ export default () => {
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
-
+  const [ubicacionText,setUbicacionText] = useState('')
   const [obra, setObra] = useState<DDJJObra>({
     id: null,
     denominacion: '',
+    ubicacion:[],
     datosObra: [],
     ubicacionGeografica: [],
     razonSocialUTE: '',
@@ -63,6 +64,7 @@ export default () => {
     transcurrido: 0,
     restante: 0
   })
+  
 
   useEffect(() => {
     if (!tramite.cuit)
@@ -93,6 +95,15 @@ export default () => {
     console.log(e);
   }
 
+  const agregarUbicacion = () => {
+    obra.ubicacion.push(ubicacionText)
+    setObra(Object.assign({},obra))
+  }
+
+  const removerUbicacion = (ubicacion) =>{
+    obra.ubicacion=obra.ubicacion.filter( u=> u!==ubicacion)
+  }
+
   function preventDefault(e) {
     e.preventDefault();
     console.log('Clicked! But prevent default.');
@@ -106,26 +117,22 @@ export default () => {
           <ObrasDatosGenerales obra={obra} onChange={setObra} />
           <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
             <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
-            <div className="grid grid-cols-2 gap-4 ">
+            <div className="grid grid-cols-4 gap-4 ">
               <div className="pb-6" >
                 <InputTextModal
                   label="Ubicacion"
                   labelRequired="*"
-                  value=""
+                  value={ubicacionText}
+                  bindFunction={setUbicacionText}
                   labelMessageError=""
                 />
-
-              </div>
-              <div className="mt-8 ">
-              <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
+              </div>  
             </div>
-              
+            <div className="mt-6 text-center">
+              <Button  onClick={agregarUbicacion} type="primary" icon={<PlusOutlined />}> Agregar</Button>
             </div>
-            
             <div className="mt-4 ">
-              <Tag closable onClose={log} color="#50B7B2">
-                Lomas de Zamora
-        </Tag>
+              {obra.ubicacion.map( u => <Tag closable onClose={() => removerUbicacion(u)} color="#50B7B2">{u}</Tag>)}
             </div>
 
           </div>
@@ -302,7 +309,7 @@ export default () => {
     {
       title: 'Editar',
       key: 'editar',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarObra(record)}><EditOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => editarObrar(record)}><EditOutlined /></div> : <Space size="middle">
       </Space>),
     },
 
