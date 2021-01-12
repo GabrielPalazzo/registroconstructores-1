@@ -946,7 +946,7 @@ export default () => {
     <style>
       {`
       .ant-collapse > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow{
-        top:26px;
+        top:13px;
       }
       .ant-collapse > .ant-collapse-item > .ant-collapse-header{
         font-size: 1.5rem;
