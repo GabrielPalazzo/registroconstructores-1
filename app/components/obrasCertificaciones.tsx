@@ -117,10 +117,11 @@ export const ObrasCertificaciones: React.FC<ObrasCertificacionesProps> = ({
             labelMessageError=""
           />
         </div>
-      </div>
-      <div className="mt-6 text-center">
+        <div className="mt-8 ">
         <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
       </div>
+      </div>
+     
       <div className="mt-4 ">
       <Table columns={columnsCertificacionesVigentes} dataSource={dataSource} />
       </div>

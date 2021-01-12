@@ -89,7 +89,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
           />
         </div>
       </div>
-      <div className="mt-6 text-center">
+      <div className=" text-center">
         <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
       </div>
       <div className="mt-4 ">
