@@ -49,6 +49,7 @@ type DatosObraGeneral = {
   fechaFin:string
 }
 type Redeterminaciones ={
+  id: string
   monto:number
   fecha:string
 }
@@ -77,20 +78,22 @@ type DDJJObra ={
   datosObra:Array<DatosObraGeneral>
   ubicacionGeografica:Array<UbicacionGeografica>
   ampliaciones:Array<AmpliacionesObras>
-  razonSocialUTE:string
-  cuitUTE:string
-  participacionUTE:string
-  razonSocialComitente:string
-  cuitComitente:string
-  montoInicial:string
-  redeterminaciones:Array<Redeterminaciones>
-  redeterminaciones:Array<AmpliacionesObras>
+  redeterminaciones: Array<Redeterminaciones>
+  
   certificacionesVigentes:Array<Certificaciones>
   certificacionesEjercicioCerrado:Array<CertificacionesCerradas>
   plazoPorContrato:number
   prorroga:number
   transcurrido:number
   restante:number
+  razonSocialUTE:string
+  cuitUTE:string
+  participacionUTE:string
+  razonSocialComitente:string
+  cuitComitente:string
+  montoInicial:string
+  especialidades: string
+  subespecialidades:string
 }
 
 type TramiteAlta = {

@@ -4,29 +4,72 @@ import { getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import UploadLine from './uploadLine'
-import { Button, Select, Table, Alert } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button, Select, Table, Alert, Space } from 'antd';
+import { PlusOutlined,DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 
 export interface ObrasCertificacionesCerradasProps {
-
+  obra: DDJJObra
+	onChange: Function
 }
 
 export const ObrasCertificacionesCerradas: React.FC<ObrasCertificacionesCerradasProps> = ({
-
+  obra = null,
+	onChange = () => null
 }) => {
-  /*const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
+  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
   const [numeroCertificacion, setNumeroCertificacion] = useState(0)
   const [descripcion, setDescripcion] = useState('')
   const [monto, setMonto] = useState(0)
   const [fecha, setFecha] = useState('')
-  const [dataSource, setDataSource] = useState<Array<CertificacionesCerradas>>([])
+  const [dataSource, setDataSource] = useState<Array<CertificacionesCerradas>>(obra.certificacionesEjercicioCerrado)
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
 
   useEffect(() => {
 
   }, [])
+
+  const eliminarDatos = (o:CertificacionesCerradas) => {
+		setDataSource(dataSource.filter( (c:CertificacionesCerradas) => c.numeroCertificacion !== o.numeroCertificacion))
+		obra.certificacionesEjercicioCerrado = Object.assign([],dataSource)
+		onChange(Object.assign({},obra))
+    }
+    
+  const columnsCertificacionesCerradas = [
+    {
+			title: 'Action',
+			key: 'action',
+			render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
+		
+			</Space>),
+		  },
+    {
+      title: 'Numero de Certificacion',
+      dataIndex: 'numeroCertificacion',
+      key: 'numeroCertificacion'
+    },{
+      title: 'descripcion',
+      dataIndex: 'descripcion',
+      key: 'descripcion'
+    },
+    {
+      title: 'Fecha de Fin',
+      dataIndex: 'fecha',
+      key: 'fecha'
+    },
+    {
+      title: 'monto',
+      dataIndex: 'monto',
+      key: 'monto'
+    },{
+      title: 'adjunto',
+      dataIndex: 'adjunto',
+      key: 'adjunto'
+    }
+  
+  ];
+
   const add = () => {
     if ((!numeroCertificacion)) {
       setError('El numero de Certificación/Factura  es requerido')
@@ -52,6 +95,8 @@ export const ObrasCertificacionesCerradas: React.FC<ObrasCertificacionesCerradas
 
     dataSource.push({ monto, fecha, numeroCertificacion, descripcion })
     setDataSource(Object.assign([], dataSource))
+    obra.certificacionesEjercicioCerrado = Object.assign([],dataSource)
+    onChange(obra)
   }
   return <div>
     {showError ? <div className="mb-4">
@@ -130,30 +175,4 @@ export const ObrasCertificacionesCerradas: React.FC<ObrasCertificacionesCerradas
 
   </div>
 }
-const columnsCertificacionesCerradas = [
- 
-  {
-    title: 'Numero de Certificacion',
-    dataIndex: 'numeroCertificacion',
-    key: 'numeroCertificacion'
-  },{
-    title: 'descripcion',
-    dataIndex: 'descripcion',
-    key: 'descripcion'
-  },
-  {
-    title: 'Fecha de Fin',
-    dataIndex: 'fecha',
-    key: 'fecha'
-  },
-  {
-    title: 'monto',
-    dataIndex: 'monto',
-    key: 'monto'
-  },{
-    title: 'adjunto',
-    dataIndex: 'adjunto',
-    key: 'adjunto'
-  }
 
-];

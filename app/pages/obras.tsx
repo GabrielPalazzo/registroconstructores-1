@@ -7,7 +7,7 @@ import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
 import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space } from 'antd';
-import { PlusOutlined, DeleteOutlined , EditOutlined} from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
@@ -22,7 +22,7 @@ import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
 import { ObrasCertificacionesCerradas } from '../components/obrasCertificacionesCerradas';
 import { ObrasCertificaciones } from '../components/obrasCertificaciones';
-import {ObrasAmpliaciones} from '../components/obrasAmpliaciones'
+import { ObrasAmpliaciones } from '../components/obrasAmpliaciones'
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -43,13 +43,13 @@ export default () => {
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
-  const [ubicacionText,setUbicacionText] = useState('')
+  const [ubicacionText, setUbicacionText] = useState('')
   const [obra, setObra] = useState<DDJJObra>({
     id: null,
     denominacion: '',
-    ubicacion:[],
+    ubicacion: [],
     datosObra: [],
-    ampliaciones:[],
+    ampliaciones: [],
     ubicacionGeografica: [],
     razonSocialUTE: '',
     cuitUTE: '',
@@ -63,9 +63,11 @@ export default () => {
     plazoPorContrato: 0,
     prorroga: 0,
     transcurrido: 0,
-    restante: 0
+    restante: 0,
+    especialidades: '',
+    subespecialidades: ''
   })
-  
+
 
   useEffect(() => {
     if (!tramite.cuit)
@@ -98,11 +100,11 @@ export default () => {
 
   const agregarUbicacion = () => {
     obra.ubicacion.push(ubicacionText)
-    setObra(Object.assign({},obra))
+    setObra(Object.assign({}, obra))
   }
 
-  const removerUbicacion = (ubicacion) =>{
-    obra.ubicacion=obra.ubicacion.filter( u=> u!==ubicacion)
+  const removerUbicacion = (ubicacion) => {
+    obra.ubicacion = obra.ubicacion.filter(u => u !== ubicacion)
   }
 
   function preventDefault(e) {
@@ -127,14 +129,14 @@ export default () => {
                   bindFunction={setUbicacionText}
                   labelMessageError=""
                 />
-              </div>  
+              </div>
               <div className="mt-8 ">
-              <Button  onClick={agregarUbicacion} type="primary" icon={<PlusOutlined />}> Agregar</Button>
+                <Button onClick={agregarUbicacion} type="primary" icon={<PlusOutlined />}> Agregar</Button>
+              </div>
             </div>
-            </div>
-           
+
             <div className="mt-4 ">
-              {obra.ubicacion.map( u => <Tag closable onClose={() => removerUbicacion(u)} color="#50B7B2">{u}</Tag>)}
+              {obra.ubicacion.map(u => <Tag closable onClose={() => removerUbicacion(u)} color="#50B7B2">{u}</Tag>)}
             </div>
 
           </div>
@@ -146,7 +148,11 @@ export default () => {
                 <InputTextModal
                   label="Especialidades"
                   labelRequired="*"
-                  value=""
+                  value={obra.especialidades}
+                  bindFunction={e => {
+                    obra.especialidades = e
+                    setObra(Object.assign({}, obra))
+                  }}
                   labelMessageError=""
                 />
               </div>
@@ -154,7 +160,11 @@ export default () => {
                 <InputTextModal
                   label="Subespecialidades"
                   labelRequired="*"
-                  value=""
+                  value={obra.subespecialidades}
+                  bindFunction={e => {
+                    obra.subespecialidades = e
+                    setObra(Object.assign({}, obra))
+                  }}
                   labelMessageError=""
                 />
               </div>
@@ -162,7 +172,11 @@ export default () => {
                 <InputTextModal
                   label="Razón Social de la UTE"
                   labelRequired=""
-                  value=""
+                  value={obra.razonSocialUTE}
+                  bindFunction={e => {
+                    obra.razonSocialUTE = e
+                    setObra(Object.assign({}, obra))
+                  }}
                   labelMessageError=""
                 />
               </div>
@@ -171,7 +185,11 @@ export default () => {
                   <InputTextModal
                     label="CUIT de la UTE"
                     labelRequired=""
-                    value=""
+                    value={obra.cuitUTE}
+                    bindFunction={e => {
+                      obra.cuitUTE = e
+                      setObra(Object.assign({}, obra))
+                    }}
                     labelMessageError=""
                   />
                 </div>
@@ -179,7 +197,11 @@ export default () => {
                   <InputTextModal
                     label="% de participación"
                     labelRequired=""
-                    value=""
+                    value={obra.participacionUTE}
+                    bindFunction={e => {
+                      obra.participacionUTE = e
+                      setObra(Object.assign({}, obra))
+                    }}
                     labelMessageError=""
                   />
                 </div>
@@ -188,7 +210,11 @@ export default () => {
                 <InputTextModal
                   label="Razón Social Comitente"
                   labelRequired="*"
-                  value=""
+                  value={obra.razonSocialComitente}
+                  bindFunction={e => {
+                    obra.razonSocialComitente = e
+                    setObra(Object.assign({}, obra))
+                  }}
                   labelMessageError=""
                 />
               </div>
@@ -197,7 +223,11 @@ export default () => {
                   <InputTextModal
                     label="CUIT comitente"
                     labelRequired="*"
-                    value=""
+                    value={obra.cuitComitente}
+                    bindFunction={e => {
+                      obra.cuitComitente = e
+                      setObra(Object.assign({}, obra))
+                    }}
                     labelMessageError=""
                   />
                 </div>
@@ -207,7 +237,11 @@ export default () => {
                     label="Monto inicial del contrato"
 
                     labelRequired="*"
-                    value=""
+                    value={obra.montoInicial}
+                    bindFunction={e => {
+                      obra.montoInicial = e
+                      setObra(Object.assign({}, obra))
+                    }}
                     labelMessageError=""
                   />
                 </div>
@@ -227,13 +261,13 @@ export default () => {
           <ObrasAmpliaciones obra={obra} onChange={setObra} />
         </TabPane>
         <TabPane tab="Redeterminaciones" key="redeterminaciones">
-          <ObrasRedeterminaciones />
+          <ObrasRedeterminaciones obra={obra} onChange={setObra} />
         </TabPane>
         <TabPane tab="Certificaciones del Ejercicio Vigente" key="certificaciones">
-          <ObrasCertificaciones />
+          <ObrasCertificaciones obra={obra} onChange={setObra} />
         </TabPane>
         <TabPane tab="Certificaciones de Ejercicios Cerrados" key="certificacionesEjerciciosCerrados">
-          <ObrasCertificacionesCerradas />
+          <ObrasCertificacionesCerradas obra={obra} onChange={setObra} />
         </TabPane>
         <TabPane tab="Plazos" key="plazos">
           <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
@@ -244,7 +278,11 @@ export default () => {
                 <InputTextModal
                   label="Por contrato"
                   labelRequired="*"
-                  value=""
+                  value={obra.plazoPorContrato}
+                  bindFunction={e => {
+                    obra.plazoPorContrato = e
+                    setObra(Object.assign({}, obra))
+                  }}
                   labelMessageError=""
                 />
               </div>
@@ -252,7 +290,11 @@ export default () => {
                 <InputTextModal
                   label="Prórroga"
                   labelRequired="*"
-                  value=""
+                  value={obra.prorroga}
+                  bindFunction={e => {
+                    obra.prorroga = e
+                    setObra(Object.assign({}, obra))
+                  }}
                   labelMessageError=""
                 />
               </div>
@@ -260,7 +302,11 @@ export default () => {
                 <InputTextModal
                   label="Transcurrido"
                   labelRequired="*"
-                  value=""
+                  value={obra.transcurrido}
+                  bindFunction={e => {
+                    obra.transcurrido = e
+                    setObra(Object.assign({}, obra))
+                  }}
                   labelMessageError=""
                 />
               </div>
@@ -268,7 +314,11 @@ export default () => {
                 <InputTextModal
                   label="Restante"
                   labelRequired="*"
-                  value=""
+                  value={obra.restante}
+                  bindFunction={e => {
+                    obra.restante = e
+                    setObra(Object.assign({}, obra))
+                  }}
                   labelMessageError=""
                 />
               </div>
@@ -289,7 +339,7 @@ export default () => {
 
   const eliminarObra = (obra: DDJJObra) => {
     // tramite.ejercicios = tramite.ejercicios.filter(e => ((e.fechaInicio !== r.fechaInicio) && (r.fechaCierre !== e.fechaCierre)))
-    tramite.ddjjObras = tramite.ddjjObras.filter( (o:DDJJObra) => o.id!== obra.id)
+    tramite.ddjjObras = tramite.ddjjObras.filter((o: DDJJObra) => o.id !== obra.id)
     setTramite(Object.assign({}, tramite))
     save()
   }
@@ -297,7 +347,7 @@ export default () => {
 
 
   const editarObrar = (obra: DDJJObra) => {
-    setObra(tramite.ddjjObras.filter((o:DDJJObra) => o.id===obra.id)[0])
+    setObra(tramite.ddjjObras.filter((o: DDJJObra) => o.id === obra.id)[0])
     setModalObras(true)
   }
 

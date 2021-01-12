@@ -1,30 +1,66 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getEmptyTramiteAlta } from '../services/business'
+import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import UploadLine from './uploadLine'
-import { Button, Select, Table, Alert } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button, Select, Table, Alert , Space} from 'antd';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 
 export interface ObrasRedeterminacionesProps {
-
+	obra: DDJJObra
+	onChange: Function
 }
 
 export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
-
+	obra = null,
+	onChange = () => null
 }) => {
+	const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
 	/*const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
 	const [monto, setMonto] = useState(0)
 	const [fecha, setFecha] = useState('')
-	const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>([])
+	const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>(obra.redeterminaciones)
 	const [error, setError] = useState('')
 	const [showError, setShowError] = useState(false)
 
 	useEffect(() => {
 
 	}, [])
+
+	const eliminarDatos = (o:AmpliacionesObras) => {
+		setDataSource(dataSource.filter( (r:Redeterminaciones) => o.id!== r.id))
+		obra.redeterminaciones = Object.assign([],dataSource)
+		onChange(Object.assign({},obra))
+	  }
+	const columnsRedeterminaciones = [
+		{
+			title: 'Action',
+			key: 'action',
+			render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
+		
+			</Space>),
+		  },
+		{
+			title: 'fecha',
+			dataIndex: 'fecha',
+			key: 'fecha'
+		},
+		{
+			title: 'monto',
+			dataIndex: 'monto',
+			key: 'monto'
+		},
+		{
+			title: 'Adjunto',
+			dataIndex: 'adjunto',
+			key: 'adjunto',
+		}
+	
+	
+	];
+
 	const add = () => {
 		if ((!monto)) {
 			setError('El monto  es requerido')
@@ -38,8 +74,10 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		}
 
 
-		dataSource.push({ monto, fecha })
+		dataSource.push({ id:getCodigoObra(),monto, fecha })
 		setDataSource(Object.assign([], dataSource))
+		obra.redeterminaciones = Object.assign([],dataSource)
+    	onChange(obra)
 	}
 	return <div>
 		{showError ? <div className="mb-4">
@@ -99,23 +137,3 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	</div>
 }
 
-const columnsRedeterminaciones = [
-
-	{
-		title: 'fecha',
-		dataIndex: 'fecha',
-		key: 'fecha'
-	},
-	{
-		title: 'monto',
-		dataIndex: 'monto',
-		key: 'monto'
-	},
-	{
-		title: 'Adjunto',
-		dataIndex: 'adjunto',
-		key: 'adjunto',
-	}
-
-
-];

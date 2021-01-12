@@ -4,29 +4,73 @@ import { getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import UploadLine from './uploadLine'
-import { Button, Select, Table, Alert } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button, Select, Table, Alert, Space } from 'antd';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 
 export interface ObrasCertificacionesProps {
-
+  obra: DDJJObra
+	onChange: Function
 }
 
 export const ObrasCertificaciones: React.FC<ObrasCertificacionesProps> = ({
-
+  obra = null,
+	onChange = () => null
 }) => {
-  /*const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
+  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
   const [numeroCertificacion, setNumeroCertificacion] = useState(0)
   const [descripcion, setDescripcion] = useState('')
   const [monto, setMonto] = useState(0)
   const [fecha, setFecha] = useState('')
-  const [dataSource, setDataSource] = useState<Array<Certificaciones>>([])
+  const [dataSource, setDataSource] = useState<Array<Certificaciones>>(obra.certificacionesVigentes)
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
 
   useEffect(() => {
 
   }, [])
+
+  const eliminarDatos = (o:Certificaciones) => {
+		setDataSource(dataSource.filter( (c:Certificaciones) => c.numeroCertificacion !== o.numeroCertificacion))
+		obra.certificacionesVigentes = Object.assign([],dataSource)
+		onChange(Object.assign({},obra))
+    }
+
+  const columnsCertificacionesVigentes = [
+    {
+			title: 'Action',
+			key: 'action',
+			render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
+		
+			</Space>),
+		  },
+    {
+      title: 'Número de certificación',
+      dataIndex: 'numeroCertificacion',
+      key: 'numeroCertificacion'
+    },
+    {
+      title: 'Descripción',
+      dataIndex: 'descripcion',
+      key: 'descripcion'
+    },
+    {
+      title: 'fecha',
+      dataIndex: 'fecha',
+      key: 'fecha'
+    },
+    {
+      title: 'monto',
+      dataIndex: 'monto',
+      key: 'monto'
+    },
+    {
+      title: 'Adjunto',
+      dataIndex: 'adjunto',
+      key: 'adjunto',
+    }
+  ];
+
   const add = () => {
     if ((!numeroCertificacion)) {
       setError('El numero de Certificación/Factura  es requerido')
@@ -130,32 +174,4 @@ export const ObrasCertificaciones: React.FC<ObrasCertificacionesProps> = ({
 
   </div>
 }
-const columnsCertificacionesVigentes = [
-  {
-    title: 'Número de certificación',
-    dataIndex: 'numeroCertificacion',
-    key: 'numeroCertificacion'
-  },
-  {
-    title: 'Descripción',
-    dataIndex: 'descripcion',
-    key: 'descripcion'
-  },
-  {
-    title: 'fecha',
-    dataIndex: 'fecha',
-    key: 'fecha'
-  },
-  {
-    title: 'monto',
-    dataIndex: 'monto',
-    key: 'monto'
-  },
-  {
-    title: 'Adjunto',
-    dataIndex: 'adjunto',
-    key: 'adjunto',
-  }
 
-
-];
