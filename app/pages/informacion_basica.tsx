@@ -440,7 +440,7 @@ export default () => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2">
+    <div className="border-gray-200 border-b-2 px-20">
       <NavigationStep
         generalStatus={statusGeneralTramite}
         completaBalanceYObras={isConstructora(tramite)}
