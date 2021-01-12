@@ -40,7 +40,7 @@ export default () => {
       <Card className="rounded mr-2 text-center m-autop" style={{ width: 500, margin: 'auto' }}>
         <div className="text-muted-700 text-sm px-8 mt-4 self-center"  > Su solicitud  ha sido completada y será enviada a la ONC para su revisión.</div>
         <div className="text-muted-700 text-sm px-8 mt-4 self-center"  > Nos pondremos en contacto al mail consignado del Administrador Legitimado.</div>
-        <div className="text-base font-bold mt-4 text-primary-700 pb-2 "> Numero de tramite : EX-2020-12345677-APN-MM</div>
+       { /*<div className="text-base font-bold mt-4 text-primary-700 pb-2 "> Numero de tramite : EX-2020-12345677-APN-MM</div>*/}
       </Card>
 
       <div className="mt-6 pt-4 text-center">

@@ -16,13 +16,14 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getCodigoObra, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
+import { allowGuardar, getCodigoObra, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
 import { ObrasCertificacionesCerradas } from '../components/obrasCertificacionesCerradas';
 import { ObrasCertificaciones } from '../components/obrasCertificaciones';
 import { ObrasAmpliaciones } from '../components/obrasAmpliaciones'
+import { isError } from 'util';
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -235,7 +236,7 @@ export default () => {
                   <InputTextModal
                     type="number" step="any"
                     label="Monto inicial del contrato"
-
+                    min={0}
                     labelRequired="*"
                     value={obra.montoInicial}
                     bindFunction={e => {
@@ -290,6 +291,8 @@ export default () => {
                 <InputTextModal
                   label="Prórroga"
                   labelRequired="*"
+                  type="number"
+
                   value={obra.prorroga}
                   bindFunction={e => {
                     obra.prorroga = e
@@ -302,6 +305,8 @@ export default () => {
                 <InputTextModal
                   label="Transcurrido"
                   labelRequired="*"
+                  type="number"
+                  min={0}
                   value={obra.transcurrido}
                   bindFunction={e => {
                     obra.transcurrido = e
@@ -313,6 +318,8 @@ export default () => {
               <div className="pb-6" >
                 <InputTextModal
                   label="Restante"
+                  type="number"
+                  min={0}
                   labelRequired="*"
                   value={obra.restante}
                   bindFunction={e => {
@@ -351,7 +358,7 @@ export default () => {
     setModalObras(true)
   }
 
-  const columns = [
+  let columns = [
     {
       title: 'Eliminar',
       key: 'action',
@@ -376,6 +383,10 @@ export default () => {
       key: 'denominacion',
     }
   ]
+
+  columns = isTramiteEditable(tramite) ? columns : columns.slice(2,columns.length)
+
+
 
 
 
@@ -413,11 +424,11 @@ export default () => {
       <div className="flex  content-center  ">
         <div className="text-2xl font-bold py-4 w-3/4">  Declaración jurada de Obras</div>
         <div className=" w-1/4 text-right content-center mt-4 ">
-          <Button type="primary" onClick={() => {
+          {isTramiteEditable(tramite) ? <Button type="primary" onClick={() => {
             obra.id = getCodigoObra()
             setObra(Object.assign({}, obra))
             setModalObras(true)
-          }} icon={<PlusOutlined />}> Agregar</Button>
+          }} icon={<PlusOutlined />}> Agregar</Button>: ''}
         </div>
       </div>
       <div>
@@ -446,13 +457,11 @@ export default () => {
       </Modal>
 
       <div className="mt-6 pt-6 text-center">
-        <Link href="/error" >
+       {allowGuardar(tramite) ?<Link href="/enviar_tramite" >
+          <Button type="primary" > Continuar</Button>
+        </Link>: '' }
+        
 
-          <Button className="mr-4" > Volver</Button>
-        </Link>
-        <Link href="/enviar_tramite" >
-          <Button type="primary" > Guardar y Seguir</Button>
-        </Link>
       </div>
     </div>
   </div>

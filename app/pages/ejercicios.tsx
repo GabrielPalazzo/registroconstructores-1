@@ -15,7 +15,7 @@ import DatePickerModal from '../components/datePicker_Modal'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora, isTramiteEditable, allowGuardar } from '../services/business';
 import { saveTramite, setTramiteView } from '../redux/actions/main'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import moment from 'moment';
@@ -183,7 +183,7 @@ export default () => {
             label="Pasivo Total"
             type="number" step="any"
             placeholder="000000,000 "
-            bindFunction={()=>null}
+            bindFunction={() => null}
             value={pasivoNoCorriente + pasivoCorriente}
             labelMessageError=""
             disabled />
@@ -255,7 +255,7 @@ export default () => {
     </div>)
   }
 
-  const columnsBalances = [
+  let columnsBalances = [
     {
       title: 'Action',
       key: 'action',
@@ -306,6 +306,11 @@ export default () => {
     }
   ]
 
+  columnsBalances = isTramiteEditable(tramite)? columnsBalances : columnsBalances.slice(1,columnsBalances.length)
+
+
+
+
 
   const eliminarEjercicio = (r) => {
     tramite.ejercicios = tramite.ejercicios.filter(e => ((e.fechaInicio !== r.fechaInicio) && (r.fechaCierre !== e.fechaCierre)))
@@ -317,7 +322,7 @@ export default () => {
     if (!tramite.ejercicios)
       tramite.ejercicios = []
 
-    
+
 
     const errores = []
 
@@ -325,35 +330,35 @@ export default () => {
     if (!cierreEjercicio) errores.push('Debe indicar la fecha de cierre de ejercicio')
 
 
-    if (errores.length>0){
+    if (errores.length > 0) {
       setError(errores.map(e => e).join(', '))
       return
     }
-    
-    const fechaInicio = moment(inicioEjercicio,'DD/MM/YYYY')
-    const fechaCierre = moment(cierreEjercicio,'DD/MM/YYYY')
 
-    if (fechaCierre.diff(fechaInicio,'M')>12){
+    const fechaInicio = moment(inicioEjercicio, 'DD/MM/YYYY')
+    const fechaCierre = moment(cierreEjercicio, 'DD/MM/YYYY')
+
+    if (fechaCierre.diff(fechaInicio, 'M') > 12) {
       setError('El balance no puede tener más de un año calendario. Revise sus fechas de inicio y cierre')
       return
     }
 
-    if (isPersonaFisica(tramite) && (cierreEjercicio.split('/')[0] !=='31' && cierreEjercicio.split('/')[1] !=='12')){
+    if (isPersonaFisica(tramite) && (cierreEjercicio.split('/')[0] !== '31' && cierreEjercicio.split('/')[1] !== '12')) {
       setError("La fecha de cierre para personas físicas debe ser 31/12/AAAA")
       return
     }
 
-    if (capitalSuscripto===0){
+    if (capitalSuscripto === 0) {
       setError(isPersonaFisica(tramite) ? 'El rubro Caja/Bancos no puede ser 0' : 'El capital suscripto no puede ser 0')
       return
     }
 
-    if ((activoCorriente + activoNoCorriente) ===0){
+    if ((activoCorriente + activoNoCorriente) === 0) {
       setError('El activo no puede ser 0')
       return
     }
 
-    if ((pasivoCorriente + pasivoNoCorriente) ===0){
+    if ((pasivoCorriente + pasivoNoCorriente) === 0) {
       setError('El pasivo no puede ser 0')
       return
     }
@@ -387,7 +392,7 @@ export default () => {
       <div className="flex  content-center  ">
         <div className="text-2xl font-bold py-4 w-3/4">  Ejercicios</div>
         <div className=" w-1/4 text-right content-center mt-4 ">
-          <Button type="primary" onClick={() => setModalEjercicios(true)} icon={<PlusOutlined />}> Agregar</Button>
+          {isTramiteEditable(tramite) ?<Button type="primary" onClick={() => setModalEjercicios(true)} icon={<PlusOutlined />}> Agregar</Button> : '' }
         </div>
       </div>
       <div>
@@ -418,13 +423,9 @@ export default () => {
       </Modal>
 
       <div className="mt-6 pt-6 text-center">
-        <Link href="/informacion_propietarios" >
-
-          <Button className="mr-4" > Volver</Button>
-        </Link>
-        <Link href="/obras" >
-          <Button type="primary" > Guardar y Seguir</Button>
-        </Link>
+        {allowGuardar(tramite) ? <Link href="/obras" >
+          <Button type="primary" >Continuar</Button>
+        </Link>: ''}
       </div>
     </div>
   </div>

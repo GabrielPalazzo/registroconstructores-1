@@ -100,7 +100,6 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
           <InputTextModal
             label="Monto"
             type="number" step="any"
-            min="0"
             labelRequired="*"
             labelMessageError=""
             value={monto}
