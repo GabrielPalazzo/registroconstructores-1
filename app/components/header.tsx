@@ -54,19 +54,21 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     <Modal
       title="Cancelar operación"
       visible={showCancelar}
-      onOk={confirmCancel}
-      onCancel={() => setShowCancelar(false)}
+      
+      footer={[
+        <Button onClick={() => setShowCancelar(false)}>Volver</Button>,
+        <Button type="primary" onClick={confirmCancel} >Cancelar operación</Button>
+      ]}
+      
     >
-      <p>Realmente desea cancelar la operación?</p>
-      <p>Esto significa que los datos que haya agregado y no han sido guardados se perderán</p>
-      <p>Desea continuar?</p>
+      <p>Todos los cambios no guardados se perderán.</p>
     </Modal>
     <div className="px-4 pt-4 py-2">
       <Logo />
     </div>
     <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4">
 
-      <Button danger type="text" onClick={() => setShowCancelar(true)}>Cancelar</Button>
+      <Button danger type="text" style={{marginRight:'20px'}} onClick={() => setShowCancelar(true)}>Cancelar</Button>
       {tramite && tramite.cuit && allowGuardar(tramite)? <Button type="link" style={{ fontWeight: 'bold' }} onClick={onSave}>Guardar y salir</Button> : ''}
       <Dropdown overlay={menu} trigger={['click']}>
         <div onClick={e => e.preventDefault()}>

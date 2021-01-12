@@ -76,7 +76,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
 
 
-    <div className="px-4 md:px-20 grid grid-cols-3  gap-4  ">
+    <div className="px-4 md:px-20 mx-20 grid grid-cols-3  gap-4  ">
       {tramites.map((e: TramiteAlta) => (
         <div className="cursor-pointer  mr-4    " >
           <Card className="rounded h-full " style={{ background: "#525252" }}
