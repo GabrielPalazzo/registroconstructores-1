@@ -279,6 +279,8 @@ export default () => {
                 <InputTextModal
                   label="Por contrato"
                   labelRequired="*"
+                  type="number"
+                  min={0}
                   value={obra.plazoPorContrato}
                   bindFunction={e => {
                     obra.plazoPorContrato = e
