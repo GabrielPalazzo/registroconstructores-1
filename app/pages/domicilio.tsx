@@ -73,7 +73,7 @@ export default () => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2 px-20 py-4">
+    <div className="border-gray-200 border-b-2 px-20 ">
       <NavigationStep current={1} generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
     <Substeps progressDot current={0} esPersonaFisica={isPersonaFisica(tramite)} />

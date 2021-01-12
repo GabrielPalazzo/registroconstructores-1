@@ -48,7 +48,9 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
   }
  
   const completo = () => {
-    return <Steps current={current}>
+    return <Steps current={current}
+    type="navigation"
+    className="site-navigation-steps">
       <Step
 
         status={generalStatus[0]}
@@ -106,7 +108,9 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
   }
 
   const completoSinEnviar = () => {
-    return <Steps current={current}>
+    return <Steps current={current}
+    type="navigation"
+    className="site-navigation-steps">
       <Step
 
         status={generalStatus[0]}
@@ -153,7 +157,9 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
   }
 
   const sinObrasYConEnviar = () => {
-    return <Steps current={current}>
+    return <Steps current={current}
+    type="navigation"
+    className="site-navigation-steps">
       <Step
 
         status={generalStatus[0]}
@@ -191,7 +197,9 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
   }
 
   const sinObrasYSinEnviar = () => {
-    return <Steps current={current}>
+    return <Steps current={current}
+    type="navigation"
+    className="site-navigation-steps">
       <Step
 
         status={generalStatus[0]}
@@ -233,8 +241,14 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
   }
 
   
-  return <div className="px-20 py-4">
+  return <div className="px-20 pt-4 ">
     {renderStepers()}
+    <style>
+      {`
+      .ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item{
+        padding-bottom:14px;
+      }`}
+    </style>
   </div>
 }
 

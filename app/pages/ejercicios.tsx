@@ -385,7 +385,7 @@ export default () => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2 py-4 px-20">
+    <div className="border-gray-200 border-b-2 px-10">
       <NavigationStep generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} current={2} />
     </div>
     <div className="px-20 mx-20 py-6 ">
