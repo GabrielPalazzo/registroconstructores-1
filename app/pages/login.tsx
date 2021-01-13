@@ -1,14 +1,37 @@
 import { Button, Card } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
+import {UserManager} from 'oidc-client'
+import axios from 'axios'
 
 export default () => {
 
   const router = useRouter()
+  const [userLoaded, setUserLoaded] = useState(null)
 
+
+  const oidcConfig = {
+    onSignIn: async (user) => {
+      console.log(user)
+    },
+    authority: 'https://tst.autenticar.gob.ar/auth/realms/rnc-afip/protocol/openid-connect/auth',
+    clientId: 'rnc',
+    responseType:'token',
+    redirectUri: 'https://react-ts-4pmh3f.stackblitz.io'
+  }
+
+  
   return <div className="h-screen bg">
     <div className="m-auto mtop px-4  flex justify-center">
       <Card title="Ingresar como:" style={{ width: 400, background: '#fff !important' }}>
+      <div className="pb-4 w-full text-center">
+          <Button type="primary" onClick={() => {
+            // axios.get('https://tst.autenticar.gob.ar/auth/realms/rnc-afip/protocol/openid-connect/auth?client_id=rnc&redirect_uri=http%3A%2F%2Flocalhost%3A3000&scope=openid&response_type=token&response_mode=form_post&nonce=l1njvnu2nj8')
+            //  .then(result => console.log(result))
+            const manager = new UserManager(oidcConfig)
+            manager.signinRedirect()
+          }} block>AFIP</Button>
+        </div>
         <div className="pb-4 w-full text-center">
           <Button type="primary" onClick={() => {
             localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZWdpc3RybyBkZSBDb25zdHJ1Y3RvcmVzIiwiaWF0IjoxNjA3ODY4NDE0LCJhdWQiOiJodHRwOi8vbG9jYWxob3N0Iiwic3ViIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiR2l2ZW5OYW1lIjoiTGVvbmFyZG8gIiwiU3VybmFtZSI6IkxlZW5lbiIsIkVtYWlsIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiUm9sZSI6WyJDT05TVFJVQ1RPUiJdfQ.WGJJtUWKOjCqi0Ip9uYpU2uySpnBEPg35iay0-iOWMI')

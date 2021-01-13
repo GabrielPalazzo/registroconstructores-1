@@ -9,7 +9,6 @@ import { BandejaConstructor } from '../components/bandejaConstructor';
 import { closeSession, getTramites, getUsuario } from '../services/business';
 import { Loading } from '../components/loading';
 
-
 export default () => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -17,9 +16,10 @@ export default () => {
   const [user, setUser] = useState<Usuario>(null)
   const [tramites, setTramites] = useState<Array<TramiteAlta>>([])
   const tipoAccion = useSelector(state => state.appStatus.tipoAccion)
-
+  
   useEffect(() => {
     (async () => {
+      console.log(router.query)
       const usuario = getUsuario().userData()
 
       if (!usuario) {
