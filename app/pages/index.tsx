@@ -16,7 +16,7 @@ export default () => {
   const [user, setUser] = useState<Usuario>(null)
   const [tramites, setTramites] = useState<Array<TramiteAlta>>([])
   const tipoAccion = useSelector(state => state.appStatus.tipoAccion)
-  
+
   useEffect(() => {
     (async () => {
       console.log(router.query)
@@ -27,17 +27,18 @@ export default () => {
         return
       }
 
-      if (getUsuario().isBackOffice()){
+      if (getUsuario().isBackOffice()) {
         router.push('/backoffice/bandeja')
         return
       }
-        
+
 
       setTramites(await getTramites())
       setIsLoading(false)
       setUser(usuario)
     })()
   }, [])
+
 
   const cerrarSesion = () => {
     closeSession()
@@ -62,21 +63,25 @@ export default () => {
     <Menu>
       <Menu.Item>
         <div onClick={cerrarSesion}>
-          Cerra sesión
+          Cerrar sesión
         </div>
       </Menu.Item>
 
     </Menu>
   );
 
+  
+
   if (isLoading || !user)
     return <Loading message='' type='waiting' />
+
+  
 
 
   return <div>
     <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
       <div className="px-4 pt-4 py-2">
-        <Logo />
+        <img src="../img/logo.png" style={{ width: '150px' }} />
       </div>
       <div className="text-sm font-bold text-info-700 pr-6 text-right pt-2">
         <Dropdown overlay={menu} trigger={['click']}>
@@ -88,17 +93,21 @@ export default () => {
 
       </div>
     </div>
-    <div className="md:px-20 py-6 grid grid-cols-2 px-4 ">
+    <div className="md:px-20  mx-20 py-6 grid grid-cols-2 px-4 ">
       <div className="text-2xl font-bold py-4"> Empresas administradas</div>
       <div className="text-2xl font-bold py-4 text-right">
-        <Button type="primary" icon={<PlusOutlined />} onClick={async () => {
-          await dispatch(setActionType(SET_TRAMITE_NUEVO))
-          router.push('/informacion_basica')
-        }}>Nuevo trámite </Button>
+        <Button type="primary" icon={<PlusOutlined />}
+          style={{ fontWeight: 600 }}
+          onClick={async () => {
+            await dispatch(setActionType(SET_TRAMITE_NUEVO))
+            router.push('/informacion_basica')
+          }}>Nuevo trámite </Button>
       </div>
     </div>
+    <div className="pb-10">
+      {tramites.length === 0 ? noData() : <BandejaConstructor tramites={tramites} />}
+    </div>
 
-    {tramites.length === 0 ? noData() : <BandejaConstructor tramites={tramites} />}
   </div>
 }
 

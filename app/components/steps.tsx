@@ -46,11 +46,11 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
       }}
     />
   }
-
-  
-
+ 
   const completo = () => {
-    return <Steps current={current}>
+    return <Steps current={current}
+    type="navigation"
+    className="site-navigation-steps">
       <Step
 
         status={generalStatus[0]}
@@ -86,7 +86,7 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
       <Step
         disabled={!completaBalanceYObras}
         status={generalStatus[3]}
-        title="Declaración Jurada de obras"
+        title="Declaración Jurada de Obras"
         className="cursor-pointer"
         onClick={() => {
           dispatch(setPaso(SET_PASOS.SET_PASO_OBRAS))
@@ -108,7 +108,9 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
   }
 
   const completoSinEnviar = () => {
-    return <Steps current={current}>
+    return <Steps current={current}
+    type="navigation"
+    className="site-navigation-steps">
       <Step
 
         status={generalStatus[0]}
@@ -155,7 +157,9 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
   }
 
   const sinObrasYConEnviar = () => {
-    return <Steps current={current}>
+    return <Steps current={current}
+    type="navigation"
+    className="site-navigation-steps">
       <Step
 
         status={generalStatus[0]}
@@ -193,7 +197,9 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
   }
 
   const sinObrasYSinEnviar = () => {
-    return <Steps current={current}>
+    return <Steps current={current}
+    type="navigation"
+    className="site-navigation-steps">
       <Step
 
         status={generalStatus[0]}
@@ -235,8 +241,21 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
   }
 
   
-  return <div className="px-20 py-4">
+  return <div className="px-20 pt-4 ">
     {renderStepers()}
+    <style>
+      {`
+      .ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item{
+        padding-bottom:14px;
+      }
+      .ant-steps-item::after{
+        display:none !important;
+      }
+      .ant-steps-item-icon, .ant-steps-item-content{
+        margin-right:20px
+      }
+      `}
+    </style>
   </div>
 }
 

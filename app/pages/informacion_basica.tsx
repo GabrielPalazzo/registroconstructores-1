@@ -440,14 +440,14 @@ export default () => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2">
+    <div className="border-gray-200 border-b-2 px-20">
       <NavigationStep
         generalStatus={statusGeneralTramite}
         completaBalanceYObras={isConstructora(tramite)}
         current={0} />
     </div>
 
-    <div className="px-20 py-6 ">
+    <div className="px-20 mx-20 py-6 ">
 
       <div className="flex justify-between text-2xl font-bold py-4">
         <div>Datos de la empresa</div>
@@ -771,7 +771,7 @@ export default () => {
           {renderApoderadosSection()}
         </Modal>
 
-        <Table columns={columns} dataSource={tramite.apoderados} />
+        <Table columns={columns} dataSource={tramite.apoderados} locale={{ emptyText: "No hay Apoderados y/o Usuarios"}} />
       </div>
 
       <div className=" content-center  rounded-lg border mt-8 px-4 py-4">

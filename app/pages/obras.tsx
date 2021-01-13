@@ -417,10 +417,10 @@ export default () => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2 py-4">
+    <div className="border-gray-200 border-b-2  px-10">
       <NavigationStep generalStatus={statusGeneralTramite} current={3} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
-    <div className="px-20 py-6 ">
+    <div className="px-20 mx-20 py-6 ">
       <div className="flex  content-center  ">
         <div className="text-2xl font-bold py-4 w-3/4">  Declaración jurada de Obras</div>
         <div className=" w-1/4 text-right content-center mt-4 ">
@@ -435,11 +435,11 @@ export default () => {
         <Tabs defaultActiveKey="1" onChange={callback} >
           <TabPane tab="Obras" key="1">
             <div className="overflow-x-auto" >
-              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} />}
+              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: "No hay información cargada"}} />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
-
+          <Table columns={columns}  locale={{ emptyText: "No hay información cargada"}}></Table>
           </TabPane>
         </Tabs>
       </div>

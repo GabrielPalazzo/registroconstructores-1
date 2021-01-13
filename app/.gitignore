@@ -34,6 +34,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+yarn.lock 
+./yarn.lock
+
 ../.DS_Store
 ./.DS_Store
 .DS_Store

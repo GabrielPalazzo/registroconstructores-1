@@ -1,50 +1,50 @@
 import { Button, Card } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import {UserManager} from 'oidc-client'
 import axios from 'axios'
+import Mantenimiento from '../components/mantenimiento'
 
 export default () => {
 
   const router = useRouter()
   const [userLoaded, setUserLoaded] = useState(null)
 
+  if (process.env.MODO==='MANTENIMIENTO')
+    return <Mantenimiento />
 
-  const oidcConfig = {
-    onSignIn: async (user) => {
-      console.log(user)
-    },
-    authority: 'https://tst.autenticar.gob.ar/auth/realms/rnc-afip/protocol/openid-connect/auth',
-    clientId: 'rnc',
-    responseType:'token',
-    redirectUri: 'https://react-ts-4pmh3f.stackblitz.io'
-  }
+  console.log(process.env.MODO)
 
-  
-  return <div className="h-screen bg">
-    <div className="m-auto mtop px-4  flex justify-center">
-      <Card title="Ingresar como:" style={{ width: 400, background: '#fff !important' }}>
-      <div className="pb-4 w-full text-center">
-          <Button type="primary" onClick={() => {
-            // axios.get('https://tst.autenticar.gob.ar/auth/realms/rnc-afip/protocol/openid-connect/auth?client_id=rnc&redirect_uri=http%3A%2F%2Flocalhost%3A3000&scope=openid&response_type=token&response_mode=form_post&nonce=l1njvnu2nj8')
-            //  .then(result => console.log(result))
-            const manager = new UserManager(oidcConfig)
-            manager.signinRedirect()
-          }} block>AFIP</Button>
+  return <div className="">
+    <div className="w-1/2 bg-primary-100 float-left h-screen mtop">
+      <div className="w-2/3 m-auto " >
+        <div>
+          <img src="../img/logo.png" style={{ width: '150px' }} />
         </div>
-        <div className="pb-4 w-full text-center">
-          <Button type="primary" onClick={() => {
+        <div className="text-3xl font-bold"> Hola, te damos la bienvenida al
+          <span className="text-primary-500 ml-2">Registro de Constructores</span>
+        </div>
+        <div className="text-lg pt-2">El Registro Nacional de Constructores de Obra Pública es donde deben inscribirse las empresas que deseen contratar obras con el Estado Nacional.</div>
+      </div>
+    </div>
+    <div className="w-1/2 bg-primary-500 float-left  h-screen mtop">
+      <div className="m-auto w-2/3">
+        <div className="text-3xl font-bold pb-4 pt-6 text-white"> Ingresá</div>
+        <div className="pb-4 ">
+          <Button className="btn " style={{ color: '#0072BB' }} onClick={() => {
             localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZWdpc3RybyBkZSBDb25zdHJ1Y3RvcmVzIiwiaWF0IjoxNjA3ODY4NDE0LCJhdWQiOiJodHRwOi8vbG9jYWxob3N0Iiwic3ViIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiR2l2ZW5OYW1lIjoiTGVvbmFyZG8gIiwiU3VybmFtZSI6IkxlZW5lbiIsIkVtYWlsIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiUm9sZSI6WyJDT05TVFJVQ1RPUiJdfQ.WGJJtUWKOjCqi0Ip9uYpU2uySpnBEPg35iay0-iOWMI')
             router.push('/')
-          }} block>Constructor</Button>
+          }} >Soy constructor</Button>
+
+          <Button className="btn " style={{ color: '#EC407A' }} 
+           >Soy miembro del registro</Button>
         </div>
-        <div className="pb-4 text-center  w-full">
-          <Button type="primary" onClick={() => {
+        {/* 
+         <Button className="btn " style={{ color: '#EC407A' }} onClick={() => {
             localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZWdpc3RybyBkZSBDb25zdHJ1Y3RvcmVzIiwiaWF0IjoyMjMzNDQ1NTY2NzcsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3QiLCJzdWIiOiJsZW9uYXJkb2xlZW5lbkBnbWFpbC5jb20iLCJHaXZlbk5hbWUiOiJNYXJ0aW4gIiwiU3VybmFtZSI6IklnbGVzaWFzIiwiRW1haWwiOiJsZW9uYXJkb2xlZW5lbkBnbWFpbC5jb20iLCJSb2xlIjpbIkNPTlRST0xBRE9SIl19.7uIIGKpwTvL2EnzLY1UWPmEgVwR3Xw-xW9BwtZHWCb0')
             router.push('/backoffice/bandeja')
-          }} block>Revisor Back Office</Button>
-        </div >
-        <div className="pb-4  text-center w-full">
+          }} >Revisor Back Office</Button>
+       <div className="pb-4  text-center w-full">
           <Button type="primary" onClick={() => {
             localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZWdpc3RybyBkZSBDb25zdHJ1Y3RvcmVzIiwiaWF0IjoxNjA3ODY4NDE0LCJhdWQiOiJodHRwOi8vbG9jYWxob3N0Iiwic3ViIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiR2l2ZW5OYW1lIjoiQW1hbmNpbyAiLCJTdXJuYW1lIjoiQWxjb3J0YSIsIkVtYWlsIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiUm9sZSI6WyJTVVBFUlZJU09SIl19.HwSjupVi7GBMZPh6O0ZJq4bQpYFu_xxeGzQjwhTB_j8')
             router.push('/backoffice/bandeja')
@@ -56,15 +56,25 @@ export default () => {
             router.push('/backoffice/bandeja')
           }} block>Aprobador Back Office</Button>
         </div>
-      </Card>
+     
+     */}
+
+      </div>
+
       <style>
         {` 
       .mtop{
         padding-top:20%;
       }
-      .bg{background:#e5e5e5}
+      .btn{backgroung:#ffffff;
+      width: 210px;
+    margin-right: 10px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
       `}
       </style>
+
 
     </div>
   </div>

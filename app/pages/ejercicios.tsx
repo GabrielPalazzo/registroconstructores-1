@@ -385,10 +385,10 @@ export default () => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2 py-4">
+    <div className="border-gray-200 border-b-2 px-10">
       <NavigationStep generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} current={2} />
     </div>
-    <div className="px-20 py-6 ">
+    <div className="px-20 mx-20 py-6 ">
       <div className="flex  content-center  ">
         <div className="text-2xl font-bold py-4 w-3/4">  Ejercicios</div>
         <div className=" w-1/4 text-right content-center mt-4 ">
@@ -396,16 +396,16 @@ export default () => {
         </div>
       </div>
       <div>
-        <Tabs defaultActiveKey="1" onChange={callback} >
+        <Tabs defaultActiveKey="1" onChange={callback}  >
 
 
           <TabPane tab="Balances" key="1">
             <div className="overflow-x-auto" >
-              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} dataSource={tramite.ejercicios} scroll={{ x: 1800 }} />}
+              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} locale={{ emptyText: "No hay información cargada"}}  dataSource={tramite.ejercicios} scroll={{ x: 1800 }}  />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
-            <Table columns={columnsBalances} scroll={{ x: 1800 }} />
+            <Table columns={columnsBalances} scroll={{ x: 1800 }} locale={{ emptyText: "No hay información cargada"}}  />
           </TabPane>
         </Tabs>
       </div>

@@ -8,13 +8,14 @@ import DatePicker from '../components/datePicker'
 import Switch from '../components/switch'
 import DatePickerModal from '../components/datePicker_Modal'
 import Upload from '../components/upload'
-import { Button, Card, Steps, Modal, Space, Table, Select, Checkbox, Collapse } from 'antd';
+import { Button, Card, Steps, Modal, Space, Table, Select, Checkbox, Collapse, Tooltip } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
 import LikeDislike from '../components/like_dislike'
 import SelectModal from '../components/select_modal'
 import UploadLine from '../components/uploadLine'
+import {QuestionCircleOutlined } from '@ant-design/icons';
 
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
@@ -478,7 +479,7 @@ export default () => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2 py-4">
+    <div className="border-gray-200 border-b-2 px-10">
       <NavigationStep generalStatus={statusGeneralTramite} current={1} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
     <div className="w-2/5 m-auto text-base mt-8">
@@ -486,7 +487,7 @@ export default () => {
     </div>
 
 
-    <div className="px-20 py-6 ">
+    <div className="px-20 mx-20 py-6 ">
 
 
       {/*
@@ -507,6 +508,810 @@ export default () => {
             required />
         </div>
          */}
+
+{tramite.personeria ==='UTE' ? <div> 
+<div className="text-2xl font-bold py-4"> Firma del Contrato de la U.T.E.</div>
+        <div className="grid grid-cols-3 gap-4 ">
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired="*"
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+                 }}
+            />
+          </div>
+          
+        </div>
+        <div className="text-2xl font-bold py-4"> Inscripción del contrato de la U.T.E</div>
+        <div className="grid grid-cols-3 gap-4 ">
+          <div >
+            <InputTextModal
+              value=""
+              bindFunction={value => {
+               
+              }}
+              label="Datos"
+              labelRequired="*"
+              placeholder=""
+              labelMessageError=""
+              required /></div>
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired="*"
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+
+              value=""
+              bindFunction={value => {
+                
+              }}
+            />
+          </div>
+          <div >
+            <UploadLine
+              label="Contrato de la U.T.E.ta Constitutiva"
+              labelRequired="*"
+              labelMessageError=""
+            />
+          </div>
+        </div>
+
+        <div className="text-2xl font-bold py-4">Última modificación del contrato de la U.T.E.</div>
+        <div className="grid grid-cols-3 gap-4 ">
+          <div >
+            <InputTextModal
+              label="Datos"
+              labelRequired=""
+              placeholder=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+               
+              }}
+              required /></div>
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired=""
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+                
+              }}
+            />
+          </div>
+          <div >
+            <UploadLine
+              label="Última modificación del Contrato de la U.T.E"
+              labelRequired="*"
+              labelMessageError=""
+            />
+          </div>
+        </div>
+        <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato de la UTE</div>
+        <div className="grid grid-cols-3 gap-4 ">
+          
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired=""
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+                
+              }}
+            />
+          </div>
+          <div >
+            <UploadLine
+              label="Última modificación del Contrato de la U.T.E"
+              labelRequired="*"
+              labelMessageError=""
+            />
+          </div>
+        </div>
+        <div className=" content-center  rounded-lg border  px-4 py-4">
+            <div className="flex  content-center ">
+              <div className="text-2xl font-bold py-4 w-3/4"> Autoridades</div>
+
+              <div className=" w-1/4 text-right content-center mt-4 ">
+                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+              </div>
+
+            </div>
+            <div className="pb-6" >
+              <UploadLine
+                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
+          General de Justicia o Registro Publico de comercio"
+                labelRequired="*"
+                labelMessageError=""
+              />
+            </div>
+            {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
+          </div>
+
+          <Modal
+            title="Datos de la Autoridad"
+            visible={modalAutoridad}
+            onOk={() => {
+              if (!tramite.autoridadesSociedad)
+                tramite.autoridadesSociedad = []
+
+              tramite.autoridadesSociedad.push({
+                nombre,
+                apellido,
+                tipoDocumento,
+                nroDocumento,
+                tipoCargo,
+                tipoOrgano,
+                direccion,
+                observaciones,
+                cuit,
+                inhibiciones
+              })
+              setModalAutoridad(false)
+              save()
+            }}
+            okText="Guardar"
+            onCancel={() => setModalAutoridad(false)}
+            cancelText="Cancelar"
+            width={1000}
+          >
+            {renderModalAutoridad()}
+          </Modal>
+
+</div> : ''}
+
+{tramite.personeria ==='Cooperativa' ? <div> 
+<div className="text-2xl font-bold py-4"> Firma del Acta Constitutiva</div>
+        <div className="grid grid-cols-3 gap-4 ">
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired="*"
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+                 }}
+            />
+          </div>
+          
+        </div>
+        <div className="text-2xl font-bold py-4"> Inscripción de Acta Constitutiva en I.N.A.E.S</div>
+        <div className="grid grid-cols-3 gap-4 ">
+          <div >
+            <InputTextModal
+              value=""
+              bindFunction={value => {
+               
+              }}
+              label="Datos"
+              labelRequired="*"
+              placeholder=""
+              labelMessageError=""
+              required /></div>
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired="*"
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+
+              value=""
+              bindFunction={value => {
+                
+              }}
+            />
+          </div>
+          <div >
+            <UploadLine
+              label="Acta Constitutiva"
+              labelRequired="*"
+              labelMessageError=""
+            />
+          </div>
+        </div>
+
+        <div className="text-2xl font-bold py-4">Modificación estatutaria Inscripta en I.N.A.E.S
+        <Tooltip title="En caso de que la cooperativa sea Constructora desde su Constitución, repetir mismos datos y fecha de la Inscripción de Acta Constitutiva en I.N.A.E.S "> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
+        <div className="grid grid-cols-3 gap-4 ">
+          <div >
+            <InputTextModal
+              label="Datos"
+              labelRequired=""
+              placeholder=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+               
+              }}
+              required /></div>
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired=""
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+                
+              }}
+            />
+          </div>
+          <div >
+            <UploadLine
+              label="Objeto de la cooperativa a rubro construccion"
+              labelRequired="*"
+              labelMessageError=""
+            />
+          </div>
+        </div>
+        <div className="text-2xl font-bold py-4">Última modificación estatutaria Inscripta en I.N.A.E.S.</div>
+        <div className="grid grid-cols-3 gap-4 ">
+        <div >
+            <InputTextModal
+              label="Datos"
+              labelRequired=""
+              placeholder=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+               
+              }}
+              required /></div>
+          
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired=""
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+                
+              }}
+            />
+          </div>
+          <div >
+            <UploadLine
+              label="Última modificación del estatutaria"
+              labelRequired="*"
+              labelMessageError=""
+            />
+          </div>
+        </div>
+        <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato / Acta Constitutiva</div>
+        <div className="grid grid-cols-3 gap-4 ">  
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired=""
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+                
+              }}
+            />
+          </div>
+         
+        </div>
+        <div className=" content-center  rounded-lg border  px-4 py-4">
+            <div className="flex  content-center ">
+              <div className="text-2xl font-bold py-4 w-3/4"> Autoridades</div>
+
+              <div className=" w-1/4 text-right content-center mt-4 ">
+                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+              </div>
+
+            </div>
+            <div className="pb-6" >
+              <UploadLine
+                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
+          General de Justicia o Registro Publico de comercio"
+                labelRequired="*"
+                labelMessageError=""
+              />
+            </div>
+            {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
+          </div>
+
+          <Modal
+            title="Datos de la Autoridad"
+            visible={modalAutoridad}
+            onOk={() => {
+              if (!tramite.autoridadesSociedad)
+                tramite.autoridadesSociedad = []
+
+              tramite.autoridadesSociedad.push({
+                nombre,
+                apellido,
+                tipoDocumento,
+                nroDocumento,
+                tipoCargo,
+                tipoOrgano,
+                direccion,
+                observaciones,
+                cuit,
+                inhibiciones
+              })
+              setModalAutoridad(false)
+              save()
+            }}
+            okText="Guardar"
+            onCancel={() => setModalAutoridad(false)}
+            cancelText="Cancelar"
+            width={1000}
+          >
+            {renderModalAutoridad()}
+          </Modal>
+
+</div> : ''}
+
+{tramite.personeria ==='PJESP' ? <div> 
+<div className="text-2xl font-bold py-4"> Inscripción constitutiva en país de origen</div>
+        <div className="grid grid-cols-3 gap-4 ">
+        <div >
+            <InputTextModal
+              value=""
+              bindFunction={value => {
+               
+              }}
+              label="Datos"
+              labelRequired="*"
+              placeholder=""
+              labelMessageError=""
+              required /></div>
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired="*"
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+                 }}
+            />
+          </div>
+          
+        </div>
+        <div className="text-2xl font-bold py-4"> Inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)</div>
+        <div className="grid grid-cols-3 gap-4 ">
+          <div >
+            <InputTextModal
+              value=""
+              bindFunction={value => {
+               
+              }}
+              label="Datos"
+              labelRequired="*"
+              placeholder=""
+              labelMessageError=""
+              required /></div>
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired="*"
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+
+              value=""
+              bindFunction={value => {
+                
+              }}
+            />
+          </div>
+          <div >
+            <UploadLine
+              label="Inscripción efectiva de la sucursal en D.P.P.J. / I.G.J"
+              labelRequired="*"
+              labelMessageError=""
+            />
+          </div>
+        </div>
+
+        <div className="text-2xl font-bold py-4"> Modificación del objeto de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)
+        <Tooltip title="En caso de que la empresa sea Constructora desde la inscripción inicial de la Sucursal en Argentina, repetir mismos datos y fecha de la Inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J."> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
+        <div className="grid grid-cols-2 gap-4 ">
+          <div >
+            <InputTextModal
+              label="Datos"
+              labelRequired=""
+              placeholder=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+               
+              }}
+              required /></div>
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired=""
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+                
+              }}
+            />
+          </div>
+          <div >
+            <UploadLine
+              label="Modificación del Objeto de la Sucursal Argentina al rubro Construcción inscripto en D.P.P.J / I.G.J."
+              labelRequired="*"
+              labelMessageError=""
+            />
+          </div>
+        </div>
+        <div className="text-2xl font-bold py-4">Última modificación de inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)</div>
+        <div className="grid grid-cols-2 gap-4 ">
+        <div >
+            <InputTextModal
+              label="Datos"
+              labelRequired=""
+              placeholder=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+               
+              }}
+              required /></div>
+          
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired=""
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+                
+              }}
+            />
+          </div>
+          <div >
+            <UploadLine
+              label="Última modificación de la Inscripción de la Sucursal en Argentina, inscripta en D.P.P.J. / I.G.J."
+              labelRequired="*"
+              labelMessageError=""
+            />
+          </div>
+        </div>
+        <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato / Acta Constitutiva</div>
+        <div className="grid grid-cols-3 gap-4 ">  
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              labelRequired=""
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+                
+              }}
+            />
+          </div>
+         
+        </div>
+        <div className=" content-center  rounded-lg border  px-4 py-4">
+            <div className="flex  content-center ">
+              <div className="text-2xl font-bold py-4 w-3/4"> Autoridades</div>
+
+              <div className=" w-1/4 text-right content-center mt-4 ">
+                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+              </div>
+
+            </div>
+            <div className="pb-6" >
+              <UploadLine
+                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
+          General de Justicia o Registro Publico de comercio"
+                labelRequired="*"
+                labelMessageError=""
+              />
+            </div>
+            {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
+          </div>
+
+          <Modal
+            title="Datos de la Autoridad"
+            visible={modalAutoridad}
+            onOk={() => {
+              if (!tramite.autoridadesSociedad)
+                tramite.autoridadesSociedad = []
+
+              tramite.autoridadesSociedad.push({
+                nombre,
+                apellido,
+                tipoDocumento,
+                nroDocumento,
+                tipoCargo,
+                tipoOrgano,
+                direccion,
+                observaciones,
+                cuit,
+                inhibiciones
+              })
+              setModalAutoridad(false)
+              save()
+            }}
+            okText="Guardar"
+            onCancel={() => setModalAutoridad(false)}
+            cancelText="Cancelar"
+            width={1000}
+          >
+            {renderModalAutoridad()}
+          </Modal>
+
+</div> : ''}
+
+{tramite.personeria ==='SA' || tramite.personeria ==='SRL' || tramite.personeria ==='OFS'?<div>
+          <div className="text-2xl font-bold py-4"> Firma del Contrato Constitutivo</div>
+         {/*  <div className="grid grid-cols-1 gap-4 ">
+            <div >
+              <InputText
+                attributeName="IGJ"
+                label="Dirección Inspección Persona jurídica / Inspeccion General"
+                labelRequired="*"
+                value={tramite.igj}
+                bindFunction={(value) => {
+                  tramite.igj = value
+                  updateObjTramite()
+                }}
+                placeHolder="Inspeccion General de Justicia"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                required />
+            </div>
+          </div>*/}
+           <div className="rounded-lg mt-4 border px-4 py-4">
+            <div className="text-2xl font-bold"> Inscripción de Contrato Constitutivo (en D.P.P.J / I.G.J.)</div>
+            <div className="grid grid-cols-4 gap-4 ">
+              <div >
+                <InputTextModal
+                  label="Datos"
+                  value=""
+                  bindFunction={value => {
+                
+                  }}
+                  labelRequired="*"
+                  placeholder=""
+                  labelMessageError=""
+                  required /></div>
+              <div >
+                <DatePickerModal
+                  label="Fecha"
+                  value=""
+                  bindFunction={value => {}}
+                  labelRequired="*"
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                />
+              </div>
+
+              <div >
+                <UploadLine
+                  label="Contrato Constitutivo"
+                  labelRequired="*"
+                  labelMessageError=""
+                />
+              </div>
+             
+
+            </div>
+          </div>
+          <div className="rounded-lg mt-4 border px-4 py-4">
+            <div className="text-2xl font-bold"> 
+            Modificación del Contrato Social 
+              <Tooltip title="En caso de que la empresa sea Constructora desde su inscripción inicial, repetir mismos datos y fecha de la Inscripción de Contrato Constitutivo"> <QuestionCircleOutlined className="pl-4" /></Tooltip>
+            </div>
+            <div className="grid grid-cols-2 gap-4 ">
+              <div >
+                <InputTextModal
+                  label="Datos"
+                  value={modificacionEstatutoDatos}
+                  bindFunction={setModificacionEstatutoDatos}
+                  labelRequired="*"
+                  placeholder=""
+                  labelMessageError=""
+                  required /></div>
+              <div >
+                <DatePickerModal
+                  label="Fecha"
+                  value={modificacionEstatutoFecha}
+                  bindFunction={setModificacionEstatutoFecha}
+                  labelRequired="*"
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                />
+              </div>
+
+              <div >
+                <UploadLine
+                  label="Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J."
+                  labelRequired="*"
+                  labelMessageError=""
+                />
+              </div>
+              <div className="mt-8 ">
+                <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
+              </div>
+
+            </div>
+            <Table columns={columnsModificacionEstatuto} />
+          </div>
+          <div className="text-2xl font-bold py-4 mt-4"> Última modificación del Contrato Social (inscripta en D.P.P.J / I.G.J.)</div>
+          <div className="grid grid-cols-2 gap-4 ">
+          <div >
+              <InputText
+                label="Datos"
+                attributeName="rubroConsutrccionDatos"
+                labelRequired="*"
+                value={tramite.rubroConstruccion.datos}
+                bindFunction={(value) => {
+                  tramite.rubroConstruccion.datos = value
+                  updateObjTramite()
+                }}
+                placeHolder="Inspeccion General de Justicia"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                required />
+            </div>
+            {/* <div >
+              <InputText
+                attributeName="rubroConstruccionLugar"
+                label="Datos"
+                labelRequired="*"
+                placeHolder=""
+                value={tramite.rubroConstruccion.lugar}
+                bindFunction={(value) => {
+                  tramite.rubroConstruccion.lugar = value
+                  updateObjTramite()
+                }}
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                required />
+            </div>*/}
+            
+            <div >
+              <DatePicker
+                label="Fecha"
+                value={tramite.rubroConstruccion.fecha}
+                bindFunction={(value) => {
+                  tramite.rubroConstruccion.fecha = value
+                  updateObjTramite()
+                }}
+                labelRequired="*"
+                placeholder="Inspeccion General de Justicia"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+              />
+            </div>
+            <div >
+                <UploadLine
+                  label="Última modificación del Contrato Social"
+                  labelRequired="*"
+                  labelMessageError=""
+                />
+              </div>
+
+            
+          </div>
+          <div className="text-2xl font-bold py-4 mt-4"> Fecha de vencimiento del Contrato Social</div>
+          <div className="grid grid-cols-2 gap-4 ">
+          <div >
+              <DatePicker
+                label="Fecha"
+                value={tramite.rubroConstruccion.fecha}
+                bindFunction={(value) => {
+                  tramite.rubroConstruccion.fecha = value
+                  updateObjTramite()
+                }}
+                labelRequired="*"
+                placeholder="Inspeccion General de Justicia"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+              />
+            </div>
+            </div>
+          <div className=" content-center  rounded-lg border  px-4 py-4">
+            <div className="flex  content-center ">
+              <div className="text-2xl font-bold py-4 w-3/4"> Autoridades</div>
+
+              <div className=" w-1/4 text-right content-center mt-4 ">
+                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+              </div>
+
+            </div>
+            <div className="pb-6" >
+              <UploadLine
+                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
+          General de Justicia o Registro Publico de comercio"
+                labelRequired="*"
+                labelMessageError=""
+              />
+            </div>
+            {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
+          </div>
+
+          <Modal
+            title="Datos de la Autoridad"
+            visible={modalAutoridad}
+            onOk={() => {
+              if (!tramite.autoridadesSociedad)
+                tramite.autoridadesSociedad = []
+
+              tramite.autoridadesSociedad.push({
+                nombre,
+                apellido,
+                tipoDocumento,
+                nroDocumento,
+                tipoCargo,
+                tipoOrgano,
+                direccion,
+                observaciones,
+                cuit,
+                inhibiciones
+              })
+              setModalAutoridad(false)
+              save()
+            }}
+            okText="Guardar"
+            onCancel={() => setModalAutoridad(false)}
+            cancelText="Cancelar"
+            width={1000}
+          >
+            {renderModalAutoridad()}
+          </Modal>
+
+
+        </div> :''}
+
       {isPersonaFisica(tramite) ? <div>
         <div className="text-2xl font-bold py-4"> Alta en AFIP (actividad referente a rubro Construcción)</div>
         <div className="grid grid-cols-3 gap-4 ">
@@ -622,169 +1427,9 @@ export default () => {
           </div>
         </div>
 
-      </div> :
-        <div>
-          <div className="text-2xl font-bold py-4"> Constitución Societaria</div>
-          <div className="grid grid-cols-1 gap-4 ">
-            <div >
-              <InputText
-                attributeName="IGJ"
-                label="Dirección Inspección Persona jurídica / Inspeccion General"
-                labelRequired="*"
-                value={tramite.igj}
-                bindFunction={(value) => {
-                  tramite.igj = value
-                  updateObjTramite()
-                }}
-                placeHolder="Inspeccion General de Justicia"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                required />
-            </div>
-          </div>
-          <div className="rounded-lg mt-4 border px-4 py-4">
-            <div className="text-2xl font-bold"> Modificación Estatuto</div>
-            <div className="grid grid-cols-4 gap-4 ">
-              <div >
-                <InputTextModal
-                  label="Datos"
-                  value={modificacionEstatutoDatos}
-                  bindFunction={setModificacionEstatutoDatos}
-                  labelRequired="*"
-                  placeholder=""
-                  labelMessageError=""
-                  required /></div>
-              <div >
-                <DatePickerModal
-                  label="Fecha"
-                  value={modificacionEstatutoFecha}
-                  bindFunction={setModificacionEstatutoFecha}
-                  labelRequired="*"
-                  placeholder="Fecha"
-                  labelObservation=""
-                  labeltooltip=""
-                  labelMessageError=""
-                />
-              </div>
+      </div> :<div></div> }
 
-              <div >
-                <UploadLine
-                  label="Adjuntar Documento respaldatorio"
-                  labelRequired="*"
-                  labelMessageError=""
-                />
-              </div>
-              <div className="mt-8 ">
-                <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
-              </div>
-
-            </div>
-            <Table columns={columnsModificacionEstatuto} />
-          </div>
-          <div className="text-2xl font-bold py-4 mt-4"> Inscripción en el rubro de construcción</div>
-          <div className="grid grid-cols-4 gap-4 ">
-            <div >
-              <InputText
-                attributeName="rubroConstruccionLugar"
-                label="Lugar"
-                labelRequired="*"
-                placeHolder=""
-                value={tramite.rubroConstruccion.lugar}
-                bindFunction={(value) => {
-                  tramite.rubroConstruccion.lugar = value
-                  updateObjTramite()
-                }}
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                required />
-            </div>
-            <div >
-              <DatePicker
-                label="Fecha"
-                value={tramite.rubroConstruccion.fecha}
-                bindFunction={(value) => {
-                  tramite.rubroConstruccion.fecha = value
-                  updateObjTramite()
-                }}
-                labelRequired="*"
-                placeholder="Inspeccion General de Justicia"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-              />
-            </div>
-
-            <div >
-              <InputText
-                label="Datos"
-                attributeName="rubroConsutrccionDatos"
-                labelRequired="*"
-                value={tramite.rubroConstruccion.datos}
-                bindFunction={(value) => {
-                  tramite.rubroConstruccion.datos = value
-                  updateObjTramite()
-                }}
-                placeHolder="Inspeccion General de Justicia"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                required />
-            </div>
-          </div>
-          <div className=" content-center  rounded-lg border  px-4 py-4">
-            <div className="flex  content-center ">
-              <div className="text-2xl font-bold py-4 w-3/4"> Autoridades</div>
-
-              <div className=" w-1/4 text-right content-center mt-4 ">
-                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
-              </div>
-
-            </div>
-            <div className="pb-6" >
-              <UploadLine
-                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
-          General de Justicia o Registro Publico de comercio"
-                labelRequired="*"
-                labelMessageError=""
-              />
-            </div>
-            {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
-          </div>
-
-          <Modal
-            title="Datos de la Autoridad"
-            visible={modalAutoridad}
-            onOk={() => {
-              if (!tramite.autoridadesSociedad)
-                tramite.autoridadesSociedad = []
-
-              tramite.autoridadesSociedad.push({
-                nombre,
-                apellido,
-                tipoDocumento,
-                nroDocumento,
-                tipoCargo,
-                tipoOrgano,
-                direccion,
-                observaciones,
-                cuit,
-                inhibiciones
-              })
-              setModalAutoridad(false)
-              save()
-            }}
-            okText="Guardar"
-            onCancel={() => setModalAutoridad(false)}
-            cancelText="Cancelar"
-            width={1000}
-          >
-            {renderModalAutoridad()}
-          </Modal>
-
-
-        </div>}
+      
 
       <div className="rounded-lg mt-4 border px-4 py-4">
         <div className="text-2xl font-bold"> Inscripción en I.E.R.I.C. (Instituto de Estadística y Registro de la Industria de la Construcción)</div>
