@@ -1,19 +1,39 @@
 import { Button, Card } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import {UserManager} from 'oidc-client'
+import { UserManager } from 'oidc-client'
 import axios from 'axios'
 import Mantenimiento from '../components/mantenimiento'
+import { getCodigoObra, setToken } from '../services/business'
 
 export default () => {
 
   const router = useRouter()
   const [userLoaded, setUserLoaded] = useState(null)
 
-  if (process.env.MODO==='MANTENIMIENTO')
+  useEffect(() =>{
+    if (router.asPath.split('=')[0]==='/login#access_token'){
+    
+      axios.post('/api/getUserToken',{
+        access_token:router.asPath.split("=")[1].split('&')[0]
+      }).then(result => {
+        setToken(result.data)
+        router.push('/')
+      })
+      .catch( err => router.push('/login'))
+    }
+  })
+  if (process.env.MODO === 'MANTENIMIENTO')
     return <Mantenimiento />
 
-  console.log(process.env.MODO)
+  var randomString = function (length) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < length; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+  }
 
   return <div className="">
     <div className="w-1/2 bg-primary-100 float-left h-screen mtop">
@@ -32,12 +52,11 @@ export default () => {
         <div className="text-3xl font-bold pb-4 pt-6 text-white"> Ingresá</div>
         <div className="pb-4 ">
           <Button className="btn " style={{ color: '#0072BB' }} onClick={() => {
-            localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZWdpc3RybyBkZSBDb25zdHJ1Y3RvcmVzIiwiaWF0IjoxNjA3ODY4NDE0LCJhdWQiOiJodHRwOi8vbG9jYWxob3N0Iiwic3ViIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiR2l2ZW5OYW1lIjoiTGVvbmFyZG8gIiwiU3VybmFtZSI6IkxlZW5lbiIsIkVtYWlsIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiUm9sZSI6WyJDT05TVFJVQ1RPUiJdfQ.WGJJtUWKOjCqi0Ip9uYpU2uySpnBEPg35iay0-iOWMI')
-            router.push('/')
+            router.push(`${process.env.OPENID_AUTH}&nonce=${randomString(10)}&redirect_uri=${window.location.href}`)
           }} >Soy constructor</Button>
 
-          <Button className="btn " style={{ color: '#EC407A' }} 
-           >Soy miembro del registro</Button>
+          <Button className="btn " style={{ color: '#EC407A' }}
+          >Soy miembro del registro</Button>
         </div>
         {/* 
          <Button className="btn " style={{ color: '#EC407A' }} onClick={() => {

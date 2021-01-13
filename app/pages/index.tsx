@@ -36,9 +36,11 @@ export default () => {
       setTramites(await getTramites())
       setIsLoading(false)
       setUser(usuario)
+
     })()
   }, [])
 
+  
 
   const cerrarSesion = () => {
     closeSession()

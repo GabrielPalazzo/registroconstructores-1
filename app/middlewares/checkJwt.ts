@@ -13,3 +13,7 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
    next() // pass the execution off to whatever request the client intended
  }) 
 };
+
+export const signToken = (userData) => {
+  return jwt.sign(userData,process.env.SESSION_SECRET)
+}

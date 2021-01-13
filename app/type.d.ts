@@ -10,6 +10,7 @@ type Usuario = {
   "iat": string,
   "aud": string,
   "sub": string,
+  cuit: string
   "GivenName": string,
   "Surname": string,
   "Email": string,
@@ -94,6 +95,19 @@ type DDJJObra ={
   montoInicial:string
   especialidades: string
   subespecialidades:string
+}
+
+type AutoridadEmpresa  ={
+  nombre: string
+  apellido: string
+  tipoDoc: string
+  nroDoc: string
+  tipoOrgano: string
+  tipoCargo: string
+  direccion: string
+  cuit: string
+  inhibiciones: boolean
+  observaciones: string
 }
 
 type TramiteAlta = {
@@ -196,6 +210,40 @@ type TramiteAlta = {
     observaciones: string
   }>,
   poseeIERIC: boolean
+  datosSocietarios: {
+    fechaInscripcion: string,
+    fechaVencimiento: string
+    cooperativa : {
+      inscriptionINAES: {
+        datos:string
+        fecha:string
+      }
+      modificacionINAES: {
+        datos:string
+        fecha: string
+      }
+      ultimaModifcacionINAES: {
+        datos: string
+        fecha: string
+      }
+    }
+    sociedadAnonima: {
+      inscripcion: {
+        datos: string
+        fecha: string
+      }
+      modificacion: {
+        datos: string
+        fecha: string
+      }
+      ultimaModificacion : {
+        datos: string
+        fecha: string
+      }
+    }
+    autoridades: Array<AutoridadEmpresa>
+    
+  }
   
 }
 

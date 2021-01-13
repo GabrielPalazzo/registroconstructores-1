@@ -9,6 +9,9 @@ module.exports = {
     SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
     EMAIL_FROM: process.env.EMAIL_FROM,
     SESSION_SECRET: process.env.SESSION_SECRET,
-    MODO: process.env.MODO
+    MODO: process.env.MODO,
+    OPENID_AUTH: process.env.OPENID_AUTH,
+    OPENID_USERDATA: process.env.OPENID_USERDATA,
+    OPENID_LOGOUT: process.env.OPENID_LOGOUT
   },
 };

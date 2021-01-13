@@ -120,8 +120,6 @@ export const InputText: React.FC<IProps> = ({
   }
 
   const isEditable = () => {
-    console.log(getReviewAbierta(tramite))
-    console.log(getUsuario().isConstructor())
     
     return tramite.status ==='BORRADOR' ||
       (tramite.status ==='OBSERVADO' && getReviewAbierta(tramite).reviews.filter(r => (r.field ===attributeName.toUpperCase()) && !r.isOk).length >0) && getUsuario().isConstructor()

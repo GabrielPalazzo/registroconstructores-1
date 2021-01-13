@@ -150,7 +150,7 @@ export default () => {
 
           </TabPane>
           <TabPane tab="Mis Asignados" key="2">
-            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.iat === usuario.iat).map((t: TramiteAlta) => (
+            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div className="">

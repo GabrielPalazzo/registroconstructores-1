@@ -8,6 +8,9 @@ export const getToken = () => {
   return localStorage.getItem('token') ? localStorage.getItem('token')  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNlYmEgQnJvbWJlcmciLCJpYXQiOjE1MTYyMzkwMjJ9.vM1mo49C9FazAkIbDe2UnUXQY7Qfkm3IC4eDpVFLviM' 
 }
 
+export const setToken = (token) => {
+  localStorage.setItem('token',token)
+}
 export const saveTramiteService = (tramite: TramiteAlta) : Promise<TramiteAlta> => {
   return axios.post('/api/tramite',tramite,{
     headers: {
@@ -100,7 +103,40 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
       datos:'',
       fecha:''
     },
-    poseeIERIC: true
+    poseeIERIC: true,
+    datosSocietarios:{
+      autoridades:[],
+      cooperativa: {
+        inscriptionINAES:{
+          datos:'',
+          fecha:''
+        },
+        modificacionINAES:{ 
+          datos:'',
+          fecha:''
+        },
+        ultimaModifcacionINAES:{
+          datos:'',
+          fecha:''
+        },
+      },
+      sociedadAnonima: {
+        inscripcion: {
+          datos:'',
+          fecha:''
+        },
+        modificacion: {
+          datos:'',
+          fecha: ''
+        },
+        ultimaModificacion: {
+          datos: '',
+          fecha:''
+        }
+      },
+      fechaInscripcion:'',
+      fechaVencimiento:'',
+    }
     
   }
 }

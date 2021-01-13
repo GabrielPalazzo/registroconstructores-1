@@ -10,7 +10,7 @@ handler.get(async (req: any, res: NextApiResponse) => {
   console.log('ingreso a la funcion')
   const tramites = await req.db
     .collection('tramites')
-    .find({'creatorId.iat': req.user.iat}
+    .find({'creatorId.cuit': req.user.cuit}
     )
     .toArray();
   res.send({ tramites });
