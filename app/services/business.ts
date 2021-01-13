@@ -105,7 +105,6 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     },
     poseeIERIC: true,
     datosSocietarios:{
-      autoridades:[],
       cooperativa: {
         inscriptionINAES:{
           datos:'',
@@ -132,6 +131,16 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
         ultimaModificacion: {
           datos: '',
           fecha:''
+        }
+      },
+      ute: {
+        inscripcionUTE:{
+          datos:'',
+          fecha:''
+        },
+        modificacionUTE:{
+          fecha:'',
+          datos:''
         }
       },
       fechaInscripcion:'',

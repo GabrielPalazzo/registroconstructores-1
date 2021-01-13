@@ -520,8 +520,10 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
+              value={tramite.datosSocietarios.fechaInscripcion}
               bindFunction={value => {
+                tramite.datosSocietarios.fechaInscripcion = value
+                updateObjTramite()
               }}
             />
           </div>
@@ -531,9 +533,10 @@ export default () => {
         <div className="grid grid-cols-3 gap-4 ">
           <div >
             <InputTextModal
-              value=""
+              value={tramite.datosSocietarios.ute.inscripcionUTE.datos}
               bindFunction={value => {
-
+                tramite.datosSocietarios.ute.inscripcionUTE.datos = value
+                updateObjTramite()
               }}
               label="Datos"
               labelRequired="*"
@@ -549,9 +552,10 @@ export default () => {
               labeltooltip=""
               labelMessageError=""
 
-              value=""
+              value={tramite.datosSocietarios.ute.inscripcionUTE.fecha}
               bindFunction={value => {
-
+                tramite.datosSocietarios.ute.inscripcionUTE.fecha=value
+                updateObjTramite()
               }}
             />
           </div>
@@ -572,9 +576,10 @@ export default () => {
               labelRequired=""
               placeholder=""
               labelMessageError=""
-              value=""
+              value={tramite.datosSocietarios.ute.modificacionUTE.datos}
               bindFunction={value => {
-
+                tramite.datosSocietarios.ute.modificacionUTE.datos = value 
+                updateObjTramite()
               }}
               required /></div>
           <div >
@@ -585,9 +590,10 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
+              value={tramite.datosSocietarios.ute.modificacionUTE.fecha}
               bindFunction={value => {
-
+                tramite.datosSocietarios.ute.modificacionUTE.fecha=value
+                updateObjTramite()
               }}
             />
           </div>
@@ -610,9 +616,10 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
+              value={tramite.datosSocietarios.fechaVencimiento}
               bindFunction={value => {
-
+                tramite.datosSocietarios.fechaVencimiento = value 
+                updateObjTramite()
               }}
             />
           </div>
@@ -651,7 +658,7 @@ export default () => {
             if (!tramite.autoridadesSociedad)
               tramite.autoridadesSociedad = []
 
-            tramite.autoridadesSociedad.push({
+            const autoridad : AutoridadEmpresa = {
               nombre,
               apellido,
               tipoDocumento,
@@ -662,7 +669,9 @@ export default () => {
               observaciones,
               cuit,
               inhibiciones
-            })
+            }
+
+            tramite.autoridadesSociedad.push(autoridad)
             setModalAutoridad(false)
             save()
           }}
@@ -1456,7 +1465,8 @@ export default () => {
           {isPersonaFisica(tramite) ?
             <Checkbox value={tramite.poseeIERIC} onChange={e => {
               tramite.poseeIERIC = !e.target.checked
-              save()
+              updateObjTramite()
+              //save()
             }}>Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1.</Checkbox>
             : <Checkbox >Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b.</Checkbox>
           }

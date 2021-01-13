@@ -100,8 +100,8 @@ type DDJJObra ={
 type AutoridadEmpresa  ={
   nombre: string
   apellido: string
-  tipoDoc: string
-  nroDoc: string
+  tipoDocumento: string
+  nroDocumento: string
   tipoOrgano: string
   tipoCargo: string
   direccion: string
@@ -241,7 +241,17 @@ type TramiteAlta = {
         fecha: string
       }
     }
-    autoridades: Array<AutoridadEmpresa>
+    ute: {
+      inscripcionUTE: {
+        datos:string
+        fecha: string
+      },
+      modificacionUTE: {
+        datos: string
+        fecha:string
+      }
+    }
+  
     
   }
   
