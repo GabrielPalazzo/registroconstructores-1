@@ -57,6 +57,7 @@ export default () => {
 
           <Button className="btn " style={{ color: '#EC407A' }}
           >Soy miembro del registro</Button>
+          <p className="text-base text-white w-2/3"> Si vas a ingresar como Constructor, se te solicitará tu clave de AFIP.</p>
         </div>
         {/* 
          <Button className="btn " style={{ color: '#EC407A' }} onClick={() => {
