@@ -80,9 +80,12 @@ type DDJJObra ={
   ubicacionGeografica:Array<UbicacionGeografica>
   ampliaciones:Array<AmpliacionesObras>
   redeterminaciones: Array<Redeterminaciones>
-  
-  certificacionesVigentes:Array<Certificaciones>
-  certificacionesEjercicioCerrado:Array<CertificacionesCerradas>
+  certificaciones: Array<{
+    codigo: string,
+    monto: number
+    periodo: string
+  }>
+
   plazoPorContrato:number
   prorroga:number
   transcurrido:number

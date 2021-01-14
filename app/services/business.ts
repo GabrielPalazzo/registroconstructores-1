@@ -311,3 +311,8 @@ export const getCodigoObra = () => {
   const nanoid = customAlphabet('1234567890abcdef', 10)
   return nanoid().toUpperCase()
 }
+
+export const getUniqCode = () => {
+  const nanoid = customAlphabet('1234567890abcdef_=?@#', 10)
+  return nanoid().toUpperCase()
+}

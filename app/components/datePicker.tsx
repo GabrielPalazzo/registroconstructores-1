@@ -14,7 +14,7 @@ const colors = [
   'green',
 ];
 
-const dateFormat = 'DD/MM/YYYY';
+let dateFormat = 'DD/MM/YYYY';
 
 interface Props {
   value: any
@@ -26,6 +26,7 @@ interface Props {
   labeltooltip?: string
   labelObservation: string
   showHands?: boolean
+  picker?:"time" | "date" | "week" | "month" | "quarter" | "year"
 }
 
 export default (props: Props) => {
@@ -52,8 +53,8 @@ export default (props: Props) => {
           props.bindFunction(moment(value,dateFormat).format(dateFormat))
         }}
         defaultValue={props.value &&  moment(props.value,dateFormat) }
-        picker={props.placeholder}
-        format={dateFormat} />
+        picker={props.picker ? props.picker  : 'date'}
+        format={props.picker && props.picker ==='month' ? 'MMMM YYYY' : dateFormat} />
 
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">

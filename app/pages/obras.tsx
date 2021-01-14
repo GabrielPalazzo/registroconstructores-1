@@ -24,6 +24,7 @@ import { ObrasCertificacionesCerradas } from '../components/obrasCertificaciones
 import { ObrasCertificaciones } from '../components/obrasCertificaciones';
 import { ObrasAmpliaciones } from '../components/obrasAmpliaciones'
 import { isError } from 'util';
+import { CertificacionesPrecargadas } from '../components/obraCertificacionesPrecargadas';
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -264,12 +265,11 @@ export default () => {
         <TabPane tab="Redeterminaciones" key="redeterminaciones">
           <ObrasRedeterminaciones obra={obra} onChange={setObra} />
         </TabPane>
-        <TabPane tab="Certificaciones del Ejercicio Vigente" key="certificaciones">
-          <ObrasCertificaciones obra={obra} onChange={setObra} />
+        
+        <TabPane tab="Certificaciones" key="certificaciones">
+          <CertificacionesPrecargadas obra={obra} onChange={setObra} />
         </TabPane>
-        <TabPane tab="Certificaciones de Ejercicios Cerrados" key="certificacionesEjerciciosCerrados">
-          <ObrasCertificacionesCerradas obra={obra} onChange={setObra} />
-        </TabPane>
+        
         <TabPane tab="Plazos" key="plazos">
           <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
             <div className="text-xl font-bold py-2 w-3/4">  Plazos en meses</div>
