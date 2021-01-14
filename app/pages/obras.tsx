@@ -20,8 +20,6 @@ import { allowGuardar, getCodigoObra, getEmptyTramiteAlta, getTramiteByCUIT, isC
 import { saveTramite } from '../redux/actions/main'
 import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
-import { ObrasCertificacionesCerradas } from '../components/obrasCertificacionesCerradas';
-import { ObrasCertificaciones } from '../components/obrasCertificaciones';
 import { ObrasAmpliaciones } from '../components/obrasAmpliaciones'
 import { isError } from 'util';
 import { CertificacionesPrecargadas } from '../components/obraCertificacionesPrecargadas';
@@ -60,8 +58,7 @@ export default () => {
     cuitComitente: '',
     montoInicial: '',
     redeterminaciones: [],
-    certificacionesVigentes: [],
-    certificacionesEjercicioCerrado: [],
+    certificaciones: [],
     plazoPorContrato: 0,
     prorroga: 0,
     transcurrido: 0,
