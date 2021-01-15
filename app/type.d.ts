@@ -53,6 +53,7 @@ type Redeterminaciones ={
   id: string
   monto:number
   fecha:string
+  descripcion:string
 }
 type AmpliacionesObras ={
   id: string
