@@ -22,6 +22,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
   const [periodos, setPeriodos] = useState(obra.certificaciones)
   const [periodo, setPeriodo] = useState('')
+  const [descripcion, setDescripcion] = useState('')
   const [monto, setMonto] = useState(0)
   const [periodoSeleccionado, setPeriodoSeleccionado] = useState(null)
 
@@ -110,6 +111,15 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
         />
       </div>
       <div >
+        <InputTextModal
+          label="Descripcion"
+          labelRequired="*"
+          labelMessageError=""
+          value={descripcion}
+          bindFunction={setDescripcion}
+        />
+      </div>
+      <div >
         <UploadLine
           label="Documentación respaldatoria"
           labelRequired="*"
@@ -117,7 +127,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
         />
       </div>
 
-      <div className="w-1/3 flex items-center">
+      <div className="w-1/3 flex items-center mb-4">
         <Button onClick={agregarPeriodo} type={periodo ? 'primary' : 'ghost'}>{periodoSeleccionado ? 'Editar' : 'Agregar'}</Button>
       </div>
     </div>

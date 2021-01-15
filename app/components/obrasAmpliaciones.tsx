@@ -21,6 +21,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
   //const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
   const [monto, setMonto] = useState(0)
   const [fecha, setFecha] = useState('')
+  const [descripcion, setDescripcion] = useState('')
   const [dataSource, setDataSource] = useState<Array<AmpliacionesObras>>(obra.ampliaciones)
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
@@ -54,6 +55,11 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       key: 'monto'
     },
     {
+      title: 'descripcion',
+      dataIndex: 'descripcion',
+      key: 'descripcion'
+    },
+    {
       title: 'Adjunto',
       dataIndex: 'adjunto',
       key: 'adjunto',
@@ -74,7 +80,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       return
     }
 
-    dataSource.push({ id:getCodigoObra(), monto, fecha })
+    dataSource.push({ id:getCodigoObra(), monto, fecha,descripcion })
     setDataSource(Object.assign([], dataSource))
     obra.ampliaciones = Object.assign([],dataSource)
     onChange(obra)
@@ -123,6 +129,16 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
           <UploadLine
             label="Ampliación / Reducción contractual"
             labelRequired="*"
+          />
+        </div>
+        <div className="pb-6" >
+          <InputTextModal
+            label="Descripcion"
+            type="number" step="any"
+            labelRequired="*"
+            labelMessageError=""
+            value={descripcion}
+            bindFunction={(value) => { setDescripcion(value) }}
           />
         </div>
       </div>
