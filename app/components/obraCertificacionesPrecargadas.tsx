@@ -82,7 +82,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
   return <div>
     <div className="mb-4">
-      <Alert message="En esta sección podrá agregar todas las certificaciones que posea de la obra consignando: Periodo (MM/AAAA), monto a declarar y los documentos que sustenten los datos ingresados. Los mismpos pueden ser certificaciones de obras, facturas o bien certificación contable" type="info" />
+      <Alert message="En esta sección podrá agregar todas las certificaciones que posea de la obra consignando: período (MM/AAAA), monto y la documental que sustenten los datos ingresados. Las certificaciones deben declararse una vez facturadas, indicando fecha de facturación, y adjuntando como respaldo el propio certificado y su respectiva factura" type="info" />
     </div>
     <div className="grid grid-cols-4 gap-4 ">
 

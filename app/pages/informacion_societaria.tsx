@@ -561,7 +561,7 @@ export default () => {
           </div>
           <div >
             <UploadLine
-              label="Contrato de la U.T.E.ta Constitutiva"
+              label="Contrato de la U.T.E."
               labelRequired="*"
               labelMessageError=""
             />
@@ -606,7 +606,7 @@ export default () => {
           </div>
         </div>
         <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato de la UTE</div>
-        <div className="grid grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-2 gap-4 ">
 
           <div >
             <DatePickerModal
@@ -623,13 +623,29 @@ export default () => {
               }}
             />
           </div>
-          <div >
+          <div className="flex">
+            <div> <Checkbox >No Corresponde</Checkbox></div>
+            <div >
+            <InputTextModal
+              label="Observaciones"
+              labelRequired=""
+              placeholder=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+               
+              }}
+             /></div>
+          </div>
+         
+          {/* <div >
             <UploadLine
               label="Última modificación del Contrato de la U.T.E"
               labelRequired="*"
               labelMessageError=""
             />
-          </div>
+          </div> */}
+         
         </div>
         <div className=" content-center  rounded-lg border  px-4 py-4">
           <div className="flex  content-center ">
