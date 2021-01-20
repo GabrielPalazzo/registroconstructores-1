@@ -190,14 +190,26 @@ export default () => {
 
         </div>
         <div className="pb-6" >
-          <Upload
+          <UploadLine
             label="Adjunte  Documento "
             labelRequired="*"
             labelMessageError=""
           />
         </div>
       </div>
+<<<<<<< HEAD
 
+=======
+      <div className="grid grid-cols-2 gap-4 ">
+        <div className="pb-6" >
+          <UploadLine
+            label="Adjunte  Documento "
+            labelRequired="*"
+            labelMessageError=""
+          />
+        </div>
+      </div>
+>>>>>>> 7f9fd93cb1e75076084562ee55358426263cb0ce
     </div>)
   }
 

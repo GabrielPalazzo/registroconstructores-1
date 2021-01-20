@@ -1,7 +1,3 @@
-import nextConnect from 'next-connect';
-import middleware from '../../../middlewares/middleware';
-import { NextApiRequest, NextApiResponse } from 'next';
-import IPFS from 'ipfs'
 import ipfsClient from 'ipfs-http-client'
 import multiparty from 'multiparty'
 import fs from 'fs'

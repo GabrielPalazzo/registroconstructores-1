@@ -1,9 +1,6 @@
 version: "3.8"
 services:
   web:
-    environment:
-      - MONGO_URI=mongodb://mongo:27017
-      - SESSION_SECRET=registroconstructores
     build:
       context: ./app
       target: development

@@ -15,15 +15,17 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "isolatedModules": true
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "jobs/patch_ipfs.js"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "node_modules/ipfs-core-types/src/index.ts",
+    "./node_modules"
   ]
 }
