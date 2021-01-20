@@ -93,7 +93,8 @@ export default () => {
   }
 
   function callback(key) {
-    console.log(key);
+    save()
+    setIsLoading(false)
   }
   function log(e) {
     console.log(e);

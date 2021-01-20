@@ -167,7 +167,7 @@ export default () => {
 
         </div>
         <div className="pb-6" >
-          <Upload
+          <UploadLine
             label="Adjunte  Documento "
             labelRequired="*"
             labelMessageError=""
@@ -176,7 +176,7 @@ export default () => {
       </div>
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
-          <Upload
+          <UploadLine
             label="Adjunte  Documento "
             labelRequired="*"
             labelMessageError=""
