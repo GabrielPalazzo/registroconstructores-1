@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
-import UploadLine from './uploadLine'
+import Upload from './upload'
 import { Button, Select, Table, Alert , Space} from 'antd';
 import { PlusOutlined ,DeleteOutlined} from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
@@ -22,6 +22,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
   const [monto, setMonto] = useState(0)
   const [fecha, setFecha] = useState('')
   const [descripcion, setDescripcion] = useState('')
+  const [archivos,setArchivos] = useState([])
   const [dataSource, setDataSource] = useState<Array<AmpliacionesObras>>(obra.ampliaciones)
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
@@ -61,8 +62,8 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     },
     {
       title: 'Adjunto',
-      dataIndex: 'adjunto',
       key: 'adjunto',
+      render: (text,record) => <div>{record.archivos && record.archivos.map( f=> f.name).join(', ')}</div>
     }
   
   
@@ -80,10 +81,19 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       return
     }
 
-    dataSource.push({ id:getCodigoObra(), monto, fecha,descripcion })
+    dataSource.push({ 
+      id:getCodigoObra(), 
+      monto, 
+      fecha,
+      descripcion,
+      archivos })
     setDataSource(Object.assign([], dataSource))
     obra.ampliaciones = Object.assign([],dataSource)
     onChange(obra)
+    setArchivos([])
+    setMonto(0)
+    setDescripcion('')
+    setFecha('')
   }
   return <div>
     {showError ? <div className="mb-4">
@@ -126,15 +136,23 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         </div>
 
         <div className="pb-6" >
-          <UploadLine
+          <Upload
             label="Ampliación / Reducción contractual"
             labelRequired="*"
+            defaultValue={archivos as any}
+            onOnLoad={file =>{
+              archivos.push(file)
+              setArchivos(Object.assign([],archivos))
+            }}
+            onRemove={fileToRemove => {
+              setArchivos(Object.assign([],archivos.filter(f=> f.cid !==fileToRemove.cid)))
+            }}
           />
         </div>
         <div className="pb-6" >
           <InputTextModal
             label="Descripcion"
-            type="number" step="any"
+            step="any"
             labelRequired="*"
             labelMessageError=""
             value={descripcion}

@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { getUniqCode } from '../services/business'
 import DatePicker from './datePicker'
 import InputTextModal from './input_text_modal'
-import UploadLine from './uploadLine'
+import Upload from './upload'
 
 export interface CertificacionesPrecargadasProps {
   obra: DDJJObra,
@@ -25,6 +25,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   const [descripcion, setDescripcion] = useState('')
   const [monto, setMonto] = useState(0)
   const [periodoSeleccionado, setPeriodoSeleccionado] = useState(null)
+  const [archivos,setArchivos] = useState<Array<Archivo>>([])
 
   const borrarPeriodo = (p) => {
     setPeriodos(Object.assign([], periodos.filter(v => v.codigo !== p.codigo)))
@@ -56,7 +57,13 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       title: 'Monto',
       dataIndex: 'monto',
       key: 'monto'
-    }]
+    },
+    {
+			title: 'Adjunto',
+			render: (text,record) => <div>{record.archivos && record.archivos.map( f=> f.name).join(', ')}</div>,
+			key: 'adjunto',
+		}
+  ]
 
   const agregarPeriodo = () => {
 
@@ -68,13 +75,15 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     periodosCopy.push({
       codigo: periodoSeleccionado ? periodoSeleccionado.codigo : getUniqCode(),
       periodo,
-      monto
+      monto,
+      archivos
     })
 
     setPeriodo('')
     setMonto(0)
     setPeriodos(periodosCopy)
     setPeriodoSeleccionado(null)
+    setArchivos([])
     obra.certificaciones = periodosCopy
     onChange(Object.assign({},obra))
   }
@@ -120,10 +129,18 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
         />
       </div>
       <div >
-        <UploadLine
+        <Upload
           label="Documentación respaldatoria"
           labelRequired="*"
           labelMessageError=""
+          defaultValue={archivos as any}
+            onOnLoad={file =>{
+              archivos.push(file)
+              setArchivos(Object.assign([],archivos))
+            }}
+            onRemove={fileToRemove => {
+              setArchivos(Object.assign([],archivos.filter(f=> f.cid !==fileToRemove.cid)))
+            }}
         />
       </div>
 

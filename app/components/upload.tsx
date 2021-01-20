@@ -9,38 +9,38 @@ const customColors = ['#2897D4'];
 
 
 interface Props {
-  label:string
+  label: string
   labelMessageError?: string
-  labelRequired?:string
+  labelRequired?: string
   onOnLoad: Function
-  defaultValue:[]
+  defaultValue: []
   onRemove: Function
 }
 
-export default (props:Props) => {
+export default (props: Props) => {
 
   const propsUpload = {
     multiple: false,
-    defaultFileList:props.defaultValue,
+    defaultFileList: props.defaultValue,
     action: '/api/files/new',
     headers: {
       authorization: 'Bearer ' + getToken()
     },
-    onRemove(fileToRemove){
+    onRemove(fileToRemove) {
       props.onRemove(fileToRemove)
     },
     onChange(info) {
 
       let fileList = [...info.fileList]
-      fileList.forEach(function(file, index) {
+      fileList.forEach(function (file, index) {
         let reader = new FileReader();
         reader.onload = (e) => {
-           file.base64 =  e.target.result;
+          file.base64 = e.target.result;
         };
         reader.readAsDataURL(info.file.originFileObj);
       });
 
-      
+
       const { status } = info.file;
       if (status !== 'uploading') {
         console.log(info.file, info.fileList);
@@ -52,9 +52,9 @@ export default (props:Props) => {
           uid: info.file.uid,//info.file.response.filesSaved[0],
           cid: info.file.response.filesSaved[0].cid,
           createdAt: info.file.response.filesSaved[0].createdAt,
-          type:info.file.type,
+          type: info.file.type,
           size: info.file.size,
-          name:info.file.name
+          name: info.file.name
         } as Archivo)
         //console.log(info)
       } else if (status === 'error') {
@@ -74,12 +74,13 @@ export default (props:Props) => {
     </div>
     <div className="w-full">
       <Dragger
+        className="flex py-1 text-left"
         defaultFileList={[]}
-      {...propsUpload}>
-        <p className="ant-upload-drag-icon">
+        {...propsUpload}>
+        <p className="ant-upload-drag-icon inline-block mr-2">
           <CloudUploadOutlined />
         </p>
-        <p className="ant-upload-text text-sm">Haga click o arrastre un archivo aquí</p>
+        <p className="ant-upload-text text-sm inline-block">Haga click o arrastre un archivo aquí</p>
 
       </Dragger>
     </div>
@@ -87,7 +88,12 @@ export default (props:Props) => {
       {props.labelMessageError}
     </div>
     <div>
-
+      <style>
+        {`
+    .ant-upload.ant-upload-drag .ant-upload{
+        padding: 8px 0 !important;
+    }`}
+      </style>
 
     </div>
 

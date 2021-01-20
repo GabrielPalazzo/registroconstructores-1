@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
-import UploadLine from './uploadLine'
+import Upload from './upload'
 import { Button, Select, Table, Alert , Space} from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
@@ -24,6 +24,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	const [descripcion, setDescripcion] = useState('')
 	const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>(obra.redeterminaciones)
 	const [error, setError] = useState('')
+	const [archivos,setArchivos] = useState<Array<Archivo>>([])
 	const [showError, setShowError] = useState(false)
 
 	useEffect(() => {
@@ -60,7 +61,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		},
 		{
 			title: 'Adjunto',
-			dataIndex: 'adjunto',
+			render: (text,record) => <div>{record.archivos && record.archivos.map( f=> f.name).join(', ')}</div>,
 			key: 'adjunto',
 		}
 	
@@ -80,10 +81,19 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		}
 
 
-		dataSource.push({ id:getCodigoObra(),monto, fecha,descripcion })
+		dataSource.push({ 
+			id:getCodigoObra(),
+			monto, 
+			fecha,
+			descripcion,
+			archivos })
 		setDataSource(Object.assign([], dataSource))
 		obra.redeterminaciones = Object.assign([],dataSource)
-    	onChange(obra)
+		onChange(obra)
+		setMonto(0)
+		setFecha(null)
+		setDescripcion('')
+		setArchivos([])
 	}
 	return <div>
 		{showError ? <div className="mb-4">
@@ -136,10 +146,18 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				</div>
 				<div className="grid grid-cols-2 gap-4 ">
 				<div className="pb-6" >
-					<UploadLine
+					<Upload
 						label="Adjuntar documento de respaldo de la redeterminación "
 						labelRequired="*"
 						labelMessageError=""
+						defaultValue={archivos as any}
+            onOnLoad={file =>{
+              archivos.push(file)
+              setArchivos(Object.assign([],archivos))
+            }}
+            onRemove={fileToRemove => {
+              setArchivos(Object.assign([],archivos.filter(f=> f.cid !==fileToRemove.cid)))
+            }}
 					/>
 				</div>
 				<div className="mt-8 ">

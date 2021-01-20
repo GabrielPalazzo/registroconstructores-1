@@ -20,10 +20,10 @@ const endpoint = async (req, res) => {
     if (err) console.log(err)
 
     const client = ipfsClient({
-      host: 'localhost',
-      protocol: "http",
-      port: 5001,
-      apiPath: 'api/v0'
+      host: process.env.IPFS_NODE_HOST,
+      protocol: process.env.IPFS_NODE_PROTOCOL,
+      port: parseInt(process.env.IPFS_NODE_PORT,10),
+      apiPath: process.env.IPFS_NODE_APIPATH
     })
 
     for (let i = 0; i <= files.file.length - 1; i++) {

@@ -12,6 +12,10 @@ module.exports = {
     MODO: process.env.MODO,
     OPENID_AUTH: process.env.OPENID_AUTH,
     OPENID_USERDATA: process.env.OPENID_USERDATA,
-    OPENID_LOGOUT: process.env.OPENID_LOGOUT
+    OPENID_LOGOUT: process.env.OPENID_LOGOUT,
+    IPFS_NODE_HOST:process.env.IPFS_NODE_HOST,
+    IPFS_NODE_PROTOCOL:process.env.IPFS_NODE_PROTOCOL,
+    IPFS_NODE_PORT:process.env.IPFS_NODE_PORT,
+    IPFS_NODE_APIPATH:process.env.IPFS_NODE_APIPATH
   },
 };

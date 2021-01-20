@@ -61,12 +61,14 @@ type Redeterminaciones ={
   monto:number
   fecha:string
   descripcion:string
+  archivos: Array<Archivo>
 }
 type AmpliacionesObras ={
   id: string
   monto:number
   fecha:string
   descripcion:string
+  archivos: Array<Archivo>
 }
 type Certificaciones ={
   numeroCertificacion:number
@@ -94,8 +96,10 @@ type DDJJObra ={
     monto: number
     periodo: string
     descripcion: string
+    archivos:Array<Archivo>
   }>
-
+  archivosOrdenDeCompra:Array<Archivo>
+  archivosPlazos: Array<Archivo>
   plazoPorContrato:number
   prorroga:number
   transcurrido:number

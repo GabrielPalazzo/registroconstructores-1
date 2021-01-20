@@ -64,7 +64,9 @@ export default () => {
     transcurrido: 0,
     restante: 0,
     especialidades: '',
-    subespecialidades: ''
+    subespecialidades: '',
+    archivosOrdenDeCompra:[],
+    archivosPlazos:[]
   })
 
 
@@ -251,6 +253,18 @@ export default () => {
                 label="Adjuntar Contrato Inicial / Orden de Compra "
                 labelRequired="*"
                 labelMessageError=""
+                defaultValue={obra.archivosOrdenDeCompra as any}
+                onOnLoad={file => {
+                  if (!obra.archivosOrdenDeCompra)
+                  obra.archivosOrdenDeCompra = []
+                  obra.archivosOrdenDeCompra.push(file)
+                  setObra(Object.assign({}, obra))
+                }}
+                onRemove={fileToRemove => {
+                  obra.archivosOrdenDeCompra = obra.archivosOrdenDeCompra.filter(f=> f.cid!==fileToRemove.cid)
+                  setObra(Object.assign({}, obra))
+                }}
+
               />
             </div>
           </div>
@@ -331,8 +345,17 @@ export default () => {
               <Upload
                 label="Adjuntar Acta"
                 labelRequired="*"
-                value=""
-                labelMessageError=""
+                defaultValue={obra.archivosPlazos as any}
+                onOnLoad={file => {
+                  if (!obra.archivosPlazos)
+                    obra.archivosPlazos=[]
+                  obra.archivosPlazos.push(file)
+                  setObra(Object.assign({}, obra))
+                }}
+                onRemove={fileToRemove => {
+                  obra.archivosPlazos = obra.archivosPlazos.filter(f=> f.cid!==fileToRemove.cid)
+                  setObra(Object.assign({}, obra))
+                }}
               />
             </div>
           </div>
