@@ -54,6 +54,7 @@ export const getTramiteByCUIT = (cuit: string) : Promise<TramiteAlta> => {
 export const getEmptyTramiteAlta = () : TramiteAlta=> {
   return  {
     apoderados:[],
+    inscripcionAFIPConstancia:[],
     certificadoFiscal:null,
     cuit:'',
     email:'',

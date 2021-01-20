@@ -27,14 +27,21 @@ type Apoderado = {
   esAdministrador: Boolean
   imagenesDni: Array<Archivo>
   tipoApoderado: string
+  fotosDNI: Array<Archivo>
+  actaAutoridades: Array<Archivo>
 }
 
 type Archivo = {
-  id: string
-  uri?: string
-  nombreArchivo: string
-  fechaCreacion: number
+  createdAt: number
+  cid: string
+  fileName: string
+  uid:string,
+  name:string,
+  size:number,
+  type:string
+  base64: string
 }
+
 type UbicacionGeografica ={
   lat: number
   lng: number
@@ -115,6 +122,7 @@ type AutoridadEmpresa  ={
 
 type TramiteAlta = {
   _id?: string,
+  inscripcionAFIPConstancia: Array<Archivo>
   revisiones?: Array<RevisionTramite>
   id: string
   createdAt?: Date

@@ -1,29 +1,68 @@
 import React, { useState } from 'react'
 import { Button, Upload, message, Tooltip } from 'antd';
 import { LikeFilled, DislikeFilled, CloudUploadOutlined } from '@ant-design/icons';
+import { getToken } from '../services/business';
 
 const { Dragger } = Upload;
 const customColors = ['#2897D4'];
 
-const props = {
-  name: 'file',
-  multiple: true,
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  onChange(info) {
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-};
 
 
-export default (props) => {
+interface Props {
+  label:string
+  labelMessageError?: string
+  labelRequired?:string
+  onOnLoad: Function
+  defaultValue:[]
+  onRemove: Function
+}
+
+export default (props:Props) => {
+
+  const propsUpload = {
+    multiple: false,
+    defaultFileList:props.defaultValue,
+    action: '/api/files/new',
+    headers: {
+      authorization: 'Bearer ' + getToken()
+    },
+    onRemove(fileToRemove){
+      props.onRemove(fileToRemove)
+    },
+    onChange(info) {
+
+      let fileList = [...info.fileList]
+      fileList.forEach(function(file, index) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+           file.base64 =  e.target.result;
+        };
+        reader.readAsDataURL(info.file.originFileObj);
+      });
+
+      
+      const { status } = info.file;
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+      if (status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully.`);
+        //console.log(info.file.response.filesSaved[0].cid)
+        props.onOnLoad({
+          uid: info.file.uid,//info.file.response.filesSaved[0],
+          cid: info.file.response.filesSaved[0].cid,
+          createdAt: info.file.response.filesSaved[0].createdAt,
+          base64:info.file.base64,
+          type:info.file.type,
+          size: info.file.size,
+          name:info.file.name
+        } as Archivo)
+        //console.log(info)
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
 
   return (<div >
     <div className="flex">
@@ -35,7 +74,9 @@ export default (props) => {
 
     </div>
     <div className="w-full">
-      <Dragger {...props}>
+      <Dragger
+        defaultFileList={[]}
+      {...propsUpload}>
         <p className="ant-upload-drag-icon">
           <CloudUploadOutlined />
         </p>

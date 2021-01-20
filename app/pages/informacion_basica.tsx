@@ -5,7 +5,6 @@ import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbo
 import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
-import Upload from '../components/upload'
 import DatePicker from '../components/datePicker'
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { InputText } from '../components/input_text'
@@ -23,6 +22,9 @@ import generateCalendar from 'antd/lib/calendar/generateCalendar';
 import { TomarTramite } from '../components/tomarTramite';
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import { userInfo } from 'os';
+
+import dynamic from 'next/dynamic'
+const Upload = dynamic(() => import('../components/upload'))
 
 
 
@@ -45,7 +47,7 @@ const renderNoData = () => {
 }
 
 
-export default () => {
+export default (props) => {
 
   const router = useRouter()
 
@@ -69,6 +71,8 @@ export default () => {
   const [tipoDocumentoApoderado, setTipoDocumentoApoderado] = useState('')
   const [cuitApoderado, setCuitApoderado] = useState('')
   const [emailApoderado, setEmailApoderado] = useState('')
+  const [fotosDNIApoderado, setFotosDNIApoderado] = useState([])
+  const [actaAutoridadesApoderado, setActaAutoridadesApoderado] = useState([])
   const [esAdministradorLegitimado, setEsAdministradorLegitimado] = useState(false)
   const dispatch = useDispatch()
   const paso = useSelector(state => state.appStatus.paso)
@@ -151,7 +155,9 @@ export default () => {
       nroDocumento: nroDocumentoApoderado,
       tipoDocumento: tipoDocumentoApoderado,
       tipoApoderado,
-      esAdministrador: esAdministradorLegitimado
+      esAdministrador: esAdministradorLegitimado,
+      fotosDNI: fotosDNIApoderado,
+      actaAutoridades: actaAutoridadesApoderado
     })
     save()
     setVisible(false)
@@ -362,7 +368,6 @@ export default () => {
                 {u.label}
               </Radio>
             ))
-
             }
 
           />
@@ -389,10 +394,17 @@ export default () => {
       <div className="grid grid-cols-3 gap-4 ">
         <div className="pb-6" >
           <Upload
-            label=" Adjunte fotos de frente y dorso del DNI"
+            label="Adjunte fotos de frente y dorso del DNI"
             labelRequired="*"
             labelMessageError=""
-
+            defaultValue={[]}
+            onOnLoad={(file) => {
+              fotosDNIApoderado.push(file)
+              setFotosDNIApoderado(Object.assign([],fotosDNIApoderado))
+            }}
+            onRemove={ fileToRemove => {
+              setFotosDNIApoderado(Object.assign([],fotosDNIApoderado.filter(f => f.cid!==fileToRemove.cid)))
+            }}
           />
         </div>
         {tipoApoderado === 'Administrativo/Gestor' ? '' :
@@ -401,6 +413,14 @@ export default () => {
               label={tipoApoderado === 'Apoderado' ? 'Adjuntar Poder' : ' Acta de designación de autoridades'}
               labelRequired="*"
               labelMessageError=""
+              defaultValue={[]}
+              onOnLoad={(file) => {
+                actaAutoridadesApoderado.push(file)
+                setActaAutoridadesApoderado(Object.assign([],actaAutoridadesApoderado))
+              }}
+              onRemove={ fileToRemove => {
+                setActaAutoridadesApoderado(Object.assign([],actaAutoridadesApoderado.filter(f => f.cid!==fileToRemove.cid)))
+              }}
             />
           </div>
         }
@@ -410,6 +430,9 @@ export default () => {
               label="Adjuntar Acta de Adm. Legitimado"
               labelRequired="*"
               labelMessageError=""
+              defaultValue={[]}
+              onOnLoad={() => null}
+              onRemove={() => null}
             />
           </div>}
       </div>
@@ -633,8 +656,20 @@ export default () => {
 
         <div >
           <Upload
+            {...props}
             label="Adjunte Constancia de Inscripción en AFIP"
             labelRequired="*"
+            defaultValue={tramite.inscripcionAFIPConstancia}
+            onOnLoad={(files) => {
+              if (!tramite.inscripcionAFIPConstancia)
+                tramite.inscripcionAFIPConstancia=[]
+              tramite.inscripcionAFIPConstancia.push(files)
+              save()
+            }}
+            onRemove={ fileToRemove => {
+              tramite.inscripcionAFIPConstancia = tramite.inscripcionAFIPConstancia.filter( f => f.cid !== fileToRemove.cid)
+              save()
+            }}
             labelMessageError="" />
 
         </div>
@@ -739,6 +774,7 @@ export default () => {
           </div>
           <div >
             <Upload
+              {...props}
               label="Adjunte Frente y Dorso del DNI"
               labelRequired="*"
               labelMessageError="" />
