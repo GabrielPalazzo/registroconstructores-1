@@ -108,17 +108,20 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     poseeIERIC: true,
     datosSocietarios:{
       cooperativa: {
+        archivoActaConstitutiva:[],
         inscriptionINAES:{
           datos:'',
           fecha:''
         },
         modificacionINAES:{ 
           datos:'',
-          fecha:''
+          fecha:'',
+          archivos:[]
         },
         ultimaModifcacionINAES:{
           datos:'',
-          fecha:''
+          fecha:'',
+          archivos:[]
         },
       },
       sociedadAnonima: {
@@ -129,28 +132,38 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
         },
         modificacion: {
           datos:'',
-          fecha: ''
+          fecha: '',
+          archivos:[]
         },
         ultimaModificacion: {
           datos: '',
-          fecha:''
+          fecha:'',
+          archivos:[]
         },
         contrato: {
-          fecha:''
+          fecha:'',
+          archivos:[]
         }
       },
       ute: {
+        archivosContrato:[],
         inscripcionUTE:{
           datos:'',
           fecha:''
         },
         modificacionUTE:{
           fecha:'',
-          datos:''
+          datos:'',
+          archivos:[]
         }
+      },
+      personaFisica:{
+        constanciaInscripcion:[],
+        constanciaMatriculaComerciante:[],
       },
       fechaInscripcion:'',
       fechaVencimiento:'',
+      archivoAutoridades:[]
     }
     
   }

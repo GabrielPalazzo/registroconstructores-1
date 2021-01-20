@@ -39,7 +39,6 @@ type Archivo = {
   name:string,
   size:number,
   type:string
-  base64: string
 }
 
 type UbicacionGeografica ={
@@ -121,6 +120,7 @@ type AutoridadEmpresa  ={
   cuit: string
   inhibiciones: boolean
   observaciones: string
+  fotosDNI: Array<Archivo>
 }
 
 type TramiteAlta = {
@@ -181,6 +181,7 @@ type TramiteAlta = {
     cuit: string
     inhibiciones: boolean
     observaciones: string
+    fotosDNI: Array<Archivo>
   }>
   sistemaCalidad: Array<{
     cuit: string,
@@ -188,6 +189,7 @@ type TramiteAlta = {
     direccion: string,
     fechaOtorgamiento: string
     fechaExpiracion: string
+    archivos: Array<Archivo>
   }>,
   ejercicios: Array<{
     fechaInicio: string
@@ -227,8 +229,10 @@ type TramiteAlta = {
   poseeIERIC: boolean
   datosSocietarios: {
     fechaInscripcion: string,
-    fechaVencimiento: string
+    fechaVencimiento: string,
+    archivoAutoridades: Array<Archivo>,
     cooperativa : {
+      archivoActaConstitutiva: Array<Archivo>
       inscriptionINAES: {
         datos:string
         fecha:string
@@ -236,15 +240,18 @@ type TramiteAlta = {
       modificacionINAES: {
         datos:string
         fecha: string
+        archivos: Array<Archivo>
       }
       ultimaModifcacionINAES: {
         datos: string
         fecha: string
+        archivos: Array<Archivo>
       }
     }
     sociedadAnonima: {
       contrato: {
         fecha: string
+        archivos: Array<Archivo>
       }
       inscripcion: {
         datos: string
@@ -253,14 +260,16 @@ type TramiteAlta = {
       modificacion: {
         datos: string
         fecha: string
+        archivos: Array<Archivo>
       }
       ultimaModificacion : {
         datos: string
         fecha: string
+        archivos: Array<Archivo>
       }
     }
     ute: {
-
+      archivosContrato: Array<Archivo>
       inscripcionUTE: {
         datos:string
         fecha: string
@@ -268,7 +277,13 @@ type TramiteAlta = {
       modificacionUTE: {
         datos: string
         fecha:string
+        archivos: Array<Archivo>
       }
+    }
+    personaFisica: {
+      constanciaInscripcion: Array<Archivo>,
+      constanciaMatriculaComerciante: Array<Archivo>
+
     }
   
     

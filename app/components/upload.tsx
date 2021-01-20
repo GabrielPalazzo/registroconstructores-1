@@ -52,7 +52,6 @@ export default (props:Props) => {
           uid: info.file.uid,//info.file.response.filesSaved[0],
           cid: info.file.response.filesSaved[0].cid,
           createdAt: info.file.response.filesSaved[0].createdAt,
-          base64:info.file.base64,
           type:info.file.type,
           size: info.file.size,
           name:info.file.name

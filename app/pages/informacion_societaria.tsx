@@ -48,10 +48,12 @@ export default () => {
   const [cuit, setCuit] = useState('')
   const [inhibiciones, setInhibiciones] = useState(false)
   const [observaciones, setObservaciones] = useState('')
+  const [fotosDNIAutoridades, setFotosDNIAutoridades] = useState([])
 
   const [cuitSistemaCalidad, setCuitSistemaCalidad] = useState('')
   const [norma, setNorma] = useState('')
   const [direccionSistemaCalidad, setDireccionSistemaCalidad] = useState('')
+  const [documentoSistemaCalidad, setDocumentoSistemaCalidad] = useState([])
   const [fechaOtorgamiento, setFechaOtorgamiento] = useState('')
   const [fechaExpiracion, setFechaExpiracion] = useState('')
 
@@ -140,6 +142,14 @@ export default () => {
             label="Adjunte  Documento "
             labelRequired="*"
             labelMessageError=""
+            defaultValue={documentoSistemaCalidad as any}
+            onOnLoad={file => {
+              documentoSistemaCalidad.push(file)
+              setDocumentoSistemaCalidad(Object.assign([],documentoSistemaCalidad))
+            }}
+            onRemove={fileToRemove => {
+              setDocumentoSistemaCalidad(Object.assign([],documentoSistemaCalidad.filter( d => d.cid!==fileToRemove.cid)))
+            }}
           />
         </div>
       </div>
@@ -184,17 +194,6 @@ export default () => {
 
             ))}
           />
-          {/*
-          <InputTextModal
-            label="Tipo de Doc"
-            labelRequired="*"
-            placeholder="Ingrese su numero de documento sin deja espacios"
-            value={tipoDocumento}
-            bindFunction={setTipoDocumento}
-            labelMessageError=""
-            required />
-          
-          */}
         </div>
         <div className="pb-6" >
           <InputTextModal
@@ -220,15 +219,6 @@ export default () => {
             ))}
           />
 
-          {/* <InputTextModal
-            label="tipo de Organo"
-            labelRequired="*"
-            placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
-            value={tipoOrgano}
-            bindFunction={setTipoOrgano}
-            labelMessageError=""
-            required />
-            */}
 
         </div>
         <div className="pb-6" >
@@ -244,16 +234,6 @@ export default () => {
             ))}
           />
 
-          {/*
-          <InputTextModal
-            label="Tipo de Cargo"
-            labelRequired="*"
-            placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
-            value={tipoCargo}
-            bindFunction={setTipoCargo}
-            labelMessageError=""
-            required />
-         */}
 
         </div>
       </div>
@@ -314,6 +294,14 @@ export default () => {
             label="Adjunte Frente y Dorso del documento "
             labelRequired="*"
             labelMessageError=""
+            defaultValue={fotosDNIAutoridades as any}
+            onOnLoad={file => {
+              fotosDNIAutoridades.push(file)
+              setFotosDNIAutoridades(Object.assign([],fotosDNIAutoridades))
+            }}
+            onRemove={fileToRemove => {
+              setFotosDNIAutoridades(Object.assign([],fotosDNIAutoridades.filter(f => f.cid!==fileToRemove.cid)))
+            }}
           />
         </div>
       </div>
@@ -490,24 +478,7 @@ export default () => {
     <div className="px-20 mx-20 py-6 ">
 
 
-      {/*
-        <div >
-         
-          <InputText
-            label="Registro publico  de comercio"
-            labelRequired="*"
-            value={tramite.registroPublicoDeComercio}
-            bindFunction={(value) => {
-              tramite.registroPublicoDeComercio = value
-              updateObjTramite()
-            }}
-            placeHolder="Registro publico  de comercio"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-            required />
-        </div>
-         */}
+
 
       {tramite.personeria === 'UTE' ? <div>
         <div className="text-2xl font-bold py-4"> Firma del Contrato de la U.T.E.</div>
@@ -554,16 +525,33 @@ export default () => {
 
               value={tramite.datosSocietarios.ute.inscripcionUTE.fecha}
               bindFunction={value => {
-                tramite.datosSocietarios.ute.inscripcionUTE.fecha=value
+                tramite.datosSocietarios.ute.inscripcionUTE.fecha = value
                 updateObjTramite()
               }}
             />
           </div>
           <div >
-            <UploadLine
+            <Upload
               label="Contrato de la U.T.E. y junto con TODAS sus modificaciones"
               labelRequired="*"
               labelMessageError=""
+              defaultValue={tramite.datosSocietarios.ute.archivosContrato as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.ute.archivosContrato)
+                  tramite.datosSocietarios.ute.archivosContrato = []
+                tramite.datosSocietarios.ute.archivosContrato.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.ute.archivosContrato = tramite.datosSocietarios.ute.archivosContrato.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+
+
             />
           </div>
         </div>
@@ -578,7 +566,7 @@ export default () => {
               labelMessageError=""
               value={tramite.datosSocietarios.ute.modificacionUTE.datos}
               bindFunction={value => {
-                tramite.datosSocietarios.ute.modificacionUTE.datos = value 
+                tramite.datosSocietarios.ute.modificacionUTE.datos = value
                 updateObjTramite()
               }}
               required /></div>
@@ -592,16 +580,31 @@ export default () => {
               labelMessageError=""
               value={tramite.datosSocietarios.ute.modificacionUTE.fecha}
               bindFunction={value => {
-                tramite.datosSocietarios.ute.modificacionUTE.fecha=value
+                tramite.datosSocietarios.ute.modificacionUTE.fecha = value
                 updateObjTramite()
               }}
             />
           </div>
           <div >
-            <UploadLine
+            <Upload
               label=" Última modificación del Contrato de la U.T.E"
               labelRequired="*"
               labelMessageError=""
+              defaultValue={tramite.datosSocietarios.ute.modificacionUTE.archivos as any}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.ute.modificacionUTE.archivos = tramite.datosSocietarios.ute.modificacionUTE.archivos.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.ute.modificacionUTE.archivos)
+                  tramite.datosSocietarios.ute.modificacionUTE.archivos = []
+                tramite.datosSocietarios.ute.modificacionUTE.archivos.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
             />
           </div>
         </div>
@@ -618,13 +621,13 @@ export default () => {
               labelMessageError=""
               value={tramite.datosSocietarios.fechaVencimiento}
               bindFunction={value => {
-                tramite.datosSocietarios.fechaVencimiento = value 
+                tramite.datosSocietarios.fechaVencimiento = value
                 updateObjTramite()
               }}
             />
           </div>
-         <div className="mt-8 ml-2 mr-4"> <Checkbox >No Corresponde</Checkbox></div>
-            <div className="w-full" >
+          <div className="mt-8 ml-2 mr-4"> <Checkbox >No Corresponde</Checkbox></div>
+          <div className="w-full" >
             <InputTextModal
               label="Observaciones"
               labelRequired=""
@@ -632,19 +635,12 @@ export default () => {
               labelMessageError=""
               value=""
               bindFunction={value => {
-               
+
               }}
-             /></div>
-         
-         
-          {/* <div >
-            <UploadLine
-              label="Última modificación del Contrato de la U.T.E"
-              labelRequired="*"
-              labelMessageError=""
-            />
-          </div> */}
-         
+            /></div>
+
+
+
         </div>
         <div className=" content-center  rounded-lg border  px-4 py-4">
           <div className="flex  content-center ">
@@ -656,11 +652,26 @@ export default () => {
 
           </div>
           <div className="pb-6" >
-            <UploadLine
+            <Upload
               label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
           General de Justicia o Registro Publico de comercio"
               labelRequired="*"
               labelMessageError=""
+              defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.archivoAutoridades)
+                  tramite.datosSocietarios.archivoAutoridades = []
+                tramite.datosSocietarios.archivoAutoridades.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
             />
           </div>
           {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
@@ -673,7 +684,7 @@ export default () => {
             if (!tramite.autoridadesSociedad)
               tramite.autoridadesSociedad = []
 
-            const autoridad : AutoridadEmpresa = {
+            const autoridad: AutoridadEmpresa = {
               nombre,
               apellido,
               tipoDocumento,
@@ -683,12 +694,14 @@ export default () => {
               direccion,
               observaciones,
               cuit,
-              inhibiciones
+              inhibiciones,
+              fotosDNI:fotosDNIAutoridades
             }
 
             tramite.autoridadesSociedad.push(autoridad)
             setModalAutoridad(false)
             save()
+            setIsLoading(false)
           }}
           okText="Guardar"
           onCancel={() => setModalAutoridad(false)}
@@ -751,10 +764,26 @@ export default () => {
             />
           </div>
           <div >
-            <UploadLine
+            <Upload
               label="Acta Constitutiva, junto con TODAS sus modificaciones hasta el día de hoy"
               labelRequired="*"
               labelMessageError=""
+              defaultValue={tramite.datosSocietarios.cooperativa.archivoActaConstitutiva as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.cooperativa.archivoActaConstitutiva)
+                  tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = []
+
+                tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
             />
           </div>
         </div>
@@ -784,16 +813,32 @@ export default () => {
               labelMessageError=""
               value={tramite.datosSocietarios.cooperativa.modificacionINAES.fecha}
               bindFunction={value => {
-                tramite.datosSocietarios.cooperativa.modificacionINAES.fecha = value 
+                tramite.datosSocietarios.cooperativa.modificacionINAES.fecha = value
                 updateObjTramite()
               }}
             />
           </div>
           <div >
-            <UploadLine
+            <Upload
               label="Modificación del Objeto de la cooperativa a rubro construccion"
               labelRequired="*"
               labelMessageError=""
+              defaultValue={tramite.datosSocietarios.cooperativa.modificacionINAES.archivos as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.cooperativa.modificacionINAES.archivos)
+                  tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = []
+
+                tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
             />
           </div>
         </div>
@@ -828,10 +873,26 @@ export default () => {
             />
           </div>
           <div >
-            <UploadLine
+            <Upload
               label="Última modificación estatutaria Inscripta en I.N.A.E.S."
               labelRequired="*"
               labelMessageError=""
+              defaultValue={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos)
+                  tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = []
+
+                tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
             />
           </div>
         </div>
@@ -864,11 +925,24 @@ export default () => {
 
           </div>
           <div className="pb-6" >
-            <UploadLine
+            <Upload
               label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
           General de Justicia o Registro Publico de comercio"
-              labelRequired="*"
-              labelMessageError=""
+              defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.archivoAutoridades)
+                  tramite.datosSocietarios.archivoAutoridades = []
+                tramite.datosSocietarios.archivoAutoridades.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
             />
           </div>
           {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
@@ -891,7 +965,8 @@ export default () => {
               direccion,
               observaciones,
               cuit,
-              inhibiciones
+              inhibiciones,
+              fotosDNI: fotosDNIAutoridades
             })
             setModalAutoridad(false)
             save()
@@ -1099,7 +1174,8 @@ export default () => {
               direccion,
               observaciones,
               cuit,
-              inhibiciones
+              inhibiciones,
+              fotosDNI: fotosDNIAutoridades
             })
             setModalAutoridad(false)
             save()
@@ -1117,42 +1193,24 @@ export default () => {
       {tramite.personeria === 'SA' || tramite.personeria === 'SRL' || tramite.personeria === 'OFS' ? <div>
         <div className="text-2xl font-bold py-4"> Firma del Contrato Constitutivo</div>
         <div className="grid grid-cols-4 gap-4 ">
-        <div >
-              <DatePickerModal
-                label="Fecha"
-                value={tramite.datosSocietarios.sociedadAnonima.contrato.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.sociedadAnonima.contrato.fecha = value
-                  updateObjTramite()
-                }}
-                labelRequired="*"
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-              />
-            </div>
-
+          <div >
+            <DatePickerModal
+              label="Fecha"
+              value={tramite.datosSocietarios.sociedadAnonima.contrato.fecha}
+              bindFunction={value => {
+                tramite.datosSocietarios.sociedadAnonima.contrato.fecha = value
+                updateObjTramite()
+              }}
+              labelRequired="*"
+              placeholder="Fecha"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+            />
           </div>
 
-        {/*  <div className="grid grid-cols-1 gap-4 ">
-            <div >
-              <InputText
-                attributeName="IGJ"
-                label="Dirección Inspección Persona jurídica / Inspeccion General"
-                labelRequired="*"
-                value={tramite.igj}
-                bindFunction={(value) => {
-                  tramite.igj = value
-                  updateObjTramite()
-                }}
-                placeHolder="Inspeccion General de Justicia"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                required />
-            </div>
-          </div>*/}
+        </div>
+
         <div className="rounded-lg mt-4 border px-4 py-4">
           <div className="text-2xl font-bold"> Inscripción de Contrato Constitutivo (en D.P.P.J / I.G.J.)</div>
           <div className="grid grid-cols-2 gap-4 ">
@@ -1172,7 +1230,7 @@ export default () => {
               <DatePickerModal
                 label="Fecha"
                 value={tramite.datosSocietarios.sociedadAnonima.inscripcion.fecha}
-                bindFunction={value => { 
+                bindFunction={value => {
                   tramite.datosSocietarios.sociedadAnonima.inscripcion.fecha = value
                   updateObjTramite()
                 }}
@@ -1185,10 +1243,25 @@ export default () => {
             </div>
 
             <div >
-              <UploadLine
+              <Upload
                 label="Contrato Constitutivo, junto con TODAS sus modificaciones hasta el día de hoy"
                 labelRequired="*"
                 labelMessageError=""
+                defaultValue={tramite.datosSocietarios.sociedadAnonima.contrato.archivos as any}
+                onOnLoad={ file => {
+                  if (!tramite.datosSocietarios.sociedadAnonima.contrato.archivos)
+                    tramite.datosSocietarios.sociedadAnonima.contrato.archivos=[]
+                  tramite.datosSocietarios.sociedadAnonima.contrato.archivos.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={ fileToRemove => {
+                  tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid!==fileToRemove.cid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
               />
             </div>
 
@@ -1197,7 +1270,7 @@ export default () => {
         </div>
         <div className="rounded-lg mt-4 border px-4 py-4">
           <div className="text-2xl font-bold pb-4">
-          Modificación del Contrato Social (inscripta en D.P.P.J / I.G.J. correspondiente a ampliación del objeto social para realizar actividades del rubro Construcción)
+            Modificación del Contrato Social (inscripta en D.P.P.J / I.G.J. correspondiente a ampliación del objeto social para realizar actividades del rubro Construcción)
               <Tooltip title="En caso de que la empresa sea Constructora desde su inscripción inicial, repetir mismos datos y fecha de la Inscripción de Contrato Constitutivo"> <QuestionCircleOutlined className="pl-4" /></Tooltip>
           </div>
           <div className="grid grid-cols-2 gap-4 ">
@@ -1205,7 +1278,7 @@ export default () => {
               <InputTextModal
                 label="Datos"
                 value={tramite.datosSocietarios.sociedadAnonima.modificacion.datos}
-                bindFunction={ value => {
+                bindFunction={value => {
                   tramite.datosSocietarios.sociedadAnonima.modificacion.datos = value
                   updateObjTramite()
                 }}
@@ -1218,7 +1291,7 @@ export default () => {
                 label="Fecha"
                 value={tramite.datosSocietarios.sociedadAnonima.modificacion.fecha}
                 bindFunction={value => {
-                  tramite.datosSocietarios.sociedadAnonima.modificacion.datos = value 
+                  tramite.datosSocietarios.sociedadAnonima.modificacion.datos = value
                   updateObjTramite()
                 }}
                 labelRequired="*"
@@ -1230,10 +1303,25 @@ export default () => {
             </div>
 
             <div >
-              <UploadLine
+              <Upload
                 label="Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J."
                 labelRequired="*"
                 labelMessageError=""
+                defaultValue={tramite.datosSocietarios.sociedadAnonima.modificacion.archivos as any}
+                onOnLoad={ file => {
+                  if (!tramite.datosSocietarios.sociedadAnonima.modificacion.archivos)
+                    tramite.datosSocietarios.sociedadAnonima.modificacion.archivos=[]
+                    tramite.datosSocietarios.sociedadAnonima.modificacion.archivos.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={ fileToRemove => {
+                  tramite.datosSocietarios.sociedadAnonima.modificacion.archivos = tramite.datosSocietarios.sociedadAnonima.modificacion.archivos.filter(f => f.cid!==fileToRemove.cid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
               />
             </div>
             <div className="mt-8 ">
@@ -1261,23 +1349,6 @@ export default () => {
               labelMessageError=""
               required />
           </div>
-          {/* <div >
-              <InputText
-                attributeName="rubroConstruccionLugar"
-                label="Datos"
-                labelRequired="*"
-                placeHolder=""
-                value={tramite.rubroConstruccion.lugar}
-                bindFunction={(value) => {
-                  tramite.rubroConstruccion.lugar = value
-                  updateObjTramite()
-                }}
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                required />
-            </div>*/}
-
           <div >
             <DatePicker
               label="Fecha"
@@ -1294,10 +1365,25 @@ export default () => {
             />
           </div>
           <div >
-            <UploadLine
+            <Upload
               label="Última modificación del Contrato Social, inscripta en en D.P.P.J / I.G.J."
               labelRequired="*"
               labelMessageError=""
+              defaultValue={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos as any}
+                onOnLoad={ file => {
+                  if (!tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos)
+                    tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos=[]
+                    tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={ fileToRemove => {
+                  tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos = tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.filter(f => f.cid!==fileToRemove.cid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
             />
           </div>
 
@@ -1331,11 +1417,26 @@ export default () => {
 
           </div>
           <div className="pb-6" >
-            <UploadLine
+            <Upload
               label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
           General de Justicia o Registro Publico de comercio"
               labelRequired="*"
               labelMessageError=""
+              defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.archivoAutoridades)
+                  tramite.datosSocietarios.archivoAutoridades = []
+                tramite.datosSocietarios.archivoAutoridades.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
             />
           </div>
           {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
@@ -1358,7 +1459,8 @@ export default () => {
               direccion,
               observaciones,
               cuit,
-              inhibiciones
+              inhibiciones,
+              fotosDNI: fotosDNIAutoridades
             })
             setModalAutoridad(false)
             save()
@@ -1406,10 +1508,25 @@ export default () => {
             />
           </div>
           <div >
-            <UploadLine
+            <Upload
               label="Constancia de Inscripción en AFIP"
               labelRequired="*"
               labelMessageError=""
+              defaultValue={tramite.datosSocietarios.personaFisica.constanciaInscripcion as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.personaFisica.constanciaInscripcion)
+                  tramite.datosSocietarios.personaFisica.constanciaInscripcion = []
+                  tramite.datosSocietarios.personaFisica.constanciaInscripcion.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.personaFisica.constanciaInscripcion = tramite.datosSocietarios.personaFisica.constanciaInscripcion.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
             />
           </div>
         </div>
@@ -1444,10 +1561,26 @@ export default () => {
             />
           </div>
           <div >
-            <UploadLine
+            <Upload
               label="Matrícula de Comerciante"
               labelRequired="*"
               labelMessageError=""
+              defaultValue={tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante)
+                  tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = []
+                  tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              
             />
           </div>
         </div>
@@ -1480,13 +1613,7 @@ export default () => {
               }}
             />
           </div>
-          <div >
-            <UploadLine
-              label="Documento respaldatorio"
-              labelRequired="*"
-              labelMessageError=""
-            />
-          </div>
+          
         </div>
 
       </div> : <div></div>}
@@ -1567,7 +1694,8 @@ export default () => {
                   norma,
                   fechaExpiracion,
                   fechaOtorgamiento,
-                  direccion
+                  direccion,
+                  archivos:documentoSistemaCalidad
                 })
                 setModalCalidad(false)
                 save()
