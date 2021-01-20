@@ -142,13 +142,13 @@ class Validator implements ValidatorInterface {
     }    
     parseDatosComercialesSection(): ValidatorErrorElement[] {
       const toValidate : Array<ValidatorErrorElement> = []
-      if(!this.tramite.matriculaComerciante.datos)
+      if (this.tramite.personeria==='PF' && !this.tramite.matriculaComerciante.datos)
         toValidate.push({
           attribute:'matriculaComercianteDatos',
           dataId:'',
           error:"Los datos de la matricula comerciante son requeridos"
         })
-      if(!this.tramite.matriculaComerciante.fecha)
+      if (this.tramite.personeria==='PF' && !this.tramite.matriculaComerciante.datos)
         toValidate.push({
           attribute:'matriculaComercianteFecha',
           dataId:'',

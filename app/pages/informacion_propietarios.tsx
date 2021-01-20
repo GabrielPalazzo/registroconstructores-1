@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-import {NavigationStep} from '../components/steps'
-import {InputText} from '../components/input_text'
+import { NavigationStep } from '../components/steps'
+import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
@@ -57,12 +57,22 @@ export default () => {
   const router = useRouter()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
-  const statusGeneralTramite = useSelector( state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const [titularPropietarios, setTitularPropietarios] = useState('')
+  const [cuitPropietarios, setCuitPropietarios] = useState('')
+  const [porcentajeCapitalPropietarios, setPorcentajeCapitalPropietarios] = useState(0)
+  const [montoCapitalPropietarios, setMontoCapitalPropietarios] = useState(0)
+  const [cantidadVotoPropietarios, setCantidadVotoPropietarios] = useState(0)
+  const [observacionesPropietarios, setObservacionesPropietarios] = useState('')
+  const [tipoPersoneriaPropietarios, setTipoPersoneriaPropietarios] = useState('')
+  const [error, setError] = useState('')
+  const [showError, setShowError] = useState(false)
+
 
   useEffect(() => {
-    if (!tramite.cuit && tipoAccion!=='SET_TRAMITE_NUEVO' )
+    if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
-  },[])
+  }, [])
 
   const save = async () => {
     setWaitingType('sync')
@@ -80,6 +90,7 @@ export default () => {
     setTramite(Object.assign({}, tramite))
   }
 
+ 
 
 
   const renderModalPropietarios = () => {
@@ -90,7 +101,8 @@ export default () => {
             label="Titular"
             labelRequired="*"
             placeholder="Ingrese el Nombre y apellido"
-            value=""
+            value={titularPropietarios}
+            bindFunction={(value) => setTitularPropietarios(value)}
             labelMessageError=""
             required />
 
@@ -100,7 +112,8 @@ export default () => {
             label="CUIT"
             placeholder="Ingrese el Codigo Tributario de su pais de origen"
             labelRequired="*"
-            value=""
+            value={cuitPropietarios}
+            bindFunction={(value) => setCuitPropietarios(value)}
 
             labelMessageError=""
             required />
@@ -113,7 +126,10 @@ export default () => {
             label="% del capital"
             labelRequired="*"
             placeholder="Ingrese El porcentaje del Capital debe "
-            value=""
+            type="number" step="any"
+            min={0}
+            value={porcentajeCapitalPropietarios}
+            bindFunction={(value) => { setPorcentajeCapitalPropietarios(value) }}
             labelMessageError=""
             required />
 
@@ -124,7 +140,10 @@ export default () => {
             label="Monto del capital"
             labelRequired="*"
             placeholder="Ingrese El porcentaje del Capital debe "
-            value=""
+            type="number" step="any"
+            min={0}
+            value={montoCapitalPropietarios}
+            bindFunction={(value) => { setMontoCapitalPropietarios(value) }}
             labelMessageError=""
             required />
 
@@ -134,7 +153,10 @@ export default () => {
             label="Cantidad de votos"
             labelRequired="*"
             placeholder="Ingrese El porcentaje del Capital debe "
-            value=""
+            type="number" step="any"
+            min={0}
+            value={cantidadVotoPropietarios}
+            bindFunction={(value) => { setCantidadVotoPropietarios(value) }}
             labelMessageError=""
             required />
 
@@ -144,10 +166,10 @@ export default () => {
             title="Tipo de personeria"
             defaultOption="Seleccione el tipo de personeria"
             labelRequired="*"
-            labelObservation="¿Por qué me observaron este campo? "
-            labeltooltip="El tipo de empresa seleccionado es incorrecto"
             labelMessageError=""
             required
+            value={tipoPersoneriaPropietarios}
+            bindFunction={(value) => setTipoPersoneriaPropietarios(value)}
             option={tipoPersoneria.map(u => (
               <Option value={u.value}>{u.label}</Option>
 
@@ -161,7 +183,8 @@ export default () => {
             label="Observaciones"
             labelRequired="*"
             placeholder="descripcion "
-            value=""
+            value={observacionesPropietarios}
+            bindFunction={(value) => { setObservacionesPropietarios(value) }}
             labelMessageError=""
             required />
 
@@ -174,15 +197,7 @@ export default () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4 ">
-        <div className="pb-6" >
-          <Upload
-            label="Adjunte  Documento "
-            labelRequired="*"
-            labelMessageError=""
-          />
-        </div>
-      </div>
+
     </div>)
   }
 
@@ -193,7 +208,7 @@ export default () => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 px-10">
-      <NavigationStep generalStatus={statusGeneralTramite} current={1}  completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite) } />
+      <NavigationStep generalStatus={statusGeneralTramite} current={1} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
     <div className="w-2/5 m-auto text-base mt-8">
       <Substeps progressDot current={2} esPersonaFisica={isPersonaFisica(tramite)} />
@@ -217,14 +232,18 @@ export default () => {
             labelMessageError=""
           />
         </div>
-       
+
 
       </div>
-      <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} />
+      <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} dataSource={tramite.propietarios}  />
       <Modal
         title="Datos de propietario de sociedad"
         visible={modalPropietarios}
-        onOk={() => console.log('')}
+        onOk={() => {
+          tramite.propietarios = []
+          setModalPropietarios(false)
+          save()
+        }}
         okText="Guardar"
         onCancel={() => setModalPropietarios(false)}
         cancelText="Cancelar"
@@ -233,9 +252,9 @@ export default () => {
         {renderModalPropietarios()}
       </Modal>
 
-     
 
-      
+
+
       {/*
       <div className="mt-6 rounded-lg border px-4 py-4">
         <div>
@@ -316,8 +335,8 @@ const columnsPropietarioSoc = [
   },
   {
     title: 'Titular',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'titular',
+    key: 'titular',
   },
   {
     title: 'CUIT',
