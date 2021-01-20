@@ -110,7 +110,7 @@ export default () => {
         <div className="pb-6" >
           <InputTextModal
             label="CUIT"
-            placeholder="Ingrese el Codigo Tributario de su pais de origen"
+            placeholder="Ingrese el Código Tributario de su pais de origen"
             labelRequired="*"
             value={cuitPropietarios}
             bindFunction={(value) => setCuitPropietarios(value)}
@@ -197,19 +197,7 @@ export default () => {
           />
         </div>
       </div>
-<<<<<<< HEAD
 
-=======
-      <div className="grid grid-cols-2 gap-4 ">
-        <div className="pb-6" >
-          <UploadLine
-            label="Adjunte  Documento "
-            labelRequired="*"
-            labelMessageError=""
-          />
-        </div>
-      </div>
->>>>>>> 7f9fd93cb1e75076084562ee55358426263cb0ce
     </div>)
   }
 
