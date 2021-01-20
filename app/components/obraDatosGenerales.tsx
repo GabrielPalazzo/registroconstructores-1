@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
-import UploadLine from './uploadLine'
+import Upload from './upload'
 import { Button, Select, Table, Alert, Space } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
@@ -33,6 +33,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   const [dataSource, setDataSource] = useState<Array<DatosObraGeneral>>(obra.datosObra)
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
+  const [actas, setActas] = useState<Array<Archivo>>([])
   useEffect(() => {
 
   }, [])
@@ -46,7 +47,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       title: 'Action',
       key: 'action',
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
-  
+
       </Space>),
     },
     {
@@ -79,84 +80,84 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       dataIndex: 'fechaFin',
       key: 'fechaFin'
     },
-  
+
     {
       title: 'Adjunto',
-      dataIndex: 'adjunto',
       key: 'adjunto',
+      render: (text,record) => <div>{record.acta && record.acta.map(f => f.name).join(', ')}</div>
     }
-  
-  
+
+
   ];
-  
+
   const EstadoObra = [
-	{
-		label: 'Pre Adjudicada',
-		value: 'Preadjudicada',
-	},
-	{
-		label: 'Adjudicada ',
-		value: 'Adjudicada',
-	},
-	{
-		label: 'En Ejecución',
-		value: 'Ejecucion',
-	},
-	{
-		label: 'Finalizada',
-		value: 'Finalizada',
-	},
-	{
-		label: 'Suspendida ',
-		value: 'Suspendida',
-	},
-	{
-		label: 'Anulada ',
-		value: 'Anulada',
-	},
-];
+    {
+      label: 'Pre Adjudicada',
+      value: 'Preadjudicada',
+    },
+    {
+      label: 'Adjudicada ',
+      value: 'Adjudicada',
+    },
+    {
+      label: 'En Ejecución',
+      value: 'Ejecucion',
+    },
+    {
+      label: 'Finalizada',
+      value: 'Finalizada',
+    },
+    {
+      label: 'Suspendida ',
+      value: 'Suspendida',
+    },
+    {
+      label: 'Anulada ',
+      value: 'Anulada',
+    },
+  ];
 
-const TipoContratacion = [
-	{
-		label: 'Público',
-		value: 'Publica',
-	},
-	{
-		label: 'Privado',
-		value: 'Privada',
-	},
-	{
-		label: 'Subcontrato público',
-		value: 'SubPublica',
-	},
-	{
-		label: 'Subcontrato privado ',
-		value: 'SubPrivada',
-	}
-];
-const TipoNivel = [
-	{
-		label: 'Nacional',
-		value: 'Nacional',
-	},
-	{
-		label: 'Provincial ',
-		value: 'Provincial',
-	},
-	{
-		label: 'Municipal ',
-		value: 'Municipal',
-	},
-	{
-		label: 'Privado ',
-		value: 'Privado',
-	},
-];
+  const TipoContratacion = [
+    {
+      label: 'Público',
+      value: 'Publica',
+    },
+    {
+      label: 'Privado',
+      value: 'Privada',
+    },
+    {
+      label: 'Subcontrato público',
+      value: 'SubPublica',
+    },
+    {
+      label: 'Subcontrato privado ',
+      value: 'SubPrivada',
+    }
+  ];
+  const TipoNivel = [
+    {
+      label: 'Nacional',
+      value: 'Nacional',
+    },
+    {
+      label: 'Provincial ',
+      value: 'Provincial',
+    },
+    {
+      label: 'Municipal ',
+      value: 'Municipal',
+    },
+    {
+      label: 'Privado ',
+      value: 'Privado',
+    },
+  ];
 
 
-  
- 
- 
+
+
+
   const add = () => {
 
     if ((estado === 'Anulada' || estado === 'Finalizada' || estado === 'Suspendida') && (!fechaFin)) {
@@ -195,7 +196,7 @@ const TipoNivel = [
       return
     }
 
-    
+
     setEstado("")
     settipoContratacion("")
     setNivel("")
@@ -204,9 +205,18 @@ const TipoNivel = [
     setfechaInicio("")
     setError('')
     setShowError(false)
-    obra.denominacion=denominacion
+    obra.denominacion = denominacion
 
-    dataSource.push({ tipoContratacion, nivel, estado, codigo:getCodigoObra(), fechaFin, fechaInicio, fechaAdjudicacion })
+    dataSource.push({ 
+      tipoContratacion, 
+      nivel, 
+      estado, 
+      codigo: 
+      getCodigoObra(), 
+      fechaFin, 
+      fechaInicio, 
+      fechaAdjudicacion,
+      acta:actas })
     setDataSource(Object.assign([], dataSource))
 
     obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo)
@@ -225,8 +235,8 @@ const TipoNivel = [
         afterClose={() => setShowError(false)}
       /></div> : ''}
 
-<div className="grid grid-cols-1 gap-4 ">
-      
+    <div className="grid grid-cols-1 gap-4 ">
+
       <div className="pb-6" >
         <InputTextModal
           label="Denominacion"
@@ -242,7 +252,7 @@ const TipoNivel = [
 
 
     <div className="grid grid-cols-4 gap-4 ">
-	<div className="pb-6" >
+      <div className="pb-6" >
         <SelectModal
           title="Estado"
           defaultOption="Tipo de Estado"
@@ -287,8 +297,8 @@ const TipoNivel = [
           ))}
         />
       </div>
-    
-     
+
+
       <div className="pb-6" >
         <DatePickerModal
           placeholder="Fecha  (dd/mm/yyyy)"
@@ -328,10 +338,20 @@ const TipoNivel = [
       </div> : ''}
 
       <div className="pb-6" >
-        <UploadLine
+        <Upload
           label="Adjunte Acta "
           labelRequired="*"
           labelMessageError=""
+          defaultValue={actas as any}
+          onOnLoad={file => {
+            actas.push(file)
+            setActas(Object.assign([],actas))
+          }}
+          onRemove={fileToRemove => {
+            setActas(Object.assign([],actas.filter(f => f.cid!==fileToRemove.cid)))
+          }}
+
+          
         />
       </div>
       <div className="mt-8 ">

@@ -54,6 +54,7 @@ type DatosObraGeneral = {
   fechaAdjudicacion:string
   fechaInicio:string
   fechaFin:string
+  acta: Array<Archivo>
 }
 type Redeterminaciones ={
   id: string
