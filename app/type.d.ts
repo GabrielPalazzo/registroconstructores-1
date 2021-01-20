@@ -200,6 +200,7 @@ type TramiteAlta = {
     pasivoNoCorriente: number
     ventasEjercicio: number
     capitalSuscripto: number
+    archivos: Array<Archivo>
   }>,
   ddjjObras: Array<DDJJObra>,
   matriculaComerciante: {

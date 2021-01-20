@@ -48,6 +48,7 @@ export default () => {
   const [pasivoNoCorriente, setPasivoNoCorriente] = useState(0)
   const [ventasDelEjercicio, setVentasDelEjercicio] = useState(0)
   const [capitalSuscripto, setCapitalSuscripto] = useState(0)
+  const [archivos,setArchivos] = useState([])
   const [error, setError] = useState(null)
 
   useEffect(() => {
@@ -231,6 +232,14 @@ export default () => {
             label="Adjunte el balance contable  "
             labelRequired="*"
             labelMessageError=""
+            defaultValue={archivos as any}
+            onOnLoad={file => {
+              archivos.push(file)
+              setArchivos(Object.assign([],archivos))
+            }}
+            onRemove={fileToRemove => {
+              setArchivos(Object.assign([],archivos.filter(f => f.cid!==fileToRemove.cid)))
+            }}
           />
         </div>
 
@@ -372,7 +381,8 @@ export default () => {
       pasivoCorriente,
       pasivoNoCorriente,
       capitalSuscripto,
-      ventasEjercicio: ventasDelEjercicio
+      ventasEjercicio: ventasDelEjercicio,
+      archivos
     })
     setTramite(Object.assign({}, tramite))
     await save()
