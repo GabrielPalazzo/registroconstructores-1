@@ -21,6 +21,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	/*const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
 	const [monto, setMonto] = useState(0)
 	const [fecha, setFecha] = useState('')
+	const [descripcion, setDescripcion] = useState('')
 	const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>(obra.redeterminaciones)
 	const [error, setError] = useState('')
 	const [showError, setShowError] = useState(false)
@@ -53,6 +54,11 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			key: 'monto'
 		},
 		{
+			title: 'Descripcion',
+			dataIndex: 'descripcion',
+			key: 'descripcion'
+		},
+		{
 			title: 'Adjunto',
 			dataIndex: 'adjunto',
 			key: 'adjunto',
@@ -74,7 +80,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		}
 
 
-		dataSource.push({ id:getCodigoObra(),monto, fecha })
+		dataSource.push({ id:getCodigoObra(),monto, fecha,descripcion })
 		setDataSource(Object.assign([], dataSource))
 		obra.redeterminaciones = Object.assign([],dataSource)
     	onChange(obra)
@@ -91,7 +97,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			/></div> : ''}
 		<div className="rounded-lg px-4 py-2  pb-4 border mt-6">
 			<div className="text-xl font-bold py-2 w-3/4">  Redeterminaciones</div>
-			<div className="grid grid-cols-2 gap-4 ">
+			<div className="grid grid-cols-3 gap-4 ">
 				<div className="pb-6" >
 					<InputTextModal
 						label="Monto"
@@ -116,7 +122,19 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 						bindFunction={(value) => { setFecha(value) }}
 					/>
 				</div>
+				<div className="pb-6" >
+					<InputTextModal
+						label="Descripcion"
+						 
+						labelRequired="*"
+						labelMessageError=""
+						value={descripcion}
+						bindFunction={(value) => { setDescripcion(value) }}
+					/>
 
+				</div>
+				</div>
+				<div className="grid grid-cols-2 gap-4 ">
 				<div className="pb-6" >
 					<UploadLine
 						label="Adjuntar documento de respaldo de la redeterminación "

@@ -530,7 +530,7 @@ export default () => {
 
         </div>
         <div className="text-2xl font-bold py-4"> Inscripción del contrato de la U.T.E</div>
-        <div className="grid grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-2 gap-4 ">
           <div >
             <InputTextModal
               value={tramite.datosSocietarios.ute.inscripcionUTE.datos}
@@ -561,7 +561,7 @@ export default () => {
           </div>
           <div >
             <UploadLine
-              label="Contrato de la U.T.E.ta Constitutiva"
+              label="Contrato de la U.T.E. y junto con TODAS sus modificaciones"
               labelRequired="*"
               labelMessageError=""
             />
@@ -599,14 +599,14 @@ export default () => {
           </div>
           <div >
             <UploadLine
-              label="Última modificación del Contrato de la U.T.E"
+              label=" Última modificación del Contrato de la U.T.E"
               labelRequired="*"
               labelMessageError=""
             />
           </div>
         </div>
         <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato de la UTE</div>
-        <div className="grid grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-3 gap-4 mb-4 ">
 
           <div >
             <DatePickerModal
@@ -623,13 +623,28 @@ export default () => {
               }}
             />
           </div>
-          <div >
+         <div className="mt-8 ml-2 mr-4"> <Checkbox >No Corresponde</Checkbox></div>
+            <div className="w-full" >
+            <InputTextModal
+              label="Observaciones"
+              labelRequired=""
+              placeholder=""
+              labelMessageError=""
+              value=""
+              bindFunction={value => {
+               
+              }}
+             /></div>
+         
+         
+          {/* <div >
             <UploadLine
               label="Última modificación del Contrato de la U.T.E"
               labelRequired="*"
               labelMessageError=""
             />
-          </div>
+          </div> */}
+         
         </div>
         <div className=" content-center  rounded-lg border  px-4 py-4">
           <div className="flex  content-center ">
@@ -706,7 +721,7 @@ export default () => {
 
         </div>
         <div className="text-2xl font-bold py-4"> Inscripción de Acta Constitutiva en I.N.A.E.S</div>
-        <div className="grid grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-2 gap-4 ">
           <div >
             <InputTextModal
               value={tramite.datosSocietarios.cooperativa.inscriptionINAES.datos}
@@ -737,16 +752,16 @@ export default () => {
           </div>
           <div >
             <UploadLine
-              label="Acta Constitutiva"
+              label="Acta Constitutiva, junto con TODAS sus modificaciones hasta el día de hoy"
               labelRequired="*"
               labelMessageError=""
             />
           </div>
         </div>
 
-        <div className="text-2xl font-bold py-4">Modificación estatutaria Inscripta en I.N.A.E.S
+        <div className="text-2xl font-bold pb-4 py-4">Modificación estatutaria Inscripta en I.N.A.E.S (objeto social referente a rubro Construcción)
         <Tooltip title="En caso de que la cooperativa sea Constructora desde su Constitución, repetir mismos datos y fecha de la Inscripción de Acta Constitutiva en I.N.A.E.S "> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
-        <div className="grid grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-2 gap-4 ">
           <div >
             <InputTextModal
               label="Datos"
@@ -776,14 +791,14 @@ export default () => {
           </div>
           <div >
             <UploadLine
-              label="Objeto de la cooperativa a rubro construccion"
+              label="Modificación del Objeto de la cooperativa a rubro construccion"
               labelRequired="*"
               labelMessageError=""
             />
           </div>
         </div>
         <div className="text-2xl font-bold py-4">Última modificación estatutaria Inscripta en I.N.A.E.S.</div>
-        <div className="grid grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-2 gap-4 ">
           <div >
             <InputTextModal
               label="Datos"
@@ -814,14 +829,14 @@ export default () => {
           </div>
           <div >
             <UploadLine
-              label="Última modificación del estatutaria"
+              label="Última modificación estatutaria Inscripta en I.N.A.E.S."
               labelRequired="*"
               labelMessageError=""
             />
           </div>
         </div>
         <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato / Acta Constitutiva</div>
-        <div className="grid grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-3 gap-4 mb-4 ">
           <div >
             <DatePickerModal
               label="Fecha"
@@ -1101,6 +1116,25 @@ export default () => {
 
       {tramite.personeria === 'SA' || tramite.personeria === 'SRL' || tramite.personeria === 'OFS' ? <div>
         <div className="text-2xl font-bold py-4"> Firma del Contrato Constitutivo</div>
+        <div className="grid grid-cols-4 gap-4 ">
+        <div >
+              <DatePickerModal
+                label="Fecha"
+                value={tramite.datosSocietarios.sociedadAnonima.contrato.fecha}
+                bindFunction={value => {
+                  tramite.datosSocietarios.sociedadAnonima.contrato.fecha = value
+                  updateObjTramite()
+                }}
+                labelRequired="*"
+                placeholder="Fecha"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+              />
+            </div>
+
+          </div>
+
         {/*  <div className="grid grid-cols-1 gap-4 ">
             <div >
               <InputText
@@ -1121,7 +1155,7 @@ export default () => {
           </div>*/}
         <div className="rounded-lg mt-4 border px-4 py-4">
           <div className="text-2xl font-bold"> Inscripción de Contrato Constitutivo (en D.P.P.J / I.G.J.)</div>
-          <div className="grid grid-cols-4 gap-4 ">
+          <div className="grid grid-cols-2 gap-4 ">
             <div >
               <InputTextModal
                 label="Datos"
@@ -1152,7 +1186,7 @@ export default () => {
 
             <div >
               <UploadLine
-                label="Contrato Constitutivo"
+                label="Contrato Constitutivo, junto con TODAS sus modificaciones hasta el día de hoy"
                 labelRequired="*"
                 labelMessageError=""
               />
@@ -1162,8 +1196,8 @@ export default () => {
           </div>
         </div>
         <div className="rounded-lg mt-4 border px-4 py-4">
-          <div className="text-2xl font-bold">
-            Modificación del Contrato Social
+          <div className="text-2xl font-bold pb-4">
+          Modificación del Contrato Social (inscripta en D.P.P.J / I.G.J. correspondiente a ampliación del objeto social para realizar actividades del rubro Construcción)
               <Tooltip title="En caso de que la empresa sea Constructora desde su inscripción inicial, repetir mismos datos y fecha de la Inscripción de Contrato Constitutivo"> <QuestionCircleOutlined className="pl-4" /></Tooltip>
           </div>
           <div className="grid grid-cols-2 gap-4 ">
@@ -1261,7 +1295,7 @@ export default () => {
           </div>
           <div >
             <UploadLine
-              label="Última modificación del Contrato Social"
+              label="Última modificación del Contrato Social, inscripta en en D.P.P.J / I.G.J."
               labelRequired="*"
               labelMessageError=""
             />

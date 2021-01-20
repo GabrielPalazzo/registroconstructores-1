@@ -22,6 +22,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
   const [periodos, setPeriodos] = useState(obra.certificaciones)
   const [periodo, setPeriodo] = useState('')
+  const [descripcion, setDescripcion] = useState('')
   const [monto, setMonto] = useState(0)
   const [periodoSeleccionado, setPeriodoSeleccionado] = useState(null)
 
@@ -82,7 +83,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
   return <div>
     <div className="mb-4">
-      <Alert message="En esta sección podrá agregar todas las certificaciones que posea de la obra consignando: Periodo (MM/AAAA), monto a declarar y los documentos que sustenten los datos ingresados. Los mismpos pueden ser certificaciones de obras, facturas o bien certificación contable" type="info" />
+      <Alert message="En esta sección podrá agregar todas las certificaciones que posea de la obra consignando: período (MM/AAAA), monto y la documental que sustenten los datos ingresados. Las certificaciones deben declararse una vez facturadas, indicando fecha de facturación, y adjuntando como respaldo el propio certificado y su respectiva factura" type="info" />
     </div>
     <div className="grid grid-cols-4 gap-4 ">
 
@@ -110,6 +111,15 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
         />
       </div>
       <div >
+        <InputTextModal
+          label="Descripcion"
+          labelRequired="*"
+          labelMessageError=""
+          value={descripcion}
+          bindFunction={setDescripcion}
+        />
+      </div>
+      <div >
         <UploadLine
           label="Documentación respaldatoria"
           labelRequired="*"
@@ -117,7 +127,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
         />
       </div>
 
-      <div className="w-1/3 flex items-center">
+      <div className="w-1/3 flex items-center mb-4">
         <Button onClick={agregarPeriodo} type={periodo ? 'primary' : 'ghost'}>{periodoSeleccionado ? 'Editar' : 'Agregar'}</Button>
       </div>
     </div>

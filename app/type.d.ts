@@ -60,11 +60,13 @@ type Redeterminaciones ={
   id: string
   monto:number
   fecha:string
+  descripcion:string
 }
 type AmpliacionesObras ={
   id: string
   monto:number
   fecha:string
+  descripcion:string
 }
 type Certificaciones ={
   numeroCertificacion:number
@@ -91,6 +93,7 @@ type DDJJObra ={
     codigo: string,
     monto: number
     periodo: string
+    descripcion: string
   }>
 
   plazoPorContrato:number
@@ -239,6 +242,9 @@ type TramiteAlta = {
       }
     }
     sociedadAnonima: {
+      contrato: {
+        fecha: string
+      }
       inscripcion: {
         datos: string
         fecha: string
@@ -253,6 +259,7 @@ type TramiteAlta = {
       }
     }
     ute: {
+
       inscripcionUTE: {
         datos:string
         fecha: string
