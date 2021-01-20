@@ -100,6 +100,21 @@ export default () => {
           label="Adjunte un documento en donde conste el último domicilio legal inscripto en la IGJ o Registro de Comercio "
           labelRequired="*"
           labelMessageError=""
+          defaultValue={tramite.constanciaDomicilioLegal as any}
+          onRemove={ fileToRemove => {
+            tramite.constanciaDomicilioLegal = tramite.constanciaDomicilioLegal.filter(f => f.cid !==fileToRemove.cid)
+            save()
+            setIsLoading(false)
+          }}
+          onOnLoad={file => {
+            if (!tramite.constanciaDomicilioLegal)
+              tramite.constanciaDomicilioLegal = []
+
+            tramite.constanciaDomicilioLegal.push(file)
+            save()
+            setIsLoading(false)
+          }}
+
         />
 
 

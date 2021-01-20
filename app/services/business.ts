@@ -79,6 +79,7 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     registroPublicoDeComercio: '',
     igj:'',
     domicilioLegal:'',
+    constanciaDomicilioLegal:[],
     domicilioReal:'',
     rubroConstruccion: {
       lugar:'',
@@ -123,7 +124,8 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
       sociedadAnonima: {
         inscripcion: {
           datos:'',
-          fecha:''
+          fecha:'',
+          
         },
         modificacion: {
           datos:'',
@@ -131,6 +133,9 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
         },
         ultimaModificacion: {
           datos: '',
+          fecha:''
+        },
+        contrato: {
           fecha:''
         }
       },

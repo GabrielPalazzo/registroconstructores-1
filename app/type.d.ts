@@ -162,6 +162,7 @@ type TramiteAlta = {
   vtoIeric: string
   domicilioReal: string
   domicilioLegal: string
+  constanciaDomicilioLegal: Array<Archivo>
   registroPublicoDeComercio: string
   igj: string
   rubroConstruccion: {
