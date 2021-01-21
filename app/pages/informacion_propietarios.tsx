@@ -206,6 +206,7 @@ export default (props) => {
             required />
 
         </div>
+        {/*
         <div className="pb-6" >
           <Upload
             label="Adjunte  Documento "
@@ -220,7 +221,8 @@ export default (props) => {
               setArchivos(Object.assign([],archivos.filter(f=> f.cid !==fileToRemove.cid)))
             }}
           />
-        </div>
+        </div> */}
+        
       </div>
 
     </div>)
