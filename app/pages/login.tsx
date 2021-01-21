@@ -12,6 +12,13 @@ export default () => {
   const [userLoaded, setUserLoaded] = useState(null)
 
   useEffect(() =>{
+    const {given_token} = router.query
+
+    if (given_token){
+      setToken(given_token)
+      router.push('/')
+    }
+
     if (router.asPath.split('=')[0]==='/login#access_token'){
     
       axios.post('/api/getUserToken',{
@@ -22,6 +29,8 @@ export default () => {
       })
       .catch( err => router.push('/login'))
     }
+
+
   })
   if (process.env.MODO === 'MANTENIMIENTO')
     return <Mantenimiento />
