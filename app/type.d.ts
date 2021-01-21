@@ -267,6 +267,16 @@ type TramiteAlta = {
       }
     }
     sociedadAnonima: {
+      propietarios:Array<{
+        titular: string,
+        cuit: string,
+        porcentajeCapital: number
+        montoCapital: number
+        cantidadVotos: number
+        tipoPersoneria: string
+        observaciones: string
+        archivos: Array<Archivo>
+      }>
       contrato: {
         fecha: string
         archivos: Array<Archivo>
