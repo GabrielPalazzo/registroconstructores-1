@@ -63,6 +63,7 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     nroLegajo: '',
     personeria:'',
     propietario: null,
+    propietarios:[],
     emailInstitucional: '',
     razonSocial:'',
     nombreTitular:'',
