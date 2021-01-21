@@ -46,9 +46,9 @@ const renderNoData = () => {
   </div>)
 }
 
-export default () => {
+export default (props) => {
 
-
+  const [visible, setVisible] = useState<boolean>(false)
 
   const [modalPropietarios, setModalPropietarios] = useState(false)
   const [modalSanciones, setModalSanciones] = useState(false)
@@ -91,6 +91,21 @@ export default () => {
     setTramite(Object.assign({}, tramite))
   }
 
+  const showModal = () => {
+    setVisible(true)
+  }
+
+
+
+  const clearState = () => {
+    setTitular('')
+    setCuit('')
+    
+  }
+
+  const handleCancel = e => {
+    setVisible(false)
+  }
 
 
 
@@ -142,7 +157,7 @@ export default () => {
             placeholder="Ingrese El porcentaje del Capital debe "
           
             value={montoCapital}
-            bindFunction={(val) => setMontoCapital(parseInt(val, 10))}
+            bindFunction={(value) => { setMontoCapital(value) }}
             labelMessageError=""
             required />
 
@@ -154,7 +169,7 @@ export default () => {
             placeholder="Ingrese El porcentaje del Capital debe "
             
             value={cantidadVoto}
-            bindFunction={(val) => setCantidadVoto(parseInt(val, 10))}
+            bindFunction={(value) => { setCantidadVoto(value) }}
             labelMessageError=""
             required />
 
@@ -232,18 +247,22 @@ export default () => {
 
 
       </div>
-      <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} dataSource={tramite.propietariosInfo} />
+      <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} dataSource={tramite.propietarios} />
       <Modal
         title="Datos de los Propietarios"
         visible={modalPropietarios}
         onOk={() => {
-          if (!tramite.propietariosInfo)
-            tramite.propietariosInfo = []
+          if (!tramite.propietarios)
+            tramite.propietarios = []
 
-          
+          tramite.propietarios.push({
+            titular: titular,
+            cuit: cuit,
+          })
           setModalPropietarios(false)
           save()
         }}
+         
         okText="Guardar"
         onCancel={() => setModalPropietarios(false)}
         cancelText="Cancelar"
@@ -345,13 +364,13 @@ const columnsPropietarioSoc = [
   },
   {
     title: '%  de Capital',
-    dataIndex: ' porcentajeCapital',
-    key: ' porcentajeCapital',
+    dataIndex: 'porcentajeCapital',
+    key: 'porcentajeCapital',
   },
   {
     title: 'Monto de Capital',
-    dataIndex: 'montoCapitalPropietarios',
-    key: 'montoCapitalPropietarios',
+    dataIndex: 'montoCapital',
+    key: 'montoCapital',
   },
   {
     title: 'Cantidad de Votos',

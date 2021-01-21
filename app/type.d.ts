@@ -128,6 +128,8 @@ type AutoridadEmpresa  ={
   fotosDNI: Array<Archivo>
 }
 
+
+
 type TramiteAlta = {
   _id?: string,
   inscripcionAFIPConstancia: Array<Archivo>
@@ -195,8 +197,8 @@ type TramiteAlta = {
     fechaOtorgamiento: string
     fechaExpiracion: string
     archivos: Array<Archivo>
-  }>,
-  propietariosInfo: Array<{
+  }>
+  propietarios: Array<{
     titular: string
     cuit: string
     porcentajeCapital: string
