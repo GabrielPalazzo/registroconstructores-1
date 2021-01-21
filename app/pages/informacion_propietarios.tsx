@@ -101,11 +101,7 @@ export default (props) => {
 
 
 
-  const clearState = () => {
-    setTitular('')
-    setCuit('')
-    
-  }
+ 
 
   const handleCancel = e => {
     setVisible(false)
@@ -227,6 +223,15 @@ export default (props) => {
 
     </div>)
   }
+  const clearState = () => {
+    setCantidadVoto(0)
+    setCuit('')
+    setMontoCapital(0)
+    setObservaciones('')
+    setPorcentajeCapital(0)
+    setTipoPersoneriaPropietarios('')
+    setTitular('')
+  }
 
 
   const agregarPropietario = async () => {
@@ -248,9 +253,10 @@ export default (props) => {
     
     setIsLoading(false)
     setModalPropietarios(false)
-    
+    clearState()
     
   }
+  
 
   const removePropietario = (record) => {
     tramite.propietarios = tramite.propietarios.filter(p => p.cuit!==record.cuit )
