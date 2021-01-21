@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
 import { NavigationStep } from '../components/steps'
 import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import LikeDislike from '../components/like_dislike'
 import Substeps from '../components/subSteps'
-import Link from 'next/link'
-import UploadLine from '../components/uploadLine'
+import {DeleteOutlined} from '@ant-design/icons'
+
+
 
 import DatePickerModal from '../components/datePicker_Modal'
 import { useDispatch, useSelector } from 'react-redux'
@@ -66,6 +67,7 @@ export default (props) => {
   const [cantidadVoto, setCantidadVoto] = useState(0)
   const [observaciones, setObservaciones] = useState('')
   const [tipoPersoneriaPropietarios, setTipoPersoneriaPropietarios] = useState('')
+  const [archivos,setArchivos] = useState([])
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
 
@@ -79,12 +81,14 @@ export default (props) => {
     setWaitingType('sync')
 
     setIsLoading(true)
+    updateObjTramite()
     if (tramite._id) {
       await dispatch(saveTramite(tramite))
     } else {
       if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
     }
+    
   }
 
   const updateObjTramite = () => {
@@ -203,16 +207,108 @@ export default (props) => {
 
         </div>
         <div className="pb-6" >
-          <UploadLine
+          <Upload
             label="Adjunte  Documento "
             labelRequired="*"
             labelMessageError=""
+            defaultValue={archivos as any}
+            onOnLoad={file =>{
+              archivos.push(file)
+              setArchivos(Object.assign([],archivos))
+            }}
+            onRemove={fileToRemove => {
+              setArchivos(Object.assign([],archivos.filter(f=> f.cid !==fileToRemove.cid)))
+            }}
           />
         </div>
       </div>
 
     </div>)
   }
+
+
+  const agregarPropietario = async () => {
+    if (!tramite.propietarios)
+      tramite.propietarios=[]
+
+    tramite.propietarios.push({
+      archivos,
+      cantidadVotos: cantidadVoto,
+      cuit,
+      montoCapital,
+      observaciones,
+      porcentajeCapital,
+      tipoPersoneria:tipoPersoneriaPropietarios,
+      titular
+    })
+    updateObjTramite()
+    await save()
+    
+    setIsLoading(false)
+    setModalPropietarios(false)
+    
+    
+  }
+
+  const removePropietario = (record) => {
+    tramite.propietarios = tramite.propietarios.filter(p => p.cuit!==record.cuit )
+    updateObjTramite()
+    save()
+    setIsLoading(false)
+  }
+
+  const columnsPropietarioSoc = [
+    {
+      title: 'Eliminar',
+      key: 'action',
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => removePropietario(record)}><DeleteOutlined /></div> : <Space size="middle"></Space>)
+    },
+    {
+      title: 'Titular',
+      dataIndex: 'titular',
+      key: 'titular',
+    },
+    {
+      title: 'CUIT',
+      dataIndex: 'cuit',
+      key: 'cuit',
+    },
+    {
+      title: '%  de Capital',
+      dataIndex: 'porcentajeCapital',
+      key: 'porcentajeCapital',
+    },
+    {
+      title: 'Monto de Capital',
+      dataIndex: 'montoCapital',
+      key: 'montoCapital',
+    },
+    {
+      title: 'Cantidad de Votos',
+      dataIndex: 'cantidadVotos',
+      key: 'cantidadVoto',
+    },
+    {
+      title: 'Tipo de personería jurídica',
+      dataIndex: 'tipoPersoneria',
+      key: 'TPJ',
+    },
+    {
+      title: 'Observaciones',
+      dataIndex: 'observaciones',
+      key: 'obs',
+    },
+    {
+      title: 'Adjunto',
+      render: (text,record) => <div>{record.archivos && record.archivos.map( f=> f.name).join(', ')}</div>,
+      key: 'attachment',
+    },
+  
+  
+  ];
+
+  
+  //console.log(tramite.propietarios)
 
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
@@ -237,31 +333,34 @@ export default (props) => {
       </div>
       <div className="grid grid-cols-1 gap-4 mt-8">
         <div className="pb-6" >
-          <UploadLine
+          <Upload
             label="Adjuntar Contrato Social inscripto en la Inspeccion General de
             Justicia o Registro Publico de Comercio "
             labelRequired="*"
             labelMessageError=""
+            defaultValue={tramite.datosSocietarios.sociedadAnonima.contrato.archivos as any}
+            onOnLoad={file => {
+              tramite.datosSocietarios.sociedadAnonima.contrato.archivos.push(file)
+              save()
+              setIsLoading(false)
+            }}
+            onRemove={async fileToRemove => {
+              tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid !== fileToRemove.cid)
+              updateObjTramite()
+              await save()
+              setIsLoading(false)
+            }}
+            
           />
         </div>
 
 
       </div>
-      <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} dataSource={tramite.propietarios} />
+      <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} dataSource={Object.assign([],tramite.propietarios)} />
       <Modal
         title="Datos de los Propietarios"
         visible={modalPropietarios}
-        onOk={() => {
-          if (!tramite.propietarios)
-            tramite.propietarios = []
-
-          tramite.propietarios.push({
-            titular: titular,
-            cuit: cuit,
-          })
-          setModalPropietarios(false)
-          save()
-        }}
+        onOk={agregarPropietario}
          
         okText="Guardar"
         onCancel={() => setModalPropietarios(false)}
@@ -270,52 +369,13 @@ export default (props) => {
       >
         {renderModalPropietarios()}
       </Modal>
-
-
-
-
-      {/*
-      <div className="mt-6 rounded-lg border px-4 py-4">
-        <div>
-        <div className="flex  content-center ">
-
-        <div className="text-2xl font-bold py-4 w-3/4">  Antecedentes Sancionatorios</div>
-          <div className=" w-1/4 text-right content-center ">
-            <Switch
-              SwitchLabel1="Si"
-              SwitchLabel2="No"
-              labelMessageError=""
-            />
-          </div>
-          </div>
-          <div className="w-full text-center m-auto content-center mt-4 ">
-            <Button type="primary" onClick={() => setModalSanciones(true)} icon={<PlusOutlined />}> Agregar</Button>
-          </div>
-        </div>
-
-        <Modal
-        title="Antecedentes Sancionatorios"
-        visible={modalSanciones}
-        onOk={() => console.log('')}
-        okText="Guardar"
-        onCancel={() => setModalSanciones(false)}
-        cancelText="Cancelar"
-        width={1000}
-      >
-         {renderModalSanciones()}
-        </Modal>
-
-      </div>
-*/}
-
       <div className="mt-6  pt-6 text-center">
-        <Link href="/informacion_societaria" >
-
-          <Button className="mr-4" > Volver</Button>
-        </Link>
-        <Link href="/ejercicios" >
-          <Button type="primary" > Guardar y Seguir</Button>
-        </Link>
+        
+          <Button type="primary" onClick={async () => {
+            await save()
+            router.push('/ejercicios')
+          }} > Guardar y Seguir</Button>
+      
       </div>
 
     </div>
@@ -343,55 +403,3 @@ const tipoPersoneria = [
 
 ]
 
-const columnsPropietarioSoc = [
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text) => (
-      <LikeDislike />
-
-    ),
-  },
-  {
-    title: 'Titular',
-    dataIndex: 'titular',
-    key: 'titular',
-  },
-  {
-    title: 'CUIT',
-    dataIndex: 'cuit',
-    key: 'cuit',
-  },
-  {
-    title: '%  de Capital',
-    dataIndex: 'porcentajeCapital',
-    key: 'porcentajeCapital',
-  },
-  {
-    title: 'Monto de Capital',
-    dataIndex: 'montoCapital',
-    key: 'montoCapital',
-  },
-  {
-    title: 'Cantidad de Votos',
-    dataIndex: 'cantidadVoto',
-    key: 'cantidadVoto',
-  },
-  {
-    title: 'Tipo de personería jurídica',
-    dataIndex: 'TPJ',
-    key: 'TPJ',
-  },
-  {
-    title: 'Observaciones',
-    dataIndex: 'obs',
-    key: 'obs',
-  },
-  {
-    title: 'Adjunto',
-    dataIndex: 'attachment',
-    key: 'attachment',
-  },
-
-
-];

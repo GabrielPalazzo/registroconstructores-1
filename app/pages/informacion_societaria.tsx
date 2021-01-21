@@ -67,6 +67,8 @@ export default () => {
   useEffect(() => {
     if (!tramite.cuit)
       router.push('/')
+
+    
   }, [])
 
   const { Step } = Steps;

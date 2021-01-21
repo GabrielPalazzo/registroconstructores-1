@@ -20,7 +20,6 @@ export default () => {
 
   useEffect(() => {
     (async () => {
-      console.log(router.query)
       const usuario = getUsuario().userData()
 
       if (!usuario) {

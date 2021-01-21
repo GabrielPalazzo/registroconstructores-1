@@ -199,14 +199,14 @@ type TramiteAlta = {
     archivos: Array<Archivo>
   }>
   propietarios: Array<{
-    titular: string
-    cuit: string
-    porcentajeCapital: string
-    montoCapital: string
-    cantidadVoto: string
+    titular: string,
+    cuit: string,
+    porcentajeCapital: number
+    montoCapital: number
+    cantidadVotos: number
+    tipoPersoneria: string
     observaciones: string
-    tipoPersoneriaPropietarios: string
-    documento: Array<Archivo>
+    archivos: Array<Archivo>
   }>,
   ejercicios: Array<{
     fechaInicio: string
@@ -267,16 +267,6 @@ type TramiteAlta = {
       }
     }
     sociedadAnonima: {
-      propietarios:Array<{
-        titular: string,
-        cuit: string,
-        porcentajeCapital: number
-        montoCapital: number
-        cantidadVotos: number
-        tipoPersoneria: string
-        observaciones: string
-        archivos: Array<Archivo>
-      }>
       contrato: {
         fecha: string
         archivos: Array<Archivo>

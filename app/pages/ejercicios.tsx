@@ -409,7 +409,7 @@ export default () => {
         <Tabs defaultActiveKey="1" onChange={callback}  >
           <TabPane tab="Balances" key="1">
             <div className="overflow-x-auto" >
-              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} locale={{ emptyText: "No hay información cargada"}}  dataSource={tramite.ejercicios} scroll={{ x: 1800 }}  />}
+              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} locale={{ emptyText: "No hay información cargada"}}  dataSource={Object.assign([],tramite.ejercicios)} scroll={{ x: 1800 }}  />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">

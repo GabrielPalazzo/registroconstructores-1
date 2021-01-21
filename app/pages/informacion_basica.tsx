@@ -97,7 +97,7 @@ export default (props) => {
     setUsuario(getUsuario())
 
     if (isInReview(tramite)) {
-      dispatch(updateRevisionTramite(getReviewAbierta(tramite)))
+      dispatch(updateRevisionTramite(getReviewAbierta(Object.assign({},tramite))))
     }
   }, [])
 
