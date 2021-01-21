@@ -196,15 +196,15 @@ type TramiteAlta = {
     fechaExpiracion: string
     archivos: Array<Archivo>
   }>,
-  propietarios: Array<{
+  propietariosInfo: Array<{
     titular: string
     cuit: string
-    porcentajeCapital: number
-    montoCapital: number
-    cantidadVoto: number
+    porcentajeCapital: string
+    montoCapital: string
+    cantidadVoto: string
     observaciones: string
-    tipoPersoneria: string
-    fotoDoc: Array<Archivo>
+    tipoPersoneriaPropietarios: string
+    documento: Array<Archivo>
   }>,
   ejercicios: Array<{
     fechaInicio: string

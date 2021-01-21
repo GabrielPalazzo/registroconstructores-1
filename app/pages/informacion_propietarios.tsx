@@ -16,9 +16,10 @@ import UploadLine from '../components/uploadLine'
 
 import DatePickerModal from '../components/datePicker_Modal'
 import { useDispatch, useSelector } from 'react-redux'
-import { getTramiteByCUIT, getEmptyTramiteAlta, isConstructora, isPersonaFisica } from '../services/business'
-import { saveTramite } from '../redux/actions/main'
-
+import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora, isTramiteEditable, allowGuardar } from '../services/business';
+import { saveTramite, setTramiteView } from '../redux/actions/main'
+import { updateRevisionTramite } from '../redux/actions/revisionTramite';
+import moment from 'moment';
 
 const { Step } = Steps;
 const { Option } = Select;
@@ -58,12 +59,12 @@ export default () => {
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
-  const [titularPropietarios, setTitularPropietarios] = useState('')
-  const [cuitPropietarios, setCuitPropietarios] = useState('')
-  const [porcentajeCapitalPropietarios, setPorcentajeCapitalPropietarios] = useState(0)
-  const [montoCapitalPropietarios, setMontoCapitalPropietarios] = useState(0)
-  const [cantidadVotoPropietarios, setCantidadVotoPropietarios] = useState(0)
-  const [observacionesPropietarios, setObservacionesPropietarios] = useState('')
+  const [titular, setTitular] = useState('')
+  const [cuit, setCuit] = useState('')
+  const [porcentajeCapital, setPorcentajeCapital] = useState(0)
+  const [montoCapital, setMontoCapital] = useState(0)
+  const [cantidadVoto, setCantidadVoto] = useState(0)
+  const [observaciones, setObservaciones] = useState('')
   const [tipoPersoneriaPropietarios, setTipoPersoneriaPropietarios] = useState('')
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
@@ -90,7 +91,7 @@ export default () => {
     setTramite(Object.assign({}, tramite))
   }
 
- 
+
 
 
   const renderModalPropietarios = () => {
@@ -101,8 +102,8 @@ export default () => {
             label="Titular"
             labelRequired="*"
             placeholder="Ingrese el Nombre y apellido"
-            value={titularPropietarios}
-            bindFunction={(value) => setTitularPropietarios(value)}
+            value={titular}
+            bindFunction={(value) => setTitular(value)}
             labelMessageError=""
             required />
 
@@ -112,8 +113,8 @@ export default () => {
             label="CUIT"
             placeholder="Ingrese el Código Tributario de su pais de origen"
             labelRequired="*"
-            value={cuitPropietarios}
-            bindFunction={(value) => setCuitPropietarios(value)}
+            value={cuit}
+            bindFunction={(value) => setCuit(value)}
 
             labelMessageError=""
             required />
@@ -125,11 +126,10 @@ export default () => {
           <InputTextModal
             label="% del capital"
             labelRequired="*"
-            placeholder="Ingrese El porcentaje del Capital debe "
-            type="number" step="any"
-            min={0}
-            value={porcentajeCapitalPropietarios}
-            bindFunction={(value) => { setPorcentajeCapitalPropietarios(value) }}
+            placeholder="Ingrese El porcentaje del Capital "
+           
+            value={porcentajeCapital}
+            bindFunction={(value) => { setPorcentajeCapital(value) }}
             labelMessageError=""
             required />
 
@@ -140,10 +140,9 @@ export default () => {
             label="Monto del capital"
             labelRequired="*"
             placeholder="Ingrese El porcentaje del Capital debe "
-            type="number" step="any"
-            min={0}
-            value={montoCapitalPropietarios}
-            bindFunction={(value) => { setMontoCapitalPropietarios(value) }}
+          
+            value={montoCapital}
+            bindFunction={(val) => setMontoCapital(parseInt(val, 10))}
             labelMessageError=""
             required />
 
@@ -153,10 +152,9 @@ export default () => {
             label="Cantidad de votos"
             labelRequired="*"
             placeholder="Ingrese El porcentaje del Capital debe "
-            type="number" step="any"
-            min={0}
-            value={cantidadVotoPropietarios}
-            bindFunction={(value) => { setCantidadVotoPropietarios(value) }}
+            
+            value={cantidadVoto}
+            bindFunction={(val) => setCantidadVoto(parseInt(val, 10))}
             labelMessageError=""
             required />
 
@@ -183,8 +181,8 @@ export default () => {
             label="Observaciones"
             labelRequired="*"
             placeholder="descripcion "
-            value={observacionesPropietarios}
-            bindFunction={(value) => { setObservacionesPropietarios(value) }}
+            value={observaciones}
+            bindFunction={(value) => { setObservaciones(value) }}
             labelMessageError=""
             required />
 
@@ -200,7 +198,6 @@ export default () => {
 
     </div>)
   }
-
 
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
@@ -235,12 +232,15 @@ export default () => {
 
 
       </div>
-      <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} dataSource={tramite.propietarios}  />
+      <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} dataSource={tramite.propietariosInfo} />
       <Modal
-        title="Datos de propietario de sociedad"
+        title="Datos de los Propietarios"
         visible={modalPropietarios}
         onOk={() => {
-          tramite.propietarios = []
+          if (!tramite.propietariosInfo)
+            tramite.propietariosInfo = []
+
+          
           setModalPropietarios(false)
           save()
         }}
@@ -345,23 +345,23 @@ const columnsPropietarioSoc = [
   },
   {
     title: '%  de Capital',
-    dataIndex: 'capital',
-    key: 'capital',
+    dataIndex: ' porcentajeCapital',
+    key: ' porcentajeCapital',
   },
   {
     title: 'Monto de Capital',
-    dataIndex: 'monto_capital',
-    key: 'monto_capital',
+    dataIndex: 'montoCapitalPropietarios',
+    key: 'montoCapitalPropietarios',
   },
   {
     title: 'Cantidad de Votos',
-    dataIndex: 'votos',
-    key: 'votos',
+    dataIndex: 'cantidadVoto',
+    key: 'cantidadVoto',
   },
   {
     title: 'Tipo de personería jurídica',
-    dataIndex: 'tipo_personeria_juridica',
-    key: 'atipo_personeria_juridica',
+    dataIndex: 'TPJ',
+    key: 'TPJ',
   },
   {
     title: 'Observaciones',
