@@ -9,39 +9,21 @@ services:
       registroconstructores-network:
         aliases:
           - app
-    depends_on:
-      - backoffice
+            #env_file:
+            # - ./app/.env.local
+    environment:
+       - MONGO_URI=mongodb+srv://mongo:27017/registroconstructores
+       - SESSION_SECRET=registroconstructores
     logging:
       driver: json-file
       options:
         max-size: "50m"
         max-file: "3"
     
-  backoffice:
-    environment:
-      - DB_URI=mongodb://mongo:27017/registroconstructores
-      - JWT_SECRET=registroconstructores-secret-shhhhhh
-    build:
-      context: ./backoffice
-      target: development
-    restart: always
-    ports:
-      - 3030:3030
-    networks:
-      registroconstructores-network:
-        aliases:
-          - backoffice
-    depends_on:
-      - mongo
-    logging:
-      driver: json-file
-      options:
-        max-size: "50m"
-        max-file: "3"
   nginx: 
     build: ./nginx
     ports:
-      - 8082:80
+      - 8080:80
     networks:
       registroconstructores-network:
         aliases:
@@ -67,13 +49,18 @@ services:
     environment:
       - IPFS_PROFILE=server
       - IPFS_PATH=/ipfsdata
+    networks:
+      registroconstructores-network:
+        aliases:
+          - ipfs
     volumes:
       - ./data/ipfs:/ipfsdata
-    ports:
-      - "4001:4001"
-      - "127.0.0.1:8080:7080"
-      - "127.0.0.1:8081:7081"
-      - "127.0.0.1:5001:5001"
+      - ./.ipfs_config:/root/.ipfs/config
+        #ports:
+        #- "4001:4001"
+        #- "127.0.0.1:8080:7080"
+        #- "127.0.0.1:8081:7081"
+        #- "127.0.0.1:5001:5001"
 volumes:
   datadb:
 
