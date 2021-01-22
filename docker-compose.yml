@@ -1,6 +1,8 @@
 version: "3.8"
 services:
   web:
+    environment: 
+      MONGO_URI: "mongodb+srv://mongo:27017/registroconstructores"
     build:
       context: ./app
       target: development
