@@ -89,31 +89,31 @@ export default () => {
         </div>
         :
         <Card className="rounded mr-2 text-center m-autop" style={{ width: 500, margin: 'auto' }}>
-          <div className="text-base font-bold text-warning-700 px-8 pb-2 ">
+          <div className="text-base font-bold text-warning-700 px-8 pb-2 mb-4">
             <div>
-              Usted tiene items incompletos que deberá completar para poder enviar el trámite
+            Revise los items incompletos para enviar el trámite
       </div>
             <div className="text-gray-800 text-left p-2 font-thin">
               {erroresSeccionInformacionBasica.length > 0 ?
-                <div>
+                <div className="mb-8">
                   <div className="font-bold">Información Básica</div>
-                  <li>
-                    {erroresSeccionInformacionBasica.map((e: ValidatorErrorElement) => <ul>{e.error}</ul>)}
-                  </li>
+                  <ul>
+                    {erroresSeccionInformacionBasica.map((e: ValidatorErrorElement) => <li>{e.error}</li>)}
+                  </ul>
                 </div> : ''}
               {erroresSeccionDomicilio.length > 0 ?
-                <div>
+                <div className="mb-8">
                   <div className="font-bold">Domicilio</div>
-                  <li>
-                    {erroresSeccionDomicilio.map((e: ValidatorErrorElement) => <ul>{e.error}</ul>)}
-                  </li>
+                  <ul>
+                    {erroresSeccionDomicilio.map((e: ValidatorErrorElement) => <li>{e.error}</li>)}
+                  </ul>
                 </div> : ''}
               {erroresSeccionComercial.length > 0 ?
-                <div>
+                <div className="mb-8">
                   <div className="font-bold">Información Comercial</div>
-                  <li>
-                    {erroresSeccionComercial.map((e: ValidatorErrorElement) => <ul>{e.error}</ul>)}
-                  </li>
+                  <ul>
+                    {erroresSeccionComercial.map((e: ValidatorErrorElement) => <li>{e.error}</li>)}
+                  </ul>
                 </div> : ''}
             </div>
           </div>
@@ -154,7 +154,7 @@ export default () => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2 px-20 py-4">
+    <div className="border-gray-200 border-b-2 px-20">
       <NavigationStep current={4} generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
     {tramite.status === 'BORRADOR' ? <EnviarParaPreInscripcion /> : <EnviarBackOffice />}
