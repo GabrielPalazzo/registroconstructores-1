@@ -1276,7 +1276,7 @@ export default () => {
                 label="Fecha"
                 value={tramite.datosSocietarios.sociedadAnonima.modificacion.fecha}
                 bindFunction={value => {
-                  tramite.datosSocietarios.sociedadAnonima.modificacion.datos = value
+                  tramite.datosSocietarios.sociedadAnonima.modificacion.fecha = value
                   updateObjTramite()
                 }}
                 labelRequired="*"
