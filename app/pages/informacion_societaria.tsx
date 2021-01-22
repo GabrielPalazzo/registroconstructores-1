@@ -68,8 +68,9 @@ export default () => {
     if (!tramite.cuit)
       router.push('/')
 
-    
+
   }, [])
+
 
   const { Step } = Steps;
   const renderModalCalidad = () => {
@@ -147,10 +148,10 @@ export default () => {
             defaultValue={documentoSistemaCalidad as any}
             onOnLoad={file => {
               documentoSistemaCalidad.push(file)
-              setDocumentoSistemaCalidad(Object.assign([],documentoSistemaCalidad))
+              setDocumentoSistemaCalidad(Object.assign([], documentoSistemaCalidad))
             }}
             onRemove={fileToRemove => {
-              setDocumentoSistemaCalidad(Object.assign([],documentoSistemaCalidad.filter( d => d.cid!==fileToRemove.cid)))
+              setDocumentoSistemaCalidad(Object.assign([], documentoSistemaCalidad.filter(d => d.cid !== fileToRemove.cid)))
             }}
           />
         </div>
@@ -214,6 +215,8 @@ export default () => {
             defaultOption="Tipo de Organo"
             labelRequired="*"
             labelMessageError=""
+            value={TipoOrgano}
+            bindFunction={setTipoOrgano}
             required
             option={TipoOrgano.map(u => (
               <Option value={u.value}>{u.label}</Option>
@@ -230,6 +233,8 @@ export default () => {
             labelRequired="*"
             labelMessageError=""
             required
+            value={TipoCargo}
+            bindFunction={setTipoCargo}
             option={TipoCargo.map(u => (
               <Option value={u.value}>{u.label}</Option>
 
@@ -299,10 +304,10 @@ export default () => {
             defaultValue={fotosDNIAutoridades as any}
             onOnLoad={file => {
               fotosDNIAutoridades.push(file)
-              setFotosDNIAutoridades(Object.assign([],fotosDNIAutoridades))
+              setFotosDNIAutoridades(Object.assign([], fotosDNIAutoridades))
             }}
             onRemove={fileToRemove => {
-              setFotosDNIAutoridades(Object.assign([],fotosDNIAutoridades.filter(f => f.cid!==fileToRemove.cid)))
+              setFotosDNIAutoridades(Object.assign([], fotosDNIAutoridades.filter(f => f.cid !== fileToRemove.cid)))
             }}
           />
         </div>
@@ -333,6 +338,7 @@ export default () => {
     setWaitingType('sync')
 
     setIsLoading(true)
+    updateObjTramite()
     if (tramite._id) {
       await dispatch(saveTramite(tramite))
     } else {
@@ -340,6 +346,47 @@ export default () => {
         await dispatch(saveTramite(tramite))
     }
   }
+
+  const agregarAutoridades = async () => {
+    if (!tramite.autoridadesSociedad)
+      tramite.autoridadesSociedad = []
+
+    tramite.autoridadesSociedad.push({
+      nombre,
+      apellido,
+      tipoDocumento,
+      nroDocumento,
+      tipoCargo,
+      tipoOrgano,
+      direccion,
+      observaciones,
+      cuit,
+      inhibiciones,
+      fotosDNI: fotosDNIAutoridades
+    })
+
+    updateObjTramite()
+    await save()
+    setModalAutoridad(false)
+
+    setIsLoading(false)
+
+    clearState()
+
+  }
+
+  const clearState = () => {
+    setNombre('')
+    setApellido('')
+    setTipoDocumento('')
+    setTipoCargo('')
+    setTipoOrgano('')
+    setDireccion('')
+    setObservaciones('')
+    setCuit('')
+  }
+
+
 
   const updateObjTramite = () => {
     setTramite(Object.assign({}, tramite))
@@ -372,11 +419,7 @@ export default () => {
       dataIndex: 'cuit',
       key: 'cuit',
     },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
+
     {
       title: 'Tipo Cargo',
       dataIndex: 'tipoCargo',
@@ -682,29 +725,7 @@ export default () => {
         <Modal
           title="Datos de la Autoridad"
           visible={modalAutoridad}
-          onOk={() => {
-            if (!tramite.autoridadesSociedad)
-              tramite.autoridadesSociedad = []
-
-            const autoridad: AutoridadEmpresa = {
-              nombre,
-              apellido,
-              tipoDocumento,
-              nroDocumento,
-              tipoCargo,
-              tipoOrgano,
-              direccion,
-              observaciones,
-              cuit,
-              inhibiciones,
-              fotosDNI:fotosDNIAutoridades
-            }
-
-            tramite.autoridadesSociedad.push(autoridad)
-            setModalAutoridad(false)
-            save()
-            setIsLoading(false)
-          }}
+          onOk={agregarAutoridades}
           okText="Guardar"
           onCancel={() => setModalAutoridad(false)}
           cancelText="Cancelar"
@@ -953,26 +974,7 @@ export default () => {
         <Modal
           title="Datos de la Autoridad"
           visible={modalAutoridad}
-          onOk={() => {
-            if (!tramite.autoridadesSociedad)
-              tramite.autoridadesSociedad = []
-
-            tramite.autoridadesSociedad.push({
-              nombre,
-              apellido,
-              tipoDocumento,
-              nroDocumento,
-              tipoCargo,
-              tipoOrgano,
-              direccion,
-              observaciones,
-              cuit,
-              inhibiciones,
-              fotosDNI: fotosDNIAutoridades
-            })
-            setModalAutoridad(false)
-            save()
-          }}
+          onOk={agregarAutoridades}
           okText="Guardar"
           onCancel={() => setModalAutoridad(false)}
           cancelText="Cancelar"
@@ -1162,26 +1164,7 @@ export default () => {
         <Modal
           title="Datos de la Autoridad"
           visible={modalAutoridad}
-          onOk={() => {
-            if (!tramite.autoridadesSociedad)
-              tramite.autoridadesSociedad = []
-
-            tramite.autoridadesSociedad.push({
-              nombre,
-              apellido,
-              tipoDocumento,
-              nroDocumento,
-              tipoCargo,
-              tipoOrgano,
-              direccion,
-              observaciones,
-              cuit,
-              inhibiciones,
-              fotosDNI: fotosDNIAutoridades
-            })
-            setModalAutoridad(false)
-            save()
-          }}
+          onOk={agregarAutoridades}
           okText="Guardar"
           onCancel={() => setModalAutoridad(false)}
           cancelText="Cancelar"
@@ -1250,16 +1233,16 @@ export default () => {
                 labelRequired="*"
                 labelMessageError=""
                 defaultValue={tramite.datosSocietarios.sociedadAnonima.contrato.archivos as any}
-                onOnLoad={ file => {
+                onOnLoad={file => {
                   if (!tramite.datosSocietarios.sociedadAnonima.contrato.archivos)
-                    tramite.datosSocietarios.sociedadAnonima.contrato.archivos=[]
+                    tramite.datosSocietarios.sociedadAnonima.contrato.archivos = []
                   tramite.datosSocietarios.sociedadAnonima.contrato.archivos.push(file)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
                 }}
-                onRemove={ fileToRemove => {
-                  tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid!==fileToRemove.cid)
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid !== fileToRemove.cid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
@@ -1293,7 +1276,7 @@ export default () => {
                 label="Fecha"
                 value={tramite.datosSocietarios.sociedadAnonima.modificacion.fecha}
                 bindFunction={value => {
-                  tramite.datosSocietarios.sociedadAnonima.modificacion.datos = value
+                  tramite.datosSocietarios.sociedadAnonima.modificacion.fecha = value
                   updateObjTramite()
                 }}
                 labelRequired="*"
@@ -1310,86 +1293,89 @@ export default () => {
                 labelRequired="*"
                 labelMessageError=""
                 defaultValue={tramite.datosSocietarios.sociedadAnonima.modificacion.archivos as any}
-                onOnLoad={ file => {
+                onOnLoad={file => {
                   if (!tramite.datosSocietarios.sociedadAnonima.modificacion.archivos)
-                    tramite.datosSocietarios.sociedadAnonima.modificacion.archivos=[]
-                    tramite.datosSocietarios.sociedadAnonima.modificacion.archivos.push(file)
+                    tramite.datosSocietarios.sociedadAnonima.modificacion.archivos = []
+                  tramite.datosSocietarios.sociedadAnonima.modificacion.archivos.push(file)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
                 }}
-                onRemove={ fileToRemove => {
-                  tramite.datosSocietarios.sociedadAnonima.modificacion.archivos = tramite.datosSocietarios.sociedadAnonima.modificacion.archivos.filter(f => f.cid!==fileToRemove.cid)
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.sociedadAnonima.modificacion.archivos = tramite.datosSocietarios.sociedadAnonima.modificacion.archivos.filter(f => f.cid !== fileToRemove.cid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
                 }}
               />
             </div>
+
+          </div>
+
+        </div>
+        <div className="rounded-lg mt-4 border px-4 py-4">
+          <div className="text-2xl font-bold py-4 mt-4"> Última modificación del Contrato Social (inscripta en D.P.P.J / I.G.J.)</div>
+          <div className="grid grid-cols-2 gap-4 ">
+            <div >
+              <InputText
+                label="Datos"
+                attributeName="rubroConsutrccionDatos"
+                labelRequired="*"
+                value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos}
+                bindFunction={(value) => {
+                  tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos = value
+                  updateObjTramite()
+                }}
+                placeHolder="Inspeccion General de Justicia"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                required />
+            </div>
+            <div >
+              <DatePicker
+                label="Fecha"
+                value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha}
+                bindFunction={(value) => {
+                  tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha = value
+                  updateObjTramite()
+                }}
+                labelRequired="*"
+                placeholder="Inspeccion General de Justicia"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+              />
+            </div>
+            <div >
+              <Upload
+                label="Última modificación del Contrato Social, inscripta en en D.P.P.J / I.G.J."
+                labelRequired="*"
+                labelMessageError=""
+                defaultValue={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos)
+                    tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos = []
+                  tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos = tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.filter(f => f.cid !== fileToRemove.cid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+              />
+            </div>
+
             <div className="mt-8 ">
               <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
             </div>
 
           </div>
           <Table columns={columnsModificacionEstatuto} />
-        </div>
-        <div className="text-2xl font-bold py-4 mt-4"> Última modificación del Contrato Social (inscripta en D.P.P.J / I.G.J.)</div>
-        <div className="grid grid-cols-2 gap-4 ">
-          <div >
-            <InputText
-              label="Datos"
-              attributeName="rubroConsutrccionDatos"
-              labelRequired="*"
-              value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos}
-              bindFunction={(value) => {
-                tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos = value
-                updateObjTramite()
-              }}
-              placeHolder="Inspeccion General de Justicia"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              required />
-          </div>
-          <div >
-            <DatePicker
-              label="Fecha"
-              value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha}
-              bindFunction={(value) => {
-                tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha = value
-                updateObjTramite()
-              }}
-              labelRequired="*"
-              placeholder="Inspeccion General de Justicia"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-            />
-          </div>
-          <div >
-            <Upload
-              label="Última modificación del Contrato Social, inscripta en en D.P.P.J / I.G.J."
-              labelRequired="*"
-              labelMessageError=""
-              defaultValue={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos as any}
-                onOnLoad={ file => {
-                  if (!tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos)
-                    tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos=[]
-                    tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={ fileToRemove => {
-                  tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos = tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.filter(f => f.cid!==fileToRemove.cid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-            />
-          </div>
-
-
         </div>
         <div className="text-2xl font-bold py-4 mt-4"> Fecha de vencimiento del Contrato Social</div>
         <div className="grid grid-cols-2 gap-4 ">
@@ -1447,26 +1433,8 @@ export default () => {
         <Modal
           title="Datos de la Autoridad"
           visible={modalAutoridad}
-          onOk={() => {
-            if (!tramite.autoridadesSociedad)
-              tramite.autoridadesSociedad = []
+          onOk={agregarAutoridades}
 
-            tramite.autoridadesSociedad.push({
-              nombre,
-              apellido,
-              tipoDocumento,
-              nroDocumento,
-              tipoCargo,
-              tipoOrgano,
-              direccion,
-              observaciones,
-              cuit,
-              inhibiciones,
-              fotosDNI: fotosDNIAutoridades
-            })
-            setModalAutoridad(false)
-            save()
-          }}
           okText="Guardar"
           onCancel={() => setModalAutoridad(false)}
           cancelText="Cancelar"
@@ -1518,7 +1486,7 @@ export default () => {
               onOnLoad={file => {
                 if (!tramite.datosSocietarios.personaFisica.constanciaInscripcion)
                   tramite.datosSocietarios.personaFisica.constanciaInscripcion = []
-                  tramite.datosSocietarios.personaFisica.constanciaInscripcion.push(file)
+                tramite.datosSocietarios.personaFisica.constanciaInscripcion.push(file)
                 updateObjTramite()
                 save()
                 setIsLoading(false)
@@ -1571,7 +1539,7 @@ export default () => {
               onOnLoad={file => {
                 if (!tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante)
                   tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = []
-                  tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.push(file)
+                tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.push(file)
                 updateObjTramite()
                 save()
                 setIsLoading(false)
@@ -1582,7 +1550,7 @@ export default () => {
                 save()
                 setIsLoading(false)
               }}
-              
+
             />
           </div>
         </div>
@@ -1615,7 +1583,7 @@ export default () => {
               }}
             />
           </div>
-          
+
         </div>
 
       </div> : <div></div>}
@@ -1697,7 +1665,7 @@ export default () => {
                   fechaExpiracion,
                   fechaOtorgamiento,
                   direccion,
-                  archivos:documentoSistemaCalidad
+                  archivos: documentoSistemaCalidad
                 })
                 setModalCalidad(false)
                 save()

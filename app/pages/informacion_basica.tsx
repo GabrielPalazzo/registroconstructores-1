@@ -881,7 +881,7 @@ export default (props) => {
               <SelectSimple
                 value={decretoTipoFuncionarios}
                 bindFunction={setDecretoTipoFuncionarios}
-                title="¿Con cuál de los siguientes funcionarios?"
+                title="¿Con cuál funcionario?"
                 defaultOption="Seleccione el tipo de personeria"
                 labelRequired="*"
                 labelMessageError=""
@@ -1069,16 +1069,7 @@ const tipoVinculo = [
 
 const columnsDecreto = [
 
-  {
-    title: 'Razon Social',
-    dataIndex: 'razonSocial',
-    key: 'decretoRazonSocial'
-  },
-  {
-    title: 'Cuit',
-    dataIndex: 'cuit',
-    key: 'decretoCuit',
-  },
+ 
   {
     title: 'Vinculo',
     dataIndex: 'tipoVinculo',

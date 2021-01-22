@@ -1,6 +1,5 @@
 import axios from 'axios'
 import * as jwt from "jsonwebtoken"
-import Tramite from '../data/models/Tramite'
 import _ from 'lodash'
 import { customAlphabet } from 'nanoid'
 

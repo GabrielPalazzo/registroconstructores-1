@@ -101,11 +101,7 @@ export default (props) => {
 
 
 
-  const clearState = () => {
-    setTitular('')
-    setCuit('')
-    
-  }
+ 
 
   const handleCancel = e => {
     setVisible(false)
@@ -206,6 +202,7 @@ export default (props) => {
             required />
 
         </div>
+        {/*
         <div className="pb-6" >
           <Upload
             label="Adjunte  Documento "
@@ -220,10 +217,20 @@ export default (props) => {
               setArchivos(Object.assign([],archivos.filter(f=> f.cid !==fileToRemove.cid)))
             }}
           />
-        </div>
+        </div> */}
+        
       </div>
 
     </div>)
+  }
+  const clearState = () => {
+    setCantidadVoto(0)
+    setCuit('')
+    setMontoCapital(0)
+    setObservaciones('')
+    setPorcentajeCapital(0)
+    setTipoPersoneriaPropietarios('')
+    setTitular('')
   }
 
 
@@ -246,9 +253,10 @@ export default (props) => {
     
     setIsLoading(false)
     setModalPropietarios(false)
-    
+    clearState()
     
   }
+  
 
   const removePropietario = (record) => {
     tramite.propietarios = tramite.propietarios.filter(p => p.cuit!==record.cuit )
@@ -332,10 +340,10 @@ export default (props) => {
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 mt-8">
+      {tramite.personeria === 'SA'  ? <div>
         <div className="pb-6" >
           <Upload
-            label="Adjuntar Contrato Social inscripto en la Inspeccion General de
-            Justicia o Registro Publico de Comercio "
+            label="Último registro en el Libro de Depósito de Acciones "
             labelRequired="*"
             labelMessageError=""
             defaultValue={tramite.datosSocietarios.sociedadAnonima.contrato.archivos as any}
@@ -353,6 +361,27 @@ export default (props) => {
             
           />
         </div>
+        </div>:
+       <div className="pb-6" >
+       <Upload
+         label="Contrato social o última modificación aprobada correspondiente a cesión de cuotas sociales "
+         labelRequired="*"
+         labelMessageError=""
+         defaultValue={tramite.datosSocietarios.sociedadAnonima.contrato.archivos as any}
+         onOnLoad={file => {
+           tramite.datosSocietarios.sociedadAnonima.contrato.archivos.push(file)
+           save()
+           setIsLoading(false)
+         }}
+         onRemove={async fileToRemove => {
+           tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid !== fileToRemove.cid)
+           updateObjTramite()
+           await save()
+           setIsLoading(false)
+         }}
+         
+       />
+     </div>}
 
 
       </div>
