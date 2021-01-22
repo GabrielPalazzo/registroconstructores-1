@@ -66,7 +66,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     <div className="px-4 pt-4 py-2">
       <Logo />
     </div>
-    <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4">
+    <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4 cursor-pointer">
 
       <Button danger type="text" style={{marginRight:'20px'}} onClick={() => setShowCancelar(true)}>Cancelar</Button>
       {tramite && tramite.cuit && allowGuardar(tramite)? <Button type="link" style={{ fontWeight: 'bold' }} onClick={onSave}>Guardar y salir</Button> : ''}

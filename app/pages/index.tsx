@@ -85,7 +85,7 @@ export default () => {
       <div className="px-4 pt-4 py-2">
         <img src="../img/logo.png" style={{ width: '150px' }} />
       </div>
-      <div className="text-sm font-bold text-info-700 pr-6 text-right pt-2">
+      <div className="text-sm font-bold text-info-700 pr-6 text-right pt-2 cursor-pointer">
         <Dropdown overlay={menu} trigger={['click']}>
           <div onClick={e => e.preventDefault()}>
             <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2' }} >{user.GivenName.substring(0, 1)}</Avatar>
