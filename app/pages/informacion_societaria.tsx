@@ -71,7 +71,7 @@ export default () => {
 
   }, [])
 
-  
+
   const { Step } = Steps;
   const renderModalCalidad = () => {
     return (<div>
@@ -374,7 +374,7 @@ export default () => {
     clearState()
 
   }
- 
+
   const clearState = () => {
     setNombre('')
     setApellido('')
@@ -1309,70 +1309,73 @@ export default () => {
                 }}
               />
             </div>
+
+          </div>
+
+        </div>
+        <div className="rounded-lg mt-4 border px-4 py-4">
+          <div className="text-2xl font-bold py-4 mt-4"> Última modificación del Contrato Social (inscripta en D.P.P.J / I.G.J.)</div>
+          <div className="grid grid-cols-2 gap-4 ">
+            <div >
+              <InputText
+                label="Datos"
+                attributeName="rubroConsutrccionDatos"
+                labelRequired="*"
+                value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos}
+                bindFunction={(value) => {
+                  tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos = value
+                  updateObjTramite()
+                }}
+                placeHolder="Inspeccion General de Justicia"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                required />
+            </div>
+            <div >
+              <DatePicker
+                label="Fecha"
+                value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha}
+                bindFunction={(value) => {
+                  tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha = value
+                  updateObjTramite()
+                }}
+                labelRequired="*"
+                placeholder="Inspeccion General de Justicia"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+              />
+            </div>
+            <div >
+              <Upload
+                label="Última modificación del Contrato Social, inscripta en en D.P.P.J / I.G.J."
+                labelRequired="*"
+                labelMessageError=""
+                defaultValue={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos)
+                    tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos = []
+                  tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos = tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.filter(f => f.cid !== fileToRemove.cid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+              />
+            </div>
+
             <div className="mt-8 ">
               <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
             </div>
 
           </div>
           <Table columns={columnsModificacionEstatuto} />
-        </div>
-        <div className="text-2xl font-bold py-4 mt-4"> Última modificación del Contrato Social (inscripta en D.P.P.J / I.G.J.)</div>
-        <div className="grid grid-cols-2 gap-4 ">
-          <div >
-            <InputText
-              label="Datos"
-              attributeName="rubroConsutrccionDatos"
-              labelRequired="*"
-              value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos}
-              bindFunction={(value) => {
-                tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos = value
-                updateObjTramite()
-              }}
-              placeHolder="Inspeccion General de Justicia"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              required />
-          </div>
-          <div >
-            <DatePicker
-              label="Fecha"
-              value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha}
-              bindFunction={(value) => {
-                tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha = value
-                updateObjTramite()
-              }}
-              labelRequired="*"
-              placeholder="Inspeccion General de Justicia"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-            />
-          </div>
-          <div >
-            <Upload
-              label="Última modificación del Contrato Social, inscripta en en D.P.P.J / I.G.J."
-              labelRequired="*"
-              labelMessageError=""
-              defaultValue={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos as any}
-              onOnLoad={file => {
-                if (!tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos)
-                  tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos = []
-                tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.push(file)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-              onRemove={fileToRemove => {
-                tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos = tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.filter(f => f.cid !== fileToRemove.cid)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-            />
-          </div>
-
-
         </div>
         <div className="text-2xl font-bold py-4 mt-4"> Fecha de vencimiento del Contrato Social</div>
         <div className="grid grid-cols-2 gap-4 ">
@@ -1431,7 +1434,7 @@ export default () => {
           title="Datos de la Autoridad"
           visible={modalAutoridad}
           onOk={agregarAutoridades}
-           
+
           okText="Guardar"
           onCancel={() => setModalAutoridad(false)}
           cancelText="Cancelar"
