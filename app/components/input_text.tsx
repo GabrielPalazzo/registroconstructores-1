@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Input, Tooltip, Modal } from 'antd';
-import { LikeFilled, DislikeFilled } from '@ant-design/icons';
+import { LikeFilled, DislikeFilled, PropertySafetyFilled } from '@ant-design/icons';
 import { useSelector } from 'react-redux'
 import { getReviewAbierta, getUsuario, isTramiteEditable } from '../services/business';
 import _ from 'lodash'
@@ -160,6 +160,7 @@ export const InputText: React.FC<IProps> = ({
         required={required}
         disabled={!isEditable()}
         onChange={(e) => bindFunction(e.target.value)}
+        type={type}
       />
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">

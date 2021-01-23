@@ -227,7 +227,7 @@ export default (props) => {
       key: 'email',
     },
     {
-      title: 'Tipo Apoderado',
+      title: 'Tipo Usuario',
       dataIndex: 'tipoApoderado',
       key: 'tipoApoderado',
     },
@@ -336,6 +336,8 @@ export default (props) => {
           <InputTextModal
             label="CUIT / CUIL"
             labelRequired="*"
+            type="number"  
+						min="0" 
             placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
             value={cuitApoderado}
             bindFunction={setCuitApoderado}
@@ -585,7 +587,8 @@ export default (props) => {
             label="CUIT"
             attributeName="cuit"
             labelRequired="*"
-            disabled={tramite._id ? true : false}
+            type="number"  
+					  disabled={tramite._id ? true : false}
             value={tramite.cuit}
             bindFunction={(value) => {
               tramite.cuit = value
