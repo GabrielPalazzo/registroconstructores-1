@@ -23758,6 +23758,27 @@ html, body, #__next {
   display: block !important;
 }
 
+.ant-upload.ant-upload-drag p.ant-upload-text {
+  margin: 0 0 0px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px !important;
+  width: 100%;
+}
+
+.ant-upload.ant-upload-drag p.ant-upload-drag-icon {
+  margin-bottom: 0px !important;
+}
+
+.ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
+  color: #40a9ff;
+  font-size: 30px !important;
+}
+
+.ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:active{
+  color:#ffffff !important;
+  opacity: 0.65;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

@@ -6,7 +6,7 @@ import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space,Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -456,11 +456,11 @@ export default () => {
         <Tabs defaultActiveKey="1" onChange={callback} >
           <TabPane tab="Obras" key="1">
             <div className="overflow-x-auto" >
-              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: "No hay información cargada"}} />}
+              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
-          <Table columns={columns}  locale={{ emptyText: "No hay información cargada"}}></Table>
+          <Table columns={columns}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}></Table>
           </TabPane>
         </Tabs>
       </div>

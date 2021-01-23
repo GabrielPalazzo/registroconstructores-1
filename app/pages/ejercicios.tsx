@@ -6,7 +6,7 @@ import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -76,6 +76,7 @@ export default () => {
   function callback(key) {
     console.log(key);
   }
+  
 
 
   const renderModalEjercicios = () => {
@@ -116,13 +117,13 @@ export default () => {
 
         <div className="pb-6" >
           <InputTextModal
-            type="number" step="any"
+            type="number" 
             label="Activo Corriente"
             labelRequired="*"
-            min={0}
+            min={0} step={0.01}
             placeholder="000000,000 "
             value={activoCorriente}
-            bindFunction={(val) => setActivoCorriente(parseInt(val, 10))}
+            bindFunction={(val) => setActivoCorriente(parseInt(val, 10.33))}
             labelMessageError=""
             required />
 
@@ -131,10 +132,11 @@ export default () => {
         <div className="pb-6" >
           <InputTextModal
             label="Activo no Corriente"
-            type="number" step="any"
+            type="number" 
             labelRequired="*"
             placeholder="000000,000 "
-            min={0}
+            min={0.1}
+            step="any"
             value={activoNoCorriente}
             bindFunction={(val) => setActivoNoCorriente(parseInt(val, 10))}
             labelMessageError=""
@@ -409,11 +411,11 @@ export default () => {
         <Tabs defaultActiveKey="1" onChange={callback}  >
           <TabPane tab="Balances" key="1">
             <div className="overflow-x-auto" >
-              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} locale={{ emptyText: "No hay información cargada"}}  dataSource={Object.assign([],tramite.ejercicios)} scroll={{ x: 1800 }}  />}
+              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],tramite.ejercicios)} scroll={{ x: 1800 }}  />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
-            <Table columns={columnsBalances} scroll={{ x: 1800 }} locale={{ emptyText: "No hay información cargada"}}  />
+            <Table columns={columnsBalances} scroll={{ x: 1800 }} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
           </TabPane>
         </Tabs>
       </div>

@@ -51,6 +51,7 @@ export default (props: Props) => {
         disabled={!isTramiteEditable(tramite)}
         type={props.type}
         min={props.min}
+        step={props.step}
     
       />
     </div>

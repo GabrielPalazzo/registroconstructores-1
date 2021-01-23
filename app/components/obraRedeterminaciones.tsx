@@ -4,7 +4,7 @@ import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import Upload from './upload'
-import { Button, Select, Table, Alert , Space} from 'antd';
+import { Button, Select, Table, Alert , Space, Empty} from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 
@@ -166,7 +166,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			</div>
 			
 			<div className="mt-4 ">
-				<Table columns={columnsRedeterminaciones} dataSource={dataSource} />
+				<Table columns={columnsRedeterminaciones} dataSource={dataSource} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
 			</div>
 
 		</div>

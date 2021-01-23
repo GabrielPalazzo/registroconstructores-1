@@ -4,7 +4,7 @@ import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import Upload from './upload'
-import { Button, Select, Table, Alert , Space} from 'antd';
+import { Button, Select, Table, Alert , Space, Empty} from 'antd';
 import { PlusOutlined ,DeleteOutlined} from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 
@@ -134,6 +134,16 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
             bindFunction={(value) => { setFecha(value) }}
           />
         </div>
+        <div className="pb-6" >
+          <InputTextModal
+            label="Descripcion"
+            step="any"
+            labelRequired="*"
+            labelMessageError=""
+            value={descripcion}
+            bindFunction={(value) => { setDescripcion(value) }}
+          />
+        </div>
 
         <div className="pb-6" >
           <Upload
@@ -149,22 +159,13 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
             }}
           />
         </div>
-        <div className="pb-6" >
-          <InputTextModal
-            label="Descripcion"
-            step="any"
-            labelRequired="*"
-            labelMessageError=""
-            value={descripcion}
-            bindFunction={(value) => { setDescripcion(value) }}
-          />
-        </div>
+       
       </div>
       <div className=" text-center">
         <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
       </div>
       <div className="mt-4 ">
-        <Table columns={columnsAmpliaciones} dataSource={dataSource} />
+        <Table columns={columnsAmpliaciones} dataSource={dataSource} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}/>
       </div>
 
     </div>
