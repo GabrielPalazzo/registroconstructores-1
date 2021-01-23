@@ -39,24 +39,24 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
 
   const columnsAmpliaciones = [
     {
-      title: 'Action',
+      title: 'Eliminar',
       key: 'action',
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
   
       </Space>),
     },
     {
-      title: 'fecha',
+      title: 'Fecha',
       dataIndex: 'fecha',
       key: 'fecha'
     },
     {
-      title: 'monto',
+      title: 'Monto',
       dataIndex: 'monto',
       key: 'monto'
     },
     {
-      title: 'descripcion',
+      title: 'Descripción',
       dataIndex: 'descripcion',
       key: 'descripcion'
     },

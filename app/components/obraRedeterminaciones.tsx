@@ -38,24 +38,24 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	  }
 	const columnsRedeterminaciones = [
 		{
-			title: 'Action',
+			title: 'Eliminar',
 			key: 'action',
 			render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
 		
 			</Space>),
 		  },
 		{
-			title: 'fecha',
+			title: 'Fecha',
 			dataIndex: 'fecha',
 			key: 'fecha'
 		},
 		{
-			title: 'monto',
+			title: 'Monto',
 			dataIndex: 'monto',
 			key: 'monto'
 		},
 		{
-			title: 'Descripcion',
+			title: 'Descripción',
 			dataIndex: 'descripcion',
 			key: 'descripcion'
 		},

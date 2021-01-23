@@ -44,7 +44,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
   const columnsEstado = [
     {
-      title: 'Action',
+      title: 'Eliminar',
       key: 'action',
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
 

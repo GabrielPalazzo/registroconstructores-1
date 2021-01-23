@@ -383,13 +383,13 @@ export default () => {
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarObra(record)}><DeleteOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarObra(record)} className="cursor-pointer"><DeleteOutlined /></div> : <Space size="middle">
       </Space>),
     },
     {
       title: 'Editar',
       key: 'editar',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => editarObrar(record)}><EditOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => editarObrar(record)} className="cursor-pointer"><EditOutlined /></div> : <Space size="middle">
       </Space>),
     },
 
