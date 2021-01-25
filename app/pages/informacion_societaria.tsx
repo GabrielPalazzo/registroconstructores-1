@@ -464,7 +464,7 @@ export default () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record) => (tramite.status === 'BORRADOR' ? <div onClick={() => removeSistemaCalidad(record)}><DeleteOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite.status === 'BORRADOR' ? <div onClick={() => removeSistemaCalidad(record)} className="cursor-pointer"><DeleteOutlined /></div> : <Space size="middle">
         <LikeDislike />
       </Space>),
     },
@@ -1752,10 +1752,10 @@ export default () => {
     <style>
       {`
       .ant-collapse > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow{
-        top:22px;
+        top:18px;
       }
       .ant-collapse > .ant-collapse-item > .ant-collapse-header{
-        font-size: 1.5rem;
+        font-size: 16px;
     font-weight: bold;
       }`}
     </style>

@@ -79,6 +79,7 @@ export default () => {
   
 
 
+
   const renderModalEjercicios = () => {
     return (<div>
       {error ? <div className="mb-4">
@@ -268,9 +269,9 @@ export default () => {
 
   let columnsBalances = [
     {
-      title: 'Action',
+      title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarEjercicio(record)}><DeleteOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarEjercicio(record)} className="cursor-pointer"><DeleteOutlined /></div> : <Space size="middle">
 
       </Space>),
     },
