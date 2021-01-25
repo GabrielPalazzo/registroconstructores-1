@@ -6,7 +6,7 @@ import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -19,6 +19,7 @@ import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora,
 import { saveTramite, setTramiteView } from '../redux/actions/main'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import moment from 'moment';
+import locale from 'antd/es/date-picker/locale/es_ES';
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -82,6 +83,7 @@ export default () => {
 
   const renderModalEjercicios = () => {
     return (<div>
+     
       {error ? <div className="mb-4">
         <Alert
           message='Error'
@@ -247,9 +249,7 @@ export default () => {
         </div>
 
       </div>
-
-
-    </div>)
+    </div> )
   }
 
   const renderNoData = () => {

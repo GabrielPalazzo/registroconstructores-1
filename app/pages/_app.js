@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import Mantenimiento from '../components/mantenimiento'
 
 
+
 function MyApp({ Component, pageProps, reduxStore }) {
   return <div>
     <head>

@@ -52,6 +52,7 @@ export default (props: Props) => {
         type={props.type}
         min={props.min}
         step={props.step}
+       
     
       />
     </div>
