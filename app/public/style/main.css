@@ -23786,6 +23786,10 @@ html, body, #__next {
   opacity: 0.65;
 }
 
+.ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-icon {
+  background: #1890ff;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

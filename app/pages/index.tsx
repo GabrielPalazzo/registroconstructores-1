@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Avatar, Menu, Dropdown } from 'antd';
+import { Button, Card, Avatar, Menu, Dropdown,Breadcrumb  } from 'antd';
 import { PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import { setActionType } from '../redux/actions/main'
@@ -94,6 +94,22 @@ export default () => {
 
 
       </div>
+      
+    </div>
+    <div className="px-4 py-2 bg-gray-200">
+    <Breadcrumb>
+    <Breadcrumb.Item>Inicio</Breadcrumb.Item>
+    <Breadcrumb.Item>
+      <a href="">Jefatura de Gabinete de Ministros</a>
+    </Breadcrumb.Item>
+    <Breadcrumb.Item>
+      <a href="">Innovación Pública</a>
+    </Breadcrumb.Item>
+    <Breadcrumb.Item>Oficina Nacional de Contrataciones - ONC</Breadcrumb.Item>
+    <Breadcrumb.Item>Acordar</Breadcrumb.Item>
+    <Breadcrumb.Item>Acuerdos</Breadcrumb.Item>
+    <Breadcrumb.Item>Trámites</Breadcrumb.Item>
+  </Breadcrumb>
     </div>
     <div className="md:px-20  mx-20 py-6 grid grid-cols-2 px-4 ">
       

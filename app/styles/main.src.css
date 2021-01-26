@@ -124,3 +124,6 @@ font-family:'Encode Sans', sans-serif !important;
     opacity: 0.65;
     
 }
+.ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-icon {
+    background: #1890ff;
+}
