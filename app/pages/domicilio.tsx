@@ -136,6 +136,42 @@ export default () => {
           labelMessageError=""
           required />
       </div>
+      <div className="grid grid-cols-2 gap-4 ">
+        <div className="pb-6" >
+        <InputText
+          value={tramite.telefono}
+          attributeName='telefono'
+          bindFunction={(value) => {
+            tramite.telefono = value
+            updateObjTramite()
+          }}
+          label="Telefono"
+          labelRequired="*"
+          placeHolder="Indique el numero de telefono"
+          labelObservation=""
+          labeltooltip=""
+          labelMessageError=""
+          required />
+
+        </div>
+        <div className="pb-6" >
+        <InputText
+          value={tramite.telefonoAlternativo}
+          attributeName='telefonoAlternativo'
+          bindFunction={(value) => {
+            tramite.telefonoAlternativo = value
+            updateObjTramite()
+          }}
+          label="Telefono Alternativo"
+          labelRequired=""
+          placeHolder="Indique el numero de telefono"
+          labelObservation=""
+          labeltooltip=""
+          labelMessageError=""
+          required />
+
+        </div>
+        </div>
 
       <div className="text-2xl font-bold py-4"> Domicilio Electronico</div>
       <div>

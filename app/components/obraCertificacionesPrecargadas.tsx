@@ -6,6 +6,7 @@ import { getUniqCode } from '../services/business'
 import DatePicker from './datePicker'
 import InputTextModal from './input_text_modal'
 import Upload from './upload'
+import InputNumberModal from './input_number'
 
 export interface CertificacionesPrecargadasProps {
   obra: DDJJObra,
@@ -110,14 +111,18 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
         />
       </div>
       <div >
-        <InputTextModal
-          label="Monto"
-          type="number"
-          labelRequired="*"
-          labelMessageError=""
-          value={monto}
-          bindFunction={setMonto}
-        />
+      <InputNumberModal
+            label="Monto"
+            step="any"
+            labelRequired="*"
+           
+            placeholder="000000,000 "
+            value={monto}
+            bindFunction={(val) => setMonto(parseFloat(val))}
+            labelMessageError=""
+            required />
+        
+       
       </div>
       <div >
         <InputTextModal
