@@ -23657,6 +23657,13 @@ html, body, #__next {
   font-family:'Encode Sans', sans-serif !important;
 }
 
+.ant-input-number {
+  border-radius:10px !important;
+  width: 100% !important;
+  font-family:'Encode Sans', sans-serif !important;
+  padding: 4px 0px !important;
+}
+
 .ant-select-multiple .ant-select-selector {
   border-radius:10px !important;
   padding: 5px 0px!important;

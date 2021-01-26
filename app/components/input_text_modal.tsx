@@ -32,6 +32,8 @@ interface Props {
 export default (props: Props) => {
 
   const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+  
+ 
 
   return (<div >
     <div className="flex">
@@ -45,7 +47,7 @@ export default (props: Props) => {
     <div className="w-full">
       <Input 
         value={props.value}
-        onChange={  e => props.bindFunction(props.type==='number' ?  parseInt(e.target.value,10) :e.target.value )}
+        onChange={  e => props.bindFunction(props.type==='number' ?  parseInt(e.target.value,10) :e.target.value ) }
         placeholder={props.placeholder}
         required={props.required}
         disabled={!isTramiteEditable(tramite)}

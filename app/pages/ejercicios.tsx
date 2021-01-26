@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { NavigationStep } from '../components/steps'
 import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
+import InputNumberModal from '../components/input_number'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
@@ -19,7 +20,6 @@ import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora,
 import { saveTramite, setTramiteView } from '../redux/actions/main'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import moment from 'moment';
-import locale from 'antd/es/date-picker/locale/es_ES';
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -119,29 +119,29 @@ export default () => {
       <div className="grid grid-cols-3 gap-4 ">
 
         <div className="pb-6" >
-          <InputTextModal
+          <InputNumberModal
             type="number" 
             label="Activo Corriente"
             labelRequired="*"
-            min={0} step={0.01}
+            min={0} step="any"
             placeholder="000000,000 "
             value={activoCorriente}
-            bindFunction={(val) => setActivoCorriente(parseInt(val, 10.33))}
+            bindFunction={(val) => setActivoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
 
         </div>
 
         <div className="pb-6" >
-          <InputTextModal
+          <InputNumberModal
             label="Activo no Corriente"
             type="number" 
             labelRequired="*"
             placeholder="000000,000 "
-            min={0.1}
+            min={0}
             step="any"
             value={activoNoCorriente}
-            bindFunction={(val) => setActivoNoCorriente(parseInt(val, 10))}
+            bindFunction={(val) => setActivoNoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
 
@@ -158,28 +158,28 @@ export default () => {
 
         </div>
         <div className="pb-6" >
-          <InputTextModal
+        <InputNumberModal
             label="Pasivo Corriente"
             type="number" step="any"
             labelRequired="*"
             min={0}
             placeholder="000000,000 "
             value={pasivoCorriente}
-            bindFunction={(val) => setPasivoCorriente(parseInt(val, 10))}
+            bindFunction={(val) => setPasivoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
 
         </div>
 
         <div className="pb-6" >
-          <InputTextModal
+        <InputNumberModal
             label="Pasivo no Corriente"
             type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
             value={pasivoNoCorriente}
             min={0}
-            bindFunction={(val) => setPasivoNoCorriente(parseInt(val, 10))}
+            bindFunction={(val) => setPasivoNoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
 
@@ -196,28 +196,29 @@ export default () => {
 
         </div>
         <div className="pb-6" >
-          <InputTextModal
+          <InputNumberModal
             label="Ventas del ejercicio"
             type="number" step="any"
             labelRequired="*"
             min={0}
             placeholder="000000,000 "
             value={ventasDelEjercicio}
-            bindFunction={setVentasDelEjercicio}
+            bindFunction={(val) => setVentasDelEjercicio(parseFloat(val))}
             labelMessageError=""
             required />
 
         </div>
 
         <div className="pb-6" >
-          <InputTextModal
+          <InputNumberModal
             label={isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto'}
             type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
             min={0}
             value={capitalSuscripto}
-            bindFunction={setCapitalSuscripto}
+
+            bindFunction={(val) => setCapitalSuscripto(parseFloat(val))}
             labelMessageError=""
             required />
 
