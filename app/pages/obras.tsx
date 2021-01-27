@@ -6,7 +6,7 @@ import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space,Empty } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -23,10 +23,13 @@ import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
 import { ObrasAmpliaciones } from '../components/obrasAmpliaciones'
 import { isError } from 'util';
 import { CertificacionesPrecargadas } from '../components/obraCertificacionesPrecargadas';
+import SelectMultiple from '../components/select_multiple'
+import SelectSimple from '../components/select'
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Option } = Select;
+
 
 
 
@@ -63,11 +66,20 @@ export default () => {
     prorroga: 0,
     transcurrido: 0,
     restante: 0,
-    especialidades: '',
-    subespecialidades: '',
-    archivosOrdenDeCompra:[],
-    archivosPlazos:[]
+    especialidad1:'',
+    especialidad2:'',
+    especialidad3:'',
+    subEspecialidades1Otros:'',
+    subEspecialidades2Otros:'',
+    subEspecialidades3Otros:'',
+    subEspecialidad1:[],
+    subEspecialidad2:[],
+    subEspecialidad3:[],
+    subespecialidades:'',
+    archivosOrdenDeCompra: [],
+    archivosPlazos: []
   })
+
 
 
   useEffect(() => {
@@ -145,31 +157,177 @@ export default () => {
         </TabPane>
         <TabPane tab="Datos Iniciales" key="especialidades">
           <div className="mt-4 pt-2">
+
+            <div className="grid grid-cols-3 gap-4 ">
+              <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
+                <div >
+                  <SelectSimple
+                    value={obra.especialidad1}
+                    bindFunction={e => {
+                      obra.especialidad1 = e
+                      updateObjTramite()
+                    }}
+                    title="Especialidad"
+                    defaultOption="Seleccione una especialidad"
+                    labelRequired="*"
+                    labelMessageError=""
+                    required
+                    option={tipoEspecialidad.map(u => (
+                      <Option value={u.value}>{u.label}</Option>
+                    ))} />
+
+                </div>
+                <div >
+                  <SelectMultiple
+                    labelRequired="*"
+                    value={obra.subEspecialidad1}
+                    bindFunction={e => {
+                      obra.subEspecialidad1 = e
+                      setObra(Object.assign({}, obra))
+                    }}
+                    title="Seleccione la SubEspecialidad"
+                    labelObservation=""
+                    labeltooltip=""
+                    labelMessageError=""
+                    placeholder="Tipo de suebEspecialidad"
+                    required
+                    options={tipoSubespecialidadIA.filter(se =>se.parent === obra.especialidad1).map(u => (
+                      <Option value={u.value} label={u.label}>
+                          {u.label}
+                      </Option>
+                    ))
+
+                    } />
+
+                </div>
+                <div className="pb-6" >
+                <InputTextModal
+                  label="Otros"
+                  labelRequired=""
+                  value={obra.subEspecialidades1Otros}
+                  bindFunction={e => {
+                    obra.subEspecialidades1Otros = e
+                    setObra(Object.assign({}, obra))
+                  }}
+                  labelMessageError=""
+                />
+              </div>
+
+              </div>
+              <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
+                <div >
+                  <SelectSimple
+                    value={obra.especialidad2}
+                    bindFunction={e => {
+                      obra.especialidad2 = e
+                      updateObjTramite()
+                    }}
+                    title="Especialidad"
+                    defaultOption="Seleccione una especialidad"
+                    labelRequired=""
+                    labelMessageError=""
+                    required
+                    option={tipoEspecialidad.map(u => (
+                      <Option value={u.value}>{u.label}</Option>
+                    ))} />
+
+                </div>
+                <div >
+                  <SelectMultiple
+                    labelRequired=""
+                    value={obra.subEspecialidad2}
+                    bindFunction={e => {
+                      obra.subEspecialidad2 = e
+                      setObra(Object.assign({}, obra))
+                    }}
+                    title="Seleccione la SubEspecialidad"
+                    labelObservation=""
+                    labeltooltip=""
+                    labelMessageError=""
+                    placeholder="Tipo de suebEspecialidad"
+                    required
+                    options={tipoSubespecialidadIA.filter(se =>se.parent === obra.especialidad2).map(u => (
+                      <Option value={u.value} label={u.label}>
+                          {u.label}
+                      </Option>
+                    ))
+
+                    } />
+
+                </div>
+                <div className="pb-6" >
+                <InputTextModal
+                  label="Otros"
+                  labelRequired=""
+                  value={obra.subEspecialidades2Otros}
+                  bindFunction={e => {
+                    obra.subEspecialidades2Otros = e
+                    setObra(Object.assign({}, obra))
+                  }}
+                  labelMessageError=""
+                />
+              </div>
+
+              </div>
+              <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
+                <div >
+                  <SelectSimple
+                    value={obra.especialidad3}
+                    bindFunction={e => {
+                      obra.especialidad3 = e
+                      updateObjTramite()
+                    }}
+                    title="Especialidad"
+                    defaultOption="Seleccione una especialidad"
+                    labelRequired=""
+                    labelMessageError=""
+                    required
+                    option={tipoEspecialidad.map(u => (
+                      <Option value={u.value}>{u.label}</Option>
+                    ))} />
+
+                </div>
+                <div >
+                  <SelectMultiple
+                    labelRequired=""
+                    value={obra.subEspecialidad3}
+                    bindFunction={e => {
+                      obra.subEspecialidad3 = e
+                      setObra(Object.assign({}, obra))
+                    }}
+                    title="Seleccione la SubEspecialidad"
+                    labelObservation=""
+                    labeltooltip=""
+                    labelMessageError=""
+                    placeholder="Tipo de suebEspecialidad"
+                    required
+                    options={tipoSubespecialidadIA.filter(se =>se.parent === obra.especialidad3).map(u => (
+                      <Option value={u.value} label={u.label}>
+                          {u.label}
+                      </Option>
+                    ))
+
+                    } />
+
+                </div>
+                <div className="pb-6" >
+                <InputTextModal
+                  label="Otros"
+                  labelRequired=""
+                  value={obra.subEspecialidades3Otros}
+                  bindFunction={e => {
+                    obra.subEspecialidades3Otros = e
+                    setObra(Object.assign({}, obra))
+                  }}
+                  labelMessageError=""
+                />
+              </div>
+
+              </div>
+            </div>
+
             <div className="grid grid-cols-2 gap-4 ">
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Especialidades"
-                  labelRequired="*"
-                  value={obra.especialidades}
-                  bindFunction={e => {
-                    obra.especialidades = e
-                    setObra(Object.assign({}, obra))
-                  }}
-                  labelMessageError=""
-                />
-              </div>
-              <div className="pb-6" >
-                <InputTextModal
-                  label="Subespecialidades"
-                  labelRequired="*"
-                  value={obra.subespecialidades}
-                  bindFunction={e => {
-                    obra.subespecialidades = e
-                    setObra(Object.assign({}, obra))
-                  }}
-                  labelMessageError=""
-                />
-              </div>
+
               <div className="pb-6" >
                 <InputTextModal
                   label="Razón Social de la UTE"
@@ -257,12 +415,12 @@ export default () => {
                 defaultValue={obra.archivosOrdenDeCompra as any}
                 onOnLoad={file => {
                   if (!obra.archivosOrdenDeCompra)
-                  obra.archivosOrdenDeCompra = []
+                    obra.archivosOrdenDeCompra = []
                   obra.archivosOrdenDeCompra.push(file)
                   setObra(Object.assign({}, obra))
                 }}
                 onRemove={fileToRemove => {
-                  obra.archivosOrdenDeCompra = obra.archivosOrdenDeCompra.filter(f=> f.cid!==fileToRemove.cid)
+                  obra.archivosOrdenDeCompra = obra.archivosOrdenDeCompra.filter(f => f.cid !== fileToRemove.cid)
                   setObra(Object.assign({}, obra))
                 }}
 
@@ -277,11 +435,11 @@ export default () => {
         <TabPane tab="Redeterminaciones" key="redeterminaciones">
           <ObrasRedeterminaciones obra={obra} onChange={setObra} />
         </TabPane>
-        
+
         <TabPane tab="Certificaciones" key="certificaciones">
           <CertificacionesPrecargadas obra={obra} onChange={setObra} />
         </TabPane>
-        
+
         <TabPane tab="Plazos" key="plazos">
           <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
             <div className="text-xl font-bold py-2 w-3/4">  Plazos en meses</div>
@@ -323,7 +481,7 @@ export default () => {
                   min={0}
                   value={obra.transcurrido}
                   bindFunction={e => {
-                    obra.transcurrido =e
+                    obra.transcurrido = e
                     setObra(Object.assign({}, obra))
                   }}
                   labelMessageError=""
@@ -336,7 +494,7 @@ export default () => {
                   disabled={true}
                   min={0}
                   labelRequired="*"
-                  value={(obra.plazoPorContrato + obra.prorroga) -obra.transcurrido }
+                  value={(obra.plazoPorContrato + obra.prorroga) - obra.transcurrido}
                   bindFunction={e => null}
                   labelMessageError=""
                 />
@@ -349,12 +507,12 @@ export default () => {
                 defaultValue={obra.archivosPlazos as any}
                 onOnLoad={file => {
                   if (!obra.archivosPlazos)
-                    obra.archivosPlazos=[]
+                    obra.archivosPlazos = []
                   obra.archivosPlazos.push(file)
                   setObra(Object.assign({}, obra))
                 }}
                 onRemove={fileToRemove => {
-                  obra.archivosPlazos = obra.archivosPlazos.filter(f=> f.cid!==fileToRemove.cid)
+                  obra.archivosPlazos = obra.archivosPlazos.filter(f => f.cid !== fileToRemove.cid)
                   setObra(Object.assign({}, obra))
                 }}
               />
@@ -375,7 +533,8 @@ export default () => {
 
 
   const editarObrar = (obra: DDJJObra) => {
-    setObra(tramite.ddjjObras.filter((o: DDJJObra) => o.id === obra.id)[0])
+
+    setObra(Object.assign({},tramite.ddjjObras.filter((o: DDJJObra) => o.id === obra.id)[0]))
     setModalObras(true)
   }
 
@@ -405,7 +564,7 @@ export default () => {
     }
   ]
 
-  columns = isTramiteEditable(tramite) ? columns : columns.slice(2,columns.length)
+  columns = isTramiteEditable(tramite) ? columns : columns.slice(2, columns.length)
 
 
 
@@ -449,18 +608,18 @@ export default () => {
             obra.id = getCodigoObra()
             setObra(Object.assign({}, obra))
             setModalObras(true)
-          }} icon={<PlusOutlined />}> Agregar</Button>: ''}
+          }} icon={<PlusOutlined />}> Agregar</Button> : ''}
         </div>
       </div>
       <div>
         <Tabs defaultActiveKey="1" onChange={callback} >
           <TabPane tab="Obras" key="1">
             <div className="overflow-x-auto" >
-              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} />}
+              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
-          <Table columns={columns}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}></Table>
+            <Table columns={columns} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }}></Table>
           </TabPane>
         </Tabs>
       </div>
@@ -478,10 +637,10 @@ export default () => {
       </Modal>
 
       <div className="mt-6 pt-6 text-center">
-       {allowGuardar(tramite) ?<Link href="/enviar_tramite" >
+        {allowGuardar(tramite) ? <Link href="/enviar_tramite" >
           <Button type="primary" > Continuar</Button>
-        </Link>: '' }
-        
+        </Link> : ''}
+
 
       </div>
     </div>
@@ -489,5 +648,675 @@ export default () => {
   )
 }
 
+const tipoEspecialidad = [
+  {
+    label: 'INGENIERIA VIAL',
+    value: 'IV',
+  },
+  {
+    label: 'INGENIERÍA HIDRÁULICA',
+    value: 'IH',
+  },
+  {
+    label: 'SANITARIA',
+    value: 'SANITARIA',
+  },
+  {
+    label: 'INGENIERÍA FERROVIARIA',
+    value: 'IF',
+  },
+  {
+    label: 'INGENIERÍA ELECTROMECANICA',
+    value: 'IE',
+  },
+  {
+    label: 'INGENIERÍA  MECÁNICA',
+    value: 'IM',
+  },
+  {
+    label: 'INGENIERÍA AMBIENTAL',
+    value: 'IA',
+  },
+  {
+    label: 'ENERGIA',
+    value: 'ENERGIA',
+  },
+  {
+    label: 'INGENIERÍA NAVAL',
+    value: 'IN',
+  },
+  {
+    label: 'TELECOMUNICACIONES',
+    value: 'TELECOMUNICACIONES',
+  },
+  {
+    label: 'ELECTRÓNICA',
+    value: 'ELECTRONICA',
+  },
+  {
+    label: 'OBRAS MENORES EN LA VIA PÚBLICA',
+    value: 'OMVP',
+  },
+  {
+    label: 'INFORMÁTICA',
+    value: 'INFORMATICA',
+  },
+  {
+    label: 'INGENIERÍA AERONÁUTICA Y ESPACIAL',
+    value: 'IAE',
+  },
+  {
+    label: 'OBRAS DE ARQUITECTURA',
+    value: 'OA',
+  },
 
+
+]
+
+const tipoSubespecialidadIA = [
+  {
+    label: 'Pavimentos Rígidos',
+    value: 'PR',
+    parent: 'IV',
+  },
+  {
+    label: 'Pavimentos Flexibles',
+    value: 'PF',
+    parent: 'IV',
+  },
+  {
+    label: 'Puentes (Obras de arte mayor)',
+    value: 'Puentes',
+    parent: 'IV',
+  },
+  {
+    label: 'Aeródromos (Pistas)',
+    value: 'AERODROMO',
+     parent: 'IV',
+  },
+  {
+    label: 'Túneles',
+    value: 'Tuneles',
+    parent: 'IV',
+  },
+  {
+    label: 'Movimiento de Suelos',
+    value: 'MS',
+    parent: 'IV',
+  },
+  {
+    label: 'Estabilización de Terrenos, Autopistas',
+    value: 'EA',
+    parent: 'IV',
+  },
+  {
+    label: 'Gaviones',
+    value: 'Gaviones',
+    parent: 'IV',
+  },
+  {
+    label: 'Conservación de Caminos',
+    value: 'CC',
+    parent: 'IV',
+  },
+  {
+    label: 'Pavimentos Urbanos y articulados',
+    value: 'PUA',
+    parent: 'IV',
+  },
+  {
+    label: 'Voladuras',
+    value: 'Voladuras',
+    parent: 'IV',
+  },
+  {
+    label: 'Limpieza de Terrenos, Desbosques',
+    value: 'LTD',
+    parent: 'IV',
+  },
+  {
+    label: 'Destronque',
+    value: 'Destronque',
+    parent: 'IV',
+  },
+  {
+    label: 'Relevamiento Topográfico,(Apertura de Trazas)',
+    value: 'RT',
+    parent: 'IV',
+  },
+  {
+    label: 'Señalización Horizontal y Vertical',
+    value: 'SHV',
+    parent: 'IV',
+  },
+  {
+    label: 'Obras de Arte Menor',
+    value: 'OAM',
+    parent: 'IV',
+  },
+  {
+    label: 'Presas,Diques,Escolleras',
+    value: 'PDE',
+    parent: 'IH',
+  },{
+    label: 'Obras de Arte Menor',
+    value: 'OAM',
+    parent: 'IH',
+  },{
+    label: 'Canales Navegables',
+    value: 'Canales Navegables',
+    parent: 'IH',
+  },{
+    label: 'Portuarias',
+    value: 'Portuarias',
+    parent: 'IH',
+  },{
+    label: 'Acueductos',
+    value: 'Acueductos',
+    parent: 'IH',
+  },{
+    label: 'Hidromecánicas',
+    value: 'Hidromecánicas',
+    parent: 'IH',
+  },{
+    label: 'Acondicionamiento Hidráulico,',
+    value: 'Acondicionamiento_Hidráulico,',
+    parent: 'IH',
+  },{
+    label: '(Sistematización de ríos y lagos)',
+    value: 'SRL',
+    parent: 'IH',
+  },{
+    label: 'Canales de riego, Esclusas',
+    value: 'CRE',
+    parent: 'IH',
+  },{
+    label: 'Dragados',
+    value: 'Dragados',
+    parent: 'IH',
+  },{
+    label: 'Perforaciones',
+    value: 'Perforaciones',
+    parent: 'IH',
+  },{
+    label: 'Tablestacados',
+    value: 'Tablestacados',
+    parent: 'IH',
+  },{
+    label: 'Defensa aluvionales',
+    value: 'Defensa_aluvionales',
+    parent: 'IH',
+  },{
+    label: 'Planta de Potabilización Pozos',
+    value: 'PPB',
+    parent: 'SANITARIA',
+  },{
+    label: 'Plantas de Depuración',
+    value: 'PD',
+    parent: 'SANITARIA',
+  },{
+    label: 'Impulsión y Bombeo',
+    value: 'Impulsión_Bombeo',
+    parent: 'SANITARIA',
+  },{
+    label: 'Redes Principales de Desagüe',
+    value: 'RPDD',
+    parent: 'SANITARIA',
+  },{
+    label: 'Redes Principales de Provisión de Agua',
+    value: 'RPPA',
+    parent: 'SANITARIA',
+  },{
+    label: 'Pozos-Perforaciones-Drenaje',
+    value: 'Pozos-Perforaciones-Drenaje',
+    parent: 'SANITARIA',
+  },{
+    label: 'Redes Secundarias de Desagüe',
+    value: 'RSD',
+    parent: 'SANITARIA',
+  },{
+    label: 'Redes Secundarias de Provisión de Agua',
+    value: 'RSPA',
+    parent: 'SANITARIA',
+  },{
+    label: 'Impermeabilización',
+    value: 'Impermeabilización',
+    parent: 'SANITARIA',
+  }
+  ,{
+    label: 'Mantenimiento en General',
+    value: 'MG',
+    parent: 'SANITARIA',
+  },{
+    label: 'Electrificación',
+    value: 'Electrificación',
+    parent: 'IF',
+  },{
+    label: 'Subterráneos',
+    value: 'Subterráneos',
+    parent: 'IF',
+  },{
+    label: 'Material Rodante',
+    value: 'Material Rodante',
+    parent: 'IF',
+  },{
+    label: 'Señalización y Enclavamiento',
+    value: 'Señalización_Enclavamiento',
+    parent: 'IF',
+  },{
+    label: 'Instalación para Seguridad',
+    value: 'Instalación_para_Seguridad',
+    parent: 'IF',
+  },{
+    label: 'Mantenimiento ferroviario',
+    value: 'Mantenimiento_ferroviario',
+    parent: 'IF',
+  },{
+    label: 'Vía y Obra',
+    value: 'VO',
+    parent: 'IF',
+  },{
+    label: 'Centrales Hidroeléctricas',
+    value: 'Centrales_Hidroeléctricas',
+    parent: 'IE',
+  },{
+    label: 'Línea de Alta Tensión',
+    value: 'LAT',
+    parent: 'IE',
+  },{
+    label: 'Subusinas',
+    value: 'Subusinas',
+    parent: 'IE',
+  },{
+    label: 'Centrales Térmicas',
+    value: 'Centrales_Térmicas',
+    parent: 'IE',
+  },{
+    label: 'Centrales Nucleares',
+    value: 'Centrales_Nucleares',
+    parent: 'IE',
+  },{
+    label: 'Gasoductos',
+    value: 'Gasoductos',
+    parent: 'IE',
+  },{
+    label: 'Planta de Impulsión y Almacenamiento',
+    value: 'Planta_de _mpulsión_Almacenamiento',
+    parent: 'IE',
+  },{
+    label: 'Instalaciones eléctricas',
+    value: 'Instalaciones_eléctricas',
+    parent: 'IE',
+  },{
+    label: 'Instalaciones Electromecánicas',
+    value: 'Instalaciones_Electromecánicas',
+    parent: 'IE',
+  },{
+    label: 'Instalaciones Electrotérmicas',
+    value: 'InstalacionesElectrotérmicas',
+    parent: 'IE',
+  },{
+    label: 'Instalaciones Acústicas',
+    value: 'InstalacionesAcústicas',
+    parent: 'IE',
+  },{
+    label: 'Línea de Media y Baja Tensión',
+    value: 'LíneaMediaBajaTensións',
+    parent: 'IE',
+  },{
+    label: 'Electrificación Rural',
+    value: 'ElectrificaciónRural',
+    parent: 'IE',
+  },{
+    label: 'Red de alumbrado público',
+    value: 'Redalumbradopúblico',
+    parent: 'IE',
+  },{
+    label: 'Semaforización',
+    value: 'Semaforización',
+    parent: 'IE',
+  },{
+    label: 'Señalamiento y Balizamiento',
+    value: 'SeñalamientoBalizamiento',
+    parent: 'IE',
+  },{
+    label: 'Radioeléctrico',
+    value: 'Radioeléctrico',
+    parent: 'IE',
+  },{
+    label: 'Mantenimiento eléctrico',
+    value: 'Mantenimientoeléctrico',
+    parent: 'IE',
+  },{
+    label: 'Instalaciones Termomecánicas',
+    value: 'InstalacionesTermomecánicas',
+    parent: 'IE',
+  },{
+    label: 'Instalaciones Térmicas, Refrigeración',
+    value: 'InstalacionesTérmicasRefrigeración',
+    parent: 'IE',
+  },{
+    label: 'Aire Acondicionado',
+    value: 'AireAcondicionado',
+    parent: 'IE',
+  },{
+    label: 'Energía Solar',
+    value: 'EnergíaSolar',
+    parent: 'IE',
+  }
+  ,{
+    label: 'Horno de Ventilación',
+    value: 'HornoVentilación',
+    parent: 'IE',
+  }
+  ,{
+    label: 'Soldaduras',
+    value: 'Soldaduras',
+    parent: 'IE',
+  }
+  ,{
+    label: 'Mantenimiento Térmico',
+    value: 'MantenimientoTérmico',
+    parent: 'IE',
+  }
+  ,{
+    label: 'Redes de Distribución de Gas',
+    value: 'RedesDistribuciónGas',
+    parent: 'IE',
+  }
+  ,{
+    label: 'Provisión de Gas Natural',
+    value: 'ProvisiónGasNatural',
+    parent: 'IE',
+  },{
+    label: 'Elevadores de Granos',
+    value: 'ElevadoresGranos',
+    parent: 'IM',
+  },{
+    label: 'Translación Vertical Ascensores',
+    value: 'TranslaciónVerticalAscensores',
+    parent: 'IM',
+  },{
+    label: 'Montacargas',
+    value: 'Montacargas',
+    parent: 'IM',
+  },{
+    label: 'Cintas Transportadoras',
+    value: 'CintasTransportadoras',
+    parent: 'IM',
+  },{
+    label: 'Silos y Norias',
+    value: 'SilosNorias',
+    parent: 'IM',
+  },{
+    label: 'Fábrica de Motores',
+    value: 'FábricaMotores',
+    parent: 'IM',
+  },{
+    label: 'Equipos Rodantes',
+    value: 'EquiposRodantes',
+    parent: 'IM',
+  },{
+    label: 'Mantenimiento Mecánico',
+    value: 'MantenimientoMecánico',
+    parent: 'IM',
+  },{
+    label: 'Instalaciones Industriales',
+    value: 'InstalacionesIndustriales',
+    parent: 'IM',
+  },{
+    label: 'Instalaciones Metalúrgicas',
+    value: 'InstalacionesMetalúrgicas',
+    parent: 'IM',
+  },{
+    label: 'Servicios de mantenimiento y limpieza',
+    value: 'ServiciosmantenimientoLimpieza',
+    parent: 'IA',
+  },{
+    label: 'Recolección de residuos Peligrosos',
+    value: 'RecolecciónresiduosP',
+    parent: 'IA',
+  },{
+    label: 'Recolección de residuos Domesticos',
+    value: 'RecolecciónresiduosD',
+    parent: 'IA',
+  },{
+    label: 'Oleoducto, Poliductos',
+    value: 'OleoductoPoliductos',
+    parent: 'ENERGIA',
+  },{
+    label: 'Plantas de Impulsión y Almacenamiento',
+    value: 'PlantasAlmacenamiento',
+    parent: 'ENERGIA',
+  },{
+    label: 'Perforaciones y Pozos',
+    value: 'PerforacionesPozos',
+    parent: 'ENERGIA',
+  },{
+    label: 'Instalación y Mantenimiento de Surtidores de Combustible',
+    value: 'InstalaciónCombustible',
+    parent: 'ENERGIA',
+  },{
+    label: 'Servicios para la Industria del Petróleo',
+    value: 'ServiciosPetróleo',
+    parent: 'ENERGIA',
+  },{
+    label: 'Servicios para la Industria de Mantenimiento',
+    value: 'ServiciosIndustriaMantenimiento',
+    parent: 'ENERGIA',
+  },{
+    label: 'Astilleros (Construcción de Buques)',
+    value: 'AstillerosConstrucciónBuques',
+    parent: 'IN',
+  },{
+    label: 'Talleres Navales',
+    value: 'TalleresNavales',
+    parent: 'IN',
+  },{
+    label: 'Reparaciones Navales',
+    value: 'ReparacionesNavales',
+    parent: 'IN',
+  },{
+    label: 'Reflotamientos',
+    value: 'Reflotamientos',
+    parent: 'IN',
+  },{
+    label: 'Salvamentos Marítimos y Fluviales',
+    value: 'SalvamentosMarítimosFluviales',
+    parent: 'IN',
+  },{
+    label: 'Telegrafía y Telefonía',
+    value: 'TelegrafíaTelefonía',
+    parent: 'TELECOMUNICACIONES',
+  },{
+    label: 'Telecomunicaciones',
+    value: 'Telecomunicaciones',
+    parent: 'TELECOMUNICACIONES',
+  },{
+    label: 'Radioenlace',
+    value: 'Radioenlace',
+    parent: 'TELECOMUNICACIONES',
+  },{
+    label: 'Radar',
+    value: 'Radar',
+    parent: 'TELECOMUNICACIONES',
+  },{
+    label: 'Sistema de Señalización',
+    value: 'SistemaSeñalización',
+    parent: 'ELECTRONICA',
+  },{
+    label: 'Letreros Electrónicos',
+    value: 'LetrerosElectrónicos',
+    parent: 'ELECTRONICA',
+  },{
+    label: 'Reparación de veredas y/o calzadas',
+    value: 'ReparaciónVeredas',
+    parent: 'OMVP',
+  },{
+    label: 'Bacheos en calles de hormigón y/o asfalto',
+    value: 'Bacheoscalles',
+    parent: 'OMVP',
+  },{
+    label: 'Construcción de rampas para discapacitados',
+    value: 'Construcciónrampasdiscapacitados',
+    parent: 'OMVP',
+  },{
+    label: 'Construcción de bicisendas',
+    value: 'Construcciónbicisendas',
+    parent: 'OMVP',
+  },{
+    label: 'Construcción de cercos en terrenos baldíos',
+    value: 'ConstrucciónCercosTerrenosBaldíos',
+    parent: 'OMVP',
+  },{
+    label: 'Colocación de señales urbanas',
+    value: 'ColocaciónSeñalesUrbanas',
+    parent: 'OMVP',
+  },{
+    label: 'Colocación de refugios para colectivos y/o taxis',
+    value: 'ColocaciónRefugio',
+    parent: 'OMVP',
+  },{
+    label: 'Podas de árboles',
+    value: 'Podasárboles',
+    parent: 'OMVP',
+  },{
+    label: 'Informática',
+    value: 'Informática',
+    parent: 'INFORMATICA',
+  },{
+    label: 'Ingeniería Aeronáutica y Espacial',
+    value: 'IngenieríaAeronáuticaEspacial',
+    parent: 'IAE',
+  },{
+    label: 'Construcciones Civiles en General',
+    value: 'ConstruccionesCivilesGeneral',
+    parent: 'OA',
+  },{
+    label: 'Construcciones Industriales',
+    value: 'ConstruccionesIndustriales',
+    parent: 'OA',
+  },{
+    label: 'Estructuras de Hormigón Armado',
+    value: 'EstructurasHormigónArmado',
+    parent: 'OA',
+  },{
+    label: 'Urbanismo',
+    value: 'Urbanismo',
+    parent: 'OA',
+  },{
+    label: 'Construcciones Prefabricadas',
+    value: 'ConstruccionesPrefabricadas',
+    parent: 'OA',
+  },{
+    label: 'Construcciones Metálicas',
+    value: 'ConstruccionesMetálicas',
+    parent: 'OA',
+  },{
+    label: 'Estructuras Metálicas (galpones, etc.)',
+    value: 'Estructuras_Metálicas',
+    parent: 'OA',
+  },{
+    label: 'Restauración y Refacción de Edificios',
+    value: 'RestauraciónEdificios',
+    parent: 'OA',
+  },{
+    label: 'Restauración de Sitios, Monumentos y Lugares Históricos.',
+    value: 'RestauraciónMonumentos ',
+    parent: 'OA',
+  },{
+    label: 'Instalaciones contra incendio',
+    value: 'Instalacionesincendio',
+    parent: 'OA',
+  },{
+    label: 'Instalaciones de Seguridad',
+    value: 'InstalacionesSeguridad',
+    parent: 'OA',
+  },{
+    label: 'Instalaciones Complementarias',
+    value: 'InstalacionesComplementarias',
+    parent: 'OA',
+  },{
+    label: 'Demoliciones y Excavaciones',
+    value: 'DemolicionesExcavaciones',
+    parent: 'OA',
+  },{
+    label: 'Aislaciones Acústicas',
+    value: 'AislacionesAcusticas',
+    parent: 'OA',
+  },{
+    label: 'Aislaciones Termicas',
+    value: 'AislacionesTermicas',
+    parent: 'OA',
+  },{
+    label: 'Aislaciones Hidrófugas',
+    value: 'AislacionesHidrófugas',
+    parent: 'OA',
+  },{
+    label: 'Impermeabilizaciones',
+    value: 'Impermeabilizaciones',
+    parent: 'OA',
+  }
+  ,{
+    label: 'Albañilería',
+    value: 'Albañilería',
+    parent: 'OA',
+  }
+  ,{
+    label: 'Limpieza de Frentes',
+    value: 'LimpiezaFrentes',
+    parent: 'OA',
+  }
+  ,{
+    label: 'Pinturas y Afines',
+    value: 'PinturasAfines',
+    parent: 'OA',
+  }
+  ,{
+    label: 'Marmolería',
+    value: 'Marmolería',
+    parent: 'OA',
+  }
+  ,{
+    label: 'Carpintería',
+    value: 'Carpintería',
+    parent: 'OA',
+  }
+  ,{
+    label: 'Herrería',
+    value: 'Herrería',
+    parent: 'OA',
+  },{
+    label: 'Yesería',
+    value: 'Yesería',
+    parent: 'OA',
+  },{
+    label: 'Vidriería',
+    value: 'Vidriería',
+    parent: 'OA',
+  },{
+    label: 'Decoración Integral (provisión y colocación)',
+    value: 'DecoraciónIntegral',
+    parent: 'OA',
+  },{
+    label: 'Limpieza de Edificios',
+    value: 'LimpiezadeEdificios',
+    parent: 'OA',
+  },{
+    label: 'Parquización y Forestación',
+    value: 'ParquizaciónyForestación',
+    parent: 'OA',
+  },{
+    label: 'Equipamiento Urbano',
+    value: 'EquipamientoUrbano',
+    parent: 'OA',
+  },{
+    label: 'Amoblamientos',
+    value: 'Amoblamientos',
+    parent: 'OA',
+  }
+
+
+
+]
 

@@ -111,8 +111,17 @@ type DDJJObra ={
   razonSocialComitente:string
   cuitComitente:string
   montoInicial:string
-  especialidades: string
+  especialidad1: string
+  subEspecialidad1:Array<string>
+  subEspecialidades1Otros:string
+  especialidad2: string
+  subEspecialidad2:Array<string>
+  subEspecialidades2Otros:string
+  especialidad3: string
+  subEspecialidad3:Array<string>
   subespecialidades:string
+  subEspecialidades3Otros:string
+  
 }
 
 type AutoridadEmpresa  ={
