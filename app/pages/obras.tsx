@@ -65,7 +65,7 @@ export default () => {
     participacionUTE: '',
     razonSocialComitente: '',
     cuitComitente: '',
-    montoInicial: '',
+    montoInicial: 0,
     redeterminaciones: [],
     certificaciones: [],
     plazoPorContrato: 0,
@@ -156,9 +156,9 @@ export default () => {
   const renderModalEjercicios = () => {
     return (<div>
       <div className="text-right">
-        <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2">{((obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)}</Tag>
+        <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2">{obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)}</Tag>
         <Tag>Certificado Total </Tag> <Tag color="magenta" className="mr-2">{(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)}</Tag>
-        <Tag>Saldo </Tag> <Tag color="blue" className="mr-2"></Tag>
+        <Tag>Saldo </Tag> <Tag color="blue" className="mr-2">{ (obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)   }</Tag>
 
       </div>
       <Tabs defaultActiveKey="datosGenerales" onChange={callback}>

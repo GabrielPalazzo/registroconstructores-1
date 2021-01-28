@@ -116,7 +116,7 @@ type DDJJObra ={
   participacionUTE:string
   razonSocialComitente:string
   cuitComitente:string
-  montoInicial:string
+  montoInicial:number
   especialidad1: string
   subEspecialidad1:Array<string>
   subEspecialidades1Otros:string
