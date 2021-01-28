@@ -31,8 +31,6 @@ export default () => {
 
   const router = useRouter()
   const dispatch = useDispatch()
-
-
   const [modalAutoridad, setModalAutoridad] = useState(false)
   const [modalCalidad, setModalCalidad] = useState(false)
   const [waitingType, setWaitingType] = useState('sync')
