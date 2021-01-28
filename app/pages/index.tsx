@@ -122,6 +122,9 @@ export default () => {
     <div className="pb-10">
       {tramites.length === 0 ? noData() : <BandejaConstructor tramites={tramites} />}
     </div>
+    <div className="pb-4 text-center  border-gray-200 border-t-2" >
+     <div className="text-sm mt-2"> version: 1.5 </div> 
+    </div>
 
   </div>
 }
