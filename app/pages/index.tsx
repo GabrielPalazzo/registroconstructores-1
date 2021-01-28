@@ -99,10 +99,10 @@ export default () => {
     <div className="px-4 py-2 bg-gray-200">
       <Breadcrumb>
         <Breadcrumb.Item>Inicio</Breadcrumb.Item>
-        <Breadcrumb.Item>Jefatura de Gabinete de Ministros</Breadcrumb.Item>
-        <Breadcrumb.Item>Innovación Pública</Breadcrumb.Item>
-        <Breadcrumb.Item>Oficina Nacional de Contrataciones - ONC</Breadcrumb.Item>
-        <Breadcrumb.Item>Acordar</Breadcrumb.Item>
+        <Breadcrumb.Item><a href="https://www.argentina.gob.ar/jefatura" target="_blank"> Jefatura de Gabinete de Ministros</a></Breadcrumb.Item>
+        <Breadcrumb.Item><a href="https://www.argentina.gob.ar/jefatura/innovacion-publica" target="_blank">Innovación Pública</a></Breadcrumb.Item>
+        <Breadcrumb.Item><a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/oficina-nacional-de-contrataciones-onc" target="_blank">Oficina Nacional de Contrataciones - ONC</a></Breadcrumb.Item>
+        <Breadcrumb.Item><a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/oficina-nacional-de-contrataciones-onc/acordar" target="_blank">Acordar</a></Breadcrumb.Item>
         <Breadcrumb.Item>Acuerdos</Breadcrumb.Item>
         <Breadcrumb.Item>Trámites</Breadcrumb.Item>
       </Breadcrumb>
