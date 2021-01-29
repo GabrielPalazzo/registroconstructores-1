@@ -81,7 +81,7 @@ class Validator implements ValidatorInterface {
 
       
 
-      if((isPersonaFisica(this.tramite) &&  (this.tramite.cuit != getUsuario().userData().iat))){
+      if((isPersonaFisica(this.tramite) &&  (this.tramite.cuit != getUsuario().userData().cuit))){
         toValidate.push({
           attribute:'noMismaPersona',
           dataId:'',

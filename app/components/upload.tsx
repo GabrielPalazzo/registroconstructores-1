@@ -31,6 +31,7 @@ export default (props: Props) => {
     },
     onChange(info) {
 
+      /*
       let fileList = [...info.fileList]
       fileList.forEach(function (file, index) {
         let reader = new FileReader();
@@ -38,7 +39,7 @@ export default (props: Props) => {
           file.base64 = e.target.result;
         };
         reader.readAsDataURL(info.file.originFileObj);
-      });
+      });*/
 
 
       const { status } = info.file;
