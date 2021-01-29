@@ -4,7 +4,7 @@ import { NavigationStep } from '../components/steps'
 import { InputText } from '../components/input_text'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
-import { Button, Steps } from 'antd';
+import { Button, Steps,Alert } from 'antd';
 import Substeps from '../components/subSteps'
 import { useSelector } from 'react-redux'
 import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
@@ -22,6 +22,8 @@ export default () => {
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion)
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const [error, setError] = useState('')
+  const [showError, setShowError] = useState(false)
 
 
   useEffect(() => {
@@ -60,6 +62,11 @@ export default () => {
 
     return <div className="mt-6 pt-6 text-center">
       <Button type="primary" onClick={async () => {
+         if (tramite.emailInstitucional.trim() && !/\S+@\S+\.\S+/.test(tramite.emailInstitucional.trim())) {
+          setError('El campo Email se debe ser xxxxx@jjjj.jjj')
+          setShowError(true)
+          return
+        }
         if (!tramite || !tramite.cuit)
           return
         await save()
@@ -78,6 +85,7 @@ export default () => {
     </div>
     <Substeps progressDot current={0} esPersonaFisica={isPersonaFisica(tramite)} />
     <div className="px-20 mx-20 py-6 ">
+    
       <div className="text-2xl font-bold py-4"> Domicilio Legal</div>
       <div >
         <InputText
@@ -136,8 +144,53 @@ export default () => {
           labelMessageError=""
           required />
       </div>
+      <div className="grid grid-cols-2 gap-4 ">
+        <div className="pb-6" >
+        <InputText
+          value={tramite.telefono}
+          attributeName='telefono'
+          bindFunction={(value) => {
+            tramite.telefono = value
+            updateObjTramite()
+          }}
+          label="Telefono"
+          labelRequired="*"
+          placeHolder="Indique el numero de telefono"
+          labelObservation=""
+          labeltooltip=""
+          labelMessageError=""
+          required />
+
+        </div>
+        <div className="pb-6" >
+        <InputText
+          value={tramite.telefonoAlternativo}
+          attributeName='telefonoAlternativo'
+          bindFunction={(value) => {
+            tramite.telefonoAlternativo = value
+            updateObjTramite()
+          }}
+          label="Telefono Alternativo"
+          labelRequired=""
+          placeHolder="Indique el numero de telefono"
+          labelObservation=""
+          labeltooltip=""
+          labelMessageError=""
+          required />
+
+        </div>
+        </div>
 
       <div className="text-2xl font-bold py-4"> Domicilio Electronico</div>
+      {showError ? <div className="mb-4">
+        <Alert
+          message=''
+          description={error}
+          type="error"
+          showIcon
+          closable
+          afterClose={() => setShowError(false)}
+        /></div> : ''}
       <div>
         <InputText
           attributeName="emailInstitucional"

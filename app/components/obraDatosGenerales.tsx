@@ -4,7 +4,7 @@ import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import Upload from './upload'
-import { Button, Select, Table, Alert, Space } from 'antd';
+import { Button, Select, Table, Alert, Space,Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 
@@ -30,12 +30,13 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   const [fechaAdjudicacion, setfechaAdjudicacion] = useState('')
   const [fechaInicio, setfechaInicio] = useState('')
   const [fechaFin, setfechaFin] = useState('')
-  const [dataSource, setDataSource] = useState<Array<DatosObraGeneral>>(obra.datosObra)
+  const [dataSource, setDataSource] = useState([])
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
   const [actas, setActas] = useState<Array<Archivo>>([])
   useEffect(() => {
-
+    setDenominacion(obra.denominacion)
+    setDataSource(Object.assign([],obra.datosObra))
   }, [])
 
   const eliminarDatos = (r: DatosObraGeneral) => {
@@ -44,7 +45,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
   const columnsEstado = [
     {
-      title: 'Action',
+      title: 'Eliminar',
       key: 'action',
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
 
@@ -241,7 +242,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
         <InputTextModal
           label="Denominacion"
           labelRequired="*"
-          value={denominacion}
+          value={obra.denominacion}
           bindFunction={(value) => { setDenominacion(value) }}
           labelMessageError=""
 
@@ -360,7 +361,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
     </div>
     <div className="mt-4">
-      <Table columns={columnsEstado} dataSource={dataSource} />
+      <Table columns={columnsEstado} dataSource={dataSource} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
     </div>
   </div>
 }

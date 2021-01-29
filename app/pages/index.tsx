@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Avatar, Menu, Dropdown } from 'antd';
+import { Button, Card, Avatar, Menu, Dropdown, Breadcrumb } from 'antd';
 import { PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import { setActionType } from '../redux/actions/main'
@@ -40,7 +40,7 @@ export default () => {
     })()
   }, [])
 
-  
+
 
   const cerrarSesion = () => {
     closeSession()
@@ -72,12 +72,12 @@ export default () => {
     </Menu>
   );
 
-  
+
 
   if (isLoading || !user)
     return <Loading message='' type='waiting' />
 
-  
+
 
 
   return <div>
@@ -94,9 +94,21 @@ export default () => {
 
 
       </div>
+
+    </div>
+    <div className="px-4 py-2 bg-gray-200">
+      <Breadcrumb>
+        <Breadcrumb.Item>Inicio</Breadcrumb.Item>
+        <Breadcrumb.Item><a href="https://www.argentina.gob.ar/jefatura" target="_blank"> Jefatura de Gabinete de Ministros</a></Breadcrumb.Item>
+        <Breadcrumb.Item><a href="https://www.argentina.gob.ar/jefatura/innovacion-publica" target="_blank">Innovación Pública</a></Breadcrumb.Item>
+        <Breadcrumb.Item><a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/oficina-nacional-de-contrataciones-onc" target="_blank">Oficina Nacional de Contrataciones - ONC</a></Breadcrumb.Item>
+        <Breadcrumb.Item><a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/oficina-nacional-de-contrataciones-onc/acordar" target="_blank">Acordar</a></Breadcrumb.Item>
+        <Breadcrumb.Item>Acuerdos</Breadcrumb.Item>
+        <Breadcrumb.Item>Trámites</Breadcrumb.Item>
+      </Breadcrumb>
     </div>
     <div className="md:px-20  mx-20 py-6 grid grid-cols-2 px-4 ">
-      
+
       <div className="text-2xl font-bold py-4"> Empresas administradas</div>
       <div className="text-2xl font-bold py-4 text-right">
         <Button type="primary" icon={<PlusOutlined />}
@@ -109,6 +121,9 @@ export default () => {
     </div>
     <div className="pb-10">
       {tramites.length === 0 ? noData() : <BandejaConstructor tramites={tramites} />}
+    </div>
+    <div className="pb-4 text-center  border-gray-200 border-t-2" >
+     <div className="text-sm mt-2"> version: 1.5 </div> 
     </div>
 
   </div>

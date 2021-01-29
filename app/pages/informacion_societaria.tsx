@@ -8,7 +8,7 @@ import DatePicker from '../components/datePicker'
 import Switch from '../components/switch'
 import DatePickerModal from '../components/datePicker_Modal'
 import Upload from '../components/upload'
-import { Button, Card, Steps, Modal, Space, Table, Select, Checkbox, Collapse, Tooltip } from 'antd';
+import { Button, Card, Steps, Modal, Space, Table, Select, Checkbox, Collapse, Tooltip, Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
@@ -31,8 +31,6 @@ export default () => {
 
   const router = useRouter()
   const dispatch = useDispatch()
-
-
   const [modalAutoridad, setModalAutoridad] = useState(false)
   const [modalCalidad, setModalCalidad] = useState(false)
   const [waitingType, setWaitingType] = useState('sync')
@@ -464,7 +462,7 @@ export default () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record) => (tramite.status === 'BORRADOR' ? <div onClick={() => removeSistemaCalidad(record)}><DeleteOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite.status === 'BORRADOR' ? <div onClick={() => removeSistemaCalidad(record)} className="cursor-pointer"><DeleteOutlined /></div> : <Space size="middle">
         <LikeDislike />
       </Space>),
     },
@@ -719,7 +717,7 @@ export default () => {
               }}
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
         </div>
 
         <Modal
@@ -968,7 +966,7 @@ export default () => {
               }}
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
         </div>
 
         <Modal
@@ -1158,7 +1156,7 @@ export default () => {
               labelMessageError=""
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
         </div>
 
         <Modal
@@ -1375,7 +1373,7 @@ export default () => {
             </div>
 
           </div>
-          <Table columns={columnsModificacionEstatuto} />
+          <Table columns={columnsModificacionEstatuto} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} />
         </div>
         <div className="text-2xl font-bold py-4 mt-4"> Fecha de vencimiento del Contrato Social</div>
         <div className="grid grid-cols-2 gap-4 ">
@@ -1427,7 +1425,7 @@ export default () => {
               }}
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
         </div>
 
         <Modal
@@ -1651,7 +1649,7 @@ export default () => {
             <div className="  text-center content-center mt-2 mb-4 ">
               <Button type="primary" onClick={() => setModalCalidad(true)} icon={<PlusOutlined />}> Agregar</Button>
             </div>
-            {tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table columns={columnsCalidad} dataSource={tramite.sistemaCalidad} /> : renderNoData()}
+            {tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table columns={columnsCalidad} dataSource={tramite.sistemaCalidad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} /> : renderNoData()}
             <Modal
               title="Datos del Sistema de Calidad"
               visible={modalCalidad}
@@ -1740,7 +1738,7 @@ export default () => {
               <Button className="mr-4" type="primary" icon={<PlusOutlined />} > Agregar</Button>
             </div>
 
-            <Table columns={columnsInversiones} />
+            <Table columns={columnsInversiones} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
 
           </Panel>
 
@@ -1752,10 +1750,10 @@ export default () => {
     <style>
       {`
       .ant-collapse > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow{
-        top:22px;
+        top:18px;
       }
       .ant-collapse > .ant-collapse-item > .ant-collapse-header{
-        font-size: 1.5rem;
+        font-size: 16px;
     font-weight: bold;
       }`}
     </style>

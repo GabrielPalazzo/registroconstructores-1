@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input,Tooltip, } from 'antd';
+import { Button, InputNumber,Tooltip, } from 'antd';
 import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 import {useSelector} from 'react-redux'
 import { isTramiteEditable } from '../services/business';
@@ -27,6 +27,7 @@ interface Props {
   type?:string
   step?:any
   min?:any
+  formatter?:string
 }
 
 export default (props: Props) => {
@@ -45,15 +46,16 @@ export default (props: Props) => {
 
     </div>
     <div className="w-full">
-      <Input 
+      <InputNumber 
         value={props.value}
-        onChange={  e => props.bindFunction(props.type==='number' ?  parseInt(e.target.value,10) :e.target.value ) }
         placeholder={props.placeholder}
         required={props.required}
         disabled={!isTramiteEditable(tramite)}
+        onChange={ e => props.bindFunction(e)}
         type={props.type}
         min={props.min}
         step={props.step}
+        formatter={props.formatter}
        
     
       />

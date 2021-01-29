@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { Button, DatePicker, Tooltip, } from 'antd';
+import { Button, DatePicker, Tooltip,ConfigProvider } from 'antd';
 import moment from 'moment'
 import { isTramiteEditable } from '../services/business';
 import {useSelector} from 'react-redux'
+import locale from 'antd/es/date-picker/locale/es_ES';
+
 
 function onChange(date, dateString) {
   console.log(date, dateString);
@@ -27,6 +29,7 @@ export default (props: Props) => {
   const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
 
   return (<div >
+     
     <div className="flex">
       <div className="w-5/5 mb-2">
         <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
@@ -34,6 +37,7 @@ export default (props: Props) => {
     </div>
     <div className="w-full">
     <DatePicker 
+       locale={locale}
         disabled={!isTramiteEditable(tramite)}
         onChange={(value) => {
           props.bindFunction(moment(value,dateFormat).format(dateFormat))
@@ -46,7 +50,6 @@ export default (props: Props) => {
     <div className="w-full text-xs text-danger-700 px-2 ">
       {props.labelMessageError}
     </div>
-
 
   </div>
 

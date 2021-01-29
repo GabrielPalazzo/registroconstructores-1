@@ -68,11 +68,11 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     </div>
     <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4 cursor-pointer">
 
-      <Button danger type="text" style={{marginRight:'20px'}} onClick={() => setShowCancelar(true)}>Cancelar</Button>
-      {tramite && tramite.cuit && allowGuardar(tramite)? <Button type="link" style={{ fontWeight: 'bold' }} onClick={onSave}>Guardar y salir</Button> : ''}
+      <Button danger type="text"  onClick={() => setShowCancelar(true)}>Cancelar</Button>
+      {tramite && tramite.cuit && allowGuardar(tramite)? <Button type="link" style={{ fontWeight: 'bold',marginLeft:'10px' }} onClick={onSave}>Guardar y salir</Button> : ''}
       <Dropdown overlay={menu} trigger={['click']}>
         <div onClick={e => e.preventDefault()}>
-          <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2' }} >{user.GivenName.substring(0, 1)}</Avatar>
+          <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2', marginLeft:'10px' }} >{user.GivenName.substring(0, 1)}</Avatar>
         </div>
       </Dropdown>
 

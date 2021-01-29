@@ -3,10 +3,11 @@ import { useRouter } from 'next/router'
 import { NavigationStep } from '../components/steps'
 import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
+import InputNumberModal from '../components/input_number'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -76,10 +77,13 @@ export default () => {
   function callback(key) {
     console.log(key);
   }
+  
+
 
 
   const renderModalEjercicios = () => {
     return (<div>
+     
       {error ? <div className="mb-4">
         <Alert
           message='Error'
@@ -115,28 +119,29 @@ export default () => {
       <div className="grid grid-cols-3 gap-4 ">
 
         <div className="pb-6" >
-          <InputTextModal
-            type="number" step="any"
+          <InputNumberModal
+            type="number" 
             label="Activo Corriente"
             labelRequired="*"
-            min={0}
+            min={0} step="any"
             placeholder="000000,000 "
             value={activoCorriente}
-            bindFunction={(val) => setActivoCorriente(parseInt(val, 10))}
+            bindFunction={(val) => setActivoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
 
         </div>
 
         <div className="pb-6" >
-          <InputTextModal
+          <InputNumberModal
             label="Activo no Corriente"
-            type="number" step="any"
+            type="number" 
             labelRequired="*"
             placeholder="000000,000 "
             min={0}
+            step="any"
             value={activoNoCorriente}
-            bindFunction={(val) => setActivoNoCorriente(parseInt(val, 10))}
+            bindFunction={(val) => setActivoNoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
 
@@ -153,28 +158,28 @@ export default () => {
 
         </div>
         <div className="pb-6" >
-          <InputTextModal
+        <InputNumberModal
             label="Pasivo Corriente"
             type="number" step="any"
             labelRequired="*"
             min={0}
             placeholder="000000,000 "
             value={pasivoCorriente}
-            bindFunction={(val) => setPasivoCorriente(parseInt(val, 10))}
+            bindFunction={(val) => setPasivoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
 
         </div>
 
         <div className="pb-6" >
-          <InputTextModal
+        <InputNumberModal
             label="Pasivo no Corriente"
             type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
             value={pasivoNoCorriente}
             min={0}
-            bindFunction={(val) => setPasivoNoCorriente(parseInt(val, 10))}
+            bindFunction={(val) => setPasivoNoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
 
@@ -191,28 +196,29 @@ export default () => {
 
         </div>
         <div className="pb-6" >
-          <InputTextModal
+          <InputNumberModal
             label="Ventas del ejercicio"
             type="number" step="any"
             labelRequired="*"
             min={0}
             placeholder="000000,000 "
             value={ventasDelEjercicio}
-            bindFunction={setVentasDelEjercicio}
+            bindFunction={(val) => setVentasDelEjercicio(parseFloat(val))}
             labelMessageError=""
             required />
 
         </div>
 
         <div className="pb-6" >
-          <InputTextModal
+          <InputNumberModal
             label={isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto'}
             type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "
             min={0}
             value={capitalSuscripto}
-            bindFunction={setCapitalSuscripto}
+
+            bindFunction={(val) => setCapitalSuscripto(parseFloat(val))}
             labelMessageError=""
             required />
 
@@ -244,9 +250,7 @@ export default () => {
         </div>
 
       </div>
-
-
-    </div>)
+    </div> )
   }
 
   const renderNoData = () => {
@@ -266,9 +270,9 @@ export default () => {
 
   let columnsBalances = [
     {
-      title: 'Action',
+      title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarEjercicio(record)}><DeleteOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarEjercicio(record)} className="cursor-pointer"><DeleteOutlined /></div> : <Space size="middle">
 
       </Space>),
     },
@@ -409,11 +413,11 @@ export default () => {
         <Tabs defaultActiveKey="1" onChange={callback}  >
           <TabPane tab="Balances" key="1">
             <div className="overflow-x-auto" >
-              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} locale={{ emptyText: "No hay información cargada"}}  dataSource={Object.assign([],tramite.ejercicios)} scroll={{ x: 1800 }}  />}
+              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],tramite.ejercicios)} scroll={{ x: 1800 }}  />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
-            <Table columns={columnsBalances} scroll={{ x: 1800 }} locale={{ emptyText: "No hay información cargada"}}  />
+            <Table columns={columnsBalances} scroll={{ x: 1800 }} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
           </TabPane>
         </Tabs>
       </div>

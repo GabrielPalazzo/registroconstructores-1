@@ -4,9 +4,10 @@ import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import Upload from './upload'
-import { Button, Select, Table, Alert , Space} from 'antd';
+import { Button, Select, Table, Alert, Space, Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
+import InputNumberModal from './input_number'
 
 export interface ObrasRedeterminacionesProps {
 	obra: DDJJObra
@@ -24,48 +25,48 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	const [descripcion, setDescripcion] = useState('')
 	const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>(obra.redeterminaciones)
 	const [error, setError] = useState('')
-	const [archivos,setArchivos] = useState<Array<Archivo>>([])
+	const [archivos, setArchivos] = useState<Array<Archivo>>([])
 	const [showError, setShowError] = useState(false)
 
 	useEffect(() => {
 
 	}, [])
 
-	const eliminarDatos = (o:AmpliacionesObras) => {
-		setDataSource(dataSource.filter( (r:Redeterminaciones) => o.id!== r.id))
-		obra.redeterminaciones = Object.assign([],dataSource)
-		onChange(Object.assign({},obra))
-	  }
+	const eliminarDatos = (o: AmpliacionesObras) => {
+		setDataSource(dataSource.filter((r: Redeterminaciones) => o.id !== r.id))
+		obra.redeterminaciones = Object.assign([], dataSource)
+		onChange(Object.assign({}, obra))
+	}
 	const columnsRedeterminaciones = [
 		{
-			title: 'Action',
+			title: 'Eliminar',
 			key: 'action',
 			render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
-		
+
 			</Space>),
-		  },
+		},
 		{
-			title: 'fecha',
+			title: 'Fecha',
 			dataIndex: 'fecha',
 			key: 'fecha'
 		},
 		{
-			title: 'monto',
+			title: 'Monto',
 			dataIndex: 'monto',
 			key: 'monto'
 		},
 		{
-			title: 'Descripcion',
+			title: 'Descripción',
 			dataIndex: 'descripcion',
 			key: 'descripcion'
 		},
 		{
 			title: 'Adjunto',
-			render: (text,record) => <div>{record.archivos && record.archivos.map( f=> f.name).join(', ')}</div>,
+			render: (text, record) => <div>{record.archivos && record.archivos.map(f => f.name).join(', ')}</div>,
 			key: 'adjunto',
 		}
-	
-	
+
+
 	];
 
 	const add = () => {
@@ -79,16 +80,22 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			setShowError(true)
 			return
 		}
+		if ((!descripcion)) {
+			setError('La descripcion es requerida')
+			setShowError(true)
+			return
+		}
 
 
-		dataSource.push({ 
-			id:getCodigoObra(),
-			monto, 
+		dataSource.push({
+			id: getCodigoObra(),
+			monto,
 			fecha,
 			descripcion,
-			archivos })
+			archivos
+		})
 		setDataSource(Object.assign([], dataSource))
-		obra.redeterminaciones = Object.assign([],dataSource)
+		obra.redeterminaciones = Object.assign([], dataSource)
 		onChange(obra)
 		setMonto(0)
 		setFecha(null)
@@ -98,7 +105,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	return <div>
 		{showError ? <div className="mb-4">
 			<Alert
-				message='Error'
+				message=''
 				description={error}
 				type="error"
 				showIcon
@@ -109,14 +116,15 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			<div className="text-xl font-bold py-2 w-3/4">  Redeterminaciones</div>
 			<div className="grid grid-cols-3 gap-4 ">
 				<div className="pb-6" >
-					<InputTextModal
+					<InputNumberModal
+						min={0}
+						placeholder="000000,000 "
 						label="Monto"
-						type="number" step="any" 
-						min="0" 
+						type="number" step="any"
 						labelRequired="*"
 						labelMessageError=""
 						value={monto}
-						bindFunction={(value) => { setMonto(value) }}
+						bindFunction={(val) => setMonto(parseFloat(val))}
 					/>
 
 				</div>
@@ -135,7 +143,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				<div className="pb-6" >
 					<InputTextModal
 						label="Descripcion"
-						 
+
 						labelRequired="*"
 						labelMessageError=""
 						value={descripcion}
@@ -143,30 +151,45 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 					/>
 
 				</div>
-				</div>
-				<div className="grid grid-cols-2 gap-4 ">
+			</div>
+			<div className="grid grid-cols-2 gap-4 ">
 				<div className="pb-6" >
 					<Upload
 						label="Adjuntar documento de respaldo de la redeterminación "
 						labelRequired="*"
 						labelMessageError=""
 						defaultValue={archivos as any}
-            onOnLoad={file =>{
-              archivos.push(file)
-              setArchivos(Object.assign([],archivos))
-            }}
-            onRemove={fileToRemove => {
-              setArchivos(Object.assign([],archivos.filter(f=> f.cid !==fileToRemove.cid)))
-            }}
+						onOnLoad={file => {
+							archivos.push(file)
+							setArchivos(Object.assign([], archivos))
+						}}
+						onRemove={fileToRemove => {
+							setArchivos(Object.assign([], archivos.filter(f => f.cid !== fileToRemove.cid)))
+						}}
 					/>
 				</div>
 				<div className="mt-8 ">
-				<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
+					<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
+				</div>
 			</div>
-			</div>
-			
+
 			<div className="mt-4 ">
-				<Table columns={columnsRedeterminaciones} dataSource={dataSource} />
+				<Table columns={columnsRedeterminaciones} 
+				dataSource={dataSource} 
+				locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} 
+				summary={pageData => {
+					return <div>
+					  {pageData.length > 0 ? <div className="ml-4 font-semibold">
+						<Table.Summary.Row>
+						  <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
+						  <Table.Summary.Cell index={1}>
+							<div >{pageData.map(d => d.monto).reduce((val, acc) => acc = val + acc)}</div>
+						  </Table.Summary.Cell>
+						</Table.Summary.Row>
+					  </div> : ''}
+					</div>
+				  }} />
+
 			</div>
 
 		</div>

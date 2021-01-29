@@ -6,7 +6,7 @@ import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Space } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Space,Empty } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import LikeDislike from '../components/like_dislike'
@@ -385,7 +385,7 @@ export default (props) => {
 
 
       </div>
-      <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} dataSource={Object.assign([],tramite.propietarios)} />
+      <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} dataSource={Object.assign([],tramite.propietarios)} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
       <Modal
         title="Datos de los Propietarios"
         visible={modalPropietarios}

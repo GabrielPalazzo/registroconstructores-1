@@ -23657,6 +23657,13 @@ html, body, #__next {
   font-family:'Encode Sans', sans-serif !important;
 }
 
+.ant-input-number {
+  border-radius:10px !important;
+  width: 100% !important;
+  font-family:'Encode Sans', sans-serif !important;
+  padding: 4px 0px !important;
+}
+
 .ant-select-multiple .ant-select-selector {
   border-radius:10px !important;
   padding: 5px 0px!important;
@@ -23756,6 +23763,31 @@ html, body, #__next {
 
 .anticon svg{
   display: block !important;
+}
+
+.ant-upload.ant-upload-drag p.ant-upload-text {
+  margin: 0 0 0px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px !important;
+  width: 100%;
+}
+
+.ant-upload.ant-upload-drag p.ant-upload-drag-icon {
+  margin-bottom: 0px !important;
+}
+
+.ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
+  color: #40a9ff;
+  font-size: 30px !important;
+}
+
+.ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:active{
+  color:#ffffff !important;
+  opacity: 0.65;
+}
+
+.ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-icon {
+  background: #1890ff;
 }
 
 @media (min-width: 640px) {

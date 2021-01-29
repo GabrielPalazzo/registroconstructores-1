@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Divider, Drawer, Tag, Input, Collapse } from 'antd'
+import { Button, Card, Divider, Drawer, Tag, Input, Collapse,Tabs  } from 'antd'
 import { Space } from 'antd'
 import { getColorStatus, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
@@ -12,6 +12,7 @@ import moment from 'moment'
 const onSearch = value => console.log(value);
 const { Search } = Input;
 const { Panel } = Collapse;
+const { TabPane } = Tabs;
 
 function callback(key) {
   console.log(key);
@@ -76,9 +77,12 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
 
 
-    <div className="px-4 md:px-20 mx-20 grid grid-cols-3  gap-4  ">
-      {tramites.map((e: TramiteAlta) => (
-        <div className="cursor-pointer  mr-4    " >
+   <div className="px-4 md:px-20 mx-20 ">
+    <Tabs defaultActiveKey="1" onChange={callback}>
+    <TabPane tab="Todos" key="todos">
+    <div className=" grid grid-cols-3  gap-4  ">
+    {tramites.map((e: TramiteAlta) => (
+        <div className="cursor-pointer    " >
           <Card className="rounded h-full " style={{ background: "#525252" }}
             actions={[
               <div className="text-left pl-4">
@@ -113,8 +117,171 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
           </Card>
         </div>
       ))}
+</div>
+    </TabPane>
+    <TabPane tab="Borradores" key="borradores">
+    <div className=" grid grid-cols-3  gap-4  ">
+    {tramites.filter( t => t.status ==='BORRADOR').map((e: TramiteAlta) => (
+        <div className="cursor-pointer    " >
+          <Card className="rounded h-full " style={{ background: "#525252" }}
+            actions={[
+              <div className="text-left pl-4">
+              <Button type="link" style={{ textAlign: "left", padding: 0,color:'#0072bb' }}
+                onClick={() => {
+                  setActiveProfile(e)
+                  setShowProfile(true)
+                }}> <EyeOutlined /> Previsualizar</Button></div>,
+                <div className="text-right pr-4 text-primary-500">
+              <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color:'#0072bb'}}
+              onClick={() => {
+                //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen
+                if (!e.datosSocietarios.sociedadAnonima.contrato)
+                  e.datosSocietarios.sociedadAnonima.contrato ={
+                    fecha:'',
+                    archivos:[]
+                  }
+                dispatch(setUpdateBorrador(e)).then(r => {
+                  dispatch(cargarUltimaRevisionAbierta(e))
+                  router.push('/informacion_basica')
+                })
+              }}>Ingresar <ArrowRightOutlined /> </Button></div>,
+            ]}>
+            <div className="pb-2">
+              <div className="flex">
+              <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
+              <Tag color="green">{e.status}</Tag>
+              </div>
+            </div>
+            <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
 
-    </div>
+          </Card>
+        </div>
+      ))}
+</div>
+    </TabPane>
+    <TabPane tab="A Verificar" key="aVerificar">
+    <div className=" grid grid-cols-3  gap-4  ">
+    {tramites.filter( t => t.status ==='VERIFICADO').map((e: TramiteAlta) => (
+        <div className="cursor-pointer    " >
+          <Card className="rounded h-full " style={{ background: "#525252" }}
+            actions={[
+              <div className="text-left pl-4">
+              <Button type="link" style={{ textAlign: "left", padding: 0,color:'#0072bb' }}
+                onClick={() => {
+                  setActiveProfile(e)
+                  setShowProfile(true)
+                }}> <EyeOutlined /> Previsualizar</Button></div>,
+                <div className="text-right pr-4 text-primary-500">
+              <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color:'#0072bb'}}
+              onClick={() => {
+                //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen
+                if (!e.datosSocietarios.sociedadAnonima.contrato)
+                  e.datosSocietarios.sociedadAnonima.contrato ={
+                    fecha:'',
+                    archivos:[]
+                  }
+                dispatch(setUpdateBorrador(e)).then(r => {
+                  dispatch(cargarUltimaRevisionAbierta(e))
+                  router.push('/informacion_basica')
+                })
+              }}>Ingresar <ArrowRightOutlined /> </Button></div>,
+            ]}>
+            <div className="pb-2">
+              <div className="flex">
+              <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
+              <Tag color="green">{e.status}</Tag>
+              </div>
+            </div>
+            <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
+
+          </Card>
+        </div>
+      ))}
+</div>
+    </TabPane>
+    <TabPane tab="Observados" key="Observados">
+    <div className=" grid grid-cols-3  gap-4  ">
+    {tramites.filter( t => t.status ==='OBSERVADO').map((e: TramiteAlta) => (
+        <div className="cursor-pointer    " >
+          <Card className="rounded h-full " style={{ background: "#525252" }}
+            actions={[
+              <div className="text-left pl-4">
+              <Button type="link" style={{ textAlign: "left", padding: 0,color:'#0072bb' }}
+                onClick={() => {
+                  setActiveProfile(e)
+                  setShowProfile(true)
+                }}> <EyeOutlined /> Previsualizar</Button></div>,
+                <div className="text-right pr-4 text-primary-500">
+              <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color:'#0072bb'}}
+              onClick={() => {
+                //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen
+                if (!e.datosSocietarios.sociedadAnonima.contrato)
+                  e.datosSocietarios.sociedadAnonima.contrato ={
+                    fecha:'',
+                    archivos:[]
+                  }
+                dispatch(setUpdateBorrador(e)).then(r => {
+                  dispatch(cargarUltimaRevisionAbierta(e))
+                  router.push('/informacion_basica')
+                })
+              }}>Ingresar <ArrowRightOutlined /> </Button></div>,
+            ]}>
+            <div className="pb-2">
+              <div className="flex">
+              <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
+              <Tag color="green">{e.status}</Tag>
+              </div>
+            </div>
+            <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
+
+          </Card>
+        </div>
+      ))}
+</div>
+    </TabPane>
+    <TabPane tab="Pendientes de Revision" key="Pendientes">
+    <div className=" grid grid-cols-3  gap-4  ">
+    {tramites.filter( t => t.status ==='PENDIENTE DE REVISION' ).map((e: TramiteAlta) => (
+        <div className="cursor-pointer    " >
+          <Card className="rounded h-full " style={{ background: "#525252" }}
+            actions={[
+              <div className="text-left pl-4">
+              <Button type="link" style={{ textAlign: "left", padding: 0,color:'#0072bb' }}
+                onClick={() => {
+                  setActiveProfile(e)
+                  setShowProfile(true)
+                }}> <EyeOutlined /> Previsualizar</Button></div>,
+                <div className="text-right pr-4 text-primary-500">
+              <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color:'#0072bb'}}
+              onClick={() => {
+                //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen
+                if (!e.datosSocietarios.sociedadAnonima.contrato)
+                  e.datosSocietarios.sociedadAnonima.contrato ={
+                    fecha:'',
+                    archivos:[]
+                  }
+                dispatch(setUpdateBorrador(e)).then(r => {
+                  dispatch(cargarUltimaRevisionAbierta(e))
+                  router.push('/informacion_basica')
+                })
+              }}>Ingresar <ArrowRightOutlined /> </Button></div>,
+            ]}>
+            <div className="pb-2">
+              <div className="flex">
+              <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
+              <Tag color="green">{e.status}</Tag>
+              </div>
+            </div>
+            <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
+
+          </Card>
+        </div>
+      ))}
+</div>
+    </TabPane>
+  </Tabs>
+  </div>  
+   
     <style>
       {` 
       .ant-card-actions{

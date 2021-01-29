@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HeaderPrincipal } from '../components/header'
 import { NavigationStep } from '../components/steps'
-import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox, Alert } from 'antd';
+import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox, Alert, Empty } from 'antd';
 import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
@@ -227,7 +227,7 @@ export default (props) => {
       key: 'email',
     },
     {
-      title: 'Tipo Apoderado',
+      title: 'Tipo Usuario',
       dataIndex: 'tipoApoderado',
       key: 'tipoApoderado',
     },
@@ -331,10 +331,13 @@ export default (props) => {
             required />
 
         </div>
-        <div className="pb-6" >
+        
+        <div className="pb-6 col-span-2" >
           <InputTextModal
             label="CUIT / CUIL"
             labelRequired="*"
+            type="number"  
+						min="0" 
             placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
             value={cuitApoderado}
             bindFunction={setCuitApoderado}
@@ -410,7 +413,7 @@ export default (props) => {
         {tipoApoderado === 'Administrativo/Gestor' ? '' :
           <div className="pb-6" >
             <Upload
-              label={tipoApoderado === 'Apoderado' ? 'Adjuntar Poder' : ' Acta de designación de autoridades'}
+              label={tipoApoderado === 'Apoderado' ? 'Adjunte el Poder' : ' Acta de designación de autoridades'}
               labelRequired="*"
               labelMessageError=""
               defaultValue={[]}
@@ -584,7 +587,8 @@ export default (props) => {
             label="CUIT"
             attributeName="cuit"
             labelRequired="*"
-            disabled={tramite._id ? true : false}
+            type="number"  
+					  disabled={tramite._id ? true : false}
             value={tramite.cuit}
             bindFunction={(value) => {
               tramite.cuit = value
@@ -807,7 +811,7 @@ export default (props) => {
           {renderApoderadosSection()}
         </Modal>
 
-        <Table columns={columns} dataSource={tramite.apoderados} locale={{ emptyText: "No hay Apoderados y/o Usuarios"}} />
+        <Table columns={columns} dataSource={tramite.apoderados} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay Apoderados y/o Usuarios </span>}></Empty>,}}  />
       </div>
 
       <div className=" content-center  rounded-lg border mt-8 px-4 py-4">
@@ -874,9 +878,9 @@ export default (props) => {
               afterClose={() => setShowError(false)}
             /></div> : ''}
 
-          <div className="text-xl font-bold py-4 w-3/4">  Vinculos a Declarar</div>
+          <div className="text-xl font-bold py-4 w-3/4">  Vínculos a Declarar</div>
 
-          <div className="grid grid-cols-3  gap-4 mt-2 ">
+          <div className="grid grid-cols-2  gap-4 mt-2 ">
             <div >
               <SelectSimple
                 value={decretoTipoFuncionarios}
@@ -891,11 +895,12 @@ export default (props) => {
                 ))} />
 
             </div>
-            <div >
+            <div className="flex" >
+              <div className="w-full mr-2">
               <SelectSimple
                 value={decretoTipoVinculo}
                 bindFunction={setDecretoTipoVinculo}
-                title="Tipo de vinculo"
+                title="Tipo de vínculo"
                 defaultOption="Seleccione el tipo de vinculo"
                 labelRequired="*"
                 labelMessageError=""
@@ -903,14 +908,16 @@ export default (props) => {
                 option={tipoVinculo.map(u => (
                   <Option value={u.value}>{u.label}</Option>
                 ))} />
-
-            </div>
-
-            <div className="  mt-8 ">
+                </div>
+                 <div className="  mt-8 ">
               <Button type="primary" onClick={addPersonasAlDecreto} > Agregar</Button>
             </div>
+
+            </div>
+
+           
           </div>
-          <Table columns={columnsDecreto} dataSource={tramite.datosDecretoDoscientosDos} />
+          <Table columns={columnsDecreto} dataSource={tramite.datosDecretoDoscientosDos} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información disponible</span>}></Empty>,}} />
 
         </div>}
       </div>

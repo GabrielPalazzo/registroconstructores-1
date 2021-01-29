@@ -1,3 +1,4 @@
+
 type Persona = {
   nombre: string
   apellido: string
@@ -83,6 +84,7 @@ type CertificacionesCerradas={
   descripcion:string
 }
 
+
 type DDJJObra ={
   id: string
   denominacion:string
@@ -99,9 +101,14 @@ type DDJJObra ={
     archivos:Array<Archivo>
   }>
   archivosOrdenDeCompra:Array<Archivo>
-  archivosPlazos: Array<Archivo>
   plazoPorContrato:number
   prorroga:number
+  archivosOrdenDeCompra:Array<Archivo>
+  prorrogaNueva:Array<{
+    prorrogaMeses:number
+    prorrogaFecha:string
+    archivosPlazos: Array<Archivo>
+  }>
   transcurrido:number
   restante:number
   razonSocialUTE:string
@@ -109,9 +116,18 @@ type DDJJObra ={
   participacionUTE:string
   razonSocialComitente:string
   cuitComitente:string
-  montoInicial:string
-  especialidades: string
+  montoInicial:number
+  especialidad1: string
+  subEspecialidad1:Array<string>
+  subEspecialidades1Otros:string
+  especialidad2: string
+  subEspecialidad2:Array<string>
+  subEspecialidades2Otros:string
+  especialidad3: string
+  subEspecialidad3:Array<string>
   subespecialidades:string
+  subEspecialidades3Otros:string
+  
 }
 
 type AutoridadEmpresa  ={
@@ -169,6 +185,8 @@ type TramiteAlta = {
   vtoIeric: string
   domicilioReal: string
   domicilioLegal: string
+  telefono: string
+  telefonoAlternativo:string
   constanciaDomicilioLegal: Array<Archivo>
   registroPublicoDeComercio: string
   igj: string
