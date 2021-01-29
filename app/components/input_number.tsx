@@ -27,7 +27,7 @@ interface Props {
   type?:string
   step?:any
   min?:any
-  formatter?:string
+  formatter?:any
 }
 
 export default (props: Props) => {
