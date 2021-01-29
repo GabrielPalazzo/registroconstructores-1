@@ -56,6 +56,8 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     inscripcionAFIPConstancia:[],
     certificadoFiscal:null,
     cuit:'',
+    telefono:'',
+    telefonoAlternativo:'',
     email:'',
     id:'',
     ieric:'',
