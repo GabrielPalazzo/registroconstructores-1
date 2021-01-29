@@ -136,11 +136,7 @@ export default (props) => {
       setShowError(true)
       return
     }
-    if (!cuitApoderado.trim()) {
-      setError('El cuit  es requerido')
-      setShowError(true)
-      return
-    }
+   
     if (!tipoApoderado.trim()) {
       setError('El Tipo de apoderado es requerido')
       setShowError(true)
