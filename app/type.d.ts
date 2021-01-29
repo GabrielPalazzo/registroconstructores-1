@@ -84,6 +84,7 @@ type CertificacionesCerradas={
   descripcion:string
 }
 
+
 type DDJJObra ={
   id: string
   denominacion:string
@@ -100,9 +101,14 @@ type DDJJObra ={
     archivos:Array<Archivo>
   }>
   archivosOrdenDeCompra:Array<Archivo>
-  archivosPlazos: Array<Archivo>
   plazoPorContrato:number
   prorroga:number
+  archivosOrdenDeCompra:Array<Archivo>
+  prorrogaNueva:Array<{
+    prorrogaMeses:number
+    prorrogaFecha:string
+    archivosPlazos: Array<Archivo>
+  }>
   transcurrido:number
   restante:number
   razonSocialUTE:string
@@ -110,7 +116,7 @@ type DDJJObra ={
   participacionUTE:string
   razonSocialComitente:string
   cuitComitente:string
-  montoInicial:string
+  montoInicial:number
   especialidad1: string
   subEspecialidad1:Array<string>
   subEspecialidades1Otros:string

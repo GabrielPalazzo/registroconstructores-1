@@ -176,7 +176,22 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
       </div>
       <div className="mt-4 ">
-        <Table columns={columnsAmpliaciones} dataSource={dataSource} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
+        <Table 
+        columns={columnsAmpliaciones} 
+        dataSource={dataSource} 
+        locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} 
+        summary={pageData => {
+          return <div>
+            {pageData.length > 0 ? <div className="ml-4 font-semibold">
+              <Table.Summary.Row>
+                <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
+                <Table.Summary.Cell index={1}>
+                  <div >{pageData.map(d => d.monto).reduce((val, acc) => acc = val + acc)}</div>
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            </div> : ''}
+          </div>
+        }}/>
       </div>
 
     </div>
