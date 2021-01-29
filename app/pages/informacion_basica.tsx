@@ -136,11 +136,7 @@ export default (props) => {
       setShowError(true)
       return
     }
-    if (!cuitApoderado.trim()) {
-      setError('El cuit  es requerido')
-      setShowError(true)
-      return
-    }
+   
     if (!tipoApoderado.trim()) {
       setError('El Tipo de apoderado es requerido')
       setShowError(true)
@@ -358,7 +354,25 @@ export default (props) => {
             required />
 
         </div>
+        {isPersonaFisica(tramite) ? 
+        <div>
+          <div className="pb-6" >
+          <RadioGroup
+            label="¿Qué tipo de persona desea dar de alta? "
+            labelRequired="*"
+            value={tipoApoderado}
+            bindFunction={setTipoApoderado}
+            labelMessageError=""
+            radioOptions={tipoPersonaPF.map(u => (
+              <Radio value={u.value} >
+                {u.label}
+              </Radio>
+            ))
+            }
 
+          />
+        </div>
+        </div>:
         <div className="pb-6" >
           <RadioGroup
             label="¿Qué tipo de persona desea dar de alta? "
@@ -374,7 +388,7 @@ export default (props) => {
             }
 
           />
-        </div>
+        </div>}
         {tipoApoderado === 'Administrativo/Gestor' ? '' :
 
           <div className="pb-6" >
@@ -943,6 +957,21 @@ const tipoPersona = [
   {
     label: 'Representante Legal',
     value: 'Rep Legal',
+  },
+  {
+    label: 'Administrativo/Gestor',
+    value: 'Administrativo/Gestor',
+  }
+
+]
+const tipoPersonaPF = [
+  {
+    label: 'Apoderado',
+    value: 'Apoderado',
+  },
+  {
+    label: 'Titular',
+    value: 'titular',
   },
   {
     label: 'Administrativo/Gestor',
