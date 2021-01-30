@@ -4,7 +4,6 @@ import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 import moment from 'moment';
 import {useSelector} from 'react-redux'
 import { isTramiteEditable } from '../services/business';
-import locale from 'antd/es/date-picker/locale/es_ES';
 
 
 const customColors = ['#2897D4'];
@@ -50,7 +49,6 @@ export default (props: Props) => {
     </div>
     <div className="w-full">
       <DatePicker 
-       locale={locale}
         disabled={!isTramiteEditable(tramite)}
         onChange={(value) => {
           props.bindFunction(moment(value,dateFormat).format(dateFormat))
