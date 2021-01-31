@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux'
 import { isTramiteEditable } from '../services/business';
 
 
+
 const customColors = ['#2897D4'];
 const colors = [
   'red',
@@ -26,6 +27,7 @@ interface Props {
   labelMessageError?: string
   labeltooltip?: string
   labelObservation: string
+  locale?:string
   showHands?: boolean
   picker?:"time" | "date" | "week" | "month" | "quarter" | "year"
 }

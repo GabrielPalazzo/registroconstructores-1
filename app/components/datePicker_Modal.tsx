@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, DatePicker, Tooltip,ConfigProvider } from 'antd';
+import { Button, DatePicker, Tooltip,ConfigProvider} from 'antd';
 import moment from 'moment'
 import { isTramiteEditable } from '../services/business';
 import {useSelector} from 'react-redux'
@@ -21,7 +21,6 @@ interface Props {
   showHands?: boolean
 }
 
-
 export default (props: Props) => {
 
   const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
@@ -34,8 +33,7 @@ export default (props: Props) => {
       </div>
     </div>
     <div className="w-full">
-    <DatePicker 
-       
+    <DatePicker
         disabled={!isTramiteEditable(tramite)}
         onChange={(value) => {
           props.bindFunction(moment(value,dateFormat).format(dateFormat))
@@ -43,7 +41,6 @@ export default (props: Props) => {
         defaultValue={props.value &&  moment(props.value,dateFormat) }
         picker={props.placeholder}
         format={dateFormat} />
-
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">
       {props.labelMessageError}
