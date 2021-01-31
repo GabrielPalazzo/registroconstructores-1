@@ -354,7 +354,24 @@ export default (props) => {
             required />
 
         </div>
+        {tramite.personeria === 'PF' ? <div>
+        <div className="pb-6" >
+          <RadioGroup
+            label="¿Qué tipo de persona desea dar de alta? "
+            labelRequired="*"
+            value={tipoApoderado}
+            bindFunction={setTipoApoderado}
+            labelMessageError=""
+            radioOptions={tipoPersonaPF.map(u => (
+              <Radio value={u.value} >
+                {u.label}
+              </Radio>
+            ))
+            }
 
+          />
+        </div>
+        </div>:<div>
         <div className="pb-6" >
           <RadioGroup
             label="¿Qué tipo de persona desea dar de alta? "
@@ -371,6 +388,7 @@ export default (props) => {
 
           />
         </div>
+        </div>}
         {tipoApoderado === 'Administrativo/Gestor' ? '' :
 
           <div className="pb-6" >
@@ -935,11 +953,32 @@ const tipoPersona = [
   {
     label: 'Apoderado',
     value: 'Apoderado',
+    
   },
   {
     label: 'Representante Legal',
     value: 'Rep Legal',
+    parent: 'PF'
   },
+
+  {
+    label: 'Administrativo/Gestor',
+    value: 'Administrativo/Gestor',
+  }
+
+]
+const tipoPersonaPF = [
+  {
+    label: 'Apoderado',
+    value: 'Apoderado',
+    
+  },
+  {
+    label: 'Titular',
+    value: 'Titular',
+    parent: 'PF'
+  },
+
   {
     label: 'Administrativo/Gestor',
     value: 'Administrativo/Gestor',
