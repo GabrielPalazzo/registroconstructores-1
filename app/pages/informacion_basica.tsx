@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HeaderPrincipal } from '../components/header'
 import { NavigationStep } from '../components/steps'
-import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox, Alert, Empty } from 'antd';
+import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox, Alert, Empty,Popconfirm, message } from 'antd';
 import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
@@ -26,6 +26,15 @@ import { userInfo } from 'os';
 import dynamic from 'next/dynamic'
 const Upload = dynamic(() => import('../components/upload'))
 
+function confirm(e) {
+  console.log(e);
+  message.success('Se elimino correctamente');
+}
+
+function cancel(e) {
+  console.log(e);
+  message.error('Ha cancelado la operacion');
+}
 
 
 const { Option } = Select;
@@ -194,11 +203,20 @@ export default (props) => {
     save()
   }
 
+
+
   const columns = [
     {
       title: 'Action',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => removeApoderadoFromList(record)}><DeleteOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? 
+      <Popconfirm
+      title="Esta seguro que lo  desea Eliminar ?"
+      onConfirm={() => removeApoderadoFromList(record)}
+      onCancel={cancel}
+      okText="Si, Eliminar"
+      cancelText="Cancelar"
+    > <div ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
         <LikeDislike />
       </Space>),
     },
@@ -825,7 +843,9 @@ export default (props) => {
           {renderApoderadosSection()}
         </Modal>
 
-        <Table columns={columns} dataSource={tramite.apoderados} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay Apoderados y/o Usuarios </span>}></Empty>,}}  />
+        <Table columns={columns} 
+        dataSource={tramite.apoderados} 
+        locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay Apoderados y/o Usuarios </span>}></Empty>,}}  />
       </div>
 
       <div className=" content-center  rounded-lg border mt-8 px-4 py-4">
@@ -931,7 +951,9 @@ export default (props) => {
 
            
           </div>
-          <Table columns={columnsDecreto} dataSource={tramite.datosDecretoDoscientosDos} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información disponible</span>}></Empty>,}} />
+          <Table columns={columnsDecreto} 
+          dataSource={tramite.datosDecretoDoscientosDos} 
+          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información disponible</span>}></Empty>,}} />
 
         </div>}
       </div>

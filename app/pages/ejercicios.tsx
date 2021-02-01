@@ -7,7 +7,7 @@ import InputNumberModal from '../components/input_number'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider,Popconfirm, message  } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -25,7 +25,15 @@ const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Option } = Select;
 
+function confirm(e) {
+  console.log(e);
+  message.success('Se elimino correctamente');
+}
 
+function cancel(e) {
+  console.log(e);
+  message.error('Ha cancelado la operacion');
+}
 
 
 export default () => {
@@ -272,8 +280,15 @@ export default () => {
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarEjercicio(record)} className="cursor-pointer"><DeleteOutlined /></div> : <Space size="middle">
-
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? 
+      <Popconfirm
+      title="Esta seguro que lo  deseas Eliminar  El ejercicio?"
+      onConfirm={() => eliminarEjercicio(record)}
+      onCancel={cancel}
+      okText="Si, Eliminar"
+      cancelText="Cancelar"
+    > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
+        <LikeDislike />
       </Space>),
     },
     {
@@ -391,7 +406,9 @@ export default () => {
     setTramite(Object.assign({}, tramite))
     await save()
     setModalEjercicios(false)
+    
   }
+
 
 
   return (<div>
