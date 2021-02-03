@@ -55,7 +55,7 @@ export default () => {
   const [documentoSistemaCalidad, setDocumentoSistemaCalidad] = useState([])
   const [fechaOtorgamiento, setFechaOtorgamiento] = useState('')
   const [fechaExpiracion, setFechaExpiracion] = useState('')
-
+  
   const [modificacionEstatutoDatos, setModificacionEstatutoDatos] = useState('')
   const [modificacionEstatutoFecha, setModificacionEstatutoFecha] = useState('')
   const [error, setError] = useState('')
@@ -364,7 +364,7 @@ export default () => {
   
 
 
-  const agregarAutoridades = async (e) => {
+  const agregarAutoridades = async () => {
     if (!apellido.trim()) {
       setError('El Apellido  es requerido')
       setShowError(true)
@@ -387,8 +387,7 @@ export default () => {
       return
     }
    
-    if (!tramite.autoridadesSociedad)
-      tramite.autoridadesSociedad = []
+    
 
     tramite.autoridadesSociedad.push({
       nombre,
@@ -424,8 +423,7 @@ export default () => {
   }
   
 
- 
-  
+
     
 
   const clearState = () => {
@@ -755,6 +753,14 @@ export default () => {
             </div>
 
           </div>
+          <div className="pb-6">
+          <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+              tramite.autoridadesVencimiento = !e.target.checked
+              updateObjTramite()
+              //save()
+            }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+           
+          </div>
           <div className="pb-6" >
             <Upload
               label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
@@ -1009,6 +1015,14 @@ export default () => {
             </div>
 
           </div>
+          <div className="pb-6">
+          <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+              tramite.autoridadesVencimiento = !e.target.checked
+              updateObjTramite()
+              //save()
+            }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+           
+          </div>
           <div className="pb-6" >
             <Upload
               label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
@@ -1212,6 +1226,14 @@ export default () => {
               <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
             </div>
 
+          </div>
+          <div className="pb-6">
+          <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+              tramite.autoridadesVencimiento = !e.target.checked
+              updateObjTramite()
+              //save()
+            }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+           
           </div>
           <div className="pb-6" >
             <UploadLine
@@ -1466,6 +1488,14 @@ export default () => {
               <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
             </div>
 
+          </div>
+          <div className="pb-6">
+          <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+              tramite.autoridadesVencimiento = !e.target.checked
+              updateObjTramite()
+              //save()
+            }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+           
           </div>
           <div className="pb-6" >
             <Upload

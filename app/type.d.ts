@@ -195,6 +195,7 @@ type TramiteAlta = {
     fecha: string
     datos: string
   }
+  autoridadesVencimiento: boolean
   autoridadesSociedad: Array<{
     nombre: string
     apellido: string

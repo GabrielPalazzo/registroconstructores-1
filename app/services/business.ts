@@ -89,6 +89,7 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
       datos:''
     },
     autoridadesSociedad:[],
+    autoridadesVencimiento:true,
     sistemaCalidad: [],
     ejercicios:[],
     ddjjObras:[],
@@ -249,6 +250,7 @@ export const requiereObras = (tramite:TramiteAlta) : boolean => {
 export const isPersonaFisica = (tramite: TramiteAlta) : boolean=> {
   return tramite.personeria ==='PF'
 }
+
 
 export const isTramiteEditable = (tramite: TramiteAlta) : boolean => {
   return (tramite  && tramite.status ==='BORRADOR') || (tramite && !tramite.cuit) || (!tramite)

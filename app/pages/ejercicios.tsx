@@ -429,7 +429,7 @@ export default () => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 px-10">
-      <NavigationStep generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} current={2} />
+      <NavigationStep generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} current={2}  />
     </div>
     <div className="px-20 mx-20 py-6 ">
       <div className="flex  content-center  ">
