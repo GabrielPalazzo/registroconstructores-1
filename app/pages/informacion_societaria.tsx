@@ -8,7 +8,7 @@ import DatePicker from '../components/datePicker'
 import Switch from '../components/switch'
 import DatePickerModal from '../components/datePicker_Modal'
 import Upload from '../components/upload'
-import { Button, Card, Steps, Modal, Space, Table, Select, Checkbox, Collapse, Tooltip, Empty } from 'antd';
+import { Button, Card, Steps, Modal, Space, Table, Select, Checkbox, Collapse, Tooltip, Empty,Alert,Popconfirm, message  } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
@@ -58,6 +58,9 @@ export default () => {
 
   const [modificacionEstatutoDatos, setModificacionEstatutoDatos] = useState('')
   const [modificacionEstatutoFecha, setModificacionEstatutoFecha] = useState('')
+  const [error, setError] = useState('')
+  const [showError, setShowError] = useState(false)
+
  
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
@@ -179,6 +182,15 @@ export default () => {
 
   const renderModalAutoridad = () => {
     return (<div>
+       {showError ? <div className="mb-4">
+        <Alert
+          message=''
+          description={error}
+          type="error"
+          showIcon
+          closable
+          afterClose={() => setShowError(false)}
+        /></div> : ''}
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
           <InputTextModal
@@ -353,7 +365,28 @@ export default () => {
 
 
   const agregarAutoridades = async (e) => {
-    const errores = []
+    if (!apellido.trim()) {
+      setError('El Apellido  es requerido')
+      setShowError(true)
+      return
+    }
+    if (!nombre.trim()) {
+      setError('El Nombre  es requerido')
+      setShowError(true)
+      return
+    }
+   
+    if (!nroDocumento.trim()) {
+      setError('El Numero de Documento  es requerido')
+      setShowError(true)
+      return
+    }
+    if (!cuit.trim()) {
+      setError('El cuit  es requerido')
+      setShowError(true)
+      return
+    }
+   
     if (!tramite.autoridadesSociedad)
       tramite.autoridadesSociedad = []
 
@@ -997,7 +1030,8 @@ export default () => {
               }}
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} 
+          dataSource={tramite.autoridadesSociedad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
         </div>
 
         <Modal
@@ -1628,7 +1662,11 @@ export default () => {
               updateObjTramite()
               //save()
             }}>Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1.</Checkbox>
-            : <Checkbox >Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b.</Checkbox>
+            : <Checkbox  value={tramite.poseeIERIC} onChange={e => {
+              tramite.poseeIERIC = !e.target.checked
+              updateObjTramite()
+              //save()
+            }}>Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b.</Checkbox>
           }
         </div>
         {tramite.poseeIERIC ? <div className="grid grid-cols-3 gap-4 ">
