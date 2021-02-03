@@ -19,18 +19,18 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
+import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica,isTramiteEditable } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
+
 
 const { Panel } = Collapse;
 const { Option } = Select;
 
 export default () => {
-
-
-
   const router = useRouter()
   const dispatch = useDispatch()
+  const [visible, setVisible] = useState<boolean>(false)
+
   const [modalAutoridad, setModalAutoridad] = useState(false)
   const [modalCalidad, setModalCalidad] = useState(false)
   const [waitingType, setWaitingType] = useState('sync')
@@ -47,6 +47,7 @@ export default () => {
   const [inhibiciones, setInhibiciones] = useState(false)
   const [observaciones, setObservaciones] = useState('')
   const [fotosDNIAutoridades, setFotosDNIAutoridades] = useState([])
+  const [autoridadesSociedad,setAutoridadesSociedad] = useState([])
 
   const [cuitSistemaCalidad, setCuitSistemaCalidad] = useState('')
   const [norma, setNorma] = useState('')
@@ -57,17 +58,35 @@ export default () => {
 
   const [modificacionEstatutoDatos, setModificacionEstatutoDatos] = useState('')
   const [modificacionEstatutoFecha, setModificacionEstatutoFecha] = useState('')
+ 
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   useEffect(() => {
-    if (!tramite.cuit)
+     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
 
 
   }, [])
+
+  const save = async () => {
+    setWaitingType('sync')
+
+    setIsLoading(true)
+    updateObjTramite()
+    if (tramite._id) {
+      await dispatch(saveTramite(Object.assign({}, tramite)))
+    } else {
+      if (!(await getTramiteByCUIT(tramite.cuit)))
+        await dispatch(saveTramite(Object.assign({}, tramite)))
+    }
+    setIsLoading(false)
+  }
+ 
+   
+ 
 
 
   const { Step } = Steps;
@@ -330,22 +349,11 @@ export default () => {
 
     </div>)
   }
+  
 
 
-  const save = async () => {
-    setWaitingType('sync')
-
-    setIsLoading(true)
-    updateObjTramite()
-    if (tramite._id) {
-      await dispatch(saveTramite(tramite))
-    } else {
-      if (!(await getTramiteByCUIT(tramite.cuit)))
-        await dispatch(saveTramite(tramite))
-    }
-  }
-
-  const agregarAutoridades = async () => {
+  const agregarAutoridades = async (e) => {
+    const errores = []
     if (!tramite.autoridadesSociedad)
       tramite.autoridadesSociedad = []
 
@@ -362,16 +370,30 @@ export default () => {
       inhibiciones,
       fotosDNI: fotosDNIAutoridades
     })
+    setNombre('')
+    setApellido('')
+    setTipoDocumento('')
+    setTipoCargo('')
+    setTipoOrgano('')
+    setDireccion('')
+    setObservaciones('')
+    setCuit('')
+    setAutoridadesSociedad(Object.assign([], tramite.autoridadesSociedad))
 
     updateObjTramite()
     await save()
-    setModalAutoridad(false)
-
     setIsLoading(false)
-
+    setModalAutoridad(false)
     clearState()
 
+    
+
   }
+  
+
+ 
+  
+    
 
   const clearState = () => {
     setNombre('')
@@ -390,10 +412,16 @@ export default () => {
     setTramite(Object.assign({}, tramite))
   }
 
+  function callback(key) {
+    save()
+    setIsLoading(false)
+  }
+  
   const removeAutoridad = (record) => {
     tramite.autoridadesSociedad = tramite.autoridadesSociedad.filter(a => a.cuit !== record.cuit)
     save()
   }
+  
 
   const columnsAutoridad = [
     {
@@ -717,7 +745,10 @@ export default () => {
               }}
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} 
+           dataSource={tramite.autoridadesSociedad}
+          
+          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
         </div>
 
         <Modal

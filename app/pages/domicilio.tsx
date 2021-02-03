@@ -13,6 +13,7 @@ import { saveTramite } from '../redux/actions/main'
 import { Loading } from '../components/loading';
 
 
+
 const { Step } = Steps;
 export default () => {
   const router = useRouter()

@@ -346,6 +346,8 @@ export default () => {
     save()
   }
 
+  
+
   const agregarEjercicio = async (e) => {
     if (!tramite.ejercicios)
       tramite.ejercicios = []
@@ -406,10 +408,20 @@ export default () => {
     setTramite(Object.assign({}, tramite))
     await save()
     setModalEjercicios(false)
+    clearState()
     
   }
 
-
+  const clearState = () => {
+    setCierreEjercicio('')
+    setInicioEjercicio('')
+    setActivoCorriente(0)
+    setActivoNoCorriente(0)
+    setPasivoCorriente(0)
+    setPasivoNoCorriente(0)
+    setCapitalSuscripto(0)
+    setVentasDelEjercicio(0)
+  }
 
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {

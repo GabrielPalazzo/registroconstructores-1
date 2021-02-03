@@ -95,10 +95,7 @@ export default (props) => {
     setTramite(Object.assign({}, tramite))
   }
 
-  const showModal = () => {
-    setVisible(true)
-  }
-
+ 
 
 
  
