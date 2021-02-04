@@ -626,6 +626,7 @@ export default (props) => {
               tramite.cuit = value
               setTramite(Object.assign({}, tramite))
             }}
+
             placeHolder="Ingrese el numero de cuit sin guiones"
             labelObservation=""
             labeltooltip=""

@@ -493,7 +493,7 @@ export default () => {
             <div className="grid grid-cols-4 gap-4 ">
 
               <div className="pb-6" >
-                <InputTextModal
+              <InputNumberModal
                   label="Por contrato"
                   labelRequired="*"
                   type="number"
@@ -507,7 +507,7 @@ export default () => {
                 />
               </div>
               <div className="pb-6" >
-                <InputTextModal
+              <InputNumberModal
                   label="Prórroga"
                   labelRequired="*"
                   type="number"
@@ -520,11 +520,12 @@ export default () => {
                 />
               </div>
               <div className="pb-6" >
-                <InputTextModal
+                <InputNumberModal
                   label="Transcurrido"
                   labelRequired="*"
                   type="number"
                   min={0}
+                  step=".01"
                   value={obra.transcurrido}
                   bindFunction={e => {
                     obra.transcurrido = e
@@ -534,13 +535,14 @@ export default () => {
                 />
               </div>
               <div className="pb-6" >
-                <InputTextModal
+              <InputNumberModal
                   label="Restante"
                   type="number"
                   disabled={true}
                   min={0}
+                  step=".01"
                   labelRequired="*"
-                  value={(obra.plazoPorContrato + obra.prorroga) - obra.transcurrido}
+                  value={(obra.plazoPorContrato + (obra.prorrogaNueva.length!==0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc):0)) - obra.transcurrido}
                   bindFunction={e => null}
                   labelMessageError=""
                 />
@@ -632,6 +634,49 @@ export default () => {
     setObra(Object.assign({}, tramite.ddjjObras.filter((o: DDJJObra) => o.id === obra.id)[0]))
     setModalObras(true)
   }
+
+ 
+  const removePlazos = (record) => {
+    obra.prorrogaNueva = obra.prorrogaNueva.filter(s => s.prorrogaFecha !== record.prorrogaFecha)
+    save()
+  }
+
+ 
+  
+
+  let columnsPlazos = [
+
+    {
+      title: 'Eliminar',
+      key: 'action',
+      render: (text, record) => ( tramite.status === 'BORRADOR' ? <Popconfirm
+      title="Esta seguro que lo  deseas Eliminar  La Obra"
+      onConfirm={() => removePlazos(record)}
+      onCancel={cancel}
+      okText="Si, Eliminar"
+      cancelText="Cancelar"
+    > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
+        <LikeDislike />
+      </Space>),
+    },
+    
+   
+    {
+      title: 'Fecha',
+      dataIndex: 'prorrogaFecha',
+      key: 'prorrogaFecha',
+    },
+    {
+      title: 'Meses',
+      dataIndex: 'prorrogaMeses',
+      key: 'prorrogaMeses',
+    },
+    {
+      title: 'Adjunto',
+      dataIndex: 'archivosPlazos',
+      key: 'archivosPlazos',
+    }
+  ]
 
   let columns = [
     {
@@ -749,27 +794,6 @@ export default () => {
   </div>
   )
 }
-
-let columnsPlazos = [
-
-  {
-    title: 'Fecha',
-    dataIndex: 'prorrogaFecha',
-    key: 'prorrogaFecha',
-  },
-  {
-    title: 'Meses',
-    dataIndex: 'prorrogaMeses',
-    key: 'prorrogaMeses',
-  },
-  {
-    title: 'Adjunto',
-    dataIndex: 'archivosPlazos',
-    key: 'archivosPlazos',
-  }
-]
-
-
 const tipoEspecialidad = [
   {
     label: 'INGENIERIA VIAL',

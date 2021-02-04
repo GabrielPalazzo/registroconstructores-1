@@ -164,7 +164,7 @@ export const InputText: React.FC<IProps> = ({
         disabled={!isEditable()}
         onChange={(e) => bindFunction(e.target.value)}
         type={type}
-       maxLength ={maxLength}
+        maxLength ={maxLength}
       />
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">
