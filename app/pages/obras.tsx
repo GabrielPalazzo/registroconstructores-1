@@ -251,6 +251,7 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
+                    maxLength={50}
                   />
                 </div>
 
@@ -306,6 +307,7 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
+                    maxLength={50}
                   />
                 </div>
 
@@ -361,6 +363,7 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
+                    maxLength={50}
                   />
                 </div>
 

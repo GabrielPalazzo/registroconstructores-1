@@ -232,10 +232,10 @@ export default () => {
 
         </div>
         <div className="pb-6" >
-          <InputTextModal
+        <InputNumberModal
             label="Patrimonio Neto"
             placeholder="000000,000 "
-            min={0}
+            step=".01"
             value={(activoNoCorriente + activoCorriente) - (pasivoCorriente + pasivoNoCorriente)}
             labelMessageError=""
             disabled />
@@ -245,6 +245,7 @@ export default () => {
           <Upload
             label="Adjunte el balance contable  "
             labelRequired="*"
+           
             labelMessageError=""
             defaultValue={archivos as any}
             onOnLoad={file => {

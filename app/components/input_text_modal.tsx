@@ -27,6 +27,7 @@ interface Props {
   type?:string
   step?:any
   min?:any
+  maxLength?: number
 }
 
 export default (props: Props) => {
@@ -54,7 +55,7 @@ export default (props: Props) => {
         type={props.type}
         min={props.min}
         step={props.step}
-       
+        maxLength ={props.maxLength}
     
       />
     </div>

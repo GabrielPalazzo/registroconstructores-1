@@ -56,7 +56,7 @@ export default (props: Props) => {
         min={props.min}
         step={props.step}
         formatter={props.formatter}
-       
+        precision={2}
     
       />
     </div>

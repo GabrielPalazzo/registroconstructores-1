@@ -642,7 +642,7 @@ export default (props) => {
               tramite.nroLegajo = value
               updateObjTramite()
             }}
-            placeHolder="Ingrese el numero de legajo"
+            placeHolder="Ingrese número de legajo de antigua inscripción en RNCOP"
             labelObservation=""
             labeltooltip=""
             labelMessageError=""

@@ -32,6 +32,8 @@ export interface IProps {
   labeltooltip?: string
   labelRequired?: string
   attributeName: string
+  maxLength?: number
+  
 }
 
 
@@ -48,6 +50,7 @@ export const InputText: React.FC<IProps> = ({
   labelMessageError,
   labelObservation,
   labelRequired,
+  maxLength,
   labeltooltip,
   attributeName
 }) => {
@@ -161,6 +164,7 @@ export const InputText: React.FC<IProps> = ({
         disabled={!isEditable()}
         onChange={(e) => bindFunction(e.target.value)}
         type={type}
+       maxLength ={maxLength}
       />
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">
