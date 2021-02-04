@@ -12,7 +12,7 @@ import SelectModal from '../components/select_modal'
 import LikeDislike from '../components/like_dislike'
 import Substeps from '../components/subSteps'
 import {DeleteOutlined} from '@ant-design/icons'
-
+import InputNumberModal from '../components/input_number'
 
 
 import DatePickerModal from '../components/datePicker_Modal'
@@ -135,11 +135,11 @@ export default (props) => {
       <div className="grid grid-cols-4 gap-4 ">
 
         <div className="pb-6" >
-          <InputTextModal
+          <InputNumberModal
             label="% del capital"
             labelRequired="*"
             placeholder="Ingrese El porcentaje del Capital "
-           
+            step=".01"
             value={porcentajeCapital}
             bindFunction={(value) => { setPorcentajeCapital(value) }}
             labelMessageError=""
@@ -148,11 +148,11 @@ export default (props) => {
         </div>
 
         <div className="pb-6" >
-          <InputTextModal
+          <InputNumberModal
             label="Monto del capital"
             labelRequired="*"
             placeholder="Ingrese El porcentaje del Capital debe "
-          
+            step=".01"
             value={montoCapital}
             bindFunction={(value) => { setMontoCapital(value) }}
             labelMessageError=""
@@ -160,11 +160,11 @@ export default (props) => {
 
         </div>
         <div className="pb-6" >
-          <InputTextModal
+          <InputNumberModal
             label="Cantidad de votos"
             labelRequired="*"
             placeholder="Ingrese El porcentaje del Capital debe "
-            
+            step=".01"
             value={cantidadVoto}
             bindFunction={(value) => { setCantidadVoto(value) }}
             labelMessageError=""
@@ -384,7 +384,7 @@ export default (props) => {
       </div>
       <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} dataSource={Object.assign([],tramite.propietarios)} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
       <Modal
-        title="Datos de los Propietarios"
+        title="Datos del Propietario"
         visible={modalPropietarios}
         onOk={agregarPropietario}
          
