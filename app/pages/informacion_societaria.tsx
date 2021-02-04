@@ -1750,7 +1750,7 @@ export default () => {
             </div>
             {tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table columns={columnsCalidad} dataSource={tramite.sistemaCalidad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} /> : renderNoData()}
             <Modal
-              title="Datos del Sistema de Calidad"
+              title="Datos del Certificado de Sistemas de Calidad"
               visible={modalCalidad}
               onOk={() => {
                 if (!tramite.sistemaCalidad)
