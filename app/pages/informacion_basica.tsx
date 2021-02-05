@@ -6,7 +6,7 @@ import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
 import DatePicker from '../components/datePicker'
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined,EditOutlined } from '@ant-design/icons';
 import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import SelectMultiple from '../components/select_multiple'
@@ -220,6 +220,7 @@ export default (props) => {
         <LikeDislike />
       </Space>),
     },
+    
     {
       title: 'Nombre',
       dataIndex: 'nombre',
