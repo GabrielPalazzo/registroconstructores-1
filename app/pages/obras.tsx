@@ -6,7 +6,7 @@ import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty,Popconfirm, message } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -60,7 +60,7 @@ export default () => {
   const [prorrogaFecha, setProrrogaFecha] = useState('')
   const [prorrogaMeses, setProrrogaMeses] = useState(0)
   const [dataSource, setDataSource] = useState('')
-  const [archivosPlazos,setArchivosPlazos] = useState<Array<Archivo>>([])
+  const [archivosPlazos, setArchivosPlazos] = useState<Array<Archivo>>([])
 
   const [obra, setObra] = useState<DDJJObra>({
     id: null,
@@ -143,10 +143,10 @@ export default () => {
     console.log('Clicked! But prevent default.');
   }
 
-  
+
   const add = async () => {
     if (!obra.prorrogaNueva)
-    obra.prorrogaNueva = []
+      obra.prorrogaNueva = []
 
     obra.prorrogaNueva.push({
       prorrogaFecha,
@@ -165,9 +165,9 @@ export default () => {
   const renderModalEjercicios = () => {
     return (<div>
       <div className="text-right">
-        <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2">{obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)}</Tag>
-        <Tag>Certificado Total </Tag> <Tag color="magenta" className="mr-2">{(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)}</Tag>
-        <Tag>Saldo </Tag> <Tag color="blue" className="mr-2">{ (obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)   }</Tag>
+        <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2">{obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)}</Tag>
+        <Tag>Certificado Total </Tag> <Tag color="magenta" className="mr-2">{(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)}</Tag>
+        <Tag>Saldo </Tag> <Tag color="blue" className="mr-2">{(obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)}</Tag>
 
       </div>
       <Tabs defaultActiveKey="datosGenerales" onChange={callback}>
@@ -493,7 +493,7 @@ export default () => {
             <div className="grid grid-cols-4 gap-4 ">
 
               <div className="pb-6" >
-              <InputNumberModal
+                <InputNumberModal
                   label="Por contrato"
                   labelRequired="*"
                   type="number"
@@ -506,13 +506,28 @@ export default () => {
                   labelMessageError=""
                 />
               </div>
-              <div className="pb-6" >
-              <InputNumberModal
+              <div className="pb-6 hidden" >
+                <InputNumberModal
                   label="Prórroga"
                   labelRequired="*"
                   type="number"
 
-                  value={obra.prorrogaNueva.length!==0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc):0}
+                  value={obra.prorroga}
+                  bindFunction={e => {
+                    obra.prorroga = e
+                    setObra(Object.assign({}, obra))
+                  }}
+
+                  labelMessageError=""
+                />
+              </div>
+              <div className="pb-6" >
+                <InputNumberModal
+                  label="Prórroga"
+                  labelRequired="*"
+                  type="number"
+
+                  value={obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0}
                   bindFunction={e => {
                     null
                   }}
@@ -535,14 +550,14 @@ export default () => {
                 />
               </div>
               <div className="pb-6" >
-              <InputNumberModal
+                <InputNumberModal
                   label="Restante"
                   type="number"
                   disabled={true}
                   min={0}
                   step=".01"
                   labelRequired="*"
-                  value={(obra.plazoPorContrato + (obra.prorrogaNueva.length!==0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc):0)) - obra.transcurrido}
+                  value={(obra.plazoPorContrato + (obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0)) - obra.transcurrido}
                   bindFunction={e => null}
                   labelMessageError=""
                 />
@@ -584,11 +599,11 @@ export default () => {
                   defaultValue={archivosPlazos as any}
                   onOnLoad={file => {
                     if (!archivosPlazos)
-                    archivosPlazos.push(file)
+                      archivosPlazos.push(file)
                     setObra(Object.assign({}, obra))
                   }}
                   onRemove={fileToRemove => {
-                    setArchivosPlazos(Object.assign([],archivosPlazos.filter(f=> f.cid !==fileToRemove.cid)))
+                    setArchivosPlazos(Object.assign([], archivosPlazos.filter(f => f.cid !== fileToRemove.cid)))
                   }}
                 />
               </div>
@@ -635,32 +650,32 @@ export default () => {
     setModalObras(true)
   }
 
- 
+
   const removePlazos = (record) => {
     obra.prorrogaNueva = obra.prorrogaNueva.filter(s => s.prorrogaFecha !== record.prorrogaFecha)
     save()
   }
 
- 
-  
+
+
 
   let columnsPlazos = [
 
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => ( tramite.status === 'BORRADOR' ? <Popconfirm
-      title="Esta seguro que lo  deseas Eliminar  La Obra"
-      onConfirm={() => removePlazos(record)}
-      onCancel={cancel}
-      okText="Si, Eliminar"
-      cancelText="Cancelar"
-    > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-        <LikeDislike />
-      </Space>),
+      render: (text, record) => (tramite.status === 'BORRADOR' ? <Popconfirm
+        title="Esta seguro que lo  deseas Eliminar  La Obra"
+        onConfirm={() => removePlazos(record)}
+        onCancel={cancel}
+        okText="Si, Eliminar"
+        cancelText="Cancelar"
+      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
+          <LikeDislike />
+        </Space>),
     },
-    
-   
+
+
     {
       title: 'Fecha',
       dataIndex: 'prorrogaFecha',
@@ -683,14 +698,14 @@ export default () => {
       title: 'Eliminar',
       key: 'action',
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <Popconfirm
-      title="Esta seguro que lo  deseas Eliminar  La Obra"
-      onConfirm={() => eliminarObra(record)}
-      onCancel={cancel}
-      okText="Si, Eliminar"
-      cancelText="Cancelar"
-    > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-        <LikeDislike />
-      </Space>),
+        title="Esta seguro que lo  deseas Eliminar  La Obra"
+        onConfirm={() => eliminarObra(record)}
+        onCancel={cancel}
+        okText="Si, Eliminar"
+        cancelText="Cancelar"
+      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
+          <LikeDislike />
+        </Space>),
     },
     {
       title: 'Editar',
