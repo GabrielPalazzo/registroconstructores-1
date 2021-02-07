@@ -386,9 +386,11 @@ export default () => {
       setShowError(true)
       return
     }
-   
-    
 
+    if (!tramite.autoridadesSociedad)
+    tramite.autoridadesSociedad=[]
+
+  
     tramite.autoridadesSociedad.push({
       nombre,
       apellido,
@@ -410,8 +412,7 @@ export default () => {
     setDireccion('')
     setObservaciones('')
     setCuit('')
-    setAutoridadesSociedad(Object.assign([], tramite.autoridadesSociedad))
-
+   
     updateObjTramite()
     await save()
     setIsLoading(false)
@@ -458,7 +459,7 @@ export default () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record) => (tramite.status === 'BORRADOR' ? <div onClick={() => removeAutoridad(record)}><DeleteOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => removeAutoridad(record)}><DeleteOutlined /></div> : <Space size="middle">
         <LikeDislike />
       </Space>),
     },
@@ -784,10 +785,11 @@ export default () => {
               }}
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} 
-           dataSource={tramite.autoridadesSociedad}
-          
-          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? 
+          <Table columns={columnsAutoridad} 
+          dataSource={Object.assign([],tramite.autoridadesSociedad)} 
+          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : 
+          renderNoData()}
         </div>
 
         <Modal
@@ -1044,8 +1046,10 @@ export default () => {
               }}
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} 
-          dataSource={tramite.autoridadesSociedad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? 
+          <Table columns={columnsAutoridad} 
+          dataSource={Object.assign([],tramite.autoridadesSociedad)}
+          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
         </div>
 
         <Modal
@@ -1243,7 +1247,10 @@ export default () => {
               labelMessageError=""
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? 
+          <Table columns={columnsAutoridad} 
+          dataSource={Object.assign([],tramite.autoridadesSociedad)}
+           locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
         </div>
 
         <Modal
@@ -1520,7 +1527,10 @@ export default () => {
               }}
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? <Table columns={columnsAutoridad} dataSource={tramite.autoridadesSociedad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? 
+          <Table columns={columnsAutoridad} 
+          dataSource={Object.assign([],tramite.autoridadesSociedad)}
+           locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
         </div>
 
         <Modal

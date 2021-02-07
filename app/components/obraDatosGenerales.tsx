@@ -16,11 +16,11 @@ export interface ObrasDatosGeneralesProps {
 
 
 
-
 export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   obra = null,
   onChange = () => null
 }) => {
+  
   const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
   const [codigo, setCodigo] = useState(getCodigoObra())
   const [estado, setEstado] = useState('')
@@ -212,8 +212,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       tipoContratacion, 
       nivel, 
       estado, 
-      codigo: 
-      getCodigoObra(), 
+      codigo: getCodigoObra(), 
       fechaFin, 
       fechaInicio, 
       fechaAdjudicacion,
@@ -221,11 +220,14 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     setDataSource(Object.assign([], dataSource))
 
     obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo)
-    // obra.datosObra = Object.assign({}, dataSource)
+    //obra.datosObra = Object.assign({}, dataSource)
     onChange(obra)
+    
 
   }
-  
+
+
+ 
 
   return <div>
     {showError ? <div className="mb-4">
