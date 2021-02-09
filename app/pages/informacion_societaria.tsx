@@ -440,6 +440,31 @@ export default () => {
   }
 
   const addInversiones = async () => {
+    if (!cuitNit.trim()) {
+      setError('El cuit / nit  es requerido')
+      setShowError(true)
+      return
+    }
+    if (!actividad.trim()) {
+      setError('La actividad  es requerida')
+      setShowError(true)
+      return
+    }
+    if (!empresaParticipada.trim()) {
+      setError('La empresa participada   es requerida')
+      setShowError(true)
+      return
+    }
+    if (!porcentajeCapital) {
+      setError('El porcentaje de capital   es requerido')
+      setShowError(true)
+      return
+    }
+    if (!votos) {
+      setError('La cantidad de votos   es requerido')
+      setShowError(true)
+      return
+    }
 
     if (!tramite.inversionesPermanentes)
       tramite.inversionesPermanentes = []
@@ -455,6 +480,7 @@ export default () => {
     await save()
     setIsLoading(false)
     clearState()
+    setShowError(false)
     
 
   }
@@ -1912,6 +1938,15 @@ export default () => {
             </Modal>
           </Panel>
           <Panel header="Inversiones permanentes" key="2">
+          {showError ? <div className="mb-4">
+        <Alert
+          message=''
+          description={error}
+          type="error"
+          showIcon
+          closable
+          afterClose={() => setShowError(false)}
+        /></div> : ''}
             <div className="grid grid-cols-2 gap-4 pb-6  ">
 
               <div >
