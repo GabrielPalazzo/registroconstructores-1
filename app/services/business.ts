@@ -78,6 +78,7 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     categoria:'PRE INSCRIPTO',
     tipoEmpresa: [],
     vtoIeric: '',
+    archivoIERIC:[],
     registroPublicoDeComercio: '',
     igj:'',
     domicilioLegal:'',
