@@ -90,6 +90,7 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
       datos:''
     },
     autoridadesSociedad:[],
+    inversionesPermanentes:[],
     autoridadesVencimiento:true,
     sistemaCalidad: [],
     ejercicios:[],

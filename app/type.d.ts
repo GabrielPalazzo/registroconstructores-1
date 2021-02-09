@@ -196,6 +196,13 @@ type TramiteAlta = {
     fecha: string
     datos: string
   }
+  inversionesPermanentes: Array<{
+    cuitNit: string,
+    empresaParticipada:string,
+    actividad: string,
+    porcentajeCapital:number,
+    votos:number,
+  }>
   autoridadesVencimiento: boolean
   autoridadesSociedad: Array<{
     nombre: string
