@@ -183,6 +183,7 @@ type TramiteAlta = {
   email: string
   ieric: string
   vtoIeric: string
+  archivoIERIC: Array<Archivo>
   domicilioReal: string
   domicilioLegal: string
   telefono: string

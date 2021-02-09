@@ -48,7 +48,7 @@ export default () => {
   const [observaciones, setObservaciones] = useState('')
   const [fotosDNIAutoridades, setFotosDNIAutoridades] = useState([])
   const [autoridadesSociedad,setAutoridadesSociedad] = useState([])
-
+ 
   const [cuitSistemaCalidad, setCuitSistemaCalidad] = useState('')
   const [norma, setNorma] = useState('')
   const [direccionSistemaCalidad, setDireccionSistemaCalidad] = useState('')
@@ -437,6 +437,12 @@ export default () => {
     setObservaciones('')
     setCuit('')
   }
+  
+  const agregarUltimaModificacion = async () => {
+    
+    
+
+  }
 
 
 
@@ -500,7 +506,8 @@ export default () => {
     },
     {
       title: 'Fecha',
-      dataIndex: 'Fecha'
+      dataIndex: 'Fecha',
+      key: 'fecha',
     },
     {
       title: 'Dato',
@@ -1439,6 +1446,7 @@ export default () => {
                 labelMessageError=""
               />
             </div>
+           
             <div >
               <Upload
                 label="Última modificación del Contrato Social, inscripta en en D.P.P.J / I.G.J."
@@ -1467,7 +1475,9 @@ export default () => {
             </div>
 
           </div>
-          <Table columns={columnsModificacionEstatuto} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} />
+          <Table columns={columnsModificacionEstatuto} 
+          
+          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} />
         </div>
         <div className="text-2xl font-bold py-4 mt-4"> Fecha de vencimiento del Contrato Social</div>
         <div className="grid grid-cols-2 gap-4 ">
@@ -1743,10 +1753,27 @@ export default () => {
           </div>
 
           <div>
-            <UploadLine
-              label="Adjunte certificado IERIC"
+          <Upload
+              label="Adjunte IERIC"
               labelRequired="*"
-              labelMessageError="" />
+              labelMessageError=""
+              defaultValue={tramite.archivoIERIC as any}
+              onOnLoad={file => {
+                if (!tramite.archivoIERIC)
+                  tramite.archivoIERIC = []
+                tramite.archivoIERIC.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.archivoIERIC = tramite.archivoIERIC.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+            />
+           
           </div>
 
 
