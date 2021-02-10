@@ -24,9 +24,9 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
   const [codigo, setCodigo] = useState(getCodigoObra())
   const [estado, setEstado] = useState('')
-  const [tipoContratacion, settipoContratacion] = useState('')
+  const [tipoContratacion, settipoContratacion] = useState(null)
   const [nivel, setNivel] = useState('')
-  const [denominacion, setDenominacion] = useState(obra.denominacion)
+  // const [denominacion, setDenominacion] = useState(obra.denominacion)
   const [fechaAdjudicacion, setfechaAdjudicacion] = useState('')
   const [fechaInicio, setfechaInicio] = useState('')
   const [fechaFin, setfechaFin] = useState('')
@@ -35,10 +35,11 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   const [showError, setShowError] = useState(false)
   const [actas, setActas] = useState<Array<Archivo>>([])
   useEffect(() => {
-    setDenominacion(obra.denominacion)
+    //setDenominacion(obra.denominacion)
    
   }, [])
 
+  console.log(obra.denominacion)
   const eliminarDatos = (r: DatosObraGeneral) => {
     setDataSource(dataSource.filter((d: DatosObraGeneral) => r.codigo !== d.codigo))
   }
@@ -156,7 +157,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   ];
 
 
-
+ 
 
 
   const add = () => {
@@ -186,7 +187,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       setShowError(true)
       return
     }
-    if ((!denominacion)) {
+    if ((!obra.denominacion)) {
       setError('La denominación es requerida')
       setShowError(true)
       return
@@ -199,14 +200,14 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
 
     setEstado("")
-    settipoContratacion("")
+    settipoContratacion(null)
     setNivel("")
     setfechaAdjudicacion("")
     setfechaFin("")
     setfechaInicio("")
     setError('')
     setShowError(false)
-    obra.denominacion = denominacion
+    // obra.denominacion = denominacion
 
     dataSource.push({ 
       tipoContratacion, 
@@ -221,7 +222,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
     obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo)
     //obra.datosObra = Object.assign({}, dataSource)
-    onChange(obra)
+    onChange(Object.assign({},obra))
     
 
   }
@@ -246,8 +247,11 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
         <InputTextModal
           label="Denominacion"
           labelRequired="*"
-          value={denominacion}
-          bindFunction={(value) => { setDenominacion(value) }}
+          value={obra.denominacion}
+          bindFunction={(value) => { 
+            obra.denominacion = value 
+            onChange(Object.assign({},obra))
+          }}
           labelMessageError=""
 
           disabled />
@@ -266,7 +270,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
           value={estado}
           bindFunction={(value) => setEstado(value)}
           option={EstadoObra.map(u => (
-            <Option value={u.value}>{u.label}</Option>
+            <Option  value={u.value}>{u.label}</Option>
 
           ))}
         />
