@@ -8,19 +8,28 @@ import DatePicker from '../components/datePicker'
 import Switch from '../components/switch'
 import DatePickerModal from '../components/datePicker_Modal'
 import Upload from '../components/upload'
-import { Button, Card, Steps, Modal, Space, Table, Select, Checkbox, Collapse, Tooltip, Empty,Alert,Popconfirm, message  } from 'antd';
+import { Button, Card, Steps, Modal, Space, Table, Select, Checkbox, Collapse, Tooltip, Empty, Alert, Popconfirm, message } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import Substeps from '../components/subSteps'
 import Link from 'next/link'
 import LikeDislike from '../components/like_dislike'
 import SelectModal from '../components/select_modal'
 import UploadLine from '../components/uploadLine'
+import InputNumberModal from '../components/input_number'
 import { QuestionCircleOutlined } from '@ant-design/icons';
-
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica,isTramiteEditable } from '../services/business';
+import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
+function confirm(e) {
+  console.log(e);
+  message.success('Se elimino correctamente');
+}
+
+function cancel(e) {
+  console.log(e);
+  message.error('Ha cancelado la operacion');
+}
 
 
 const { Panel } = Collapse;
@@ -47,7 +56,9 @@ export default () => {
   const [inhibiciones, setInhibiciones] = useState(false)
   const [observaciones, setObservaciones] = useState('')
   const [fotosDNIAutoridades, setFotosDNIAutoridades] = useState([])
-  const [autoridadesSociedad,setAutoridadesSociedad] = useState([])
+  const [autoridadesSociedad, setAutoridadesSociedad] = useState([])
+
+  const [inversionesPermanentes, setInversionesPermanentes] = useState([])
 
   const [cuitSistemaCalidad, setCuitSistemaCalidad] = useState('')
   const [norma, setNorma] = useState('')
@@ -55,20 +66,25 @@ export default () => {
   const [documentoSistemaCalidad, setDocumentoSistemaCalidad] = useState([])
   const [fechaOtorgamiento, setFechaOtorgamiento] = useState('')
   const [fechaExpiracion, setFechaExpiracion] = useState('')
-  
+  const [cuitNit, setCuitNit] = useState('')
+  const [empresaParticipada, setEmpresaParticipada] = useState('')
+  const [actividad, setActividad] = useState('')
+  const [porcentajeCapital, setPorcentajeCapital] = useState(0)
+  const [votos, setAVotos] = useState(0)
+
   const [modificacionEstatutoDatos, setModificacionEstatutoDatos] = useState('')
   const [modificacionEstatutoFecha, setModificacionEstatutoFecha] = useState('')
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
 
- 
+
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   useEffect(() => {
-     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
+    if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
 
 
@@ -87,9 +103,9 @@ export default () => {
     }
     setIsLoading(false)
   }
- 
-   
- 
+
+
+
 
 
   const { Step } = Steps;
@@ -182,7 +198,7 @@ export default () => {
 
   const renderModalAutoridad = () => {
     return (<div>
-       {showError ? <div className="mb-4">
+      {showError ? <div className="mb-4">
         <Alert
           message=''
           description={error}
@@ -361,7 +377,7 @@ export default () => {
 
     </div>)
   }
-  
+
 
 
   const agregarAutoridades = async () => {
@@ -375,7 +391,7 @@ export default () => {
       setShowError(true)
       return
     }
-   
+
     if (!nroDocumento.trim()) {
       setError('El Numero de Documento  es requerido')
       setShowError(true)
@@ -388,9 +404,9 @@ export default () => {
     }
 
     if (!tramite.autoridadesSociedad)
-    tramite.autoridadesSociedad=[]
+      tramite.autoridadesSociedad = []
 
-  
+
     tramite.autoridadesSociedad.push({
       nombre,
       apellido,
@@ -412,20 +428,63 @@ export default () => {
     setDireccion('')
     setObservaciones('')
     setCuit('')
-   
+
     updateObjTramite()
     await save()
     setIsLoading(false)
     setModalAutoridad(false)
     clearState()
 
+
+
+  }
+
+  const addInversiones = async () => {
+    if (!cuitNit.trim()) {
+      setError('El cuit / nit  es requerido')
+      setShowError(true)
+      return
+    }
+    if (!actividad.trim()) {
+      setError('La actividad  es requerida')
+      setShowError(true)
+      return
+    }
+    if (!empresaParticipada.trim()) {
+      setError('La empresa participada   es requerida')
+      setShowError(true)
+      return
+    }
+    if (!porcentajeCapital) {
+      setError('El porcentaje de capital   es requerido')
+      setShowError(true)
+      return
+    }
+    if (!votos) {
+      setError('La cantidad de votos   es requerido')
+      setShowError(true)
+      return
+    }
+
+    if (!tramite.inversionesPermanentes)
+      tramite.inversionesPermanentes = []
+
+      tramite.inversionesPermanentes.push({
+        actividad,
+        cuitNit,
+        empresaParticipada,
+        porcentajeCapital,
+        votos
+      })
+      updateObjTramite()
+    await save()
+    setIsLoading(false)
+    clearState()
+    setShowError(false)
     
 
   }
-  
 
-
-    
 
   const clearState = () => {
     setNombre('')
@@ -436,6 +495,22 @@ export default () => {
     setDireccion('')
     setObservaciones('')
     setCuit('')
+    setActividad('')
+    setCuitNit('')
+    setAVotos(0)
+    setPorcentajeCapital(0)
+    setCuitSistemaCalidad('')
+    setNorma('')
+    setDireccionSistemaCalidad('')
+    setCuitSistemaCalidad('')
+    setFechaExpiracion('')
+    setFechaOtorgamiento('')
+  }
+
+  const agregarUltimaModificacion = async () => {
+
+
+
   }
 
 
@@ -448,12 +523,63 @@ export default () => {
     save()
     setIsLoading(false)
   }
-  
+
   const removeAutoridad = (record) => {
     tramite.autoridadesSociedad = tramite.autoridadesSociedad.filter(a => a.cuit !== record.cuit)
     save()
   }
-  
+  const removeInversiones = (record) => {
+    tramite.inversionesPermanentes = tramite.inversionesPermanentes.filter(a => a.cuitNit !== record.cuitNit)
+    save()
+  }
+  const columnsInversiones = [
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? 
+      <Popconfirm
+      title="Esta seguro que lo  desea Eliminar ?"
+      onConfirm={() =>  removeInversiones(record)}
+      onCancel={cancel}
+      okText="Si, Eliminar"
+      cancelText="Cancelar"
+    > <div className="cursor=pointer" ><DeleteOutlined /></div></Popconfirm>
+       : <Space size="middle">
+      <LikeDislike />
+    </Space>),
+
+    },
+
+    {
+      title: 'CUIT',
+      dataIndex: 'cuitNit',
+      key: 'cuitNit',
+    },
+    {
+      title: 'Empresa Participada',
+      dataIndex: 'empresaParticipada',
+      key: 'empresaParticipada',
+    },
+    {
+      title: 'Actividad',
+      dataIndex: 'actividad',
+      key: 'actividad',
+    },
+    {
+      title: '%  de Capital',
+      dataIndex: 'porcentajeCapital',
+      key: 'porcentajeCapital',
+    },
+
+    {
+      title: 'Cantidad de Votos',
+      dataIndex: 'votos',
+      key: 'votos',
+    }
+
+
+  ];
+
 
   const columnsAutoridad = [
     {
@@ -500,7 +626,8 @@ export default () => {
     },
     {
       title: 'Fecha',
-      dataIndex: 'Fecha'
+      dataIndex: 'Fecha',
+      key: 'fecha',
     },
     {
       title: 'Dato',
@@ -755,12 +882,12 @@ export default () => {
 
           </div>
           <div className="pb-6">
-          <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+            <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
               tramite.autoridadesVencimiento = !e.target.checked
               updateObjTramite()
               //save()
             }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
-           
+
           </div>
           <div className="pb-6" >
             <Upload
@@ -785,11 +912,11 @@ export default () => {
               }}
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? 
-          <Table columns={columnsAutoridad} 
-          dataSource={Object.assign([],tramite.autoridadesSociedad)} 
-          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : 
-          renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ?
+            <Table columns={columnsAutoridad}
+              dataSource={Object.assign([], tramite.autoridadesSociedad)}
+              locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} /> :
+            renderNoData()}
         </div>
 
         <Modal
@@ -1018,12 +1145,12 @@ export default () => {
 
           </div>
           <div className="pb-6">
-          <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+            <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
               tramite.autoridadesVencimiento = !e.target.checked
               updateObjTramite()
               //save()
             }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
-           
+
           </div>
           <div className="pb-6" >
             <Upload
@@ -1046,10 +1173,10 @@ export default () => {
               }}
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? 
-          <Table columns={columnsAutoridad} 
-          dataSource={Object.assign([],tramite.autoridadesSociedad)}
-          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ?
+            <Table columns={columnsAutoridad}
+              dataSource={Object.assign([], tramite.autoridadesSociedad)}
+              locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} /> : renderNoData()}
         </div>
 
         <Modal
@@ -1232,12 +1359,12 @@ export default () => {
 
           </div>
           <div className="pb-6">
-          <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+            <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
               tramite.autoridadesVencimiento = !e.target.checked
               updateObjTramite()
               //save()
             }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
-           
+
           </div>
           <div className="pb-6" >
             <UploadLine
@@ -1247,10 +1374,10 @@ export default () => {
               labelMessageError=""
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? 
-          <Table columns={columnsAutoridad} 
-          dataSource={Object.assign([],tramite.autoridadesSociedad)}
-           locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ?
+            <Table columns={columnsAutoridad}
+              dataSource={Object.assign([], tramite.autoridadesSociedad)}
+              locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} /> : renderNoData()}
         </div>
 
         <Modal
@@ -1439,6 +1566,7 @@ export default () => {
                 labelMessageError=""
               />
             </div>
+
             <div >
               <Upload
                 label="Última modificación del Contrato Social, inscripta en en D.P.P.J / I.G.J."
@@ -1467,7 +1595,9 @@ export default () => {
             </div>
 
           </div>
-          <Table columns={columnsModificacionEstatuto} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} />
+          <Table columns={columnsModificacionEstatuto}
+
+            locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />
         </div>
         <div className="text-2xl font-bold py-4 mt-4"> Fecha de vencimiento del Contrato Social</div>
         <div className="grid grid-cols-2 gap-4 ">
@@ -1497,12 +1627,12 @@ export default () => {
 
           </div>
           <div className="pb-6">
-          <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+            <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
               tramite.autoridadesVencimiento = !e.target.checked
               updateObjTramite()
               //save()
             }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
-           
+
           </div>
           <div className="pb-6" >
             <Upload
@@ -1527,10 +1657,10 @@ export default () => {
               }}
             />
           </div>
-          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ? 
-          <Table columns={columnsAutoridad} 
-          dataSource={Object.assign([],tramite.autoridadesSociedad)}
-           locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>}} /> : renderNoData()}
+          {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ?
+            <Table columns={columnsAutoridad}
+              dataSource={Object.assign([], tramite.autoridadesSociedad)}
+              locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} /> : renderNoData()}
         </div>
 
         <Modal
@@ -1702,7 +1832,7 @@ export default () => {
               updateObjTramite()
               //save()
             }}>Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1.</Checkbox>
-            : <Checkbox  value={tramite.poseeIERIC} onChange={e => {
+            : <Checkbox value={tramite.poseeIERIC} onChange={e => {
               tramite.poseeIERIC = !e.target.checked
               updateObjTramite()
               //save()
@@ -1743,10 +1873,27 @@ export default () => {
           </div>
 
           <div>
-            <UploadLine
-              label="Adjunte certificado IERIC"
+            <Upload
+              label="Adjunte IERIC"
               labelRequired="*"
-              labelMessageError="" />
+              labelMessageError=""
+              defaultValue={tramite.archivoIERIC as any}
+              onOnLoad={file => {
+                if (!tramite.archivoIERIC)
+                  tramite.archivoIERIC = []
+                tramite.archivoIERIC.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.archivoIERIC = tramite.archivoIERIC.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+            />
+
           </div>
 
 
@@ -1758,7 +1905,9 @@ export default () => {
             <div className="  text-center content-center mt-2 mb-4 ">
               <Button type="primary" onClick={() => setModalCalidad(true)} icon={<PlusOutlined />}> Agregar</Button>
             </div>
-            {tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table columns={columnsCalidad} dataSource={tramite.sistemaCalidad} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} /> : renderNoData()}
+            {tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table columns={columnsCalidad}
+              dataSource={Object.assign([], tramite.sistemaCalidad)}
+              locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} /> : renderNoData()}
             <Modal
               title="Datos del Certificado de Sistemas de Calidad"
               visible={modalCalidad}
@@ -1774,8 +1923,11 @@ export default () => {
                   direccion,
                   archivos: documentoSistemaCalidad
                 })
-                setModalCalidad(false)
+                updateObjTramite()
+                setIsLoading(false)
                 save()
+                setModalCalidad(false)
+                clearState()
               }}
               okText="Guardar"
               onCancel={() => setModalCalidad(false)}
@@ -1786,6 +1938,15 @@ export default () => {
             </Modal>
           </Panel>
           <Panel header="Inversiones permanentes" key="2">
+          {showError ? <div className="mb-4">
+        <Alert
+          message=''
+          description={error}
+          type="error"
+          showIcon
+          closable
+          afterClose={() => setShowError(false)}
+        /></div> : ''}
             <div className="grid grid-cols-2 gap-4 pb-6  ">
 
               <div >
@@ -1794,7 +1955,8 @@ export default () => {
                   label="CUIT NIT"
                   labelRequired="*"
                   placeholder="33333333333"
-
+                  value={cuitNit}
+                  bindFunction={(value) => { setCuitNit(value) }}
                   labelMessageError=""
                   required />
 
@@ -1805,7 +1967,8 @@ export default () => {
                   label="Empresa participada"
                   labelRequired="*"
                   placeholder="Sa"
-
+                  value={empresaParticipada}
+                  bindFunction={(value) => { setEmpresaParticipada(value) }}
                   labelMessageError=""
                   required />
 
@@ -1817,37 +1980,49 @@ export default () => {
                   label="Actividad"
                   placeholder="Constructora"
                   disabled
-
+                  value={actividad}
+                  bindFunction={(value) => { setActividad(value) }}
                   labelMessageError=""
                 />
 
               </div>
               <div >
-                <InputTextModal
-                  label="% de capital"
+                <InputNumberModal
+                  type="number"
+                  label="% de Capital"
                   labelRequired="*"
-                  placeholder="debe ser numerico"
-                  value=""
+                  min={0} step="any"
+                  placeholder="000000 "
+                  value={porcentajeCapital}
+                  bindFunction={(value) => { setPorcentajeCapital(value) }}
                   labelMessageError=""
-                />
+                  required />
+
 
               </div>
               <div >
-                <InputTextModal
-                  label="Votos posibles en el otro ente"
+                <InputNumberModal
+                  type="number"
+                  label="Votos Posibles"
                   labelRequired="*"
-                  placeholder="debe ser numerico"
-                  value=""
+                  min={0} step="any"
+                  placeholder="000000,000 "
+                  value={votos}
+                  bindFunction={(value) => { setAVotos(value) }}
+
                   labelMessageError=""
-                />
+                  required />
+
 
               </div>
             </div>
             <div className="mt-6 text-center pb-6">
-              <Button className="mr-4" type="primary" icon={<PlusOutlined />} > Agregar</Button>
+              <Button className="mr-4" type="primary" onClick={addInversiones} icon={<PlusOutlined />} > Agregar</Button>
             </div>
 
-            <Table columns={columnsInversiones} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
+            <Table columns={columnsInversiones}
+              dataSource={Object.assign([], tramite.inversionesPermanentes)}
+              locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
 
           </Panel>
 
@@ -1945,42 +2120,3 @@ const TipoCargo = [
   }
 ];
 
-const columnsInversiones = [
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text) => (
-      <LikeDislike />
-
-    ),
-  },
-
-  {
-    title: 'CUIT',
-    dataIndex: 'cuit',
-    key: 'cuit',
-  },
-  {
-    title: 'Empresa Participada',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Actividad',
-    dataIndex: 'actividad',
-    key: 'actividad',
-  },
-  {
-    title: '%  de Capital',
-    dataIndex: 'capital',
-    key: 'capital',
-  },
-
-  {
-    title: 'Cantidad de Votos',
-    dataIndex: 'votos',
-    key: 'votos',
-  }
-
-
-];
