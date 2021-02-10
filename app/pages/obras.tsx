@@ -16,7 +16,7 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { allowGuardar, getCodigoObra, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
+import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
@@ -62,40 +62,7 @@ export default () => {
   const [dataSource, setDataSource] = useState('')
   const [archivosPlazos, setArchivosPlazos] = useState<Array<Archivo>>([])
 
-  const [obra, setObra] = useState<DDJJObra>({
-    id: null,
-    denominacion: '',
-    ubicacion: [],
-    datosObra: [],
-    ampliaciones: [],
-    ubicacionGeografica: [],
-    razonSocialUTE: '',
-    cuitUTE: '',
-    participacionUTE: '',
-    razonSocialComitente: '',
-    cuitComitente: '',
-    montoInicial: 0,
-    redeterminaciones: [],
-    certificaciones: [],
-    plazoPorContrato: 0,
-    prorroga: 0,
-    transcurrido: 0,
-    restante: 0,
-    especialidad1: '',
-    especialidad2: '',
-    especialidad3: '',
-    subEspecialidades1Otros: '',
-    subEspecialidades2Otros: '',
-    subEspecialidades3Otros: '',
-    subEspecialidad1: [],
-    subEspecialidad2: [],
-    subEspecialidad3: [],
-    subespecialidades: '',
-    archivosOrdenDeCompra: [],
-    prorrogaNueva: [],
-
-
-  })
+  const [obra, setObra] = useState<DDJJObra>(getEmptyObras())
 
 
 
@@ -162,7 +129,7 @@ export default () => {
 
   }
 
-  const renderModalEjercicios = () => {
+  const renderModalObra = () => {
     return (<div>
       <div className="text-right">
         <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2">{obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)}</Tag>
@@ -527,7 +494,7 @@ export default () => {
                   labelRequired="*"
                   type="number"
 
-                  value={obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0}
+                  value={obra.prorrogaNueva && obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0}
                   bindFunction={e => {
                     null
                   }}
@@ -557,7 +524,7 @@ export default () => {
                   min={0}
                   step=".01"
                   labelRequired="*"
-                  value={(obra.plazoPorContrato + (obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0)) - obra.transcurrido}
+                  value={(obra.plazoPorContrato + (obra.prorrogaNueva && obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0)) - obra.transcurrido}
                   bindFunction={e => null}
                   labelMessageError=""
                 />
@@ -767,8 +734,10 @@ export default () => {
         <div className="text-2xl font-bold py-4 w-3/4">  Declaración jurada de Obras</div>
         <div className=" w-1/4 text-right content-center mt-4 ">
           {isTramiteEditable(tramite) ? <Button type="primary" onClick={() => {
-            obra.id = getCodigoObra()
-            setObra(Object.assign({}, obra))
+            const obraEmpty = getEmptyObras()
+            obraEmpty.id = getCodigoObra()
+            // obra.id = getCodigoObra()
+            setObra(Object.assign({}, obraEmpty))
             setModalObras(true)
           }} icon={<PlusOutlined />}> Agregar</Button> : ''}
         </div>
@@ -795,7 +764,7 @@ export default () => {
         cancelText="Cancelar"
         width={1200}
       >
-        {renderModalEjercicios()}
+        {renderModalObra()}
       </Modal>
 
       <div className="mt-6 pt-6 text-center">

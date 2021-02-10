@@ -183,6 +183,7 @@ type TramiteAlta = {
   email: string
   ieric: string
   vtoIeric: string
+  archivoIERIC: Array<Archivo>
   domicilioReal: string
   domicilioLegal: string
   telefono: string
@@ -195,6 +196,13 @@ type TramiteAlta = {
     fecha: string
     datos: string
   }
+  inversionesPermanentes: Array<{
+    cuitNit: string,
+    empresaParticipada:string,
+    actividad: string,
+    porcentajeCapital:number,
+    votos:number,
+  }>
   autoridadesVencimiento: boolean
   autoridadesSociedad: Array<{
     nombre: string

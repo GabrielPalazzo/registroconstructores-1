@@ -4,178 +4,219 @@ import _ from 'lodash'
 import { customAlphabet } from 'nanoid'
 
 export const getToken = () => {
-  return localStorage.getItem('token') ? localStorage.getItem('token')  : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNlYmEgQnJvbWJlcmciLCJpYXQiOjE1MTYyMzkwMjJ9.vM1mo49C9FazAkIbDe2UnUXQY7Qfkm3IC4eDpVFLviM' 
+  return localStorage.getItem('token') ? localStorage.getItem('token') : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNlYmEgQnJvbWJlcmciLCJpYXQiOjE1MTYyMzkwMjJ9.vM1mo49C9FazAkIbDe2UnUXQY7Qfkm3IC4eDpVFLviM'
 }
 
 export const setToken = (token) => {
-  localStorage.setItem('token',token)
+  localStorage.setItem('token', token)
 }
-export const saveTramiteService = (tramite: TramiteAlta) : Promise<TramiteAlta> => {
-  return axios.post('/api/tramite',tramite,{
+export const saveTramiteService = (tramite: TramiteAlta): Promise<TramiteAlta> => {
+  return axios.post('/api/tramite', tramite, {
     headers: {
       Authorization: 'Bearer ' + getToken()
-  }}).then((createdTramite) => {
+    }
+  }).then((createdTramite) => {
     return createdTramite.data
   })
 
   // return new Promise((accept, reject) => accept(tramite))
-} 
+}
 
-export const getTramitesParaVerificar = () :  Promise<Array<TramiteAlta>> =>{
-  return axios.get('/api/tramite/getTramitesParaVerificar',{
+export const getTramitesParaVerificar = (): Promise<Array<TramiteAlta>> => {
+  return axios.get('/api/tramite/getTramitesParaVerificar', {
     headers: {
       Authorization: 'Bearer ' + getToken()
-  }}).then((tramites) => {
+    }
+  }).then((tramites) => {
     return tramites.data['tramites'] as any
   })
 }
 
-export const getTramites = () :  Promise<Array<TramiteAlta>> =>{
-  return axios.get('/api/tramites',{
+export const getTramites = (): Promise<Array<TramiteAlta>> => {
+  return axios.get('/api/tramites', {
     headers: {
       Authorization: 'Bearer ' + getToken()
-  }}).then((tramites) => {
+    }
+  }).then((tramites) => {
     return tramites.data['tramites'] as any
   })
 }
 
-export const getTramiteByCUIT = (cuit: string) : Promise<TramiteAlta> => {
-  return axios.get(`/api/tramite?cuit=${cuit}`,{
+export const getTramiteByCUIT = (cuit: string): Promise<TramiteAlta> => {
+  return axios.get(`/api/tramite?cuit=${cuit}`, {
     headers: {
       Authorization: 'Bearer ' + getToken()
-  }}).then((t) => {
+    }
+  }).then((t) => {
     return t.data['tramites'] as TramiteAlta
   }).catch(err => {
     return null
   })
-} 
+}
 
-export const getEmptyTramiteAlta = () : TramiteAlta=> {
-  return  {
-    apoderados:[],
-    inscripcionAFIPConstancia:[],
-    certificadoFiscal:null,
-    cuit:'',
-    telefono:'',
-    telefonoAlternativo:'',
-    email:'',
-    id:'',
-    ieric:'',
+export const getEmptyTramiteAlta = (): TramiteAlta => {
+  return {
+    apoderados: [],
+    inscripcionAFIPConstancia: [],
+    certificadoFiscal: null,
+    cuit: '',
+    telefono: '',
+    telefonoAlternativo: '',
+    email: '',
+    id: '',
+    ieric: '',
     nroLegajo: '',
-    personeria:'',
+    personeria: '',
     propietario: null,
-    propietarios:[],
+    propietarios: [],
     emailInstitucional: '',
-    razonSocial:'',
-    nombreTitular:'',
-    apellidoTitular:'',
+    razonSocial: '',
+    nombreTitular: '',
+    apellidoTitular: '',
     esCasadoTitular: false,
     nombreConyuge: '',
-    apellidoConyuge:'',
+    apellidoConyuge: '',
     tipoDocumentoConyuge: '',
-    documentoConyugue:'',
+    documentoConyugue: '',
     status: 'BORRADOR',
-    categoria:'PRE INSCRIPTO',
+    categoria: 'PRE INSCRIPTO',
     tipoEmpresa: [],
     vtoIeric: '',
+    archivoIERIC:[],
     registroPublicoDeComercio: '',
-    igj:'',
-    domicilioLegal:'',
-    constanciaDomicilioLegal:[],
-    domicilioReal:'',
+    igj: '',
+    domicilioLegal: '',
+    constanciaDomicilioLegal: [],
+    domicilioReal: '',
     rubroConstruccion: {
-      lugar:'',
-      fecha:'',
-      datos:''
+      lugar: '',
+      fecha: '',
+      datos: ''
     },
     autoridadesSociedad:[],
+    inversionesPermanentes:[],
     autoridadesVencimiento:true,
     sistemaCalidad: [],
-    ejercicios:[],
-    ddjjObras:[],
-    fechaInscripcionMatriculaComerciante:'',
+    ejercicios: [],
+    ddjjObras: [],
+    fechaInscripcionMatriculaComerciante: '',
     aplicaDecretoDoscientosDos: false,
-    datosDecretoDoscientosDos:[],
-    matriculaComerciante:{
-      datos:'',
-      fecha:''
+    datosDecretoDoscientosDos: [],
+    matriculaComerciante: {
+      datos: '',
+      fecha: ''
     },
-    altaAFIP:{
-      datos:'',
-      fecha:''
+    altaAFIP: {
+      datos: '',
+      fecha: ''
     },
-    ultimaModificacionMatriculaOActividadesAFIP:{
-      datos:'',
-      fecha:''
+    ultimaModificacionMatriculaOActividadesAFIP: {
+      datos: '',
+      fecha: ''
     },
     poseeIERIC: true,
-    datosSocietarios:{
+    datosSocietarios: {
       cooperativa: {
-        archivoActaConstitutiva:[],
-        inscriptionINAES:{
-          datos:'',
-          fecha:''
+        archivoActaConstitutiva: [],
+        inscriptionINAES: {
+          datos: '',
+          fecha: ''
         },
-        modificacionINAES:{ 
-          datos:'',
-          fecha:'',
-          archivos:[]
+        modificacionINAES: {
+          datos: '',
+          fecha: '',
+          archivos: []
         },
-        ultimaModifcacionINAES:{
-          datos:'',
-          fecha:'',
-          archivos:[]
+        ultimaModifcacionINAES: {
+          datos: '',
+          fecha: '',
+          archivos: []
         },
       },
       sociedadAnonima: {
         inscripcion: {
-          datos:'',
-          fecha:'',
-          
+          datos: '',
+          fecha: '',
+
         },
         modificacion: {
-          datos:'',
+          datos: '',
           fecha: '',
-          archivos:[]
+          archivos: []
         },
         ultimaModificacion: {
           datos: '',
-          fecha:'',
-          archivos:[]
+          fecha: '',
+          archivos: []
         },
         contrato: {
-          fecha:'',
-          archivos:[]
+          fecha: '',
+          archivos: []
         }
       },
       ute: {
-        archivosContrato:[],
-        inscripcionUTE:{
-          datos:'',
-          fecha:''
+        archivosContrato: [],
+        inscripcionUTE: {
+          datos: '',
+          fecha: ''
         },
-        modificacionUTE:{
-          fecha:'',
-          datos:'',
-          archivos:[]
+        modificacionUTE: {
+          fecha: '',
+          datos: '',
+          archivos: []
         }
       },
-      personaFisica:{
-        constanciaInscripcion:[],
-        constanciaMatriculaComerciante:[],
+      personaFisica: {
+        constanciaInscripcion: [],
+        constanciaMatriculaComerciante: [],
       },
-      fechaInscripcion:'',
-      fechaVencimiento:'',
-      archivoAutoridades:[]
+      fechaInscripcion: '',
+      fechaVencimiento: '',
+      archivoAutoridades: []
     }
-    
+
+  }
+}
+
+export const getEmptyObras = (): DDJJObra => {
+  return {
+    id: null,
+    denominacion: '',
+    ubicacion: [],
+    datosObra: [],
+    ampliaciones: [],
+    ubicacionGeografica: [],
+    razonSocialUTE: '',
+    cuitUTE: '',
+    participacionUTE: '',
+    razonSocialComitente: '',
+    cuitComitente: '',
+    montoInicial: 0,
+    redeterminaciones: [],
+    certificaciones: [],
+    plazoPorContrato: 0,
+    prorroga: 0,
+    transcurrido: 0,
+    restante: 0,
+    especialidad1: '',
+    especialidad2: '',
+    especialidad3: '',
+    subEspecialidades1Otros: '',
+    subEspecialidades2Otros: '',
+    subEspecialidades3Otros: '',
+    subEspecialidad1: [],
+    subEspecialidad2: [],
+    subEspecialidad3: [],
+    subespecialidades: '',
+    archivosOrdenDeCompra: [],
+    prorrogaNueva: [],
   }
 }
 
 export const getColorStatus = (tramite: TramiteAlta) => {
   if (!tramite) return 'gray'
-  
-  switch(tramite.status){
+
+  switch (tramite.status) {
     case 'BORRADOR':
       return 'gray'
     case 'VERIFICADO':
@@ -187,146 +228,146 @@ export const getColorStatus = (tramite: TramiteAlta) => {
   }
 }
 
-export const getStatusObsParsed = (tramite: TramiteAlta) : string => {
-  return tramite && tramite.statusObs ? tramite.statusObs.map( e => e.obs).join(', ') : 'No tiene observaciones'
-} 
+export const getStatusObsParsed = (tramite: TramiteAlta): string => {
+  return tramite && tramite.statusObs ? tramite.statusObs.map(e => e.obs).join(', ') : 'No tiene observaciones'
+}
 
-export const getUsuario  = () => {
-  let user : Usuario = null 
+export const getUsuario = () => {
+  let user: Usuario = null
   const token = localStorage.getItem('token')
 
   if (token) {
-    jwt.verify(token,process.env.SESSION_SECRET as string,(err, decode) => {
+    jwt.verify(token, process.env.SESSION_SECRET as string, (err, decode) => {
       if (err) return null
       user = decode as Usuario
     })
   }
-  
+
   return {
     userData: () => user,
-    isConstructor: () => user &&  user.Role.filter(r => r ==='CONSTRUCTOR').length>0,
-    isBackOffice: () => user && user.Role.filter(r => r ==='CONTROLADOR' || r ==='SUPERVISOR').length >0,
-    isControlador: () => user && user.Role.filter(r => r ==='CONTROLADOR').length >0,
-    isSupervisor: () => user && user.Role.filter(r =>  r ==='SUPERVISOR').length >0,
-    isAprobador: () => user && user.Role.filter(r =>  r ==='APROBADOR').length >0
+    isConstructor: () => user && user.Role.filter(r => r === 'CONSTRUCTOR').length > 0,
+    isBackOffice: () => user && user.Role.filter(r => r === 'CONTROLADOR' || r === 'SUPERVISOR').length > 0,
+    isControlador: () => user && user.Role.filter(r => r === 'CONTROLADOR').length > 0,
+    isSupervisor: () => user && user.Role.filter(r => r === 'SUPERVISOR').length > 0,
+    isAprobador: () => user && user.Role.filter(r => r === 'APROBADOR').length > 0
   }
 }
 
-export const isInReview = (tramite:TramiteAlta) => {
+export const isInReview = (tramite: TramiteAlta) => {
 
   if (!tramite.revisiones || !tramite.asignadoA)
     return false
-  
-  return tramite.revisiones.filter( r => r.status ==='ABIERTA').length > 0
-    && 
-      tramite.asignadoA.iat === getUsuario().userData().iat
+
+  return tramite.revisiones.filter(r => r.status === 'ABIERTA').length > 0
+    &&
+    tramite.asignadoA.iat === getUsuario().userData().iat
 }
 
-export const getReviewAbierta = (tramite: TramiteAlta) : RevisionTramite => {
+export const getReviewAbierta = (tramite: TramiteAlta): RevisionTramite => {
   if (!tramite) return null
 
-  return tramite.revisiones ? _.last(tramite.revisiones.filter( r => r.status ==='ABIERTA')) : null
+  return tramite.revisiones ? _.last(tramite.revisiones.filter(r => r.status === 'ABIERTA')) : null
 }
 
-export const closeSession =() => {
+export const closeSession = () => {
   localStorage.clear()
 }
 
-export const isConstructora = (tramite: TramiteAlta) : boolean => {
+export const isConstructora = (tramite: TramiteAlta): boolean => {
   if (!tramite.tipoEmpresa) return false
   return tramite.tipoEmpresa.filter(te => te === 'CONSTRUCTORA').length === 1
 }
 
-export const requiereBalance = (tramite: TramiteAlta) : boolean => {
-  if (tramite.personeria==='UTE') return false 
-  return true
-} 
-
-export const requiereObras = (tramite:TramiteAlta) : boolean => {
-  if (tramite.personeria==='UTE') return false 
+export const requiereBalance = (tramite: TramiteAlta): boolean => {
+  if (tramite.personeria === 'UTE') return false
   return true
 }
 
-export const isPersonaFisica = (tramite: TramiteAlta) : boolean=> {
-  return tramite.personeria ==='PF'
+export const requiereObras = (tramite: TramiteAlta): boolean => {
+  if (tramite.personeria === 'UTE') return false
+  return true
+}
+
+export const isPersonaFisica = (tramite: TramiteAlta): boolean => {
+  return tramite.personeria === 'PF'
 }
 
 
-export const isTramiteEditable = (tramite: TramiteAlta) : boolean => {
-  return (tramite  && tramite.status ==='BORRADOR') || (tramite && !tramite.cuit) || (!tramite)
-} 
+export const isTramiteEditable = (tramite: TramiteAlta): boolean => {
+  return (tramite && tramite.status === 'BORRADOR') || (tramite && !tramite.cuit) || (!tramite)
+}
 
-export const sendTramite = async (tramite: TramiteAlta) : Promise<TramiteAlta>=> {
-  
-  if (tramite.status ==='BORRADOR'){
-    tramite.status="PENDIENTE DE REVISION"
-    return  saveTramiteService(tramite)
-  }
-    
+export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> => {
 
-  if (tramite.status==='PENDIENTE DE REVISION' && getUsuario().isBackOffice()){
-    tramite.status='A SUPERVISAR'
-    tramite.asignadoA=null
-    return  saveTramiteService(tramite)
+  if (tramite.status === 'BORRADOR') {
+    tramite.status = "PENDIENTE DE REVISION"
+    return saveTramiteService(tramite)
   }
 
-  if (tramite.status ==='OBSERVADO' && getUsuario().isConstructor()){
-    tramite.status='SUBSANADO'
-    tramite.asignadoA=null
-    return  saveTramiteService(tramite)
+
+  if (tramite.status === 'PENDIENTE DE REVISION' && getUsuario().isBackOffice()) {
+    tramite.status = 'A SUPERVISAR'
+    tramite.asignadoA = null
+    return saveTramiteService(tramite)
   }
 
-  if ((tramite.status==='SUBSANADO')&&(getUsuario().isControlador())){
-    tramite.status='A SUPERVISAR'
-    tramite.asignadoA=null
-    return  saveTramiteService(tramite)
+  if (tramite.status === 'OBSERVADO' && getUsuario().isConstructor()) {
+    tramite.status = 'SUBSANADO'
+    tramite.asignadoA = null
+    return saveTramiteService(tramite)
   }
 
-  if (tramite.status ==='A SUPERVISAR' && getUsuario().isSupervisor()){
-    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0){
-      tramite.status='OBSERVADO'
+  if ((tramite.status === 'SUBSANADO') && (getUsuario().isControlador())) {
+    tramite.status = 'A SUPERVISAR'
+    tramite.asignadoA = null
+    return saveTramiteService(tramite)
+  }
+
+  if (tramite.status === 'A SUPERVISAR' && getUsuario().isSupervisor()) {
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+      tramite.status = 'OBSERVADO'
     } else {
-      tramite.status='PENDIENTE DE APROBACION'
+      tramite.status = 'PENDIENTE DE APROBACION'
       //tramite.revisiones=[]
     }
-    tramite.asignadoA=null
-    return  saveTramiteService(tramite)
+    tramite.asignadoA = null
+    return saveTramiteService(tramite)
   }
 
-  if (tramite.status ==='PENDIENTE DE APROBACION'){
-    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0){
-      tramite.status='OBSERVADO'
-      tramite.asignadoA=null
+  if (tramite.status === 'PENDIENTE DE APROBACION') {
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+      tramite.status = 'OBSERVADO'
+      tramite.asignadoA = null
     } else {
-      tramite.categoria='INSCRIPTO'
-      tramite.status='VERIFICADO'
+      tramite.categoria = 'INSCRIPTO'
+      tramite.status = 'VERIFICADO'
       //tramite.revisiones=[]
     }
-    return  saveTramiteService(tramite)
+    return saveTramiteService(tramite)
   }
-    
-  
+
+
 }
 
-export const getObservacionesTecnicoRaw = (revisionTramite:RevisionTramite) : string => {
-  return revisionTramite ? revisionTramite.reviews.filter(r => !r.isOk).map( r => r.review ).join(', ') : ''
+export const getObservacionesTecnicoRaw = (revisionTramite: RevisionTramite): string => {
+  return revisionTramite ? revisionTramite.reviews.filter(r => !r.isOk).map(r => r.review).join(', ') : ''
 }
 
-export const allowGuardar = (tramite:TramiteAlta) => {
-  if (['BORRADOR','OBSERVADO'].includes(tramite.status) && getUsuario().isConstructor())
+export const allowGuardar = (tramite: TramiteAlta) => {
+  if (['BORRADOR', 'OBSERVADO'].includes(tramite.status) && getUsuario().isConstructor())
     return true
 
-  if (getUsuario().isControlador() && ['PENDIENTE DE REVISION','SUBSANADO'].includes(tramite.status) )
+  if (getUsuario().isControlador() && ['PENDIENTE DE REVISION', 'SUBSANADO'].includes(tramite.status))
     return true
 
-  if (getUsuario().isSupervisor() && ['PENDIENTE DE REVISION','SUBSANADO','A SUPERVISAR'].includes(tramite.status) )
+  if (getUsuario().isSupervisor() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR'].includes(tramite.status))
     return true
 
-  if (getUsuario().isAprobador() && ['PENDIENTE DE REVISION','SUBSANADO','A SUPERVISAR','A APROBAR'].includes(tramite.status) )
+  if (getUsuario().isAprobador() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR', 'A APROBAR'].includes(tramite.status))
     return true
 
 
-  
+
   return false
 }
 

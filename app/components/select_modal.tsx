@@ -42,7 +42,9 @@ export default (props) => {
       <Select
         disabled={!isTramiteEditable(tramite)}
         style={{ width: '100%' }}
-        defaultValue={props.defaultOption} onChange={props.bindFunction}>
+        value={props.value}
+        onChange={props.bindFunction}>
+        
         {props.option}
       </Select>
     </div>
