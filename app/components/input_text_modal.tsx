@@ -35,7 +35,6 @@ export default (props: Props) => {
   const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
   
  
-
   return (<div >
     <div className="flex">
       <div className="w-5/5 mb-2">
