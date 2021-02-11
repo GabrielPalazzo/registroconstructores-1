@@ -107,7 +107,7 @@ export default () => {
       Liberar
         </Button>
         <Button htmlType="submit" type="primary" className="text-center">
-          Enviar al constructor
+          Enviar al Constructor
         </Button>
       </Form.Item>
     </>
