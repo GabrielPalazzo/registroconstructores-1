@@ -3,14 +3,17 @@ import { Tabs, Collapse, Menu, Dropdown, Comment, Avatar, Form, Button, List, In
 import { ArrowRightOutlined, DownCircleOutlined, CloudDownloadOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
-import { closeSession, getObservacionesTecnicoRaw, getReviewAbierta, getUsuario } from '../../services/business';
+import { closeSession, getObservacionesTecnicoRaw, getReviewAbierta, getUsuario,isConstructora, isPersonaFisica } from '../../services/business';
 import { Loading } from '../../components/loading'
-import { getTramitesParaVerificar } from '../../services/business'
+import { getTramitesParaVerificar,getEmptyTramiteAlta,  } from '../../services/business'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import { setTramiteView } from '../../redux/actions/main';
 import { SET_TRAMITE_NUEVO, SET_TRAMITE_VIEW } from '../../redux/reducers/main';
 import { cargarUltimaRevisionAbierta } from '../../redux/actions/revisionTramite';
+
+
+import { NavigationStep } from '../../components/steps'
 
 const { TabPane } = Tabs;
 const Panel = Collapse.Panel;
@@ -43,6 +46,8 @@ export default () => {
   const router = useRouter()
   const dispatch = useDispatch()
 
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+ 
   useEffect(() => {
     (async () => {
       setUsuario(getUsuario().userData())
@@ -129,7 +134,12 @@ export default () => {
 
 
         </div>
+
+       
       </div>
+      <div className="border-gray-200 border-b-2 px-20">
+      <NavigationStep current={5} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
+    </div>
       <div className="px-20 py-6  m-auto mt-6">
         <div className="text-2xl font-bold py-4 text-center"> Supervisar trámite</div>
 
