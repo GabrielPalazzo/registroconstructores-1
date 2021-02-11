@@ -127,3 +127,14 @@ font-family:'Encode Sans', sans-serif !important;
 .ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-icon {
     background: #1890ff;
 }
+.ant-modal-footer{
+    position: fixed;
+    bottom: 0;
+    width: 1000px !important;
+    background: #f0f0f0 !important;
+    margin-top: 40px;
+    align-items: end;
+}
+.ant-modal-body{
+    padding-bottom: 100px !important;
+}

@@ -23790,6 +23790,19 @@ html, body, #__next {
   background: #1890ff;
 }
 
+.ant-modal-footer{
+  position: fixed;
+  bottom: 0;
+  width: 1000px !important;
+  background: #f0f0f0 !important;
+  margin-top: 40px;
+  align-items: end;
+}
+
+.ant-modal-body{
+  padding-bottom: 100px !important;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

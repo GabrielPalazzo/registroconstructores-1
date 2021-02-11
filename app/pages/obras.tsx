@@ -155,10 +155,10 @@ export default () => {
 
   const renderModalEjercicios = () => {
     return (<div>
-      <div className="text-right">
-        <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2">{obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)}</Tag>
-        <Tag>Certificado Total </Tag> <Tag color="magenta" className="mr-2">{(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)}</Tag>
-        <Tag>Saldo </Tag> <Tag color="blue" className="mr-2">{ (obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)   }</Tag>
+      <div className="text-left bg-gray-300 py-4 px-4">
+        <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2 rounded-full">{obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)}</Tag>
+        <Tag>Certificado Total </Tag> <Tag color="magenta" className="mr-2  rounded-full">{(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)}</Tag>
+        <Tag>Saldo </Tag> <Tag color="blue" className="mr-2 rounded-full">{ (obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r =>r.monto).reduce((val, acc) => acc = val + acc):0)   }</Tag>
 
       </div>
       <Tabs defaultActiveKey="datosGenerales" onChange={callback}>
@@ -714,7 +714,7 @@ export default () => {
         okText="Guardar"
         onCancel={() => setModalObras(false)}
         cancelText="Cancelar"
-        width={1200}
+        width={1000}
       >
         {renderModalEjercicios()}
       </Modal>
