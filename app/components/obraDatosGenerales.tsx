@@ -225,7 +225,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     onChange(obra)
 
   }
-  return <div>
+   return <div>
     {showError ? <div className="mb-4">
       <Alert
         message='Error'
