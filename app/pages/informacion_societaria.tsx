@@ -982,8 +982,8 @@ export default () => {
         </Modal>
 
       </div> : ''}
-
-      {tramite.personeria === 'PJESP' ? <div>
+      
+      {/*tramite.personeria === 'PJESP' ? <div>
         <div className="text-2xl font-bold py-4"> Inscripción constitutiva en país de origen</div>
         <div className="grid grid-cols-3 gap-4 ">
           <div >
@@ -1171,8 +1171,9 @@ export default () => {
           {renderModalAutoridad()}
         </Modal>
 
-      </div> : ''}
+            </div> : '' */}
 
+              
       {tramite.personeria === 'SA' || tramite.personeria === 'SRL' || tramite.personeria === 'OFS' ? <div>
         <div className="text-2xl font-bold py-4"> Firma del Contrato Constitutivo</div>
         <div className="grid grid-cols-4 gap-4 ">

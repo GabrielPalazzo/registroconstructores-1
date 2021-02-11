@@ -57,6 +57,8 @@ export const getEmptyTramiteAlta = () : TramiteAlta=> {
     certificadoFiscal:null,
     cuit:'',
     email:'',
+    telefono: '',
+    telefonoAlternativo:'',
     id:'',
     ieric:'',
     nroLegajo: '',
