@@ -26,16 +26,6 @@ import { userInfo } from 'os';
 import dynamic from 'next/dynamic'
 const Upload = dynamic(() => import('../components/upload'))
 
-function confirm(e) {
-  console.log(e);
-  message.success('Se elimino correctamente');
-}
-
-function cancel(e) {
-  console.log(e);
-  message.error('Ha cancelado la operacion');
-}
-
 
 const { Option } = Select;
 function confirm(e) {
