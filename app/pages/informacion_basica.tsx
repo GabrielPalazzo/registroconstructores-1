@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HeaderPrincipal } from '../components/header'
 import { NavigationStep } from '../components/steps'
-import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox, Alert, Empty } from 'antd';
+import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox, Alert, Empty,message,Popconfirm  } from 'antd';
 import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
@@ -29,6 +29,15 @@ const Upload = dynamic(() => import('../components/upload'))
 
 
 const { Option } = Select;
+function confirm(e) {
+  console.log(e);
+  message.success('Se elimino correctamente');
+}
+
+function cancel(e) {
+  console.log(e);
+  message.error('Ha cancelado la operacion');
+}
 
 
 
@@ -200,9 +209,16 @@ export default (props) => {
 
   const columns = [
     {
-      title: 'Action',
+      title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => removeApoderadoFromList(record)}><DeleteOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? 
+      <Popconfirm
+      title="Esta seguro que lo  desea Eliminar ?"
+      onConfirm={() => removeApoderadoFromList(record)}
+      onCancel={cancel}
+      okText="Si, Eliminar"
+      cancelText="Cancelar"
+    > <div ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
         <LikeDislike />
       </Space>),
     },
