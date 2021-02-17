@@ -223,8 +223,19 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo)
     // obra.datosObra = Object.assign({}, dataSource)
     onChange(obra)
+    clearState()
 
   }
+  const clearState = () => {
+    setEstado("")
+    settipoContratacion("")
+    setNivel("")
+    setfechaAdjudicacion("")
+    setfechaFin("")
+    setfechaInicio("")
+    
+  }
+
   return <div>
     {showError ? <div className="mb-4">
       <Alert
