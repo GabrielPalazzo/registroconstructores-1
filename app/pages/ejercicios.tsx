@@ -7,7 +7,7 @@ import InputNumberModal from '../components/input_number'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider,Popconfirm, message  } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider,message,Popconfirm } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -281,6 +281,7 @@ export default () => {
     {
       title: 'Eliminar',
       key: 'action',
+<<<<<<< HEAD
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? 
       <Popconfirm
       title="Esta seguro que lo  deseas Eliminar  El ejercicio?"
@@ -290,6 +291,17 @@ export default () => {
       cancelText="Cancelar"
     > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
         <LikeDislike />
+=======
+      
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <Popconfirm
+      title="Esta seguro que lo  desea Eliminar ?"
+      onConfirm={() =>  eliminarEjercicio(record)}
+      onCancel={cancel}
+      okText="Si, Eliminar"
+      cancelText="Cancelar"
+    > <div className="cursor=pointer" ><DeleteOutlined /></div></Popconfirm>: <Space size="middle">
+
+>>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
       </Space>),
     },
     {

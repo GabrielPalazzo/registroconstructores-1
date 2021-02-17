@@ -24,7 +24,11 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
   const [codigo, setCodigo] = useState(getCodigoObra())
   const [estado, setEstado] = useState('')
+<<<<<<< HEAD
   const [tipoContratacion, settipoContratacion] = useState(null)
+=======
+  const [tipoContratacion, settipoContratacion] = useState('null')
+>>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
   const [nivel, setNivel] = useState('')
   // const [denominacion, setDenominacion] = useState(obra.denominacion)
   const [fechaAdjudicacion, setfechaAdjudicacion] = useState('')
@@ -36,7 +40,11 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   const [actas, setActas] = useState<Array<Archivo>>([])
   useEffect(() => {
     //setDenominacion(obra.denominacion)
+<<<<<<< HEAD
    
+=======
+    setDataSource(Object.assign([],obra.datosObra))
+>>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
   }, [])
 
   console.log(obra.denominacion)
@@ -207,7 +215,11 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     setfechaInicio("")
     setError('')
     setShowError(false)
+<<<<<<< HEAD
     // obra.denominacion = denominacion
+=======
+   // obra.denominacion = denominacion
+>>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
 
     dataSource.push({ 
       tipoContratacion, 
@@ -221,6 +233,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     setDataSource(Object.assign([], dataSource))
 
     obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo)
+<<<<<<< HEAD
     //obra.datosObra = Object.assign({}, dataSource)
     onChange(Object.assign({},obra))
     
@@ -231,6 +244,14 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
  
 
   return <div>
+=======
+    // obra.datosObra = Object.assign({}, dataSource)
+    onChange(Object.assign({},obra))
+
+
+  }
+   return <div>
+>>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
     {showError ? <div className="mb-4">
       <Alert
         message='Error'
@@ -252,6 +273,10 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             obra.denominacion = value 
             onChange(Object.assign({},obra))
           }}
+<<<<<<< HEAD
+=======
+
+>>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
           labelMessageError=""
 
           disabled />
@@ -271,6 +296,10 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
           bindFunction={(value) => setEstado(value)}
           option={EstadoObra.map(u => (
             <Option  value={u.value}>{u.label}</Option>
+<<<<<<< HEAD
+=======
+
+>>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
 
           ))}
         />

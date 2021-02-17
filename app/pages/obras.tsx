@@ -16,7 +16,7 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
+import { allowGuardar, getCodigoObra,getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
@@ -218,7 +218,11 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
+<<<<<<< HEAD
                     maxLength={50}
+=======
+                    
+>>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
                   />
                 </div>
 
@@ -274,7 +278,11 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
+<<<<<<< HEAD
                     maxLength={50}
+=======
+                    
+>>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
                   />
                 </div>
 
@@ -330,7 +338,11 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
+<<<<<<< HEAD
                     maxLength={50}
+=======
+                    
+>>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
                   />
                 </div>
 
@@ -1449,4 +1461,3 @@ const tipoSubespecialidadIA = [
 
 
 ]
-

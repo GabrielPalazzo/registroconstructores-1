@@ -260,7 +260,6 @@ export default () => {
             defaultOption="Tipo de Organo"
             labelRequired="*"
             labelMessageError=""
-            value={TipoOrgano}
             bindFunction={setTipoOrgano}
             required
             option={TipoOrgano.map(u => (
@@ -278,7 +277,6 @@ export default () => {
             labelRequired="*"
             labelMessageError=""
             required
-            value={TipoCargo}
             bindFunction={setTipoCargo}
             option={TipoCargo.map(u => (
               <Option value={u.value}>{u.label}</Option>
@@ -2118,5 +2116,9 @@ const TipoCargo = [
     label: 'Representante',
     value: 'Representante',
   }
+<<<<<<< HEAD
 ];
 
+=======
+];
+>>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
