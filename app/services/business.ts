@@ -246,10 +246,10 @@ export const getUsuario = () => {
   return {
     userData: () => user,
     isConstructor: () => user && user.Role.filter(r => r === 'CONSTRUCTOR').length > 0,
-    isBackOffice: () => user && user.Role.filter(r => r === 'CONTROLADOR' || r === 'SUPERVISOR').length > 0,
-    isControlador: () => user && user.Role.filter(r => r === 'CONTROLADOR').length > 0,
-    isSupervisor: () => user && user.Role.filter(r => r === 'SUPERVISOR').length > 0,
-    isAprobador: () => user && user.Role.filter(r => r === 'APROBADOR').length > 0
+    isBackOffice: () => user && user.Role.filter(r => r === 'EVALUADOR ECONOMICO' || r === 'EVALUADOR TECNICO' ||  r === 'CONTROLADOR ECONOMICO' || r === 'CONTROLADOR TECNICO' || r === 'JEFE REGISTRO').length > 0,
+    isControlador: () => user && user.Role.filter(r => r.includes('CONTROLADOR')).length > 0,
+    isSupervisor: () => user && user.Role.filter(r => r.includes('SUPERVISOR')).length > 0,
+    isAprobador: () => user && user.Role.filter(r => r === 'JEFE REGISTRO').length > 0
   }
 }
 
