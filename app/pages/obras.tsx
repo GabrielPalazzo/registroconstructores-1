@@ -218,12 +218,7 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
-<<<<<<< HEAD
-                    maxLength={50}
-=======
-                    
->>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
-                  />
+                    maxLength={50} />
                 </div>
 
               </div>
@@ -278,12 +273,8 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
-<<<<<<< HEAD
-                    maxLength={50}
-=======
-                    
->>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
-                  />
+
+                    maxLength={50}/>
                 </div>
 
               </div>
@@ -338,12 +329,7 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
-<<<<<<< HEAD
-                    maxLength={50}
-=======
-                    
->>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
-                  />
+                 maxLength={50}/>
                 </div>
 
               </div>

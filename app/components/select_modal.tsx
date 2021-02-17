@@ -44,11 +44,7 @@ export default (props) => {
         style={{ width: '100%' }}
         value={props.value}
         onChange={props.bindFunction}>
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
         {props.option}
       </Select>
     </div>

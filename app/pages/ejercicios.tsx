@@ -281,18 +281,6 @@ export default () => {
     {
       title: 'Eliminar',
       key: 'action',
-<<<<<<< HEAD
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? 
-      <Popconfirm
-      title="Esta seguro que lo  deseas Eliminar  El ejercicio?"
-      onConfirm={() => eliminarEjercicio(record)}
-      onCancel={cancel}
-      okText="Si, Eliminar"
-      cancelText="Cancelar"
-    > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-        <LikeDislike />
-=======
-      
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <Popconfirm
       title="Esta seguro que lo  desea Eliminar ?"
       onConfirm={() =>  eliminarEjercicio(record)}
@@ -301,7 +289,6 @@ export default () => {
       cancelText="Cancelar"
     > <div className="cursor=pointer" ><DeleteOutlined /></div></Popconfirm>: <Space size="middle">
 
->>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
       </Space>),
     },
     {
