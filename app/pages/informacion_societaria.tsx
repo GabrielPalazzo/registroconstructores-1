@@ -2116,9 +2116,4 @@ const TipoCargo = [
     label: 'Representante',
     value: 'Representante',
   }
-<<<<<<< HEAD
 ];
-
-=======
-];
->>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f

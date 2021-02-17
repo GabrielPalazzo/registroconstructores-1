@@ -123,11 +123,7 @@ export default () => {
       {tramites.length === 0 ? noData() : <BandejaConstructor tramites={tramites} />}
     </div>
     <div className="pb-4 text-center  border-gray-200 border-t-2" >
-<<<<<<< HEAD
-     <div className="text-sm mt-2"> version: 1.7 </div> 
-=======
      <div className="text-sm mt-2"> version: 1.8 </div> 
->>>>>>> ac39c3b339ef86badca3f0f91a177b19beb6de9f
     </div>
 
   </div>
