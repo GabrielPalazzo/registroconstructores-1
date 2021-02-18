@@ -101,6 +101,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		setFecha(null)
 		setDescripcion('')
 		setArchivos([])
+		
 	}
 	return <div>
 		{showError ? <div className="mb-4">
