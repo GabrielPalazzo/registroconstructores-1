@@ -82,6 +82,7 @@ export default () => {
       if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
     }
+    
   }
 
   const updateObjTramite = () => {
@@ -716,9 +717,11 @@ export default () => {
     tramite.ddjjObras = tramite.ddjjObras.filter((o: DDJJObra) => o.id !== obra.id)
     tramite.ddjjObras.push(obra)
     await save()
-    setModalObras(false)
+    setModalObras(false) 
+  
   }
 
+ 
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()

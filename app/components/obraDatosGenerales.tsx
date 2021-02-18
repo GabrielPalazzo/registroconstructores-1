@@ -225,9 +225,11 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
     obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo) //obra.datosObra = Object.assign({}, dataSource)
     onChange(Object.assign({}, obra))
-
+    
 
   }
+
+ 
 
 
 
