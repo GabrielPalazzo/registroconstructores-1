@@ -31,7 +31,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   const [fechaAdjudicacion, setfechaAdjudicacion] = useState('')
   const [fechaInicio, setfechaInicio] = useState('')
   const [fechaFin, setfechaFin] = useState('')
-  const [dataSource, setDataSource] = useState<Array<DatosObraGeneral>>(obra.datosObra)
+  const [dataSource, setDataSource] = useState<Array<DatosObraGeneral>>([])
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
   const [actas, setActas] = useState<Array<Archivo>>([])
@@ -40,7 +40,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     setDataSource(Object.assign([], obra.datosObra))
   }, [])
 
-  console.log(obra.denominacion)
+  console.log(obra.datosObra)
   const eliminarDatos = (r: DatosObraGeneral) => {
     setDataSource(dataSource.filter((d: DatosObraGeneral) => r.codigo !== d.codigo))
   }
@@ -223,7 +223,8 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     })
     setDataSource(Object.assign([], dataSource))
 
-    obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo) //obra.datosObra = Object.assign({}, dataSource)
+    //obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo) 
+    //obra.datosObra = Object.assign({}, dataSource)
     onChange(Object.assign({}, obra))
     
   }
