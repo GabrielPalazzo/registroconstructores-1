@@ -51,7 +51,7 @@ export default (props: Props) => {
         disabled={!isTramiteEditable(tramite)} 
         mode="multiple"
         style={{ width: '100%' }}
-        defaultValue={props.value ? props.value : []}
+        value={props.value ? props.value : []}
         placeholder={props.placeholder}
         onChange={(v) => props.bindFunction(v)}
         optionLabelProp="label">

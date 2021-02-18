@@ -63,7 +63,7 @@ export default () => {
   const [archivosPlazos, setArchivosPlazos] = useState<Array<Archivo>>([])
 
   const [obra, setObra] = useState<DDJJObra>(getEmptyObras())
-
+  const [especialidad1, setEspecialidad1] = useState('')
 
 
   useEffect(() => {
@@ -170,7 +170,7 @@ export default () => {
             <div className="grid grid-cols-3 gap-4 ">
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div >
-                  <SelectSimple
+                  <SelectModal
                     value={obra.especialidad1}
                     bindFunction={e => {
                       obra.especialidad1 = e
@@ -192,7 +192,7 @@ export default () => {
                     value={obra.subEspecialidad1}
                     bindFunction={e => {
                       obra.subEspecialidad1 = e
-                      setObra(Object.assign({}, obra))
+                      setObra(Object.assign([], obra))
                     }}
                     title="Seleccione la SubEspecialidad"
                     labelObservation=""
@@ -225,7 +225,7 @@ export default () => {
               </div>
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div >
-                  <SelectSimple
+                  <SelectModal
                     value={obra.especialidad2}
                     bindFunction={e => {
                       obra.especialidad2 = e
@@ -242,7 +242,7 @@ export default () => {
 
                 </div>
                 <div >
-                  <SelectMultiple
+                <SelectMultiple
                     labelRequired=""
                     value={obra.subEspecialidad2}
                     bindFunction={e => {
@@ -281,7 +281,7 @@ export default () => {
               </div>
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div >
-                  <SelectSimple
+                  <SelectModal
                     value={obra.especialidad3}
                     bindFunction={e => {
                       obra.especialidad3 = e
@@ -719,8 +719,9 @@ export default () => {
     tramite.ddjjObras.push(obra)
     await save()
     setModalObras(false) 
-  
   }
+
+  
 
  
   return (<div>
