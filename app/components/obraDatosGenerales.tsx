@@ -376,7 +376,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
       </div>
       <div className="mt-4">
-        <Table columns={columnsEstado} dataSource={obra.datosObra} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
+        <Table columns={columnsEstado} dataSource={Object.assign([],obra.datosObra)} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
       </div>
     </div>
 }
