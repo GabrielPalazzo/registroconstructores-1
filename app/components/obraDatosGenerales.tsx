@@ -24,25 +24,27 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
   const [codigo, setCodigo] = useState(getCodigoObra())
   const [estado, setEstado] = useState('')
-  const [tipoContratacion, settipoContratacion] = useState('null')
+  const [tipoContratacion, settipoContratacion] = useState('')
 
   const [nivel, setNivel] = useState('')
   // const [denominacion, setDenominacion] = useState(obra.denominacion)
   const [fechaAdjudicacion, setfechaAdjudicacion] = useState('')
   const [fechaInicio, setfechaInicio] = useState('')
   const [fechaFin, setfechaFin] = useState('')
-  const [dataSource, setDataSource] = useState<Array<DatosObraGeneral>>([])
+  //const [dataSource, setDataSource] = useState<Array<DatosObraGeneral>>([])
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
   const [actas, setActas] = useState<Array<Archivo>>([])
   useEffect(() => {
     //setDenominacion(obra.denominacion)
-    setDataSource(Object.assign([], obra.datosObra))
+    //setDataSource(Object.assign([], obra.datosObra))
   }, [])
 
-  console.log(obra.datosObra)
+ 
   const eliminarDatos = (r: DatosObraGeneral) => {
-    setDataSource(dataSource.filter((d: DatosObraGeneral) => r.codigo !== d.codigo))
+    obra.datosObra = obra.datosObra.filter((d: DatosObraGeneral) => r.codigo !== d.codigo)
+    onChange(Object.assign({},obra))
+    // setDataSource(dataSource.filter((d: DatosObraGeneral) => r.codigo !== d.codigo))
   }
 
   const columnsEstado = [
@@ -158,6 +160,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   ];
 
 
+  console.log(obra.datosObra)
 
 
 
@@ -201,7 +204,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
 
     setEstado("")
-    settipoContratacion(null)
+    settipoContratacion("")
     setNivel("")
     setfechaAdjudicacion("")
     setfechaFin("")
@@ -211,7 +214,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
    // obra.denominacion = denominacion
 
-    dataSource.push({
+   obra.datosObra.push({
       tipoContratacion,
       nivel,
       estado,
@@ -221,7 +224,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       fechaAdjudicacion,
       acta: actas
     })
-    setDataSource(Object.assign([], dataSource))
+    // setDataSource(Object.assign([], dataSource))
 
     //obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo) 
     //obra.datosObra = Object.assign({}, dataSource)
@@ -373,7 +376,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
       </div>
       <div className="mt-4">
-        <Table columns={columnsEstado} dataSource={dataSource} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
+        <Table columns={columnsEstado} dataSource={obra.datosObra} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
       </div>
     </div>
 }

@@ -613,6 +613,7 @@ export default () => {
   const editarObrar = (obra: DDJJObra) => {
 
     setObra(Object.assign({}, tramite.ddjjObras.filter((o: DDJJObra) => o.id === obra.id)[0]))
+    console.log(Object.assign({}, tramite.ddjjObras.filter((o: DDJJObra) => o.id === obra.id)[0]))
     setModalObras(true)
   }
 

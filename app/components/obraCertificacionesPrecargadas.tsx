@@ -21,7 +21,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   onChange=()=>null
 }) => {
 
-  const [periodos, setPeriodos] = useState(obra.certificaciones)
+  // const [periodos, setPeriodos] = useState(obra.certificaciones)
   const [periodo, setPeriodo] = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [monto, setMonto] = useState(0)
@@ -29,8 +29,8 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   const [archivos,setArchivos] = useState<Array<Archivo>>([])
 
   const borrarPeriodo = (p) => {
-    setPeriodos(Object.assign([], periodos.filter(v => v.codigo !== p.codigo)))
-    obra.certificaciones = Object.assign([], periodos.filter(v => v.codigo !== p.codigo))
+    // setPeriodos(Object.assign([], periodos.filter(v => v.codigo !== p.codigo)))
+    obra.certificaciones = Object.assign([], obra.certificaciones.filter(v => v.codigo !== p.codigo))
     onChange(Object.assign({},obra))
   }
 
@@ -68,10 +68,10 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
   const agregarPeriodo = () => {
 
-    let periodosCopy = Object.assign([], periodos)
+    let periodosCopy = Object.assign([], obra.certificaciones)
 
     if (periodoSeleccionado)
-      periodosCopy = periodos.filter(v => v.codigo !== periodoSeleccionado.codigo)
+      periodosCopy = obra.certificaciones.filter(v => v.codigo !== periodoSeleccionado.codigo)
 
     periodosCopy.push({
       codigo: periodoSeleccionado ? periodoSeleccionado.codigo : getUniqCode(),
@@ -82,7 +82,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
     setPeriodo('')
     setMonto(0)
-    setPeriodos(periodosCopy)
+   
     setPeriodoSeleccionado(null)
     setArchivos([])
     obra.certificaciones = periodosCopy
@@ -156,7 +156,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
 
     <div>
-      <Table pagination={false} columns={columns} dataSource={periodos}
+      <Table pagination={false} columns={columns} dataSource={Object.assign([],obra.certificaciones)}
         summary={pageData => {
 
           return <div>

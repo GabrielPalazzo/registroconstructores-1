@@ -23,7 +23,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	const [monto, setMonto] = useState(0)
 	const [fecha, setFecha] = useState('')
 	const [descripcion, setDescripcion] = useState('')
-	const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>(obra.redeterminaciones)
+	//const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>(obra.redeterminaciones)
 	const [error, setError] = useState('')
 	const [archivos, setArchivos] = useState<Array<Archivo>>([])
 	const [showError, setShowError] = useState(false)
@@ -33,8 +33,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	}, [])
 
 	const eliminarDatos = (o: AmpliacionesObras) => {
-		setDataSource(dataSource.filter((r: Redeterminaciones) => o.id !== r.id))
-		obra.redeterminaciones = Object.assign([], dataSource)
+		obra.redeterminaciones = Object.assign([], obra.redeterminaciones.filter((r: Redeterminaciones) => o.id !== r.id))
 		onChange(Object.assign({}, obra))
 	}
 	const columnsRedeterminaciones = [
@@ -87,16 +86,16 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		}
 
 
-		dataSource.push({
+		obra.redeterminaciones.push({
 			id: getCodigoObra(),
 			monto,
 			fecha,
 			descripcion,
 			archivos
 		})
-		setDataSource(Object.assign([], dataSource))
-		obra.redeterminaciones = Object.assign([], dataSource)
-		onChange(obra)
+		// setDataSource(Object.assign([], dataSource))
+		// obra.redeterminaciones = Object.assign([], dataSource)
+		onChange(Object.assign({},obra))
 		setMonto(0)
 		setFecha(null)
 		setDescripcion('')
@@ -176,7 +175,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 
 			<div className="mt-4 ">
 				<Table columns={columnsRedeterminaciones} 
-				dataSource={dataSource} 
+				dataSource={Object.assign([],obra.redeterminaciones)} 
 				locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} 
 				summary={pageData => {
 					return <div>
