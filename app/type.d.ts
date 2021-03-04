@@ -87,6 +87,7 @@ type CertificacionesCerradas={
 
 type DDJJObra ={
   id: string
+  actasObra: Array<Archivo>
   denominacion:string
   ubicacion:Array<string>
   datosObra:Array<DatosObraGeneral>

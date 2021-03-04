@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "node -r  esm ./jobs/patch_ipfs.js && next build",
     "start": "next start",
     "tailwind:css": "tailwindcss build styles/main.src.css -o public/style/main.css",

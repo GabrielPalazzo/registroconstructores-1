@@ -677,7 +677,7 @@ export default () => {
     {
       title: 'Editar',
       key: 'editar',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => editarObrar(record)} className="cursor-pointer"><EditOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => editarObrar(Object.assign({},record))} className="cursor-pointer"><EditOutlined /></div> : <Space size="middle">
       </Space>),
     },
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Upload, message, Tooltip } from 'antd';
 import { LikeFilled, DislikeFilled, CloudUploadOutlined } from '@ant-design/icons';
-import { getToken } from '../services/business';
+import { getCodigoObra, getToken } from '../services/business';
 
 const { Dragger } = Upload;
 const customColors = ['#2897D4'];
@@ -22,6 +22,7 @@ export default (props: Props) => {
   const propsUpload = {
     multiple: false,
     defaultFileList: props.defaultValue,
+    //fileList: props.defaultValue,
     action: '/api/files/new',
     headers: {
       authorization: 'Bearer ' + getToken()
@@ -64,19 +65,19 @@ export default (props: Props) => {
     },
   };
 
-  return (<div >
+
+  console.log(propsUpload)
+  return (<div key={getCodigoObra()} >
     <div className="flex">
       <div className="w-5/5 pb-2">
         <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
       </div>
-
-
+      
 
     </div>
     <div className="w-full">
-      <Dragger
+    <Dragger key={getCodigoObra()}
         className="flex py-1 text-left"
-        defaultFileList={[]}
         {...propsUpload}>
         <p className="ant-upload-drag-icon inline-block mr-2">
           <CloudUploadOutlined />
@@ -102,3 +103,19 @@ export default (props: Props) => {
 
   )
 }
+
+
+
+
+
+/*
+<Dragger
+        className="flex py-1 text-left"
+        {...propsUpload}>
+        <p className="ant-upload-drag-icon inline-block mr-2">
+          <CloudUploadOutlined />
+        </p>
+        <p className="ant-upload-text text-sm inline-block">Haga click o arrastre un archivo aquí</p>
+
+      </Dragger>
+*/

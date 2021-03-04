@@ -27,17 +27,20 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
   if ((!usuarioLogueado) || (!tramite))
     return <div></div>
 
+
+  console.log(tramite)
+
   const Locked = () => {
     return <div onClick={() => {
       
-      if (tramite.asignadoA.iat === user.iat){
+      if (tramite.asignadoA.cuit === user.cuit){
         tramite.asignadoA = null
         dispatch(unLockTramite(Object.assign({},tramite)))
       }
         
     }}>
       <Tag color="red" className="" >
-        <div><LockFilled /> {usuarioLogueado.userData().iat === tramite.asignadoA.iat ? 'Liberar Tramite' : tramite.asignadoA.GivenName + ', ' + tramite.asignadoA.Surname} </div>
+        <div><LockFilled /> {usuarioLogueado.userData().cuit === tramite.asignadoA.cuit ? 'Liberar Tramite' : tramite.asignadoA.GivenName + ', ' + tramite.asignadoA.Surname} </div>
       </Tag>
     </div>
   }
@@ -61,23 +64,9 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
   if (!tramite)
     return <div></div>
 
-  const showComponente = () => {
-    /*
-    if (tramite.status ==='PENDIENTE DE REVISION' && (usuarioLogueado.isControlador() || usuarioLogueado.isSupervisor()))
-      return true
+  const showComponente = () => tramite.status==='PENDIENTE DE REVISION' || (tramite.status==='A SUPERVISAR' && getUsuario().isSupervisor()) || (tramite.status=='SUBSANADO' && getUsuario().isBackOffice())
 
-    if (tramite.status ==='A VERIFICAR' && usuarioLogueado.isSupervisor())
-      return true*/
-
-    if (tramite.status==='PENDIENTE DE REVISION' || (tramite.status==='A SUPERVISAR' && getUsuario().isSupervisor()) || (tramite.status=='SUBSANADO' && getUsuario().isBackOffice()))
-      return true
-
-    return false
-  }
-
-  const isLocked = () => {
-    return tramite.asignadoA!==null
-  }
+  const isLocked = () => !tramite.asignadoA ? false : true
 
 
   return <div>

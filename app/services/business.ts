@@ -18,8 +18,6 @@ export const saveTramiteService = (tramite: TramiteAlta): Promise<TramiteAlta> =
   }).then((createdTramite) => {
     return createdTramite.data
   })
-
-  // return new Promise((accept, reject) => accept(tramite))
 }
 
 export const getTramitesParaVerificar = (): Promise<Array<TramiteAlta>> => {
@@ -181,6 +179,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
 export const getEmptyObras = (): DDJJObra => {
   return {
     id: null,
+    actasObra:[],
     denominacion: '',
     ubicacion: [],
     datosObra: [],
@@ -260,7 +259,7 @@ export const isInReview = (tramite: TramiteAlta) => {
 
   return tramite.revisiones.filter(r => r.status === 'ABIERTA').length > 0
     &&
-    tramite.asignadoA.iat === getUsuario().userData().iat
+    tramite.asignadoA.cuit === getUsuario().userData().cuit
 }
 
 export const getReviewAbierta = (tramite: TramiteAlta): RevisionTramite => {

@@ -160,10 +160,6 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   ];
 
 
-  console.log(obra.datosObra)
-
-
-
   const add = () => {
 
     if ((estado === 'Anulada' || estado === 'Finalizada' || estado === 'Suspendida') && (!fechaFin)) {
@@ -246,6 +242,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
 
 
+  console.log(obra.actasObra)
    return <div>
       {showError ? <div className="mb-4">
         <Alert
@@ -368,13 +365,18 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             label="Adjunte Acta "
             labelRequired="*"
             labelMessageError=""
-            defaultValue={actas as any}
+            defaultValue={(obra.actasObra ? Object.assign([],obra.actasObra ): Object.assign([],[])) as any}
             onOnLoad={file => {
-              actas.push(file)
-              setActas(Object.assign([], actas))
+              if (!obra.actasObra)
+                obra.actasObra = []
+
+              obra.actasObra.push(file)
+              onChange(Object.assign({},obra))
             }}
             onRemove={fileToRemove => {
-              setActas(Object.assign([], actas.filter(f => f.cid !== fileToRemove.cid)))
+              obra.actasObra = obra.actasObra.filter(f => f.cid !== fileToRemove.cid)
+              onChange(Object.assign({},obra))
+              // setActas(Object.assign([], actas.filter(f => f.cid !== fileToRemove.cid)))
             }}
 
 
