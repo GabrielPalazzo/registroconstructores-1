@@ -164,6 +164,31 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
           archivos: []
         }
       },
+      PJESP: {
+        archivosContrato: [],
+        archivoModificacion:[],
+        archivoUltimaModificacion:[],
+        inscripcionConstitutiva: {
+          datos: '',
+          fecha: ''
+        },
+        inscripcionSucursal: {
+          datos: '',
+          fecha: ''
+        },
+        modifcicacionObjeto: {
+          datos:'',
+          fecha: ''
+        },
+        ultimaModificacionInscripcion: {
+          datos:'',
+          fecha: ''
+        },
+        fechaVencimiento: {
+          fecha: ''
+        }
+        
+      },
       personaFisica: {
         constanciaInscripcion: [],
         constanciaMatriculaComerciante: [],

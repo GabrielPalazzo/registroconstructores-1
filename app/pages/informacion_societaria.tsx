@@ -1196,10 +1196,11 @@ export default () => {
         <div className="grid grid-cols-3 gap-4 ">
           <div >
             <InputTextModal
-              value=""
-              bindFunction={value => {
-
-              }}
+             value={tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos}
+             bindFunction={value => {
+               tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos = value
+               updateObjTramite()
+             }}
               label="Datos"
               labelRequired="*"
               placeholder=""
@@ -1213,8 +1214,10 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
+              value={tramite.datosSocietarios.PJESP.inscripcionConstitutiva.fecha}
               bindFunction={value => {
+                tramite.datosSocietarios.PJESP.inscripcionConstitutiva.fecha = value
+                updateObjTramite()
               }}
             />
           </div>
@@ -1224,9 +1227,10 @@ export default () => {
         <div className="grid grid-cols-3 gap-4 ">
           <div >
             <InputTextModal
-              value=""
+              value={tramite.datosSocietarios.PJESP.inscripcionSucursal.datos}
               bindFunction={value => {
-
+                tramite.datosSocietarios.PJESP.inscripcionSucursal.datos = value
+                updateObjTramite()
               }}
               label="Datos"
               labelRequired="*"
@@ -1242,17 +1246,32 @@ export default () => {
               labeltooltip=""
               labelMessageError=""
 
-              value=""
+              value={tramite.datosSocietarios.PJESP.inscripcionSucursal.fecha}
               bindFunction={value => {
-
+                tramite.datosSocietarios.PJESP.inscripcionSucursal.fecha = value
+                updateObjTramite()
               }}
             />
           </div>
           <div >
-            <UploadLine
-              label="Inscripción efectiva de la sucursal en D.P.P.J. / I.G.J"
-              labelRequired="*"
-              labelMessageError=""
+          <Upload
+              label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
+          General de Justicia o Registro Publico de comercio"
+              defaultValue={tramite.datosSocietarios.PJESP.archivosContrato as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.PJESP.archivosContrato)
+                  tramite.datosSocietarios.PJESP.archivosContrato = []
+                tramite.datosSocietarios.PJESP.archivosContrato.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.PJESP.archivosContrato = tramite.datosSocietarios.PJESP.archivosContrato.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
             />
           </div>
         </div>
@@ -1266,9 +1285,10 @@ export default () => {
               labelRequired=""
               placeholder=""
               labelMessageError=""
-              value=""
+              value={tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos}
               bindFunction={value => {
-
+                tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos = value
+                updateObjTramite()
               }}
               required /></div>
           <div >
@@ -1279,17 +1299,32 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
+              value={tramite.datosSocietarios.PJESP.modifcicacionObjeto.fecha}
               bindFunction={value => {
-
+                tramite.datosSocietarios.PJESP.modifcicacionObjeto.fecha = value
+                updateObjTramite()
               }}
             />
           </div>
           <div >
-            <UploadLine
-              label="Modificación del Objeto de la Sucursal Argentina al rubro Construcción inscripto en D.P.P.J / I.G.J."
-              labelRequired="*"
-              labelMessageError=""
+          <Upload
+              label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
+          General de Justicia o Registro Publico de comercio"
+              defaultValue={tramite.datosSocietarios.PJESP.archivoModificacion as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.PJESP.archivoModificacion)
+                  tramite.datosSocietarios.PJESP.archivoModificacion = []
+                tramite.datosSocietarios.PJESP.archivoModificacion.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.PJESP.archivoModificacion = tramite.datosSocietarios.PJESP.archivoModificacion.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
             />
           </div>
         </div>
@@ -1301,9 +1336,10 @@ export default () => {
               labelRequired=""
               placeholder=""
               labelMessageError=""
-              value=""
+              value={tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.datos}
               bindFunction={value => {
-
+                tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.datos = value
+                updateObjTramite()
               }}
               required /></div>
 
@@ -1315,22 +1351,37 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
+              value={tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.fecha}
               bindFunction={value => {
-
+                tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.fecha = value
+                updateObjTramite()
               }}
             />
           </div>
           <div >
-            <UploadLine
-              label="Última modificación de la Inscripción de la Sucursal en Argentina, inscripta en D.P.P.J. / I.G.J."
-              labelRequired="*"
-              labelMessageError=""
+          <Upload
+              label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
+          General de Justicia o Registro Publico de comercio"
+              defaultValue={tramite.datosSocietarios.PJESP.archivoUltimaModificacion as any}
+              onOnLoad={file => {
+                if (!tramite.datosSocietarios.PJESP.archivoUltimaModificacion)
+                  tramite.datosSocietarios.PJESP.archivoUltimaModificacion = []
+                tramite.datosSocietarios.PJESP.archivoUltimaModificacion.push(file)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
+              onRemove={fileToRemove => {
+                tramite.datosSocietarios.PJESP.archivoUltimaModificacion = tramite.datosSocietarios.PJESP.archivoUltimaModificacion.filter(f => f.cid !== fileToRemove.cid)
+                updateObjTramite()
+                save()
+                setIsLoading(false)
+              }}
             />
           </div>
         </div>
-        <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato / Acta Constitutiva</div>
-        <div className="grid grid-cols-3 gap-4 ">
+        <div className="text-2xl font-bold  py-4">Fecha de vencimiento del Contrato / Acta Constitutiva</div>
+        <div className="grid grid-cols-3 gap-4  mb-4 ">
           <div >
             <DatePickerModal
               label="Fecha"
@@ -1339,9 +1390,10 @@ export default () => {
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
-              value=""
+              value={tramite.datosSocietarios.PJESP.fechaVencimiento.fecha}
               bindFunction={value => {
-
+                tramite.datosSocietarios.PJESP.fechaVencimiento.fecha = value
+                updateObjTramite()
               }}
             />
           </div>

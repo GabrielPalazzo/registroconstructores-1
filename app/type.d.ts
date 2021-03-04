@@ -326,6 +326,31 @@ type TramiteAlta = {
         archivos: Array<Archivo>
       }
     }
+    PJESP: {
+      archivosContrato: Array<Archivo>
+      archivoModificacion: Array<Archivo>
+      archivoUltimaModificacion: Array<Archivo>
+      inscripcionConstitutiva: {
+        datos:string
+        fecha: string
+      },
+      inscripcionSucursal: {
+        datos:string
+        fecha: string
+      },
+      modifcicacionObjeto: {
+        datos:string
+        fecha: string
+      },
+      ultimaModificacionInscripcion: {
+        datos:string
+        fecha: string
+      },
+      fechaVencimiento: {
+        fecha: string
+      },
+    }
+    
     personaFisica: {
       constanciaInscripcion: Array<Archivo>,
       constanciaMatriculaComerciante: Array<Archivo>
