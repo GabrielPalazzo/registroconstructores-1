@@ -245,7 +245,7 @@ export const getUsuario = () => {
   return {
     userData: () => user,
     isConstructor: () => user && user.Role.filter(r => r === 'CONSTRUCTOR').length > 0,
-    isBackOffice: () => user && user.Role.filter(r => r === 'EVALUADOR ECONOMICO' || r === 'EVALUADOR TECNICO' ||  r === 'CONTROLADOR ECONOMICO' || r === 'CONTROLADOR TECNICO' || r === 'JEFE REGISTRO').length > 0,
+    isBackOffice: () => user && user.Role.filter(r => r === 'EVALUADOR ECONOMICO' || r === 'EVALUADOR TECNICO' ||  r === 'CONTROLADOR ECONOMICO' || r === 'CONTROLADOR TECNICO' || r === 'JEFE REGISTRO' || r ==='SUPERVISOR').length > 0,
     isControlador: () => user && user.Role.filter(r => r.includes('CONTROLADOR')).length > 0,
     isSupervisor: () => user && user.Role.filter(r => r.includes('SUPERVISOR')).length > 0,
     isAprobador: () => user && user.Role.filter(r => r === 'JEFE REGISTRO').length > 0
@@ -302,6 +302,22 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     tramite.status = "PENDIENTE DE REVISION"
     return saveTramiteService(tramite)
   }
+
+
+  if (getUsuario().isAprobador()){
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+      tramite.status = 'OBSERVADO'
+    } else {
+      tramite.categoria = 'INSCRIPTO'
+      tramite.status = 'VERIFICADO'
+      tramite.asignadoA = null
+    }
+    return saveTramiteService(tramite)
+  }
+
+ 
+
+
 
 
   if (tramite.status === 'PENDIENTE DE REVISION' && getUsuario().isBackOffice()) {

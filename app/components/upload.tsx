@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Upload, message, Tooltip } from 'antd';
 import { LikeFilled, DislikeFilled, CloudUploadOutlined } from '@ant-design/icons';
-import { getCodigoObra, getToken } from '../services/business';
+import { getCodigoObra, getReviewAbierta, getToken, getUsuario } from '../services/business';
+import {useSelector}  from 'react-redux'
 
 const { Dragger } = Upload;
 const customColors = ['#2897D4'];
@@ -17,11 +18,29 @@ interface Props {
   onRemove: Function
 }
 
+const mapFile  = (fileToMap) => {
+  return {
+    uid: fileToMap.cid,
+    name: fileToMap.name,
+    status: 'done',
+    url: `/api/files/${fileToMap.cid}?name=${fileToMap.name} `
+  }
+}
+
 export default (props: Props) => {
 
+
+  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+
+  const isEditable = () => {    
+    return tramite.status ==='BORRADOR' || tramite.status ==='OBSERVADO' &&  getUsuario().isConstructor()
+
+  }
+
+  
   const propsUpload = {
     multiple: false,
-    defaultFileList: props.defaultValue,
+    defaultFileList: props.defaultValue.map(mapFile) as any,
     //fileList: props.defaultValue,
     action: '/api/files/new',
     headers: {
@@ -29,6 +48,12 @@ export default (props: Props) => {
     },
     onRemove(fileToRemove) {
       props.onRemove(fileToRemove)
+    },
+    showUploadList:{
+      showDownloadIcon: true,
+      downloadIcon:<CloudUploadOutlined > Ver documento</CloudUploadOutlined>,
+      showRemoveIcon: isEditable(),
+      
     },
     onChange(info) {
 
@@ -108,14 +133,3 @@ export default (props: Props) => {
 
 
 
-/*
-<Dragger
-        className="flex py-1 text-left"
-        {...propsUpload}>
-        <p className="ant-upload-drag-icon inline-block mr-2">
-          <CloudUploadOutlined />
-        </p>
-        <p className="ant-upload-text text-sm inline-block">Haga click o arrastre un archivo aquí</p>
-
-      </Dragger>
-*/
