@@ -146,6 +146,18 @@ type AutoridadEmpresa  ={
 }
 
 
+type Ejercicio = {
+  fechaInicio: string
+  fechaCierre: string
+  activoCorriente: number
+  activoNoCorriente: number
+  pasivoCorriente: number
+  pasivoNoCorriente: number
+  ventasEjercicio: number
+  capitalSuscripto: number
+  archivos: Array<Archivo>
+}
+
 
 type TramiteAlta = {
   _id?: string,
@@ -236,17 +248,7 @@ type TramiteAlta = {
     observaciones: string
     archivos: Array<Archivo>
   }>,
-  ejercicios: Array<{
-    fechaInicio: string
-    fechaCierre: string
-    activoCorriente: number
-    activoNoCorriente: number
-    pasivoCorriente: number
-    pasivoNoCorriente: number
-    ventasEjercicio: number
-    capitalSuscripto: number
-    archivos: Array<Archivo>
-  }>,
+  ejercicios: Array<Ejercicio>,
   ddjjObras: Array<DDJJObra>,
   matriculaComerciante: {
     datos: string,

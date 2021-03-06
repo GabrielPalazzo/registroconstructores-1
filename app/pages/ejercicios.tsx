@@ -8,7 +8,7 @@ import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
 import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider,message,Popconfirm } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined,EditOutlined, CloudDownloadOutlined} from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
@@ -19,7 +19,9 @@ import { useDispatch } from 'react-redux'
 import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora, isTramiteEditable, allowGuardar } from '../services/business';
 import { saveTramite, setTramiteView } from '../redux/actions/main'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
-import moment from 'moment';
+import moment from 'moment'
+import numeral from 'numeral'
+
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -36,6 +38,13 @@ function cancel(e) {
 }
 
 
+const MODO = {
+  EDIT: 'EDIT',
+  NEW: 'NEW',
+  VIEW: 'VIEW'
+}
+
+
 export default () => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -49,6 +58,7 @@ export default () => {
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
+  const [idBalance, setIdBalance] = useState('')
   const [inicioEjercicio, setInicioEjercicio] = useState('')
   const [cierreEjercicio, setCierreEjercicio] = useState('')
   const [activoCorriente, setActivoCorriente] = useState(0)
@@ -59,6 +69,8 @@ export default () => {
   const [capitalSuscripto, setCapitalSuscripto] = useState(0)
   const [archivos,setArchivos] = useState([])
   const [error, setError] = useState(null)
+  const [modo, setModo] = useState(MODO.NEW)
+  
 
   useEffect(() => {
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
@@ -108,6 +120,7 @@ export default () => {
             labelRequired="*"
             placeholder="dd/mm/aaaa"
             value={inicioEjercicio}
+            locked={modo === MODO.VIEW}
             bindFunction={setInicioEjercicio}
             labelMessageError=""
           />
@@ -119,6 +132,7 @@ export default () => {
             labelRequired="*"
             placeholder="dd/mm/aaaa"
             value={cierreEjercicio}
+            locked={modo === MODO.VIEW}
             bindFunction={setCierreEjercicio}
             labelMessageError=""
           />
@@ -134,6 +148,7 @@ export default () => {
             min={0} step="any"
             placeholder="000000,000 "
             value={activoCorriente}
+            locked={modo === MODO.VIEW}
             bindFunction={(val) => setActivoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
@@ -149,6 +164,7 @@ export default () => {
             min={0}
             step="any"
             value={activoNoCorriente}
+            locked={modo === MODO.VIEW}
             bindFunction={(val) => setActivoNoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
@@ -159,6 +175,7 @@ export default () => {
             type="number" step="any"
             label="Activo Total"
             placeholder="000000,000 "
+            locked={modo === MODO.VIEW}
             value={activoCorriente + activoNoCorriente}
             bindFunction={() => null}
             labelMessageError=""
@@ -172,6 +189,7 @@ export default () => {
             labelRequired="*"
             min={0}
             placeholder="000000,000 "
+            locked={modo === MODO.VIEW}
             value={pasivoCorriente}
             bindFunction={(val) => setPasivoCorriente(parseFloat(val))}
             labelMessageError=""
@@ -186,6 +204,7 @@ export default () => {
             labelRequired="*"
             placeholder="000000,000 "
             value={pasivoNoCorriente}
+            locked={modo === MODO.VIEW}
             min={0}
             bindFunction={(val) => setPasivoNoCorriente(parseFloat(val))}
             labelMessageError=""
@@ -197,6 +216,7 @@ export default () => {
             label="Pasivo Total"
             type="number" step="any"
             placeholder="000000,000 "
+            locked={modo === MODO.VIEW}
             bindFunction={() => null}
             value={pasivoNoCorriente + pasivoCorriente}
             labelMessageError=""
@@ -211,6 +231,7 @@ export default () => {
             min={0}
             placeholder="000000,000 "
             value={ventasDelEjercicio}
+            locked={modo === MODO.VIEW}
             bindFunction={(val) => setVentasDelEjercicio(parseFloat(val))}
             labelMessageError=""
             required />
@@ -225,7 +246,7 @@ export default () => {
             placeholder="000000,000 "
             min={0}
             value={capitalSuscripto}
-
+            locked={modo === MODO.VIEW}
             bindFunction={(val) => setCapitalSuscripto(parseFloat(val))}
             labelMessageError=""
             required />
@@ -236,6 +257,7 @@ export default () => {
             label="Patrimonio Neto"
             placeholder="000000,000 "
             step=".01"
+            locked={modo === MODO.VIEW}
             value={(activoNoCorriente + activoCorriente) - (pasivoCorriente + pasivoNoCorriente)}
             labelMessageError=""
             disabled />
@@ -277,11 +299,24 @@ export default () => {
     </div>)
   }
 
+  const cargarEjercicio = (r : Ejercicio) => {
+    setIdBalance(JSON.stringify(r))
+    setActivoCorriente(r.activoCorriente)
+    setActivoNoCorriente(r.activoNoCorriente)
+    setPasivoCorriente(r.pasivoCorriente)
+    setPasivoNoCorriente(r.pasivoNoCorriente)
+    setCapitalSuscripto(r.capitalSuscripto)
+    setCierreEjercicio(r.fechaCierre)
+    setInicioEjercicio(r.fechaInicio)
+    setVentasDelEjercicio(r.ventasEjercicio)
+    setArchivos(Object.assign([],r.archivos))
+  }
+
   let columnsBalances = [
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <Popconfirm
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' ? <Popconfirm
       title="Esta seguro que lo  desea Eliminar ?"
       onConfirm={() =>  eliminarEjercicio(record)}
       onCancel={cancel}
@@ -290,6 +325,23 @@ export default () => {
     > <div className="cursor=pointer" ><DeleteOutlined /></div></Popconfirm>: <Space size="middle">
 
       </Space>),
+    },
+    {
+      title: 'Editar',
+      key: 'editar',
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' ?  <div onClick={() => {
+        cargarEjercicio(record)
+        setModo(MODO.EDIT)
+        setModalEjercicios(true)
+      }}><EditOutlined /></div>:  <Space size="middle" />)
+    },{
+      title: 'View',
+      key:'view',
+      render: (text,record) => <div onClick={() => {
+        cargarEjercicio(record)
+        setModo(MODO.VIEW)
+        setModalEjercicios(true)
+      }}><CloudDownloadOutlined /></div>
     },
     {
       title: 'Inicio de ejercicio',
@@ -303,28 +355,28 @@ export default () => {
     },
     {
       title: 'Activo Corriente',
-      dataIndex: 'activoCorriente',
+      render: (text,record: Ejercicio)=><div>{numeral(record.activoCorriente).format('$0,0.00')}</div>,
       key: 'activoCorriente',
     },
     {
       title: 'Activo no Corriente',
-      dataIndex: 'activoNoCorriente',
+      render: (text,record: Ejercicio)=><div>{numeral(record.activoNoCorriente).format('$0,0.00')}</div>,
       key: 'activoNoCorriente',
     },
 
     {
       title: 'Pasivo Corriente',
-      dataIndex: 'pasivoCorriente',
+      render: (text,record: Ejercicio)=><div>{numeral(record.pasivoCorriente).format('$0,0.00')}</div>,
       key: 'pasivoCorriente',
     },
     {
       title: 'Pasivo no  Corriente',
-      dataIndex: 'pasivoNoCorriente',
+      render: (text,record: Ejercicio)=><div>{numeral(record.pasivoNoCorriente).format('$0,0.00')}</div>,
       key: 'pasivoNoCorriente',
     },
     {
       title: 'Ventas del ejercicio',
-      dataIndex: 'ventasEjercicio',
+      drender: (text,record: Ejercicio)=><div>{numeral(record.ventasEjercicio).format('$0,0.00')}</div>,
       key: 'ventasEjercicio',
     },
     {
@@ -348,7 +400,7 @@ export default () => {
 
   
 
-  const agregarEjercicio = async (e) => {
+  const guardarEjercicio = async (e) => {
     if (!tramite.ejercicios)
       tramite.ejercicios = []
 
@@ -394,6 +446,13 @@ export default () => {
     }
 
 
+    
+    
+    if (MODO.EDIT){
+      tramite.ejercicios = tramite.ejercicios.filter( e => JSON.stringify(e)!== idBalance)
+    }
+
+
     tramite.ejercicios.push({
       fechaCierre: cierreEjercicio,
       fechaInicio: inicioEjercicio,
@@ -405,6 +464,7 @@ export default () => {
       ventasEjercicio: ventasDelEjercicio,
       archivos
     })
+    
     setTramite(Object.assign({}, tramite))
     await save()
     setModalEjercicios(false)
@@ -435,7 +495,10 @@ export default () => {
       <div className="flex  content-center  ">
         <div className="text-2xl font-bold py-4 w-3/4">  Ejercicios</div>
         <div className=" w-1/4 text-right content-center mt-4 ">
-          {isTramiteEditable(tramite) ?<Button type="primary" onClick={() => setModalEjercicios(true)} icon={<PlusOutlined />}> Agregar</Button> : '' }
+          {isTramiteEditable(tramite) ?<Button type="primary" onClick={() => {
+            setModalEjercicios(true)
+            setModo(MODO.NEW)
+          }} icon={<PlusOutlined />}> Agregar</Button> : '' }
         </div>
       </div>
       <div>
@@ -454,7 +517,7 @@ export default () => {
       <Modal
         title="Nuevo Ejercicio"
         visible={modalEjercicios}
-        onOk={agregarEjercicio}
+        onOk={guardarEjercicio}
         okText="Guardar"
         onCancel={() => setModalEjercicios(false)}
         cancelText="Cancelar"

@@ -28,6 +28,7 @@ interface Props {
   step?:any
   min?:any
   formatter?:any
+  locked?: boolean
 }
 
 export default (props: Props) => {
@@ -50,7 +51,7 @@ export default (props: Props) => {
         value={props.value}
         placeholder={props.placeholder}
         required={props.required}
-        disabled={!isTramiteEditable(tramite)}
+        disabled={!isTramiteEditable(tramite) || props.locked}
         onChange={ e => props.bindFunction(e)}
         type={props.type}
         min={props.min}

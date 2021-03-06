@@ -27,6 +27,7 @@ interface Props {
   type?:string
   step?:any
   min?:any
+  locked?: boolean
   maxLength?: number
 }
 
@@ -50,7 +51,7 @@ export default (props: Props) => {
         onChange={  e => props.bindFunction(props.type==='number' ?  parseInt(e.target.value,10) :e.target.value ) }
         placeholder={props.placeholder}
         required={props.required}
-        disabled={!isTramiteEditable(tramite)}
+        disabled={!isTramiteEditable(tramite) || props.locked}
         type={props.type}
         min={props.min}
         step={props.step}
