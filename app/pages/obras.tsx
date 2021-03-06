@@ -7,7 +7,7 @@ import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
 import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message } from 'antd';
-import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
@@ -26,6 +26,8 @@ import { CertificacionesPrecargadas } from '../components/obraCertificacionesPre
 import SelectMultiple from '../components/select_multiple'
 import SelectSimple from '../components/select'
 import InputNumberModal from '../components/input_number'
+import numeral from 'numeral'
+import Wrapper from '../components/wrapper'
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -42,6 +44,11 @@ function cancel(e) {
 }
 
 
+const MODO = {
+  NEW:'NEW',
+  EDIT:'EDIT',
+  VIEW: 'VIEW'
+}
 
 
 export default () => {
@@ -64,12 +71,15 @@ export default () => {
 
   const [obra, setObra] = useState<DDJJObra>(getEmptyObras())
   const [especialidad1, setEspecialidad1] = useState('')
+  const [modo, setModo]  = useState(MODO.NEW)
 
 
   useEffect(() => {
     if (!tramite.cuit)
       router.push('/')
   }, [])
+
+
 
 
   const save = async () => {
@@ -133,14 +143,14 @@ export default () => {
   const renderModalObra = () => {
     return (<div>
       <div className="text-left bg-gray-300 p-4 px-6 ">
-        <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2 rounded-full">{obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)}</Tag>
-        <Tag>Certificado Total </Tag> <Tag color="magenta" className="mr-2 rounded-full">{(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)}</Tag>
-        <Tag>Saldo </Tag> <Tag color="blue" className="mr-2 rounded-full">{(obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)}</Tag>
+        <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2 rounded-full">{numeral(obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</Tag>
+        <Tag>Certificado Total </Tag> <Tag color="magenta" className="mr-2 rounded-full">{numeral(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0).format('$0,0.00')}</Tag>
+        <Tag>Saldo </Tag> <Tag color="blue" className="mr-2 rounded-full">{numeral((obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</Tag>
 
       </div>
       <Tabs defaultActiveKey="datosGenerales" onChange={callback}>
         <TabPane tab="General" key="datosGenerales">
-          <ObrasDatosGenerales obra={obra} onChange={setObra} />
+          <ObrasDatosGenerales obra={obra} onChange={setObra} modo={modo as any} />
           <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
             <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
             <div className="grid grid-cols-2 gap-4 ">
@@ -666,7 +676,10 @@ export default () => {
       key: 'action',
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <Popconfirm
         title="Esta seguro que lo  deseas Eliminar  La Obra"
-        onConfirm={() => eliminarObra(record)}
+        onConfirm={() => {
+          setModo(MODO.EDIT)
+          eliminarObra(record)
+        }}
         onCancel={cancel}
         okText="Si, Eliminar"
         cancelText="Cancelar"
@@ -677,8 +690,19 @@ export default () => {
     {
       title: 'Editar',
       key: 'editar',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => editarObrar(Object.assign({},record))} className="cursor-pointer"><EditOutlined /></div> : <Space size="middle">
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => {
+        setModo(MODO.EDIT)
+        editarObrar(Object.assign({},record))
+      }} className="cursor-pointer"><EditOutlined /></div> : <Space size="middle">
       </Space>),
+    },
+    {
+      title: 'Ver',
+      key: 'ver',
+      render: (text, record) => <div onClick={() =>{
+        setModo(MODO.VIEW)
+        editarObrar(Object.assign({},record))
+      }} className="cursor-pointer"><CloudDownloadOutlined /></div>
     },
 
     {
@@ -734,16 +758,18 @@ export default () => {
     </div>
     <div className="px-20 mx-20 py-6 ">
       <div className="flex  content-center  ">
-        <div className="text-2xl font-bold py-4 w-3/4">  Declaración jurada de Obras</div>
+      <Wrapper title="Declaración jurada de Obras " attributeName="obras" isTitle>
         <div className=" w-1/4 text-right content-center mt-4 ">
           {isTramiteEditable(tramite) ? <Button type="primary" onClick={() => {
             const obraEmpty = getEmptyObras()
             obraEmpty.id = getCodigoObra()
             // obra.id = getCodigoObra()
+            setModo(MODO.VIEW)
             setObra(Object.assign({}, obraEmpty))
             setModalObras(true)
           }} icon={<PlusOutlined />}> Agregar</Button> : ''}
         </div>
+        </Wrapper>
       </div>
       <div>
         <Tabs defaultActiveKey="1" onChange={callback} >

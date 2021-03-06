@@ -21,6 +21,7 @@ import { saveTramite, setTramiteView } from '../redux/actions/main'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import moment from 'moment'
 import numeral from 'numeral'
+import Wrapper from '../components/wrapper'
 
 
 const { TabPane } = Tabs;
@@ -401,6 +402,13 @@ export default () => {
   
 
   const guardarEjercicio = async (e) => {
+
+    if (modo===MODO.VIEW){
+      setModalEjercicios(false)
+      clearState()
+      return
+    }
+  
     if (!tramite.ejercicios)
       tramite.ejercicios = []
 
@@ -493,14 +501,17 @@ export default () => {
     </div>
     <div className="px-20 mx-20 py-6 ">
       <div className="flex  content-center  ">
-        <div className="text-2xl font-bold py-4 w-3/4">  Ejercicios</div>
+      <Wrapper title="Ejercicios" attributeName="ejercicios" isTitle>
         <div className=" w-1/4 text-right content-center mt-4 ">
           {isTramiteEditable(tramite) ?<Button type="primary" onClick={() => {
             setModalEjercicios(true)
             setModo(MODO.NEW)
           }} icon={<PlusOutlined />}> Agregar</Button> : '' }
         </div>
+        </Wrapper>
       </div>
+
+
       <div>
         <Tabs defaultActiveKey="1" onChange={callback}  >
           <TabPane tab="Balances" key="1">

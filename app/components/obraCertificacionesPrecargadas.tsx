@@ -7,6 +7,7 @@ import DatePicker from './datePicker'
 import InputTextModal from './input_text_modal'
 import Upload from './upload'
 import InputNumberModal from './input_number'
+import numeral from 'numeral'
 
 export interface CertificacionesPrecargadasProps {
   obra: DDJJObra,
@@ -56,8 +57,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       render: (text, record) => <div>{moment(record.periodo, 'DD/MM/YYYY').format('MMMM YYYY')}</div>
     }, {
       title: 'Monto',
-      dataIndex: 'monto',
-      key: 'monto'
+      render: (text,record) => <div>{numeral(record.monto).format('$0,0.00')}</div>
     },
     {
 			title: 'Adjunto',
@@ -164,7 +164,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
               <Table.Summary.Row>
                 <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
                 <Table.Summary.Cell index={1}>
-                  <div >{pageData.map(d => d.monto).reduce((val, acc) => acc = val + acc)}</div>
+                  <div >{numeral(pageData.map(d => d.monto).reduce((val, acc) => acc = val + acc)).format('$0,0.00')}</div>
                 </Table.Summary.Cell>
               </Table.Summary.Row>
             </div> : ''}

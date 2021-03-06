@@ -12,13 +12,15 @@ const { Option } = Select;
 export interface ObrasDatosGeneralesProps {
   obra: DDJJObra
   onChange: Function
-}
+  modo : 'NEW' | 'EDIT' | 'VIEW'
+} 
 
 
 
 export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   obra = null,
-  onChange = () => null
+  onChange = () => null,
+  modo = null
 }) => {
 
   const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
@@ -260,6 +262,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
           <InputTextModal
             label="Denominacion"
             labelRequired="*"
+            locked={modo === 'VIEW'}
             value={obra.denominacion}
             bindFunction={(value) => {
               obra.denominacion = value
@@ -280,6 +283,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             defaultOption="Tipo de Estado"
             labelRequired="*"
             labelMessageError=""
+            locked={modo === 'VIEW'}
             value={estado}
             bindFunction={(value) => setEstado(value)}
             option={EstadoObra.map(u => (
@@ -295,6 +299,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             title="Tipo de Contratacion"
             defaultOption="Tipo de contratacion"
             labelRequired="*"
+            locked={modo === 'VIEW'}
             labelMessageError=""
             value={tipoContratacion}
             bindFunction={(value) => { settipoContratacion(value) }}
@@ -308,6 +313,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
         <div className="pb-6" >
           <SelectModal
             title="Nivel"
+            locked={modo === 'VIEW'}
             defaultOption="Nivel"
             labelRequired="*"
             labelMessageError=""
@@ -328,6 +334,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             label={estado === 'Preadjudicada' ? 'Fecha de Pre Adjudicación' : 'Fecha de Adjudicación'}
             labelRequired="*"
             labelObservation=""
+            locked={modo === 'VIEW'}
             labeltooltip=""
             labelMessageError=""
             value={fechaAdjudicacion}
@@ -339,6 +346,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             <DatePickerModal
               placeholder="Fecha  (dd/mm/yyyy)"
               label="Fecha  de Inicio"
+              locked={modo === 'VIEW'}
               labelRequired="*"
               labelObservation=""
               labeltooltip=""
@@ -352,6 +360,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             placeholder="Fecha  (dd/mm/yyyy)"
             label={estado === 'Finalizada' ? 'Fecha de Finalizacion' : 'Fecha de Suspencion'}
             labelRequired="*"
+            locked={modo === 'VIEW'}
             labelObservation=""
             labeltooltip=""
             labelMessageError=""

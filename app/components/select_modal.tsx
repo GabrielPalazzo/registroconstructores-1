@@ -25,6 +25,7 @@ interface Props {
   labelObservation? : string
   required: boolean
   showHands? : boolean
+  locked? : boolean
 }
 
 
@@ -40,7 +41,7 @@ export default (props) => {
     </div>
     <div className="w-full">
       <Select
-        disabled={!isTramiteEditable(tramite)}
+        disabled={!isTramiteEditable(tramite) || props.locked}
         style={{ width: '100%' }}
         value={props.value}
         onChange={props.bindFunction}>

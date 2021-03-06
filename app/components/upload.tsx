@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Upload, message, Tooltip } from 'antd';
 import { LikeFilled, DislikeFilled, CloudUploadOutlined } from '@ant-design/icons';
 import { getCodigoObra, getReviewAbierta, getToken, getUsuario } from '../services/business';
-import {useSelector}  from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const { Dragger } = Upload;
 const customColors = ['#2897D4'];
@@ -18,7 +18,7 @@ interface Props {
   onRemove: Function
 }
 
-const mapFile  = (fileToMap) => {
+const mapFile = (fileToMap) => {
   return {
     uid: fileToMap.cid,
     name: fileToMap.name,
@@ -32,15 +32,15 @@ export default (props: Props) => {
 
   const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
 
-  const isEditable = () => {    
-    return tramite.status ==='BORRADOR' || tramite.status ==='OBSERVADO' &&  getUsuario().isConstructor()
+  const isEditable = () => {
+    return tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' && getUsuario().isConstructor()
 
   }
 
-  
+
   const propsUpload = {
     multiple: false,
-    defaultFileList: props.defaultValue.map(mapFile) as any,
+    defaultFileList: props.defaultValue ? props.defaultValue.map(mapFile) as any : [],
     //fileList: props.defaultValue,
     action: '/api/files/new',
     headers: {
@@ -49,11 +49,11 @@ export default (props: Props) => {
     onRemove(fileToRemove) {
       props.onRemove(fileToRemove)
     },
-    showUploadList:{
+    showUploadList: {
       showDownloadIcon: true,
-      downloadIcon:<CloudUploadOutlined > Ver documento</CloudUploadOutlined>,
+      downloadIcon: <CloudUploadOutlined > Ver documento</CloudUploadOutlined>,
       showRemoveIcon: isEditable(),
-      
+
     },
     onChange(info) {
 
@@ -91,17 +91,18 @@ export default (props: Props) => {
   };
 
 
-  console.log(propsUpload)
   return (<div key={getCodigoObra()} >
     <div className="flex">
-      <div className="w-5/5 pb-2">
-        <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
-      </div>
-      
+      {
+        props.label && <div className="w-5/5 pb-2">
+          <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
+        </div>
+      }
+
 
     </div>
     <div className="w-full">
-    <Dragger key={getCodigoObra()}
+      <Dragger key={getCodigoObra()}
         className="flex py-1 text-left"
         {...propsUpload}>
         <p className="ant-upload-drag-icon inline-block mr-2">
