@@ -21,6 +21,9 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
+
+import Wrapper from '../components/wrapper'
+
 function confirm(e) {
   console.log(e);
   message.success('Se elimino correctamente');
@@ -1448,8 +1451,9 @@ export default () => {
         <div className="text-2xl font-bold py-4"> Firma del Contrato Constitutivo</div>
         <div className="grid grid-cols-4 gap-4 ">
           <div >
+          <Wrapper title="fecha" attributeName="fechaContratoConstitutivo" >
             <DatePickerModal
-              label="Fecha"
+
               value={tramite.datosSocietarios.sociedadAnonima.contrato.fecha}
               bindFunction={value => {
                 tramite.datosSocietarios.sociedadAnonima.contrato.fecha = value
@@ -1461,12 +1465,14 @@ export default () => {
               labeltooltip=""
               labelMessageError=""
             />
+            </Wrapper>
           </div>
 
         </div>
 
         <div className="rounded-lg mt-4 border px-4 py-4">
-          <div className="text-2xl font-bold"> Inscripción de Contrato Constitutivo (en D.P.P.J / I.G.J.)</div>
+          
+          <Wrapper isTitle title="Inscripción de Contrato Constitutivo (en D.P.P.J / I.G.J.)" attributeName="inscripcionContractoConstitutivoDPPJ" >
           <div className="grid grid-cols-2 gap-4 ">
             <div >
               <InputTextModal
@@ -1521,12 +1527,11 @@ export default () => {
 
 
           </div>
+          </Wrapper>
         </div>
         <div className="rounded-lg mt-4 border px-4 py-4">
-          <div className="text-2xl font-bold pb-4">
-            Modificación del Contrato Social (inscripta en D.P.P.J / I.G.J. correspondiente a ampliación del objeto social para realizar actividades del rubro Construcción)
-              <Tooltip title="En caso de que la empresa sea Constructora desde su inscripción inicial, repetir mismos datos y fecha de la Inscripción de Contrato Constitutivo"> <QuestionCircleOutlined className="pl-4" /></Tooltip>
-          </div>
+         
+          <Wrapper isTitle title="Modificación del Contrato Social (inscripta en D.P.P.J / I.G.J. correspondiente a ampliación del objeto social para realizar actividades del rubro Construcción)" attributeName="modificacionContratoSocialSA" >
           <div className="grid grid-cols-2 gap-4 ">
             <div >
               <InputTextModal
@@ -1580,10 +1585,12 @@ export default () => {
             </div>
 
           </div>
+          </Wrapper>
 
         </div>
         <div className="rounded-lg mt-4 border px-4 py-4">
           <div className="text-2xl font-bold py-4 mt-4"> Última modificación del Contrato Social (inscripta en D.P.P.J / I.G.J.)</div>
+          <Wrapper isTitle title="Última modificación del Contrato Social (inscripta en D.P.P.J / I.G.J.)" attributeName="ultimaModifcacionContratoSA" >
           <div className="grid grid-cols-2 gap-4 ">
             <div >
               <InputText
@@ -1645,6 +1652,7 @@ export default () => {
             </div>
 
           </div>
+          </Wrapper>
           <Table columns={columnsModificacionEstatuto}
 
             locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />
@@ -1652,8 +1660,9 @@ export default () => {
         <div className="text-2xl font-bold py-4 mt-4"> Fecha de vencimiento del Contrato Social</div>
         <div className="grid grid-cols-2 gap-4 ">
           <div >
+          <Wrapper  title="Fecha" attributeName="fechaVencimientoContratoSA" >
             <DatePicker
-              label="Fecha"
+           
               value={tramite.datosSocietarios.fechaVencimiento}
               bindFunction={(value) => {
                 tramite.datosSocietarios.fechaVencimiento = value
@@ -1665,6 +1674,7 @@ export default () => {
               labeltooltip=""
               labelMessageError=""
             />
+            </Wrapper>
           </div>
         </div>
         <div className=" content-center  rounded-lg border  px-4 py-4">

@@ -4,14 +4,14 @@ import { NavigationStep } from '../components/steps'
 import { InputText } from '../components/input_text'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
-import { Button, Steps,Alert } from 'antd';
+import { Button, Steps, Alert } from 'antd';
 import Substeps from '../components/subSteps'
 import { useSelector } from 'react-redux'
 import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
 import { useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
 import { Loading } from '../components/loading';
-
+import Wrapper from '../components/wrapper'
 
 
 const { Step } = Steps;
@@ -63,7 +63,7 @@ export default () => {
 
     return <div className="mt-6 pt-6 text-center">
       <Button type="primary" onClick={async () => {
-         if (tramite.emailInstitucional.trim() && !/\S+@\S+\.\S+/.test(tramite.emailInstitucional.trim())) {
+        if (tramite.emailInstitucional.trim() && !/\S+@\S+\.\S+/.test(tramite.emailInstitucional.trim())) {
           setError('El campo Email se debe ser xxxxx@jjjj.jjj')
           setShowError(true)
           return
@@ -86,32 +86,35 @@ export default () => {
     </div>
     <Substeps progressDot current={0} esPersonaFisica={isPersonaFisica(tramite)} />
     <div className="px-20 mx-20 py-6 ">
-    
+
       <div className="text-2xl font-bold py-4"> Domicilio Legal</div>
       <div >
-        <InputText
-          attributeName='domicilioLegal'
-          label="Domicilio"
-          labelRequired="*"
-          value={tramite.domicilioLegal}
-          bindFunction={(value) => {
-            tramite.domicilioLegal = value
-            updateObjTramite()
-          }}
-          placeHolder="Indique calle,numero,provincia"
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-          required />
+        <Wrapper attributeName="domicilioLegal" title="Domicilio">
+          <InputText
+            attributeName='domicilioLegal'
+           
+            labelRequired="*"
+            value={tramite.domicilioLegal}
+            bindFunction={(value) => {
+              tramite.domicilioLegal = value
+              updateObjTramite()
+            }}
+            placeHolder="Indique calle,numero,provincia"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+            required />
+        </Wrapper>
       </div>
       <div className="pt-4">
+      <Wrapper attributeName="documentoUltimoDomicilio" title="Adjunte un documento en donde conste el último domicilio legal inscripto en la IGJ o Registro de Comercio">
         <Upload
-          label="Adjunte un documento en donde conste el último domicilio legal inscripto en la IGJ o Registro de Comercio "
+         
           labelRequired="*"
           labelMessageError=""
           defaultValue={tramite.constanciaDomicilioLegal as any}
-          onRemove={ fileToRemove => {
-            tramite.constanciaDomicilioLegal = tramite.constanciaDomicilioLegal.filter(f => f.cid !==fileToRemove.cid)
+          onRemove={fileToRemove => {
+            tramite.constanciaDomicilioLegal = tramite.constanciaDomicilioLegal.filter(f => f.cid !== fileToRemove.cid)
             save()
             setIsLoading(false)
           }}
@@ -125,11 +128,13 @@ export default () => {
           }}
 
         />
+        </Wrapper>
 
 
       </div>
       <div className="text-2xl font-bold py-4"> Domicilio Real</div>
       <div>
+      <Wrapper attributeName="domicilioReal" title="Domicilio">
         <InputText
           value={tramite.domicilioReal}
           attributeName='domicilioReal'
@@ -137,50 +142,51 @@ export default () => {
             tramite.domicilioReal = value
             updateObjTramite()
           }}
-          label="Domicilio"
+          
           labelRequired="*"
           placeHolder="Indique calle,numero,provincia"
           labelObservation=""
           labeltooltip=""
           labelMessageError=""
           required />
+          </Wrapper>
       </div>
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
-        <InputText
-          value={tramite.telefono}
-          attributeName='telefono'
-          bindFunction={(value) => {
-            tramite.telefono = value
-            updateObjTramite()
-          }}
-          label="Telefono"
-          labelRequired="*"
-          placeHolder="Indique el numero de telefono"
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-          required />
+          <InputText
+            value={tramite.telefono}
+            attributeName='telefono'
+            bindFunction={(value) => {
+              tramite.telefono = value
+              updateObjTramite()
+            }}
+            label="Telefono"
+            labelRequired="*"
+            placeHolder="Indique el numero de telefono"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+            required />
 
         </div>
         <div className="pb-6" >
-        <InputText
-          value={tramite.telefonoAlternativo}
-          attributeName='telefonoAlternativo'
-          bindFunction={(value) => {
-            tramite.telefonoAlternativo = value
-            updateObjTramite()
-          }}
-          label="Telefono Alternativo"
-          labelRequired=""
-          placeHolder="Indique el numero de telefono"
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-          required />
+          <InputText
+            value={tramite.telefonoAlternativo}
+            attributeName='telefonoAlternativo'
+            bindFunction={(value) => {
+              tramite.telefonoAlternativo = value
+              updateObjTramite()
+            }}
+            label="Telefono Alternativo"
+            labelRequired=""
+            placeHolder="Indique el numero de telefono"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+            required />
 
         </div>
-        </div>
+      </div>
 
       <div className="text-2xl font-bold py-4"> Domicilio Electronico</div>
       {showError ? <div className="mb-4">
@@ -193,6 +199,7 @@ export default () => {
           afterClose={() => setShowError(false)}
         /></div> : ''}
       <div>
+      <Wrapper attributeName="emailInstitucional" title="Email Institucional">
         <InputText
           attributeName="emailInstitucional"
           value={tramite.emailInstitucional}
@@ -201,10 +208,11 @@ export default () => {
             updateObjTramite()
           }}
           type="email"
-          label="Email institucional"
+          
           labelRequired="*"
           placeHolder="Email Institucional"
         />
+        </Wrapper>
       </div>
 
 

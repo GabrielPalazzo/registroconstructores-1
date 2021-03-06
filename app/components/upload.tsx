@@ -10,7 +10,7 @@ const customColors = ['#2897D4'];
 
 
 interface Props {
-  label: string
+  label?: string
   labelMessageError?: string
   labelRequired?: string
   onOnLoad: Function

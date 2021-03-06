@@ -19,7 +19,7 @@ let dateFormat = 'DD/MM/YYYY';
 interface Props {
   value: any
   bindFunction: Function
-  label: string,
+  label?: string,
   labelRequired: string
   placeholder: any
   labelMessageError?: string
@@ -35,9 +35,11 @@ export default (props: Props) => {
 
   return (<div >
     <div className="flex pb-2">
-      <div className="w-3/5">
+      {
+        props.label && <div className="w-3/5">
         <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
       </div>
+      }
 
       {props.showHands ? <div className="justify-end w-2/5">
         <div className=" text-right">

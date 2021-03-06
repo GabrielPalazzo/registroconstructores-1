@@ -873,7 +873,9 @@ export default (props) => {
         </div>*/}
 
         <Wrapper isTitle title={isPersonaFisica ? 'Apoderados / Usuarios' : 'Apoderados y/o Representantes legales'} attributeName="datosApoderados">
-        
+        {isTramiteEditable(tramite) ? <div className=" w-1/4 text-right content-center mt-4 ">
+            <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
+          </div> : ''}
         <Modal
           title="Datos del Usuario"
           visible={visible}
