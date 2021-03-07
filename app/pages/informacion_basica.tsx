@@ -237,6 +237,7 @@ export default (props) => {
       render: (text, record) => <div onClick={() => {
         setApellido(record.apellido)
         setNombre(record.nombre)
+        setEmail(record.email)
         setNroDocumentoApoderado(record.nroDocumento)
         setTipoDocumentoApoderado(record.tipoDocumento)
         setTipoApoderado(record.tipoApoderado)
