@@ -8,6 +8,7 @@ import Upload from './upload'
 import { Button, Select, Table, Alert, Space, Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
+import { LinkToFile } from './linkToFile'
 
 export interface ObrasAmpliacionesProps {
   obra: DDJJObra
@@ -64,7 +65,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     {
       title: 'Adjunto',
       key: 'adjunto',
-      render: (text, record) => <div>{record.archivos && record.archivos.map(f => f.name).join(', ')}</div>
+      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>
     }
 
 

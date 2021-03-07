@@ -8,6 +8,7 @@ import InputTextModal from './input_text_modal'
 import Upload from './upload'
 import InputNumberModal from './input_number'
 import numeral from 'numeral'
+import { LinkToFile } from './linkToFile'
 
 export interface CertificacionesPrecargadasProps {
   obra: DDJJObra,
@@ -61,7 +62,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     },
     {
 			title: 'Adjunto',
-			render: (text,record) => <div>{record.archivos && record.archivos.map( f=> f.name).join(', ')}</div>,
+			render: (text,record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
 			key: 'adjunto',
 		}
   ]

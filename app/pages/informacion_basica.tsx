@@ -592,7 +592,7 @@ export default (props) => {
             <Wrapper title="Nombre" attributeName="NombrePersonaFisica">
               <InputText
                 attributeName="NombrePersonaFisica"
-                label="Nombre"
+                
                 labelRequired="*"
                 placeHolder="Nombre"
                 labelObservation=""
