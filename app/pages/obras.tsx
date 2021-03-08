@@ -28,6 +28,7 @@ import SelectSimple from '../components/select'
 import InputNumberModal from '../components/input_number'
 import numeral from 'numeral'
 import Wrapper from '../components/wrapper'
+import { LinkToFile } from '../components/linkToFile';
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -665,7 +666,7 @@ export default () => {
     },
     {
       title: 'Adjunto',
-      dataIndex: 'archivosPlazos',
+      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
       key: 'archivosPlazos',
     }
   ]

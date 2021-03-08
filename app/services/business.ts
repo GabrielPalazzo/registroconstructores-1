@@ -3,6 +3,9 @@ import * as jwt from "jsonwebtoken"
 import _ from 'lodash'
 import { customAlphabet } from 'nanoid'
 
+
+
+
 export const getToken = () => {
   return localStorage.getItem('token') ? localStorage.getItem('token') : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNlYmEgQnJvbWJlcmciLCJpYXQiOjE1MTYyMzkwMjJ9.vM1mo49C9FazAkIbDe2UnUXQY7Qfkm3IC4eDpVFLviM'
 }
@@ -52,9 +55,35 @@ export const getTramiteByCUIT = (cuit: string): Promise<TramiteAlta> => {
   })
 }
 
+export const getCertificados = (cuit: string, razonSocial: string) : Promise<any> => {
+  return axios.get(`/api/certificado?cuit=${cuit}&razonSocial=${razonSocial}`, {
+    headers: {
+      Authorization: 'Bearer ' + getToken()
+    }
+  }).then((t) => {
+    return t.data.certificados
+  }).catch(err => {
+    return null
+  })
+}
+
+
+export const migrarCertificados = async () => {
+  return axios.get(`/api/certificado/migrador}`, {
+    headers: {
+      Authorization: 'Bearer ' + getToken()
+    }
+  }).then((t) => {
+    return t.data.certificados
+  }).catch(err => {
+    return null
+  })
+}
+
 export const getEmptyTramiteAlta = (): TramiteAlta => {
   return {
     apoderados: [],
+    creatorId: null,
     inscripcionAFIPConstancia: [],
     certificadoFiscal: null,
     cuit: '',

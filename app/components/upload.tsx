@@ -41,7 +41,6 @@ export default (props: Props) => {
   const propsUpload = {
     multiple: false,
     defaultFileList: props.defaultValue ? props.defaultValue.map(mapFile) as any : [],
-    //fileList: props.defaultValue,
     action: '/api/files/new',
     headers: {
       authorization: 'Bearer ' + getToken()
@@ -56,16 +55,6 @@ export default (props: Props) => {
 
     },
     onChange(info) {
-
-      /*
-      let fileList = [...info.fileList]
-      fileList.forEach(function (file, index) {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-          file.base64 = e.target.result;
-        };
-        reader.readAsDataURL(info.file.originFileObj);
-      });*/
 
 
       const { status } = info.file;

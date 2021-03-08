@@ -7,6 +7,7 @@ import Upload from './upload'
 import { Button, Select, Table, Alert, Space, Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
+import {LinkToFile} from '../components/linkToFile'
 
 const { Option } = Select;
 export interface ObrasDatosGeneralesProps {
@@ -91,7 +92,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     {
       title: 'Adjunto',
       key: 'adjunto',
-      render: (text, record) => <div>{record.acta && record.acta.map(f => f.name).join(', ')}</div>
+      render: (text, record) => <div>{record.acta && record.acta.map(f => <LinkToFile fileName={f.name} id={f.cid} />)}</div>
     }
 
 
@@ -240,11 +241,6 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     setfechaInicio("")
   }
 
- 
-
-
-
-  console.log(obra.actasObra)
    return <div>
       {showError ? <div className="mb-4">
         <Alert

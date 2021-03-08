@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal,Progress,Table,Empty } from 'antd'
+import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty } from 'antd'
 import { Space } from 'antd'
 import { getColorStatus, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
@@ -21,6 +21,7 @@ function callback(key) {
 export interface BandejaConstructorProps {
   tramites: Array<TramiteAlta>
 }
+
 
 export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
   tramites = []
@@ -45,62 +46,62 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
 
   return <div>
-    <Modal title="Previsualizar" 
-    visible={showProfile} 
-    onOk={handleOk} 
-    footer={[
-      <Button onClick={handleCancel}>Cerrar</Button>
-      
-    ]}
-    onCancel={() => setShowProfile(false)}
-    width={1000}>
+    <Modal title="Previsualizar"
+      visible={showProfile}
+      onOk={handleOk}
+      footer={[
+        <Button onClick={handleCancel}>Cerrar</Button>
+
+      ]}
+      onCancel={() => setShowProfile(false)}
+      width={1000}>
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile && activeProfile.razonSocial}</div>
 
       <div className="grid grid-cols-2 gap-4 mb-4 ">
-          <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
-            <div>
-              <div className="text-sm  text-muted-700 ">Tipo de entidad</div>
-              <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.personeria}</div>
-            </div>
-            <div>
-              <div className="text-sm  text-muted-700 ">CUIT</div>
-              <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.cuit}</div>
-            </div>
+        <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
+          <div>
+            <div className="text-sm  text-muted-700 ">Tipo de entidad</div>
+            <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.personeria}</div>
           </div>
-          <div className="grid grid-cols-1 border gap-4 px-4 py-4">
-            <div>
-              <div className="text-base font-semibold tracking-wider ">Registrado como {activeProfile && activeProfile.tipoEmpresa}</div>
-              <div className="text-base font-semibold tracking-wider "> En estado {activeProfile && activeProfile.status}</div>
-            </div>
-
+          <div>
+            <div className="text-sm  text-muted-700 ">CUIT</div>
+            <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.cuit}</div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4 mb-4 ">
-          <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
-            <div>
-              <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Contratación Referencial</div>
-              <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
-            </div>
-            <div>
-              <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Ejecución Referencial</div>
-              <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
-            </div>
+        <div className="grid grid-cols-1 border gap-4 px-4 py-4">
+          <div>
+            <div className="text-base font-semibold tracking-wider ">Registrado como {activeProfile && activeProfile.tipoEmpresa}</div>
+            <div className="text-base font-semibold tracking-wider "> En estado {activeProfile && activeProfile.status}</div>
           </div>
-          <div className="grid grid-cols-2 border gap-4 px-4 py-4 text-center">
-            <div>
-              <div className="text-base font-semibold tracking-wider "><Progress type="circle"  width={80} percent={75} /></div>
-              <div className="text-sm  text-muted-700 ">Obras de arquitectura</div>
-            </div>
-            <div>
-              <div className="text-base font-semibold tracking-wider "><Progress type="circle"  width={80} percent={75} /></div>
-              <div className="text-sm  text-muted-700 ">Sanitaria</div>
-            </div>
 
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mb-4 ">
+        <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
+          <div>
+            <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Contratación Referencial</div>
+            <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
+          </div>
+          <div>
+            <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Ejecución Referencial</div>
+            <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
           </div>
         </div>
-        <div className="text-xl font-bold mt-4 mb-4">Obras adjudicadas y/o en ejecución</div>
-        <Table columns={columnsObras}   locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
-     
+        <div className="grid grid-cols-2 border gap-4 px-4 py-4 text-center">
+          <div>
+            <div className="text-base font-semibold tracking-wider "><Progress type="circle" width={80} percent={75} /></div>
+            <div className="text-sm  text-muted-700 ">Obras de arquitectura</div>
+          </div>
+          <div>
+            <div className="text-base font-semibold tracking-wider "><Progress type="circle" width={80} percent={75} /></div>
+            <div className="text-sm  text-muted-700 ">Sanitaria</div>
+          </div>
+
+        </div>
+      </div>
+      <div className="text-xl font-bold mt-4 mb-4">Obras adjudicadas y/o en ejecución</div>
+      <Table columns={columnsObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
+
 
 
 
@@ -370,7 +371,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 }
 
 const columnsObras = [
- {
+  {
     title: 'Codigo',
     dataIndex: 'codigo',
     key: 'codigo',

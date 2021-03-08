@@ -237,6 +237,7 @@ export default (props) => {
       render: (text, record) => <div onClick={() => {
         setApellido(record.apellido)
         setNombre(record.nombre)
+        setEmail(record.email)
         setNroDocumentoApoderado(record.nroDocumento)
         setTipoDocumentoApoderado(record.tipoDocumento)
         setTipoApoderado(record.tipoApoderado)
@@ -459,7 +460,7 @@ export default (props) => {
             label="Adjunte fotos de frente y dorso del DNI"
             labelRequired="*"
             labelMessageError=""
-            defaultValue={[]}
+            defaultValue={fotosDNIApoderado as any}
             onOnLoad={(file) => {
               fotosDNIApoderado.push(file)
               setFotosDNIApoderado(Object.assign([], fotosDNIApoderado))
@@ -475,7 +476,7 @@ export default (props) => {
               label={tipoApoderado === 'Apoderado' ? 'Adjunte el Poder' : ' Acta de designación de autoridades'}
               labelRequired="*"
               labelMessageError=""
-              defaultValue={[]}
+              defaultValue={actaAutoridadesApoderado as any}
               onOnLoad={(file) => {
                 actaAutoridadesApoderado.push(file)
                 setActaAutoridadesApoderado(Object.assign([], actaAutoridadesApoderado))
@@ -592,6 +593,10 @@ export default (props) => {
             <Wrapper title="Nombre" attributeName="NombrePersonaFisica">
               <InputText
                 attributeName="NombrePersonaFisica"
+<<<<<<< HEAD
+=======
+                
+>>>>>>> 2ac2694ccee62f1bc1c611bdd2e64f7ce24670b0
                 labelRequired="*"
                 placeHolder="Nombre"
                 labelObservation=""
@@ -903,7 +908,7 @@ export default (props) => {
             <InputText
               label="Declarante"
               attributeName="declarante"
-              value={`${usuario.userData().GivenName} ${usuario.userData().Surname}`}
+              value={`${tramite.creatorId.GivenName} ${tramite.creatorId.Surname}`}
               disabled={true}
               labelRequired="*"
               placeHolder="Constructora del oeste"

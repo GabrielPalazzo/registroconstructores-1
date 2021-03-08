@@ -161,6 +161,7 @@ type Ejercicio = {
 
 type TramiteAlta = {
   _id?: string,
+  creatorId: Usuario,
   inscripcionAFIPConstancia: Array<Archivo>
   revisiones?: Array<RevisionTramite>
   id: string
