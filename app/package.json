@@ -8,7 +8,8 @@
     "start": "next start",
     "tailwind:css": "tailwindcss build styles/main.src.css -o public/style/main.css",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "migrate:certificates": "node -r esm ./jobs/migrate_certificates.js"
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
@@ -19,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
     "connect-mongo": "^3.2.0",
+    "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "express-session": "^1.17.1",
     "formidable-serverless": "^1.0.3",

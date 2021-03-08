@@ -1589,7 +1589,7 @@ export default () => {
 
         </div>
         <div className="rounded-lg mt-4 border px-4 py-4">
-          <div className="text-2xl font-bold py-4 mt-4"> Última modificación del Contrato Social (inscripta en D.P.P.J / I.G.J.)</div>
+          
           <Wrapper isTitle title="Última modificación del Contrato Social (inscripta en D.P.P.J / I.G.J.)" attributeName="ultimaModifcacionContratoSA" >
           <div className="grid grid-cols-2 gap-4 ">
             <div >
@@ -1901,8 +1901,9 @@ export default () => {
         </div>
         {tramite.poseeIERIC ? <div className="grid grid-cols-3 gap-4 ">
           <div>
+          <Wrapper title="IERIC" attributeName="nroIeric" >
             <InputText
-              label="IERIC"
+             
               attributeName="ieric"
               labelRequired="*"
               placeHolder="IERIC"
@@ -1915,26 +1916,30 @@ export default () => {
               labeltooltip=""
               labelMessageError=""
             />
+            </Wrapper>
           </div>
           <div>
+          <Wrapper title="Vencimiento IERIC" attributeName="fechaVtoIeric" >
             <DatePicker
               value={tramite.vtoIeric}
               bindFunction={(value) => {
                 tramite.vtoIeric = value
                 updateObjTramite()
               }}
-              label="Vencimiento IERIC"
+              
               labelRequired="*"
               placeholder="dd/mm/aaaa"
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
             />
+            </Wrapper>
           </div>
 
           <div>
+          <Wrapper title="Adjunte IERIC" attributeName="constanciaIeric" >
             <Upload
-              label="Adjunte IERIC"
+              
               labelRequired="*"
               labelMessageError=""
               defaultValue={tramite.archivoIERIC as any}
@@ -1953,6 +1958,7 @@ export default () => {
                 setIsLoading(false)
               }}
             />
+            </Wrapper>
 
           </div>
 

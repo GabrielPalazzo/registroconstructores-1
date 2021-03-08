@@ -460,7 +460,7 @@ export default (props) => {
             label="Adjunte fotos de frente y dorso del DNI"
             labelRequired="*"
             labelMessageError=""
-            defaultValue={[]}
+            defaultValue={fotosDNIApoderado as any}
             onOnLoad={(file) => {
               fotosDNIApoderado.push(file)
               setFotosDNIApoderado(Object.assign([], fotosDNIApoderado))
@@ -476,7 +476,7 @@ export default (props) => {
               label={tipoApoderado === 'Apoderado' ? 'Adjunte el Poder' : ' Acta de designación de autoridades'}
               labelRequired="*"
               labelMessageError=""
-              defaultValue={[]}
+              defaultValue={actaAutoridadesApoderado as any}
               onOnLoad={(file) => {
                 actaAutoridadesApoderado.push(file)
                 setActaAutoridadesApoderado(Object.assign([], actaAutoridadesApoderado))
@@ -908,7 +908,7 @@ export default (props) => {
             <InputText
               label="Declarante"
               attributeName="declarante"
-              value={`${usuario.userData().GivenName} ${usuario.userData().Surname}`}
+              value={`${tramite.creatorId.GivenName} ${tramite.creatorId.Surname}`}
               disabled={true}
               labelRequired="*"
               placeHolder="Constructora del oeste"
