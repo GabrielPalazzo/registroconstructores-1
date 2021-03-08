@@ -6,7 +6,7 @@ import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Space,Empty } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Space,Empty, Alert, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import LikeDislike from '../components/like_dislike'
@@ -108,6 +108,15 @@ export default (props) => {
 
   const renderModalPropietarios = () => {
     return (<div>
+      {showError ? <div className="mb-4">
+        <Alert
+          message=''
+          description={error}
+          type="error"
+          showIcon
+          closable
+          afterClose={() => setShowError(false)}
+        /></div> : ''}
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
           <InputTextModal
@@ -191,7 +200,6 @@ export default (props) => {
         <div className="pb-6" >
           <InputTextModal
             label="Observaciones"
-            labelRequired="*"
             placeholder="descripcion "
             value={observaciones}
             bindFunction={(value) => { setObservaciones(value) }}
@@ -234,6 +242,41 @@ export default (props) => {
   const agregarPropietario = async () => {
     if (!tramite.propietarios)
       tramite.propietarios=[]
+
+      if (!titular) {
+        setError('El titular es requerido')
+        setShowError(true)
+        return
+      }
+      if (!cuit) {
+        setError('El cuit  es requerida')
+        setShowError(true)
+        return
+      }
+      if (!porcentajeCapital) {
+        setError('El porcentaje del Capital es requerido')
+        setShowError(true)
+        return
+      }
+    
+      if (!cantidadVoto) {
+        setError('La cantidad de votos  es requerida')
+        setShowError(true)
+        return
+      }
+      
+      if (!montoCapital) {
+        setError('El monto Capital es requerido')
+        setShowError(true)
+        return
+      }
+      
+      if (!tipoPersoneriaPropietarios) {
+        setError('El tipo de personeria es requerido')
+        setShowError(true)
+        return
+      }
+      
 
     tramite.propietarios.push({
       archivos,

@@ -545,7 +545,7 @@ export default (props) => {
       </div>
       <div className="grid grid-cols-2 gap-4 ">
         <div >
-          <Wrapper title="Tipo de personeria" attributeName="tipoPersoneria">
+          <Wrapper title="Tipo de personeria" attributeName="tipoPersoneria" labelRequired="*">
             <SelectSimple
               value={tramite.personeria}
               bindFunction={(value) => {
@@ -553,7 +553,6 @@ export default (props) => {
                 updateObjTramite()
               }}
               defaultOption="Seleccione el tipo de personeria"
-              labelRequired="*"
               labelMessageError=""
               required
               option={tipoPersoneria.map(u => (
@@ -563,9 +562,8 @@ export default (props) => {
 
         </div>
         <div >
-          <Wrapper title="Tipo de Empresa" attributeName="tipoEmpresa">
+          <Wrapper title="Tipo de Empresa" attributeName="tipoEmpresa" labelRequired="*">
             <SelectMultiple
-              labelRequired="*"
               value={tramite.tipoEmpresa}
               bindFunction={(value) => {
                 tramite.tipoEmpresa = value
@@ -592,10 +590,9 @@ export default (props) => {
 
         {isPersonaFisica(tramite) ? <div className="flex">
           <div className="w-full mr-2" >
-            <Wrapper title="Nombre" attributeName="NombrePersonaFisica">
+            <Wrapper title="Nombre" attributeName="NombrePersonaFisica" labelRequired="*">
               <InputText
                 attributeName="NombrePersonaFisica"
-                labelRequired="*"
                 placeHolder="Nombre"
                 labelObservation=""
                 labeltooltip=""
@@ -611,10 +608,9 @@ export default (props) => {
           </div>
 
           <div className="w-full mr-2" >
-            <Wrapper title="Apellido" attributeName="apellidoPersonaFisica">
+            <Wrapper title="Apellido" attributeName="apellidoPersonaFisica" labelRequired="*">
               <InputText
                 attributeName="ApellidoPersonaFisica"
-                labelRequired="*"
                 placeHolder="Apellido"
                 labelObservation=""
                 labeltooltip=""
@@ -631,10 +627,9 @@ export default (props) => {
 
         </div>
           : <div >
-            <Wrapper title="Razon Social" attributeName="razonSocial">
+            <Wrapper title="Razon Social" attributeName="razonSocial" labelRequired="*">
               <InputText
                 attributeName="razonSocial"
-                labelRequired="*"
                 placeHolder="Constructora del oeste"
                 labelObservation=""
                 labeltooltip=""
@@ -654,11 +649,10 @@ export default (props) => {
         }
 
         <div >
-        <Wrapper title="CUIT" attributeName="cuit">
+        <Wrapper title="CUIT" attributeName="cuit" labelRequired="*">
           <InputText
             
             attributeName="cuit"
-            labelRequired="*"
             type="number"
             disabled={tramite._id ? true : false}
             value={tramite.cuit}
@@ -734,10 +728,9 @@ export default (props) => {
        </div> : ''}*/}
 
         <div >
-        <Wrapper title="Adjunte Constancia de Inscripción en AFIP" attributeName="constanciaAFIP">
+        <Wrapper title="Adjunte Constancia de Inscripción en AFIP" attributeName="constanciaAFIP" labelRequired="*">
           <Upload
             {...props}
-            labelRequired="*"
             defaultValue={tramite.inscripcionAFIPConstancia}
             onOnLoad={(files) => {
               if (!tramite.inscripcionAFIPConstancia)
