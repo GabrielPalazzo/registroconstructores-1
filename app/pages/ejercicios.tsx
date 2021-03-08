@@ -512,6 +512,10 @@ export default () => {
             setModo(MODO.NEW)
           }} icon={<PlusOutlined />}> Agregar</Button> : '' }
         </div>
+        <div className="mb-4 mt-4">
+        <Alert message="El interesado deberá declarar sus balances según lo establecido en la DI-2021-3- APN-ONC#JGM, artículos 11,12 y anexo al artículo 4 de dicha disposición" type="info" />
+      </div>
+        
         </Wrapper>
       </div>
 
