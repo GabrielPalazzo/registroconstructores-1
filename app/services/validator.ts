@@ -111,6 +111,13 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:'Indíque el domicilio legal'
         })
+      if(!this.tramite.telefono)
+        toValidate.push({
+          attribute:'telefono',
+          dataId:'',
+          error:'Indíque un número de telefono para ser notificado'
+        })
+      
       
 
       if(!this.tramite.emailInstitucional)
@@ -120,12 +127,7 @@ class Validator implements ValidatorInterface {
           error:'El domicilio electrónico es obligatorio, en el email declarado recibirá todas las notificaciones. '
         })
 
-      if (isPersonaFisica(this.tramite) && (!this.tramite.altaAFIP ||  !this.tramite.altaAFIP.datos))
-        toValidate.push({
-          attribute:'fechaAltaAfip',
-          dataId:'',
-          error:'En la sección domicilio, datos societarios, los datos en el alta de AFIP es obligatorio'
-        })
+      
 
       
        
@@ -153,6 +155,18 @@ class Validator implements ValidatorInterface {
           attribute:'matriculaComercianteFecha',
           dataId:'',
           error:"La fecha de Incripcion de la Matricula es requerida"
+        })
+        if (this.tramite.personeria==='PF' && !this.tramite.altaAFIP.datos)
+        toValidate.push({
+          attribute:'altaAFIPdatos',
+          dataId:'',
+          error:"Los datos del Alta de Afip  son requeridos"
+        })
+        if (this.tramite.personeria==='PF' && !this.tramite.altaAFIP.fecha)
+        toValidate.push({
+          attribute:'altaAFIPfecha',
+          dataId:'',
+          error:"La fecha de  Alta de Afip  es requerida"
         })
 
       if (this.tramite.matriculaComerciante.fecha && this.tramite.altaAFIP.fecha){

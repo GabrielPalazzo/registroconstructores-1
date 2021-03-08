@@ -6,7 +6,7 @@ import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
 import DatePicker from '../components/datePicker'
-import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined,FolderViewOutlined } from '@ant-design/icons';
 import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import SelectMultiple from '../components/select_multiple'
@@ -228,7 +228,7 @@ export default (props) => {
           okText="Si, Eliminar"
           cancelText="Cancelar"
         > <div ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-          <LikeDislike />
+          
         </Space>),
     },
     {
@@ -245,7 +245,7 @@ export default (props) => {
         setActaAutoridadesApoderado(record.actaAutoridades)
         setCuitApoderado(record.cuit)
         showModal()
-      }}><CloudDownloadOutlined /></div>,
+      }}><FolderViewOutlined /></div>,
     },
 
     {

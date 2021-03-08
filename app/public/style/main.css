@@ -23790,6 +23790,10 @@ html, body, #__next {
   background: #1890ff;
 }
 
+.ant-input[disabled] {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

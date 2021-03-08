@@ -1852,7 +1852,7 @@ export default () => {
           <div >
             <InputTextModal
               label="Datos"
-              labelRequired="*"
+              labelRequired=""
               placeholder=""
               labelMessageError=""
               value={tramite.ultimaModificacionMatriculaOActividadesAFIP.datos}
@@ -1864,7 +1864,7 @@ export default () => {
           <div >
             <DatePickerModal
               label="Fecha"
-              labelRequired="*"
+              labelRequired=""
               placeholder="Fecha"
               labelObservation=""
               labeltooltip=""
@@ -2100,7 +2100,7 @@ export default () => {
     <style>
       {`
       .ant-collapse > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow{
-        top:18px;
+        top:8px;
       }
       .ant-collapse > .ant-collapse-item > .ant-collapse-header{
         font-size: 16px;
