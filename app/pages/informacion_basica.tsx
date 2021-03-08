@@ -592,7 +592,6 @@ export default (props) => {
             <Wrapper title="Nombre" attributeName="NombrePersonaFisica">
               <InputText
                 attributeName="NombrePersonaFisica"
-                label="Nombre"
                 labelRequired="*"
                 placeHolder="Nombre"
                 labelObservation=""
@@ -611,7 +610,6 @@ export default (props) => {
           <div className="w-full mr-2" >
             <Wrapper title="Apellido" attributeName="apellidoPersonaFisica">
               <InputText
-               
                 attributeName="ApellidoPersonaFisica"
                 labelRequired="*"
                 placeHolder="Apellido"
@@ -633,7 +631,6 @@ export default (props) => {
             <Wrapper title="Razon Social" attributeName="razonSocial">
               <InputText
                 attributeName="razonSocial"
-               
                 labelRequired="*"
                 placeHolder="Constructora del oeste"
                 labelObservation=""
@@ -679,7 +676,6 @@ export default (props) => {
         <Wrapper title="Nro de Legajo" attributeName="nroDeLegajo">
           <InputText
             attributeName="nroDeLegajo"
-           
             value={tramite.nroLegajo}
             bindFunction={(value) => {
               tramite.nroLegajo = value
