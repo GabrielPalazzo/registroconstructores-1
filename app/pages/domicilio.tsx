@@ -89,11 +89,9 @@ export default () => {
 
       <div className="text-2xl font-bold py-4"> Domicilio Legal</div>
       <div >
-        <Wrapper attributeName="domicilioLegal" title="Domicilio">
+        <Wrapper attributeName="domicilioLegal" title="Domicilio" labelRequired="*">
           <InputText
             attributeName='domicilioLegal'
-           
-            labelRequired="*"
             value={tramite.domicilioLegal}
             bindFunction={(value) => {
               tramite.domicilioLegal = value
@@ -107,11 +105,9 @@ export default () => {
         </Wrapper>
       </div>
       <div className="pt-4">
-      <Wrapper attributeName="documentoUltimoDomicilio" title="Adjunte un documento en donde conste el último domicilio legal inscripto en la IGJ o Registro de Comercio">
+      <Wrapper attributeName="documentoUltimoDomicilio" title="Adjunte un documento en donde conste el último domicilio legal inscripto en la IGJ o Registro de Comercio" labelRequired="*">
         <Upload
-         
-          labelRequired="*"
-          labelMessageError=""
+         labelMessageError=""
           defaultValue={tramite.constanciaDomicilioLegal as any}
           onRemove={fileToRemove => {
             tramite.constanciaDomicilioLegal = tramite.constanciaDomicilioLegal.filter(f => f.cid !== fileToRemove.cid)
@@ -134,7 +130,7 @@ export default () => {
       </div>
       <div className="text-2xl font-bold py-4"> Domicilio Real</div>
       <div>
-      <Wrapper attributeName="domicilioReal" title="Domicilio">
+      <Wrapper attributeName="domicilioReal" title="Domicilio" labelRequired="*">
         <InputText
           value={tramite.domicilioReal}
           attributeName='domicilioReal'
@@ -142,8 +138,6 @@ export default () => {
             tramite.domicilioReal = value
             updateObjTramite()
           }}
-          
-          labelRequired="*"
           placeHolder="Indique calle,numero,provincia"
           labelObservation=""
           labeltooltip=""
@@ -151,7 +145,7 @@ export default () => {
           required />
           </Wrapper>
       </div>
-      <div className="grid grid-cols-2 gap-4 ">
+      <div className="grid grid-cols-2 mt-4 gap-4 ">
         <div className="pb-6" >
           <InputText
             value={tramite.telefono}
@@ -199,7 +193,7 @@ export default () => {
           afterClose={() => setShowError(false)}
         /></div> : ''}
       <div>
-      <Wrapper attributeName="emailInstitucional" title="Email Institucional">
+      <Wrapper attributeName="emailInstitucional" title="Email Institucional" labelRequired="*">
         <InputText
           attributeName="emailInstitucional"
           value={tramite.emailInstitucional}
@@ -208,8 +202,6 @@ export default () => {
             updateObjTramite()
           }}
           type="email"
-          
-          labelRequired="*"
           placeHolder="Email Institucional"
         />
         </Wrapper>

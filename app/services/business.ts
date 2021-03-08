@@ -68,6 +68,7 @@ export const getCertificados = (cuit: string, razonSocial: string) : Promise<any
 }
 
 
+
 export const migrarCertificados = async () => {
   return axios.get(`/api/certificado/migrador}`, {
     headers: {

@@ -442,7 +442,7 @@ export default (props) => {
               value={esAdministradorLegitimado}
               onChange={setEsAdministradorLegitimado}
               label="Administrador Legitimado"
-              labelRequired="*"
+              labelRequired=""
               SwitchLabel1="Si"
               SwitchLabel2="No"
               labelObservation=""
@@ -499,10 +499,12 @@ export default (props) => {
             />
           </div>}
       </div>
+      {/* 
       <div>
         <Checkbox onChange={e => setAceptTerminosYCondiciones(e.target.checked)}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
       asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox>
       </div>
+      */}
     </div>)
   }
 
@@ -593,10 +595,6 @@ export default (props) => {
             <Wrapper title="Nombre" attributeName="NombrePersonaFisica">
               <InputText
                 attributeName="NombrePersonaFisica"
-<<<<<<< HEAD
-=======
-                
->>>>>>> 2ac2694ccee62f1bc1c611bdd2e64f7ce24670b0
                 labelRequired="*"
                 placeHolder="Nombre"
                 labelObservation=""
@@ -873,8 +871,8 @@ export default (props) => {
 
         </div>*/}
 
-        <Wrapper isTitle title={isPersonaFisica ? 'Apoderados / Usuarios' : 'Apoderados y/o Representantes legales'} attributeName="datosApoderados">
-        {isTramiteEditable(tramite) ? <div className=" w-1/4 text-right content-center mt-4 ">
+        <Wrapper isTitle title={isPersonaFisica ? 'Apoderados / Usuarios *' : 'Apoderados y/o Representantes legales *'} attributeName="datosApoderados">
+        {isTramiteEditable(tramite) ? <div className="  text-right content-center -mt-8 mb-4 ">
             <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
           </div> : ''}
         <Modal
@@ -883,7 +881,7 @@ export default (props) => {
           onOk={handleSaveApoderado}
           footer={[
             <Button onClick={handleCancel}>Cancelar</Button>,
-            <Button type="primary" onClick={handleSaveApoderado} disabled={!aceptaTerminosYCondiciones}>Agregar</Button>
+            <Button type="primary" onClick={handleSaveApoderado} >Agregar</Button>
           ]}
           okText="Guardar"
           onCancel={handleCancel}
@@ -920,7 +918,7 @@ export default (props) => {
           </div>
         </div>
 
-        <div className="rounded-lg border  px-4 py-4 bg-gray-300">
+        <div className="rounded-lg border mt-4  px-4 py-4 bg-gray-300">
           <p>Artículo 1.- Toda persona que se presente en un procedimiento de contratación pública o de otorgamiento de una licencia, permiso, autorización, habilitación o derecho real sobre un bien de dominio público o privado del Estado, llevado a cabo por cualquiera de los organismos y entidades del Sector Público Nacional comprendidas en el artículo 8 de la Ley N° 24156, debe presentar una “Declaración Jurada de Intereses” en la que deberá declarar si se encuentra o no alcanzada por alguno de los siguientes supuestos de vinculación, respecto del Presidente y Vicepresidente de la Nación, Jefe de Gabinete de Ministros y demás Ministros y autoridades de igual rango en el Poder Ejecutivo Nacional, aunque estos no tuvieran competencia para decidir sobre la contratación o acto de que se trata:
               <br /> a - Parentesco por consanguinidad dentro del cuarto grado y segundo de afinidad
               <br /> b - Sociedad o comunidad,
