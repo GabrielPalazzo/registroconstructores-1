@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { closeSession, getCertificados } from '../services/business'
+import { closeSession, getCertificados, migrarCertificados } from '../services/business'
 import { useRouter } from 'next/router'
-import { Avatar, Dropdown, Menu, Input, Table, Button } from 'antd'
+import { Avatar, Dropdown, Menu, Input, Table, Button, Modal } from 'antd'
 import numeral from 'numeral'
 import Certificado from '../components/certificado'
+import { Loading } from '../components/loading'
+
 
 const { Search } = Input
-
+const { TextArea} = Input
 
 export default () => {
 
@@ -14,6 +16,8 @@ export default () => {
   const [textToSearch, setTextToSearch] = useState('')
   const [certificados, setCertificados] = useState([])
   const [showModalMigrador,setShowModalMigrador] = useState(false)
+  const [key, setKey] = useState('')
+  const [isMigratingData, setIsMigratingData] = useState(false)
 
   const router = useRouter()
 
@@ -82,7 +86,22 @@ export default () => {
 
   ]
 
+  if (isMigratingData)
+    return <Loading message="Aguarde un instante por favor" type="sync" />
+
   return <div>
+
+        <Modal title="Basic Modal" 
+          visible={showModalMigrador} 
+          onOk={() => {
+            setIsMigratingData(true)
+            migrarCertificados(key).then(
+              result => setIsMigratingData(false)
+            )
+          }} 
+          onCancel={() => setShowModalMigrador(false)}>
+          <TextArea value={key} onChange={(e) => setKey(e.target.value)} rows={8} />
+      </Modal>
 
 
     <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
@@ -113,10 +132,10 @@ export default () => {
       />
 
 
-      {/* 
+      
       <div className="px-8">
-        <Button danger >Migrar certificados</Button>
-      </div>*/}
+        <Button onClick={() => setShowModalMigrador(true)} danger >Migrar Empresas</Button>
+      </div>
 
 
       </div>

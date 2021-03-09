@@ -9,49 +9,55 @@ const handler = nextConnect();
 handler.use(middleware);
 
 handler.get(async (req: any, res: NextApiResponse) => {
-  if (req.user.Role.filter(r => 'JEFE REGISTRO').length ===0)
+  if (req.user.Role.filter(r => 'JEFE REGISTRO').length === 0)
     res.status(401).send('Forbidden')
 
 
-    const httpsAgent = new https.Agent({
-        rejectUnauthorized: false,
-      })
-    
-     
-      const db = await req.db
-    
-    
-      let waitTill = null
-      for (let  i=12200;i <= 12250; i++){
-        try {
-          waitTill = new Date(new Date().getTime() + 1 * 300)
-          const result = await axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/ObtenerDatosConstancia?id=${i}&fecha=Sun%20Mar%2007%202021`, {
-            httpsAgent: httpsAgent,
-            headers: {
-              "Cookie": process.env.CONTRATAR_KEY
-            }
-          })
-    
-          if (result.data){
-            db.collection('certificados').insertOne({
-              _id: i,
-              ...result.data
-            })
-            console.log(`ID migrated : ${i}`)
-          }
-          
-         
-          while (waitTill > new Date(new Date().getTime())) { }
-    
-        } catch (err) {
-          console.log(err)
+  const httpsAgent = new https.Agent({
+    rejectUnauthorized: false,
+  })
+
+
+  const db = await req.db
+
+  console.log(req.headers.authorizationkey)
+
+  let waitTill = null
+  for (let i = 8000; i <= 17000; i++) {
+    try {
+      waitTill = new Date(new Date().getTime() + 1 * 300)
+      const result = await axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/ObtenerDatosConstancia?id=${i}&fecha=Sun%20Mar%2007%202021`, {
+        httpsAgent: httpsAgent,
+        headers: {
+          "Cookie": req.headers.authorizationkey
         }
+      })
+
+      if (result.data && result.data.EstadoProveedor ==='Inscripto' ) {
+        console.log(result.data.EstadoProveedor)
+        db.collection('certificados')
+          .save({
+            '_id': i,
+            ...result.data
+          });
+
+        console.log(`ID migrado : ${i}`)
+      }else {
+        console.log(`ID sin migrar: ${i}`)
       }
 
-      res.send('Done')
 
-      
-  
+      while (waitTill > new Date(new Date().getTime())) { }
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  res.send('Done')
+
+
+
 });
 
 
