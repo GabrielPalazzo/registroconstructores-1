@@ -1258,8 +1258,7 @@ export default () => {
           </div>
           <div >
           <Upload
-              label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
-          General de Justicia o Registro Publico de comercio"
+              label="Inscripción efectiva de la sucursal en D.P.P.J. / I.G.J., junto con todas sus modificaciones"
               defaultValue={tramite.datosSocietarios.PJESP.archivosContrato as any}
               onOnLoad={file => {
                 if (!tramite.datosSocietarios.PJESP.archivosContrato)
@@ -1311,8 +1310,7 @@ export default () => {
           </div>
           <div >
           <Upload
-              label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
-          General de Justicia o Registro Publico de comercio"
+              label="Modificación del Objeto de la Sucursal Argentina al rubro Construcción inscripto en D.P.P.J / I.G.J."
               defaultValue={tramite.datosSocietarios.PJESP.archivoModificacion as any}
               onOnLoad={file => {
                 if (!tramite.datosSocietarios.PJESP.archivoModificacion)
@@ -1363,8 +1361,7 @@ export default () => {
           </div>
           <div >
           <Upload
-              label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
-          General de Justicia o Registro Publico de comercio"
+              label="Última modificación de la Inscripción de la Sucursal en Argentina, inscripta en D.P.P.J. / I.G.J."
               defaultValue={tramite.datosSocietarios.PJESP.archivoUltimaModificacion as any}
               onOnLoad={file => {
                 if (!tramite.datosSocietarios.PJESP.archivoUltimaModificacion)
@@ -1595,7 +1592,6 @@ export default () => {
               <InputText
                 label="Datos"
                 attributeName="rubroConsutrccionDatos"
-                labelRequired="*"
                 value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos}
                 bindFunction={(value) => {
                   tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos = value
@@ -1615,7 +1611,6 @@ export default () => {
                   tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha = value
                   updateObjTramite()
                 }}
-                labelRequired="*"
                 placeholder="Inspeccion General de Justicia"
                 labelObservation=""
                 labeltooltip=""
@@ -1626,7 +1621,6 @@ export default () => {
             <div >
               <Upload
                 label="Última modificación del Contrato Social, inscripta en en D.P.P.J / I.G.J."
-                labelRequired="*"
                 labelMessageError=""
                 defaultValue={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos as any}
                 onOnLoad={file => {
@@ -1645,11 +1639,11 @@ export default () => {
                 }}
               />
             </div>
-
+{/* 
             <div className="mt-8 ">
               <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
             </div>
-
+*/}
           </div>
           </Wrapper>
           <Table columns={columnsModificacionEstatuto}
