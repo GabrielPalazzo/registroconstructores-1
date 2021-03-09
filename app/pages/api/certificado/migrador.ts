@@ -25,6 +25,7 @@ const doPreflight = async  (key) => {
 
     }
   }catch(error){
+    console.log(error)
     return {
       success: false, 
       error
@@ -45,7 +46,7 @@ handler.get(async (req: any, res: NextApiResponse) => {
 
 
   processInfo['cookie']=req.headers.authorizationkey
-  processInfo['preflight'] = doPreflight(req.headers.authorizationkey)
+  processInfo['preflight'] = await doPreflight(req.headers.authorizationkey)
   processInfo['contratarURL'] = process.env.URL_CONTRATAR
   processInfo['uploaded'] = []
   processInfo['notUploded']  =[]
