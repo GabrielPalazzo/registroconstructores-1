@@ -6,7 +6,7 @@ import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
 import DatePicker from '../components/datePicker'
-import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined,FolderViewOutlined } from '@ant-design/icons';
 import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import SelectMultiple from '../components/select_multiple'
@@ -228,7 +228,7 @@ export default (props) => {
           okText="Si, Eliminar"
           cancelText="Cancelar"
         > <div ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-          <LikeDislike />
+          
         </Space>),
     },
     {
@@ -245,7 +245,7 @@ export default (props) => {
         setActaAutoridadesApoderado(record.actaAutoridades)
         setCuitApoderado(record.cuit)
         showModal()
-      }}><CloudDownloadOutlined /></div>,
+      }}><FolderViewOutlined /></div>,
     },
 
     {
@@ -442,7 +442,7 @@ export default (props) => {
               value={esAdministradorLegitimado}
               onChange={setEsAdministradorLegitimado}
               label="Administrador Legitimado"
-              labelRequired="*"
+              labelRequired=""
               SwitchLabel1="Si"
               SwitchLabel2="No"
               labelObservation=""
@@ -499,10 +499,12 @@ export default (props) => {
             />
           </div>}
       </div>
+      {/* 
       <div>
         <Checkbox onChange={e => setAceptTerminosYCondiciones(e.target.checked)}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
       asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox>
       </div>
+      */}
     </div>)
   }
 
@@ -543,7 +545,7 @@ export default (props) => {
       </div>
       <div className="grid grid-cols-2 gap-4 ">
         <div >
-          <Wrapper title="Tipo de personeria" attributeName="tipoPersoneria">
+          <Wrapper title="Tipo de personeria" attributeName="tipoPersoneria" labelRequired="*">
             <SelectSimple
               value={tramite.personeria}
               bindFunction={(value) => {
@@ -551,7 +553,6 @@ export default (props) => {
                 updateObjTramite()
               }}
               defaultOption="Seleccione el tipo de personeria"
-              labelRequired="*"
               labelMessageError=""
               required
               option={tipoPersoneria.map(u => (
@@ -561,9 +562,8 @@ export default (props) => {
 
         </div>
         <div >
-          <Wrapper title="Tipo de Empresa" attributeName="tipoEmpresa">
+          <Wrapper title="Tipo de Empresa" attributeName="tipoEmpresa" labelRequired="*">
             <SelectMultiple
-              labelRequired="*"
               value={tramite.tipoEmpresa}
               bindFunction={(value) => {
                 tramite.tipoEmpresa = value
@@ -590,11 +590,9 @@ export default (props) => {
 
         {isPersonaFisica(tramite) ? <div className="flex">
           <div className="w-full mr-2" >
-            <Wrapper title="Nombre" attributeName="NombrePersonaFisica">
+            <Wrapper title="Nombre" attributeName="NombrePersonaFisica" labelRequired="*">
               <InputText
                 attributeName="NombrePersonaFisica"
-                
-                labelRequired="*"
                 placeHolder="Nombre"
                 labelObservation=""
                 labeltooltip=""
@@ -610,11 +608,9 @@ export default (props) => {
           </div>
 
           <div className="w-full mr-2" >
-            <Wrapper title="Apellido" attributeName="apellidoPersonaFisica">
+            <Wrapper title="Apellido" attributeName="apellidoPersonaFisica" labelRequired="*">
               <InputText
-               
                 attributeName="ApellidoPersonaFisica"
-                labelRequired="*"
                 placeHolder="Apellido"
                 labelObservation=""
                 labeltooltip=""
@@ -631,11 +627,9 @@ export default (props) => {
 
         </div>
           : <div >
-            <Wrapper title="Razon Social" attributeName="razonSocial">
+            <Wrapper title="Razon Social" attributeName="razonSocial" labelRequired="*">
               <InputText
                 attributeName="razonSocial"
-               
-                labelRequired="*"
                 placeHolder="Constructora del oeste"
                 labelObservation=""
                 labeltooltip=""
@@ -655,11 +649,10 @@ export default (props) => {
         }
 
         <div >
-        <Wrapper title="CUIT" attributeName="cuit">
+        <Wrapper title="CUIT" attributeName="cuit" labelRequired="*">
           <InputText
             
             attributeName="cuit"
-            labelRequired="*"
             type="number"
             disabled={tramite._id ? true : false}
             value={tramite.cuit}
@@ -680,7 +673,6 @@ export default (props) => {
         <Wrapper title="Nro de Legajo" attributeName="nroDeLegajo">
           <InputText
             attributeName="nroDeLegajo"
-           
             value={tramite.nroLegajo}
             bindFunction={(value) => {
               tramite.nroLegajo = value
@@ -736,10 +728,9 @@ export default (props) => {
        </div> : ''}*/}
 
         <div >
-        <Wrapper title="Adjunte Constancia de Inscripción en AFIP" attributeName="constanciaAFIP">
+        <Wrapper title="Adjunte Constancia de Inscripción en AFIP" attributeName="constanciaAFIP" labelRequired="*">
           <Upload
             {...props}
-            labelRequired="*"
             defaultValue={tramite.inscripcionAFIPConstancia}
             onOnLoad={(files) => {
               if (!tramite.inscripcionAFIPConstancia)
@@ -873,8 +864,8 @@ export default (props) => {
 
         </div>*/}
 
-        <Wrapper isTitle title={isPersonaFisica ? 'Apoderados / Usuarios' : 'Apoderados y/o Representantes legales'} attributeName="datosApoderados">
-        {isTramiteEditable(tramite) ? <div className=" w-1/4 text-right content-center mt-4 ">
+        <Wrapper isTitle title={isPersonaFisica ? 'Apoderados / Usuarios *' : 'Apoderados y/o Representantes legales *'} attributeName="datosApoderados">
+        {isTramiteEditable(tramite) ? <div className="  text-right content-center -mt-8 mb-4 ">
             <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
           </div> : ''}
         <Modal
@@ -883,7 +874,7 @@ export default (props) => {
           onOk={handleSaveApoderado}
           footer={[
             <Button onClick={handleCancel}>Cancelar</Button>,
-            <Button type="primary" onClick={handleSaveApoderado} disabled={!aceptaTerminosYCondiciones}>Agregar</Button>
+            <Button type="primary" onClick={handleSaveApoderado} >Agregar</Button>
           ]}
           okText="Guardar"
           onCancel={handleCancel}
@@ -920,7 +911,7 @@ export default (props) => {
           </div>
         </div>
 
-        <div className="rounded-lg border  px-4 py-4 bg-gray-300">
+        <div className="rounded-lg border mt-4  px-4 py-4 bg-gray-300">
           <p>Artículo 1.- Toda persona que se presente en un procedimiento de contratación pública o de otorgamiento de una licencia, permiso, autorización, habilitación o derecho real sobre un bien de dominio público o privado del Estado, llevado a cabo por cualquiera de los organismos y entidades del Sector Público Nacional comprendidas en el artículo 8 de la Ley N° 24156, debe presentar una “Declaración Jurada de Intereses” en la que deberá declarar si se encuentra o no alcanzada por alguno de los siguientes supuestos de vinculación, respecto del Presidente y Vicepresidente de la Nación, Jefe de Gabinete de Ministros y demás Ministros y autoridades de igual rango en el Poder Ejecutivo Nacional, aunque estos no tuvieran competencia para decidir sobre la contratación o acto de que se trata:
               <br /> a - Parentesco por consanguinidad dentro del cuarto grado y segundo de afinidad
               <br /> b - Sociedad o comunidad,

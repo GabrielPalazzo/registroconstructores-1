@@ -117,11 +117,11 @@ export default () => {
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
           <InputTextModal
-            label="CUIT / CUIL"
+            label="Organismo certificante"
             value={cuitSistemaCalidad}
             bindFunction={(value) => setCuitSistemaCalidad(value)}
             labelRequired="*"
-            placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
+            placeholder="Ingrese el nombre del organismo"
 
             labelMessageError=""
             required />
@@ -142,9 +142,9 @@ export default () => {
 
         <div className="pb-6" >
           <InputTextModal
-            label="Direccion"
+            label="Procesos Certificados"
             labelRequired="*"
-            placeholder="Ingrese su numero de documento sin deja espacios"
+            placeholder=""
             value={direccionSistemaCalidad}
             bindFunction={(value) => setDireccionSistemaCalidad(value)}
             labelMessageError=""
@@ -181,7 +181,7 @@ export default () => {
       <div className="grid grid-cols-2 gap-4 ">
         <div className="pb-6" >
           <Upload
-            label="Adjunte  Documento "
+            label="Adjuntar copia del certificado de sistemas de calidad "
             labelRequired="*"
             labelMessageError=""
             defaultValue={documentoSistemaCalidad as any}
@@ -1852,7 +1852,7 @@ export default () => {
           <div >
             <InputTextModal
               label="Datos"
-              labelRequired="*"
+              labelRequired=""
               placeholder=""
               labelMessageError=""
               value={tramite.ultimaModificacionMatriculaOActividadesAFIP.datos}
@@ -1864,7 +1864,7 @@ export default () => {
           <div >
             <DatePickerModal
               label="Fecha"
-              labelRequired="*"
+              labelRequired=""
               placeholder="Fecha"
               labelObservation=""
               labeltooltip=""
@@ -2100,7 +2100,7 @@ export default () => {
     <style>
       {`
       .ant-collapse > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow{
-        top:18px;
+        top:8px;
       }
       .ant-collapse > .ant-collapse-item > .ant-collapse-header{
         font-size: 16px;

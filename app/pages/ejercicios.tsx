@@ -8,7 +8,7 @@ import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
 import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider,message,Popconfirm } from 'antd';
-import { PlusOutlined, DeleteOutlined,EditOutlined, CloudDownloadOutlined} from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined,EditOutlined, CloudDownloadOutlined, FolderViewOutlined} from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
@@ -107,7 +107,7 @@ export default () => {
      
       {error ? <div className="mb-4">
         <Alert
-          message='Error'
+          message=''
           description={error}
           type="error"
           showIcon
@@ -342,7 +342,7 @@ export default () => {
         cargarEjercicio(record)
         setModo(MODO.VIEW)
         setModalEjercicios(true)
-      }}><CloudDownloadOutlined /></div>
+      }}><FolderViewOutlined /></div>
     },{
       title: 'Obs',
       render: (text,record) => <div className="text-green-500 font-bold">APROBADO</div>,
@@ -381,8 +381,8 @@ export default () => {
     },
     {
       title: 'Ventas del ejercicio',
-      drender: (text,record: Ejercicio)=><div>{numeral(record.ventasEjercicio).format('$0,0.00')}</div>,
-      key: 'ventasEjercicio',
+      render: (text,record: Ejercicio)=><div>{numeral(record.ventasEjercicio).format('$0,0.00')}</div>,
+      key: 'ventasDelEjercicio',
     },
     {
       title: isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto',
@@ -506,12 +506,16 @@ export default () => {
     <div className="px-20 mx-20 py-6 ">
       <div className="flex  content-center  ">
       <Wrapper title="Ejercicios" attributeName="ejercicios" isTitle>
-        <div className=" w-1/4 text-right content-center mt-4 ">
+        <div className=" text-right content-center mb-4 -mt-8">
           {isTramiteEditable(tramite) ?<Button type="primary" onClick={() => {
             setModalEjercicios(true)
             setModo(MODO.NEW)
           }} icon={<PlusOutlined />}> Agregar</Button> : '' }
         </div>
+        <div className="mb-4 mt-4">
+        <Alert message="El interesado deberá declarar sus balances según lo establecido en la DI-2021-3- APN-ONC#JGM, artículos 11,12 y anexo al artículo 4 de dicha disposición" type="info" />
+      </div>
+        
         </Wrapper>
       </div>
 
