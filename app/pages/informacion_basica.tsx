@@ -899,7 +899,7 @@ export default (props) => {
             <InputText
               label="Declarante"
               attributeName="declarante"
-              value={`${tramite.creatorId.GivenName} ${tramite.creatorId.Surname}`}
+              value={tramite.creatorId ? tramite.creatorId.GivenName + ", " + tramite.creatorId.Surname : ''}
               disabled={true}
               labelRequired="*"
               placeHolder="Constructora del oeste"
