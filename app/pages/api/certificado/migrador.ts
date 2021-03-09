@@ -8,19 +8,55 @@ const handler = nextConnect();
 
 handler.use(middleware);
 
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+})
+
+const doPreflight = async  (key) => {
+  try {
+    const result = await axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/ObtenerDatosConstancia?id=11444fecha=Sun%20Mar%2007%202021`, {
+      httpsAgent: httpsAgent,
+      headers: {
+        "Cookie": key
+      }
+    })
+    return {
+      success: true,
+
+    }
+  }catch(error){
+    return {
+      success: false, 
+      error
+    }
+  }
+}
+
 handler.get(async (req: any, res: NextApiResponse) => {
   if (req.user.Role.filter(r => 'JEFE REGISTRO').length === 0)
     res.status(401).send('Forbidden')
 
 
-  const httpsAgent = new https.Agent({
-    rejectUnauthorized: false,
-  })
+  
+  const processInfo= {}
 
 
   const db = await req.db
 
-  console.log(req.headers.authorizationkey)
+
+  processInfo['cookie']=req.headers.authorizationkey
+  processInfo['preflight'] = doPreflight(req.headers.authorizationkey)
+  processInfo['contratarURL'] = process.env.URL_CONTRATAR
+  processInfo['uploaded'] = []
+  processInfo['notUploded']  =[]
+  processInfo['errors'] = []
+  // Pre Flight only for test 
+  
+
+  if (!processInfo['preflight'].success){
+    res.status(500).json(processInfo)
+    return 
+  }
 
   let waitTill = null
   for (let i = 8000; i <= 17000; i++) {
@@ -41,20 +77,26 @@ handler.get(async (req: any, res: NextApiResponse) => {
             ...result.data
           });
 
-        console.log(`ID migrado : ${i}`)
+        processInfo['uploaded'].push({
+          razonSocial: result.data.RazonSocial,
+          cuit: result.data.NumeroCUIT
+        })
       }else {
-        console.log(`ID sin migrar: ${i}`)
+        processInfo['notUploded'].push(i)
       }
 
 
       while (waitTill > new Date(new Date().getTime())) { }
 
     } catch (err) {
-      console.log(err)
+      processInfo['errors'].push({
+        id: i,
+        err
+      })
     }
   }
 
-  res.send('Done')
+  res.status(200).json(processInfo)
 
 
 
