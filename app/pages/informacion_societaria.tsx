@@ -1451,15 +1451,14 @@ export default () => {
         <div className="text-2xl font-bold py-4"> Firma del Contrato Constitutivo</div>
         <div className="grid grid-cols-4 gap-4 ">
           <div >
-          <Wrapper title="fecha" attributeName="fechaContratoConstitutivo" >
-            <DatePickerModal
-
+          <Wrapper title="Fecha" attributeName="fechaContratoConstitutivo"  
+              labelRequired="*"  >
+          <DatePicker
               value={tramite.datosSocietarios.sociedadAnonima.contrato.fecha}
               bindFunction={value => {
                 tramite.datosSocietarios.sociedadAnonima.contrato.fecha = value
                 updateObjTramite()
               }}
-              labelRequired="*"
               placeholder="Fecha"
               labelObservation=""
               labeltooltip=""

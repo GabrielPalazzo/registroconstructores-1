@@ -30,7 +30,7 @@ export default (props: Props) => {
      
     <div className="flex">
       {props.label && <div className="w-5/5 mb-2">
-        <label className="font-bold text-muted-700 text-sm">{props.label}</label>
+        <label className="font-bold text-muted-700 text-sm">{props.label} </label>
       </div>}
     </div>
     <div className="w-full">

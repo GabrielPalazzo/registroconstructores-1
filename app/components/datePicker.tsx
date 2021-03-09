@@ -20,7 +20,7 @@ interface Props {
   value: any
   bindFunction: Function
   label?: string,
-  labelRequired: string
+  labelRequired?: string
   placeholder: any
   labelMessageError?: string
   labeltooltip?: string

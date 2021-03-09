@@ -156,18 +156,114 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:"La fecha de Incripcion de la Matricula es requerida"
         })
-        if (this.tramite.personeria==='PF' && !this.tramite.altaAFIP.datos)
+      if (this.tramite.personeria==='PF' && !this.tramite.altaAFIP.datos)
         toValidate.push({
           attribute:'altaAFIPdatos',
           dataId:'',
           error:"Los datos del Alta de Afip  son requeridos"
         })
-        if (this.tramite.personeria==='PF' && !this.tramite.altaAFIP.fecha)
+      if (this.tramite.personeria==='PF' && !this.tramite.altaAFIP.fecha)
         toValidate.push({
           attribute:'altaAFIPfecha',
           dataId:'',
           error:"La fecha de  Alta de Afip  es requerida"
         })
+      if (this.tramite.personeria==='SA'  && !this.tramite.datosSocietarios.sociedadAnonima.contrato.fecha)
+        toValidate.push({
+          attribute:'datosSocietariosContratoFecha',
+          dataId:'',
+          error:"La fecha de la firma del contrato constitutivo es Obligatoria"
+        })
+      if (this.tramite.personeria==='SRL'  && !this.tramite.datosSocietarios.sociedadAnonima.contrato.fecha)
+        toValidate.push({
+          attribute:'datosSocietariosContratoFecha',
+          dataId:'',
+          error:"La fecha de la firma del contrato constitutivo es Obligatoria"
+        })
+      if (this.tramite.personeria==='OFS'  && !this.tramite.datosSocietarios.sociedadAnonima.contrato.fecha)
+        toValidate.push({
+          attribute:'datosSocietariosContratoFecha',
+          dataId:'',
+          error:"La fecha de la firma del contrato constitutivo es Obligatoria"
+        })
+      if (this.tramite.personeria==='SA'  && !this.tramite.datosSocietarios.sociedadAnonima.inscripcion.datos)
+        toValidate.push({
+          attribute:'datosInscripcionContrato',
+          dataId:'',
+          error:"Los datos de la inscripcion del contrato son obligatorios"
+        })
+      if (this.tramite.personeria==='SRL'  && !this.tramite.datosSocietarios.sociedadAnonima.inscripcion.datos)
+        toValidate.push({
+          attribute:'datosInscripcionContrato',
+          dataId:'',
+          error:"Los datos de la inscripcion del contrato son obligatorios"
+        })
+      if (this.tramite.personeria==='OFS'  && !this.tramite.datosSocietarios.sociedadAnonima.inscripcion.datos)
+        toValidate.push({
+          attribute:'datosInscripcionContrato',
+          dataId:'',
+          error:"Los datos de la inscripcion del contrato son obligatorios"
+        })
+      if (this.tramite.personeria==='SA'  && !this.tramite.datosSocietarios.sociedadAnonima.inscripcion.fecha)
+        toValidate.push({
+          attribute:'FechaInscripcionContrato',
+          dataId:'',
+          error:"La fecha  de la inscripcion del contrato es obligatoria"
+        })
+      if (this.tramite.personeria==='SRL'  && !this.tramite.datosSocietarios.sociedadAnonima.inscripcion.fecha)
+        toValidate.push({
+          attribute:'FechaInscripcionContrato',
+          dataId:'',
+          error:"La fecha  de la inscripcion del contrato es obligatoria"
+        })
+      if (this.tramite.personeria==='OFS'  && !this.tramite.datosSocietarios.sociedadAnonima.inscripcion.fecha)
+        toValidate.push({
+          attribute:'FechaInscripcionContrato',
+          dataId:'',
+          error:"La fecha  de la inscripcion del contrato es obligatoria"
+        })
+      if (this.tramite.personeria==='SA'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.datos)
+        toValidate.push({
+          attribute:'modificacionDatosContrato',
+          dataId:'',
+          error:"Los datos de la modificacion del contrato son obligatorios"
+        })
+      if (this.tramite.personeria==='SRL'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.datos)
+        toValidate.push({
+          attribute:'modificacionDatosContrato',
+          dataId:'',
+          error:"Los datos de la modificacion del contrato son obligatorios"
+        })
+      if (this.tramite.personeria==='OFS'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.datos)
+        toValidate.push({
+          attribute:'modificacionDatosContrato',
+          dataId:'',
+          error:"Los datos de la modificacion del contrato son obligatorios"
+        })
+      if (this.tramite.personeria==='SA'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.fecha)
+        toValidate.push({
+          attribute:'modificacionFechaContrato',
+          dataId:'',
+          error:"La fecha de  modificacion del contrato son obligatorios"
+        })
+      if (this.tramite.personeria==='SRL'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.fecha)
+        toValidate.push({
+          attribute:'modificacionFechaContrato',
+          dataId:'',
+          error:"La fecha de  modificacion del contrato son obligatorios"
+        })
+      if (this.tramite.personeria==='OFS'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.fecha)
+        toValidate.push({
+          attribute:'modificacionFechaContrato',
+          dataId:'',
+          error:"La fecha de  modificacion del contrato son obligatorios"
+        })
+      if (this.tramite.personeria==='SA'  && !this.tramite.datosSocietarios.fechaVencimiento)
+        toValidate.push({
+          attribute:'fechaVencimientoContrato',
+          dataId:'',
+          error:"La fecha de  vencimiento del contrato es obligatorio"
+        }) 
 
       if (this.tramite.matriculaComerciante.fecha && this.tramite.altaAFIP.fecha){
         const fechaAltaMatricula = moment(this.tramite.matriculaComerciante.fecha,'DD/MM/YYYY')
