@@ -712,9 +712,11 @@ export default () => {
 
 
       {tramite.personeria === 'UTE' ? <div>
+        
         <div className="text-2xl font-bold py-4"> Firma del Contrato de la U.T.E.</div>
         <div className="grid grid-cols-3 gap-4 ">
           <div >
+            
             <DatePickerModal
               label="Fecha"
               labelRequired="*"
@@ -1329,7 +1331,7 @@ export default () => {
             />
           </div>
         </div>
-        <div className="text-2xl font-bold py-4">Última modificación de inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)</div>
+        <Wrapper isTitle title="Última modificación de inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)" attributeName="UltimaModificacionInscripcionPJESP" >
         <div className="grid grid-cols-2 gap-4 ">
           <div >
             <InputTextModal
@@ -1380,7 +1382,10 @@ export default () => {
             />
           </div>
         </div>
-        <div className="text-2xl font-bold  py-4">Fecha de vencimiento del Contrato / Acta Constitutiva</div>
+        </Wrapper>
+        <Wrapper isTitle title="Fecha de vencimiento del Contrato / Acta Constitutiva" attributeName="FechaVencimientoPJESP" >
+         
+           
         <div className="grid grid-cols-3 gap-4  mb-4 ">
           <div >
             <DatePickerModal
@@ -1399,6 +1404,7 @@ export default () => {
           </div>
 
         </div>
+        </Wrapper>
         <div className=" content-center  rounded-lg border  px-4 py-4">
           <div className="flex  content-center ">
             <div className="text-2xl font-bold py-4 w-3/4"> Autoridades</div>
@@ -1671,8 +1677,12 @@ export default () => {
           </div>
         </div>
         <div className=" content-center  rounded-lg border  px-4 py-4">
+        <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
+         
+           
           <div className="flex  content-center ">
-            <div className="text-2xl font-bold py-4 w-3/4"> Autoridades</div>
+          
+           
 
             <div className=" w-1/4 text-right content-center mt-4 ">
               <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
@@ -1710,6 +1720,7 @@ export default () => {
               }}
             />
           </div>
+          </Wrapper>
           {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ?
             <Table columns={columnsAutoridad}
               dataSource={Object.assign([], tramite.autoridadesSociedad)}
@@ -1733,8 +1744,8 @@ export default () => {
       </div> : ''}
 
       {isPersonaFisica(tramite) ? <div>
-        <div className="text-2xl font-bold py-4"> Alta en AFIP (actividad referente a rubro Construcción)</div>
-        <div className="grid grid-cols-3 gap-4 ">
+        <Wrapper isTitle title="Alta en AFIP (actividad referente a rubro Construcción)" attributeName="AltaEnAfipPF" >
+         <div className="grid grid-cols-3 gap-4 ">
           <div >
             <InputTextModal
               value={tramite.altaAFIP.datos}
@@ -1786,7 +1797,9 @@ export default () => {
             />
           </div>
         </div>
-        <div className="text-2xl font-bold py-4"> Matrícula de Comerciante (inscripción en D.P.P.J / I.G.J.)</div>
+        </Wrapper>
+        <Wrapper isTitle title="Matrícula de Comerciante (inscripción en D.P.P.J / I.G.J.)" attributeName="MatriculaComerciantePF" >
+         
         <div className="grid grid-cols-3 gap-4 ">
           <div >
             <InputTextModal
@@ -1840,7 +1853,8 @@ export default () => {
             />
           </div>
         </div>
-        <div className="text-2xl font-bold py-4"> Última modificación de Matrícula de Comerciante / Modificación de Actividades en AFIP</div>
+        </Wrapper>
+        <Wrapper isTitle title="Última modificación de Matrícula de Comerciante / Modificación de Actividades en AFIP" attributeName="UltimaModificacionMatriculaPF" >
         <div className="grid grid-cols-3 gap-4 ">
           <div >
             <InputTextModal
@@ -1871,12 +1885,14 @@ export default () => {
           </div>
 
         </div>
+        </Wrapper>
 
       </div> : <div></div>}
 
 
 
       <div className="rounded-lg mt-4 border px-4 py-4">
+        
         <div className="text-2xl font-bold"> Inscripción en I.E.R.I.C. (Instituto de Estadística y Registro de la Industria de la Construcción)</div>
         <div className="grid grid-cols-1 mb-4 mt-4  ">
           {isPersonaFisica(tramite) ?

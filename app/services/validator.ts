@@ -264,6 +264,54 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:"La fecha de  vencimiento del contrato es obligatorio"
         }) 
+      if (this.tramite.personeria==='SRL'  && !this.tramite.datosSocietarios.fechaVencimiento)
+        toValidate.push({
+          attribute:'fechaVencimientoContrato',
+          dataId:'',
+          error:"La fecha de  vencimiento del contrato es obligatorio"
+        }) 
+      if (this.tramite.personeria==='OFS'  && !this.tramite.datosSocietarios.fechaVencimiento)
+        toValidate.push({
+          attribute:'fechaVencimientoContrato',
+          dataId:'',
+          error:"La fecha de  vencimiento del contrato es obligatorio"
+        }) 
+      if (this.tramite.personeria==='PJESP'  && !this.tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos)
+        toValidate.push({
+          attribute:'inscripcionConstitutivaDatos',
+          dataId:'',
+          error:"Los datos  de la inscripcion  son  obligatorios"
+        }) 
+      if (this.tramite.personeria==='PJESP'  && !this.tramite.datosSocietarios.PJESP.inscripcionConstitutiva.fecha)
+        toValidate.push({
+          attribute:'inscripcionConstitutivaFecha',
+          dataId:'',
+          error:"La fecha de Inscripcion es obligatoria"
+        }) 
+      if (this.tramite.personeria==='PJESP'  && !this.tramite.datosSocietarios.PJESP.inscripcionSucursal.datos)
+        toValidate.push({
+          attribute:'inscripcionSucursalDatos',
+          dataId:'',
+          error:"Los datos de la inscripcion de la sucursal son obligatorios"
+        })
+      if (this.tramite.personeria==='PJESP'  && !this.tramite.datosSocietarios.PJESP.inscripcionSucursal.fecha)
+        toValidate.push({
+          attribute:'inscripcionSucursalFecha',
+          dataId:'',
+          error:"La fecha de inscripcion de la sucursal es obligatoria"
+        })
+      if (this.tramite.personeria==='PJESP'  && !this.tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos)
+        toValidate.push({
+          attribute:'modificacionObjetoDatos',
+          dataId:'',
+          error:"Los datos de modificacion del objeto es obligatorio"
+        })
+      if (this.tramite.personeria==='PJESP'  && !this.tramite.datosSocietarios.PJESP.modifcicacionObjeto.fecha)
+        toValidate.push({
+          attribute:'modificacionObjetoFecha',
+          dataId:'',
+          error:"La fecha de la modificacion del objeto es obligatoria"
+        })
 
       if (this.tramite.matriculaComerciante.fecha && this.tramite.altaAFIP.fecha){
         const fechaAltaMatricula = moment(this.tramite.matriculaComerciante.fecha,'DD/MM/YYYY')
