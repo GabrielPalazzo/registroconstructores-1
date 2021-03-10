@@ -312,6 +312,12 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:"La fecha de la modificacion del objeto es obligatoria"
         })
+        if (this.tramite.personeria==='UTE'  && !this.tramite.datosSocietarios.fechaInscripcion)
+        toValidate.push({
+          attribute:'fechaInscripcionUTE',
+          dataId:'',
+          error:"La fecha de inscripción es obligatoria"
+        })
 
       if (this.tramite.matriculaComerciante.fecha && this.tramite.altaAFIP.fecha){
         const fechaAltaMatricula = moment(this.tramite.matriculaComerciante.fecha,'DD/MM/YYYY')

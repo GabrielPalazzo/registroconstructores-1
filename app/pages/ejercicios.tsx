@@ -343,11 +343,11 @@ export default () => {
         setModo(MODO.VIEW)
         setModalEjercicios(true)
       }}><FolderViewOutlined /></div>
-    },{
-      title: 'Obs',
-      render: (text,record) => <div className="text-green-500 font-bold">APROBADO</div>,
-      key:'obsss'
-    },
+    },//{
+      //title: 'Obs',
+     // render: (text,record) => <div className="text-green-500 font-bold">APROBADO</div>,
+     // key:'obsss'
+    //  },
     {
       title: 'Inicio de ejercicio',
       dataIndex: 'fechaInicio',

@@ -6,7 +6,7 @@ import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message, Alert } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -760,7 +760,7 @@ export default () => {
     <div className="px-20 mx-20 py-6 ">
       <div className="flex  content-center  ">
       <Wrapper title="Declaración jurada de Obras " attributeName="obras" isTitle>
-        <div className=" w-1/4 text-right content-center mt-4 ">
+        <div className="text-right content-center -mt-8 ">
           {isTramiteEditable(tramite) ? <Button type="primary" onClick={() => {
             const obraEmpty = getEmptyObras()
             obraEmpty.id = getCodigoObra()
@@ -771,6 +771,10 @@ export default () => {
           }} icon={<PlusOutlined />}> Agregar</Button> : ''}
         </div>
         </Wrapper>
+
+        <div className="mb-4 mt-4">
+        <Alert message="El interesado deberá declarar sus antecedentes de ejecución de Obras según lo establecido en el artículo 11 de la DI-2021-3-APN-ONC#JGM" type="info" />
+      </div>
       </div>
       <div>
         <Tabs defaultActiveKey="1" onChange={callback} >
