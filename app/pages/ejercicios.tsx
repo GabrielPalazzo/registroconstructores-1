@@ -513,6 +513,7 @@ export default () => {
         <div className=" text-right content-center mb-4 -mt-8">
           {isTramiteEditable(tramite) ?<Button type="primary" onClick={() => {
             setModalEjercicios(true)
+            clearState()
             setModo(MODO.NEW)
           }} icon={<PlusOutlined />}> Agregar</Button> : '' }
         </div>

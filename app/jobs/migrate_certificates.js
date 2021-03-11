@@ -22,7 +22,7 @@ import { MongoClient } from 'mongodb';
 
 
   let waitTill = 0
-  for (let  i=12200;i <= 12250; i++){
+  for (let  i=9000;i <= 17800; i++){
     try {
       waitTill = new Date(new Date().getTime() + 1 * 300)
       const result = await axios.get(`${config.contratar.host}/API/Proveedores/ObtenerDatosConstancia?id=${i}&fecha=Sun%20Mar%2007%202021`, {
