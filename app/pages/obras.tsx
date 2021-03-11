@@ -812,7 +812,7 @@ export default () => {
     </div>
     <style>
       {`
-      .ant-modal-body{padding:0px !important}
+      
       .ant-tabs{ padding-left: 24px !important;
         padding-right: 24px !important;
         margin-bottom: 30px !important;}`}
