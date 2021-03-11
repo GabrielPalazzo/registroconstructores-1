@@ -78,7 +78,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       </Modal>
 
       <div onClick={() => setShowEliminar(true)}>
-        {props.tramite.status === 'BORRADOR' ? <DeleteTwoTone twoToneColor="#eb2f96" /> : ''}
+        {props.tramite.status === 'BORRADOR' ? <div style={{  color: '#eb2f96', marginLeft:"20px" }} ><DeleteTwoTone twoToneColor="#eb2f96" className="mt-2" /> Eliminar</div> : ''}
       </div>
     </div>
   }
@@ -195,7 +195,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                           setActiveProfile(e)
                           setShowProfile(true)
                         }}> <EyeOutlined /> Previsualizar</Button></div>,
-                    <EliminarBorrador tramite={e} />,
+                    <EliminarBorrador tramite={e}  />,
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
                         onClick={() => {
