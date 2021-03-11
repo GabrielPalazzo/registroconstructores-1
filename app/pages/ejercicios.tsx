@@ -343,10 +343,6 @@ export default () => {
         setModo(MODO.VIEW)
         setModalEjercicios(true)
       }}><FolderViewOutlined /></div>
-    },{
-      title: 'Obs',
-      render: (text,record) => <div className="text-green-500 font-bold">APROBADO</div>,
-      key:'obsss'
     },
     {
       title: 'Inicio de ejercicio',
@@ -509,6 +505,7 @@ export default () => {
         <div className=" text-right content-center mb-4 -mt-8">
           {isTramiteEditable(tramite) ?<Button type="primary" onClick={() => {
             setModalEjercicios(true)
+            clearState()
             setModo(MODO.NEW)
           }} icon={<PlusOutlined />}> Agregar</Button> : '' }
         </div>
