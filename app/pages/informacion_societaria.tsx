@@ -738,12 +738,12 @@ export default () => {
         </div>
 
         <div className="text-2xl font-bold py-4"> Inscripción del contrato de la U.T.E</div>
-        
-          <div className="grid grid-cols-2 gap-4 ">
-            <div >
+
+        <div className="grid grid-cols-2 gap-4 ">
+          <div >
             <Wrapper title="datos" attributeName="datosInscripcionContratoUTE" labelRequired="*">
               <InputText
-               attributeName="datosInscripcionContratoUTE"
+                attributeName="datosInscripcionContratoUTE"
                 value={tramite.datosSocietarios.ute.inscripcionUTE.datos}
                 bindFunction={value => {
                   tramite.datosSocietarios.ute.inscripcionUTE.datos = value
@@ -751,13 +751,13 @@ export default () => {
                 }}
                 labelMessageError=""
                 required />
-                </Wrapper>
-                </div>
-            <div >
+            </Wrapper>
+          </div>
+          <div >
             <Wrapper title="Fecha" attributeName="fechaInscripcionContratoUTE"
               labelRequired="*"  >
               <DatePicker
-               placeholder="Fecha"
+                placeholder="Fecha"
                 labelObservation=""
                 labeltooltip=""
                 labelMessageError=""
@@ -768,9 +768,9 @@ export default () => {
                   updateObjTramite()
                 }}
               />
-              </Wrapper>
-            </div>
-            <div >
+            </Wrapper>
+          </div>
+          <div >
             <Wrapper title="Contrato de la U.T.E. y junto con TODAS sus modificaciones" attributeName="contratoUTEUpload"
               labelRequired="*"  >
               <Upload
@@ -793,10 +793,10 @@ export default () => {
 
 
               />
-              </Wrapper>
-            </div>
+            </Wrapper>
           </div>
-        
+        </div>
+
         <Wrapper isTitle title="Última modificación del contrato de la U.T.E." attributeName="ultimaModificacionContratoUTE" >
           <div className="grid grid-cols-3 gap-4 ">
             <div >
@@ -886,45 +886,45 @@ export default () => {
           </div>
         </Wrapper>
         <div className=" content-center  rounded-lg border  px-4 py-4">
-        <Wrapper isTitle title="Autoridades" attributeName="autoridadesUTE">
-          
-          <div className=" text-right content-center -mt-8 ">
-            <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
-          </div>
+          <Wrapper isTitle title="Autoridades" attributeName="autoridadesUTE">
+
+            <div className=" text-right content-center -mt-8 ">
+              <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+            </div>
 
 
-          <div className="pb-6">
-            <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
-              tramite.autoridadesVencimiento = !e.target.checked
-              updateObjTramite()
-              //save()
-            }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+            <div className="pb-6">
+              <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+                tramite.autoridadesVencimiento = !e.target.checked
+                updateObjTramite()
+                //save()
+              }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
 
-          </div>
-          <div className="pb-6" >
-            <Upload
-              label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
+            </div>
+            <div className="pb-6" >
+              <Upload
+                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
           General de Justicia o Registro Publico de comercio"
-              labelRequired="*"
-              labelMessageError=""
-              defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
-              onOnLoad={file => {
-                if (!tramite.datosSocietarios.archivoAutoridades)
-                  tramite.datosSocietarios.archivoAutoridades = []
-                tramite.datosSocietarios.archivoAutoridades.push(file)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-              onRemove={fileToRemove => {
-                tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-            />
-          </div>
-</Wrapper>
+                labelRequired="*"
+                labelMessageError=""
+                defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.archivoAutoridades)
+                    tramite.datosSocietarios.archivoAutoridades = []
+                  tramite.datosSocietarios.archivoAutoridades.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+              />
+            </div>
+          </Wrapper>
           {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ?
             <Table columns={columnsAutoridad}
               dataSource={Object.assign([], tramite.autoridadesSociedad)}
@@ -950,51 +950,55 @@ export default () => {
         <div className="text-2xl font-bold py-4"> Firma del Acta Constitutiva</div>
         <div className="grid grid-cols-3 gap-4 ">
           <div >
-            <DatePickerModal
-              label="Fecha"
-              labelRequired="*"
-              placeholder="Fecha"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={tramite.datosSocietarios.fechaInscripcion}
-              bindFunction={value => {
-                tramite.datosSocietarios.fechaInscripcion = value
-                updateObjTramite()
-              }}
-            />
+            <Wrapper title="Fecha" attributeName="fechaFirmaActaCooperativa" labelRequired="*">
+              <DatePicker
+               labelRequired=""
+                placeholder="Fecha"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                value={tramite.datosSocietarios.fechaInscripcion}
+                bindFunction={value => {
+                  tramite.datosSocietarios.fechaInscripcion = value
+                  updateObjTramite()
+                }}
+              />
+            </Wrapper>
           </div>
 
         </div>
         <div className="text-2xl font-bold py-4"> Inscripción de Acta Constitutiva en I.N.A.E.S</div>
         <div className="grid grid-cols-2 gap-4 ">
           <div >
-            <InputTextModal
-              value={tramite.datosSocietarios.cooperativa.inscriptionINAES.datos}
-              bindFunction={value => {
-                tramite.datosSocietarios.cooperativa.inscriptionINAES.datos = value
-                updateObjTramite()
-              }}
-              label="Datos"
-              labelRequired="*"
-              placeholder=""
-              labelMessageError=""
-              required /></div>
+            <Wrapper title="Datos" attributeName="datosInscripcionINAES" labelRequired="*">
+              <InputText
+                attributeName="datosInscripcionINAES"
+                value={tramite.datosSocietarios.cooperativa.inscriptionINAES.datos}
+                bindFunction={value => {
+                  tramite.datosSocietarios.cooperativa.inscriptionINAES.datos = value
+                  updateObjTramite()
+                }}
+                labelMessageError=""
+                required />
+            </Wrapper>
+          </div>
           <div >
-            <DatePickerModal
-              label="Fecha"
-              labelRequired="*"
-              placeholder="Fecha"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
+            <Wrapper title="Fecha" attributeName="fechaInscripcionINAES" labelRequired="*">
 
-              value={tramite.datosSocietarios.cooperativa.inscriptionINAES.fecha}
-              bindFunction={value => {
-                tramite.datosSocietarios.cooperativa.inscriptionINAES.fecha = value
-                updateObjTramite()
-              }}
-            />
+              <DatePickerModal
+                labelRequired="*"
+                placeholder="Fecha"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+
+                value={tramite.datosSocietarios.cooperativa.inscriptionINAES.fecha}
+                bindFunction={value => {
+                  tramite.datosSocietarios.cooperativa.inscriptionINAES.fecha = value
+                  updateObjTramite()
+                }}
+              />
+            </Wrapper>
           </div>
           <div >
             <Upload
@@ -1025,31 +1029,35 @@ export default () => {
         <Tooltip title="En caso de que la cooperativa sea Constructora desde su Constitución, repetir mismos datos y fecha de la Inscripción de Acta Constitutiva en I.N.A.E.S "> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
         <div className="grid grid-cols-2 gap-4 ">
           <div >
-            <InputTextModal
-              label="Datos"
-              labelRequired=""
-              placeholder=""
-              labelMessageError=""
-              value={tramite.datosSocietarios.cooperativa.modificacionINAES.datos}
-              bindFunction={value => {
-                tramite.datosSocietarios.cooperativa.modificacionINAES.datos = value
-                updateObjTramite()
-              }}
-              required /></div>
+            <Wrapper title="Datos" attributeName="datosModificacionEstatutariaINAES" labelRequired="*">
+              <InputText
+                attributeName="datosModificacionEstatutariaINAES"
+
+                labelMessageError=""
+                value={tramite.datosSocietarios.cooperativa.modificacionINAES.datos}
+                bindFunction={value => {
+                  tramite.datosSocietarios.cooperativa.modificacionINAES.datos = value
+                  updateObjTramite()
+                }}
+                required />
+            </Wrapper>
+          </div>
           <div >
-            <DatePickerModal
-              label="Fecha"
-              labelRequired=""
-              placeholder="Fecha"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={tramite.datosSocietarios.cooperativa.modificacionINAES.fecha}
-              bindFunction={value => {
-                tramite.datosSocietarios.cooperativa.modificacionINAES.fecha = value
-                updateObjTramite()
-              }}
-            />
+            <Wrapper title="Fecha" attributeName="fechamodificacionINAES" labelRequired="*">
+              <DatePickerModal
+
+                labelRequired=""
+                placeholder="Fecha"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                value={tramite.datosSocietarios.cooperativa.modificacionINAES.fecha}
+                bindFunction={value => {
+                  tramite.datosSocietarios.cooperativa.modificacionINAES.fecha = value
+                  updateObjTramite()
+                }}
+              />
+            </Wrapper>
           </div>
           <div >
             <Upload
@@ -1078,32 +1086,36 @@ export default () => {
         <div className="text-2xl font-bold py-4">Última modificación estatutaria Inscripta en I.N.A.E.S.</div>
         <div className="grid grid-cols-2 gap-4 ">
           <div >
-            <InputTextModal
-              label="Datos"
-              labelRequired=""
-              placeholder=""
-              labelMessageError=""
-              value={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos}
-              bindFunction={value => {
-                tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos = value
-                updateObjTramite()
-              }}
-              required /></div>
+            <Wrapper title="Datos" attributeName="datosultimaModificacionEstatutariaINAES" labelRequired="*">
+              <InputText
+                attributeName="datosultimaModificacionEstatutariaINAES"
+
+                labelRequired=""
+                labelMessageError=""
+                value={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos}
+                bindFunction={value => {
+                  tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos = value
+                  updateObjTramite()
+                }}
+                required />
+            </Wrapper></div>
 
           <div >
-            <DatePickerModal
-              label="Fecha"
-              labelRequired=""
-              placeholder="Fecha"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.fecha}
-              bindFunction={value => {
-                tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos = value
-                updateObjTramite()
-              }}
-            />
+            <Wrapper title="Fecha" attributeName="fechaultimaModificacionINAES" labelRequired="*">
+              <DatePickerModal
+
+                labelRequired=""
+                placeholder="Fecha"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                value={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.fecha}
+                bindFunction={value => {
+                  tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos = value
+                  updateObjTramite()
+                }}
+              />
+            </Wrapper>
           </div>
           <div >
             <Upload
@@ -1132,60 +1144,64 @@ export default () => {
         <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato / Acta Constitutiva</div>
         <div className="grid grid-cols-3 gap-4 mb-4 ">
           <div >
-            <DatePickerModal
-              label="Fecha"
-              labelRequired=""
-              placeholder="Fecha"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={tramite.datosSocietarios.fechaVencimiento}
-              bindFunction={value => {
-                tramite.datosSocietarios.fechaVencimiento = value
-                updateObjTramite()
-              }}
-            />
+            <Wrapper title="Fecha" attributeName="fechaVencimientoCooperativa" labelRequired="*">
+              <DatePickerModal
+
+                labelRequired=""
+                placeholder="Fecha"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                value={tramite.datosSocietarios.fechaVencimiento}
+                bindFunction={value => {
+                  tramite.datosSocietarios.fechaVencimiento = value
+                  updateObjTramite()
+                }}
+              />
+            </Wrapper>
           </div>
 
         </div>
         <div className=" content-center  rounded-lg border  px-4 py-4">
-          <div className="flex  content-center ">
-            <div className="text-2xl font-bold py-4 w-3/4"> Autoridades</div>
+          <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
+            <div className="flex  content-center ">
+              <div className=" w-1/4 text-right content-center mt-4 ">
+                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+              </div>
 
-            <div className=" w-1/4 text-right content-center mt-4 ">
-              <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
             </div>
-
-          </div>
-          <div className="pb-6">
-            <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
-              tramite.autoridadesVencimiento = !e.target.checked
-              updateObjTramite()
-              //save()
-            }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
-
-          </div>
-          <div className="pb-6" >
-            <Upload
-              label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
-          General de Justicia o Registro Publico de comercio"
-              defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
-              onOnLoad={file => {
-                if (!tramite.datosSocietarios.archivoAutoridades)
-                  tramite.datosSocietarios.archivoAutoridades = []
-                tramite.datosSocietarios.archivoAutoridades.push(file)
+            <div className="pb-6">
+              <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+                tramite.autoridadesVencimiento = !e.target.checked
                 updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-              onRemove={fileToRemove => {
-                tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-            />
-          </div>
+                //save()
+              }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+
+            </div>
+            <div className="pb-6" >
+              <Upload
+                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion General de Justicia o Registro Publico de comercio"
+                labelRequired="*"
+                labelMessageError=""
+                defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.archivoAutoridades)
+                    tramite.datosSocietarios.archivoAutoridades = []
+                  tramite.datosSocietarios.archivoAutoridades.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+              />
+            </div>
+          </Wrapper>
+
           {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ?
             <Table columns={columnsAutoridad}
               dataSource={Object.assign([], tramite.autoridadesSociedad)}
@@ -1416,30 +1432,45 @@ export default () => {
           </div>
         </Wrapper>
         <div className=" content-center  rounded-lg border  px-4 py-4">
-          <div className="flex  content-center ">
-            <div className="text-2xl font-bold py-4 w-3/4"> Autoridades</div>
+          <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
+            <div className="flex  content-center ">
+              <div className=" w-1/4 text-right content-center mt-4 ">
+                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+              </div>
 
-            <div className=" w-1/4 text-right content-center mt-4 ">
-              <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
             </div>
+            <div className="pb-6">
+              <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+                tramite.autoridadesVencimiento = !e.target.checked
+                updateObjTramite()
+                //save()
+              }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
 
-          </div>
-          <div className="pb-6">
-            <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
-              tramite.autoridadesVencimiento = !e.target.checked
-              updateObjTramite()
-              //save()
-            }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+            </div>
+            <div className="pb-6" >
+              <Upload
+                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion General de Justicia o Registro Publico de comercio"
+                labelRequired="*"
+                labelMessageError=""
+                defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.archivoAutoridades)
+                    tramite.datosSocietarios.archivoAutoridades = []
+                  tramite.datosSocietarios.archivoAutoridades.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+              />
+            </div>
+          </Wrapper>
 
-          </div>
-          <div className="pb-6" >
-            <UploadLine
-              label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
-          General de Justicia o Registro Publico de comercio"
-              labelRequired="*"
-              labelMessageError=""
-            />
-          </div>
           {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ?
             <Table columns={columnsAutoridad}
               dataSource={Object.assign([], tramite.autoridadesSociedad)}

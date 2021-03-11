@@ -87,6 +87,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
             <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
           </div>
         </div>
+        {/* 
         <div className="grid grid-cols-2 border gap-4 px-4 py-4 text-center">
           <div>
             <div className="text-base font-semibold tracking-wider "><Progress type="circle" width={80} percent={75} /></div>
@@ -98,6 +99,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
           </div>
 
         </div>
+        */}
       </div>
       <div className="text-xl font-bold mt-4 mb-4">Obras adjudicadas y/o en ejecución</div>
       <Table columns={columnsObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
