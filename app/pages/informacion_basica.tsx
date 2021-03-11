@@ -499,6 +499,7 @@ export default (props) => {
             />
           </div>}
       </div>
+      <a href="../img/acta_de_administrador_legitimado.pdf" target="_blank"> <CloudDownloadOutlined /> Descargar modelo oficial de Acta de Administrador Legitimado </a>
       {/* 
       <div>
         <Checkbox onChange={e => setAceptTerminosYCondiciones(e.target.checked)}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
