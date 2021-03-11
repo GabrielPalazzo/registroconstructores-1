@@ -94,7 +94,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
   return <div>
     <div className="mb-4">
-      <Alert message="En esta sección podrá agregar todas las certificaciones que posea de la obra consignando: período (MM/AAAA), monto y la documental que sustenten los datos ingresados. Las certificaciones deben declararse una vez facturadas, indicando fecha de facturación, y adjuntando como respaldo el propio certificado y su respectiva factura" type="info" />
+      <Alert message="“En esta sección podrá cargar cada certificado de la obra, y deberá hacerlo una vez se encuentre facturado, y de forma mensual. Indicar período de facturación (MM/AAAA), monto facturado en ese mes, una breve descripción sobre que es lo que compone este período, y la documental que sustente esta carga. Deberá adjuntar el certificado junto con su factura. En caso de que la cantidad de facturas emitidas al mes sea muy considerable, podrá presentar una certificación contable del libro IVA Ventas, indicando fecha, número de comprobante emitido, importe de la factura, y total mes a mes.”" type="info" />
     </div>
     <div className="grid grid-cols-4 gap-4 ">
 
