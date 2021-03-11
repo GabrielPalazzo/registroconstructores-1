@@ -81,6 +81,14 @@ export const migrarCertificados = async (key: string) => {
   })
 }
 
+export const eliminarBorrador = async (tramite: TramiteAlta) => {
+  return axios.get(`/api/tramite/remove?id=${tramite._id}`,{
+    headers: {
+      Authorization: 'Bearer ' + getToken()
+    }
+  })
+}
+
 export const getEmptyTramiteAlta = (): TramiteAlta => {
   return {
     apoderados: [],

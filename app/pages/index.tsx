@@ -18,6 +18,11 @@ export default () => {
   const [tramites, setTramites] = useState<Array<TramiteAlta>>([])
   const tipoAccion = useSelector(state => state.appStatus.tipoAccion)
 
+
+  const loadTramites = async () => {
+    setTramites(await getTramites())
+  }
+
   useEffect(() => {
     (async () => {
       const usuario = getUsuario().userData()
@@ -33,7 +38,7 @@ export default () => {
       }
 
 
-      setTramites(await getTramites())
+      loadTramites()
       setIsLoading(false)
       setUser(usuario)
 
@@ -120,7 +125,7 @@ export default () => {
       </div>
     </div>
     <div className="pb-10">
-      {tramites.length === 0 ? noData() : <BandejaConstructor tramites={tramites} />}
+      {tramites.length === 0 ? noData() : <BandejaConstructor masterLoadingFunction={setIsLoading} refreshFunction={loadTramites} tramites={tramites} />}
     </div>
     <div className="pb-4 text-center  border-gray-200 border-t-2" >
 

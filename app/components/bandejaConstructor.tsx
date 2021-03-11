@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty } from 'antd'
 import { Space } from 'antd'
-import { getColorStatus, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
+import { eliminarBorrador, getColorStatus, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
 import { setUpdateBorrador } from '../redux/actions/main'
 import { useRouter } from 'next/router'
-import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined, DeleteTwoTone } from '@ant-design/icons';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite'
 import moment from 'moment'
 
@@ -20,13 +20,18 @@ function callback(key) {
 
 export interface BandejaConstructorProps {
   tramites: Array<TramiteAlta>
+  refreshFunction: Function,
+  masterLoadingFunction: Function
 }
 
 
 export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
-  tramites = []
+  tramites = [],
+  refreshFunction=  () => null,
+  masterLoadingFunction = () => null
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -45,6 +50,38 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
   const [activeProfile, setActiveProfile] = useState<TramiteAlta>(null)
 
 
+  const EliminarBorrador = (props) => {
+    const [showEliminar, setShowEliminar] = useState(false)
+    return <div>
+
+      <Modal 
+        title="Eliminar Borrardor" 
+        visible={showEliminar}
+        onCancel={() => setShowEliminar(false)}
+        footer={[
+          <Button key="back" onClick={() => setShowEliminar(false)}>
+            Cancelar
+          </Button>,
+          <Button type="primary" loading={loading} onClick={async () => {
+            setLoading(true)
+            masterLoadingFunction(true)
+            await eliminarBorrador(props.tramite)
+            await refreshFunction()
+            setShowEliminar(false)
+            masterLoadingFunction(false)
+            }}>
+            Eliminar
+          </Button>,
+        ]} 
+        >
+        <p> Esta seguro que desea eliminar el borrador? </p>
+      </Modal>
+
+      <div onClick={() => setShowEliminar(true)}>
+        {props.tramite.status === 'BORRADOR' ? <DeleteTwoTone twoToneColor="#eb2f96" /> : ''}
+      </div>
+    </div>
+  }
   return <div>
     <Modal title="Previsualizar"
       visible={showProfile}
@@ -158,6 +195,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                           setActiveProfile(e)
                           setShowProfile(true)
                         }}> <EyeOutlined /> Previsualizar</Button></div>,
+                    <EliminarBorrador tramite={e} />,
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
                         onClick={() => {
