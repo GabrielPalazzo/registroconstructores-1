@@ -78,7 +78,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       </Modal>
 
       <div onClick={() => setShowEliminar(true)}>
-        {props.tramite.status === 'BORRADOR' ? <div style={{  color: '#eb2f96', marginLeft:"20px" }} ><DeleteTwoTone twoToneColor="#eb2f96" className="mt-2" /> Eliminar</div> : ''}
+        {props.tramite.status === 'BORRADOR' ? <div className="cursor-pointer" style={{  color: '#C62828', marginLeft:"20px",  border:"1px dashed #C62828", borderRadius:"24px",textAlign: "center",float: "right",width: "24px",height: "24px" }} ><DeleteTwoTone twoToneColor="#C62828"  /> </div> : ''}
       </div>
     </div>
   }
@@ -195,7 +195,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                           setActiveProfile(e)
                           setShowProfile(true)
                         }}> <EyeOutlined /> Previsualizar</Button></div>,
-                        <EliminarBorrador tramite={e}  />,
+                       
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
                         onClick={() => {
@@ -213,8 +213,15 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
+
                       <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
                       <Tag color="green">{e.status}</Tag>
+                      <div className="absolute inset-y-10 right-0 w-1 pr-6">
+                      <EliminarBorrador tramite={e}  />
+                      </div>
+                      
+
+
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
