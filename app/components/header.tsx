@@ -39,7 +39,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
       <Menu.Item>
         <div >
           <a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores/normas-internas" target="_blank">
-            Instructivos de inscripción y actualización
+            Normativa e Instructivos
         </a>
         </div>
       </Menu.Item>
