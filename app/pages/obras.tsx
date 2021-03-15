@@ -763,6 +763,33 @@ export default () => {
   }
 
   const saveObra = async () => {
+    if ((!obra.denominacion)) {
+      setError('La denominacion es requerida ')
+      setShowError(true)
+      return
+    }
+    if ((!obra.razonSocialComitente)) {
+      setError('La razon Social Comitente es requerida')
+      setShowError(true)
+      return
+    }
+    if ((!obra.cuitComitente)) {
+      setError('El cuit del comitente es requerido')
+      setShowError(true)
+      return
+    }
+    if ((!obra.montoInicial)) {
+      setError('El monto del contrato es requerido')
+      setShowError(true)
+      return
+    }
+    
+    if ((!obra.plazoPorContrato)) {
+      setError('El plazo  por contrato es requerido ')
+      setShowError(true)
+      return
+    }
+    
     tramite.ddjjObras = tramite.ddjjObras.filter((o: DDJJObra) => o.id !== obra.id)
     tramite.ddjjObras.push(obra)
     await save()
