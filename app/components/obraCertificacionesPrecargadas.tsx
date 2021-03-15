@@ -29,6 +29,8 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   const [monto, setMonto] = useState(0)
   const [periodoSeleccionado, setPeriodoSeleccionado] = useState(null)
   const [archivos,setArchivos] = useState<Array<Archivo>>([])
+  const [error, setError] = useState('')
+  const [showError, setShowError] = useState(false)
 
   const borrarPeriodo = (p) => {
     // setPeriodos(Object.assign([], periodos.filter(v => v.codigo !== p.codigo)))
@@ -68,11 +70,28 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   ]
 
   const agregarPeriodo = () => {
+    
+    if ((!periodo)) {
+      setError('El periodo   es requerido')
+      setShowError(true)
+      return
+    }
+    if ((!monto)) {
+      setError('El monto   es requerido')
+      setShowError(true)
+      return
+    }
+    if ((!descripcion)) {
+      setError('La descripción es requerida')
+      setShowError(true)
+      return
+    }
 
     let periodosCopy = Object.assign([], obra.certificaciones)
 
     if (periodoSeleccionado)
       periodosCopy = obra.certificaciones.filter(v => v.codigo !== periodoSeleccionado.codigo)
+
 
     periodosCopy.push({
       codigo: periodoSeleccionado ? periodoSeleccionado.codigo : getUniqCode(),
@@ -93,6 +112,15 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
 
   return <div>
+    {showError ? <div className="mb-4">
+      <Alert
+        message=''
+        description={error}
+        type="error"
+        showIcon
+        closable
+        afterClose={() => setShowError(false)}
+      /></div> : ''}
     <div className="mb-4">
       <Alert message="“En esta sección podrá cargar cada certificado de la obra, y deberá hacerlo una vez se encuentre facturado, y de forma mensual. Indicar período de facturación (MM/AAAA), monto facturado en ese mes, una breve descripción sobre que es lo que compone este período, y la documental que sustente esta carga. Deberá adjuntar el certificado junto con su factura. En caso de que la cantidad de facturas emitidas al mes sea muy considerable, podrá presentar una certificación contable del libro IVA Ventas, indicando fecha, número de comprobante emitido, importe de la factura, y total mes a mes.”" type="info" />
     </div>
@@ -150,10 +178,11 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
         />
       </div>
 
-      <div className="w-1/3 flex items-center mb-4">
+      
+    </div>
+    <div className=" text-center mb-4">
         <Button onClick={agregarPeriodo} type={periodo ? 'primary' : 'ghost'}>{periodoSeleccionado ? 'Editar' : 'Agregar'}</Button>
       </div>
-    </div>
 
 
     <div>
