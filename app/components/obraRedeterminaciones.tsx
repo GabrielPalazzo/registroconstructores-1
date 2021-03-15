@@ -115,7 +115,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			/></div> : ''}
 		<div className="rounded-lg px-4 py-2  pb-4 border mt-6">
 			<div className="text-xl font-bold py-2 w-3/4">  Redeterminaciones</div>
-			<div className="grid grid-cols-3 gap-4 ">
+			<div className="grid grid-cols-4 gap-4 ">
 				<div className="pb-6" >
 					<InputNumberModal
 						min={0}
@@ -132,7 +132,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				<div className="pb-6" >
 					<DatePickerModal
 						placeholder="Fecha  (dd/mm/yyyy)"
-						label="Fecha de la redeterminacion"
+						label="Fecha de la redeterminación"
 						labelRequired="*"
 						labelObservation=""
 						labeltooltip=""
@@ -143,7 +143,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				</div>
 				<div className="pb-6" >
 					<InputTextModal
-						label="Descripcion"
+						label="Descripción"
 
 						labelRequired="*"
 						labelMessageError=""
@@ -152,11 +152,9 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 					/>
 
 				</div>
-			</div>
-			<div className="grid grid-cols-2 gap-4 ">
 				<div className="pb-6" >
 					<Upload
-						label="Adjuntar documento de respaldo de la redeterminación "
+						label="Documentación respaldatoria "
 						labelRequired="*"
 						labelMessageError=""
 						defaultValue={archivos as any}
@@ -169,7 +167,10 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 						}}
 					/>
 				</div>
-				<div className="mt-8 ">
+			</div>
+			<div className="text-center ">
+				
+				<div className=" ">
 					<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
 				</div>
 			</div>
