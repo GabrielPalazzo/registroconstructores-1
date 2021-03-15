@@ -69,6 +69,10 @@ export default () => {
   const [prorrogaMeses, setProrrogaMeses] = useState(0)
   const [dataSource, setDataSource] = useState('')
   const [archivosPlazos, setArchivosPlazos] = useState<Array<Archivo>>([])
+  const [archivos, setArchivos] = useState<Array<Archivo>>([])
+  const [error, setError] = useState('')
+  const [showError, setShowError] = useState(false)
+
 
   const [obra, setObra] = useState<DDJJObra>(getEmptyObras())
   const [especialidad1, setEspecialidad1] = useState('')
@@ -124,6 +128,16 @@ export default () => {
 
 
   const add = async () => {
+    if ((!prorrogaFecha)) {
+      setError('La Fecha de la prorroga es requerida')
+      setShowError(true)
+      return
+    }
+    if ((!prorrogaMeses)) {
+      setError('Los meses son requeridos')
+      setShowError(true)
+      return
+    }
     if (!obra.prorrogaNueva)
       obra.prorrogaNueva = []
 
@@ -143,6 +157,15 @@ export default () => {
 
   const renderModalObra = () => {
     return (<div>
+       {showError ? <div className="mb-4">
+      <Alert
+        message=''
+        description={error}
+        type="error"
+        showIcon
+        closable
+        afterClose={() => setShowError(false)}
+      /></div> : ''}
       <div className="text-left bg-gray-300 p-4 px-6 ">
         <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2 rounded-full">{numeral(obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</Tag>
         <Tag>Certificado Total </Tag> <Tag color="magenta" className="mr-2 rounded-full">{numeral(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0).format('$0,0.00')}</Tag>
