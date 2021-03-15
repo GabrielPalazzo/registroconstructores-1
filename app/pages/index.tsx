@@ -129,7 +129,7 @@ export default () => {
     </div>
     <div className="pb-4 text-center  border-gray-200 border-t-2" >
 
-     <div className="text-sm mt-2"> version: 1.22.3 </div> 
+     <div className="text-sm mt-2"> version: 1.22.4 </div> 
 
     </div>
 
