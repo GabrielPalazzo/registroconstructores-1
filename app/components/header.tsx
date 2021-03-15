@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
-import { Button, Modal, Avatar, Dropdown, Menu } from 'antd';
-import { allowGuardar, closeSession, getUsuario } from '../services/business';
+import { Button, Modal, Avatar, Dropdown, Menu, Input } from 'antd';
+import { allowGuardar, closeSession, getUsuario, rechazarTramite } from '../services/business';
 
+const { TextArea } = Input
 
 export interface HeaderPrincipalProps {
   tramite: TramiteAlta
@@ -17,22 +18,28 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
   onSave
 }) => {
   const router = useRouter()
-  const [user, setUser] = useState<Usuario>(null)
+  const [user, setUser] = useState(null)
   const [showCancelar, setShowCancelar] = useState(false)
+  const [showModalRechazar, setShowModalRechazar] = useState(false)
+  const [motivoRechazo, setMotivoRechazo] = useState('')
+  const [loadingRechazo, setLoadingRechazo] = useState(false)
 
+  
   const confirmCancel = () => {
     setShowCancelar(false)
     onExit()
   }
 
   useEffect(() => {
-    setUser(getUsuario().userData)
+    setUser(getUsuario())
   }, [])
 
   const cerrarSesion = () => {
     closeSession()
     router.push('/login')
   }
+
+  
 
   const menu = (
     <Menu>
@@ -53,12 +60,36 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     </Menu>
   );
 
+  const handleRechazarTramite = async () => {
+
+    setLoadingRechazo(true)
+    await rechazarTramite(tramite,motivoRechazo)
+    router.push('/backoffice/bandeja')
+  }
+
 
   if (!user)
     return <div></div>
 
 
   return <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
+
+      <Modal title="Basic Modal" 
+        visible={showModalRechazar} 
+        
+        footer={[
+          <Button onClick={() => setShowModalRechazar(false)}>Cancelar</Button>,
+          <Button loading={loadingRechazo} type="primary" onClick={handleRechazarTramite} >Rechazar</Button>
+        ]}
+        
+        >
+        <p>Esta seguro que desea rechazar el trámite?</p>
+        <p>Por favor, indique el motivo de rechazo</p>
+        <p/>
+        <TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)} rows={4} />
+
+      </Modal>
+
     <Modal
       title="Cancelar operación"
       visible={showCancelar}
@@ -76,11 +107,15 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     </div>
     <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4 cursor-pointer">
 
+      {user.isAprobador() && tramite.status ==='A SUPERVISAR' || tramite.categoria!=='INSCRIPTO' ? <Button onClick={() => {
+        setShowModalRechazar(true)
+      }} danger type='dashed'>Rechazar tramite</Button> : '' }
+
       <Button danger type="text" onClick={() => setShowCancelar(true)}>Cancelar</Button>
       {tramite && tramite.cuit && allowGuardar(tramite) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}>Guardar y salir</Button> : ''}
       <Dropdown overlay={menu} trigger={['click']}>
         <div onClick={e => e.preventDefault()}>
-          <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2', marginLeft: '10px' }} >{user.GivenName.substring(0, 1)}</Avatar>
+          <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2', marginLeft: '10px' }} >{user.userData().GivenName.substring(0, 1)}</Avatar>
         </div>
       </Dropdown>
 

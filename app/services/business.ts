@@ -89,8 +89,24 @@ export const eliminarBorrador = async (tramite: TramiteAlta) => {
   })
 }
 
+export const rechazarTramite = (tramite: TramiteAlta, motivo: string) => {
+  if (!tramite.rechazos)
+    tramite.rechazos= []
+
+  tramite.rechazos.push({
+    rechazadoPor:getUsuario().userData(),
+    fecha: new Date().getTime(),
+    motivo
+  })
+
+  tramite.status='BORRADOR'
+  return saveTramiteService(tramite)
+
+}
+
 export const getEmptyTramiteAlta = (): TramiteAlta => {
   return {
+    rechazos: [],
     apoderados: [],
     creatorId: null,
     inscripcionAFIPConstancia: [],

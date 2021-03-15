@@ -191,7 +191,12 @@ type TramiteAlta = {
     obs: string
   }>
   categoria: 'PRE INSCRIPTO' | 'INSCRIPTO' | 'DESACTUALIZADO'
-  status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION" | "A SUPERVISAR" | "SUBSANADO" | "PENDIENTE DE APROBACION"
+  status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION" | "A SUPERVISAR" | "SUBSANADO" | "PENDIENTE DE APROBACION" 
+  rechazos:Array<{
+    rechazadoPor: Usuario
+    fecha: number
+    motivo: string
+  }>
   propietario: Usuario
   certificadoFiscal: Archivo
   email: string
