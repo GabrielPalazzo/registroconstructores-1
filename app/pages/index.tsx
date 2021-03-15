@@ -69,6 +69,13 @@ export default () => {
   const menu = (
     <Menu>
       <Menu.Item>
+        <div >
+          <a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores/normas-internas" target="_blank">
+            Instructivos de inscripción y actualización
+        </a>
+        </div>
+      </Menu.Item>
+      <Menu.Item>
         <div onClick={cerrarSesion}>
           Cerrar sesión
         </div>

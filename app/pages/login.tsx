@@ -53,7 +53,8 @@ export default () => {
         <div className="text-3xl font-bold"> Hola, te damos la bienvenida al
           <span className="text-primary-500 ml-2">Registro de Constructores</span>
         </div>
-        <div className="text-lg pt-2">El Registro Nacional de Constructores de Obra Pública es donde deben inscribirse las empresas que deseen contratar obras con el Estado Nacional.</div>
+        <div className="text-lg pt-2">El Registro Nacional de Constructores de Obra Pública es donde deben inscribirse las empresas que deseen contratar obras con el Estado Nacional.<br/> 
+        <a href="" target="_blank">Consulte la normativa vigente e instructivos de inscripción y actualización</a></div>
       </div>
     </div>
     <div className="w-1/2 bg-primary-500 float-left  h-screen mtop">

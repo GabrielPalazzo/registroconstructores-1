@@ -37,10 +37,18 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
   const menu = (
     <Menu>
       <Menu.Item>
+        <div >
+          <a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores/normas-internas" target="_blank">
+            Instructivos de inscripción y actualización
+        </a>
+        </div>
+      </Menu.Item>
+      <Menu.Item>
         <div onClick={cerrarSesion}>
           Cerra sesión
         </div>
       </Menu.Item>
+
 
     </Menu>
   );
@@ -54,12 +62,12 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     <Modal
       title="Cancelar operación"
       visible={showCancelar}
-      
+
       footer={[
         <Button onClick={() => setShowCancelar(false)}>Volver</Button>,
         <Button type="primary" onClick={confirmCancel} >Cancelar operación</Button>
       ]}
-      
+
     >
       <p>Todos los cambios no guardados se perderán.</p>
     </Modal>
@@ -68,11 +76,11 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     </div>
     <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4 cursor-pointer">
 
-      <Button danger type="text"  onClick={() => setShowCancelar(true)}>Cancelar</Button>
-      {tramite && tramite.cuit && allowGuardar(tramite)? <Button type="link" style={{ fontWeight: 'bold',marginLeft:'10px' }} onClick={onSave}>Guardar y salir</Button> : ''}
+      <Button danger type="text" onClick={() => setShowCancelar(true)}>Cancelar</Button>
+      {tramite && tramite.cuit && allowGuardar(tramite) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}>Guardar y salir</Button> : ''}
       <Dropdown overlay={menu} trigger={['click']}>
         <div onClick={e => e.preventDefault()}>
-          <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2', marginLeft:'10px' }} >{user.GivenName.substring(0, 1)}</Avatar>
+          <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2', marginLeft: '10px' }} >{user.GivenName.substring(0, 1)}</Avatar>
         </div>
       </Dropdown>
 
