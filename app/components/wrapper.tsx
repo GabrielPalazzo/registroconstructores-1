@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite'
 import _ from 'lodash'
 import { Button, Modal, Tooltip } from 'antd'
 import { DislikeFilled, InfoCircleOutlined, InfoCircleTwoTone, LikeFilled } from '@ant-design/icons'
 import TextArea from 'antd/lib/input/TextArea'
+import { getReviewAbierta, getUsuario } from '../services/business'
 
 
 const customColors = ['#2897D4'];
@@ -24,7 +25,13 @@ export default (props) => {
   const revisionTramite = useSelector(state => state.revisionTramites)
   const [showObs, setShowObs] = useState(false)
   const [textObs, setTextObs] = useState('')
+  const [user, setUser]= useState(null)
 
+
+  useEffect(() => {
+    setUser(getUsuario())
+    
+  },[])
 
   const getColorIcon = (handUp: boolean) => {
     const r = revisionTramite && revisionTramite.revision && revisionTramite.revision.reviews.filter(r => r.field.toUpperCase() === attributeName.toUpperCase())
@@ -82,6 +89,24 @@ export default (props) => {
     return _.last(r).review
   }
 
+ 
+
+  const isEditable = () => {
+
+
+    const element = getReviewAbierta(tramite) && getReviewAbierta(tramite).reviews.filter(r => (r.field ===props.attributeName.toUpperCase()))
+    /** Solo se permite editar aquellos elementos que estan observados o bien que no quue no fueron revisados */
+
+    return tramite.status ==='BORRADOR' ||
+      (tramite.status ==='OBSERVADO' && (_.isEmpty(element) || !element[0].isOk)) 
+      && getUsuario().isConstructor()
+  }
+
+  
+
+  if (!user)
+    return <div/>
+
   return <div className={props.isTitle ? 'w-full' : ''}>
     <Modal
       visible={showObs}
@@ -112,7 +137,7 @@ export default (props) => {
       </div>
 
       {
-        tramite.asignadoA && tramite.status !== 'SUBSANADO' ? <div className="justify-end w-2/5">
+        !user.isConstructor() &&  tramite.asignadoA && tramite.status !== 'SUBSANADO'  ? <div className="justify-end w-2/5">
           <div className=" text-right">
             <Button onClick={like} type="link" icon={<LikeFilled style={{ color: getColorIcon(true) }} />} />
             <Button onClick={() => setShowObs(true)} type="link" icon={<DislikeFilled style={{ color: getColorIcon(false) }} />} />
@@ -120,7 +145,7 @@ export default (props) => {
         </div> : ''
       }
     </div >
-    {props.children}
+    {React.isValidElement(props.children) ?  React.cloneElement(props.children, {isEditable : isEditable()}) : props.children}
 
   </div >
 }

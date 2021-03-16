@@ -241,6 +241,8 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     setfechaInicio("")
   }
 
+
+  
    return <div>
       {showError ? <div className="mb-4">
         <Alert

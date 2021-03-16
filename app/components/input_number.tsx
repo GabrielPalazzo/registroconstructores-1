@@ -29,6 +29,7 @@ interface Props {
   min?:any
   formatter?:any
   locked?: boolean
+  isEditable?: boolean
 }
 
 export default (props: Props) => {
@@ -51,7 +52,7 @@ export default (props: Props) => {
         value={props.value}
         placeholder={props.placeholder}
         required={props.required}
-        disabled={!isTramiteEditable(tramite) || props.locked}
+        disabled={props.isEditable === undefined ? false : !props.isEditable || props.locked}
         onChange={ e => props.bindFunction(e)}
         type={props.type}
         min={props.min}

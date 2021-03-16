@@ -698,7 +698,7 @@ export default () => {
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <Popconfirm
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR'  || tramite.status ==='OBSERVADO'  ? <Popconfirm
         title="Esta seguro que lo  deseas Eliminar  La Obra"
         onConfirm={() => {
           setModo(MODO.EDIT)
@@ -714,7 +714,7 @@ export default () => {
     {
       title: 'Editar',
       key: 'editar',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => {
+      render: (text, record) => (tramite && (tramite.status === 'BORRADOR' || tramite.status ==='OBSERVADO') ? <div onClick={() => {
         setModo(MODO.EDIT)
         editarObrar(Object.assign({},record))
       }} className="cursor-pointer"><EditOutlined /></div> : <Space size="middle">
@@ -741,9 +741,10 @@ export default () => {
     }
   ]
 
-  columns = isTramiteEditable(tramite) ? columns : columns.slice(2, columns.length)
+  columns = tramite && (tramite.status === 'BORRADOR' || tramite.status ==='OBSERVADO') ? columns : columns.slice(2, columns.length)
 
 
+  
 
 
 

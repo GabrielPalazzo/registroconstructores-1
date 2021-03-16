@@ -20,6 +20,7 @@ interface Props {
   labelObservation?: string
   showHands?: boolean
   locked?: boolean
+  isEditable?: boolean
 }
 
 export default (props: Props) => {
@@ -37,7 +38,7 @@ export default (props: Props) => {
 
     <DatePicker 
 
-        disabled={!isTramiteEditable(tramite) || props.locked}
+        disabled={props.isEditable === undefined ? false : !props.isEditable || props.locked}
         onChange={(value) => {
           props.bindFunction(moment(value,dateFormat).format(dateFormat))
         }}

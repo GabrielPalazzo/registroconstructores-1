@@ -64,11 +64,11 @@ export const InputText: React.FC<IProps> = ({
   
 
   const isEditable = () => {
-    
+    const element = getReviewAbierta(tramite) && getReviewAbierta(tramite).reviews.filter(r => (r.field ===attributeName.toUpperCase()))
+    /** Solo se permite editar aquellos elementos que estan observados o bien que no quue no fueron revisados */
     return tramite.status ==='BORRADOR' ||
-      (tramite.status ==='OBSERVADO' && getReviewAbierta(tramite).reviews.filter(r => (r.field ===attributeName.toUpperCase()) && !r.isOk).length >0) && getUsuario().isConstructor()
-
-    
+      (tramite.status ==='OBSERVADO' && (_.isEmpty(element) || !element[0].isOk)) 
+      && getUsuario().isConstructor()
   }
 
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Input,Tooltip, } from 'antd';
-import { LikeFilled, DislikeFilled } from '@ant-design/icons';
+import { LikeFilled, DislikeFilled, ConsoleSqlOutlined } from '@ant-design/icons';
 import {useSelector} from 'react-redux'
 import { isTramiteEditable } from '../services/business';
 
@@ -29,12 +29,14 @@ interface Props {
   min?:any
   locked?: boolean
   maxLength?: number
+  isEditable?:boolean
 }
 
 export default (props: Props) => {
 
   const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
   
+  // console.log(props.isEditable === undefined)
  
   return (<div >
     <div className="flex">
@@ -51,7 +53,7 @@ export default (props: Props) => {
         onChange={  e => props.bindFunction(props.type==='number' ?  parseInt(e.target.value,10) :e.target.value ) }
         placeholder={props.placeholder}
         required={props.required}
-        disabled={!isTramiteEditable(tramite) || props.locked}
+        disabled={props.isEditable === undefined ? false : !props.isEditable || props.locked}
         type={props.type}
         min={props.min}
         step={props.step}

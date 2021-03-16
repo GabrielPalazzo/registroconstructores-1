@@ -28,6 +28,7 @@ interface Props {
   locale?:string
   showHands?: boolean
   picker?:"time" | "date" | "week" | "month" | "quarter" | "year"
+  isEditable? : boolean
 }
 
 export default (props: Props) => {
@@ -51,7 +52,7 @@ export default (props: Props) => {
     </div>
     <div className="w-full">
       <DatePicker 
-        disabled={!isTramiteEditable(tramite)}
+        disabled={props.isEditable === undefined ? false : !props.isEditable}
         onChange={(value) => {
           props.bindFunction(moment(value,dateFormat).format(dateFormat))
         }}
