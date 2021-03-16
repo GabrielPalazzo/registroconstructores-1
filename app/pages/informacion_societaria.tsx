@@ -90,6 +90,7 @@ export default () => {
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
 
+    
 
   }, [])
 
@@ -685,7 +686,7 @@ export default () => {
 
       <Button type="primary" onClick={async () => {
         await save()
-        if (isPersonaFisica)
+        if (isPersonaFisica(tramite))
           router.push('/enviar_tramite')
         else
           router.push('/informacion_propietarios')
@@ -693,6 +694,8 @@ export default () => {
     </div>
   }
 
+
+  
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
@@ -708,7 +711,7 @@ export default () => {
 
     <div className="px-20 mx-20 py-6 ">
 
-
+   
 
 
       {tramite.personeria === 'UTE' ? <div>

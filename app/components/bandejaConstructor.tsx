@@ -199,11 +199,38 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
                         onClick={() => {
-                          //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen
+                          //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen. En futuras versiones sacar este afuera y dejarlo como un "Clean default."
                           if (!e.datosSocietarios.sociedadAnonima.contrato)
                             e.datosSocietarios.sociedadAnonima.contrato = {
                               fecha: '',
                               archivos: []
+                            }
+
+                          if (!e) 
+                            e.datosSocietarios['PJESP'] = {
+                              archivosContrato:[],
+                              archivoModificacion:[],
+                              archivoUltimaModificacion:[],
+                              inscripcionConstitutiva:{
+                                fecha:'',
+                                datos:''
+                              },
+                              inscripcionSucursal:{
+                                fecha: '',
+                                datos: ''
+                              },
+                              modifcicacionObjeto: {
+                                fecha:'',
+                                datos:''
+                              },
+                              ultimaModificacionInscripcion: {
+                                fecha:'',
+                                datos: '' 
+                              },
+                              fechaVencimiento: {
+                                fecha:''
+                              }
+                      
                             }
                           dispatch(setUpdateBorrador(e)).then(r => {
                             dispatch(cargarUltimaRevisionAbierta(e))
