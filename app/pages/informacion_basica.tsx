@@ -237,13 +237,14 @@ export default (props) => {
       render: (text, record) => <div onClick={() => {
         setApellido(record.apellido)
         setNombre(record.nombre)
-        setEmail(record.email)
+        setEmailApoderado(record.email)
         setNroDocumentoApoderado(record.nroDocumento)
         setTipoDocumentoApoderado(record.tipoDocumento)
         setTipoApoderado(record.tipoApoderado)
         setFotosDNIApoderado(record.fotosDNI)
         setActaAutoridadesApoderado(record.actaAutoridades)
         setCuitApoderado(record.cuit)
+        setEsAdministradorLegitimado(record.esAdministrador)
         showModal()
       }}><FolderViewOutlined /></div>,
     },
