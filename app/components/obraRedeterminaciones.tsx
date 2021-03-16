@@ -86,11 +86,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			setShowError(true)
 			return
 		}
-		if (!_.isEmpty[archivos]) {
-			setError('el archivo')
-			setShowError(true)
-			return
-		}
+		
 		
 
 
