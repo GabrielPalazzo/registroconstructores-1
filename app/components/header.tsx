@@ -107,7 +107,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     </div>
     <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4 cursor-pointer">
 
-      {user.isAprobador() && tramite.status ==='A SUPERVISAR' || tramite.categoria!=='INSCRIPTO' ? <Button onClick={() => {
+      {user.isAprobador() &&  tramite.categoria!=='INSCRIPTO' ? <Button onClick={() => {
         setShowModalRechazar(true)
       }} danger type='dashed'>Rechazar tramite</Button> : '' }
 
