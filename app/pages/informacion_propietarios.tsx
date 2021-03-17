@@ -13,7 +13,7 @@ import LikeDislike from '../components/like_dislike'
 import Substeps from '../components/subSteps'
 import {DeleteOutlined} from '@ant-design/icons'
 import InputNumberModal from '../components/input_number'
-
+import Wrapper from '../components/wrapper'
 
 import DatePickerModal from '../components/datePicker_Modal'
 import { useDispatch, useSelector } from 'react-redux'
@@ -373,12 +373,16 @@ export default (props) => {
 
 
     <div className="px-20 mx-20 py-6 ">
-      <div className="flex  content-center  ">
-        <div className="text-2xl font-bold py-4 w-3/4">  Propietario de sociedad</div>
-        <div className=" w-1/4 text-right content-center mt-4 ">
+      <div className="content-center  ">
+      <Wrapper title="Propietario de sociedad" attributeName="Propietarioss" isTitle>
+        <div className=" text-right content-center mb-4 -mt-8">
+          {isTramiteEditable(tramite) ?<div>
+       <div className="  text-right content-center -mt-8 ">
           <Button type="primary" onClick={() => setModalPropietarios(true)} icon={<PlusOutlined />}> Agregar</Button>
         </div>
+        </div>:''}
       </div>
+      </Wrapper>
       <div className="grid grid-cols-1 gap-4 mt-8">
       {tramite.personeria === 'SA'  ? <div>
         <div className="pb-6" >
@@ -449,6 +453,7 @@ export default (props) => {
 
     </div>
 
+  </div>
   </div>
   )
 }
