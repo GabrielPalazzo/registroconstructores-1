@@ -9,6 +9,7 @@ import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 import InputNumberModal from './input_number'
 import { LinkToFile } from './linkToFile'
+import _ from 'lodash'
 
 export interface ObrasRedeterminacionesProps {
 	obra: DDJJObra
@@ -85,6 +86,8 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			setShowError(true)
 			return
 		}
+		
+		
 
 
 		obra.redeterminaciones.push({

@@ -826,11 +826,11 @@ export default () => {
 
         
       </div>
-      <div className="mb-4 mt-4">
+      <div className="mb-4 mt-8">
         <Alert message="El interesado deberá declarar sus antecedentes de ejecución de Obras según lo establecido en el artículo 11 de la DI-2021-3-APN-ONC#JGM" type="info" />
       </div>
       <div>
-        <Tabs defaultActiveKey="1" onChange={callback} >
+        <Tabs defaultActiveKey="1" onChange={callback}  style={{marginLeft:"0px"}}>
           <TabPane tab="Obras" key="1">
             <div className="overflow-x-auto" >
               {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}

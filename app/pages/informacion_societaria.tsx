@@ -889,13 +889,14 @@ export default () => {
           </div>
         </Wrapper>
         <div className=" content-center  rounded-lg border  px-4 py-4">
-          <Wrapper isTitle title="Autoridades" attributeName="autoridadesUTE">
+        <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
+        {isTramiteEditable(tramite) ?
+            <div className="flex  content-center ">
+              <div className=" w-1/4 text-right content-center mt-4 ">
+                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+              </div>
 
-            <div className=" text-right content-center -mt-8 ">
-              <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
-            </div>
-
-
+            </div>: ''}
             <div className="pb-6">
               <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
                 tramite.autoridadesVencimiento = !e.target.checked
@@ -906,8 +907,7 @@ export default () => {
             </div>
             <div className="pb-6" >
               <Upload
-                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
-          General de Justicia o Registro Publico de comercio"
+                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion General de Justicia o Registro Publico de comercio"
                 labelRequired="*"
                 labelMessageError=""
                 defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
@@ -1167,12 +1167,13 @@ export default () => {
         </div>
         <div className=" content-center  rounded-lg border  px-4 py-4">
           <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
+          {isTramiteEditable(tramite) ?
             <div className="flex  content-center ">
               <div className=" w-1/4 text-right content-center mt-4 ">
                 <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
               </div>
 
-            </div>
+            </div>: ''}
             <div className="pb-6">
               <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
                 tramite.autoridadesVencimiento = !e.target.checked
@@ -1436,12 +1437,13 @@ export default () => {
         </Wrapper>
         <div className=" content-center  rounded-lg border  px-4 py-4">
           <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
+          {isTramiteEditable(tramite) ?
             <div className="flex  content-center ">
               <div className=" w-1/4 text-right content-center mt-4 ">
                 <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
               </div>
 
-            </div>
+            </div>: ''}
             <div className="pb-6">
               <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
                 tramite.autoridadesVencimiento = !e.target.checked
@@ -1492,9 +1494,9 @@ export default () => {
           {renderModalAutoridad()}
         </Modal>
 
-      </div> : ''}
+      </div> :''}
 
-      {tramite.personeria === 'SA' || tramite.personeria === 'SRL' || tramite.personeria === 'OFS' ? <div>
+{tramite.personeria === 'SA' || tramite.personeria === 'SRL' || tramite.personeria === 'OFS' ?   <div>
         <div className="text-2xl font-bold py-4"> Firma del Contrato Constitutivo</div>
         <div className="grid grid-cols-4 gap-4 ">
           <div >
@@ -1517,41 +1519,44 @@ export default () => {
         </div>
 
         <div className="rounded-lg mt-4 border px-4 py-4">
-
-          <Wrapper isTitle title="Inscripción de Contrato Constitutivo (en D.P.P.J / I.G.J.)" attributeName="inscripcionContractoConstitutivoDPPJ" >
-            <div className="grid grid-cols-2 gap-4 ">
+        <div className="text-2xl font-bold py-4"> Inscripción de Contrato Constitutivo (en D.P.P.J / I.G.J.)</div>
+           <div className="grid grid-cols-2 gap-4 ">
               <div >
-                <InputTextModal
-                  label="Datos"
-                  value={tramite.datosSocietarios.sociedadAnonima.inscripcion.datos}
+              
+              <Wrapper title="Datos" attributeName="datosInscripcionContratoConstitutivo" labelRequired="*">
+              <InputText
+                attributeName="datosInscripcionContratoConstitutivo"
+              value={tramite.datosSocietarios.sociedadAnonima.inscripcion.datos}
                   bindFunction={value => {
                     tramite.datosSocietarios.sociedadAnonima.inscripcion.datos = value
                     updateObjTramite()
                   }}
-                  labelRequired="*"
-                  placeholder=""
+                  
                   labelMessageError=""
-                  required /></div>
+                  required />
+                  </Wrapper>
+                  </div>
               <div >
-                <DatePickerModal
-                  label="Fecha"
+              <Wrapper title="Fecha" attributeName="fechaInscripcionContratoConstitutivo"
+              labelRequired="*"  >
+                <DatePicker
                   value={tramite.datosSocietarios.sociedadAnonima.inscripcion.fecha}
                   bindFunction={value => {
                     tramite.datosSocietarios.sociedadAnonima.inscripcion.fecha = value
                     updateObjTramite()
                   }}
-                  labelRequired="*"
                   placeholder="Fecha"
                   labelObservation=""
                   labeltooltip=""
                   labelMessageError=""
                 />
+                </Wrapper>
               </div>
 
               <div >
+              <Wrapper attributeName="DocumentoContratoConstitutivo" title="Contrato Constitutivo, junto con TODAS sus modificaciones hasta el día de hoy" labelRequired="*">
+      
                 <Upload
-                  label="Contrato Constitutivo, junto con TODAS sus modificaciones hasta el día de hoy"
-                  labelRequired="*"
                   labelMessageError=""
                   defaultValue={tramite.datosSocietarios.sociedadAnonima.contrato.archivos as any}
                   onOnLoad={file => {
@@ -1569,49 +1574,48 @@ export default () => {
                     setIsLoading(false)
                   }}
                 />
+                </Wrapper>
               </div>
 
 
             </div>
-          </Wrapper>
         </div>
         <div className="rounded-lg mt-4 border px-4 py-4">
-
-          <Wrapper isTitle title="Modificación del Contrato Social (inscripta en D.P.P.J / I.G.J. correspondiente a ampliación del objeto social para realizar actividades del rubro Construcción)" attributeName="modificacionContratoSocialSA" >
+        <div className="text-2xl font-bold py-4"> Modificación del Contrato Social (inscripta en D.P.P.J / I.G.J. correspondiente a ampliación del objeto social para realizar actividades del rubro Construcción)</div>
             <div className="grid grid-cols-2 gap-4 ">
               <div >
-                <InputTextModal
-                  label="Datos"
+              <Wrapper title="Datos" attributeName="datosModificacionContratoo" labelRequired="*">
+                <InputText
+                attributeName="datosModificacionContratoo"
                   value={tramite.datosSocietarios.sociedadAnonima.modificacion.datos}
                   bindFunction={value => {
                     tramite.datosSocietarios.sociedadAnonima.modificacion.datos = value
                     updateObjTramite()
                   }}
-                  labelRequired="*"
-                  placeholder=""
                   labelMessageError=""
-                  required /></div>
+                  required />
+                  </Wrapper></div>
               <div >
-                <DatePickerModal
-                  label="Fecha"
+              <Wrapper title="Fecha" attributeName="fechaModificacionContratoSA" >
+                <DatePicker
                   value={tramite.datosSocietarios.sociedadAnonima.modificacion.fecha}
                   bindFunction={value => {
                     tramite.datosSocietarios.sociedadAnonima.modificacion.fecha = value
                     updateObjTramite()
                   }}
-                  labelRequired="*"
-                  placeholder="Fecha"
+                   placeholder="Fecha"
                   labelObservation=""
                   labeltooltip=""
                   labelMessageError=""
                 />
+                </Wrapper>
               </div>
 
               <div >
+              <Wrapper attributeName="DocumentoModificacionObjetoSocial" title="Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J." labelRequired="*">
+      
                 <Upload
-                  label="Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J."
-                  labelRequired="*"
-                  labelMessageError=""
+                 labelMessageError=""
                   defaultValue={tramite.datosSocietarios.sociedadAnonima.modificacion.archivos as any}
                   onOnLoad={file => {
                     if (!tramite.datosSocietarios.sociedadAnonima.modificacion.archivos)
@@ -1628,10 +1632,10 @@ export default () => {
                     setIsLoading(false)
                   }}
                 />
+                </Wrapper>
               </div>
 
             </div>
-          </Wrapper>
 
         </div>
         <div className="rounded-lg mt-4 border px-4 py-4">
@@ -1721,18 +1725,15 @@ export default () => {
           </div>
         </div>
         <div className=" content-center  rounded-lg border  px-4 py-4">
-          <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
-
-
+        <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
+        {isTramiteEditable(tramite) ?
             <div className="flex  content-center ">
-
-
-
               <div className=" w-1/4 text-right content-center mt-4 ">
                 <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
               </div>
 
-            </div>
+            </div>: ''}
+            
             <div className="pb-6">
               <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
                 tramite.autoridadesVencimiento = !e.target.checked
@@ -1743,8 +1744,7 @@ export default () => {
             </div>
             <div className="pb-6" >
               <Upload
-                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion
-          General de Justicia o Registro Publico de comercio"
+                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion General de Justicia o Registro Publico de comercio"
                 labelRequired="*"
                 labelMessageError=""
                 defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
@@ -1785,7 +1785,7 @@ export default () => {
         </Modal>
 
 
-      </div> : ''}
+      </div> :''}
 
       {isPersonaFisica(tramite) ? <div>
         <Wrapper isTitle title="Alta en AFIP (actividad referente a rubro Construcción)" attributeName="AltaEnAfipPF" >
@@ -2023,9 +2023,12 @@ export default () => {
       <div className="mt-4">
         <Collapse accordion>
           <Panel header=" Sistema de Calidad" key="1">
+          <Wrapper  title="Sistema de Calidad" attributeName="SistemaCalidad" >
+          {isTramiteEditable(tramite) ?
             <div className="  text-center content-center mt-2 mb-4 ">
               <Button type="primary" onClick={() => setModalCalidad(true)} icon={<PlusOutlined />}> Agregar</Button>
-            </div>
+            </div>:''}
+          </Wrapper>
             {tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table columns={columnsCalidad}
               dataSource={Object.assign([], tramite.sistemaCalidad)}
               locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} /> : renderNoData()}
@@ -2069,43 +2072,41 @@ export default () => {
                 afterClose={() => setShowError(false)}
               /></div> : ''}
             <div className="grid grid-cols-2 gap-4 pb-6  ">
+           
+
 
               <div >
-                <InputTextModal
-
-                  label="CUIT NIT"
-                  labelRequired="*"
-                  placeholder="33333333333"
+              <Wrapper  title="CUIT / NIT" attributeName="CuitNit" labelRequired="*" >
+                <InputText
+                attributeName="CuitNit"
                   value={cuitNit}
                   bindFunction={(value) => { setCuitNit(value) }}
                   labelMessageError=""
                   required />
-
+              </Wrapper>
 
               </div>
               <div >
-                <InputTextModal
-                  label="Empresa participada"
-                  labelRequired="*"
-                  placeholder="Sa"
+              <Wrapper  title="EmpresaParticipada" attributeName="EmpresaParticipada" labelRequired="*"  >
+                <InputText
+                attributeName="EmpresaParticipada"
                   value={empresaParticipada}
                   bindFunction={(value) => { setEmpresaParticipada(value) }}
                   labelMessageError=""
                   required />
-
+</Wrapper>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-4 pb-6 ">
               <div >
-                <InputTextModal
-                  label="Actividad"
-                  placeholder="Constructora"
-                  disabled
+              <Wrapper  title="Actividad" attributeName="Actividad" labelRequired="*"  >
+                <InputText
+                attributeName="Actividad"
                   value={actividad}
                   bindFunction={(value) => { setActividad(value) }}
                   labelMessageError=""
                 />
-
+                </Wrapper>
               </div>
               <div >
                 <InputNumberModal
