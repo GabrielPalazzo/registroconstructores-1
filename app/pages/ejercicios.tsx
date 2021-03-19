@@ -22,7 +22,7 @@ import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import moment from 'moment'
 import numeral from 'numeral'
 import Wrapper from '../components/wrapper'
-
+import _ from 'lodash'
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -529,11 +529,13 @@ export default () => {
         <Tabs defaultActiveKey="1" onChange={callback}  >
           <TabPane tab="Balances" key="1">
             <div className="overflow-x-auto" >
-              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],tramite.ejercicios)} scroll={{ x: 1800 }}  />}
+              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],_.sortBy(tramite.ejercicios, (e:Ejercicio)=> moment(e.fechaInicio,'DD/MM/YYYY').toDate().getTime()))} scroll={{ x: 1800 }}  />}
             </div>
           </TabPane>
           <TabPane tab="Historial" key="2">
-            <Table columns={columnsBalances} scroll={{ x: 1800 }} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
+          <div className="overflow-x-auto" >
+              {!tramite.ejerciciosAprobados || tramite.ejerciciosAprobados.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],tramite.ejerciciosAprobados)} scroll={{ x: 1800 }}  />}
+            </div>
           </TabPane>
         </Tabs>
       </div>
@@ -541,11 +543,14 @@ export default () => {
       <Modal
         title="Nuevo Ejercicio"
         visible={modalEjercicios}
-        onOk={guardarEjercicio}
         okText="Guardar"
-        onCancel={() => setModalEjercicios(false)}
         cancelText="Cancelar"
+        onCancel={() => setModalEjercicios(false)}
         width={1000}
+        footer={[
+        <Button onClick={() => setModalEjercicios(false)}>Cancel</Button>,
+        <Button onClick={guardarEjercicio} type='primary' disabled={!isTramiteEditable(tramite)}>Guardar</Button>
+      ]}
       >
         {renderModalEjercicios()}
       </Modal>

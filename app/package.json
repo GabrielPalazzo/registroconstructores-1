@@ -9,7 +9,9 @@
     "tailwind:css": "tailwindcss build styles/main.src.css -o public/style/main.css",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "migrate:certificates": "node -r esm ./jobs/migrate_certificates.js"
+    "migrate:certificates": "node -r esm ./jobs/migrate_certificates.js",
+    "migrate:proveedores" : "npx ts-node ./jobs/migrar_proveedores.ts",
+    "run:cargar_tramite": "npx ts-node ./jobs/cargar_tramite.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",

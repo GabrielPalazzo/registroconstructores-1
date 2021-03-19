@@ -255,6 +255,7 @@ type TramiteAlta = {
     archivos: Array<Archivo>
   }>,
   ejercicios: Array<Ejercicio>,
+  ejerciciosAprobados: Array<Ejercicio>,
   ddjjObras: Array<DDJJObra>,
   matriculaComerciante: {
     datos: string,

@@ -71,7 +71,6 @@ handler.get(async (req: any, res: NextApiResponse) => {
       })
 
       if (result.data && result.data.EstadoProveedor ==='Inscripto' ) {
-        console.log(result.data.EstadoProveedor)
         db.collection('certificados')
           .save({
             '_id': i,

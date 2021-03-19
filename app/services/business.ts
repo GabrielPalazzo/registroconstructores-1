@@ -44,12 +44,12 @@ export const getTramites = (): Promise<Array<TramiteAlta>> => {
 }
 
 export const getTramiteByCUIT = (cuit: string): Promise<TramiteAlta> => {
-  return axios.get(`/api/tramite?cuit=${cuit}`, {
+  return axios.get(`/api/tramite/find?cuit=${cuit}`, {
     headers: {
       Authorization: 'Bearer ' + getToken()
     }
   }).then((t) => {
-    return t.data['tramites'] as TramiteAlta
+    return t.data.tramite as TramiteAlta
   }).catch(err => {
     return null
   })
@@ -150,6 +150,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
     autoridadesVencimiento:true,
     sistemaCalidad: [],
     ejercicios: [],
+    ejerciciosAprobados: [],
     ddjjObras: [],
     fechaInscripcionMatriculaComerciante: '',
     aplicaDecretoDoscientosDos: false,

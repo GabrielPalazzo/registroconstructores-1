@@ -105,7 +105,8 @@ export default () => {
   }
 
   function callback(key) {
-    save()
+    if (isTramiteEditable(tramite))
+      save()
     setIsLoading(false)
   }
   function log(e) {
@@ -844,10 +845,13 @@ export default () => {
       <Modal
         title={`Datos de la obra ${obra.id} `}
         visible={modalObras}
-        onOk={saveObra}
         okText="Guardar"
         onCancel={() => setModalObras(false)}
         cancelText="Cancelar"
+        footer={[
+          <Button onClick={() => setModalObras(false)}>Cancel</Button>,
+          <Button onClick={saveObra} type='primary' disabled={!isTramiteEditable(tramite)}>Guardar</Button>
+        ]}
         width={1200}
       >
         {renderModalObra()}

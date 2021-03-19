@@ -137,7 +137,7 @@ export default (props) => {
       </div>
 
       {
-        !user.isConstructor() &&  tramite.asignadoA && tramite.status !== 'SUBSANADO'  ? <div className="justify-end w-2/5">
+        !user.isConstructor() &&  tramite.asignadoA && tramite.categoria!=='INSCRIPTO'  ? <div className="justify-end w-2/5">
           <div className=" text-right">
             <Button onClick={like} type="link" icon={<LikeFilled style={{ color: getColorIcon(true) }} />} />
             <Button onClick={() => setShowObs(true)} type="link" icon={<DislikeFilled style={{ color: getColorIcon(false) }} />} />

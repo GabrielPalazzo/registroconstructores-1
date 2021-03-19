@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import { closeSession, getCertificados, migrarCertificados } from '../services/business'
+import { closeSession, getCertificados, getTramiteByCUIT, migrarCertificados } from '../services/business'
 import { useRouter } from 'next/router'
 import { Avatar, Dropdown, Menu, Input, Table, Button, Modal } from 'antd'
 import numeral from 'numeral'
 import Certificado from '../components/certificado'
 import { Loading } from '../components/loading'
+import {useDispatch} from 'react-redux'
+import { setTramiteView } from '../redux/actions/main'
+import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite'
 
 
 const { Search } = Input
@@ -12,7 +15,7 @@ const { TextArea} = Input
 
 export default () => {
 
-
+  const dispatch = useDispatch()
   const [textToSearch, setTextToSearch] = useState('')
   const [certificados, setCertificados] = useState([])
   const [showModalMigrador,setShowModalMigrador] = useState(false)
@@ -37,6 +40,15 @@ export default () => {
     </Menu>
   );
 
+
+  const showTramite = async (cuit) => {
+    const tramite = await getTramiteByCUIT(cuit)
+    dispatch(setTramiteView(tramite)).then(r => {
+      dispatch(cargarUltimaRevisionAbierta(tramite))
+      router.push('/informacion_basica')
+    })
+  }
+
   const columns = [
     {
       title: 'Cerificado',
@@ -51,6 +63,10 @@ export default () => {
         obras = {record.ObrasAdjudicadasYEnEjecucion}
         porcentajesEspecialidades={record.PorcentajesPorEspecialidades}
        /></div>
+    },{
+      title: 'Ficha',
+      key:'Ficha',
+      render: (text,record) => <div><Button onClick={() => showTramite(record.NumeroCUIT)}>Ver Ficha</Button></div>
     },
     {
       title: 'Razon Social',

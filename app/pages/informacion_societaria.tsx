@@ -1941,11 +1941,13 @@ export default () => {
         <div className="grid grid-cols-1 mb-4 mt-4  ">
           {isPersonaFisica(tramite) ?
             <Checkbox value={tramite.poseeIERIC} onChange={e => {
+              console.log(e.target.checked)
               tramite.poseeIERIC = !e.target.checked
               updateObjTramite()
               //save()
             }}>Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1.</Checkbox>
             : <Checkbox value={tramite.poseeIERIC} onChange={e => {
+              console.log(e.target.checked)
               tramite.poseeIERIC = !e.target.checked
               updateObjTramite()
               //save()
