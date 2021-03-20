@@ -160,7 +160,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
 
         <div className="pb-6" >
           <Upload
-            label="Ampliación / Reducción contractual"
+            label="Documentación respaldatoria"
             labelRequired="*"
             defaultValue={archivos as any}
             onOnLoad={file => {

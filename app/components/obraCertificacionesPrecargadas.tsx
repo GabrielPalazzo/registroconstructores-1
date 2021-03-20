@@ -41,7 +41,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
   const columns = [
     {
-      title: '',
+      title: 'Eliminar',
       key: 'delete ',
       render: (text, record) => <div onClick={() => borrarPeriodo(record)}><DeleteOutlined /></div>
     },
@@ -61,6 +61,10 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     }, {
       title: 'Monto',
       render: (text,record) => <div>{numeral(record.monto).format('$0,0.00')}</div>
+    },
+    {
+      title: 'Descripción',
+      render: (text,record) => <div>{descripcion}</div>
     },
     {
 			title: 'Adjunto',
