@@ -120,6 +120,18 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         <Alert message="En esta sección podrá cargar ampliaciones de contrato, adendas, economías, reducciones contractuales, etc." type="info" />
       </div>
       <div className="grid grid-cols-4 gap-4 ">
+      <div className="pb-6" >
+          <DatePickerModal
+            placeholder="Fecha  (dd/mm/yyyy)"
+            label="Fecha de la Ampliación"
+            labelRequired="*"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+            value={fecha}
+            bindFunction={(value) => { setFecha(value) }}
+          />
+        </div>
         <div className="pb-6" >
 
           <InputNumberModal
@@ -134,18 +146,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
             required />
         </div>
 
-        <div className="pb-6" >
-          <DatePickerModal
-            placeholder="Fecha  (dd/mm/yyyy)"
-            label="Fecha de la Ampliación"
-            labelRequired="*"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-            value={fecha}
-            bindFunction={(value) => { setFecha(value) }}
-          />
-        </div>
+        
         <div className="pb-6" >
           <InputTextModal
             label="Descripción"
