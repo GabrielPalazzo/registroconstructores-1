@@ -119,6 +119,18 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		<div className="rounded-lg px-4 py-2  pb-4 border mt-6">
 			<div className="text-xl font-bold py-2 w-3/4">  Redeterminaciones</div>
 			<div className="grid grid-cols-4 gap-4 ">
+			<div className="pb-6" >
+					<DatePickerModal
+						placeholder="Fecha  (dd/mm/yyyy)"
+						label="Fecha de la redeterminación"
+						labelRequired="*"
+						labelObservation=""
+						labeltooltip=""
+						labelMessageError=""
+						value={fecha}
+						bindFunction={(value) => { setFecha(value) }}
+					/>
+				</div>
 				<div className="pb-6" >
 					<InputNumberModal
 						min={0}
@@ -132,18 +144,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 					/>
 
 				</div>
-				<div className="pb-6" >
-					<DatePickerModal
-						placeholder="Fecha  (dd/mm/yyyy)"
-						label="Fecha de la redeterminación"
-						labelRequired="*"
-						labelObservation=""
-						labeltooltip=""
-						labelMessageError=""
-						value={fecha}
-						bindFunction={(value) => { setFecha(value) }}
-					/>
-				</div>
+				
 				<div className="pb-6" >
 					<InputTextModal
 						label="Descripción"

@@ -41,19 +41,19 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
   const columns = [
     {
-      title: '',
+      title: 'Eliminar',
       key: 'delete ',
       render: (text, record) => <div onClick={() => borrarPeriodo(record)}><DeleteOutlined /></div>
     },
-    {
-      title: '',
-      key: 'edit',
-      render: (text, record) => <div onClick={() => {
-        setPeriodoSeleccionado(record)
-        setPeriodo(record.periodo)
-        setMonto(record.monto)
-      }}><EditOutlined /></div>
-    },
+   // {
+    //  title: '',
+    //  key: 'edit',
+    //  render: (text, record) => <div onClick={() => {
+    //setPeriodoSeleccionado(record)
+    //    setPeriodo(record.periodo)
+    //    setMonto(record.monto)
+    //  }}><EditOutlined /></div>
+    //},
     {
       title: 'Periodo',
       key: 'periodo',
@@ -61,6 +61,10 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     }, {
       title: 'Monto',
       render: (text,record) => <div>{numeral(record.monto).format('$0,0.00')}</div>
+    },
+    {
+      title: 'Descripción',
+      render: (text,record) => <div>{descripcion}</div>
     },
     {
 			title: 'Adjunto',
@@ -121,6 +125,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
         closable
         afterClose={() => setShowError(false)}
       /></div> : ''}
+      <div className="text-xl font-bold py-2 w-3/4">  Certificaciones</div>
     <div className="mb-4">
       <Alert message="“En esta sección podrá cargar cada certificado de la obra, y deberá hacerlo una vez se encuentre facturado, y de forma mensual. Indicar período de facturación (MM/AAAA), monto facturado en ese mes, una breve descripción sobre que es lo que compone este período, y la documental que sustente esta carga. Deberá adjuntar el certificado junto con su factura. En caso de que la cantidad de facturas emitidas al mes sea muy considerable, podrá presentar una certificación contable del libro IVA Ventas, indicando fecha, número de comprobante emitido, importe de la factura, y total mes a mes.”" type="info" />
     </div>
