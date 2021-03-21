@@ -88,6 +88,7 @@ type CertificacionesCerradas={
 type DDJJObra ={
   id: string
   actasObra: Array<Archivo>
+  status?:string
   denominacion:string
   ubicacion:Array<string>
   datosObra:Array<DatosObraGeneral>
@@ -147,6 +148,8 @@ type AutoridadEmpresa  ={
 
 
 type Ejercicio = {
+  codigo?: string
+  status?: string // APROBADO EN REVISION DES ESTIMADO 
   fechaInicio: string
   fechaCierre: string
   activoCorriente: number
@@ -257,6 +260,7 @@ type TramiteAlta = {
   ejercicios: Array<Ejercicio>,
   ejerciciosAprobados: Array<Ejercicio>,
   ddjjObras: Array<DDJJObra>,
+  ddjjObrasAprobadas?: Array<DDJJObra>
   matriculaComerciante: {
     datos: string,
     fecha: string,
@@ -359,14 +363,10 @@ type TramiteAlta = {
         fecha: string
       },
     }
-    
     personaFisica: {
       constanciaInscripcion: Array<Archivo>,
       constanciaMatriculaComerciante: Array<Archivo>
-
     }
-  
-    
   }
   
 }

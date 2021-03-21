@@ -2,24 +2,20 @@ import {Parser} from '../services/migrates.services'
 
 (async () => {
 
-    const cuitProveedor = '30615614072'
+    const idProveedor = '14067'
     const service = new Parser(process.env.CONTRATAR_KEY)
-    const {
-      success
-    } = await service.doPreflight()
+    
 
-    await service.init(cuitProveedor)
+    await service.init(idProveedor)
 
   
-    if (success){
-      await service.dbUpd()
-      const info = await service.parseInformacionBasica()
-      await service.parseEjercicios()
-      await service.save()
-      await service.dbUpd()
-      
-    } else {
-      console.log('Token Vencido')
-    }
-    
+    await service.dbUpd()
+    const info = await service.parseInformacionBasica()
+    await service.parseEjercicios()
+    service.parseObras()
+    await service.save()
+    await service.dbUpd()
+
+
+
   })()

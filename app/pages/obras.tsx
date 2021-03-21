@@ -29,6 +29,7 @@ import InputNumberModal from '../components/input_number'
 import numeral from 'numeral'
 import Wrapper from '../components/wrapper'
 import { LinkToFile } from '../components/linkToFile';
+import _ from 'lodash'
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -736,9 +737,34 @@ export default () => {
       key: 'id',
     },
     {
+      title: 'Estado',
+      dataIndex: 'estado',
+      render : (text,record : DDJJObra) => <div>{_.last(record.datosObra).estado}</div> 
+    },
+    {
       title: 'Denominación',
       dataIndex: 'denominacion',
       key: 'denominacion',
+    },
+    {
+      title: 'Comitente',
+      dataIndex: 'comitente',
+      render: (text, record : DDJJObra) => <div>{record.razonSocialComitente}</div>,
+    },
+    {
+      title: 'Monto Vigente',
+      dataIndex: 'Monto Vigente',
+      render: (text, record : DDJJObra) => <div>{numeral(record.montoInicial + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>,
+    },
+    {
+      title: 'Certificado a la fecha',
+      dataIndex: 'certificado',
+      render: (text, record : DDJJObra) => <div>{numeral(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0).format('$0,0.00')}</div>,
+    },{
+
+      title: 'Saldo',
+      dataIndex: 'saldo',
+      render: (text, record: DDJJObra) => <div>{numeral((obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>
     }
   ]
 
@@ -831,13 +857,15 @@ export default () => {
       </div>
       <div>
         <Tabs defaultActiveKey="1" onChange={callback}  style={{marginLeft:"0px"}}>
-          <TabPane tab="Obras" key="1">
+          <TabPane tab="Obras " key="1">
             <div className="overflow-x-auto" >
-              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
+              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras.filter( o => o.status &&  o.status ==='APROBADA' )} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
             </div>
           </TabPane>
-          <TabPane tab="Historial" key="2">
-            <Table columns={columns} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }}></Table>
+          <TabPane tab="Obras con modificaciones" key="2">
+          <div className="overflow-x-auto" >
+              {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras.filter(o => !o.status ||   o.status !=='APROBADA')} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
+            </div>
           </TabPane>
         </Tabs>
       </div>

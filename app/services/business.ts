@@ -81,6 +81,19 @@ export const migrarCertificados = async (key: string) => {
   })
 }
 
+export const migrarEmpresa = async(idProveedor: string, key: string) => {
+  return axios.post(`/api/migrador`, {idProveedor, key}, {
+    headers: {
+      Authorization: 'Bearer ' + getToken(),
+      AuthorizationKey: key
+    }
+  }).then((t) => {
+    return t.data
+  }).catch(err => {
+    return null
+  })
+}
+
 export const eliminarBorrador = async (tramite: TramiteAlta) => {
   return axios.get(`/api/tramite/remove?id=${tramite._id}`,{
     headers: {

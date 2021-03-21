@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { closeSession, getCertificados, getTramiteByCUIT, migrarCertificados } from '../services/business'
+import { closeSession, getCertificados, getTramiteByCUIT, migrarCertificados, migrarEmpresa } from '../services/business'
 import { useRouter } from 'next/router'
 import { Avatar, Dropdown, Menu, Input, Table, Button, Modal } from 'antd'
 import numeral from 'numeral'
@@ -8,6 +8,7 @@ import { Loading } from '../components/loading'
 import {useDispatch} from 'react-redux'
 import { setTramiteView } from '../redux/actions/main'
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite'
+
 
 
 const { Search } = Input
@@ -19,7 +20,9 @@ export default () => {
   const [textToSearch, setTextToSearch] = useState('')
   const [certificados, setCertificados] = useState([])
   const [showModalMigrador,setShowModalMigrador] = useState(false)
+  const [isSearching,setIsSearching] = useState(false)
   const [key, setKey] = useState('')
+  const [idProveedor, setIdProveedor] = useState('')
   const [isMigratingData, setIsMigratingData] = useState(false)
 
   const router = useRouter()
@@ -102,9 +105,20 @@ export default () => {
 
   ]
 
+  const handleMigrarEmpresa = async() => {
+    try {
+      setIsMigratingData(true)
+      await migrarEmpresa(idProveedor,key)
+      setIsMigratingData(false)
+    }catch (err) {
+      alert(err)
+      setIsMigratingData(false)
+    }
+  }
   if (isMigratingData)
     return <Loading message="Aguarde un instante por favor" type="sync" />
 
+  
   return <div>
 
         <Modal title="Basic Modal" 
@@ -115,8 +129,14 @@ export default () => {
               result => setIsMigratingData(false)
             )
           }} 
+          footer={[
+            <Button onClick={() => setShowModalMigrador(false)} >Cancelar</Button>,
+            <Button loading={isMigratingData} onClick={handleMigrarEmpresa}>Migrar</Button>
+          ]}
           onCancel={() => setShowModalMigrador(false)}>
           <TextArea value={key} onChange={(e) => setKey(e.target.value)} rows={8} />
+          <div>Id Proveedor</div>
+          <Input value={idProveedor} onChange={e => setIdProveedor(e.target.value)}></Input>
       </Modal>
 
 
@@ -142,9 +162,14 @@ export default () => {
         allowClear
         enterButton="Buscar"
         size="large"
+        loading={isSearching}
         value={textToSearch}
         onChange={(e) => setTextToSearch(e.target.value)}
-        onSearch={async () => setCertificados(await getCertificados(textToSearch, textToSearch))}
+        onSearch={async () => {
+          setIsSearching(true)
+          setCertificados(await getCertificados(textToSearch, textToSearch))
+          setIsSearching(false)
+        }}
       />
 
 
