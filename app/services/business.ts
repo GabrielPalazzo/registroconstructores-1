@@ -310,11 +310,11 @@ export const getColorStatus = (tramite: TramiteAlta) => {
 
   switch (tramite.status) {
     case 'BORRADOR':
-      return 'gray'
+      return 'purple'
     case 'VERIFICADO':
       return 'green'
     case 'OBSERVADO':
-      return 'red'
+      return 'purple'
     default:
       return 'blue'
   }

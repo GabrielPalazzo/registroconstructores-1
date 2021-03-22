@@ -106,11 +106,18 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
     setPeriodo('')
     setMonto(0)
-   
     setPeriodoSeleccionado(null)
     setArchivos([])
     obra.certificaciones = periodosCopy
     onChange(Object.assign({},obra))
+    clearState()
+  }
+
+  const clearState = () => {
+    setPeriodo('')
+    setMonto(0)
+    setPeriodoSeleccionado(null)
+ 
   }
 
 
