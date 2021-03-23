@@ -27,7 +27,7 @@ export default () => {
     }
     setIsLoading(false)
   }
-
+ 
   return <div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       router.push('/')
