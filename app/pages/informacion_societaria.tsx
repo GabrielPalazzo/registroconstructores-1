@@ -695,6 +695,33 @@ export default () => {
   }
 
 
+  if (tramite && !tramite.datosSocietarios.PJESP) {
+    tramite.datosSocietarios['PJESP'] = {
+      archivosContrato:[],
+      archivoModificacion:[],
+      archivoUltimaModificacion:[],
+      inscripcionConstitutiva:{
+        fecha:'',
+        datos:''
+      },
+      inscripcionSucursal:{
+        fecha: '',
+        datos: ''
+      },
+      modifcicacionObjeto: {
+        fecha:'',
+        datos:''
+      },
+      ultimaModificacionInscripcion: {
+        fecha:'',
+        datos: '' 
+      },
+      fechaVencimiento: {
+        fecha:''
+      }
+
+    }
+  }
   
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
