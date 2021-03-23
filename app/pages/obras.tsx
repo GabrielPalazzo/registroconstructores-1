@@ -400,8 +400,9 @@ export default () => {
                   />
                 </div>
                 <div className="pb-6" >
-                  <InputTextModal
+                  <InputNumberModal
                     label="% de participación"
+                    min={0}
                     labelRequired=""
                     value={obra.participacionUTE}
                     bindFunction={e => {
@@ -599,14 +600,14 @@ export default () => {
                   label="Adjuntar Acta"
                   labelRequired="*"
                   defaultValue={archivosPlazos as any}
-                  onOnLoad={file => {
-                    if (!archivosPlazos)
-                      archivosPlazos.push(file)
-                    setObra(Object.assign({}, obra))
+                  onOnLoad={file =>{
+                    archivosPlazos.push(file)
+                    setArchivosPlazos(Object.assign([],archivosPlazos))
                   }}
                   onRemove={fileToRemove => {
-                    setArchivosPlazos(Object.assign([], archivosPlazos.filter(f => f.cid !== fileToRemove.cid)))
+                    setArchivosPlazos(Object.assign([],archivosPlazos.filter(f=> f.cid !==fileToRemove.cid)))
                   }}
+
                 />
               </div>
               <div className="mt-8 ">
@@ -668,7 +669,7 @@ export default () => {
       title: 'Eliminar',
       key: 'action',
       render: (text, record) => (tramite.status === 'BORRADOR' ? <Popconfirm
-        title="Esta seguro que lo  deseas Eliminar  La Obra"
+        title="Esta seguro que lo  deseas Eliminar  la prorroga?"
         onConfirm={() => removePlazos(record)}
         onCancel={cancel}
         okText="Si, Eliminar"
@@ -691,7 +692,7 @@ export default () => {
     },
     {
       title: 'Adjunto',
-      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
+      render: (text, record) => <div>{record.archivosPlazos && record.archivosPlazos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
       key: 'archivosPlazos',
     }
   ]
@@ -857,16 +858,17 @@ export default () => {
       </div>
       <div>
         <Tabs defaultActiveKey="1" onChange={callback}  style={{marginLeft:"0px"}}>
-          <TabPane tab="Obras " key="1">
-            <div className="overflow-x-auto" >
-              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras.filter( o => o.status &&  o.status ==='APROBADA' )} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
-            </div>
-          </TabPane>
-          <TabPane tab="Obras con modificaciones" key="2">
+        <TabPane tab="Obras con modificaciones" key="1">
           <div className="overflow-x-auto" >
               {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras.filter(o => !o.status ||   o.status !=='APROBADA')} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
             </div>
           </TabPane>
+          <TabPane tab="Obras " key="2">
+            <div className="overflow-x-auto" >
+              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras.filter( o => o.status &&  o.status ==='APROBADA' )} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
+            </div>
+          </TabPane>
+         
         </Tabs>
       </div>
 
@@ -893,13 +895,7 @@ export default () => {
 
       </div>
     </div>
-    <style>
-      {`
-      
-      .ant-tabs{ padding-left: 24px !important;
-        padding-right: 24px !important;
-        margin-bottom: 30px !important;}`}
-    </style>
+   
   </div>
   )
 }

@@ -345,7 +345,7 @@ export default () => {
 
         <div className="pb-6" >
           <Upload
-            label="Adjunte Frente y Dorso del documento "
+            label="Adjunte frente y dorso del DNI, Pasaporte, cédula de identidad "
             labelRequired="*"
             labelMessageError=""
             defaultValue={fotosDNIAutoridades as any}
@@ -891,8 +891,8 @@ export default () => {
         <div className=" content-center  rounded-lg border  px-4 py-4">
         <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
         {isTramiteEditable(tramite) ?
-            <div className="flex  content-center ">
-              <div className=" w-1/4 text-right content-center mt-4 ">
+            <div className="content-center ">
+              <div className="  text-right content-center -mt-8 ">
                 <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
               </div>
 
@@ -1168,8 +1168,8 @@ export default () => {
         <div className=" content-center  rounded-lg border  px-4 py-4">
           <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
           {isTramiteEditable(tramite) ?
-            <div className="flex  content-center ">
-              <div className=" w-1/4 text-right content-center mt-4 ">
+            <div className=" content-center ">
+              <div className=" text-right content-center -mt-8 ">
                 <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
               </div>
 
@@ -1438,8 +1438,8 @@ export default () => {
         <div className=" content-center  rounded-lg border  px-4 py-4">
           <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
           {isTramiteEditable(tramite) ?
-            <div className="flex  content-center ">
-              <div className=" w-1/4 text-right content-center mt-4 ">
+            <div className="content-center ">
+              <div className=" text-right content-center -mt-8 ">
                 <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
               </div>
 
@@ -1727,8 +1727,8 @@ export default () => {
         <div className=" content-center  rounded-lg border  px-4 py-4">
         <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
         {isTramiteEditable(tramite) ?
-            <div className="flex  content-center ">
-              <div className=" w-1/4 text-right content-center mt-4 ">
+            <div className=" content-center ">
+              <div className=" text-right content-center -mt-8 ">
                 <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
               </div>
 

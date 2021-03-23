@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty } from 'antd'
+import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty,Alert,message } from 'antd'
 import { Space } from 'antd'
 import { eliminarBorrador, getColorStatus, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
@@ -83,11 +83,13 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
     </div>
   }
   return <div>
-    <Modal title="Previsualizar"
+    <Modal title="Certificado"
       visible={showProfile}
       onOk={handleOk}
       footer={[
+        <Button  type="primary" >Descargar Certificado</Button>,
         <Button onClick={handleCancel}>Cerrar</Button>
+        
 
       ]}
       onCancel={() => setShowProfile(false)}
@@ -109,6 +111,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
           <div>
             <div className="text-base font-semibold tracking-wider ">Registrado como {activeProfile && activeProfile.tipoEmpresa}</div>
             <div className="text-base font-semibold tracking-wider "> En estado {activeProfile && activeProfile.status}</div>
+            <div className="mb-4 mt-2" >
+      <Alert message="este certificado aun no fue otorgado" showIcon type="info" />
+    </div>
           </div>
 
         </div>
@@ -186,6 +191,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
           <div className=" grid grid-cols-3  gap-4  ">
             {tramites.map((e: TramiteAlta) => (
               <div className="cursor-pointer    " >
+                
                 <Card className="rounded h-full " style={{ background: "#525252" }}
                   actions={[
                     <div className="text-left pl-4">
@@ -194,7 +200,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                           showModal()
                           setActiveProfile(e)
                           setShowProfile(true)
-                        }}> <EyeOutlined /> Previsualizar</Button></div>,
+                        }}> <EyeOutlined /> Ver Certificado</Button></div>,
                        
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
@@ -241,8 +247,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   <div className="pb-2">
                     <div className="flex">
 
-                      <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
-                      <Tag color="green">{e.status}</Tag>
+                      <Tag >{e.categoria}</Tag>
+                      <Tag color={getColorStatus(e)}>{e.status}</Tag>
                       <div className="absolute inset-y-10 right-0 w-1 pr-6">
                       <EliminarBorrador tramite={e}  />
                       </div>
@@ -270,7 +276,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                           showModal()
                           setActiveProfile(e)
                           setShowProfile(true)
-                        }}> <EyeOutlined /> Previsualizar</Button></div>,
+                        }}> <EyeOutlined /> Ver Certificado</Button></div>,
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
                         onClick={() => {
@@ -434,9 +440,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       .ant-card-actions > li:not(:last-child){
         border-right: 0px solid #f0f0f0;
       }
-      .ant-modal-footer{
-        text-align:right !important
-      }
+      
       
       `}
     </style>

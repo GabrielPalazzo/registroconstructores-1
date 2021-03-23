@@ -445,17 +445,17 @@ export default () => {
     }
 
     if (capitalSuscripto === 0) {
-      setError(isPersonaFisica(tramite) ? 'El rubro Caja/Bancos no puede ser 0' : 'El capital suscripto no puede ser 0')
+      setError(isPersonaFisica(tramite) ? 'El rubro Caja/Bancos tiene que  ser mayor a 0' : 'El capital suscripto tiene que  ser mayor a 0')
       return
     }
 
     if ((activoCorriente + activoNoCorriente) === 0) {
-      setError('El activo no puede ser 0')
+      setError('El activotiene que  ser mayor a 0')
       return
     }
 
     if ((pasivoCorriente + pasivoNoCorriente) === 0) {
-      setError('El pasivo no puede ser 0')
+      setError('El pasivo tiene que  ser mayor a 0')
       return
     }
     
