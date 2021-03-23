@@ -20,7 +20,7 @@ const colors = [
 
 export interface IProps {
   value: string
-  label: string
+  label?: string
   showHands?: boolean
   bindFunction: Function
   type?: string
@@ -55,103 +55,30 @@ export const InputText: React.FC<IProps> = ({
   attributeName
 }) => {
 
-
-  const dispatch = useDispatch()
   const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
-  const revisionTramite = useSelector(state => state.revisionTramites)
-  const [showObs, setShowObs] = useState(false)
-  const [textObs, setTextObs] = useState('')
 
   if (!tramite)
     return <div>Loading...</div>
 
 
-  const getColorIcon = (handUp: boolean) => {
-    const r = revisionTramite && revisionTramite.revision && revisionTramite.revision.reviews.filter(r => r.field.toUpperCase() === attributeName.toUpperCase())
-    if (!r || r.length == 0)
-      return "#1890ff"
-
-    if (_.last(r).field.toUpperCase() === attributeName.toUpperCase()) {
-      if (handUp)
-        return _.last(r).isOk ? 'green' : '#e2e8f0'
-      else
-        return !_.last(r).isOk ? 'red' : '#e2e8f0'
-    }
-  }
-
-  const like = () => {
-    if (!revisionTramite.revision)
-      revisionTramite.revision = {
-        reviews:[]
-      }
-    revisionTramite.revision.reviews = revisionTramite.revision.reviews.filter(r => r.field !== attributeName.toUpperCase())
-    revisionTramite.revision.reviews.push({
-      field: attributeName.toUpperCase(),
-      isOk: true,
-      review: ''
-    })
-    dispatch(updateRevisionTramite(Object.assign({}, revisionTramite.revision)))
-  }
-
-  const disLike = () => {
-    if (!revisionTramite.revision)
-      revisionTramite.revision = {
-        reviews:[]
-      }
-      
-    setShowObs(false)
-    
-    if (!textObs)
-      return 
-
-    revisionTramite.revision.reviews = revisionTramite.revision.reviews.filter(r => r.field !== attributeName.toUpperCase())
-    revisionTramite.revision.reviews.push({
-      field: attributeName.toUpperCase(),
-      isOk: false,
-      review: textObs
-    })
-    dispatch(updateRevisionTramite(Object.assign({}, revisionTramite.revision)))
-    setTextObs('')
-  }
-
-  const getReviewText = () => {
-    const r = revisionTramite && revisionTramite.revision && revisionTramite.revision.reviews.filter(r => r.field.toUpperCase() === attributeName.toUpperCase() && !r.isOk)
-    if (!r || r.length === 0)
-      return ''
-
-    return _.last(r).review
-  }
+  
 
   const isEditable = () => {
-    
+    const element = getReviewAbierta(tramite) && getReviewAbierta(tramite).reviews.filter(r => (r.field ===attributeName.toUpperCase()))
+    /** Solo se permite editar aquellos elementos que estan observados o bien que no quue no fueron revisados */
     return tramite.status ==='BORRADOR' ||
-      (tramite.status ==='OBSERVADO' && getReviewAbierta(tramite).reviews.filter(r => (r.field ===attributeName.toUpperCase()) && !r.isOk).length >0) && getUsuario().isConstructor()
-
-    
+      (tramite.status ==='OBSERVADO' && (_.isEmpty(element) || !element[0].isOk)) 
+      && getUsuario().isConstructor()
   }
 
 
   return <div >
-    <Modal
-      visible={showObs}
-      title="Observaciones"
-      onOk={disLike}
-      onCancel={() => setShowObs(false)}
-    >
-      <TextArea placeholder="Escriba aqui el motivo " allowClear onChange={(e) => setTextObs(e.target.value)} />
-    </Modal>
-
+    
     <div className="flex pb-2">
-      <div className="w-3/5">
-        <label className="font-bold text-sm text-muted-700">{label}<span className="text-danger-700 ml-1">{labelRequired}</span></label>
+    {label && <div className="w-3/4">
+        <label className="font-bold text-muted-700 text-sm">{label} <span className="text-danger-700 ml-1">{labelRequired}</span> </label>
       </div>
-
-      {tramite.asignadoA ? <div className="justify-end w-2/5">
-        <div className=" text-right">
-          <Button onClick={like} type="link" icon={<LikeFilled style={{ color: getColorIcon(true) }} />} />
-          <Button onClick={() => setShowObs(true)} type="link" icon={<DislikeFilled style={{ color: getColorIcon(false) }} />} />
-        </div>
-      </div> : ''}
+      }
 
 
 
@@ -170,18 +97,7 @@ export const InputText: React.FC<IProps> = ({
     <div className="w-full text-xs text-danger-700 px-2 ">
       {labelMessageError}
     </div>
-    <div>
-      {customColors.map(color => (
-        <Tooltip
-          title={getReviewText()}
-          placement="right"
-          color={color}
-          key={color}>
-          <span className="text-warning-700 font-bold px-2 text-xs  cursor-pointer">{getReviewText() ? 'Este campo tiene observaciones' : ''}</span>
-        </Tooltip>
-      ))}
-
-    </div>
+    
 
   </div>
 }

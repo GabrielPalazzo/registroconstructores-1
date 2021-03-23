@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { HeaderPrincipal } from '../components/header'
 import { NavigationStep } from '../components/steps'
-import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox, Alert, Empty,Popconfirm, message } from 'antd';
+import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox, Alert, Empty, message, Popconfirm } from 'antd';
 import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
 import DatePicker from '../components/datePicker'
-import { PlusOutlined, DeleteOutlined,EditOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined,FolderViewOutlined } from '@ant-design/icons';
 import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import SelectMultiple from '../components/select_multiple'
@@ -21,11 +21,13 @@ import { Loading } from '../components/loading';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
 import { TomarTramite } from '../components/tomarTramite';
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
-import { userInfo } from 'os';
+import Wrapper from '../components/wrapper'
 
 import dynamic from 'next/dynamic'
 const Upload = dynamic(() => import('../components/upload'))
 
+
+const { Option } = Select;
 function confirm(e) {
   console.log(e);
   message.success('Se elimino correctamente');
@@ -35,9 +37,6 @@ function cancel(e) {
   console.log(e);
   message.error('Ha cancelado la operacion');
 }
-
-
-const { Option } = Select;
 
 
 
@@ -56,10 +55,16 @@ const renderNoData = () => {
 }
 
 
+const MODO = {
+  NEW: 'NEW',
+  EDIT: 'EDIT',
+  VIEW: 'VIEW'
+}
+
 export default (props) => {
 
   const router = useRouter()
-
+  const [modo, setModo] = useState(MODO.NEW)
   const [visible, setVisible] = useState<boolean>(false)
 
   const [tipoEmpresa, setTipoEmpresa] = useState(null)
@@ -106,7 +111,7 @@ export default (props) => {
     setUsuario(getUsuario())
 
     if (isInReview(tramite)) {
-      dispatch(updateRevisionTramite(getReviewAbierta(Object.assign({},tramite))))
+      dispatch(updateRevisionTramite(getReviewAbierta(Object.assign({}, tramite))))
     }
   }, [])
 
@@ -115,6 +120,12 @@ export default (props) => {
   }
 
   const handleSaveApoderado = () => {
+    if (modo === MODO.VIEW) {
+      setVisible(false)
+      clearState()
+      return
+    }
+
     if (!apellido.trim()) {
       setError('El Apellido  es requerido')
       setShowError(true)
@@ -145,7 +156,7 @@ export default (props) => {
       setShowError(true)
       return
     }
-   
+
     if (!tipoApoderado.trim()) {
       setError('El Tipo de apoderado es requerido')
       setShowError(true)
@@ -207,20 +218,37 @@ export default (props) => {
 
   const columns = [
     {
-      title: 'Action',
+      title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? 
-      <Popconfirm
-      title="Esta seguro que lo  desea Eliminar ?"
-      onConfirm={() => removeApoderadoFromList(record)}
-      onCancel={cancel}
-      okText="Si, Eliminar"
-      cancelText="Cancelar"
-    > <div ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-        <LikeDislike />
-      </Space>),
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ?
+        <Popconfirm
+          title="Esta seguro que lo  desea Eliminar ?"
+          onConfirm={() => removeApoderadoFromList(record)}
+          onCancel={cancel}
+          okText="Si, Eliminar"
+          cancelText="Cancelar"
+        > <div ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
+          
+        </Space>),
     },
-    
+    {
+      title: 'Ver',
+      key: 'ver',
+      render: (text, record) => <div onClick={() => {
+        setApellido(record.apellido)
+        setNombre(record.nombre)
+        setEmailApoderado(record.email)
+        setNroDocumentoApoderado(record.nroDocumento)
+        setTipoDocumentoApoderado(record.tipoDocumento)
+        setTipoApoderado(record.tipoApoderado)
+        setFotosDNIApoderado(record.fotosDNI)
+        setActaAutoridadesApoderado(record.actaAutoridades)
+        setCuitApoderado(record.cuit)
+        setEsAdministradorLegitimado(record.esAdministrador)
+        showModal()
+      }}><FolderViewOutlined /></div>,
+    },
+
     {
       title: 'Nombre',
       dataIndex: 'nombre',
@@ -346,13 +374,13 @@ export default (props) => {
             required />
 
         </div>
-        
+
         <div className="pb-6 col-span-2" >
           <InputTextModal
             label="CUIT / CUIL"
             labelRequired="*"
-            type="number"  
-						min="0" 
+            type="number"
+            min="0"
             placeholder="Ingrese el numero de cuit/cuil sin guiones ni espacio"
             value={cuitApoderado}
             bindFunction={setCuitApoderado}
@@ -374,40 +402,40 @@ export default (props) => {
 
         </div>
         {tramite.personeria === 'PF' ? <div>
-        <div className="pb-6" >
-          <RadioGroup
-            label="¿Qué tipo de persona desea dar de alta? "
-            labelRequired="*"
-            value={tipoApoderado}
-            bindFunction={setTipoApoderado}
-            labelMessageError=""
-            radioOptions={tipoPersonaPF.map(u => (
-              <Radio value={u.value} >
-                {u.label}
-              </Radio>
-            ))
-            }
+          <div className="pb-6" >
+            <RadioGroup
+              label="¿Qué tipo de persona desea dar de alta? "
+              labelRequired="*"
+              value={tipoApoderado}
+              bindFunction={setTipoApoderado}
+              labelMessageError=""
+              radioOptions={tipoPersonaPF.map(u => (
+                <Radio value={u.value} >
+                  {u.label}
+                </Radio>
+              ))
+              }
 
-          />
-        </div>
-        </div>:<div>
-        <div className="pb-6" >
-          <RadioGroup
-            label="¿Qué tipo de persona desea dar de alta? "
-            labelRequired="*"
-            value={tipoApoderado}
-            bindFunction={setTipoApoderado}
-            labelMessageError=""
-            radioOptions={tipoPersona.map(u => (
-              <Radio value={u.value} >
-                {u.label}
-              </Radio>
-            ))
-            }
+            />
+          </div>
+        </div> : <div>
+            <div className="pb-6" >
+              <RadioGroup
+                label="¿Qué tipo de persona desea dar de alta? "
+                labelRequired="*"
+                value={tipoApoderado}
+                bindFunction={setTipoApoderado}
+                labelMessageError=""
+                radioOptions={tipoPersona.map(u => (
+                  <Radio value={u.value} >
+                    {u.label}
+                  </Radio>
+                ))
+                }
 
-          />
-        </div>
-        </div>}
+              />
+            </div>
+          </div>}
         {tipoApoderado === 'Administrativo/Gestor' ? '' :
 
           <div className="pb-6" >
@@ -415,7 +443,7 @@ export default (props) => {
               value={esAdministradorLegitimado}
               onChange={setEsAdministradorLegitimado}
               label="Administrador Legitimado"
-              labelRequired="*"
+              labelRequired=""
               SwitchLabel1="Si"
               SwitchLabel2="No"
               labelObservation=""
@@ -433,13 +461,13 @@ export default (props) => {
             label="Adjunte fotos de frente y dorso del DNI"
             labelRequired="*"
             labelMessageError=""
-            defaultValue={[]}
+            defaultValue={fotosDNIApoderado as any}
             onOnLoad={(file) => {
               fotosDNIApoderado.push(file)
-              setFotosDNIApoderado(Object.assign([],fotosDNIApoderado))
+              setFotosDNIApoderado(Object.assign([], fotosDNIApoderado))
             }}
-            onRemove={ fileToRemove => {
-              setFotosDNIApoderado(Object.assign([],fotosDNIApoderado.filter(f => f.cid!==fileToRemove.cid)))
+            onRemove={fileToRemove => {
+              setFotosDNIApoderado(Object.assign([], fotosDNIApoderado.filter(f => f.cid !== fileToRemove.cid)))
             }}
           />
         </div>
@@ -449,13 +477,13 @@ export default (props) => {
               label={tipoApoderado === 'Apoderado' ? 'Adjunte el Poder' : ' Acta de designación de autoridades'}
               labelRequired="*"
               labelMessageError=""
-              defaultValue={[]}
+              defaultValue={actaAutoridadesApoderado as any}
               onOnLoad={(file) => {
                 actaAutoridadesApoderado.push(file)
-                setActaAutoridadesApoderado(Object.assign([],actaAutoridadesApoderado))
+                setActaAutoridadesApoderado(Object.assign([], actaAutoridadesApoderado))
               }}
-              onRemove={ fileToRemove => {
-                setActaAutoridadesApoderado(Object.assign([],actaAutoridadesApoderado.filter(f => f.cid!==fileToRemove.cid)))
+              onRemove={fileToRemove => {
+                setActaAutoridadesApoderado(Object.assign([], actaAutoridadesApoderado.filter(f => f.cid !== fileToRemove.cid)))
               }}
             />
           </div>
@@ -472,10 +500,13 @@ export default (props) => {
             />
           </div>}
       </div>
+      <a href="../img/acta_de_administrador_legitimado.pdf" target="_blank"> <CloudDownloadOutlined /> Descargar modelo oficial de Acta de Administrador Legitimado </a>
+      {/* 
       <div>
         <Checkbox onChange={e => setAceptTerminosYCondiciones(e.target.checked)}>Declaro bajo juramento que la informacion consignada precedentemente y la documentacion presentada reviste caracter de declaracion jurada
       asi mismo me responsabilizo de su veracidad y me comprometo a facilitar su veracidad</Checkbox>
       </div>
+      */}
     </div>)
   }
 
@@ -516,112 +547,116 @@ export default (props) => {
       </div>
       <div className="grid grid-cols-2 gap-4 ">
         <div >
-          <SelectSimple
-            value={tramite.personeria}
-            bindFunction={(value) => {
-              tramite.personeria = value
-              updateObjTramite()
-            }}
-            title="Tipo de personeria"
-            defaultOption="Seleccione el tipo de personeria"
-            labelRequired="*"
-            labelMessageError=""
-            required
-            option={tipoPersoneria.map(u => (
-              <Option value={u.value}>{u.label}</Option>
-            ))} />
+          <Wrapper title="Tipo de personeria" attributeName="tipoPersoneria" labelRequired="*">
+            <SelectSimple
+              value={tramite.personeria}
+              bindFunction={(value) => {
+                tramite.personeria = value
+                updateObjTramite()
+              }}
+              defaultOption="Seleccione el tipo de personeria"
+              labelMessageError=""
+              required
+              option={tipoPersoneria.map(u => (
+                <Option value={u.value}>{u.label}</Option>
+              ))} />
+          </Wrapper>
 
         </div>
         <div >
-          <SelectMultiple
-            labelRequired="*"
-            value={tramite.tipoEmpresa}
-            bindFunction={(value) => {
-              tramite.tipoEmpresa = value
-              updateObjTramite()
-            }}
-            title="Seleccione el tipo de empresa"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-            placeholder="Tipo de Empresa (Constructora, Proveedora, Consultora)"
-            required
-            options={tipoEmpresas.map(u => (
-              <Option value={u.value} label={u.label}>
-                <div className="demo-option-label-item">
-                  {u.option}
-                </div>
-              </Option>
-            ))
+          <Wrapper title="Tipo de Empresa" attributeName="tipoEmpresa" labelRequired="*">
+            <SelectMultiple
+              value={tramite.tipoEmpresa}
+              bindFunction={(value) => {
+                tramite.tipoEmpresa = value
+                updateObjTramite()
+              }}
 
-            } />
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              placeholder="Tipo de Empresa (Constructora, Proveedora, Consultora)"
+              required
+              options={tipoEmpresas.map(u => (
+                <Option value={u.value} label={u.label}>
+                  <div className="demo-option-label-item">
+                    {u.option}
+                  </div>
+                </Option>
+              ))
+
+              } />
+          </Wrapper>
 
         </div>
 
         {isPersonaFisica(tramite) ? <div className="flex">
           <div className="w-full mr-2" >
-            <InputText
-              attributeName="NombrePersonaFisica"
-              label="Nombre"
-              labelRequired="*"
-              placeHolder="Nombre"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={tramite.nombreTitular}
-              bindFunction={(value) => {
-                tramite.nombreTitular = value
-                tramite.razonSocial = `${tramite.apellidoTitular} ${tramite.nombreTitular}`
-                updateObjTramite()
-              }}
-            />
+            <Wrapper title="Nombre" attributeName="NombrePersonaFisica" labelRequired="*">
+              <InputText
+                attributeName="NombrePersonaFisica"
+                placeHolder="Nombre"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                value={tramite.nombreTitular}
+                bindFunction={(value) => {
+                  tramite.nombreTitular = value
+                  tramite.razonSocial = `${tramite.apellidoTitular} ${tramite.nombreTitular}`
+                  updateObjTramite()
+                }}
+              />
+            </Wrapper>
           </div>
+
           <div className="w-full mr-2" >
-            <InputText
-              label="Apellido"
-              attributeName="ApellidoPersonaFisica"
-              labelRequired="*"
-              placeHolder="Apellido"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={tramite.apellidoTitular}
-              bindFunction={(value) => {
-                tramite.apellidoTitular = value
-                tramite.razonSocial = `${tramite.apellidoTitular} ${tramite.nombreTitular}`
-                updateObjTramite()
-              }}
-            />
+            <Wrapper title="Apellido" attributeName="apellidoPersonaFisica" labelRequired="*">
+              <InputText
+                attributeName="ApellidoPersonaFisica"
+                placeHolder="Apellido"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                value={tramite.apellidoTitular}
+                bindFunction={(value) => {
+                  tramite.apellidoTitular = value
+                  tramite.razonSocial = `${tramite.apellidoTitular} ${tramite.nombreTitular}`
+                  updateObjTramite()
+                }}
+              />
+            </Wrapper>
           </div>
 
         </div>
           : <div >
-            <InputText
-              attributeName="razonSocial"
-              label="Razón Social"
-              labelRequired="*"
-              placeHolder="Constructora del oeste"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={tramite.razonSocial}
-              bindFunction={(value) => {
-                tramite.razonSocial = value
-                updateObjTramite()
-              }}
-              required />
+            <Wrapper title="Razon Social" attributeName="razonSocial" labelRequired="*">
+              <InputText
+                attributeName="razonSocial"
+                placeHolder="Constructora del oeste"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                value={tramite.razonSocial}
+                bindFunction={(value) => {
+                  tramite.razonSocial = value
+                  updateObjTramite()
+                }}
+                required />
+            </Wrapper>
+
+
 
 
           </div>
         }
 
         <div >
+        <Wrapper title="CUIT" attributeName="cuit" labelRequired="*">
           <InputText
-            label="CUIT"
+            
             attributeName="cuit"
-            labelRequired="*"
-            type="number"  
-					  disabled={tramite._id ? true : false}
+            type="number"
+            disabled={tramite._id ? true : false}
             value={tramite.cuit}
             bindFunction={(value) => {
               tramite.cuit = value
@@ -633,12 +668,13 @@ export default (props) => {
             labeltooltip=""
             labelMessageError=""
             required />
+            </Wrapper>
 
         </div>
         <div >
+        <Wrapper title="Nro de Legajo" attributeName="nroDeLegajo">
           <InputText
             attributeName="nroDeLegajo"
-            label="Nro de Legajo"
             value={tramite.nroLegajo}
             bindFunction={(value) => {
               tramite.nroLegajo = value
@@ -649,6 +685,7 @@ export default (props) => {
             labeltooltip=""
             labelMessageError=""
           />
+          </Wrapper>
 
         </div>
         {/* <div className="flex">
@@ -693,25 +730,25 @@ export default (props) => {
        </div> : ''}*/}
 
         <div >
+        <Wrapper title="Adjunte Constancia de Inscripción en AFIP" attributeName="constanciaAFIP" labelRequired="*">
           <Upload
             {...props}
-            label="Adjunte Constancia de Inscripción en AFIP"
-            labelRequired="*"
             defaultValue={tramite.inscripcionAFIPConstancia}
             onOnLoad={(files) => {
               if (!tramite.inscripcionAFIPConstancia)
-                tramite.inscripcionAFIPConstancia=[]
+                tramite.inscripcionAFIPConstancia = []
               tramite.inscripcionAFIPConstancia.push(files)
               save()
             }}
-            onRemove={ fileToRemove => {
-              tramite.inscripcionAFIPConstancia = tramite.inscripcionAFIPConstancia.filter( f => f.cid !== fileToRemove.cid)
+            onRemove={fileToRemove => {
+              tramite.inscripcionAFIPConstancia = tramite.inscripcionAFIPConstancia.filter(f => f.cid !== fileToRemove.cid)
               save()
             }}
             labelMessageError="" />
+            </Wrapper>
 
         </div>
-      {/*   {isPersonaFisica(tramite) ? '' :
+        {/*   {isPersonaFisica(tramite) ? '' :
           <div >
             <Upload
               label="Adjunte comprobante de Incripcion"
@@ -821,21 +858,25 @@ export default (props) => {
         </div>
       </div> : ''}
       <div className="mt-6">
-        <div className="flex  content-center ">
+        {/* <div className="flex  content-center ">
           <div className="text-2xl font-bold py-4 w-3/4"> {isPersonaFisica ? 'Apoderados / Usuarios' : 'Apoderados y/o Representantes legales'}</div>
           {isTramiteEditable(tramite) ? <div className=" w-1/4 text-right content-center mt-4 ">
             <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
           </div> : ''}
 
-        </div>
+        </div>*/}
 
+        <Wrapper isTitle title={isPersonaFisica ? 'Apoderados / Usuarios *' : 'Apoderados y/o Representantes legales *'} attributeName="datosApoderados">
+        {isTramiteEditable(tramite) ? <div className="  text-right content-center -mt-8 mb-4 ">
+            <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
+          </div> : ''}
         <Modal
           title="Datos del Usuario"
           visible={visible}
           onOk={handleSaveApoderado}
           footer={[
             <Button onClick={handleCancel}>Cancelar</Button>,
-            <Button type="primary" onClick={handleSaveApoderado} disabled={!aceptaTerminosYCondiciones}>Agregar</Button>
+            <Button type="primary" onClick={handleSaveApoderado} >Agregar</Button>
           ]}
           okText="Guardar"
           onCancel={handleCancel}
@@ -845,9 +886,10 @@ export default (props) => {
           {renderApoderadosSection()}
         </Modal>
 
-        <Table columns={columns} 
-        dataSource={tramite.apoderados} 
-        locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay Apoderados y/o Usuarios </span>}></Empty>,}}  />
+        <Table columns={columns}
+          dataSource={tramite.apoderados}
+          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay Apoderados y/o Usuarios </span>}></Empty>, }} />
+        </Wrapper>
       </div>
 
       <div className=" content-center  rounded-lg border mt-8 px-4 py-4">
@@ -859,10 +901,10 @@ export default (props) => {
             <InputText
               label="Declarante"
               attributeName="declarante"
-              value={`${usuario.userData().GivenName} ${usuario.userData().Surname}`}
+              value={tramite.creatorId ? tramite.creatorId.GivenName + ", " + tramite.creatorId.Surname : ''}
               disabled={true}
               labelRequired="*"
-              placeHolder="Constructora del oeste"
+              placeHolder="Persona física que avala el trámite frente al registro"
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
@@ -871,7 +913,7 @@ export default (props) => {
           </div>
         </div>
 
-        <div className="rounded-lg border  px-4 py-4 bg-gray-300">
+        <div className="rounded-lg border mt-4  px-4 py-4 bg-gray-300">
           <p>Artículo 1.- Toda persona que se presente en un procedimiento de contratación pública o de otorgamiento de una licencia, permiso, autorización, habilitación o derecho real sobre un bien de dominio público o privado del Estado, llevado a cabo por cualquiera de los organismos y entidades del Sector Público Nacional comprendidas en el artículo 8 de la Ley N° 24156, debe presentar una “Declaración Jurada de Intereses” en la que deberá declarar si se encuentra o no alcanzada por alguno de los siguientes supuestos de vinculación, respecto del Presidente y Vicepresidente de la Nación, Jefe de Gabinete de Ministros y demás Ministros y autoridades de igual rango en el Poder Ejecutivo Nacional, aunque estos no tuvieran competencia para decidir sobre la contratación o acto de que se trata:
               <br /> a - Parentesco por consanguinidad dentro del cuarto grado y segundo de afinidad
               <br /> b - Sociedad o comunidad,
@@ -933,29 +975,29 @@ export default (props) => {
             </div>
             <div className="flex" >
               <div className="w-full mr-2">
-              <SelectSimple
-                value={decretoTipoVinculo}
-                bindFunction={setDecretoTipoVinculo}
-                title="Tipo de vínculo"
-                defaultOption="Seleccione el tipo de vinculo"
-                labelRequired="*"
-                labelMessageError=""
-                required
-                option={tipoVinculo.map(u => (
-                  <Option value={u.value}>{u.label}</Option>
-                ))} />
-                </div>
-                 <div className="  mt-8 ">
-              <Button type="primary" onClick={addPersonasAlDecreto} > Agregar</Button>
-            </div>
+                <SelectSimple
+                  value={decretoTipoVinculo}
+                  bindFunction={setDecretoTipoVinculo}
+                  title="Tipo de vínculo"
+                  defaultOption="Seleccione el tipo de vinculo"
+                  labelRequired="*"
+                  labelMessageError=""
+                  required
+                  option={tipoVinculo.map(u => (
+                    <Option value={u.value}>{u.label}</Option>
+                  ))} />
+              </div>
+              <div className="  mt-8 ">
+                <Button type="primary" onClick={addPersonasAlDecreto} > Agregar</Button>
+              </div>
 
             </div>
 
-           
+
           </div>
-          <Table columns={columnsDecreto} 
-          dataSource={tramite.datosDecretoDoscientosDos} 
-          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información disponible</span>}></Empty>,}} />
+          <Table columns={columnsDecreto}
+            dataSource={tramite.datosDecretoDoscientosDos}
+            locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información disponible</span>}></Empty>, }} />
 
         </div>}
       </div>
@@ -977,7 +1019,7 @@ const tipoPersona = [
   {
     label: 'Apoderado',
     value: 'Apoderado',
-    
+
   },
   {
     label: 'Representante Legal',
@@ -995,7 +1037,7 @@ const tipoPersonaPF = [
   {
     label: 'Apoderado',
     value: 'Apoderado',
-    
+
   },
   {
     label: 'Titular',
@@ -1135,7 +1177,7 @@ const tipoVinculo = [
 
 const columnsDecreto = [
 
- 
+
   {
     title: 'Vinculo',
     dataIndex: 'tipoVinculo',

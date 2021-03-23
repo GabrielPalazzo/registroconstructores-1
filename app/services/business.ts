@@ -3,6 +3,9 @@ import * as jwt from "jsonwebtoken"
 import _ from 'lodash'
 import { customAlphabet } from 'nanoid'
 
+
+
+
 export const getToken = () => {
   return localStorage.getItem('token') ? localStorage.getItem('token') : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNlYmEgQnJvbWJlcmciLCJpYXQiOjE1MTYyMzkwMjJ9.vM1mo49C9FazAkIbDe2UnUXQY7Qfkm3IC4eDpVFLviM'
 }
@@ -18,8 +21,6 @@ export const saveTramiteService = (tramite: TramiteAlta): Promise<TramiteAlta> =
   }).then((createdTramite) => {
     return createdTramite.data
   })
-
-  // return new Promise((accept, reject) => accept(tramite))
 }
 
 export const getTramitesParaVerificar = (): Promise<Array<TramiteAlta>> => {
@@ -43,20 +44,84 @@ export const getTramites = (): Promise<Array<TramiteAlta>> => {
 }
 
 export const getTramiteByCUIT = (cuit: string): Promise<TramiteAlta> => {
-  return axios.get(`/api/tramite?cuit=${cuit}`, {
+  return axios.get(`/api/tramite/find?cuit=${cuit}`, {
     headers: {
       Authorization: 'Bearer ' + getToken()
     }
   }).then((t) => {
-    return t.data['tramites'] as TramiteAlta
+    return t.data.tramite as TramiteAlta
   }).catch(err => {
     return null
   })
 }
 
+export const getCertificados = (cuit: string, razonSocial: string) : Promise<any> => {
+  return axios.get(`/api/certificado?cuit=${cuit}&razonSocial=${razonSocial}`, {
+    headers: {
+      Authorization: 'Bearer ' + getToken()
+    }
+  }).then((t) => {
+    return t.data.certificados
+  }).catch(err => {
+    return null
+  })
+}
+
+
+export const migrarCertificados = async (key: string) => {
+  return axios.get(`/api/certificado/migrador`, {
+    headers: {
+      Authorization: 'Bearer ' + getToken(),
+      AuthorizationKey: key
+    }
+  }).then((t) => {
+    return t.data.certificados
+  }).catch(err => {
+    return null
+  })
+}
+
+export const migrarEmpresa = async(idProveedor: string, key: string) => {
+  return axios.post(`/api/migrador`, {idProveedor, key}, {
+    headers: {
+      Authorization: 'Bearer ' + getToken(),
+      AuthorizationKey: key
+    }
+  }).then((t) => {
+    return t.data
+  }).catch(err => {
+    return null
+  })
+}
+
+export const eliminarBorrador = async (tramite: TramiteAlta) => {
+  return axios.get(`/api/tramite/remove?id=${tramite._id}`,{
+    headers: {
+      Authorization: 'Bearer ' + getToken()
+    }
+  })
+}
+
+export const rechazarTramite = (tramite: TramiteAlta, motivo: string) => {
+  if (!tramite.rechazos)
+    tramite.rechazos= []
+
+  tramite.rechazos.push({
+    rechazadoPor:getUsuario().userData(),
+    fecha: new Date().getTime(),
+    motivo
+  })
+
+  tramite.status='BORRADOR'
+  return saveTramiteService(tramite)
+
+}
+
 export const getEmptyTramiteAlta = (): TramiteAlta => {
   return {
+    rechazos: [],
     apoderados: [],
+    creatorId: null,
     inscripcionAFIPConstancia: [],
     certificadoFiscal: null,
     cuit: '',
@@ -98,6 +163,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
     autoridadesVencimiento:true,
     sistemaCalidad: [],
     ejercicios: [],
+    ejerciciosAprobados: [],
     ddjjObras: [],
     fechaInscripcionMatriculaComerciante: '',
     aplicaDecretoDoscientosDos: false,
@@ -166,6 +232,31 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
           archivos: []
         }
       },
+      PJESP: {
+        archivosContrato: [],
+        archivoModificacion:[],
+        archivoUltimaModificacion:[],
+        inscripcionConstitutiva: {
+          datos: '',
+          fecha: ''
+        },
+        inscripcionSucursal: {
+          datos: '',
+          fecha: ''
+        },
+        modifcicacionObjeto: {
+          datos:'',
+          fecha: ''
+        },
+        ultimaModificacionInscripcion: {
+          datos:'',
+          fecha: ''
+        },
+        fechaVencimiento: {
+          fecha: ''
+        }
+        
+      },
       personaFisica: {
         constanciaInscripcion: [],
         constanciaMatriculaComerciante: [],
@@ -181,6 +272,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
 export const getEmptyObras = (): DDJJObra => {
   return {
     id: null,
+    actasObra:[],
     denominacion: '',
     ubicacion: [],
     datosObra: [],
@@ -218,11 +310,11 @@ export const getColorStatus = (tramite: TramiteAlta) => {
 
   switch (tramite.status) {
     case 'BORRADOR':
-      return 'gray'
+      return 'purple'
     case 'VERIFICADO':
       return 'green'
     case 'OBSERVADO':
-      return 'red'
+      return 'gray'
     default:
       return 'blue'
   }
@@ -246,10 +338,10 @@ export const getUsuario = () => {
   return {
     userData: () => user,
     isConstructor: () => user && user.Role.filter(r => r === 'CONSTRUCTOR').length > 0,
-    isBackOffice: () => user && user.Role.filter(r => r === 'CONTROLADOR' || r === 'SUPERVISOR').length > 0,
-    isControlador: () => user && user.Role.filter(r => r === 'CONTROLADOR').length > 0,
-    isSupervisor: () => user && user.Role.filter(r => r === 'SUPERVISOR').length > 0,
-    isAprobador: () => user && user.Role.filter(r => r === 'APROBADOR').length > 0
+    isBackOffice: () => user && user.Role.filter(r => r === 'EVALUADOR ECONOMICO' || r === 'EVALUADOR TECNICO' ||  r === 'CONTROLADOR ECONOMICO' || r === 'CONTROLADOR TECNICO' || r === 'JEFE REGISTRO' || r ==='SUPERVISOR').length > 0,
+    isControlador: () => user && user.Role.filter(r => r.includes('CONTROLADOR')).length > 0,
+    isSupervisor: () => user && user.Role.filter(r => r.includes('SUPERVISOR')).length > 0,
+    isAprobador: () => user && user.Role.filter(r => r === 'JEFE REGISTRO').length > 0
   }
 }
 
@@ -260,7 +352,7 @@ export const isInReview = (tramite: TramiteAlta) => {
 
   return tramite.revisiones.filter(r => r.status === 'ABIERTA').length > 0
     &&
-    tramite.asignadoA.iat === getUsuario().userData().iat
+    tramite.asignadoA.cuit === getUsuario().userData().cuit
 }
 
 export const getReviewAbierta = (tramite: TramiteAlta): RevisionTramite => {
@@ -297,12 +389,30 @@ export const isTramiteEditable = (tramite: TramiteAlta): boolean => {
   return (tramite && tramite.status === 'BORRADOR') || (tramite && !tramite.cuit) || (!tramite)
 }
 
+
+
 export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> => {
 
   if (tramite.status === 'BORRADOR') {
     tramite.status = "PENDIENTE DE REVISION"
     return saveTramiteService(tramite)
   }
+
+
+  if (getUsuario().isAprobador()){
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+      tramite.status = 'OBSERVADO'
+    } else {
+      tramite.categoria = 'INSCRIPTO'
+      tramite.status = 'VERIFICADO'
+      tramite.asignadoA = null
+    }
+    return saveTramiteService(tramite)
+  }
+
+ 
+
+
 
 
   if (tramite.status === 'PENDIENTE DE REVISION' && getUsuario().isBackOffice()) {

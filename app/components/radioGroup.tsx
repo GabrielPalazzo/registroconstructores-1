@@ -22,6 +22,7 @@ interface Props {
   labeltooltip?:string,
   labelObservation?:string,
   showHands?: boolean
+  isEditable?:boolean
 }
 
 export default (props:Props) => {
@@ -42,7 +43,7 @@ export default (props:Props) => {
 
     </div>
     <div className="w-full">
-      <Radio.Group disabled={!isTramiteEditable(tramite)} onChange={e => props.bindFunction(e.target.value)} name="radiogroup" defaultValue={props.value}>
+      <Radio.Group disabled={props.isEditable === undefined ? false : !props.isEditable} onChange={e => props.bindFunction(e.target.value)} name="radiogroup" defaultValue={props.value}>
         {props.radioOptions}
       </Radio.Group>
     </div>

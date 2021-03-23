@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Upload, message, Tooltip } from 'antd';
 import { LikeFilled, DislikeFilled, CloudUploadOutlined } from '@ant-design/icons';
-import { getToken } from '../services/business';
+import { getCodigoObra, getReviewAbierta, getToken, getUsuario } from '../services/business';
+import { useSelector } from 'react-redux'
 
 const { Dragger } = Upload;
 const customColors = ['#2897D4'];
@@ -9,7 +10,7 @@ const customColors = ['#2897D4'];
 
 
 interface Props {
-  label: string
+  label?: string
   labelMessageError?: string
   labelRequired?: string
   onOnLoad: Function
@@ -17,11 +18,29 @@ interface Props {
   onRemove: Function
 }
 
+const mapFile = (fileToMap) => {
+  return {
+    uid: fileToMap.cid,
+    name: fileToMap.name,
+    status: 'done',
+    url: `/api/files/${fileToMap.cid}?name=${fileToMap.name} `
+  }
+}
+
 export default (props: Props) => {
+
+
+  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+
+  const isEditable = () => {
+    return tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' && getUsuario().isConstructor()
+
+  }
+
 
   const propsUpload = {
     multiple: false,
-    defaultFileList: props.defaultValue,
+    defaultFileList: props.defaultValue ? props.defaultValue.map(mapFile) as any : [],
     action: '/api/files/new',
     headers: {
       authorization: 'Bearer ' + getToken()
@@ -29,17 +48,13 @@ export default (props: Props) => {
     onRemove(fileToRemove) {
       props.onRemove(fileToRemove)
     },
-    onChange(info) {
+    showUploadList: {
+      showDownloadIcon: true,
+      downloadIcon: <CloudUploadOutlined > Ver documento</CloudUploadOutlined>,
+      showRemoveIcon: isEditable(),
 
-      /*
-      let fileList = [...info.fileList]
-      fileList.forEach(function (file, index) {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-          file.base64 = e.target.result;
-        };
-        reader.readAsDataURL(info.file.originFileObj);
-      });*/
+    },
+    onChange(info) {
 
 
       const { status } = info.file;
@@ -64,19 +79,20 @@ export default (props: Props) => {
     },
   };
 
-  return (<div >
-    <div className="flex">
-      <div className="w-5/5 pb-2">
-        <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
-      </div>
 
+  return (<div key={getCodigoObra()} >
+    <div className="flex">
+      {
+        props.label && <div className="w-5/5 pb-2">
+          <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
+        </div>
+      }
 
 
     </div>
     <div className="w-full">
-      <Dragger
+      <Dragger key={getCodigoObra()}
         className="flex py-1 text-left"
-        defaultFileList={[]}
         {...propsUpload}>
         <p className="ant-upload-drag-icon inline-block mr-2">
           <CloudUploadOutlined />
@@ -102,3 +118,8 @@ export default (props: Props) => {
 
   )
 }
+
+
+
+
+

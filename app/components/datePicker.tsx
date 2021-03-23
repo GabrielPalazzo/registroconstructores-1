@@ -5,8 +5,6 @@ import moment from 'moment';
 import {useSelector} from 'react-redux'
 import { isTramiteEditable } from '../services/business';
 
-
-
 const customColors = ['#2897D4'];
 const colors = [
   'red',
@@ -21,8 +19,8 @@ let dateFormat = 'DD/MM/YYYY';
 interface Props {
   value: any
   bindFunction: Function
-  label: string,
-  labelRequired: string
+  label?: string,
+  labelRequired?: string
   placeholder: any
   labelMessageError?: string
   labeltooltip?: string
@@ -30,6 +28,7 @@ interface Props {
   locale?:string
   showHands?: boolean
   picker?:"time" | "date" | "week" | "month" | "quarter" | "year"
+  isEditable? : boolean
 }
 
 export default (props: Props) => {
@@ -37,9 +36,11 @@ export default (props: Props) => {
 
   return (<div >
     <div className="flex pb-2">
-      <div className="w-3/5">
+      {
+        props.label && <div className="w-3/5">
         <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
       </div>
+      }
 
       {props.showHands ? <div className="justify-end w-2/5">
         <div className=" text-right">
@@ -51,7 +52,7 @@ export default (props: Props) => {
     </div>
     <div className="w-full">
       <DatePicker 
-        disabled={!isTramiteEditable(tramite)}
+        disabled={props.isEditable === undefined ? false : !props.isEditable}
         onChange={(value) => {
           props.bindFunction(moment(value,dateFormat).format(dateFormat))
         }}

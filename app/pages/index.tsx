@@ -18,6 +18,11 @@ export default () => {
   const [tramites, setTramites] = useState<Array<TramiteAlta>>([])
   const tipoAccion = useSelector(state => state.appStatus.tipoAccion)
 
+
+  const loadTramites = async () => {
+    setTramites(await getTramites())
+  }
+
   useEffect(() => {
     (async () => {
       const usuario = getUsuario().userData()
@@ -33,7 +38,7 @@ export default () => {
       }
 
 
-      setTramites(await getTramites())
+      loadTramites()
       setIsLoading(false)
       setUser(usuario)
 
@@ -63,6 +68,13 @@ export default () => {
 
   const menu = (
     <Menu>
+      <Menu.Item>
+        <div >
+          <a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores/normas-internas" target="_blank">
+           Normativa e Instructivos
+        </a>
+        </div>
+      </Menu.Item>
       <Menu.Item>
         <div onClick={cerrarSesion}>
           Cerrar sesión
@@ -120,10 +132,12 @@ export default () => {
       </div>
     </div>
     <div className="pb-10">
-      {tramites.length === 0 ? noData() : <BandejaConstructor tramites={tramites} />}
+      {tramites.length === 0 ? noData() : <BandejaConstructor masterLoadingFunction={setIsLoading} refreshFunction={loadTramites} tramites={tramites} />}
     </div>
     <div className="pb-4 text-center  border-gray-200 border-t-2" >
-     <div className="text-sm mt-2"> version: 1.7 </div> 
+
+     <div className="text-sm mt-2"> version: 1.22.6 </div> 
+
     </div>
 
   </div>

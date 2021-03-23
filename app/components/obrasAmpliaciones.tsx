@@ -8,6 +8,7 @@ import Upload from './upload'
 import { Button, Select, Table, Alert, Space, Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
+import { LinkToFile } from './linkToFile'
 
 export interface ObrasAmpliacionesProps {
   obra: DDJJObra
@@ -24,7 +25,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
   const [fecha, setFecha] = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [archivos, setArchivos] = useState([])
-  const [dataSource, setDataSource] = useState<Array<AmpliacionesObras>>(obra.ampliaciones)
+  //const [dataSource, setDataSource] = useState<Array<AmpliacionesObras>>(obra.ampliaciones)
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
 
@@ -33,8 +34,8 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
   }, [])
 
   const eliminarDatos = (o: AmpliacionesObras) => {
-    setDataSource(dataSource.filter((a: AmpliacionesObras) => o.id !== a.id))
-    obra.ampliaciones = Object.assign([], dataSource)
+    // setDataSource(obra.ampliaciones.filter((a: AmpliacionesObras) => o.id !== a.id))
+    obra.ampliaciones = Object.assign([], obra.ampliaciones.filter((a: AmpliacionesObras) => o.id !== a.id))
     onChange(Object.assign({}, obra))
   }
 
@@ -64,7 +65,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     {
       title: 'Adjunto',
       key: 'adjunto',
-      render: (text, record) => <div>{record.archivos && record.archivos.map(f => f.name).join(', ')}</div>
+      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>
     }
 
 
@@ -87,16 +88,16 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       return
     }
 
-    dataSource.push({
+    obra.ampliaciones.push({
       id: getCodigoObra(),
       monto,
       fecha,
       descripcion,
       archivos
     })
-    setDataSource(Object.assign([], dataSource))
-    obra.ampliaciones = Object.assign([], dataSource)
-    onChange(obra)
+    //setDataSource(Object.assign([], dataSource))
+    // obra.ampliaciones = Object.assign([], dataSource)
+    onChange(Object.assign({}, obra))
     setArchivos([])
     setMonto(0)
     setDescripcion('')
@@ -118,11 +119,22 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       <div className="mb-4">
         <Alert message="En esta sección podrá cargar ampliaciones de contrato, adendas, economías, reducciones contractuales, etc." type="info" />
       </div>
-      <div className="grid grid-cols-3 gap-4 ">
+      <div className="grid grid-cols-4 gap-4 ">
+      <div className="pb-6" >
+          <DatePickerModal
+            placeholder="Fecha  (dd/mm/yyyy)"
+            label="Fecha de la Ampliación"
+            labelRequired="*"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+            value={fecha}
+            bindFunction={(value) => { setFecha(value) }}
+          />
+        </div>
         <div className="pb-6" >
 
           <InputNumberModal
-            min={0}
             placeholder="000000,000 "
             label="Monto"
             type="number" step="any"
@@ -133,21 +145,10 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
             required />
         </div>
 
-        <div className="pb-6" >
-          <DatePickerModal
-            placeholder="Fecha  (dd/mm/yyyy)"
-            label="Fecha de la Ampliacion"
-            labelRequired="*"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-            value={fecha}
-            bindFunction={(value) => { setFecha(value) }}
-          />
-        </div>
+        
         <div className="pb-6" >
           <InputTextModal
-            label="Descripcion"
+            label="Descripción"
             step="any"
             labelRequired="*"
             labelMessageError=""
@@ -158,7 +159,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
 
         <div className="pb-6" >
           <Upload
-            label="Ampliación / Reducción contractual"
+            label="Documentación respaldatoria"
             labelRequired="*"
             defaultValue={archivos as any}
             onOnLoad={file => {
@@ -178,7 +179,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       <div className="mt-4 ">
         <Table 
         columns={columnsAmpliaciones} 
-        dataSource={dataSource} 
+        dataSource={ Object.assign([],obra.ampliaciones)} 
         locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} 
         summary={pageData => {
           return <div>

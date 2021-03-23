@@ -87,6 +87,8 @@ type CertificacionesCerradas={
 
 type DDJJObra ={
   id: string
+  actasObra: Array<Archivo>
+  status?:string
   denominacion:string
   ubicacion:Array<string>
   datosObra:Array<DatosObraGeneral>
@@ -145,9 +147,24 @@ type AutoridadEmpresa  ={
 }
 
 
+type Ejercicio = {
+  codigo?: string
+  status?: string // APROBADO EN REVISION DES ESTIMADO 
+  fechaInicio: string
+  fechaCierre: string
+  activoCorriente: number
+  activoNoCorriente: number
+  pasivoCorriente: number
+  pasivoNoCorriente: number
+  ventasEjercicio: number
+  capitalSuscripto: number
+  archivos: Array<Archivo>
+}
+
 
 type TramiteAlta = {
   _id?: string,
+  creatorId: Usuario,
   inscripcionAFIPConstancia: Array<Archivo>
   revisiones?: Array<RevisionTramite>
   id: string
@@ -177,7 +194,12 @@ type TramiteAlta = {
     obs: string
   }>
   categoria: 'PRE INSCRIPTO' | 'INSCRIPTO' | 'DESACTUALIZADO'
-  status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION" | "A SUPERVISAR" | "SUBSANADO" | "PENDIENTE DE APROBACION"
+  status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION" | "A SUPERVISAR" | "SUBSANADO" | "PENDIENTE DE APROBACION" 
+  rechazos:Array<{
+    rechazadoPor: Usuario
+    fecha: number
+    motivo: string
+  }>
   propietario: Usuario
   certificadoFiscal: Archivo
   email: string
@@ -235,18 +257,10 @@ type TramiteAlta = {
     observaciones: string
     archivos: Array<Archivo>
   }>,
-  ejercicios: Array<{
-    fechaInicio: string
-    fechaCierre: string
-    activoCorriente: number
-    activoNoCorriente: number
-    pasivoCorriente: number
-    pasivoNoCorriente: number
-    ventasEjercicio: number
-    capitalSuscripto: number
-    archivos: Array<Archivo>
-  }>,
+  ejercicios: Array<Ejercicio>,
+  ejerciciosAprobados: Array<Ejercicio>,
   ddjjObras: Array<DDJJObra>,
+  ddjjObrasAprobadas?: Array<DDJJObra>
   matriculaComerciante: {
     datos: string,
     fecha: string,
@@ -325,13 +339,34 @@ type TramiteAlta = {
         archivos: Array<Archivo>
       }
     }
+    PJESP: {
+      archivosContrato: Array<Archivo>
+      archivoModificacion: Array<Archivo>
+      archivoUltimaModificacion: Array<Archivo>
+      inscripcionConstitutiva: {
+        datos:string
+        fecha: string
+      },
+      inscripcionSucursal: {
+        datos:string
+        fecha: string
+      },
+      modifcicacionObjeto: {
+        datos:string
+        fecha: string
+      },
+      ultimaModificacionInscripcion: {
+        datos:string
+        fecha: string
+      },
+      fechaVencimiento: {
+        fecha: string
+      },
+    }
     personaFisica: {
       constanciaInscripcion: Array<Archivo>,
       constanciaMatriculaComerciante: Array<Archivo>
-
     }
-  
-    
   }
   
 }

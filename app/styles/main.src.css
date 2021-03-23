@@ -127,3 +127,5 @@ font-family:'Encode Sans', sans-serif !important;
 .ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-icon {
     background: #1890ff;
 }
+.ant-input[disabled] {
+    color: rgba(0, 0, 0, 0.5) !important;}

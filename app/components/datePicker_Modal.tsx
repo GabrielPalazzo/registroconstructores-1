@@ -12,13 +12,15 @@ const dateFormat = 'DD/MM/YYYY';
 interface Props {
   value: any
   bindFunction: Function
-  label: string,
+  label?: string,
   labelRequired: string
   placeholder?: any
   labelMessageError?: string
   labeltooltip?: string
   labelObservation?: string
   showHands?: boolean
+  locked?: boolean
+  isEditable?: boolean
 }
 
 export default (props: Props) => {
@@ -28,13 +30,15 @@ export default (props: Props) => {
   return (<div >
      
     <div className="flex">
-      <div className="w-5/5 mb-2">
-        <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
-      </div>
+      {props.label && <div className="w-5/5 mb-2">
+        <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span> </label>
+      </div>}
     </div>
     <div className="w-full">
-    <DatePicker
-        disabled={!isTramiteEditable(tramite)}
+
+    <DatePicker 
+
+        disabled={props.isEditable === undefined ? false : !props.isEditable || props.locked}
         onChange={(value) => {
           props.bindFunction(moment(value,dateFormat).format(dateFormat))
         }}

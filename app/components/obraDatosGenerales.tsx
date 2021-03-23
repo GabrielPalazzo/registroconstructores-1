@@ -4,44 +4,50 @@ import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import Upload from './upload'
-import { Button, Select, Table, Alert, Space,Empty } from 'antd';
+import { Button, Select, Table, Alert, Space, Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
+import {LinkToFile} from '../components/linkToFile'
 
 const { Option } = Select;
 export interface ObrasDatosGeneralesProps {
   obra: DDJJObra
   onChange: Function
-}
+  modo : 'NEW' | 'EDIT' | 'VIEW'
+} 
 
 
 
 export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   obra = null,
-  onChange = () => null
+  onChange = () => null,
+  modo = null
 }) => {
-  
+
   const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
   const [codigo, setCodigo] = useState(getCodigoObra())
   const [estado, setEstado] = useState('')
-  const [tipoContratacion, settipoContratacion] = useState(null)
+  const [tipoContratacion, settipoContratacion] = useState('')
+
   const [nivel, setNivel] = useState('')
   // const [denominacion, setDenominacion] = useState(obra.denominacion)
   const [fechaAdjudicacion, setfechaAdjudicacion] = useState('')
   const [fechaInicio, setfechaInicio] = useState('')
   const [fechaFin, setfechaFin] = useState('')
-  const [dataSource, setDataSource] = useState<Array<DatosObraGeneral>>(obra.datosObra)
+  //const [dataSource, setDataSource] = useState<Array<DatosObraGeneral>>([])
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
   const [actas, setActas] = useState<Array<Archivo>>([])
   useEffect(() => {
     //setDenominacion(obra.denominacion)
-   
+    //setDataSource(Object.assign([], obra.datosObra))
   }, [])
 
-  console.log(obra.denominacion)
+ 
   const eliminarDatos = (r: DatosObraGeneral) => {
-    setDataSource(dataSource.filter((d: DatosObraGeneral) => r.codigo !== d.codigo))
+    obra.datosObra = obra.datosObra.filter((d: DatosObraGeneral) => r.codigo !== d.codigo)
+    onChange(Object.assign({},obra))
+    // setDataSource(dataSource.filter((d: DatosObraGeneral) => r.codigo !== d.codigo))
   }
 
   const columnsEstado = [
@@ -86,7 +92,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     {
       title: 'Adjunto',
       key: 'adjunto',
-      render: (text,record) => <div>{record.acta && record.acta.map(f => f.name).join(', ')}</div>
+      render: (text, record) => <div>{record.acta && record.acta.map(f => <LinkToFile fileName={f.name} id={f.cid} />)}</div>
     }
 
 
@@ -157,9 +163,6 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   ];
 
 
- 
-
-
   const add = () => {
 
     if ((estado === 'Anulada' || estado === 'Finalizada' || estado === 'Suspendida') && (!fechaFin)) {
@@ -200,177 +203,200 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
 
     setEstado("")
-    settipoContratacion(null)
+    settipoContratacion("")
     setNivel("")
     setfechaAdjudicacion("")
     setfechaFin("")
     setfechaInicio("")
     setError('')
     setShowError(false)
-    // obra.denominacion = denominacion
 
-    dataSource.push({ 
-      tipoContratacion, 
-      nivel, 
-      estado, 
-      codigo: getCodigoObra(), 
-      fechaFin, 
-      fechaInicio, 
+   // obra.denominacion = denominacion
+
+   obra.datosObra.push({
+      tipoContratacion,
+      nivel,
+      estado,
+      codigo: getCodigoObra(),
+      fechaFin,
+      fechaInicio,
       fechaAdjudicacion,
-      acta:actas })
-    setDataSource(Object.assign([], dataSource))
+      acta: actas
+    })
+    // setDataSource(Object.assign([], dataSource))
 
-    obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo)
+    //obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo) 
     //obra.datosObra = Object.assign({}, dataSource)
-    onChange(Object.assign({},obra))
+    onChange(Object.assign({}, obra))
+    clearState()
     
+  }
 
+  const clearState = () =>{
+    setEstado("")
+    settipoContratacion("")
+    setNivel("")
+    setfechaAdjudicacion("")
+    setfechaFin("")
+    setfechaInicio("")
   }
 
 
- 
+  
+   return <div>
+      {showError ? <div className="mb-4">
+        <Alert
+          message='Error'
+          description={error}
+          type="error"
+          showIcon
+          closable
+          afterClose={() => setShowError(false)}
+        /></div> : ''}
 
-  return <div>
-    {showError ? <div className="mb-4">
-      <Alert
-        message='Error'
-        description={error}
-        type="error"
-        showIcon
-        closable
-        afterClose={() => setShowError(false)}
-      /></div> : ''}
+      <div className="grid grid-cols-1 gap-4 ">
 
-    <div className="grid grid-cols-1 gap-4 ">
-
-      <div className="pb-6" >
-        <InputTextModal
-          label="Denominacion"
-          labelRequired="*"
-          value={obra.denominacion}
-          bindFunction={(value) => { 
-            obra.denominacion = value 
-            onChange(Object.assign({},obra))
-          }}
-          labelMessageError=""
-
-          disabled />
-
-      </div>
-    </div>
+        <div className="pb-6" >
+          <InputTextModal
+            label="Denominacion"
+            labelRequired="*"
+            locked={modo === 'VIEW'}
+            value={obra.denominacion}
+            bindFunction={(value) => {
+              obra.denominacion = value
+              onChange(Object.assign({}, obra))
+            }}
 
 
-    <div className="grid grid-cols-4 gap-4 ">
-      <div className="pb-6" >
-        <SelectModal
-          title="Estado"
-          defaultOption="Tipo de Estado"
-          labelRequired="*"
-          labelMessageError=""
-          value={estado}
-          bindFunction={(value) => setEstado(value)}
-          option={EstadoObra.map(u => (
-            <Option  value={u.value}>{u.label}</Option>
+            disabled />
 
-          ))}
-        />
-      </div>
-
-      <div className="pb-6" >
-        <SelectModal
-          title="Tipo de Contratacion"
-          defaultOption="Tipo de contratacion"
-          labelRequired="*"
-          labelMessageError=""
-          value={tipoContratacion}
-          bindFunction={(value) => { settipoContratacion(value) }}
-          required
-          option={TipoContratacion.map(u => (
-            <Option value={u.value}>{u.label}</Option>
-
-          ))}
-        />
-      </div>
-      <div className="pb-6" >
-        <SelectModal
-          title="Nivel"
-          defaultOption="Nivel"
-          labelRequired="*"
-          labelMessageError=""
-          value={nivel}
-          bindFunction={(value) => { setNivel(value) }}
-          required
-          option={TipoNivel.map(u => (
-            <Option value={u.value}>{u.label}</Option>
-
-          ))}
-        />
+        </div>
       </div>
 
 
-      <div className="pb-6" >
-        <DatePickerModal
-          placeholder="Fecha  (dd/mm/yyyy)"
-          label={estado === 'Preadjudicada' ? 'Fecha de Pre Adjudicación' : 'Fecha de Adjudicación'}
-          labelRequired="*"
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-          value={fechaAdjudicacion}
-          bindFunction={(value) => { setfechaAdjudicacion(value) }}
-        />
-      </div>
-      {estado === 'Ejecucion' || estado === 'Finalizada' || estado === 'Anulada' || estado === 'Suspendida' ?
+      <div className="grid grid-cols-4 gap-4 ">
+        <div className="pb-6" >
+          <SelectModal
+            title="Estado"
+            defaultOption="Tipo de Estado"
+            labelRequired="*"
+            labelMessageError=""
+            locked={modo === 'VIEW'}
+            value={estado}
+            bindFunction={(value) => setEstado(value)}
+            option={EstadoObra.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+
+            ))}
+          />
+        </div>
+
+        <div className="pb-6" >
+          <SelectModal
+            title="Tipo de Contratacion"
+            defaultOption="Tipo de contratacion"
+            labelRequired="*"
+            locked={modo === 'VIEW'}
+            labelMessageError=""
+            value={tipoContratacion}
+            bindFunction={(value) => { settipoContratacion(value) }}
+            required
+            option={TipoContratacion.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))}
+          />
+        </div>
+        <div className="pb-6" >
+          <SelectModal
+            title="Nivel"
+            locked={modo === 'VIEW'}
+            defaultOption="Nivel"
+            labelRequired="*"
+            labelMessageError=""
+            value={nivel}
+            bindFunction={(value) => { setNivel(value) }}
+            required
+            option={TipoNivel.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))}
+          />
+        </div>
+
+
         <div className="pb-6" >
           <DatePickerModal
             placeholder="Fecha  (dd/mm/yyyy)"
-            label="Fecha  de Inicio"
+            label={estado === 'Preadjudicada' ? 'Fecha de Pre Adjudicación' : 'Fecha de Adjudicación'}
             labelRequired="*"
+            labelObservation=""
+            locked={modo === 'VIEW'}
+            labeltooltip=""
+            labelMessageError=""
+            value={fechaAdjudicacion}
+            bindFunction={(value) => { setfechaAdjudicacion(value) }}
+          />
+        </div>
+        {estado === 'Ejecucion' || estado === 'Finalizada' || estado === 'Anulada' || estado === 'Suspendida' ?
+          <div className="pb-6" >
+            <DatePickerModal
+              placeholder="Fecha  (dd/mm/yyyy)"
+              label="Fecha  de Inicio"
+              locked={modo === 'VIEW'}
+              labelRequired="*"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              value={fechaInicio}
+              bindFunction={(value) => { setfechaInicio(value) }}
+            />
+          </div> : ''}
+        {estado === 'Finalizada' || estado === 'Anulada' || estado === 'Suspendida' ? <div className="pb-6" >
+          <DatePickerModal
+            placeholder="Fecha  (dd/mm/yyyy)"
+            label={estado === 'Finalizada' ? 'Fecha de Finalizacion' : 'Fecha de Suspencion'}
+            labelRequired="*"
+            locked={modo === 'VIEW'}
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
-            value={fechaInicio}
-            bindFunction={(value) => { setfechaInicio(value) }}
+            value={fechaFin}
+            bindFunction={(value) => { setfechaFin(value) }}
           />
         </div> : ''}
-      {estado === 'Finalizada' || estado === 'Anulada' || estado === 'Suspendida' ? <div className="pb-6" >
-        <DatePickerModal
-          placeholder="Fecha  (dd/mm/yyyy)"
-          label={estado === 'Finalizada' ? 'Fecha de Finalizacion' : 'Fecha de Suspencion'}
-          labelRequired="*"
-          labelObservation=""
-          labeltooltip=""
-          labelMessageError=""
-          value={fechaFin}
-          bindFunction={(value) => { setfechaFin(value) }}
-        />
-      </div> : ''}
 
-      <div className="pb-6" >
-        <Upload
-          label="Adjunte Acta "
-          labelRequired="*"
-          labelMessageError=""
-          defaultValue={actas as any}
-          onOnLoad={file => {
-            actas.push(file)
-            setActas(Object.assign([],actas))
-          }}
-          onRemove={fileToRemove => {
-            setActas(Object.assign([],actas.filter(f => f.cid!==fileToRemove.cid)))
-          }}
+        <div className="pb-6" >
+          <Upload
+            label="Adjunte Acta "
+            labelRequired="*"
+            labelMessageError=""
+            defaultValue={(obra.actasObra ? Object.assign([],obra.actasObra ): Object.assign([],[])) as any}
+            onOnLoad={file => {
+              if (!obra.actasObra)
+                obra.actasObra = []
 
-          
-        />
+              obra.actasObra.push(file)
+              onChange(Object.assign({},obra))
+            }}
+            onRemove={fileToRemove => {
+              obra.actasObra = obra.actasObra.filter(f => f.cid !== fileToRemove.cid)
+              onChange(Object.assign({},obra))
+              // setActas(Object.assign([], actas.filter(f => f.cid !== fileToRemove.cid)))
+            }}
+
+
+          />
+        </div>
+        <div className="mt-8 ">
+          <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
+        </div>
+
       </div>
-      <div className="mt-8 ">
-        <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
+      <div className="mt-4">
+        <Table columns={columnsEstado} dataSource={Object.assign([],obra.datosObra)} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
       </div>
-
     </div>
-    <div className="mt-4">
-      <Table columns={columnsEstado} dataSource={dataSource} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
-    </div>
-  </div>
 }
 

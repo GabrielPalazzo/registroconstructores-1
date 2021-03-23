@@ -7,8 +7,8 @@ import InputNumberModal from '../components/input_number'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider,Popconfirm, message  } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider,message,Popconfirm } from 'antd';
+import { PlusOutlined, DeleteOutlined,EditOutlined, CloudDownloadOutlined, FolderViewOutlined} from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
@@ -19,7 +19,10 @@ import { useDispatch } from 'react-redux'
 import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora, isTramiteEditable, allowGuardar } from '../services/business';
 import { saveTramite, setTramiteView } from '../redux/actions/main'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
-import moment from 'moment';
+import moment from 'moment'
+import numeral from 'numeral'
+import Wrapper from '../components/wrapper'
+import _ from 'lodash'
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -33,6 +36,15 @@ function confirm(e) {
 function cancel(e) {
   console.log(e);
   message.error('Ha cancelado la operacion');
+}
+function onChange(pagination, filters, sorter, extra) {
+  console.log('params', pagination, filters, sorter, extra);
+}
+
+const MODO = {
+  EDIT: 'EDIT',
+  NEW: 'NEW',
+  VIEW: 'VIEW'
 }
 
 
@@ -49,6 +61,7 @@ export default () => {
   const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
 
+  const [idBalance, setIdBalance] = useState('')
   const [inicioEjercicio, setInicioEjercicio] = useState('')
   const [cierreEjercicio, setCierreEjercicio] = useState('')
   const [activoCorriente, setActivoCorriente] = useState(0)
@@ -59,6 +72,8 @@ export default () => {
   const [capitalSuscripto, setCapitalSuscripto] = useState(0)
   const [archivos,setArchivos] = useState([])
   const [error, setError] = useState(null)
+  const [modo, setModo] = useState(MODO.NEW)
+  
 
   useEffect(() => {
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
@@ -94,7 +109,7 @@ export default () => {
      
       {error ? <div className="mb-4">
         <Alert
-          message='Error'
+          message=''
           description={error}
           type="error"
           showIcon
@@ -108,6 +123,7 @@ export default () => {
             labelRequired="*"
             placeholder="dd/mm/aaaa"
             value={inicioEjercicio}
+            locked={modo === MODO.VIEW}
             bindFunction={setInicioEjercicio}
             labelMessageError=""
           />
@@ -119,6 +135,7 @@ export default () => {
             labelRequired="*"
             placeholder="dd/mm/aaaa"
             value={cierreEjercicio}
+            locked={modo === MODO.VIEW}
             bindFunction={setCierreEjercicio}
             labelMessageError=""
           />
@@ -134,6 +151,7 @@ export default () => {
             min={0} step="any"
             placeholder="000000,000 "
             value={activoCorriente}
+            locked={modo === MODO.VIEW}
             bindFunction={(val) => setActivoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
@@ -149,6 +167,7 @@ export default () => {
             min={0}
             step="any"
             value={activoNoCorriente}
+            locked={modo === MODO.VIEW}
             bindFunction={(val) => setActivoNoCorriente(parseFloat(val))}
             labelMessageError=""
             required />
@@ -159,6 +178,7 @@ export default () => {
             type="number" step="any"
             label="Activo Total"
             placeholder="000000,000 "
+            locked={modo === MODO.VIEW}
             value={activoCorriente + activoNoCorriente}
             bindFunction={() => null}
             labelMessageError=""
@@ -172,6 +192,7 @@ export default () => {
             labelRequired="*"
             min={0}
             placeholder="000000,000 "
+            locked={modo === MODO.VIEW}
             value={pasivoCorriente}
             bindFunction={(val) => setPasivoCorriente(parseFloat(val))}
             labelMessageError=""
@@ -186,6 +207,7 @@ export default () => {
             labelRequired="*"
             placeholder="000000,000 "
             value={pasivoNoCorriente}
+            locked={modo === MODO.VIEW}
             min={0}
             bindFunction={(val) => setPasivoNoCorriente(parseFloat(val))}
             labelMessageError=""
@@ -197,6 +219,7 @@ export default () => {
             label="Pasivo Total"
             type="number" step="any"
             placeholder="000000,000 "
+            locked={modo === MODO.VIEW}
             bindFunction={() => null}
             value={pasivoNoCorriente + pasivoCorriente}
             labelMessageError=""
@@ -211,6 +234,7 @@ export default () => {
             min={0}
             placeholder="000000,000 "
             value={ventasDelEjercicio}
+            locked={modo === MODO.VIEW}
             bindFunction={(val) => setVentasDelEjercicio(parseFloat(val))}
             labelMessageError=""
             required />
@@ -225,7 +249,7 @@ export default () => {
             placeholder="000000,000 "
             min={0}
             value={capitalSuscripto}
-
+            locked={modo === MODO.VIEW}
             bindFunction={(val) => setCapitalSuscripto(parseFloat(val))}
             labelMessageError=""
             required />
@@ -236,6 +260,7 @@ export default () => {
             label="Patrimonio Neto"
             placeholder="000000,000 "
             step=".01"
+            locked={modo === MODO.VIEW}
             value={(activoNoCorriente + activoCorriente) - (pasivoCorriente + pasivoNoCorriente)}
             labelMessageError=""
             disabled />
@@ -277,21 +302,54 @@ export default () => {
     </div>)
   }
 
+  const cargarEjercicio = (r : Ejercicio) => {
+    setIdBalance(JSON.stringify(r))
+    setActivoCorriente(r.activoCorriente)
+    setActivoNoCorriente(r.activoNoCorriente)
+    setPasivoCorriente(r.pasivoCorriente)
+    setPasivoNoCorriente(r.pasivoNoCorriente)
+    setCapitalSuscripto(r.capitalSuscripto)
+    setCierreEjercicio(r.fechaCierre)
+    setInicioEjercicio(r.fechaInicio)
+    setVentasDelEjercicio(r.ventasEjercicio)
+    setArchivos(Object.assign([],r.archivos))
+  }
+
   let columnsBalances = [
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? 
-      <Popconfirm
-      title="Esta seguro que lo  deseas Eliminar  El ejercicio?"
-      onConfirm={() => eliminarEjercicio(record)}
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' ? <Popconfirm
+      title="Esta seguro que lo  desea Eliminar ?"
+      onConfirm={() =>  eliminarEjercicio(record)}
       onCancel={cancel}
       okText="Si, Eliminar"
       cancelText="Cancelar"
-    > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-        <LikeDislike />
+    > <div className="cursor=pointer" ><DeleteOutlined /></div></Popconfirm>: <Space size="middle">
+
       </Space>),
     },
+    {
+      title: 'Editar',
+      key: 'editar',
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' ?  <div onClick={() => {
+        cargarEjercicio(record)
+        setModo(MODO.EDIT)
+        setModalEjercicios(true)
+      }}><EditOutlined /></div>:  <Space size="middle" />)
+    },{
+      title: 'View',
+      key:'view',
+      render: (text,record) => <div onClick={() => {
+        cargarEjercicio(record)
+        setModo(MODO.VIEW)
+        setModalEjercicios(true)
+      }}><FolderViewOutlined /></div>
+    },//{
+      //title: 'Obs',
+     // render: (text,record) => <div className="text-green-500 font-bold">APROBADO</div>,
+     // key:'obsss'
+    //  },
     {
       title: 'Inicio de ejercicio',
       dataIndex: 'fechaInicio',
@@ -304,29 +362,29 @@ export default () => {
     },
     {
       title: 'Activo Corriente',
-      dataIndex: 'activoCorriente',
+      render: (text,record: Ejercicio)=><div>{numeral(record.activoCorriente).format('$0,0.00')}</div>,
       key: 'activoCorriente',
     },
     {
       title: 'Activo no Corriente',
-      dataIndex: 'activoNoCorriente',
+      render: (text,record: Ejercicio)=><div>{numeral(record.activoNoCorriente).format('$0,0.00')}</div>,
       key: 'activoNoCorriente',
     },
 
     {
       title: 'Pasivo Corriente',
-      dataIndex: 'pasivoCorriente',
+      render: (text,record: Ejercicio)=><div>{numeral(record.pasivoCorriente).format('$0,0.00')}</div>,
       key: 'pasivoCorriente',
     },
     {
       title: 'Pasivo no  Corriente',
-      dataIndex: 'pasivoNoCorriente',
+      render: (text,record: Ejercicio)=><div>{numeral(record.pasivoNoCorriente).format('$0,0.00')}</div>,
       key: 'pasivoNoCorriente',
     },
     {
       title: 'Ventas del ejercicio',
-      dataIndex: 'ventasEjercicio',
-      key: 'ventasEjercicio',
+      render: (text,record: Ejercicio)=><div>{numeral(record.ventasEjercicio).format('$0,0.00')}</div>,
+      key: 'ventasDelEjercicio',
     },
     {
       title: isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto',
@@ -349,7 +407,14 @@ export default () => {
 
   
 
-  const agregarEjercicio = async (e) => {
+  const guardarEjercicio = async (e) => {
+
+    if (modo===MODO.VIEW){
+      setModalEjercicios(false)
+      clearState()
+      return
+    }
+  
     if (!tramite.ejercicios)
       tramite.ejercicios = []
 
@@ -380,18 +445,27 @@ export default () => {
     }
 
     if (capitalSuscripto === 0) {
-      setError(isPersonaFisica(tramite) ? 'El rubro Caja/Bancos no puede ser 0' : 'El capital suscripto no puede ser 0')
+      setError(isPersonaFisica(tramite) ? 'El rubro Caja/Bancos tiene que  ser mayor a 0' : 'El capital suscripto tiene que  ser mayor a 0')
       return
     }
 
     if ((activoCorriente + activoNoCorriente) === 0) {
-      setError('El activo no puede ser 0')
+      setError('El activotiene que  ser mayor a 0')
       return
     }
 
     if ((pasivoCorriente + pasivoNoCorriente) === 0) {
-      setError('El pasivo no puede ser 0')
+      setError('El pasivo tiene que  ser mayor a 0')
       return
+    }
+    
+    
+
+
+    
+    
+    if (MODO.EDIT){
+      tramite.ejercicios = tramite.ejercicios.filter( e => JSON.stringify(e)!== idBalance)
     }
 
 
@@ -406,6 +480,7 @@ export default () => {
       ventasEjercicio: ventasDelEjercicio,
       archivos
     })
+    
     setTramite(Object.assign({}, tramite))
     await save()
     setModalEjercicios(false)
@@ -434,20 +509,33 @@ export default () => {
     </div>
     <div className="px-20 mx-20 py-6 ">
       <div className="flex  content-center  ">
-        <div className="text-2xl font-bold py-4 w-3/4">  Ejercicios</div>
-        <div className=" w-1/4 text-right content-center mt-4 ">
-          {isTramiteEditable(tramite) ?<Button type="primary" onClick={() => setModalEjercicios(true)} icon={<PlusOutlined />}> Agregar</Button> : '' }
+      <Wrapper title="Ejercicios" attributeName="ejercicios" isTitle>
+        <div className=" text-right content-center mb-4 -mt-8">
+          {isTramiteEditable(tramite) ?<Button type="primary" onClick={() => {
+            setModalEjercicios(true)
+            clearState()
+            setModo(MODO.NEW)
+          }} icon={<PlusOutlined />}> Agregar</Button> : '' }
         </div>
+       
+        </Wrapper>
+        
       </div>
+      <div className="mb-4 mt-4">
+        <Alert message="El interesado deberá declarar sus balances según lo establecido en la DI-2021-3- APN-ONC#JGM, artículos 11,12 y anexo al artículo 4 de dicha disposición" type="info" />
+      </div>
+
       <div>
         <Tabs defaultActiveKey="1" onChange={callback}  >
           <TabPane tab="Balances" key="1">
             <div className="overflow-x-auto" >
-              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],tramite.ejercicios)} scroll={{ x: 1800 }}  />}
+              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],_.sortBy(tramite.ejercicios, (e:Ejercicio)=> moment(e.fechaInicio,'DD/MM/YYYY').toDate().getTime()))} scroll={{ x: 1800 }}  />}
             </div>
           </TabPane>
-          <TabPane tab="Historial" key="2">
-            <Table columns={columnsBalances} scroll={{ x: 1800 }} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />
+          <TabPane tab="Balances con modificaciones" key="2">
+          <div className="overflow-x-auto" >
+          {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],_.sortBy(tramite.ejercicios.filter(e => e.status && e.status !=='APROBADO'), (e:Ejercicio)=> moment(e.fechaInicio,'DD/MM/YYYY').toDate().getTime()))} scroll={{ x: 1800 }}  />}
+            </div>
           </TabPane>
         </Tabs>
       </div>
@@ -455,11 +543,14 @@ export default () => {
       <Modal
         title="Nuevo Ejercicio"
         visible={modalEjercicios}
-        onOk={agregarEjercicio}
         okText="Guardar"
-        onCancel={() => setModalEjercicios(false)}
         cancelText="Cancelar"
+        onCancel={() => setModalEjercicios(false)}
         width={1000}
+        footer={[
+        <Button onClick={() => setModalEjercicios(false)}>Cancel</Button>,
+        <Button onClick={guardarEjercicio} type='primary' disabled={!isTramiteEditable(tramite)}>Guardar</Button>
+      ]}
       >
         {renderModalEjercicios()}
       </Modal>

@@ -8,6 +8,8 @@ import { Button, Select, Table, Alert, Space, Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 import InputNumberModal from './input_number'
+import { LinkToFile } from './linkToFile'
+import _ from 'lodash'
 
 export interface ObrasRedeterminacionesProps {
 	obra: DDJJObra
@@ -23,7 +25,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	const [monto, setMonto] = useState(0)
 	const [fecha, setFecha] = useState('')
 	const [descripcion, setDescripcion] = useState('')
-	const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>(obra.redeterminaciones)
+	//const [dataSource, setDataSource] = useState<Array<Redeterminaciones>>(obra.redeterminaciones)
 	const [error, setError] = useState('')
 	const [archivos, setArchivos] = useState<Array<Archivo>>([])
 	const [showError, setShowError] = useState(false)
@@ -33,8 +35,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	}, [])
 
 	const eliminarDatos = (o: AmpliacionesObras) => {
-		setDataSource(dataSource.filter((r: Redeterminaciones) => o.id !== r.id))
-		obra.redeterminaciones = Object.assign([], dataSource)
+		obra.redeterminaciones = Object.assign([], obra.redeterminaciones.filter((r: Redeterminaciones) => o.id !== r.id))
 		onChange(Object.assign({}, obra))
 	}
 	const columnsRedeterminaciones = [
@@ -62,7 +63,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		},
 		{
 			title: 'Adjunto',
-			render: (text, record) => <div>{record.archivos && record.archivos.map(f => f.name).join(', ')}</div>,
+			render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
 			key: 'adjunto',
 		}
 
@@ -85,22 +86,25 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			setShowError(true)
 			return
 		}
+		
+		
 
 
-		dataSource.push({
+		obra.redeterminaciones.push({
 			id: getCodigoObra(),
 			monto,
 			fecha,
 			descripcion,
 			archivos
 		})
-		setDataSource(Object.assign([], dataSource))
-		obra.redeterminaciones = Object.assign([], dataSource)
-		onChange(obra)
+		// setDataSource(Object.assign([], dataSource))
+		// obra.redeterminaciones = Object.assign([], dataSource)
+		onChange(Object.assign({},obra))
 		setMonto(0)
 		setFecha(null)
 		setDescripcion('')
 		setArchivos([])
+		
 	}
 	return <div>
 		{showError ? <div className="mb-4">
@@ -114,7 +118,19 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			/></div> : ''}
 		<div className="rounded-lg px-4 py-2  pb-4 border mt-6">
 			<div className="text-xl font-bold py-2 w-3/4">  Redeterminaciones</div>
-			<div className="grid grid-cols-3 gap-4 ">
+			<div className="grid grid-cols-4 gap-4 ">
+			<div className="pb-6" >
+					<DatePickerModal
+						placeholder="Fecha  (dd/mm/yyyy)"
+						label="Fecha de la redeterminación"
+						labelRequired="*"
+						labelObservation=""
+						labeltooltip=""
+						labelMessageError=""
+						value={fecha}
+						bindFunction={(value) => { setFecha(value) }}
+					/>
+				</div>
 				<div className="pb-6" >
 					<InputNumberModal
 						min={0}
@@ -128,21 +144,10 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 					/>
 
 				</div>
-				<div className="pb-6" >
-					<DatePickerModal
-						placeholder="Fecha  (dd/mm/yyyy)"
-						label="Fecha de la redeterminacion"
-						labelRequired="*"
-						labelObservation=""
-						labeltooltip=""
-						labelMessageError=""
-						value={fecha}
-						bindFunction={(value) => { setFecha(value) }}
-					/>
-				</div>
+				
 				<div className="pb-6" >
 					<InputTextModal
-						label="Descripcion"
+						label="Descripción"
 
 						labelRequired="*"
 						labelMessageError=""
@@ -151,11 +156,9 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 					/>
 
 				</div>
-			</div>
-			<div className="grid grid-cols-2 gap-4 ">
 				<div className="pb-6" >
 					<Upload
-						label="Adjuntar documento de respaldo de la redeterminación "
+						label="Documentación respaldatoria "
 						labelRequired="*"
 						labelMessageError=""
 						defaultValue={archivos as any}
@@ -168,14 +171,17 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 						}}
 					/>
 				</div>
-				<div className="mt-8 ">
+			</div>
+			<div className="text-center ">
+				
+				<div className=" ">
 					<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
 				</div>
 			</div>
 
 			<div className="mt-4 ">
 				<Table columns={columnsRedeterminaciones} 
-				dataSource={dataSource} 
+				dataSource={Object.assign([],obra.redeterminaciones)} 
 				locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} 
 				summary={pageData => {
 					return <div>
