@@ -400,16 +400,18 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                         }}> <EyeOutlined /> Previsualizar</Button></div>,
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
-                        onClick={() => {
+                        onClick={async () => {
                           //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen
                           if (!e.datosSocietarios.sociedadAnonima.contrato)
                             e.datosSocietarios.sociedadAnonima.contrato = {
                               fecha: '',
                               archivos: []
                             }
-                          dispatch(setUpdateBorrador(e)).then(r => {
-                            dispatch(cargarUltimaRevisionAbierta(e))
+                            await dispatch(setUpdateBorrador(e))
+                            await dispatch(cargarUltimaRevisionAbierta(e))
                             router.push('/informacion_basica')
+                          .then(r => {
+                            
                           })
                         }}>Ingresar <ArrowRightOutlined /> </Button></div>,
                   ]}>

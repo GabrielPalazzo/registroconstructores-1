@@ -4,9 +4,9 @@ import { MigrateService, Parser } from '../services/migrates.services'
 
 (async () => {
 
+  
   const idProveedor = '12084'
   const service = new MigrateService(process.env.CONTRATAR_KEY)
-
 
   await service.dbUpd()
   if (await service.proveedorYaMigrado(idProveedor)) {
@@ -30,6 +30,9 @@ import { MigrateService, Parser } from '../services/migrates.services'
   serviceCargarProveedor.parseObras()
   await serviceCargarProveedor.save()
   await serviceCargarProveedor.dbUpd()
+  
+
+  // console.log(process.argv)
 
 
 })()
