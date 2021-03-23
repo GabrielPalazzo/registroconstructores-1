@@ -1,5 +1,5 @@
 
-import {MigrateService} from '../services/migrates.services'
+import {MigrateService, Parser} from '../services/migrates.services'
 
 
 (async () => {
@@ -7,27 +7,29 @@ import {MigrateService} from '../services/migrates.services'
   const idProveedor = '12084'
   const service = new MigrateService(process.env.CONTRATAR_KEY)
 
-  /*
-  const {
-    success
-  } = await service.doPreflight()
-  */
   
-  const success=true
-  if (success){
-
-    
     await service.dbUpd()
-    const preinscripcion = await service.migrarProveedoresPreInscripcion(idProveedor)
-    const infoBasica = await service.migrarProveedoresInfoBasica(idProveedor)
-    const balances = await service.migrarProveedoresBalances(idProveedor)
+    if (await service.proveedorYaMigrado(idProveedor)) {
+        throw 'EL proveedor se encuentra ya migrado'
+        return
+    }
+
+    await service.migrarProveedoresPreInscripcion(idProveedor)
+    await service.migrarProveedoresInfoBasica(idProveedor)
+    await service.migrarProveedoresBalances(idProveedor)
     await service.migrarProveedoresDatosObra(idProveedor)
     await service.migrarProveedoresCerficado(idProveedor)
-  
     await service.dbUpd()
-  } else {
-    console.log('Token Vencido')
-  }
+
+    const serviceCargarProveedor = new Parser(process.env.CONTRATAR_KEY)
+    await serviceCargarProveedor.init(idProveedor)
+
+    await serviceCargarProveedor.dbUpd()
+    const info = await serviceCargarProveedor.parseInformacionBasica()
+    await serviceCargarProveedor.parseEjercicios()
+    serviceCargarProveedor.parseObras()
+    await serviceCargarProveedor.save()
+    await serviceCargarProveedor.dbUpd()
   
 
 })()
