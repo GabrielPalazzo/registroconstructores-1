@@ -400,8 +400,9 @@ export default () => {
                   />
                 </div>
                 <div className="pb-6" >
-                  <InputTextModal
+                  <InputNumberModal
                     label="% de participación"
+                    min={0}
                     labelRequired=""
                     value={obra.participacionUTE}
                     bindFunction={e => {

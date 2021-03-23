@@ -314,7 +314,7 @@ export const getColorStatus = (tramite: TramiteAlta) => {
     case 'VERIFICADO':
       return 'green'
     case 'OBSERVADO':
-      return 'purple'
+      return 'gray'
     default:
       return 'blue'
   }

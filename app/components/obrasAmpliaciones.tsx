@@ -135,7 +135,6 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         <div className="pb-6" >
 
           <InputNumberModal
-            min={0}
             placeholder="000000,000 "
             label="Monto"
             type="number" step="any"
