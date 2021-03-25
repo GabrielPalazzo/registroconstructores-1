@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty,Alert,message } from 'antd'
+import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty, Alert, message, Timeline } from 'antd'
 import { Space } from 'antd'
 import { eliminarBorrador, getColorStatus, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
@@ -27,7 +27,7 @@ export interface BandejaConstructorProps {
 
 export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
   tramites = [],
-  refreshFunction=  () => null,
+  refreshFunction = () => null,
   masterLoadingFunction = () => null
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -44,6 +44,18 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const showModalObservaciones = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOkObservaciones = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancelObservaciones = () => {
+    setIsModalVisible(false);
+  };
   const dispatch = useDispatch()
   const router = useRouter()
   const [showProfile, setShowProfile] = useState(false)
@@ -54,8 +66,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
     const [showEliminar, setShowEliminar] = useState(false)
     return <div>
 
-      <Modal 
-        title="Eliminar Borrardor" 
+      <Modal
+        title="Eliminar Borrardor"
         visible={showEliminar}
         onCancel={() => setShowEliminar(false)}
         footer={[
@@ -69,27 +81,29 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
             await refreshFunction()
             setShowEliminar(false)
             masterLoadingFunction(false)
-            }}>
+          }}>
             Eliminar
           </Button>,
-        ]} 
-        >
+        ]}
+      >
         <p> Esta seguro que desea eliminar el borrador? </p>
       </Modal>
 
       <div onClick={() => setShowEliminar(true)}>
-        {props.tramite.status === 'BORRADOR' ? <div className="cursor-pointer" style={{  color: '#C62828', marginLeft:"20px",  border:"1px dashed #C62828", borderRadius:"24px",textAlign: "center",float: "right",width: "24px",height: "24px" }} ><DeleteTwoTone twoToneColor="#C62828"  /> </div> : ''}
+        {props.tramite.status === 'BORRADOR' ? <div className="cursor-pointer" style={{ color: '#C62828', marginLeft: "20px", border: "1px dashed #C62828", borderRadius: "24px", textAlign: "center", float: "right", width: "24px", height: "24px" }} ><DeleteTwoTone twoToneColor="#C62828" /> </div> : ''}
       </div>
     </div>
   }
+
+
   return <div>
     <Modal title="Certificado"
       visible={showProfile}
       onOk={handleOk}
       footer={[
-        <Button  type="primary" >Descargar Certificado</Button>,
+        <Button type="primary" >Descargar Certificado</Button>,
         <Button onClick={handleCancel}>Cerrar</Button>
-        
+
 
       ]}
       onCancel={() => setShowProfile(false)}
@@ -111,9 +125,10 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
           <div>
             <div className="text-base font-semibold tracking-wider ">Registrado como {activeProfile && activeProfile.tipoEmpresa}</div>
             <div className="text-base font-semibold tracking-wider "> En estado {activeProfile && activeProfile.status}</div>
+
             <div className="mb-4 mt-2" >
-      <Alert message="este certificado aun no fue otorgado" showIcon type="info" />
-    </div>
+              <Alert message="este certificado aun no fue otorgado" showIcon type="info" />
+            </div>
           </div>
 
         </div>
@@ -145,9 +160,6 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       </div>
       <div className="text-xl font-bold mt-4 mb-4">Obras adjudicadas y/o en ejecución</div>
       <Table columns={columnsObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
-
-
-
 
       {/*
    <Collapse defaultActiveKey={['1']} onChange={callback}>
@@ -185,13 +197,33 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
     </Modal>
 
+
+    <Modal title="Ver observaciones"
+      visible={isModalVisible}
+      onOk={handleOkObservaciones}
+      footer={[
+        <Button onClick={handleCancelObservaciones}>Cerrar</Button>
+      ]}
+      onCancel={handleCancelObservaciones}
+      width={1000}>
+
+      <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile && activeProfile.razonSocial}</div>
+      <Timeline>
+      {tramites.map((e: TramiteAlta) => (
+        <Timeline.Item> {e.rechazos} </Timeline.Item>
+      ))}
+       
+      </Timeline>
+
+    </Modal>
+
     <div className="px-4 md:px-20 mx-20 ">
       <Tabs defaultActiveKey="1" onChange={callback}>
         <TabPane tab="Todos" key="todos">
           <div className=" grid grid-cols-3  gap-4  ">
             {tramites.map((e: TramiteAlta) => (
               <div className="cursor-pointer    " >
-                
+
                 <Card className="rounded h-full " style={{ background: "#525252" }}
                   actions={[
                     <div className="text-left pl-4">
@@ -201,7 +233,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                           setActiveProfile(e)
                           setShowProfile(true)
                         }}> <EyeOutlined /> Ver Certificado</Button></div>,
-                       
+
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
                         onClick={() => {
@@ -212,31 +244,31 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                               archivos: []
                             }
 
-                          if (!e) 
+                          if (!e)
                             e.datosSocietarios['PJESP'] = {
-                              archivosContrato:[],
-                              archivoModificacion:[],
-                              archivoUltimaModificacion:[],
-                              inscripcionConstitutiva:{
-                                fecha:'',
-                                datos:''
+                              archivosContrato: [],
+                              archivoModificacion: [],
+                              archivoUltimaModificacion: [],
+                              inscripcionConstitutiva: {
+                                fecha: '',
+                                datos: ''
                               },
-                              inscripcionSucursal:{
+                              inscripcionSucursal: {
                                 fecha: '',
                                 datos: ''
                               },
                               modifcicacionObjeto: {
-                                fecha:'',
-                                datos:''
+                                fecha: '',
+                                datos: ''
                               },
                               ultimaModificacionInscripcion: {
-                                fecha:'',
-                                datos: '' 
+                                fecha: '',
+                                datos: ''
                               },
                               fechaVencimiento: {
-                                fecha:''
+                                fecha: ''
                               }
-                      
+
                             }
                           dispatch(setUpdateBorrador(e)).then(r => {
                             dispatch(cargarUltimaRevisionAbierta(e))
@@ -250,9 +282,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                       <Tag >{e.categoria}</Tag>
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                       <div className="absolute inset-y-10 right-0 w-1 pr-6">
-                      <EliminarBorrador tramite={e}  />
+                        <EliminarBorrador tramite={e} />
                       </div>
-                      
+
 
 
                     </div>
@@ -277,6 +309,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                           setActiveProfile(e)
                           setShowProfile(true)
                         }}> <EyeOutlined /> Ver Certificado</Button></div>,
+                       
+                   
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
                         onClick={() => {

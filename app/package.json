@@ -10,7 +10,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "migrate:certificates": "node -r esm ./jobs/migrate_certificates.js",
-    "migrate:proveedores" : "npx ts-node ./jobs/migrar_proveedores.ts",
+    "migrate:proveedores": "npx ts-node ./jobs/migrar_proveedores.ts",
     "run:cargar_tramite": "npx ts-node ./jobs/cargar_tramite.ts"
   },
   "dependencies": {
