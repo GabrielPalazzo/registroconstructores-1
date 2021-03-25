@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setPaso, setStatusGeneralTramite } from '../redux/actions/main'
 import { SET_PASOS } from '../redux/reducers/main'
 import { allowGuardar } from '../services/business';
+import { RootState } from '../redux/store';
 const { Step } = Steps;
 
 
@@ -22,7 +23,7 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
 }) => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || {})
+  const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta || {})
 
   const cleanErrors = () => {
     dispatch(setStatusGeneralTramite(['wait', 'wait', 'wait', 'wait', 'wait']))

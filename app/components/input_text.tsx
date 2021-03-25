@@ -6,6 +6,7 @@ import { getReviewAbierta, getUsuario, isTramiteEditable } from '../services/bus
 import _ from 'lodash'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import { useDispatch } from 'react-redux'
+import { RootState } from '../redux/store';
 
 const { TextArea } = Input
 
@@ -55,7 +56,7 @@ export const InputText: React.FC<IProps> = ({
   attributeName
 }) => {
 
-  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+  const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
 
   if (!tramite)
     return <div>Loading...</div>

@@ -5,22 +5,22 @@ import { Avatar, Dropdown, Menu, Input, Table, Button, Modal } from 'antd'
 import numeral from 'numeral'
 import Certificado from '../components/certificado'
 import { Loading } from '../components/loading'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setTramiteView } from '../redux/actions/main'
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite'
 
 
 
 const { Search } = Input
-const { TextArea} = Input
+const { TextArea } = Input
 
 export default () => {
 
   const dispatch = useDispatch()
   const [textToSearch, setTextToSearch] = useState('')
   const [certificados, setCertificados] = useState([])
-  const [showModalMigrador,setShowModalMigrador] = useState(false)
-  const [isSearching,setIsSearching] = useState(false)
+  const [showModalMigrador, setShowModalMigrador] = useState(false)
+  const [isSearching, setIsSearching] = useState(false)
   const [key, setKey] = useState('')
   const [idProveedor, setIdProveedor] = useState('')
   const [isMigratingData, setIsMigratingData] = useState(false)
@@ -46,30 +46,30 @@ export default () => {
 
   const showTramite = async (cuit) => {
     const tramite = await getTramiteByCUIT(cuit)
-    dispatch(setTramiteView(tramite)).then(r => {
-      dispatch(cargarUltimaRevisionAbierta(tramite))
-      router.push('/informacion_basica')
-    })
+    dispatch(setTramiteView(tramite))
+    dispatch(cargarUltimaRevisionAbierta(tramite))
+    router.push('/informacion_basica')
+
   }
 
   const columns = [
     {
       title: 'Cerificado',
-      key:'cerificado',
-      render : (text,record) => <div><Certificado
+      key: 'cerificado',
+      render: (text, record) => <div><Certificado
         razonSocial={record.RazonSocial}
         cuit={record.NumeroCUIT}
         personeria={record.TipoPersoneria}
         tipoEmpresa={''}
-        capacidadContratacion= {record.CapacidadContratacion}
-        capacidadEjecucion = {record.CapacidadEjecucion}
-        obras = {record.ObrasAdjudicadasYEnEjecucion}
+        capacidadContratacion={record.CapacidadContratacion}
+        capacidadEjecucion={record.CapacidadEjecucion}
+        obras={record.ObrasAdjudicadasYEnEjecucion}
         porcentajesEspecialidades={record.PorcentajesPorEspecialidades}
-       /></div>
-    },{
+      /></div>
+    }, {
       title: 'Ficha',
-      key:'Ficha',
-      render: (text,record) => <div><Button onClick={() => showTramite(record.NumeroCUIT)}>Ver Ficha</Button></div>
+      key: 'Ficha',
+      render: (text, record) => <div><Button onClick={() => showTramite(record.NumeroCUIT)}>Ver Ficha</Button></div>
     },
     {
       title: 'Razon Social',
@@ -88,12 +88,12 @@ export default () => {
     },
     {
       title: 'Capacidad de Contratacion',
-      render: (text,record) => <div>{numeral(record.CapacidadContratacion).format('$0,0.00')}</div>,
+      render: (text, record) => <div>{numeral(record.CapacidadContratacion).format('$0,0.00')}</div>,
       key: 'CapacidadContratacion',
     },
     {
       title: 'Capacidad de Ejecucion',
-      render: (text,record) => <div>{numeral(record.CapacidadEjecucion).format('$0,0.00')}</div>,
+      render: (text, record) => <div>{numeral(record.CapacidadEjecucion).format('$0,0.00')}</div>,
       key: 'CapacidadEjecucion',
     },
     {
@@ -105,12 +105,12 @@ export default () => {
 
   ]
 
-  const handleMigrarEmpresa = async() => {
+  const handleMigrarEmpresa = async () => {
     try {
       setIsMigratingData(true)
-      await migrarEmpresa(idProveedor,key)
+      await migrarEmpresa(idProveedor, key)
       setIsMigratingData(false)
-    }catch (err) {
+    } catch (err) {
       alert(err)
       setIsMigratingData(false)
     }
@@ -118,26 +118,26 @@ export default () => {
   if (isMigratingData)
     return <Loading message="Aguarde un instante por favor" type="sync" />
 
-  
+
   return <div>
 
-        <Modal title="Basic Modal" 
-          visible={showModalMigrador} 
-          onOk={() => {
-            setIsMigratingData(true)
-            migrarCertificados(key).then(
-              result => setIsMigratingData(false)
-            )
-          }} 
-          footer={[
-            <Button onClick={() => setShowModalMigrador(false)} >Cancelar</Button>,
-            <Button loading={isMigratingData} onClick={handleMigrarEmpresa}>Migrar</Button>
-          ]}
-          onCancel={() => setShowModalMigrador(false)}>
-          <TextArea value={key} onChange={(e) => setKey(e.target.value)} rows={8} />
-          <div>Id Proveedor</div>
-          <Input value={idProveedor} onChange={e => setIdProveedor(e.target.value)}></Input>
-      </Modal>
+    <Modal title="Basic Modal"
+      visible={showModalMigrador}
+      onOk={() => {
+        setIsMigratingData(true)
+        migrarCertificados(key).then(
+          result => setIsMigratingData(false)
+        )
+      }}
+      footer={[
+        <Button onClick={() => setShowModalMigrador(false)} >Cancelar</Button>,
+        <Button loading={isMigratingData} onClick={handleMigrarEmpresa}>Migrar</Button>
+      ]}
+      onCancel={() => setShowModalMigrador(false)}>
+      <TextArea value={key} onChange={(e) => setKey(e.target.value)} rows={8} />
+      <div>Id Proveedor</div>
+      <Input value={idProveedor} onChange={e => setIdProveedor(e.target.value)}></Input>
+    </Modal>
 
 
     <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
@@ -157,30 +157,30 @@ export default () => {
     <div className="w-1/2 p-4">
       <div className="text-2xl font-bold py-4"> Consulta de certificados otorgados</div>
       <div className="flex items-center">
-      <Search
-        placeholder="Ingrese el nombre de la empresa o CUIT"
-        allowClear
-        enterButton="Buscar"
-        size="large"
-        loading={isSearching}
-        value={textToSearch}
-        onChange={(e) => setTextToSearch(e.target.value)}
-        onSearch={async () => {
-          setIsSearching(true)
-          setCertificados(await getCertificados(textToSearch, textToSearch))
-          setIsSearching(false)
-        }}
-      />
+        <Search
+          placeholder="Ingrese el nombre de la empresa o CUIT"
+          allowClear
+          enterButton="Buscar"
+          size="large"
+          loading={isSearching}
+          value={textToSearch}
+          onChange={(e) => setTextToSearch(e.target.value)}
+          onSearch={async () => {
+            setIsSearching(true)
+            setCertificados(await getCertificados(textToSearch, textToSearch))
+            setIsSearching(false)
+          }}
+        />
 
 
-      
-      <div className="px-8">
-        <Button onClick={() => setShowModalMigrador(true)} danger >Migrar Empresas</Button>
+
+        <div className="px-8">
+          <Button onClick={() => setShowModalMigrador(true)} danger >Migrar Empresas</Button>
+        </div>
+
+
       </div>
 
-
-      </div>
-      
 
     </div>
     <div className="p-4">

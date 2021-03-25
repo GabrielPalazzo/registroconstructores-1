@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
 import { Loading } from '../components/loading';
 import Wrapper from '../components/wrapper'
+import { RootState } from '../redux/store';
 
 
 const { Step } = Steps;
@@ -20,9 +21,9 @@ export default () => {
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
   const [waitingType, setWaitingType] = useState<'sync' | 'waiting'>('waiting')
-  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
-  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion)
-  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion)
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
 

@@ -24,6 +24,7 @@ import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import Wrapper from '../components/wrapper'
 
 import dynamic from 'next/dynamic'
+import { RootState } from '../redux/store';
 const Upload = dynamic(() => import('../components/upload'))
 
 
@@ -72,9 +73,9 @@ export default (props) => {
   const [waitingType, setWaitingType] = useState<'sync' | 'waiting'>('waiting')
 
   //const tramiteSesion: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
-  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
-  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
-  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion)
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion)
   const [nombre, setNombre] = useState(' ')
   const [apellido, setApellido] = useState('')
   const [email, setEmail] = useState('')
@@ -89,7 +90,7 @@ export default (props) => {
   const [actaAutoridadesApoderado, setActaAutoridadesApoderado] = useState([])
   const [esAdministradorLegitimado, setEsAdministradorLegitimado] = useState(false)
   const dispatch = useDispatch()
-  const paso = useSelector(state => state.appStatus.paso)
+  const paso = useSelector((state: RootState) => state.appStatus.paso)
   const [isLoading, setIsLoading] = useState(false)
   const [aplicaDecretoDocientosDos, setAplicaDecretoDoscientosDos] = useState(false)
   const [usuario, setUsuario] = useState(null)

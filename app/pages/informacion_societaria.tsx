@@ -23,6 +23,7 @@ import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, is
 import { saveTramite } from '../redux/actions/main'
 
 import Wrapper from '../components/wrapper'
+import { RootState } from '../redux/store';
 
 function confirm(e) {
   console.log(e);
@@ -82,9 +83,9 @@ export default () => {
 
 
 
-  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
-  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
-  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
+  const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   useEffect(() => {
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
@@ -695,6 +696,33 @@ export default () => {
   }
 
 
+  if (tramite && !tramite.datosSocietarios.PJESP) {
+    tramite.datosSocietarios['PJESP'] = {
+      archivosContrato:[],
+      archivoModificacion:[],
+      archivoUltimaModificacion:[],
+      inscripcionConstitutiva:{
+        fecha:'',
+        datos:''
+      },
+      inscripcionSucursal:{
+        fecha: '',
+        datos: ''
+      },
+      modifcicacionObjeto: {
+        fecha:'',
+        datos:''
+      },
+      ultimaModificacionInscripcion: {
+        fecha:'',
+        datos: '' 
+      },
+      fechaVencimiento: {
+        fecha:''
+      }
+
+    }
+  }
   
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {

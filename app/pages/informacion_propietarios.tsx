@@ -21,6 +21,7 @@ import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora,
 import { saveTramite, setTramiteView } from '../redux/actions/main'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import moment from 'moment';
+import { RootState } from '../redux/store';
 
 const { Step } = Steps;
 const { Option } = Select;
@@ -57,9 +58,9 @@ export default (props) => {
   const [waitingType, setWaitingType] = useState('sync')
   const dispatch = useDispatch()
   const router = useRouter()
-  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
-  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
-  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
+  const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
   const [titular, setTitular] = useState('')
   const [cuit, setCuit] = useState('')
   const [porcentajeCapital, setPorcentajeCapital] = useState(0)

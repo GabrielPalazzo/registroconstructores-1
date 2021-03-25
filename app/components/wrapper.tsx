@@ -6,6 +6,7 @@ import { Button, Modal, Tooltip } from 'antd'
 import { DislikeFilled, InfoCircleOutlined, InfoCircleTwoTone, LikeFilled } from '@ant-design/icons'
 import TextArea from 'antd/lib/input/TextArea'
 import { getReviewAbierta, getUsuario } from '../services/business'
+import { RootState } from '../redux/store'
 
 
 const customColors = ['#2897D4'];
@@ -21,8 +22,8 @@ export default (props) => {
 
   const { attributeName } = props
   const dispatch = useDispatch()
-  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
-  const revisionTramite = useSelector(state => state.revisionTramites)
+  const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
+  const revisionTramite = useSelector((state: RootState) => state.revisionTramites)
   const [showObs, setShowObs] = useState(false)
   const [textObs, setTextObs] = useState('')
   const [user, setUser]= useState(null)

@@ -3,6 +3,7 @@ import { Button, DatePicker, Tooltip,ConfigProvider} from 'antd';
 import moment from 'moment'
 import { isTramiteEditable } from '../services/business';
 import {useSelector} from 'react-redux'
+import { RootState } from '../redux/store';
 
 function onChange(date, dateString) {
   console.log(date, dateString);
@@ -25,7 +26,7 @@ interface Props {
 
 export default (props: Props) => {
 
-  const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+  const tramite : TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
 
   return (<div >
      

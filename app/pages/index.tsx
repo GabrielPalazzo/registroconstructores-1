@@ -9,6 +9,7 @@ import { BandejaConstructor } from '../components/bandejaConstructor';
 import { closeSession, getToken, getTramites, getUsuario } from '../services/business';
 import { Loading } from '../components/loading';
 import axios from 'axios'
+import { RootState } from '../redux/store';
 
 export default () => {
   const router = useRouter()
@@ -16,7 +17,7 @@ export default () => {
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState<Usuario>(null)
   const [tramites, setTramites] = useState<Array<TramiteAlta>>([])
-  const tipoAccion = useSelector(state => state.appStatus.tipoAccion)
+  const tipoAccion = useSelector((state: RootState) => state.appStatus.tipoAccion)
 
 
   const loadTramites = async () => {

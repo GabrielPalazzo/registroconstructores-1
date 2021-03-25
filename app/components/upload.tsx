@@ -3,6 +3,7 @@ import { Button, Upload, message, Tooltip } from 'antd';
 import { LikeFilled, DislikeFilled, CloudUploadOutlined } from '@ant-design/icons';
 import { getCodigoObra, getReviewAbierta, getToken, getUsuario } from '../services/business';
 import { useSelector } from 'react-redux'
+import { RootState } from '../redux/store';
 
 const { Dragger } = Upload;
 const customColors = ['#2897D4'];
@@ -30,7 +31,7 @@ const mapFile = (fileToMap) => {
 export default (props: Props) => {
 
 
-  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+  const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
 
   const isEditable = () => {
     return tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' && getUsuario().isConstructor()

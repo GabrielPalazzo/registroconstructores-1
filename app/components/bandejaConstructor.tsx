@@ -236,7 +236,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
-                        onClick={() => {
+                        onClick={async () => {
                           //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen. En futuras versiones sacar este afuera y dejarlo como un "Clean default."
                           if (!e.datosSocietarios.sociedadAnonima.contrato)
                             e.datosSocietarios.sociedadAnonima.contrato = {
@@ -270,10 +270,10 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                               }
 
                             }
-                          dispatch(setUpdateBorrador(e)).then(r => {
-                            dispatch(cargarUltimaRevisionAbierta(e))
+                            await dispatch(setUpdateBorrador(e))
+                            await dispatch(cargarUltimaRevisionAbierta(e))
                             router.push('/informacion_basica')
-                          })
+                          
                         }}>Ingresar <ArrowRightOutlined /> </Button></div>,
                   ]}>
                   <div className="pb-2">
@@ -313,17 +313,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                    
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
-                        onClick={() => {
+                        onClick={async () => {
                           //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen
                           if (!e.datosSocietarios.sociedadAnonima.contrato)
                             e.datosSocietarios.sociedadAnonima.contrato = {
                               fecha: '',
                               archivos: []
                             }
-                          dispatch(setUpdateBorrador(e)).then(r => {
-                            dispatch(cargarUltimaRevisionAbierta(e))
+                            await dispatch(setUpdateBorrador(e))
+                            await dispatch(cargarUltimaRevisionAbierta(e))
                             router.push('/informacion_basica')
-                          })
                         }}>Ingresar <ArrowRightOutlined /> </Button></div>,
                   ]}>
                   <div className="pb-2">
@@ -354,17 +353,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                         }}> <EyeOutlined /> Previsualizar</Button></div>,
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
-                        onClick={() => {
+                        onClick={async () => {
                           //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen
                           if (!e.datosSocietarios.sociedadAnonima.contrato)
                             e.datosSocietarios.sociedadAnonima.contrato = {
                               fecha: '',
                               archivos: []
                             }
-                          dispatch(setUpdateBorrador(e)).then(r => {
-                            dispatch(cargarUltimaRevisionAbierta(e))
+                            await dispatch(setUpdateBorrador(e))
+                            await dispatch(cargarUltimaRevisionAbierta(e))
                             router.push('/informacion_basica')
-                          })
                         }}>Ingresar <ArrowRightOutlined /> </Button></div>,
                   ]}>
                   <div className="pb-2">
@@ -395,17 +393,17 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                         }}> <EyeOutlined /> Previsualizar</Button></div>,
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
-                        onClick={() => {
+                        onClick={async () => {
                           //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen
                           if (!e.datosSocietarios.sociedadAnonima.contrato)
                             e.datosSocietarios.sociedadAnonima.contrato = {
                               fecha: '',
                               archivos: []
                             }
-                          dispatch(setUpdateBorrador(e)).then(r => {
-                            dispatch(cargarUltimaRevisionAbierta(e))
+                            await  dispatch(setUpdateBorrador(e))
+                            await dispatch(cargarUltimaRevisionAbierta(e))
                             router.push('/informacion_basica')
-                          })
+                         
                         }}>Ingresar <ArrowRightOutlined /> </Button></div>,
                   ]}>
                   <div className="pb-2">
@@ -436,17 +434,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                         }}> <EyeOutlined /> Previsualizar</Button></div>,
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
-                        onClick={() => {
+                        onClick={async () => {
                           //MONKEY PATCH = Se agrega valores por default a los campos que no los tienen
                           if (!e.datosSocietarios.sociedadAnonima.contrato)
                             e.datosSocietarios.sociedadAnonima.contrato = {
                               fecha: '',
                               archivos: []
                             }
-                          dispatch(setUpdateBorrador(e)).then(r => {
-                            dispatch(cargarUltimaRevisionAbierta(e))
+                            await dispatch(setUpdateBorrador(e))
+                            await dispatch(cargarUltimaRevisionAbierta(e))
                             router.push('/informacion_basica')
-                          })
                         }}>Ingresar <ArrowRightOutlined /> </Button></div>,
                   ]}>
                   <div className="pb-2">
