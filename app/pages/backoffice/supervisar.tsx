@@ -14,6 +14,7 @@ import { cargarUltimaRevisionAbierta } from '../../redux/actions/revisionTramite
 
 
 import { NavigationStep } from '../../components/steps'
+import { RootState } from '../../redux/store';
 
 const { TabPane } = Tabs;
 const Panel = Collapse.Panel;
@@ -46,7 +47,7 @@ export default () => {
   const router = useRouter()
   const dispatch = useDispatch()
 
-  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
  
   useEffect(() => {
     (async () => {

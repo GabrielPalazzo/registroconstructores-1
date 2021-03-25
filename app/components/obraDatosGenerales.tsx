@@ -8,6 +8,7 @@ import { Button, Select, Table, Alert, Space, Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 import {LinkToFile} from '../components/linkToFile'
+import { RootState } from '../redux/store'
 
 const { Option } = Select;
 export interface ObrasDatosGeneralesProps {
@@ -24,7 +25,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   modo = null
 }) => {
 
-  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
+  const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
   const [codigo, setCodigo] = useState(getCodigoObra())
   const [estado, setEstado] = useState('')
   const [tipoContratacion, settipoContratacion] = useState('')

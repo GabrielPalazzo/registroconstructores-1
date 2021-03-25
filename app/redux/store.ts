@@ -23,6 +23,8 @@ const reducers = combineReducers({
   revisionTramites: initialStateReducerRevisionTramites
 })
 
+export type RootState = ReturnType<typeof reducers>
+
 export default () => createStore(
   reducers,
   initialState,

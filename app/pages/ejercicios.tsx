@@ -23,6 +23,7 @@ import moment from 'moment'
 import numeral from 'numeral'
 import Wrapper from '../components/wrapper'
 import _ from 'lodash'
+import { RootState } from '../redux/store';
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -57,9 +58,9 @@ export default () => {
   const [waitingType, setWaitingType] = useState('sync')
   const [isLoading, setIsLoading] = useState(false)
 
-  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
-  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
-  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
+  const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   const [idBalance, setIdBalance] = useState('')
   const [inicioEjercicio, setInicioEjercicio] = useState('')

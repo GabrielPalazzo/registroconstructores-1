@@ -9,6 +9,7 @@ import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
 import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, sendTramite } from '../services/business';
 import { validatorTramite } from '../services/validator'
 import { Loading } from '../components/loading';
+import { RootState } from '../redux/store';
 
 const { Step } = Steps;
 export default () => {
@@ -16,15 +17,15 @@ export default () => {
   const [waitingType, setWaitingType] = useState('sync')
   const dispatch = useDispatch()
   const router = useRouter()
-  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
-  const tipoAccion: string = useSelector(state => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const [erroresSeccionInformacionBasica, setErroresSeccionInformacionBasica] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionDomicilio, setErroresSeccionDomicilio] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionComercial, setErroresSeccionComercial] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionDDJJ, setErroresSeccionDDJJ] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionObras, setErroresSeccionObras] = useState<Array<ValidatorErrorElement>>([])
 
-  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   useEffect(() => {
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')

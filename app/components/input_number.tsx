@@ -3,6 +3,7 @@ import { Button, InputNumber,Tooltip, } from 'antd';
 import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 import {useSelector} from 'react-redux'
 import { isTramiteEditable } from '../services/business';
+import { RootState } from '../redux/store';
 
 const customColors = ['#2897D4'];
 const colors = [
@@ -34,7 +35,7 @@ interface Props {
 
 export default (props: Props) => {
 
-  const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+  const tramite : TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
   
  
 

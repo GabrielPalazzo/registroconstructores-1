@@ -3,6 +3,7 @@ import { Button, Input, Tooltip, Switch } from 'antd';
 import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 import {useSelector} from 'react-redux'
 import { isTramiteEditable } from '../services/business';
+import { RootState } from '../redux/store';
 
 const customColors = ['#2897D4'];
 
@@ -19,7 +20,7 @@ interface Props {
 }
 
 export default (props:Props) => {
-  const tramite : TramiteAlta = useSelector(state => state.appStatus.tramiteAlta)
+  const tramite : TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
 
   return (<div >
     <div className="flex">

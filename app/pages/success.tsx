@@ -6,6 +6,7 @@ import { CheckCircleFilled } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
 import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
+import { RootState } from '../redux/store';
 
 const { Step } = Steps;
 export default () => {
@@ -13,7 +14,7 @@ export default () => {
   const [waitingType, setWaitingType] = useState('sync')
   const dispatch = useDispatch()
   const router = useRouter()
-  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
 
   const save = async () => {
     setWaitingType('sync')

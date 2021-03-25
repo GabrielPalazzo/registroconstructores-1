@@ -40,11 +40,11 @@ export default () => {
   useEffect(() => {
     (async () => {
       setUsuario(getUsuario().userData())
-      setTramites((await getTramitesParaVerificar()).filter( (t:TramiteAlta ) => t.status==='SUBSANADO' 
-          || t.status==='A SUPERVISAR'
-          || t.status ==='BORRADOR'
-          || t.status ==='PENDIENTE DE APROBACION' 
-          || t.status ==='PENDIENTE DE REVISION'))
+      setTramites((await getTramitesParaVerificar()).filter((t: TramiteAlta) => t.status === 'SUBSANADO'
+        || t.status === 'A SUPERVISAR'
+        || t.status === 'BORRADOR'
+        || t.status === 'PENDIENTE DE APROBACION'
+        || t.status === 'PENDIENTE DE REVISION'))
     })()
   }, [])
 
@@ -102,7 +102,7 @@ export default () => {
 
         <Tabs defaultActiveKey={getDefaultTabActive()} onChange={callback}>
           <TabPane tab="Bandeja de trabajo" key="1">
-            {tramites.filter((ft: TramiteAlta) => ft.asignadoA===null ).map((t: TramiteAlta) => (
+            {tramites.filter((ft: TramiteAlta) => ft.asignadoA === null).map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>
@@ -111,8 +111,8 @@ export default () => {
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
                       </Tag> : <Tag color="red" className="" >
-                          <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
-                        </Tag>}
+                        <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                      </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
@@ -132,11 +132,10 @@ export default () => {
                     </div>
                   </div>
                   <div className="text-right mt-4">
-                    <Button type="primary" onClick={() => {
-                      dispatch(setTramiteView(t)).then(r => {
-                        dispatch(cargarUltimaRevisionAbierta(t))
-                        router.push('/informacion_basica')
-                      })
+                    <Button type="primary" onClick={async () => {
+                      dispatch(setTramiteView(t))
+                      dispatch(cargarUltimaRevisionAbierta(t))
+                      router.push('/informacion_basica')
 
                     }}>ver tramite <ArrowRightOutlined /> </Button>
 
@@ -159,8 +158,8 @@ export default () => {
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
                       </Tag> : <Tag color="red" className="" >
-                          <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
-                        </Tag>}
+                        <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                      </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
@@ -180,11 +179,10 @@ export default () => {
                     </div>
                   </div>
                   <div className="text-right mt-4">
-                    <Button type="primary" onClick={() => {
-                      dispatch(setTramiteView(t)).then(r => {
-                        dispatch(cargarUltimaRevisionAbierta(t))
-                        router.push('/informacion_basica')
-                      })
+                    <Button type="primary" onClick={async () => {
+                      await dispatch(setTramiteView(t))
+                      await dispatch(cargarUltimaRevisionAbierta(t))
+                      router.push('/informacion_basica')
 
                     }}>ver tramite <ArrowRightOutlined /> </Button>
 
@@ -207,8 +205,8 @@ export default () => {
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
                       </Tag> : <Tag color="red" className="" >
-                          <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
-                        </Tag>}
+                        <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                      </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
@@ -228,11 +226,10 @@ export default () => {
                     </div>
                   </div>
                   <div className="text-right mt-4">
-                    <Button type="primary" onClick={() => {
-                      dispatch(setTramiteView(t)).then(r => {
-                        dispatch(cargarUltimaRevisionAbierta(t))
-                        router.push('/informacion_basica')
-                      })
+                    <Button type="primary" onClick={async () => {
+                      await dispatch(setTramiteView(t))
+                      await dispatch(cargarUltimaRevisionAbierta(t))
+                      router.push('/informacion_basica')
 
                     }}>ver tramite <ArrowRightOutlined /> </Button>
 
@@ -254,8 +251,8 @@ export default () => {
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
                       </Tag> : <Tag color="red" className="" >
-                          <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
-                        </Tag>}
+                        <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                      </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
@@ -275,11 +272,10 @@ export default () => {
                     </div>
                   </div>
                   <div className="text-right mt-4">
-                    <Button type="primary" onClick={() => {
-                      dispatch(setTramiteView(t)).then(r => {
-                        dispatch(cargarUltimaRevisionAbierta(t))
-                        router.push('/informacion_basica')
-                      })
+                    <Button type="primary" onClick={async () => {
+                      await dispatch(setTramiteView(t))
+                      await dispatch(cargarUltimaRevisionAbierta(t))
+                      router.push('/informacion_basica')
 
                     }}>ver tramite <ArrowRightOutlined /> </Button>
 
@@ -300,8 +296,8 @@ export default () => {
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
                       </Tag> : <Tag color="red" className="" >
-                          <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
-                        </Tag>}
+                        <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                      </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
@@ -321,11 +317,10 @@ export default () => {
                     </div>
                   </div>
                   <div className="text-right mt-4">
-                    <Button type="primary" onClick={() => {
-                      dispatch(setTramiteView(t)).then(r => {
-                        dispatch(cargarUltimaRevisionAbierta(t))
-                        router.push('/informacion_basica')
-                      })
+                    <Button type="primary" onClick={async () => {
+                      await dispatch(setTramiteView(t))
+                      await dispatch(cargarUltimaRevisionAbierta(t))
+                      router.push('/informacion_basica')
 
                     }}>ver tramite <ArrowRightOutlined /> </Button>
 
@@ -337,7 +332,7 @@ export default () => {
             ))}
           </TabPane>
           <TabPane tab="Borradores *" key="6">
-            {tramites.filter((t: TramiteAlta) => t.status==='BORRADOR').map((t: TramiteAlta) => (
+            {tramites.filter((t: TramiteAlta) => t.status === 'BORRADOR').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>
@@ -346,8 +341,8 @@ export default () => {
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
                       </Tag> : <Tag color="red" className="" >
-                          <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
-                        </Tag>}
+                        <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                      </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
@@ -367,11 +362,10 @@ export default () => {
                     </div>
                   </div>
                   <div className="text-right mt-4">
-                    <Button type="primary" onClick={() => {
-                      dispatch(setTramiteView(t)).then(r => {
-                        dispatch(cargarUltimaRevisionAbierta(t))
-                        router.push('/informacion_basica')
-                      })
+                    <Button type="primary" onClick={async () => {
+                      await dispatch(setTramiteView(t))
+                      await dispatch(cargarUltimaRevisionAbierta(t))
+                      router.push('/informacion_basica')
 
                     }}>ver tramite <ArrowRightOutlined /> </Button>
 
@@ -382,7 +376,7 @@ export default () => {
               </div>
             ))}
           </TabPane>
-        
+
         </Tabs>
       </div>
 

@@ -10,6 +10,7 @@ import DatePickerModal from './datePicker_Modal'
 import InputNumberModal from './input_number'
 import { LinkToFile } from './linkToFile'
 import _ from 'lodash'
+import { RootState } from '../redux/store'
 
 export interface ObrasRedeterminacionesProps {
 	obra: DDJJObra
@@ -20,7 +21,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	obra = null,
 	onChange = () => null
 }) => {
-	const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
+	const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
 	/*const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
 	const [monto, setMonto] = useState(0)
 	const [fecha, setFecha] = useState('')

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { lockTramite, unLockTramite } from '../redux/actions/main'
 import { getUsuario } from '../services/business'
 import { InitRevisionTramite } from '../redux/actions/revisionTramite'
+import { RootState } from '../redux/store'
 
 export interface TomarTramiteProps {
   user: Usuario
@@ -15,8 +16,8 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
 }) => {
 
   const dispatch = useDispatch()
-  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || {})
-  const revisionTramite: RevisionTramite = useSelector(state => state.revisionTramites.revision)
+  const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta || {})
+  const revisionTramite: RevisionTramite = useSelector((state: RootState) => state.revisionTramites.revision)
 
   const [usuarioLogueado, setUsuarioLogueado] = useState(null)
 

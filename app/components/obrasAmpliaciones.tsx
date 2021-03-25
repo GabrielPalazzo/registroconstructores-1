@@ -9,6 +9,7 @@ import { Button, Select, Table, Alert, Space, Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 import { LinkToFile } from './linkToFile'
+import { RootState } from '../redux/store'
 
 export interface ObrasAmpliacionesProps {
   obra: DDJJObra
@@ -19,7 +20,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
   obra = null,
   onChange = () => null
 }) => {
-  const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
+  const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta || getEmptyTramiteAlta())
   //const tramite: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta || getEmptyTramiteAlta())*/
   const [monto, setMonto] = useState(0)
   const [fecha, setFecha] = useState('')

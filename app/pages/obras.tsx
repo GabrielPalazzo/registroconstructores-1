@@ -30,6 +30,7 @@ import numeral from 'numeral'
 import Wrapper from '../components/wrapper'
 import { LinkToFile } from '../components/linkToFile';
 import _ from 'lodash'
+import { RootState } from '../redux/store';
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -63,8 +64,8 @@ export default () => {
   const [waitingType, setWaitingType] = useState('sync')
   const [isLoading, setIsLoading] = useState(false)
 
-  const [tramite, setTramite] = useState<TramiteAlta>(useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
-  const statusGeneralTramite = useSelector(state => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
   const [ubicacionText, setUbicacionText] = useState('')
   const [prorrogaFecha, setProrrogaFecha] = useState('')
   const [prorrogaMeses, setProrrogaMeses] = useState(0)
