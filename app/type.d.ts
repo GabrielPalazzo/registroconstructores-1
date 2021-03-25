@@ -159,6 +159,7 @@ type Ejercicio = {
   ventasEjercicio: number
   capitalSuscripto: number
   archivos: Array<Archivo>
+  archivosActaAsamblea: Array<Archivo>
 }
 
 

@@ -9,6 +9,8 @@ import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 import {LinkToFile} from '../components/linkToFile'
 import { RootState } from '../redux/store'
+import _ from 'lodash'
+
 
 const { Option } = Select;
 export interface ObrasDatosGeneralesProps {
@@ -201,6 +203,11 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       setShowError(true)
       return
     }
+    if (_.isEmpty(actas)) {
+			setError('El acta es requerida')
+			setShowError(true)
+			return
+		}
 
 
     setEstado("")
@@ -247,7 +254,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
    return <div>
       {showError ? <div className="mb-4">
         <Alert
-          message='Error'
+          message=''
           description={error}
           type="error"
           showIcon

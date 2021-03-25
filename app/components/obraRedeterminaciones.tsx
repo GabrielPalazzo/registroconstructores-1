@@ -87,6 +87,11 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			setShowError(true)
 			return
 		}
+		if (_.isEmpty(archivos)) {
+			setError('El documento respaldatorio es requerido')
+			setShowError(true)
+			return
+		}
 		
 		
 
@@ -105,8 +110,19 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		setFecha(null)
 		setDescripcion('')
 		setArchivos([])
+		clearState()
 		
 	}
+
+	const clearState = () => {
+		setMonto(0)
+		setFecha('')
+		setDescripcion('')
+		setArchivos([])
+	  }
+
+	  
+
 	return <div>
 		{showError ? <div className="mb-4">
 			<Alert

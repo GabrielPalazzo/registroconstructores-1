@@ -9,6 +9,7 @@ import Upload from './upload'
 import InputNumberModal from './input_number'
 import numeral from 'numeral'
 import { LinkToFile } from './linkToFile'
+import _ from 'lodash'
 
 export interface CertificacionesPrecargadasProps {
   obra: DDJJObra,
@@ -90,6 +91,11 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       setShowError(true)
       return
     }
+    if (_.isEmpty(archivos)) {
+			setError('El documento respaldatorio es requerido')
+			setShowError(true)
+			return
+		}
 
     let periodosCopy = Object.assign([], obra.certificaciones)
 

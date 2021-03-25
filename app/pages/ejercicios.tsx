@@ -72,8 +72,11 @@ export default () => {
   const [ventasDelEjercicio, setVentasDelEjercicio] = useState(0)
   const [capitalSuscripto, setCapitalSuscripto] = useState(0)
   const [archivos,setArchivos] = useState([])
+  const [archivosActaAsamblea,setArchivosActaAsamblea] = useState([])
   const [error, setError] = useState(null)
   const [modo, setModo] = useState(MODO.NEW)
+ const [showError, setShowError] = useState(false)
+
   
 
   useEffect(() => {
@@ -283,6 +286,23 @@ export default () => {
             }}
           />
         </div>
+        {tramite.personeria === 'SA' || tramite.personeria === 'SRL' || tramite.personeria === 'Cooperativas' ?  
+        <div className="pb-6" >
+          <Upload
+            label="Acta  asamblea de aprobación del balance  "
+            labelRequired="*"
+           
+            labelMessageError=""
+            defaultValue={archivosActaAsamblea as any}
+            onOnLoad={file => {
+              archivos.push(file)
+              setArchivos(Object.assign([],archivosActaAsamblea))
+            }}
+            onRemove={fileToRemove => {
+              setArchivos(Object.assign([],archivosActaAsamblea.filter(f => f.cid!==fileToRemove.cid)))
+            }}
+          />
+        </div>:''}
 
       </div>
     </div> )
@@ -459,7 +479,17 @@ export default () => {
       setError('El pasivo tiene que  ser mayor a 0')
       return
     }
+    if (_.isEmpty(archivos)) {
+			setError('El balance contable es requerido')
+			setShowError(true)
+			return
+		}
     
+    if ((tramite.personeria === 'SA' || tramite.personeria === 'SRL'|| tramite.personeria === 'Cooperativa') && (_.isEmpty(archivosActaAsamblea))) {
+			setError('El balance contable es requerido')
+			setShowError(true)
+			return
+		}
     
 
 
@@ -479,7 +509,8 @@ export default () => {
       pasivoNoCorriente,
       capitalSuscripto,
       ventasEjercicio: ventasDelEjercicio,
-      archivos
+      archivos,
+      archivosActaAsamblea
     })
     
     setTramite(Object.assign({}, tramite))

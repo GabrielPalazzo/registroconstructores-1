@@ -141,6 +141,11 @@ export default () => {
       setShowError(true)
       return
     }
+    if (_.isEmpty(archivosPlazos)) {
+			setError('El documento respladatorio')
+			setShowError(true)
+			return
+		}
     if (!obra.prorrogaNueva)
       obra.prorrogaNueva = []
 
@@ -813,12 +818,14 @@ export default () => {
       setShowError(true)
       return
     }
+   
     
     if ((!obra.plazoPorContrato)) {
       setError('El plazo  por contrato es requerido ')
       setShowError(true)
       return
     }
+    
     
     tramite.ddjjObras = tramite.ddjjObras.filter((o: DDJJObra) => o.id !== obra.id)
     tramite.ddjjObras.push(obra)

@@ -10,6 +10,7 @@ import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 import { LinkToFile } from './linkToFile'
 import { RootState } from '../redux/store'
+import _ from 'lodash'
 
 export interface ObrasAmpliacionesProps {
   obra: DDJJObra
@@ -88,6 +89,11 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       setShowError(true)
       return
     }
+    if (_.isEmpty(archivos)) {
+			setError('El documento respaldatorio es requerido')
+			setShowError(true)
+			return
+		}
 
     obra.ampliaciones.push({
       id: getCodigoObra(),
