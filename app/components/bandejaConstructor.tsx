@@ -198,24 +198,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
     </Modal>
 
 
-    <Modal title="Ver observaciones"
-      visible={isModalVisible}
-      onOk={handleOkObservaciones}
-      footer={[
-        <Button onClick={handleCancelObservaciones}>Cerrar</Button>
-      ]}
-      onCancel={handleCancelObservaciones}
-      width={1000}>
-
-      <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile && activeProfile.razonSocial}</div>
-      <Timeline>
-      {tramites.map((e: TramiteAlta) => (
-        <Timeline.Item> {e.rechazos} </Timeline.Item>
-      ))}
-       
-      </Timeline>
-
-    </Modal>
+   
 
     <div className="px-4 md:px-20 mx-20 ">
       <Tabs defaultActiveKey="1" onChange={callback}>
