@@ -327,9 +327,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                               archivos: []
                             }
                             await dispatch(setUpdateBorrador(e))
-                            dispatch(cargarUltimaRevisionAbierta(e))
+                            await dispatch(cargarUltimaRevisionAbierta(e))
                             router.push('/informacion_basica')
-                         
                         }}>Ingresar <ArrowRightOutlined /> </Button></div>,
                   ]}>
                   <div className="pb-2">
