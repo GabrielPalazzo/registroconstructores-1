@@ -1,5 +1,5 @@
 import moment from "moment"
-import { getUsuario, isPersonaFisica } from "./business"
+import { getUsuario, isPersonaFisica,isConstructora } from "./business"
 import _ from 'lodash'
 
 interface ValidatorInterface {
@@ -159,11 +159,12 @@ class Validator implements ValidatorInterface {
     }
     parseDDJJSection(): ValidatorErrorElement[] {
       const toValidate : Array<ValidatorErrorElement> = []
-      if(_.isEmpty(this.tramite.ejercicios)) 
+      
+      if((isConstructora(this.tramite) &&  (_.isEmpty(this.tramite.ejercicios))) ) 
       toValidate.push({
         attribute:'ejercicio',
         dataId:'',
-        error:'Debe declarar al menos 1 balnace'
+        error:'Debe declarar al menos 1 balance'
       })
 
       return toValidate
