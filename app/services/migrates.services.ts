@@ -299,7 +299,8 @@ export class Parser extends ConnectionManager {
         pasivoNoCorriente: e.PasivoNoCorriente,
         ventasEjercicio: e.IngresosNetos,
         capitalSuscripto: e.CapitalSocial,
-        archivos: []
+        archivos: [],
+        archivosActaAsamblea:[]
       }
     }
     this.tramite.ejercicios = this.ejercicios.map(mapEjercicio)
