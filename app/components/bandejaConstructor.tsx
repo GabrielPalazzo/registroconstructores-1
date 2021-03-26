@@ -31,6 +31,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
   masterLoadingFunction = () => null
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisibleObservaciones, setIsModalVisibleObservaciones] = useState(false);
   const [loading, setLoading] = useState(false)
 
   const showModal = () => {
@@ -46,20 +47,24 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
   };
 
   const showModalObservaciones = () => {
-    setIsModalVisible(true);
+    setIsModalVisibleObservaciones(true);
   };
 
   const handleOkObservaciones = () => {
-    setIsModalVisible(false);
+    setIsModalVisibleObservaciones(false);
   };
 
   const handleCancelObservaciones = () => {
-    setIsModalVisible(false);
+    setIsModalVisibleObservaciones(false);
   };
+
+
+
   const dispatch = useDispatch()
   const router = useRouter()
   const [showProfile, setShowProfile] = useState(false)
   const [activeProfile, setActiveProfile] = useState<TramiteAlta>(null)
+  const [modalObservaciones, setModalObservaciones] = useState(false)
 
 
   const EliminarBorrador = (props) => {
@@ -198,7 +203,20 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
     </Modal>
 
 
-   
+    <Modal title="Ver observaciones"
+      visible={isModalVisibleObservaciones} onOk={handleOkObservaciones} onCancel={handleCancelObservaciones}
+
+      width={1000}>
+
+      <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile && activeProfile.razonSocial}</div>
+      <Timeline>
+        {tramites.map((e: TramiteAlta) => (
+          <Timeline.Item> {e.rechazos} </Timeline.Item>
+        ))}
+
+      </Timeline>
+
+    </Modal>
 
     <div className="px-4 md:px-20 mx-20 ">
       <Tabs defaultActiveKey="1" onChange={callback}>
@@ -253,11 +271,11 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                               }
 
                             }
-                            await dispatch(setUpdateBorrador(e))
-                            await dispatch(cargarUltimaRevisionAbierta(e))
-                            router.push('/informacion_basica')
-                          
-                        }}>Ingresar <ArrowRightOutlined /> </Button></div>,
+                          await dispatch(setUpdateBorrador(e))
+                          await dispatch(cargarUltimaRevisionAbierta(e))
+                          router.push('/informacion_basica')
+
+                        }}>{e.status === 'BORRADOR' ? 'Continuar' : 'Ingresar'}  <ArrowRightOutlined /> </Button></div>,
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
@@ -284,7 +302,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
             {tramites.filter(t => t.status === 'BORRADOR').map((e: TramiteAlta) => (
               <div className="cursor-pointer    " >
                 <Card className="rounded h-full " style={{ background: "#525252" }}
+
                   actions={[
+                    
                     <div className="text-left pl-4">
                       <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
                         onClick={() => {
@@ -292,8 +312,11 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                           setActiveProfile(e)
                           setShowProfile(true)
                         }}> <EyeOutlined /> Ver Certificado</Button></div>,
-                       
-                   
+
+                   // <div className="text-left pl-4">
+                    //  <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                     //   onClick={showModalObservaciones}> <EyeOutlined /> Ver Observaciones</Button></div>,
+
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
                         onClick={async () => {
@@ -303,10 +326,10 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                               fecha: '',
                               archivos: []
                             }
-                            await dispatch(setUpdateBorrador(e))
-                            await dispatch(cargarUltimaRevisionAbierta(e))
-                            router.push('/informacion_basica')
-                        }}>Ingresar <ArrowRightOutlined /> </Button></div>,
+                          await dispatch(setUpdateBorrador(e))
+                          await dispatch(cargarUltimaRevisionAbierta(e))
+                          router.push('/informacion_basica')
+                        }}>{status === 'BORRADOR' ? 'INGRESAR' : ' Continuar'} <ArrowRightOutlined /> </Button></div>,
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
@@ -343,9 +366,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                               fecha: '',
                               archivos: []
                             }
-                            await dispatch(setUpdateBorrador(e))
-                            await dispatch(cargarUltimaRevisionAbierta(e))
-                            router.push('/informacion_basica')
+                          await dispatch(setUpdateBorrador(e))
+                          await dispatch(cargarUltimaRevisionAbierta(e))
+                          router.push('/informacion_basica')
                         }}>Ingresar <ArrowRightOutlined /> </Button></div>,
                   ]}>
                   <div className="pb-2">
@@ -373,7 +396,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                           showModal()
                           setActiveProfile(e)
                           setShowProfile(true)
-                        }}> <EyeOutlined /> Previsualizar</Button></div>,
+                        }}> <EyeOutlined /> Previsualizar</Button>
+                    </div>,
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
                         onClick={async () => {
@@ -383,10 +407,10 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                               fecha: '',
                               archivos: []
                             }
-                            await  dispatch(setUpdateBorrador(e))
-                            await dispatch(cargarUltimaRevisionAbierta(e))
-                            router.push('/informacion_basica')
-                         
+                          await dispatch(setUpdateBorrador(e))
+                          await dispatch(cargarUltimaRevisionAbierta(e))
+                          router.push('/informacion_basica')
+
                         }}>Ingresar <ArrowRightOutlined /> </Button></div>,
                   ]}>
                   <div className="pb-2">
@@ -424,9 +448,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                               fecha: '',
                               archivos: []
                             }
-                            await dispatch(setUpdateBorrador(e))
-                            await dispatch(cargarUltimaRevisionAbierta(e))
-                            router.push('/informacion_basica')
+                          await dispatch(setUpdateBorrador(e))
+                          await dispatch(cargarUltimaRevisionAbierta(e))
+                          router.push('/informacion_basica')
                         }}>Ingresar <ArrowRightOutlined /> </Button></div>,
                   ]}>
                   <div className="pb-2">
