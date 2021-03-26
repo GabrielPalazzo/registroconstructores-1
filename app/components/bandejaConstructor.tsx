@@ -333,8 +333,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-                      <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
-                      <Tag color="green">{e.status}</Tag>
+                    <Tag >{e.categoria}</Tag>
+                      <Tag color={getColorStatus(e)}>{e.status}</Tag>
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
@@ -373,8 +373,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-                      <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
-                      <Tag color="green">{e.status}</Tag>
+                    <Tag >{e.categoria}</Tag>
+                      <Tag color={getColorStatus(e)}>{e.status}</Tag>
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
@@ -415,8 +415,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-                      <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
-                      <Tag color="green">{e.status}</Tag>
+                    <Tag >{e.categoria}</Tag>
+                      <Tag color={getColorStatus(e)}>{e.status}</Tag>
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
@@ -455,8 +455,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-                      <Tag color={getColorStatus(e)}>{e.categoria}</Tag>
-                      <Tag color="green">{e.status}</Tag>
+                    <Tag >{e.categoria}</Tag>
+                      <Tag color={getColorStatus(e)}>{e.status}</Tag>
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>

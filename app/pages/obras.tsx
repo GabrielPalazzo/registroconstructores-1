@@ -743,11 +743,11 @@ export default () => {
       dataIndex: 'id',
       key: 'id',
     },
-    {
-      title: 'Estado',
-      dataIndex: 'estado',
-      render : (text,record : DDJJObra) => <div>{_.last(record.datosObra).estado}</div> 
-    },
+    //{
+      //title: 'Estado',
+      //dataIndex: 'estado',
+      //render : (text,record : DDJJObra) => <div>{_.last(record.datosObra).estado}</div> 
+    //},
     {
       title: 'Denominación',
       dataIndex: 'denominacion',
