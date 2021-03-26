@@ -11,23 +11,23 @@ export default () => {
   const router = useRouter()
   const [userLoaded, setUserLoaded] = useState(null)
 
-  useEffect(() =>{
-    const {given_token} = router.query
+  useEffect(() => {
+    const { given_token } = router.query
 
-    if (given_token){
+    if (given_token) {
       setToken(given_token)
       router.push('/')
     }
 
-    if (router.asPath.split('=')[0]==='/login#access_token'){
-    
-      axios.post('/api/getUserToken',{
-        access_token:router.asPath.split("=")[1].split('&')[0]
+    if (router.asPath.split('=')[0] === '/login#access_token') {
+
+      axios.post('/api/getUserToken', {
+        access_token: router.asPath.split("=")[1].split('&')[0]
       }).then(result => {
         setToken(result.data)
         router.push('/')
       })
-      .catch( err => router.push('/login'))
+        .catch(err => router.push('/login'))
     }
 
 
@@ -53,8 +53,10 @@ export default () => {
         <div className="text-3xl font-bold"> Hola, te damos la bienvenida al
           <span className="text-primary-500 ml-2">Registro de Constructores</span>
         </div>
-        <div className="text-lg pt-2">El Registro Nacional de Constructores de Obra Pública es donde deben inscribirse las empresas que deseen contratar obras con el Estado Nacional.<br/> 
-        <a href="" target="_blank">Consulte la normativa vigente e instructivos de inscripción y actualización</a></div>
+        <div className="text-lg pt-2">El Registro Nacional de Constructores de Obra Pública es donde deben inscribirse las empresas que deseen contratar obras con el Estado Nacional.<br />
+          <div className="text-lg pt-2 mb-4">Consulte la normativa vigente e instructivos de inscripción y actualización:</div>
+          <a className="btnNormativa  " href="https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores/normas-internas" target="_blank">Ver normativa e instructivos</a>
+        </div>
       </div>
     </div>
     <div className="w-1/2 bg-primary-500 float-left  h-screen mtop">
@@ -101,6 +103,15 @@ export default () => {
     margin-right: 10px;
     font-weight: 600;
     margin-bottom: 20px;
+  }
+  .btnNormativa{
+    font-weight: 600;
+    margin-bottom: 20px;
+    background: #0072BB;
+    color:#fff;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 23px;
+    padding: 8px 20px;
   }
       `}
       </style>
