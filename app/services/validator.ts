@@ -20,6 +20,9 @@ class Validator implements ValidatorInterface {
         this.tramite = t
     }
 
+    
+
+    
     parseInfomacionBasicaSection() : Array<ValidatorErrorElement> {
       const toValidate : Array<ValidatorErrorElement> = []
       
@@ -29,6 +32,7 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:'La Razon Social es requerida'
         })
+        
 
       if(!this.tramite.tipoEmpresa)
         toValidate.push({
@@ -155,8 +159,16 @@ class Validator implements ValidatorInterface {
     }
     parseDDJJSection(): ValidatorErrorElement[] {
       const toValidate : Array<ValidatorErrorElement> = []
+      if(_.isEmpty(this.tramite.ejercicios)) 
+      toValidate.push({
+        attribute:'ejercicio',
+        dataId:'',
+        error:'Debe declarar al menos 1 balnace'
+      })
+
       return toValidate
     }
+   
     parseObrasSection(): ValidatorErrorElement[] {
       const toValidate : Array<ValidatorErrorElement> = []
       return toValidate
@@ -282,6 +294,18 @@ class Validator implements ValidatorInterface {
           attribute:'modificacionFechaContrato',
           dataId:'',
           error:"La fecha de  modificacion del contrato son obligatorios"
+        })
+      if(this.tramite.personeria==='SA' || this.tramite.personeria==='SRL'  || this.tramite.personeria==='OFS' &&  _.isEmpty(this.tramite.datosSocietarios.sociedadAnonima.contrato.archivos)) 
+        toValidate.push({
+          attribute:'ArchivoContratoSA',
+          dataId:'',
+          error:'El  Contrato Constitutivo, junto con TODAS sus modificaciones hasta el día de hoy es obligatorio'
+        })
+      if(this.tramite.personeria==='SA' || this.tramite.personeria==='SRL'  || this.tramite.personeria==='OFS' &&  _.isEmpty(this.tramite.datosSocietarios.sociedadAnonima.modificacion.archivos)) 
+        toValidate.push({
+          attribute:'ArchivoMODIFICACIONContratoSA',
+          dataId:'',
+          error:'Elarchivo de la   Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J. es obligatorio'
         })
       if (this.tramite.personeria==='SRL'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.fecha)
         toValidate.push({
@@ -462,6 +486,20 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:"La fecha de la Modificación del objeto de la Sucursal en Argentina son obligatorios "
         })
+      if(this.tramite.personeria==='PJESP' &&  _.isEmpty(this.tramite.datosSocietarios.PJESP.archivosContrato)) 
+        toValidate.push({
+          attribute:'ArchivoContratoPJESP',
+          dataId:'',
+          error:'El archivo de la Inscripción efectiva de la sucursal en D.P.P.J. / I.G.J., junto con todas sus modificaciones es obligatorio'
+        })
+
+      if(this.tramite.personeria==='PJESP' &&  _.isEmpty(this.tramite.datosSocietarios.PJESP.archivoModificacion)) 
+        toValidate.push({
+          attribute:'ArchivoContratoModificiacionPJESP',
+          dataId:'',
+          error:'El archivo de la  Modificación del Objeto de la Sucursal Argentina al rubro Construcción inscripto en D.P.P.J / I.G.J. es obligatorio'
+        })
+
       if (this.tramite.personeria==='PJESP'  && !this.tramite.datosSocietarios.PJESP.fechaVencimiento.fecha)
         toValidate.push({
           attribute:'FechaVencimientoPJESPfecha',
@@ -496,7 +534,11 @@ class Validator implements ValidatorInterface {
             dataId:'',
             error:'La fecha de Vto de Ieric es requerido'
           })
+
+          
       }
+
+      
       return toValidate
     }  
 }

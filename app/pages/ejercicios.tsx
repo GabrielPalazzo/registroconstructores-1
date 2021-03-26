@@ -168,6 +168,7 @@ export default () => {
             label="Activo no Corriente"
             type="number" 
             labelRequired="*"
+            
             placeholder="000000,000 "
             min={0}
             step="any"

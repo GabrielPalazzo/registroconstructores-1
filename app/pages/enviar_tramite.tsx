@@ -37,6 +37,7 @@ export default () => {
       setErroresSeccionInformacionBasica(validatorTramite.parseInfomacionBasicaSection())
       setErroresSeccionDomicilio(validatorTramite.parseDomicilioSection())
       setErroresSeccionComercial(validatorTramite.parseDatosComercialesSection())
+      setErroresSeccionDDJJ(validatorTramite.parseDDJJSection())
       dispatch(setStatusGeneralTramite([
         validatorTramite.parseInfomacionBasicaSection().length > 0 ? 'error' : 'finish',
         validatorTramite.parseDomicilioSection().length > 0 || validatorTramite.parseDatosComercialesSection().length > 0 ? 'error' : 'finish',
@@ -114,6 +115,13 @@ export default () => {
                   <div className="font-bold">Información Comercial</div>
                   <ul>
                     {erroresSeccionComercial.map((e: ValidatorErrorElement) => <li>{e.error}</li>)}
+                  </ul>
+                </div> : ''}
+                {erroresSeccionDDJJ.length > 0 ?
+                <div className="mb-8">
+                  <div className="font-bold">Declaración Jurada de Balances</div>
+                  <ul>
+                    {erroresSeccionDDJJ.map((e: ValidatorErrorElement) => <li>{e.error}</li>)}
                   </ul>
                 </div> : ''}
             </div>
