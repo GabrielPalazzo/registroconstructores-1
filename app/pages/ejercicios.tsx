@@ -24,6 +24,7 @@ import numeral from 'numeral'
 import Wrapper from '../components/wrapper'
 import _ from 'lodash'
 import { RootState } from '../redux/store';
+import { LinkToFile } from '../components/linkToFile'
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -71,8 +72,8 @@ export default () => {
   const [pasivoNoCorriente, setPasivoNoCorriente] = useState(0)
   const [ventasDelEjercicio, setVentasDelEjercicio] = useState(0)
   const [capitalSuscripto, setCapitalSuscripto] = useState(0)
-  const [archivos,setArchivos] = useState([])
-  const [archivosActaAsamblea,setArchivosActaAsamblea] = useState([])
+  const [archivos,setArchivos] = useState<Array<Archivo>>([])
+  const [archivosActaAsamblea,setArchivosActaAsamblea] = useState<Array<Archivo>>([])
   const [error, setError] = useState(null)
   const [modo, setModo] = useState(MODO.NEW)
  const [showError, setShowError] = useState(false)
@@ -295,12 +296,15 @@ export default () => {
             labelMessageError=""
             defaultValue={archivosActaAsamblea as any}
             onOnLoad={file => {
-              archivos.push(file)
-              setArchivos(Object.assign([],archivosActaAsamblea))
+              archivosActaAsamblea.push(file)
+              setArchivosActaAsamblea(Object.assign([],archivosActaAsamblea))
             }}
             onRemove={fileToRemove => {
-              setArchivos(Object.assign([],archivosActaAsamblea.filter(f => f.cid!==fileToRemove.cid)))
+              setArchivosActaAsamblea(Object.assign([],archivosActaAsamblea.filter(f => f.cid!==fileToRemove.cid)))
             }}
+
+           
+					
           />
         </div>:''}
 
@@ -333,7 +337,8 @@ export default () => {
     setCierreEjercicio(r.fechaCierre)
     setInicioEjercicio(r.fechaInicio)
     setVentasDelEjercicio(r.ventasEjercicio)
-    setArchivos(Object.assign([],r.archivos))
+    setArchivos([])
+    setArchivosActaAsamblea([])
   }
 
   let columnsBalances = [
@@ -411,7 +416,12 @@ export default () => {
       title: isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto',
       dataIndex: 'capitalSuscripto',
       key: 'capitalSuscripto',
-    }
+    },
+    {
+			title: 'Adjunto',
+			render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)}  {record.archivosActaAsamblea && record.archivosActaAsamblea.map(f => <LinkToFile fileName={f.name} id={f.cid} />)}</div>,
+			key: 'adjunto',
+		}
   ]
 
   columnsBalances = isTramiteEditable(tramite)? columnsBalances : columnsBalances.slice(1,columnsBalances.length)
@@ -486,7 +496,7 @@ export default () => {
 		}
     
     if ((tramite.personeria === 'SA' || tramite.personeria === 'SRL'|| tramite.personeria === 'Cooperativa') && (_.isEmpty(archivosActaAsamblea))) {
-			setError('El balance contable es requerido')
+			setError('El acta  es requerido')
 			setShowError(true)
 			return
 		}
@@ -513,6 +523,8 @@ export default () => {
       archivosActaAsamblea
     })
     
+    setArchivos([])
+    setArchivosActaAsamblea([])
     setTramite(Object.assign({}, tramite))
     await save()
     setModalEjercicios(false)
@@ -529,6 +541,8 @@ export default () => {
     setPasivoNoCorriente(0)
     setCapitalSuscripto(0)
     setVentasDelEjercicio(0)
+    setArchivos([])
+    setArchivosActaAsamblea([])
   }
 
   return (<div>
