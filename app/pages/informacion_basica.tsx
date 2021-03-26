@@ -22,7 +22,7 @@ import generateCalendar from 'antd/lib/calendar/generateCalendar';
 import { TomarTramite } from '../components/tomarTramite';
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import Wrapper from '../components/wrapper'
-
+import _ from 'lodash'
 import dynamic from 'next/dynamic'
 import { RootState } from '../redux/store';
 const Upload = dynamic(() => import('../components/upload'))
@@ -163,6 +163,17 @@ export default (props) => {
       setShowError(true)
       return
     }
+    if (_.isEmpty(fotosDNIApoderado)) {
+			setError('La foto del dni es requerida')
+			setShowError(true)
+			return
+		}
+    if  ((tipoApoderado === 'Apoderado' || tipoApoderado === 'Rep Legal' ) && (_.isEmpty(actaAutoridadesApoderado))) {
+			setError('El documento es requerido ')
+			setShowError(true)
+			return
+		}
+
     tramite.apoderados.push({
       imagenesDni: [],
       apellido,

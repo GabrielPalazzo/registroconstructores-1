@@ -1,6 +1,6 @@
 import moment from "moment"
 import { getUsuario, isPersonaFisica } from "./business"
-
+import _ from 'lodash'
 
 interface ValidatorInterface {
     load: (t:TramiteAlta) => void
@@ -43,8 +43,20 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:'El CUIT es requerido'
         })
-      
-      
+        if(!this.tramite.tipoEmpresa)
+        toValidate.push({
+          attribute:'tipoEmpresa',
+          dataId:'',
+          error:'Deberá seleccionar al menos un tipo de empresa'
+        })
+        if(_.isEmpty(this.tramite.inscripcionAFIPConstancia)) 
+        toValidate.push({
+          attribute:'InscripcionConstancia',
+          dataId:'',
+          error:'La Constancia de Inscripción en AFIP es obligatoria'
+        })
+        
+        
       
       
       
@@ -77,6 +89,7 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:'El Nro de documento del conyuge es requerido'
         })
+        
       }
 
       
@@ -116,6 +129,12 @@ class Validator implements ValidatorInterface {
           attribute:'telefono',
           dataId:'',
           error:'Indíque un número de telefono para ser notificado'
+        })
+        if(_.isEmpty(this.tramite.constanciaDomicilioLegal)) 
+        toValidate.push({
+          attribute:'ConstanciaDomicilioLegal',
+          dataId:'',
+          error:'La Constancia del domicilio legal es obligatoria'
         })
       
       
@@ -162,6 +181,23 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:"Los datos del Alta de Afip  son requeridos"
         })
+
+      if(this.tramite.personeria==='PF' &&  _.isEmpty(this.tramite.datosSocietarios.personaFisica.constanciaInscripcion)) 
+        toValidate.push({
+          attribute:'ConstanciaInscripcionPF',
+          dataId:'',
+          error:'La Constancia de Inscripcion  es obligatoria'
+        })
+
+      if(this.tramite.personeria==='PF' &&  _.isEmpty(this.tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante)) 
+        toValidate.push({
+          attribute:'MatriculaComerciantePF',
+          dataId:'',
+          error:'La constancia de la matricula   es obligatoria'
+        })
+
+
+
       if (this.tramite.personeria==='PF' && !this.tramite.altaAFIP.fecha)
         toValidate.push({
           attribute:'altaAFIPfecha',
@@ -174,6 +210,7 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:"La fecha de la firma del contrato constitutivo es Obligatoria"
         })
+        
       if (this.tramite.personeria==='SRL'  && !this.tramite.datosSocietarios.sociedadAnonima.contrato.fecha)
         toValidate.push({
           attribute:'datosSocietariosContratoFecha',
@@ -318,6 +355,12 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:"La fecha de inscripción es obligatoria"
         })
+      if(this.tramite.personeria==='UTE' &&  _.isEmpty(this.tramite.datosSocietarios.ute.archivosContrato)) 
+        toValidate.push({
+          attribute:'ArchivoContratoUTE',
+          dataId:'',
+          error:'El Contrato de la U.T.E. y junto con TODAS sus modificaciones es obligatorio'
+        })
       if (this.tramite.personeria==='UTE'  && !this.tramite.datosSocietarios.ute.inscripcionUTE.datos)
         toValidate.push({
           attribute:'InscripcioncontratoUTEDatos',
@@ -330,17 +373,31 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:"La fecha de inscripcion de contrato es obligatoria "
         })
+      if(this.tramite.personeria==='UTE' &&  _.isEmpty(this.tramite.datosSocietarios.ute.modificacionUTE.archivos)) 
+        toValidate.push({
+          attribute:'modificacionUTE',
+          dataId:'',
+          error:'La Última modificación del Contrato de la U.T.E'
+        })
+
+
       if (this.tramite.personeria==='Cooperativa'  && !this.tramite.datosSocietarios.cooperativa.inscriptionINAES.datos)
         toValidate.push({
           attribute:'InscripcionINAESDatos',
           dataId:'',
           error:"Los datos de la inscripcion en INAES es Obligatoria "
         })
-      if (this.tramite.personeria==='Cooperativa'  && !this.tramite.datosSocietarios.cooperativa.inscriptionINAES.fecha)
+      if (this.tramite.personeria==='Cooperativa'  && !this.tramite.datosSocietarios.cooperativa.modificacionINAES.archivos)
         toValidate.push({
           attribute:'InscripcionINAESFecha',
           dataId:'',
-          error:"La fecha de la inscripcion en Inaes es obligatoria "
+          error:"el archivo de la Modificación del Objeto de la cooperativa a rubro construccion es obligatorio "
+        })
+      if(this.tramite.personeria==='Cooperativa' &&  _.isEmpty(this.tramite.datosSocietarios.cooperativa.archivoActaConstitutiva)) 
+        toValidate.push({
+          attribute:'rchivoActaConstitutivaCooperativa',
+          dataId:'',
+          error:'El Acta Constitutiva, junto con TODAS sus modificaciones hasta el día de hoy es obligatorio'
         })
 
       if (this.tramite.personeria==='Cooperativa'  && !this.tramite.datosSocietarios.cooperativa.archivoActaConstitutiva)
@@ -361,6 +418,13 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:"La fecha de la modificacion estatutaria en inaes es obligatoria "
         })  
+      if(this.tramite.personeria==='Cooperativa' &&  _.isEmpty(this.tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos)) 
+        toValidate.push({
+          attribute:'ArchivoultimaModifcacionINAESCooperativa',
+          dataId:'',
+          error:'El archivo de la  Última modificación estatutaria Inscripta en I.N.A.E.S. es obligatorio'
+        })
+
       if (this.tramite.personeria==='PJESP'  && !this.tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos)
         toValidate.push({
           attribute:'InscripcionConstitutivaPJESPDatos',
