@@ -168,7 +168,7 @@ export default (props) => {
 			setShowError(true)
 			return
 		}
-    if  ((tipoApoderado === 'Apoderado' || tipoApoderado === 'Rep Legal' ) && (_.isEmpty(actaAutoridadesApoderado))) {
+    if  ((tipoApoderado === 'Apoderado'  ) && (_.isEmpty(actaAutoridadesApoderado))) {
 			setError('El documento es requerido ')
 			setShowError(true)
 			return
@@ -971,11 +971,12 @@ export default (props) => {
           <div className="text-xl font-bold py-4 w-3/4">  Vínculos a Declarar</div>
 
           <div className="grid grid-cols-2  gap-4 mt-2 ">
+           
             <div >
+            <Wrapper title="¿Con cuál funcionario?" attributeName="funcionario" labelRequired="*">
               <SelectSimple
                 value={decretoTipoFuncionarios}
                 bindFunction={setDecretoTipoFuncionarios}
-                title="¿Con cuál funcionario?"
                 defaultOption="Seleccione el tipo de personeria"
                 labelRequired="*"
                 labelMessageError=""
@@ -983,14 +984,15 @@ export default (props) => {
                 option={tipoFuncionarios.map(u => (
                   <Option value={u.value}>{u.label}</Option>
                 ))} />
-
+</Wrapper>
             </div>
             <div className="flex" >
               <div className="w-full mr-2">
+              <Wrapper title="Tipo de vínculo" attributeName="vinculo" labelRequired="*">
+            
                 <SelectSimple
                   value={decretoTipoVinculo}
                   bindFunction={setDecretoTipoVinculo}
-                  title="Tipo de vínculo"
                   defaultOption="Seleccione el tipo de vinculo"
                   labelRequired="*"
                   labelMessageError=""
@@ -998,6 +1000,7 @@ export default (props) => {
                   option={tipoVinculo.map(u => (
                     <Option value={u.value}>{u.label}</Option>
                   ))} />
+                  </Wrapper>
               </div>
               <div className="  mt-8 ">
                 <Button type="primary" onClick={addPersonasAlDecreto} > Agregar</Button>
