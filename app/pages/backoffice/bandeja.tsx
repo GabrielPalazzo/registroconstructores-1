@@ -27,7 +27,7 @@ const customPanelStyle = {
   overflow: 'hidden',
 };
 
-
+const format = "DD/MM/YYYY HH:mm"
 
 export default () => {
 
@@ -115,7 +115,7 @@ export default () => {
                       </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
-                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -162,7 +162,7 @@ export default () => {
                       </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
-                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -209,7 +209,7 @@ export default () => {
                       </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
-                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -255,7 +255,7 @@ export default () => {
                       </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
-                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -300,7 +300,7 @@ export default () => {
                       </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
-                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -345,7 +345,7 @@ export default () => {
                       </Tag>}
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
-                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('dd/mm/yyyy hh:mm')}<br />
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
