@@ -166,39 +166,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       <div className="text-xl font-bold mt-4 mb-4">Obras adjudicadas y/o en ejecución</div>
       <Table columns={columnsObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
 
-      {/*
-   <Collapse defaultActiveKey={['1']} onChange={callback}>
-        <Panel header="Razón Social:" key="1">
-          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.razonSocial}</div>
-        </Panel>
-        <Panel header="CUIT:" key="2">
-          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.cuit}</div>
-        </Panel>
-        <Panel header="Estado de la empresa:" key="3">
-          <div className="text-sm  text-black-700 "> <Tag color={getColorStatus(activeProfile)}>{activeProfile && activeProfile.status}</Tag></div>
-        </Panel>
-        <Panel header="Aclaraciones al estado:" key="4">
-          <div className="text-sm  text-black-700 ">
-            {getObservacionesTecnicoRaw(getReviewAbierta(activeProfile)) ? `Trámite correspondiente a Inscripción ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas iniciado el ${moment(activeProfile.createdAt).format('LLL')}.` : ''}
-            </div>
-        </Panel>
-        <Panel header="Tipo de empresa:" key="5">
-          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.tipoEmpresa}</div>
-        </Panel>
-        <Panel header="Capacidad de contratación y ejecución:" key="6">
-          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
-        </Panel>
-        <Panel header="Fecha del último cálculo de capacidad:" key="7">
-          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
-        </Panel>
-        <Panel header="Constancia de Inscripción" key="8">
-          <div className="text-lg font-bold text-black-700  ">
-            <Button style={{ color: "#0072bb", fontWeight: "bold", textAlign: "left", padding: 0, }} type="link">
-              <CloudDownloadOutlined /> Descargar
-              </Button>
-          </div>
-        </Panel>
-      </Collapse> */}
+
 
     </Modal>
 
@@ -304,18 +272,17 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                 <Card className="rounded h-full " style={{ background: "#525252" }}
 
                   actions={[
-                    
-                    <div className="text-left pl-4">
-                      <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                        onClick={() => {
-                          showModal()
-                          setActiveProfile(e)
-                          setShowProfile(true)
-                        }}> <EyeOutlined /> Ver Certificado</Button></div>,
-
-                   // <div className="text-left pl-4">
-                    //  <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                     //   onClick={showModalObservaciones}> <EyeOutlined /> Ver Observaciones</Button></div>,
+                    <div>
+                      {status === 'OBSERVADO' ||status === 'BORRADOR'  ?  <div className="text-left pl-4">
+                        <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                          onClick={() => {
+                            showModal()
+                            setActiveProfile(e)
+                            setShowProfile(true)
+                          }}> <EyeOutlined /> Ver Certificado</Button></div>: <div className="text-left pl-4">
+                          <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                            onClick={showModalObservaciones}> <EyeOutlined /> Ver Observaciones</Button>
+                        </div> }</div>,
 
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
@@ -333,7 +300,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-                    <Tag >{e.categoria}</Tag>
+                      <Tag >{e.categoria}</Tag>
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                     </div>
                   </div>
@@ -373,7 +340,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-                    <Tag >{e.categoria}</Tag>
+                      <Tag >{e.categoria}</Tag>
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                     </div>
                   </div>
@@ -415,7 +382,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-                    <Tag >{e.categoria}</Tag>
+                      <Tag >{e.categoria}</Tag>
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                     </div>
                   </div>
@@ -455,7 +422,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-                    <Tag >{e.categoria}</Tag>
+                      <Tag >{e.categoria}</Tag>
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                     </div>
                   </div>
