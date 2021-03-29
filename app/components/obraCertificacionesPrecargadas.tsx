@@ -58,14 +58,19 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     {
       title: 'Periodo',
       key: 'periodo',
-      render: (text, record) => <div>{moment(record.periodo, 'DD/MM/YYYY').format('MMMM YYYY')}</div>
+      sorter: (a, b) => moment(a.periodo).unix() - moment(b.periodo).unix(),
+     render: (text, record) => <div>{moment(record.periodo, 'DD/MM/YYYY').format('MMMM YYYY')}</div>
     }, {
       title: 'Monto',
+      key:'monto',
+      sorter: (a, b) =>a.monto -b.monto,
       render: (text,record) => <div>{numeral(record.monto).format('$0,0.00')}</div>
     },
     {
       title: 'Descripción',
-      render: (text,record) => <div>{descripcion}</div>
+      key:'descripcion',
+      dataIndex: 'descripcion',
+      //render: (text,record) => <div>{descripcion}</div>
     },
     {
 			title: 'Adjunto',
@@ -107,11 +112,13 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       codigo: periodoSeleccionado ? periodoSeleccionado.codigo : getUniqCode(),
       periodo,
       monto,
+      descripcion,
       archivos
     })
 
     setPeriodo('')
     setMonto(0)
+    setDescripcion('')
     setPeriodoSeleccionado(null)
     setArchivos([])
     obra.certificaciones = periodosCopy
@@ -122,6 +129,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   const clearState = () => {
     setPeriodo('')
     setMonto(0)
+    setDescripcion('')
     setPeriodoSeleccionado(null)
  
   }
@@ -177,7 +185,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
           labelRequired="*"
           labelMessageError=""
           value={descripcion}
-          bindFunction={setDescripcion}
+          bindFunction={(value) => { setDescripcion(value) }}
         />
       </div>
       <div >
@@ -204,7 +212,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
 
     <div>
-      <Table pagination={false} columns={columns} dataSource={Object.assign([],obra.certificaciones)}
+      <Table pagination={false} columns={columns} dataSource={Object.assign([],obra.certificaciones)}  
         summary={pageData => {
 
           return <div>
