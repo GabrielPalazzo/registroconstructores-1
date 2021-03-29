@@ -380,19 +380,28 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             label="Adjunte Acta "
             labelRequired="*"
             labelMessageError=""
-            defaultValue={(obra.actasObra ? Object.assign([],obra.actasObra ): Object.assign([],[])) as any}
-            onOnLoad={file => {
-              if (!obra.actasObra)
-                obra.actasObra = []
+           // defaultValue={(obra.actasObra ? Object.assign([],obra.actasObra ): Object.assign([],[])) as any}
+           // onOnLoad={file => {
+             // if (!obra.actasObra)
+               // obra.actasObra = []
 
-              obra.actasObra.push(file)
-              onChange(Object.assign({},obra))
-            }}
-            onRemove={fileToRemove => {
-              obra.actasObra = obra.actasObra.filter(f => f.cid !== fileToRemove.cid)
-              onChange(Object.assign({},obra))
+              //obra.actasObra.push(file)
+              //onChange(Object.assign({},obra))
+            //}}
+            //onRemove={fileToRemove => {
+              //obra.actasObra = obra.actasObra.filter(f => f.cid !== fileToRemove.cid)
+              //onChange(Object.assign({},obra))
               // setActas(Object.assign([], actas.filter(f => f.cid !== fileToRemove.cid)))
-            }}
+           // }}
+
+           defaultValue={actas as any}
+           onOnLoad={file => {
+             actas.push(file)
+             setActas(Object.assign([], actas))
+           }}
+           onRemove={fileToRemove => {
+             setActas(Object.assign([], actas.filter(f => f.cid !== fileToRemove.cid)))
+           }}
 
 
           />
