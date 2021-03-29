@@ -380,29 +380,6 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             label="Adjunte Acta "
             labelRequired="*"
             labelMessageError=""
-<<<<<<< HEAD
-            defaultValue={actas  as any}
-            onOnLoad={file => {
-              actas.push(file)
-              setActas(Object.assign([], actas))
-            }}
-            //onOnLoad={file => {
-              //if (!obra.actasObra)
-                //obra.actasObra = []
-
-             // obra.actasObra.push(file)
-             // onChange(Object.assign({},obra))
-           // }}
-
-           onRemove={fileToRemove => {
-            setActas(Object.assign([], actas.filter(f => f.cid !== fileToRemove.cid)))
-          }}
-           // onRemove={fileToRemove => {
-             // obra.actasObra = obra.actasObra.filter(f => f.cid !== fileToRemove.cid)
-              //onChange(Object.assign({},obra))
-              // setActas(Object.assign([], actas.filter(f => f.cid !== fileToRemove.cid)))
-            //}}
-=======
            // defaultValue={(obra.actasObra ? Object.assign([],obra.actasObra ): Object.assign([],[])) as any}
            // onOnLoad={file => {
              // if (!obra.actasObra)
@@ -426,9 +403,8 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
              setActas(Object.assign([], actas.filter(f => f.cid !== fileToRemove.cid)))
            }}
 
->>>>>>> 1.22
 
-            />
+          />
         </div>
         <div className="mt-8 ">
           <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
