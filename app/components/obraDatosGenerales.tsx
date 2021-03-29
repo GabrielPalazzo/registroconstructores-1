@@ -235,6 +235,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
     //obra.datosObra = obra.datosObra.filter((o: DatosObraGeneral) => o.codigo !== codigo) 
     //obra.datosObra = Object.assign({}, dataSource)
+    setActas([])
     onChange(Object.assign({}, obra))
     clearState()
     
@@ -247,6 +248,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     setfechaAdjudicacion("")
     setfechaFin("")
     setfechaInicio("")
+    setActas([])
   }
 
 
