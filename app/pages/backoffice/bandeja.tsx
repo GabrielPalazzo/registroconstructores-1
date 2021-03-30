@@ -27,7 +27,7 @@ const customPanelStyle = {
   overflow: 'hidden',
 };
 
-
+const format = "DD/MM/YYYY HH:mm"
 
 export default () => {
 
