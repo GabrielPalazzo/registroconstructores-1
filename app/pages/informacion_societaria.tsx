@@ -1591,17 +1591,20 @@ export default () => {
                     if (!tramite.datosSocietarios.sociedadAnonima.contrato.archivos)
                       tramite.datosSocietarios.sociedadAnonima.contrato.archivos = []
                     tramite.datosSocietarios.sociedadAnonima.contrato.archivos.push(file)
-                    updateObjTramite()
+                    
                     save()
                     setIsLoading(false)
                   }}
                   onRemove={fileToRemove => {
                     tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid !== fileToRemove.cid)
-                    updateObjTramite()
+                    
                     save()
                     setIsLoading(false)
                   }}
                 />
+
+
+                
                 </Wrapper>
               </div>
 

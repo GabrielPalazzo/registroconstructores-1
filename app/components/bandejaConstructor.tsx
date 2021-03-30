@@ -177,12 +177,14 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       width={1000}>
 
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile && activeProfile.razonSocial}</div>
+     
       <Timeline>
-        {tramites.map((e: TramiteAlta) => (
-          <Timeline.Item> {e.rechazos} </Timeline.Item>
-        ))}
+        
+          <Timeline.Item> No posee observaciones </Timeline.Item>
+        
 
       </Timeline>
+     
 
     </Modal>
 
@@ -195,6 +197,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
                 <Card className="rounded h-full " style={{ background: "#525252" }}
                   actions={[
+                   
                     <div className="text-left pl-4">
                       <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
                         onClick={() => {
