@@ -53,12 +53,19 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:'Deberá seleccionar al menos un tipo de empresa'
         })
+
         if(_.isEmpty(this.tramite.inscripcionAFIPConstancia)) 
         toValidate.push({
           attribute:'InscripcionConstancia',
           dataId:'',
           error:'La Constancia de Inscripción en AFIP es obligatoria'
         })
+        if(_.isEmpty(this.tramite.apoderados) )
+      toValidate.push({
+        attribute:'apoderado',
+        dataId:'',
+        error:'Deberá cargar, al menos, un usuario Administrador Legitimado, el cual deberá confirmar el trámite.'
+      })
         
         
         
