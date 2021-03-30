@@ -61,12 +61,7 @@ class Validator implements ValidatorInterface {
         })
         
         
-        if(this.tramite.personeria==='SA' &&  (_.isEmpty(!this.tramite.apoderados)) ) 
-        toValidate.push({
-          attribute:'apoderados',
-          dataId:'',
-          error:'Deberá cargar, al menos, un usuario Administrador Legitimado, el cual deberá confirmar el trámite.'
-        })
+        
       
       
 
