@@ -396,9 +396,10 @@ export default () => {
       sorter: (a, b) => a.activoCorriente - b.activoCorriente,
     },
     {
-      title: 'Activo no Corriente',
-      render: (text,record: Ejercicio)=><div>{numeral(record.activoNoCorriente).format('$0,0.00')}</div>,
+      title: 'Activo No Corriente',
+      render: (text,record: Ejercicio)=><div>{numeral(record.activoNoCorriente ).format('$0,0.00')}</div>,
       key: 'activoNoCorriente',
+      sorter: (a, b) => a.activoNoCorriente - b.activoNoCorriente,
     },
 
     {
@@ -408,19 +409,22 @@ export default () => {
       sorter: (a, b) => a.pasivoCorriente - b.pasivoCorriente,
     },
     {
-      title: 'Pasivo no  Corriente',
-      render: (text,record: Ejercicio)=><div>{numeral(record.pasivoNoCorriente).format('$0,0.00')}</div>,
+      title: 'Pasivo Total',
+      render: (text,record: Ejercicio)=><div>{numeral(record.pasivoNoCorriente ).format('$0,0.00')}</div>,
       key: 'pasivoNoCorriente',
+      sorter: (a, b) => a.pasivoNoCorriente - b.pasivoNoCorriente,
     },
     {
       title: 'Ventas del ejercicio',
       render: (text,record: Ejercicio)=><div>{numeral(record.ventasEjercicio).format('$0,0.00')}</div>,
       key: 'ventasDelEjercicio',
+      sorter: (a, b) => a.ventasEjercicio - b.ventasEjercicio,
     },
     {
       title: isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto',
       dataIndex: 'capitalSuscripto',
       key: 'capitalSuscripto',
+      sorter: (a, b) => a.capitalSuscripto - b.capitalSuscripto,
     },
     {
 			title: 'Adjunto',

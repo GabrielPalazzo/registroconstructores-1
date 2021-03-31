@@ -11,6 +11,7 @@ import InputNumberModal from './input_number'
 import { LinkToFile } from './linkToFile'
 import _ from 'lodash'
 import { RootState } from '../redux/store'
+import moment from 'moment'
 
 export interface ObrasRedeterminacionesProps {
 	obra: DDJJObra
@@ -50,12 +51,14 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		{
 			title: 'Fecha',
 			dataIndex: 'fecha',
-			key: 'fecha'
+			key: 'fecha',
+			sorter: (a, b) => a.fecha - b.fecha,
 		},
 		{
 			title: 'Monto',
 			dataIndex: 'monto',
-			key: 'monto'
+			key: 'monto',
+			sorter: (a, b) => a.monto - b.monto,
 		},
 		{
 			title: 'Descripción',
