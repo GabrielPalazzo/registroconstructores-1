@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Button, DatePicker, Tooltip,ConfigProvider} from 'antd';
+import { Button, DatePicker, Tooltip, ConfigProvider } from 'antd';
 import moment from 'moment'
 import { isTramiteEditable } from '../services/business';
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from '../redux/store';
 
 function onChange(date, dateString) {
@@ -26,10 +26,11 @@ interface Props {
 
 export default (props: Props) => {
 
-  const tramite : TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
+  console.log(props.value)
+  const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
 
   return (<div >
-     
+
     <div className="flex">
       {props.label && <div className="w-5/5 mb-2">
         <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span> </label>
@@ -37,13 +38,13 @@ export default (props: Props) => {
     </div>
     <div className="w-full">
 
-    <DatePicker 
+      <DatePicker
 
         disabled={props.isEditable === undefined ? false : !props.isEditable || props.locked}
         onChange={(value) => {
-          props.bindFunction(moment(value,dateFormat).format(dateFormat))
+          props.bindFunction(moment(value, dateFormat).format(dateFormat))
         }}
-        defaultValue={props.value &&  moment(props.value,dateFormat) }
+        value={props.value && moment(props.value, dateFormat)}
         picker={props.placeholder}
         format={dateFormat} />
     </div>

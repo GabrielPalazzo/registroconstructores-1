@@ -753,7 +753,9 @@ export default (props) => {
               save()
             }}
             onRemove={fileToRemove => {
-              tramite.inscripcionAFIPConstancia = tramite.inscripcionAFIPConstancia.filter(f => f.cid !== fileToRemove.cid)
+              console.log(fileToRemove)
+
+              tramite.inscripcionAFIPConstancia = tramite.inscripcionAFIPConstancia.filter(f => f.cid !== fileToRemove.uid)
               save()
             }}
             labelMessageError="" />

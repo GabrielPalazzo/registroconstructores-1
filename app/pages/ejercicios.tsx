@@ -375,11 +375,7 @@ export default () => {
         setModo(MODO.VIEW)
         setModalEjercicios(true)
       }}><FolderViewOutlined /></div>
-    },//{
-      //title: 'Obs',
-     // render: (text,record) => <div className="text-green-500 font-bold">APROBADO</div>,
-     // key:'obsss'
-    //  },
+    },
     {
       title: 'Inicio de ejercicio',
       dataIndex: 'fechaInicio',
@@ -542,8 +538,8 @@ export default () => {
   }
 
   const clearState = () => {
-    setCierreEjercicio('')
-    setInicioEjercicio('')
+    setCierreEjercicio(null)
+    setInicioEjercicio(null)
     setActivoCorriente(0)
     setActivoNoCorriente(0)
     setPasivoCorriente(0)
