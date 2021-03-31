@@ -57,7 +57,8 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     {
       title: 'Monto',
       dataIndex: 'monto',
-      key: 'monto'
+      key: 'monto',
+      sorter: (a, b) => a.monto - b.monto,
     },
     {
       title: 'Descripción',

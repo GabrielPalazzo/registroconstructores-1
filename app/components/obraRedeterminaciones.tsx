@@ -57,7 +57,8 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		{
 			title: 'Monto',
 			dataIndex: 'monto',
-			key: 'monto'
+			key: 'monto',
+			sorter: (a, b) => a.monto - b.monto,
 		},
 		{
 			title: 'Descripción',
