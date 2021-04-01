@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { NavigationStep } from '../components/steps'
 import { InputText } from '../components/input_text'
 import { HeaderPrincipal } from '../components/header'
-import { Button, Steps, Card } from 'antd';
+import { Button, Steps, Card, Result } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
 import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, sendTramite } from '../services/business';
@@ -24,7 +24,7 @@ export default () => {
   const [erroresSeccionComercial, setErroresSeccionComercial] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionDDJJ, setErroresSeccionDDJJ] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionObras, setErroresSeccionObras] = useState<Array<ValidatorErrorElement>>([])
-
+  const [puedeEnviarTramimte, setPuedeEnviarTramite] = useState(false)
   const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   useEffect(() => {
@@ -34,6 +34,7 @@ export default () => {
     if (tramite.status === 'BORRADOR') {
 
       validatorTramite.load(tramite)
+      setPuedeEnviarTramite(validatorTramite.habilitadoParaEnviarTramiteAlRegistro())
       setErroresSeccionInformacionBasica(validatorTramite.parseInfomacionBasicaSection())
       setErroresSeccionDomicilio(validatorTramite.parseDomicilioSection())
       setErroresSeccionComercial(validatorTramite.parseDatosComercialesSection())
@@ -65,6 +66,15 @@ export default () => {
   }
 
   const EnviarParaPreInscripcion = () => {
+
+    if (!puedeEnviarTramimte){
+      return <Result
+      status="403"
+      title="No puede enviar el tramite"
+      subTitle="Lo lamento, pero solo un administrador legitimado o titular puede enviar el trámite al registro"
+      extra={<Button onClick={() => router.push('/')} type="primary">Volver a la bandeja</Button>}
+    />
+    }
     return <div className="px-20 py-6 text-center m-auto mt-6">
       <div className="text-2xl font-bold py-4 text-center"> Enviar trámite</div>
       {erroresSeccionInformacionBasica.length === 0
@@ -80,7 +90,7 @@ export default () => {
             <div className="text-muted-700 text-sm  mt-2 self-center"  > Puede revisar cada uno de los pasos haciendo click en los mismos</div>
           </Card>
           <div className="mt-6 pt-4 text-center">
-            <Button type="primary" onClick={() => {
+            <Button disabled={!puedeEnviarTramimte} type="primary" onClick={() => {
               setIsLoading(true)
               sendTramite(tramite).then(result => {
                 dispatch(saveTramite(result))

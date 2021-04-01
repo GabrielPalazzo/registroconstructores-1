@@ -76,7 +76,8 @@ export class MigrateService extends ConnectionManager {
     return axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/Get?id=${codigoProveedor}`, {
       httpsAgent: this.httpsAgent,
       headers: {
-        "Cookie": this.CONTRATAR_KEY
+        "Authorization": `Bearer ${this.CONTRATAR_KEY}`,
+        "AuthorizationMethod": 'APIKEY'
       }
     }).then(async result => {
       if (result.data) {
@@ -99,10 +100,12 @@ export class MigrateService extends ConnectionManager {
     return axios.get(`${process.env.URL_CONTRATAR}/API/InformacionBasicaProveedor/GetByFilter?id=null&idProveedor=${codigoProveedor}`, {
       httpsAgent: this.httpsAgent,
       headers: {
-        "Cookie": this.CONTRATAR_KEY
+        "Authorization": `Bearer ${this.CONTRATAR_KEY}`,
+        "AuthorizationMethod": 'APIKEY'
       }
     }).then(async result => {
       if (result.data) {
+        console.log(result)
         await db.collection('oldDatosInfoBasica').save({
           _id: codigoProveedor,
           ...result.data.Data
@@ -121,7 +124,8 @@ export class MigrateService extends ConnectionManager {
     return axios.get(`${process.env.URL_CONTRATAR}/API/DDJJBalances/Search/?idProveedor=${codigoProveedor}`, {
       httpsAgent: this.httpsAgent,
       headers: {
-        "Cookie": this.CONTRATAR_KEY
+        "Authorization": `Bearer ${this.CONTRATAR_KEY}`,
+        "AuthorizationMethod": 'APIKEY'
       }
     }).then(async result => {
       if (result.data) {
@@ -139,7 +143,8 @@ export class MigrateService extends ConnectionManager {
     const result = await axios.get(`${process.env.URL_CONTRATAR}/API/ObraProveedor/GetByFilter?id=${idRegistro}&idProveedor=${codigoProveedor}&estadoObra=undefined`, {
       httpsAgent: this.httpsAgent,
       headers: {
-        "Cookie": this.CONTRATAR_KEY
+        "Authorization": `Bearer ${this.CONTRATAR_KEY}`,
+        "AuthorizationMethod": 'APIKEY'
       }
     }).then(r => r.data.Data)
     return result
@@ -153,7 +158,8 @@ export class MigrateService extends ConnectionManager {
     return axios.get(`${process.env.URL_CONTRATAR}/API/ObraProveedor/GetSmall?id=null&idProveedor=${codigoProveedor}&estadoObra=undefined`, {
       httpsAgent: this.httpsAgent,
       headers: {
-        "Cookie": this.CONTRATAR_KEY
+        "Authorization": `Bearer ${this.CONTRATAR_KEY}`,
+        "AuthorizationMethod": 'APIKEY'
       }
     }).then(async obras => {
       if (obras.data) {
@@ -198,7 +204,8 @@ export class MigrateService extends ConnectionManager {
     return axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/ObtenerDatosConstancia?id=${codigoProveedor}&fecha=Thu%20Mar%2018%202021`, {
       httpsAgent: this.httpsAgent,
       headers: {
-        "Cookie": this.CONTRATAR_KEY
+        "Authorization": `Bearer ${this.CONTRATAR_KEY}`,
+        "AuthorizationMethod": 'APIKEY'
       }
     }).then(async result => {
       if (result.data) {

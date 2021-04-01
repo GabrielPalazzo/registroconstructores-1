@@ -20,7 +20,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
 
   
   if (!req.body) return res.status(400).send('You must write something');
-
+  console.log(req.body._id)
   if(req.body._id) {
     // get by id
     await req.db
