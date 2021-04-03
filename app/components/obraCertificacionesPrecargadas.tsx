@@ -10,6 +10,7 @@ import InputNumberModal from './input_number'
 import numeral from 'numeral'
 import { LinkToFile } from './linkToFile'
 import _ from 'lodash'
+import DatePickerModal from './datePicker_Modal'
 
 export interface CertificacionesPrecargadasProps {
   obra: DDJJObra,
@@ -116,7 +117,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       archivos
     })
 
-    setPeriodo('')
+    setPeriodo(null)
     setMonto(0)
     setDescripcion('')
     setPeriodoSeleccionado(null)
@@ -127,7 +128,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   }
 
   const clearState = () => {
-    setPeriodo('')
+    setPeriodo(null)
     setMonto(0)
     setDescripcion('')
     setPeriodoSeleccionado(null)
@@ -153,7 +154,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     <div className="grid grid-cols-4 gap-4 ">
 
       <div >
-        <DatePicker
+        <DatePickerModal
           picker='month'
           placeholder="Periodo (mm/yyyy)"
           label="Periodo"
