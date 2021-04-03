@@ -78,7 +78,7 @@ export default () => {
   const [modo, setModo] = useState(MODO.NEW)
  const [showError, setShowError] = useState(false)
 
-  
+
 
   useEffect(() => {
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
@@ -343,6 +343,7 @@ export default () => {
     setVentasDelEjercicio(r.ventasEjercicio)
     setArchivos([])
     setArchivosActaAsamblea([])
+
   }
 
   let columnsBalances = [
@@ -374,6 +375,7 @@ export default () => {
         cargarEjercicio(record)
         setModo(MODO.VIEW)
         setModalEjercicios(true)
+        
       }}><FolderViewOutlined /></div>
     },//{
       //title: 'Obs',
@@ -458,6 +460,7 @@ export default () => {
       clearState()
       return
     }
+    
   
     if (!tramite.ejercicios)
       tramite.ejercicios = []
@@ -538,6 +541,8 @@ export default () => {
     
     setArchivos([])
     setArchivosActaAsamblea([])
+    setCierreEjercicio(null)
+    setInicioEjercicio(null)
     setTramite(Object.assign({}, tramite))
     await save()
     setModalEjercicios(false)
@@ -546,8 +551,8 @@ export default () => {
   }
 
   const clearState = () => {
-    setCierreEjercicio('')
-    setInicioEjercicio('')
+    setCierreEjercicio(null)
+    setInicioEjercicio(null)
     setActivoCorriente(0)
     setActivoNoCorriente(0)
     setPasivoCorriente(0)
@@ -604,7 +609,7 @@ export default () => {
         visible={modalEjercicios}
         okText="Guardar"
         cancelText="Cancelar"
-        onCancel={() => setModalEjercicios(false)}
+        onCancel={() => setModalEjercicios(false) }
         width={1000}
         footer={[
         <Button onClick={() => setModalEjercicios(false)}>Cancel</Button>,

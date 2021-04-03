@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty, Alert, message, Timeline } from 'antd'
 import { Space } from 'antd'
-import { eliminarBorrador, getColorStatus, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
+import { eliminarBorrador, getColorStatus, rechazarTramite , getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
 import { setUpdateBorrador } from '../redux/actions/main'
 import { useRouter } from 'next/router'
@@ -65,6 +65,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
   const [showProfile, setShowProfile] = useState(false)
   const [activeProfile, setActiveProfile] = useState<TramiteAlta>(null)
   const [modalObservaciones, setModalObservaciones] = useState(false)
+  const [motivo, setMotivo] = useState('')
 
 
   const EliminarBorrador = (props) => {
@@ -177,13 +178,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       width={1000}>
 
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile && activeProfile.razonSocial}</div>
-     
-      <Timeline>
-        
-          <Timeline.Item> No posee observaciones </Timeline.Item>
-        
-
-      </Timeline>
+      
+      <div className=" text-muted-700 text-xs">{motivo}</div>
+       
      
 
     </Modal>

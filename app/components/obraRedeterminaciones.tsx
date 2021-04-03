@@ -108,18 +108,19 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		})
 		// setDataSource(Object.assign([], dataSource))
 		// obra.redeterminaciones = Object.assign([], dataSource)
-		onChange(Object.assign({},obra))
+		
 		setMonto(0)
 		setFecha(null)
 		setDescripcion('')
 		setArchivos([])
+		onChange(Object.assign({},obra))
 		clearState()
 		
 	}
 
 	const clearState = () => {
 		setMonto(0)
-		setFecha('')
+		setFecha(null)
 		setDescripcion('')
 		setArchivos([])
 	  }
