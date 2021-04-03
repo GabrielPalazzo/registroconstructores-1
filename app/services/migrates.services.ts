@@ -7,10 +7,13 @@ import { getCodigoObra, getEmptyTramiteAlta, getTramiteByCUIT } from './business
 import _ from 'lodash'
 import moment from 'moment'
 
+
+
 class ConnectionManager {
   public CONTRATAR_URL
   public CONTRATAR_KEY
   public client
+  public headers 
 
   public httpsAgent = new https.Agent({
     rejectUnauthorized: false,
@@ -23,6 +26,13 @@ class ConnectionManager {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+
+    this.headers = process.env.CONTRATAR_AUTH_MODE ? {
+      "Authorization": `Bearer ${this.CONTRATAR_KEY}`,
+      "AuthorizationMethod": 'APIKEY'
+    } : {
+      Cookie: this.CONTRATAR_KEY
+    }
 
   }
 
@@ -38,9 +48,7 @@ class ConnectionManager {
     try {
       const result = await axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/ObtenerDatosConstancia?id=11444fecha=Sun%20Mar%2007%202021`, {
         httpsAgent: this.httpsAgent,
-        headers: {
-          "Cookie": this.CONTRATAR_KEY
-        }
+        headers:this.headers
       })
       return {
         success: true,
@@ -60,9 +68,6 @@ class ConnectionManager {
 export class MigrateService extends ConnectionManager {
 
 
-
-  
-
   async proveedorYaMigrado(codigoProveedor) {
    
     const db = this.client.db(config.registro.dataBase)
@@ -75,16 +80,13 @@ export class MigrateService extends ConnectionManager {
 
     return axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/Get?id=${codigoProveedor}`, {
       httpsAgent: this.httpsAgent,
-      headers: {
-        "Cookie": this.CONTRATAR_KEY
-      }
+      headers: this.headers
     }).then(async result => {
       if (result.data) {
         await db.collection('oldDatosPreInscripcion').save({
           _id: codigoProveedor,
           ...result.data
         })
-
 
         console.log('PreInscripcion Migrada')
       }
@@ -98,11 +100,10 @@ export class MigrateService extends ConnectionManager {
 
     return axios.get(`${process.env.URL_CONTRATAR}/API/InformacionBasicaProveedor/GetByFilter?id=null&idProveedor=${codigoProveedor}`, {
       httpsAgent: this.httpsAgent,
-      headers: {
-        "Cookie": this.CONTRATAR_KEY
-      }
+      headers: this.headers
     }).then(async result => {
       if (result.data) {
+        console.log(result)
         await db.collection('oldDatosInfoBasica').save({
           _id: codigoProveedor,
           ...result.data.Data
@@ -117,12 +118,9 @@ export class MigrateService extends ConnectionManager {
 
     const db = this.client.db(config.registro.dataBase)
 
-
     return axios.get(`${process.env.URL_CONTRATAR}/API/DDJJBalances/Search/?idProveedor=${codigoProveedor}`, {
       httpsAgent: this.httpsAgent,
-      headers: {
-        "Cookie": this.CONTRATAR_KEY
-      }
+      headers: this.headers
     }).then(async result => {
       if (result.data) {
         await db.collection('oldBalances').save({
@@ -138,9 +136,7 @@ export class MigrateService extends ConnectionManager {
 
     const result = await axios.get(`${process.env.URL_CONTRATAR}/API/ObraProveedor/GetByFilter?id=${idRegistro}&idProveedor=${codigoProveedor}&estadoObra=undefined`, {
       httpsAgent: this.httpsAgent,
-      headers: {
-        "Cookie": this.CONTRATAR_KEY
-      }
+      headers: this.headers
     }).then(r => r.data.Data)
     return result
   }
@@ -152,9 +148,7 @@ export class MigrateService extends ConnectionManager {
 
     return axios.get(`${process.env.URL_CONTRATAR}/API/ObraProveedor/GetSmall?id=null&idProveedor=${codigoProveedor}&estadoObra=undefined`, {
       httpsAgent: this.httpsAgent,
-      headers: {
-        "Cookie": this.CONTRATAR_KEY
-      }
+      headers: this.headers
     }).then(async obras => {
       if (obras.data) {
 
@@ -197,9 +191,7 @@ export class MigrateService extends ConnectionManager {
 
     return axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/ObtenerDatosConstancia?id=${codigoProveedor}&fecha=Thu%20Mar%2018%202021`, {
       httpsAgent: this.httpsAgent,
-      headers: {
-        "Cookie": this.CONTRATAR_KEY
-      }
+      headers: this.headers
     }).then(async result => {
       if (result.data) {
         await db.collection('certificados').save({

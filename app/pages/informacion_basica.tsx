@@ -753,7 +753,9 @@ export default (props) => {
               save()
             }}
             onRemove={fileToRemove => {
-              tramite.inscripcionAFIPConstancia = tramite.inscripcionAFIPConstancia.filter(f => f.cid !== fileToRemove.cid)
+              console.log(fileToRemove)
+
+              tramite.inscripcionAFIPConstancia = tramite.inscripcionAFIPConstancia.filter(f => f.cid !== fileToRemove.uid)
               save()
             }}
             labelMessageError="" />
@@ -880,7 +882,20 @@ export default (props) => {
 
         <Wrapper isTitle title={isPersonaFisica ? 'Apoderados / Usuarios *' : 'Apoderados y/o Representantes legales *'} attributeName="datosApoderados">
         {isTramiteEditable(tramite) ? <div className="  text-right content-center -mt-8 mb-4 ">
-            <Button type="primary" onClick={showModal} icon={<PlusOutlined />}> Agregar</Button>
+            <Button type="primary" onClick={() => {
+              setNombre('')
+              setApellido('')
+              setTipoDocumentoApoderado('')
+              setNroDocumentoApoderado('')
+              setEmailApoderado('')
+              setTipoApoderado(null)
+              setCuitApoderado('')
+              setEsAdministradorLegitimado(false)
+              setFotosDNIApoderado([])
+              setActaAutoridadesApoderado([])
+              
+              showModal()
+            }} icon={<PlusOutlined />}> Agregar</Button>
           </div> : ''}
         <Modal
           title="Datos del Usuario"

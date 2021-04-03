@@ -7,11 +7,16 @@ const handler = nextConnect();
 handler.use(middleware);
 
 handler.get(async (req: any, res: NextApiResponse) => {
-  console.log('ingreso a la funcion')
+  console.log(req.user.cuit)
   const tramites = await req.db
     .collection('tramites')
-    .find({'creatorId.cuit': req.user.cuit}
-    )
+    .find({
+      "$or":[
+        {'creatorId.cuit': req.user.cuit},
+        {"apoderados" : {"$elemMatch":{"cuit":parseInt(req.user.cuit)}}},
+        {"apoderados" : {"$elemMatch":{"cuit":req.user.cuit}}}
+      ]
+    })
     .toArray();
   res.send({ tramites });
 });
