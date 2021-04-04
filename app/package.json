@@ -9,6 +9,7 @@
     "tailwind:css": "tailwindcss build styles/main.src.css -o public/style/main.css",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
+    "publish": "build && vercel --prod",
     "migrate:certificates": "node -r esm ./jobs/migrate_certificates.js",
     "migrate:proveedores": "npx ts-node ./jobs/migrar_proveedores.ts",
     "run:cargar_tramite": "npx ts-node ./jobs/cargar_tramite.ts"
@@ -48,6 +49,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "rnc-main-lib": "^1.0.5",
     "swagger-ui-react": "^3.38.0",
     "tailwindcss": "^1.9.6",
     "ts-mongoose": "0.0.21"

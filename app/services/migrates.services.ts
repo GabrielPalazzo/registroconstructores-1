@@ -302,7 +302,7 @@ export class Parser extends ConnectionManager {
     this.tramite.cuit = this.preInscripcion.InformacionEmpresa.NumeroCuit
     this.tramite.status = "VERIFICADO"
     this.tramite.categoria = "INSCRIPTO"
-    this.tramite.personeria = getCodigoTipoPersoneria(this.preInscripcion.InformacionEmpresa.tipoProveedor)
+    this.tramite.personeria = getCodigoTipoPersoneria(this.preInscripcion.InformacionEmpresa.tipoProveedor) as any
     this.tramite.tipoEmpresa = this.preInscripcion.InformacionEmpresa.TiposEmpresa.map(t => getCodigoTipoEmpresa(t))
     this.tramite.razonSocial = this.preInscripcion.InformacionEmpresa.RazonSocial
     this.tramite.nroLegajo = this.preInscripcion.InformacionEmpresa.NumeroRegistroConstructores

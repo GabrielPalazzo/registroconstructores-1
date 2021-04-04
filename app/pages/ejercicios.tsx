@@ -291,7 +291,7 @@ export default () => {
             }}
           />
         </div>
-        {tramite.personeria === 'SA' || tramite.personeria === 'SRL' || tramite.personeria === 'Cooperativas' ?  
+        {(tramite.personeria === 'SA' ||  tramite.personeria === 'Cooperativa' || tramite.personeria === 'SRL') ?  
         <div className="pb-6" >
           <Upload
             label="Acta  asamblea de aprobación del balance  "

@@ -178,7 +178,7 @@ type TramiteAlta = {
   apellidoConyuge: string
   tipoDocumentoConyuge: string
   documentoConyugue: string
-  personeria: string
+  personeria: 'PF' | 'SA' | 'SRL' | 'Cooperativa' | 'UTE' | 'PJESP' | 'OFS' | ''
   tipoEmpresa: []
   emailInstitucional: string
   cuit: string
