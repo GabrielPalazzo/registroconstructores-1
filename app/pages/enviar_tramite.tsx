@@ -150,8 +150,8 @@ export default () => {
     return <div className="px-20 py-6 text-center m-auto mt-6">
       <div className="text-2xl font-bold py-4 text-center"> Enviar trámite</div>
       <Card className="rounded mr-2 text-center m-autop" style={{ width: 500, margin: 'auto' }}>
-        <div className="text-base font-bold text-primary-700 pb-2 "> ¿Desea confirmar el envío de su trámite?</div>
-        <div className="text-muted-700 text-sm  mt-2 self-center"  > Puede revisar cada uno de los pasos haciendo click en los mismos</div>
+        <div className="text-base font-bold text-primary-700 pb-2 "> ¿Desea continuar con el tratamiento de su tramite?</div>
+        <div className="text-muted-700 text-sm  mt-2 self-center"  >En caso que tenga observaciones (al finalizar el mismo) volverá a la empresa. Por el contrario y si no existen observaciones continuará el flujo normal de aprobación.</div>
       </Card>
       <div className="mt-6 pt-4 text-center">
         <Button type="primary" onClick={() => {
