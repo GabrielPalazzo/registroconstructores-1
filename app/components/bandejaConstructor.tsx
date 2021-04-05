@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty, Alert, message, Timeline } from 'antd'
 import { Space } from 'antd'
-import { eliminarBorrador, getColorStatus,  rechazarTramite , getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
+import { eliminarBorrador, getColorStatus, rechazarTramite, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
 import { setUpdateBorrador } from '../redux/actions/main'
 import { useRouter } from 'next/router'
@@ -181,16 +181,22 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       width={1000}>
 
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile2 && activeProfile2.razonSocial}</div>
-     
-    
-      <div className="text-base font-bold  text-black-700 pb-4 ">
-        {activeProfile2 && activeProfile2.rechazos.map(e => <div> 
-          {e.motivo}
-          </div>)}</div>
-       
-   
-      
-     
+
+
+      <div className="text-base  text-black-700 pb-4 ">
+      <Timeline>
+        {activeProfile2 && activeProfile2.rechazos.map(e => <div>
+         
+            <Timeline.Item>{e.motivo}</Timeline.Item>
+        
+
+        </div>)}
+        </Timeline>
+        </div>
+
+
+
+
 
 
     </Modal>
@@ -204,7 +210,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
                 <Card className="rounded h-full " style={{ background: "#525252" }}
                   actions={[
-                   
+
                     <div className="text-left pl-4">
                       <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
                         onClick={() => {
@@ -283,20 +289,20 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
                   actions={[
                     <div>
-                      {status === 'OBSERVADO' ||status === 'BORRADOR'  ?  <div className="text-left pl-4">
+                      {status === 'OBSERVADO' || status === 'BORRADOR'  ? <div className="text-left pl-4">
                         <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
                           onClick={() => {
                             showModal()
                             setActiveProfile(e)
                             setShowProfile(true)
-                          }}> <EyeOutlined /> Ver Certificado</Button></div>: <div className="text-left pl-4">
-                          <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                            onClick={()=>{
+                          }}> <EyeOutlined /> Ver Certificado</Button></div> : <div className="text-left pl-4">
+                        <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                          onClick={() => {
                             showModalObservaciones()
-                              setActiveProfile2(e)
-                              setShowProfile2(true)
-                            }}> <EyeOutlined /> Ver Observaciones</Button>
-                        </div> }</div>,
+                            setActiveProfile2(e)
+                            setShowProfile2(true)
+                          }}> <EyeOutlined /> Ver Observaciones</Button>
+                      </div>}</div>,
 
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
