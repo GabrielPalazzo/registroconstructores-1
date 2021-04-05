@@ -19,6 +19,7 @@ interface Props {
   labelMessageError?: string
   labeltooltip?: string
   labelObservation?: string
+  picker?:"time" | "date" | "week" | "month" | "quarter" | "year"
   showHands?: boolean
   locked?: boolean
   isEditable?: boolean
@@ -45,7 +46,7 @@ export default (props: Props) => {
           props.bindFunction(moment(value, dateFormat).format(dateFormat))
         }}
         value={props.value && moment(props.value, dateFormat)}
-        picker={props.placeholder}
+        picker={props.picker ? props.picker  : 'date'}
         format={dateFormat} />
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">

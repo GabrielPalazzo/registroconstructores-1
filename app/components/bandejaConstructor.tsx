@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty, Alert, message, Timeline } from 'antd'
 import { Space } from 'antd'
-import { eliminarBorrador, getColorStatus, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
+import { eliminarBorrador, getColorStatus,  rechazarTramite , getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
 import { setUpdateBorrador } from '../redux/actions/main'
 import { useRouter } from 'next/router'
 import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined, DeleteTwoTone } from '@ant-design/icons';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite'
 import moment from 'moment'
+import ejercicios from '../pages/ejercicios'
 
 const onSearch = value => console.log(value);
 const { Search } = Input;
@@ -65,6 +66,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
   const [showProfile, setShowProfile] = useState(false)
   const [activeProfile, setActiveProfile] = useState<TramiteAlta>(null)
   const [modalObservaciones, setModalObservaciones] = useState(false)
+
+  const [activeProfile2, setActiveProfile2] = useState<TramiteAlta>(null)
+  const [showProfile2, setShowProfile2] = useState(false)
 
 
   const EliminarBorrador = (props) => {
@@ -176,15 +180,18 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
       width={1000}>
 
-      <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile && activeProfile.razonSocial}</div>
+      <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile2 && activeProfile2.razonSocial}</div>
      
-      <Timeline>
-        
-          <Timeline.Item> No posee observaciones </Timeline.Item>
-        
+    
+      <div className="text-base font-bold  text-black-700 pb-4 ">
+        {activeProfile2 && activeProfile2.rechazos.map(e => <div> 
+          {e.motivo}
+          </div>)}</div>
+       
+   
+      
+     
 
-      </Timeline>
-     
 
     </Modal>
 
@@ -284,7 +291,11 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                             setShowProfile(true)
                           }}> <EyeOutlined /> Ver Certificado</Button></div>: <div className="text-left pl-4">
                           <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                            onClick={showModalObservaciones}> <EyeOutlined /> Ver Observaciones</Button>
+                            onClick={()=>{
+                            showModalObservaciones()
+                              setActiveProfile2(e)
+                              setShowProfile2(true)
+                            }}> <EyeOutlined /> Ver Observaciones</Button>
                         </div> }</div>,
 
                     <div className="text-right pr-4 text-primary-500">
