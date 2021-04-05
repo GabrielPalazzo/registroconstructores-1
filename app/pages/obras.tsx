@@ -476,7 +476,7 @@ export default () => {
                   setObra(Object.assign({}, obra))
                 }}
                 onRemove={fileToRemove => {
-                  obra.archivosOrdenDeCompra = obra.archivosOrdenDeCompra.filter(f => f.cid !== fileToRemove.cid)
+                  obra.archivosOrdenDeCompra = obra.archivosOrdenDeCompra.filter(f => f.cid !== fileToRemove.uid)
                   setObra(Object.assign({}, obra))
                 }}
 
@@ -611,7 +611,7 @@ export default () => {
                     setArchivosPlazos(Object.assign([],archivosPlazos))
                   }}
                   onRemove={fileToRemove => {
-                    setArchivosPlazos(Object.assign([],archivosPlazos.filter(f=> f.cid !==fileToRemove.cid)))
+                    setArchivosPlazos(Object.assign([],archivosPlazos.filter(f=> f.cid !==fileToRemove.uid)))
                   }}
 
                 />

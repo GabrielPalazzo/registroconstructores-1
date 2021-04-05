@@ -287,11 +287,11 @@ export default () => {
               setArchivos(Object.assign([],archivos))
             }}
             onRemove={fileToRemove => {
-              setArchivos(Object.assign([],archivos.filter(f => f.cid!==fileToRemove.cid)))
+              setArchivos(Object.assign([],archivos.filter(f => f.cid!==fileToRemove.uid)))
             }}
           />
         </div>
-        {tramite.personeria === 'SA' || tramite.personeria === 'SRL' || tramite.personeria === 'Cooperativas' ?  
+        {tramite.personeria === 'SA' || tramite.personeria === 'PJESP' || tramite.personeria === 'Cooperativas' ?  
         <div className="pb-6" >
           <Upload
             label="Acta  asamblea de aprobación del balance  "
@@ -304,7 +304,7 @@ export default () => {
               setArchivosActaAsamblea(Object.assign([],archivosActaAsamblea))
             }}
             onRemove={fileToRemove => {
-              setArchivosActaAsamblea(Object.assign([],archivosActaAsamblea.filter(f => f.cid!==fileToRemove.cid)))
+              setArchivosActaAsamblea(Object.assign([],archivosActaAsamblea.filter(f => f.cid!==fileToRemove.uid)))
             }}
 
            

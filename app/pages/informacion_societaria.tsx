@@ -355,7 +355,7 @@ export default () => {
               setFotosDNIAutoridades(Object.assign([], fotosDNIAutoridades))
             }}
             onRemove={fileToRemove => {
-              setFotosDNIAutoridades(Object.assign([], fotosDNIAutoridades.filter(f => f.cid !== fileToRemove.cid)))
+              setFotosDNIAutoridades(Object.assign([], fotosDNIAutoridades.filter(f => f.cid !== fileToRemove.uid)))
             }}
           />
         </div>
@@ -816,7 +816,7 @@ export default () => {
                   setIsLoading(false)
                 }}
                 onRemove={fileToRemove => {
-                  tramite.datosSocietarios.ute.archivosContrato = tramite.datosSocietarios.ute.archivosContrato.filter(f => f.cid !== fileToRemove.cid)
+                  tramite.datosSocietarios.ute.archivosContrato = tramite.datosSocietarios.ute.archivosContrato.filter(f => f.cid !== fileToRemove.uid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
@@ -864,7 +864,7 @@ export default () => {
                 labelMessageError=""
                 defaultValue={tramite.datosSocietarios.ute.modificacionUTE.archivos as any}
                 onRemove={fileToRemove => {
-                  tramite.datosSocietarios.ute.modificacionUTE.archivos = tramite.datosSocietarios.ute.modificacionUTE.archivos.filter(f => f.cid !== fileToRemove.cid)
+                  tramite.datosSocietarios.ute.modificacionUTE.archivos = tramite.datosSocietarios.ute.modificacionUTE.archivos.filter(f => f.cid !== fileToRemove.uid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
@@ -948,7 +948,7 @@ export default () => {
                   setIsLoading(false)
                 }}
                 onRemove={fileToRemove => {
-                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
+                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.uid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
@@ -1047,7 +1047,7 @@ export default () => {
                 setIsLoading(false)
               }}
               onRemove={fileToRemove => {
-                tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.filter(f => f.cid !== fileToRemove.cid)
+                tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.filter(f => f.cid !== fileToRemove.uid)
                 updateObjTramite()
                 save()
                 setIsLoading(false)
@@ -1106,7 +1106,7 @@ export default () => {
                 setIsLoading(false)
               }}
               onRemove={fileToRemove => {
-                tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.filter(f => f.cid !== fileToRemove.cid)
+                tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.filter(f => f.cid !== fileToRemove.uid)
                 updateObjTramite()
                 save()
                 setIsLoading(false)
@@ -1164,7 +1164,7 @@ export default () => {
                 setIsLoading(false)
               }}
               onRemove={fileToRemove => {
-                tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.filter(f => f.cid !== fileToRemove.cid)
+                tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.filter(f => f.cid !== fileToRemove.uid)
                 updateObjTramite()
                 save()
                 setIsLoading(false)
@@ -1225,7 +1225,7 @@ export default () => {
                   setIsLoading(false)
                 }}
                 onRemove={fileToRemove => {
-                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
+                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.uid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
@@ -1329,7 +1329,7 @@ export default () => {
                 setIsLoading(false)
               }}
               onRemove={fileToRemove => {
-                tramite.datosSocietarios.PJESP.archivosContrato = tramite.datosSocietarios.PJESP.archivosContrato.filter(f => f.cid !== fileToRemove.cid)
+                tramite.datosSocietarios.PJESP.archivosContrato = tramite.datosSocietarios.PJESP.archivosContrato.filter(f => f.cid !== fileToRemove.uid)
                 updateObjTramite()
                 save()
                 setIsLoading(false)
@@ -1381,7 +1381,7 @@ export default () => {
                 setIsLoading(false)
               }}
               onRemove={fileToRemove => {
-                tramite.datosSocietarios.PJESP.archivoModificacion = tramite.datosSocietarios.PJESP.archivoModificacion.filter(f => f.cid !== fileToRemove.cid)
+                tramite.datosSocietarios.PJESP.archivoModificacion = tramite.datosSocietarios.PJESP.archivoModificacion.filter(f => f.cid !== fileToRemove.uid)
                 updateObjTramite()
                 save()
                 setIsLoading(false)
@@ -1495,7 +1495,7 @@ export default () => {
                   setIsLoading(false)
                 }}
                 onRemove={fileToRemove => {
-                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
+                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.uid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
@@ -1596,7 +1596,7 @@ export default () => {
                     setIsLoading(false)
                   }}
                   onRemove={fileToRemove => {
-                    tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid !== fileToRemove.cid)
+                    tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid !== fileToRemove.uid)
                     
                     save()
                     setIsLoading(false)
@@ -1657,7 +1657,7 @@ export default () => {
                     setIsLoading(false)
                   }}
                   onRemove={fileToRemove => {
-                    tramite.datosSocietarios.sociedadAnonima.modificacion.archivos = tramite.datosSocietarios.sociedadAnonima.modificacion.archivos.filter(f => f.cid !== fileToRemove.cid)
+                    tramite.datosSocietarios.sociedadAnonima.modificacion.archivos = tramite.datosSocietarios.sociedadAnonima.modificacion.archivos.filter(f => f.cid !== fileToRemove.uid)
                     updateObjTramite()
                     save()
                     setIsLoading(false)
@@ -1717,7 +1717,7 @@ export default () => {
                     setIsLoading(false)
                   }}
                   onRemove={fileToRemove => {
-                    tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos = tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.filter(f => f.cid !== fileToRemove.cid)
+                    tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos = tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.archivos.filter(f => f.cid !== fileToRemove.uid)
                     updateObjTramite()
                     save()
                     setIsLoading(false)
@@ -1788,7 +1788,7 @@ export default () => {
                   setIsLoading(false)
                 }}
                 onRemove={fileToRemove => {
-                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.cid)
+                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.uid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
@@ -1864,7 +1864,7 @@ export default () => {
                   setIsLoading(false)
                 }}
                 onRemove={fileToRemove => {
-                  tramite.datosSocietarios.personaFisica.constanciaInscripcion = tramite.datosSocietarios.personaFisica.constanciaInscripcion.filter(f => f.cid !== fileToRemove.cid)
+                  tramite.datosSocietarios.personaFisica.constanciaInscripcion = tramite.datosSocietarios.personaFisica.constanciaInscripcion.filter(f => f.cid !== fileToRemove.uid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
@@ -1919,7 +1919,7 @@ export default () => {
                   setIsLoading(false)
                 }}
                 onRemove={fileToRemove => {
-                  tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.filter(f => f.cid !== fileToRemove.cid)
+                  tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.filter(f => f.cid !== fileToRemove.uid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
@@ -2038,7 +2038,7 @@ export default () => {
                   setIsLoading(false)
                 }}
                 onRemove={fileToRemove => {
-                  tramite.archivoIERIC = tramite.archivoIERIC.filter(f => f.cid !== fileToRemove.cid)
+                  tramite.archivoIERIC = tramite.archivoIERIC.filter(f => f.cid !== fileToRemove.uid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
