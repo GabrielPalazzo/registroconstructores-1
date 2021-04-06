@@ -1,60 +1,73 @@
 import { Button, Empty, Modal, Progress, Table } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import numeral from 'numeral'
-import { getCodigoObra } from '../services/business'
+import { getCertificados, getCodigoObra } from '../services/business'
+import { Loading } from './loading'
+import _ from 'lodash' 
 
 interface CertificadoProps  {
-  razonSocial: string
-  personeria: string
+  razonSocial?: string
+  personeria?: string
   cuit: string
-  tipoEmpresa: string,
-  capacidadContratacion: number,
-  capacidadEjecucion: number,
-  obras: [],
-  porcentajesEspecialidades: []
+  tipoEmpresa?: string,
+  capacidadContratacion?: number,
+  capacidadEjecucion?: number,
+  obras?: [],
+  porcentajesEspecialidades?: []
 }
 
-const columnsObras = [
+let columns = [
   {
-    title: 'Codigo',
-    dataIndex: 'Codigo',
-    key: 'codigo',
-  },
-  {
-    title: 'Razon social Comitente',
-    dataIndex: 'RazonSocialComitente',
-    key: 'RazonSocialComitente',
+    title: 'codigo',
+    dataIndex: 'id',
+    key: 'id',
   },
   {
     title: 'Denominación',
-    dataIndex: 'Denominacion',
-    key: 'Denominacion',
+    dataIndex: 'denominacion',
+    key: 'denominacion',
   },
   {
-    title: 'Fecha de adjudicación',
-    dataIndex: 'FechaAdjudicacion',
-    key: 'FechaAdjudicacion',
+    title: 'Comitente',
+    dataIndex: 'comitente',
+    render: (text, record : DDJJObra) => <div>{record.razonSocialComitente}</div>,
   },
   {
-    title: 'Monto vigente',
+    title: 'Monto Vigente',
+    dataIndex: 'Monto Vigente',
+    render: (text, record : DDJJObra) => <div>{numeral(record.montoInicial + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>,
+    
+  },
+  {
+    title: 'Certificado a la fecha',
+    dataIndex: 'certificado',
+    render: (text, record : DDJJObra) => <div>{numeral(record.certificaciones.length !== 0 ? record.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0).format('$0,0.00')}</div>,
+  },{
 
-    render : (text,record) => <div>{numeral(record.MontoVigente).format('$0,0.00')}</div> ,
-    key: 'MontoVigente',
-  },
-  {
     title: 'Saldo',
-    render : (text,record) => <div>{numeral(record.Saldo).format('$0,0.00')}</div> ,
-    key: 'Saldo',
+    dataIndex: 'saldo',
+    render: (text, record: DDJJObra) => <div>{numeral((record.montoInicial) + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) - (record.certificaciones.length !== 0 ? record.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>
   }
 ]
 
 
 export default(props:CertificadoProps) => {
 
+  const [certificado, setCertificado] = useState<CertificadoCapacidad>(null)
   const [showCertificado, setShowCertificado] = useState(false)
 
+  useEffect(() => {
+    (async () => {
+      if (!certificado){
+        const certificados: Array<CertificadoCapacidad> = await getCertificados(props.cuit)
+        setCertificado(_.last(certificados))
+      }
+    })()
+  },[])
+
+
   return <div>
-    <Modal title="Previsualizar"
+    {certificado && <Modal title="Previsualizar"
       visible={showCertificado}
       onOk={() => setShowCertificado(false)}
       footer={[
@@ -63,13 +76,13 @@ export default(props:CertificadoProps) => {
       ]}
       onCancel={() => setShowCertificado(false)}
       width={1000}>
-      <div className="text-3xl font-bold  text-black-700 pb-4 ">{props.razonSocial}</div>
+      <div className="text-3xl font-bold  text-black-700 pb-4 ">{certificado.tramite.razonSocial}</div>
 
       <div className="grid grid-cols-2 gap-4 mb-4 ">
         <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
           <div>
             <div className="text-sm  text-muted-700 ">Tipo de entidad</div>
-            <div className="text-2xl font-bold  text-black-700 ">{props.personeria}</div>
+            <div className="text-2xl font-bold  text-black-700 ">{certificado.tramite.personeria}</div>
           </div>
           <div>
             <div className="text-sm  text-muted-700 ">CUIT</div>
@@ -78,7 +91,7 @@ export default(props:CertificadoProps) => {
         </div>
         <div className="grid grid-cols-1 border gap-4 px-4 py-4">
           <div>
-            <div className="text-base font-semibold tracking-wider ">Registrado como {props.tipoEmpresa}</div>
+            <div className="text-base font-semibold tracking-wider ">Registrado como {certificado.tramite.tipoEmpresa}</div>
           </div>
 
         </div>
@@ -87,15 +100,15 @@ export default(props:CertificadoProps) => {
         <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
           <div>
             <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Contratación Referencial</div>
-            <div className="text-xl font-bold  text-black-700 ">{ numeral(props.capacidadContratacion).format('$0,0.00')}</div>
+            <div className="text-xl font-bold  text-black-700 ">{ numeral(certificado.capacidadFinanciera).format('$0,0.00')}</div>
           </div>
           <div>
             <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Ejecución Referencial</div>
-            <div className="text-xl font-bold  text-black-700 ">{ numeral(props.capacidadEjecucion).format('$0,0.00')}</div>
+            <div className="text-xl font-bold  text-black-700 ">{ numeral(certificado.capacidadEjecucion).format('$0,0.00')}</div>
           </div>
         </div>
         <div className="grid grid-cols-2 border gap-4 px-4 py-4 text-center">
-          {props.porcentajesEspecialidades.map( (especialidad : any) => <div key={getCodigoObra()}>
+          {[].map( (especialidad : any) => <div key={getCodigoObra()}>
             <div className="text-base font-semibold tracking-wider "><Progress type="circle" width={80} percent={especialidad.Porcentaje} /></div>
             <div className="text-sm  text-muted-700 ">{especialidad.DescripcionEspecialidad}</div>
           </div>) }
@@ -103,47 +116,14 @@ export default(props:CertificadoProps) => {
 
         </div>
       </div>
-      <div className="text-xl font-bold mt-4 mb-4">Obras adjudicadas y/o en ejecución</div>
-      <Table dataSource={props.obras} columns={columnsObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
+      <div className="text-xl font-bold mt-4 mb-4">Obras Consideradas en el cálculo de capacidad</div>
+      <Table dataSource={certificado.tramite.ddjjObras.filter(o => o.status && o.status==='APROBADA')} columns={columns} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
 
 
 
 
-      {/*
-   <Collapse defaultActiveKey={['1']} onChange={callback}>
-        <Panel header="Razón Social:" key="1">
-          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.razonSocial}</div>
-        </Panel>
-        <Panel header="CUIT:" key="2">
-          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.cuit}</div>
-        </Panel>
-        <Panel header="Estado de la empresa:" key="3">
-          <div className="text-sm  text-black-700 "> <Tag color={getColorStatus(activeProfile)}>{activeProfile && activeProfile.status}</Tag></div>
-        </Panel>
-        <Panel header="Aclaraciones al estado:" key="4">
-          <div className="text-sm  text-black-700 ">
-            {getObservacionesTecnicoRaw(getReviewAbierta(activeProfile)) ? `Trámite correspondiente a Inscripción ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas iniciado el ${moment(activeProfile.createdAt).format('LLL')}.` : ''}
-            </div>
-        </Panel>
-        <Panel header="Tipo de empresa:" key="5">
-          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.tipoEmpresa}</div>
-        </Panel>
-        <Panel header="Capacidad de contratación y ejecución:" key="6">
-          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
-        </Panel>
-        <Panel header="Fecha del último cálculo de capacidad:" key="7">
-          <div className="text-sm  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
-        </Panel>
-        <Panel header="Constancia de Inscripción" key="8">
-          <div className="text-lg font-bold text-black-700  ">
-            <Button style={{ color: "#0072bb", fontWeight: "bold", textAlign: "left", padding: 0, }} type="link">
-              <CloudDownloadOutlined /> Descargar
-              </Button>
-          </div>
-        </Panel>
-      </Collapse> */}
 
-    </Modal>
-    <Button onClick={() => setShowCertificado(true)} >Ver Certificado</Button>
+    </Modal>}
+    <Button loading={!certificado} onClick={() => setShowCertificado(true)} >Ver Certificado</Button>
   </div>
 }

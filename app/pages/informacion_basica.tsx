@@ -111,9 +111,9 @@ export default (props) => {
 
     setUsuario(getUsuario())
 
-    if (isInReview(tramite)) {
+    /*if (isInReview(tramite)) {
       dispatch(updateRevisionTramite(getReviewAbierta(Object.assign({}, tramite))))
-    }
+    }*/
   }, [])
 
   const showModal = () => {

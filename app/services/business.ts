@@ -55,8 +55,8 @@ export const getTramiteByCUIT = (cuit: string): Promise<TramiteAlta> => {
   })
 }
 
-export const getCertificados = (cuit: string, razonSocial: string) : Promise<any> => {
-  return axios.get(`/api/certificado?cuit=${cuit}&razonSocial=${razonSocial}`, {
+export const getCertificados = (cuit: string): Promise<any> => {
+  return axios.get(`/api/certificado?cuit=${cuit}`, {
     headers: {
       Authorization: 'Bearer ' + getToken()
     }
@@ -81,8 +81,8 @@ export const migrarCertificados = async (key: string) => {
   })
 }
 
-export const migrarEmpresa = async(idProveedor: string, key: string) => {
-  return axios.post(`/api/migrador`, {idProveedor, key}, {
+export const migrarEmpresa = async (idProveedor: string, key: string) => {
+  return axios.post(`/api/migrador`, { idProveedor, key }, {
     headers: {
       Authorization: 'Bearer ' + getToken(),
       AuthorizationKey: key
@@ -95,7 +95,7 @@ export const migrarEmpresa = async(idProveedor: string, key: string) => {
 }
 
 export const eliminarBorrador = async (tramite: TramiteAlta) => {
-  return axios.get(`/api/tramite/remove?id=${tramite._id}`,{
+  return axios.get(`/api/tramite/remove?id=${tramite._id}`, {
     headers: {
       Authorization: 'Bearer ' + getToken()
     }
@@ -104,15 +104,15 @@ export const eliminarBorrador = async (tramite: TramiteAlta) => {
 
 export const rechazarTramite = (tramite: TramiteAlta, motivo: string) => {
   if (!tramite.rechazos)
-    tramite.rechazos= []
+    tramite.rechazos = []
 
   tramite.rechazos.push({
-    rechazadoPor:getUsuario().userData(),
+    rechazadoPor: getUsuario().userData(),
     fecha: new Date().getTime(),
     motivo
   })
 
-  tramite.status='BORRADOR'
+  tramite.status = 'BORRADOR'
   return saveTramiteService(tramite)
 
 }
@@ -147,7 +147,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
     categoria: 'PRE INSCRIPTO',
     tipoEmpresa: [],
     vtoIeric: '',
-    archivoIERIC:[],
+    archivoIERIC: [],
     registroPublicoDeComercio: '',
     igj: '',
     domicilioLegal: '',
@@ -158,12 +158,11 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
       fecha: '',
       datos: ''
     },
-    autoridadesSociedad:[],
-    inversionesPermanentes:[],
-    autoridadesVencimiento:true,
+    autoridadesSociedad: [],
+    inversionesPermanentes: [],
+    autoridadesVencimiento: true,
     sistemaCalidad: [],
     ejercicios: [],
-    ejerciciosAprobados: [],
     ddjjObras: [],
     fechaInscripcionMatriculaComerciante: '',
     aplicaDecretoDoscientosDos: false,
@@ -234,8 +233,8 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
       },
       PJESP: {
         archivosContrato: [],
-        archivoModificacion:[],
-        archivoUltimaModificacion:[],
+        archivoModificacion: [],
+        archivoUltimaModificacion: [],
         inscripcionConstitutiva: {
           datos: '',
           fecha: ''
@@ -245,17 +244,17 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
           fecha: ''
         },
         modifcicacionObjeto: {
-          datos:'',
+          datos: '',
           fecha: ''
         },
         ultimaModificacionInscripcion: {
-          datos:'',
+          datos: '',
           fecha: ''
         },
         fechaVencimiento: {
           fecha: ''
         }
-        
+
       },
       personaFisica: {
         constanciaInscripcion: [],
@@ -272,7 +271,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
 export const getEmptyObras = (): DDJJObra => {
   return {
     id: null,
-    actasObra:[],
+    actasObra: [],
     denominacion: '',
     ubicacion: [],
     datosObra: [],
@@ -338,7 +337,7 @@ export const getUsuario = () => {
   return {
     userData: () => user,
     isConstructor: () => user && user.Role.filter(r => r === 'CONSTRUCTOR').length > 0,
-    isBackOffice: () => user && user.Role.filter(r => r === 'EVALUADOR ECONOMICO' || r === 'EVALUADOR TECNICO' ||  r === 'CONTROLADOR ECONOMICO' || r === 'CONTROLADOR TECNICO' || r === 'JEFE REGISTRO' || r ==='SUPERVISOR').length > 0,
+    isBackOffice: () => user && user.Role.filter(r => r === 'EVALUADOR ECONOMICO' || r === 'EVALUADOR TECNICO' || r === 'CONTROLADOR ECONOMICO' || r === 'CONTROLADOR TECNICO' || r === 'JEFE REGISTRO' || r === 'SUPERVISOR').length > 0,
     isControlador: () => user && user.Role.filter(r => r.includes('CONTROLADOR')).length > 0,
     isSupervisor: () => user && user.Role.filter(r => r.includes('SUPERVISOR')).length > 0,
     isAprobador: () => user && user.Role.filter(r => r === 'JEFE REGISTRO').length > 0
@@ -350,15 +349,15 @@ export const isInReview = (tramite: TramiteAlta) => {
   if (!tramite.revisiones || !tramite.asignadoA)
     return false
 
-  return tramite.revisiones.filter(r => r.status === 'ABIERTA').length > 0
-    &&
-    tramite.asignadoA.cuit === getUsuario().userData().cuit
+  return tramite.asignadoA.cuit === getUsuario().userData().cuit
+    
 }
 
 export const getReviewAbierta = (tramite: TramiteAlta): RevisionTramite => {
   if (!tramite) return null
 
-  return tramite.revisiones ? _.last(tramite.revisiones.filter(r => r.status === 'ABIERTA')) : null
+  return tramite.revisiones ? _.last(tramite.revisiones
+    .filter(r => !_.isEmpty(r.reviews.filter(review => !review.isOk)))) : null
 }
 
 export const closeSession = () => {
@@ -391,6 +390,17 @@ export const isTramiteEditable = (tramite: TramiteAlta): boolean => {
 
 
 
+const aprobarTramite = async (tramite: TramiteAlta): Promise<CertificadoCapacidad> => {
+
+  return axios.post('/api/tramite/aprobar', tramite, {
+    headers: {
+      Authorization: 'Bearer ' + getToken()
+    }
+  }).then((certificado) => {
+    return certificado.data
+  })
+}
+
 export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> => {
 
   if (tramite.status === 'BORRADOR') {
@@ -399,18 +409,18 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
   }
 
 
-  if (getUsuario().isAprobador()){
-    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+  if (getUsuario().isAprobador()) {
+    if (getReviewAbierta(tramite)) {
       tramite.status = 'OBSERVADO'
+      return saveTramiteService(tramite)
     } else {
-      tramite.categoria = 'INSCRIPTO'
-      tramite.status = 'VERIFICADO'
-      tramite.asignadoA = null
+      const certificado = await aprobarTramite(tramite)
+      return certificado.tramite
     }
-    return saveTramiteService(tramite)
+
   }
 
- 
+
 
 
 

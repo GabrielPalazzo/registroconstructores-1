@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty, Alert, message, Timeline } from 'antd'
 import { Space } from 'antd'
-import { eliminarBorrador, getColorStatus,  rechazarTramite , getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
+import { eliminarBorrador, getColorStatus, rechazarTramite, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
 import { setUpdateBorrador } from '../redux/actions/main'
 import { useRouter } from 'next/router'
 import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined, DeleteTwoTone } from '@ant-design/icons';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite'
-import moment from 'moment'
-import ejercicios from '../pages/ejercicios'
+import Certificado from './certificado'
 
 const onSearch = value => console.log(value);
 const { Search } = Input;
@@ -117,59 +116,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       ]}
       onCancel={() => setShowProfile(false)}
       width={1000}>
-      <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile && activeProfile.razonSocial}</div>
-
-      <div className="grid grid-cols-2 gap-4 mb-4 ">
-        <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
-          <div>
-            <div className="text-sm  text-muted-700 ">Tipo de entidad</div>
-            <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.personeria}</div>
-          </div>
-          <div>
-            <div className="text-sm  text-muted-700 ">CUIT</div>
-            <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.cuit}</div>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 border gap-4 px-4 py-4">
-          <div>
-            <div className="text-base font-semibold tracking-wider ">Registrado como {activeProfile && activeProfile.tipoEmpresa}</div>
-            <div className="text-base font-semibold tracking-wider "> En estado {activeProfile && activeProfile.status}</div>
-
-            <div className="mb-4 mt-2" >
-              <Alert message="este certificado aun no fue otorgado" showIcon type="info" />
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-4 mb-4 ">
-        <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
-          <div>
-            <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Contratación Referencial</div>
-            <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
-          </div>
-          <div>
-            <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Ejecución Referencial</div>
-            <div className="text-2xl font-bold  text-black-700 ">{activeProfile && activeProfile.status === 'VERIFICADO' ? 1 : 0}</div>
-          </div>
-        </div>
-        {/* 
-        <div className="grid grid-cols-2 border gap-4 px-4 py-4 text-center">
-          <div>
-            <div className="text-base font-semibold tracking-wider "><Progress type="circle" width={80} percent={75} /></div>
-            <div className="text-sm  text-muted-700 ">Obras de arquitectura</div>
-          </div>
-          <div>
-            <div className="text-base font-semibold tracking-wider "><Progress type="circle" width={80} percent={75} /></div>
-            <div className="text-sm  text-muted-700 ">Sanitaria</div>
-          </div>
-
-        </div>
-        */}
-      </div>
-      <div className="text-xl font-bold mt-4 mb-4">Obras adjudicadas y/o en ejecución</div>
-      <Table columns={columnsObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
-
+      <div><Certificado
+        razonSocial={activeProfile2 && activeProfile2.razonSocial}
+        capacidadContratacion={0}
+        capacidadEjecucion={0}
+        obras={[]}
+        porcentajesEspecialidades={[]}
+        tipoEmpresa={'Cns'}
+        personeria={'sdf'}
+        cuit={'232323'}
+      /></div>
 
 
     </Modal>
@@ -181,16 +137,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       width={1000}>
 
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile2 && activeProfile2.razonSocial}</div>
-     
-    
+
+
       <div className="text-base font-bold  text-black-700 pb-4 ">
-        {activeProfile2 && activeProfile2.rechazos.map(e => <div> 
+        {activeProfile2 && activeProfile2.rechazos.map(e => <div>
           {e.motivo}
-          </div>)}</div>
-       
-   
-      
-     
+        </div>)}</div>
+
+
+
+
 
 
     </Modal>
@@ -204,14 +160,11 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
                 <Card className="rounded h-full " style={{ background: "#525252" }}
                   actions={[
-                   
+
                     <div className="text-left pl-4">
-                      <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                        onClick={() => {
-                          showModal()
-                          setActiveProfile(e)
-                          setShowProfile(true)
-                        }}> <EyeOutlined /> Ver Certificado</Button></div>,
+                      {e.categoria === 'INSCRIPTO' && <Certificado
+                        cuit={e.cuit}
+                      />}</div>,
 
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
@@ -283,20 +236,20 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
                   actions={[
                     <div>
-                      {status === 'OBSERVADO' ||status === 'BORRADOR'  ?  <div className="text-left pl-4">
+                      {status === 'OBSERVADO' || status === 'BORRADOR' ? <div className="text-left pl-4">
                         <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
                           onClick={() => {
                             showModal()
                             setActiveProfile(e)
                             setShowProfile(true)
-                          }}> <EyeOutlined /> Ver Certificado</Button></div>: <div className="text-left pl-4">
-                          <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                            onClick={()=>{
+                          }}> <EyeOutlined /> Ver Certificado</Button></div> : <div className="text-left pl-4">
+                        <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                          onClick={() => {
                             showModalObservaciones()
-                              setActiveProfile2(e)
-                              setShowProfile2(true)
-                            }}> <EyeOutlined /> Ver Observaciones</Button>
-                        </div> }</div>,
+                            setActiveProfile2(e)
+                            setShowProfile2(true)
+                          }}> <EyeOutlined /> Ver Observaciones</Button>
+                      </div>}</div>,
 
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}

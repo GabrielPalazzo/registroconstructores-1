@@ -3,13 +3,14 @@ import { useRouter } from 'next/router'
 import { NavigationStep } from '../components/steps'
 import { InputText } from '../components/input_text'
 import { HeaderPrincipal } from '../components/header'
-import { Button, Steps, Card, Result } from 'antd';
+import { Button, Steps, Card, Result, Alert } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, sendTramite } from '../services/business';
+import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, sendTramite } from '../services/business';
 import { validatorTramite } from '../services/validator'
 import { Loading } from '../components/loading';
 import { RootState } from '../redux/store';
+import _ from 'lodash'
 
 const { Step } = Steps;
 export default () => {
@@ -18,6 +19,7 @@ export default () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
+  const revisionTramite = useSelector((state: RootState) => state.revisionTramites)
   const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
   const [erroresSeccionInformacionBasica, setErroresSeccionInformacionBasica] = useState<Array<ValidatorErrorElement>>([])
   const [erroresSeccionDomicilio, setErroresSeccionDomicilio] = useState<Array<ValidatorErrorElement>>([])
@@ -31,7 +33,7 @@ export default () => {
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
 
-    if (tramite.status === 'BORRADOR') {
+    if (getUsuario().isConstructor()) {
 
       validatorTramite.load(tramite)
       setPuedeEnviarTramite(validatorTramite.habilitadoParaEnviarTramiteAlRegistro())
@@ -47,6 +49,8 @@ export default () => {
     }
 
   }, [])
+
+ 
 
   const save = async () => {
     setWaitingType('sync')
@@ -67,13 +71,13 @@ export default () => {
 
   const EnviarParaPreInscripcion = () => {
 
-    if (!puedeEnviarTramimte){
+    if (!puedeEnviarTramimte) {
       return <Result
-      status="403"
-      title="No puede enviar el tramite"
-      subTitle="Lo lamento, pero solo un administrador legitimado o titular puede enviar el trámite al registro"
-      extra={<Button onClick={() => router.push('/')} type="primary">Volver a la bandeja</Button>}
-    />
+        status="403"
+        title="No puede enviar el tramite"
+        subTitle="Lo lamento, pero solo un administrador legitimado o titular puede enviar el trámite al registro"
+        extra={<Button onClick={() => router.push('/')} type="primary">Volver a la bandeja</Button>}
+      />
     }
     return <div className="px-20 py-6 text-center m-auto mt-6">
       <div className="text-2xl font-bold py-4 text-center"> Enviar trámite</div>
@@ -103,7 +107,7 @@ export default () => {
         <Card className="rounded mr-2 text-center m-autop" style={{ width: 500, margin: 'auto' }}>
           <div className="text-base font-bold text-warning-700 px-8 pb-2 mb-4">
             <div>
-            Revise los items incompletos para enviar el trámite
+              Revise los items incompletos para enviar el trámite
       </div>
             <div className="text-gray-800 text-left p-2 font-thin">
               {erroresSeccionInformacionBasica.length > 0 ?
@@ -127,7 +131,7 @@ export default () => {
                     {erroresSeccionComercial.map((e: ValidatorErrorElement) => <li>{e.error}</li>)}
                   </ul>
                 </div> : ''}
-                {erroresSeccionDDJJ.length > 0 ?
+              {erroresSeccionDDJJ.length > 0 ?
                 <div className="mb-8">
                   <div className="font-bold">Declaración Jurada de Balances</div>
                   <ul>
@@ -147,11 +151,37 @@ export default () => {
   }
 
   const EnviarBackOffice = () => {
+   const reviewAbierta =   revisionTramite.revision &&  revisionTramite.revision.reviews.filter(r=> !r.isOk)
+   
+
+    console.log(reviewAbierta)
     return <div className="px-20 py-6 text-center m-auto mt-6">
+
+
       <div className="text-2xl font-bold py-4 text-center"> Enviar trámite</div>
+      {
+        (!_.isEmpty(reviewAbierta) && getUsuario().isAprobador) &&
+        <div style={{ width: 500, margin: 'auto' }} className="text-left pb-4">
+          <Alert
+            message="Atención"
+            description="Este trámite tiene observaciones por lo cual será devuelto al remitente para realizar las subsanaciones pertinentes "
+            type="warning"
+            showIcon
+
+          />
+        </div>
+      }
       <Card className="rounded mr-2 text-center m-autop" style={{ width: 500, margin: 'auto' }}>
         <div className="text-base font-bold text-primary-700 pb-2 "> ¿Desea continuar con el tratamiento de su tramite?</div>
-        <div className="text-muted-700 text-sm  mt-2 self-center"  >En caso que tenga observaciones (al finalizar el mismo) volverá a la empresa. Por el contrario y si no existen observaciones continuará el flujo normal de aprobación.</div>
+        <div className="text-muted-700 text-sm  mt-2 self-center"  >{!_.isEmpty(reviewAbierta)? 'Este tramite será enviando directamente al remitente ya que contiene las siguientes observaciones ' : getUsuario().isAprobador ? 'Este tramite está en condiciones de ser aprobado. Si está de acuerdo pulse Enviar Tramite' : 'Este tramite será enviado al siguiente nivel de supervisión'}</div>
+        {
+          reviewAbierta &&
+          <div className="text-left pt-4 ">
+            <ul className="list-disc">
+              {reviewAbierta.map(r => <li>{r.review}</li>)}
+            </ul>
+          </div>
+        }
       </Card>
       <div className="mt-6 pt-4 text-center">
         <Button type="primary" onClick={() => {
@@ -176,7 +206,7 @@ export default () => {
     <div className="border-gray-200 border-b-2 px-20">
       <NavigationStep current={4} generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
-    {tramite.status === 'BORRADOR' ? <EnviarParaPreInscripcion /> : <EnviarBackOffice />}
+    {getUsuario().isConstructor() ? <EnviarParaPreInscripcion /> : <EnviarBackOffice />}
 
 
   </div>

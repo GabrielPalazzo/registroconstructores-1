@@ -12,18 +12,12 @@ handler.get(async (req: any, res: NextApiResponse) => {
     res.status(401).send('Forbidden')*/
 
     const {
-      query: { cuit,razonSocial },
+      query: { cuit },
     } = req
 
   const certificados  = await req.db
-    .collection('certificados')
-    .find({
-      "$or":[{
-        "NumeroCUIT":cuit
-      },{
-        "RazonSocial":`/${razonSocial}/`
-      }]
-    })
+    .collection('certificadosOtorgados')
+    .find({"tramite.cuit":cuit})
     .toArray();
   res.send({ certificados });
   

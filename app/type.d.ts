@@ -88,7 +88,7 @@ type CertificacionesCerradas={
 type DDJJObra ={
   id: string
   actasObra: Array<Archivo>
-  status?:string
+  status?:"APROBADA" | '' | 'EN REVISION' | 'RECHAZADA'
   denominacion:string
   ubicacion:Array<string>
   datosObra:Array<DatosObraGeneral>
@@ -149,7 +149,7 @@ type AutoridadEmpresa  ={
 
 type Ejercicio = {
   codigo?: string
-  status?: string // APROBADO EN REVISION DES ESTIMADO 
+  status?: 'APROBADO' | 'RECHAZADO' | null // APROBADO EN REVISION DES ESTIMADO 
   fechaInicio: string
   fechaCierre: string
   activoCorriente: number
@@ -259,9 +259,7 @@ type TramiteAlta = {
     archivos: Array<Archivo>
   }>,
   ejercicios: Array<Ejercicio>,
-  ejerciciosAprobados: Array<Ejercicio>,
   ddjjObras: Array<DDJJObra>,
-  ddjjObrasAprobadas?: Array<DDJJObra>
   matriculaComerciante: {
     datos: string,
     fecha: string,
@@ -369,6 +367,10 @@ type TramiteAlta = {
       constanciaMatriculaComerciante: Array<Archivo>
     }
   }
+  aprobacion?:{
+    aprobadoPor: Usuario,
+    aprobadoAt: number
+  }
   
 }
 
@@ -376,6 +378,28 @@ type ValidatorErrorElement = {
   attribute: string
   dataId: string
   error: string
+}
+
+type CertificadoCapacidad = {
+  _id?:string
+  tramite: TramiteAlta,
+  otorgadoPor: {
+    usuario: Usuario,
+    fecha: number
+  }
+  vigencia: {
+    fechaDesde: number,
+    fechaHasta: number
+  }
+  status:'VIGENTE' | 'SUSPENDIDO' | 'SANCIONADO'
+  capacidadFinanciera: number
+  capacidadEjecucion: number
+  datosSancion?:{
+    usuario: Usuario
+    motivo: string
+    referencia: string
+  }
+  evidencia?:any
 }
 
 type RevisionTramite ={

@@ -13,7 +13,7 @@ export const cargarUltimaRevisionAbierta = (tramite: TramiteAlta) => async (disp
   //const tramite: TramiteAlta = getState().appStatus.tramiteAlta
   return dispatch({
     type: LOAD_REVISION,
-    revision: tramite.revisiones ? _.last(tramite.revisiones.filter(r => r.status === 'ABIERTA')) : null
+    revision: tramite.revisiones ? _.last(tramite.revisiones) : null
   })
 }
 

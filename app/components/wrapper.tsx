@@ -52,7 +52,9 @@ export default (props) => {
       revisionTramite.revision = {
         reviews: []
       }
+    
     revisionTramite.revision.reviews = revisionTramite.revision.reviews.filter(r => r.field !== attributeName.toUpperCase())
+    
     revisionTramite.revision.reviews.push({
       field: attributeName.toUpperCase(),
       isOk: true,
