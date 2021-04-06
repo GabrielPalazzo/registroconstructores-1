@@ -398,7 +398,7 @@ export default (props) => {
               setIsLoading(false)
             }}
             onRemove={async fileToRemove => {
-              tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid !== fileToRemove.cid)
+              tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid !== fileToRemove.uid)
               updateObjTramite()
               await save()
               setIsLoading(false)

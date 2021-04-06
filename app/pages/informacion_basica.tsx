@@ -479,7 +479,7 @@ export default (props) => {
               setFotosDNIApoderado(Object.assign([], fotosDNIApoderado))
             }}
             onRemove={fileToRemove => {
-              setFotosDNIApoderado(Object.assign([], fotosDNIApoderado.filter(f => f.cid !== fileToRemove.cid)))
+              setFotosDNIApoderado(Object.assign([], fotosDNIApoderado.filter(f => f.cid !== fileToRemove.uid)))
             }}
           />
         </div>
@@ -495,7 +495,9 @@ export default (props) => {
                 setActaAutoridadesApoderado(Object.assign([], actaAutoridadesApoderado))
               }}
               onRemove={fileToRemove => {
-                setActaAutoridadesApoderado(Object.assign([], actaAutoridadesApoderado.filter(f => f.cid !== fileToRemove.cid)))
+                 console.log(fileToRemove)
+
+                setActaAutoridadesApoderado(Object.assign([], actaAutoridadesApoderado.filter(f => f.cid !== fileToRemove.uid)))
               }}
             />
           </div>

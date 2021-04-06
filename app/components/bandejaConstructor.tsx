@@ -139,10 +139,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile2 && activeProfile2.razonSocial}</div>
 
 
-      <div className="text-base font-bold  text-black-700 pb-4 ">
+      <div className="text-base  text-black-700 pb-4 ">
+      <Timeline>
         {activeProfile2 && activeProfile2.rechazos.map(e => <div>
-          {e.motivo}
-        </div>)}</div>
+         
+            <Timeline.Item>{e.motivo}</Timeline.Item>
+        
+
+        </div>)}
+        </Timeline>
+        </div>
 
 
 

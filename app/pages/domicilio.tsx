@@ -111,7 +111,7 @@ export default () => {
          labelMessageError=""
           defaultValue={tramite.constanciaDomicilioLegal as any}
           onRemove={fileToRemove => {
-            tramite.constanciaDomicilioLegal = tramite.constanciaDomicilioLegal.filter(f => f.cid !== fileToRemove.cid)
+            tramite.constanciaDomicilioLegal = tramite.constanciaDomicilioLegal.filter(f => f.cid !== fileToRemove.uid)
             save()
             setIsLoading(false)
           }}

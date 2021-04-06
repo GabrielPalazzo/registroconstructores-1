@@ -282,12 +282,16 @@ export default () => {
            
             labelMessageError=""
             defaultValue={archivos as any}
+
+            
             onOnLoad={file => {
               archivos.push(file)
               setArchivos(Object.assign([],archivos))
+              save()
+              setIsLoading(false)
             }}
             onRemove={fileToRemove => {
-              setArchivos(Object.assign([],archivos.filter(f => f.cid!==fileToRemove.cid)))
+              setArchivos(Object.assign([],archivos.filter(f => f.cid!==fileToRemove.uid)))
             }}
           />
         </div>
@@ -304,7 +308,7 @@ export default () => {
               setArchivosActaAsamblea(Object.assign([],archivosActaAsamblea))
             }}
             onRemove={fileToRemove => {
-              setArchivosActaAsamblea(Object.assign([],archivosActaAsamblea.filter(f => f.cid!==fileToRemove.cid)))
+              setArchivosActaAsamblea(Object.assign([],archivosActaAsamblea.filter(f => f.cid!==fileToRemove.uid)))
             }}
 
            
@@ -493,7 +497,7 @@ export default () => {
     }
 
     if ((activoCorriente + activoNoCorriente) === 0) {
-      setError('El activotiene que  ser mayor a 0')
+      setError('El activo tiene que  ser mayor a 0')
       return
     }
 
@@ -507,7 +511,7 @@ export default () => {
 			return
 		}
     
-    if ((tramite.personeria === 'SA' || tramite.personeria === 'SRL'|| tramite.personeria === 'Cooperativa') && (_.isEmpty(archivosActaAsamblea))) {
+    if ((tramite.personeria === 'SA' || tramite.personeria === 'PJESP'|| tramite.personeria === 'Cooperativa') && (_.isEmpty(archivosActaAsamblea))) {
 			setError('El acta  es requerido')
 			setShowError(true)
 			return
