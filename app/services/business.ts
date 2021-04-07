@@ -1,8 +1,9 @@
 import axios from 'axios'
 import * as jwt from "jsonwebtoken"
 import _ from 'lodash'
-import { customAlphabet } from 'nanoid'
-
+import moment from 'moment'
+import { customAlphabet, nanoid } from 'nanoid'
+import { CalculadoraCapacidad } from 'rnc-main-lib' 
 
 
 
@@ -500,3 +501,48 @@ export const getUniqCode = () => {
   const nanoid = customAlphabet('1234567890abcdef_=?@#', 10)
   return nanoid().toUpperCase()
 }
+
+const generarCertificado = async (tramite: TramiteAlta, usuario: Usuario, db): Promise<CertificadoCapacidad> => {
+
+  const calculadora = new CalculadoraCapacidad(tramite)
+  await calculadora.init()
+  const capacidadEjecucion = calculadora
+    .getMontoCertificacionesPorPeriodo()
+    .aplicarIndiceCorreccion()
+    .ordenarMontoDescendente()
+    .tomarLosTresPrimerosElementos()
+    .aplicarPromedioLineal()
+    .aplicarIndicesEconomicos()
+    .actualizarPorAntiguedad()
+    .value
+
+  const capacidadFinanciera =
+    calculadora.filtrarObrasCandidatas()
+      .value
+      .map(obra => {
+        return calculadora.getCompromiso(obra) + calculadora.getIndicadorMultiplicador(obra)
+      })
+      .reduce((acc, val) => acc += val, 0)
+
+
+  const certificado: CertificadoCapacidad = {
+    _id: nanoid(),
+    tramite,
+    otorgadoPor: {
+      usuario,
+      fecha: new Date().getTime()
+    },
+    vigencia: {
+      fechaDesde: new Date().getTime(),
+      fechaHasta: moment().add(1, 'year').toDate().getTime()
+    },
+    status: 'VIGENTE',
+    capacidadEjecucion,
+    capacidadFinanciera,
+  }
+
+  await db.collection('certificadosOtorgados').save(certificado);
+  return certificado
+
+}
+
