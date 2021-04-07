@@ -168,9 +168,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   actions={[
 
                     <div className="text-left pl-4">
-                      {e.categoria === 'INSCRIPTO' && <Certificado
+                      {e.categoria === 'INSCRIPTO'  ? <Certificado
                         cuit={e.cuit}
-                      />}</div>,
+                      /> : <div className="text-left ">
+                      <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                        onClick={() => {
+                          showModalObservaciones()
+                          setActiveProfile2(e)
+                          setShowProfile2(true)
+                        }}> <EyeOutlined /> Ver Observaciones</Button>
+                    </div>}</div>,
 
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
@@ -241,21 +248,17 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                 <Card className="rounded h-full " style={{ background: "#525252" }}
 
                   actions={[
-                    <div>
-                      {status === 'OBSERVADO' || status === 'BORRADOR' ? <div className="text-left pl-4">
-                        <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                          onClick={() => {
-                            showModal()
-                            setActiveProfile(e)
-                            setShowProfile(true)
-                          }}> <EyeOutlined /> Ver Certificado</Button></div> : <div className="text-left pl-4">
-                        <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                          onClick={() => {
-                            showModalObservaciones()
-                            setActiveProfile2(e)
-                            setShowProfile2(true)
-                          }}> <EyeOutlined /> Ver Observaciones</Button>
-                      </div>}</div>,
+                    <div className="text-left pl-4">
+                      {e.categoria === 'INSCRIPTO'  ? <Certificado
+                        cuit={e.cuit}
+                      /> : <div className="text-left ">
+                      <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                        onClick={() => {
+                          showModalObservaciones()
+                          setActiveProfile2(e)
+                          setShowProfile2(true)
+                        }}> <EyeOutlined /> Ver Observaciones</Button>
+                    </div>}</div>,
 
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
@@ -373,12 +376,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                 <Card className="rounded h-full " style={{ background: "#525252" }}
                   actions={[
                     <div className="text-left pl-4">
-                      <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                        onClick={() => {
-                          showModal()
-                          setActiveProfile(e)
-                          setShowProfile(true)
-                        }}> <EyeOutlined /> Previsualizar</Button></div>,
+                    {e.categoria === 'INSCRIPTO'  ? <Certificado
+                      cuit={e.cuit}
+                    /> : <div className="text-left ">
+                    <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                      onClick={() => {
+                        showModalObservaciones()
+                        setActiveProfile2(e)
+                        setShowProfile2(true)
+                      }}> <EyeOutlined /> Ver Observaciones</Button>
+                  </div>}</div>,
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
                         onClick={async () => {
