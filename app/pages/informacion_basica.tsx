@@ -87,6 +87,7 @@ export default (props) => {
   const [cuitApoderado, setCuitApoderado] = useState('')
   const [emailApoderado, setEmailApoderado] = useState('')
   const [fotosDNIApoderado, setFotosDNIApoderado] = useState([])
+  const [actaAdminLegitimado, setActaAdminLegitimado] = useState([])
   const [actaAutoridadesApoderado, setActaAutoridadesApoderado] = useState([])
   const [esAdministradorLegitimado, setEsAdministradorLegitimado] = useState(false)
   const dispatch = useDispatch()
@@ -185,7 +186,8 @@ export default (props) => {
       tipoApoderado,
       esAdministrador: esAdministradorLegitimado,
       fotosDNI: fotosDNIApoderado,
-      actaAutoridades: actaAutoridadesApoderado
+      actaAutoridades: actaAutoridadesApoderado,
+      actaAdminLegitimado: actaAdminLegitimado,
     })
     save()
     setVisible(false)
@@ -508,9 +510,17 @@ export default (props) => {
               label="Adjuntar Acta de Adm. Legitimado"
               labelRequired="*"
               labelMessageError=""
-              defaultValue={[]}
-              onOnLoad={() => null}
-              onRemove={() => null}
+             
+              defaultValue={ actaAdminLegitimado as any}
+              onOnLoad={(file) => {
+                actaAdminLegitimado.push(file)
+                setActaAdminLegitimado(Object.assign([],  actaAdminLegitimado))
+              }}
+              onRemove={fileToRemove => {
+                 console.log(fileToRemove)
+
+                setActaAdminLegitimado(Object.assign([],  actaAdminLegitimado.filter(f => f.cid !== fileToRemove.uid)))
+              }}
             />
           </div>}
       </div>

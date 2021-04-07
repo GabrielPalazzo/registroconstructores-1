@@ -30,6 +30,7 @@ type Apoderado = {
   tipoApoderado: string
   fotosDNI: Array<Archivo>
   actaAutoridades: Array<Archivo>
+  actaAdminLegitimado: Array<Archivo>
 }
 
 type Archivo = {

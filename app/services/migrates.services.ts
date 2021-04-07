@@ -251,7 +251,8 @@ export class Parser extends ConnectionManager {
         tipoApoderado: '',
         fotosDNI: [],
         imagenesDni: [],
-        actaAutoridades: []
+        actaAutoridades: [],
+        actaAdminLegitimado: []
       }
     }
 
