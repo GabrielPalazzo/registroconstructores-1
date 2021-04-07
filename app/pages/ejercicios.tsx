@@ -232,7 +232,7 @@ export default () => {
             bindFunction={() => null}
             value={pasivoNoCorriente + pasivoCorriente}
             labelMessageError=""
-            disabled />
+            disabled ={true} />
 
         </div>
         <div className="pb-6" >
@@ -265,14 +265,18 @@ export default () => {
 
         </div>
         <div className="pb-6" >
-        <InputNumberModal
+        <InputTextModal
             label="Patrimonio Neto"
             placeholder="000000,000 "
-            step=".01"
+            type="number" step="any"
             locked={modo === MODO.VIEW}
+            bindFunction={() => null}
             value={(activoNoCorriente + activoCorriente) - (pasivoCorriente + pasivoNoCorriente)}
             labelMessageError=""
-            disabled />
+            disabled={true}
+             />
+             
+
 
         </div>
         <div className="pb-6" >

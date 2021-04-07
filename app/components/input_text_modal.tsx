@@ -31,6 +31,8 @@ interface Props {
   locked?: boolean
   maxLength?: number
   isEditable?:boolean
+  className?:string
+  
 }
 
 export default (props: Props) => {
@@ -59,6 +61,7 @@ export default (props: Props) => {
         min={props.min}
         step={props.step}
         maxLength ={props.maxLength}
+       
     
       />
     </div>
