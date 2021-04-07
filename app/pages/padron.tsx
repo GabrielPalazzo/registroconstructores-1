@@ -54,53 +54,42 @@ export default () => {
 
   const columns = [
     {
-      title: 'Cerificado',
-      key: 'cerificado',
+      title: 'Certificado',
+      key: 'Certificado',
       render: (text, record) => <div><Certificado
-        razonSocial={record.RazonSocial}
-        cuit={record.NumeroCUIT}
-        personeria={record.TipoPersoneria}
-        tipoEmpresa={''}
-        capacidadContratacion={record.CapacidadContratacion}
-        capacidadEjecucion={record.CapacidadEjecucion}
-        obras={record.ObrasAdjudicadasYEnEjecucion}
-        porcentajesEspecialidades={record.PorcentajesPorEspecialidades}
+        cuit={record.tramite.cuit}
       /></div>
     }, {
       title: 'Ficha',
       key: 'Ficha',
-      render: (text, record) => <div><Button onClick={() => showTramite(record.NumeroCUIT)}>Ver Ficha</Button></div>
+      render: (text, record) => <div><Button onClick={() => showTramite(record.tramite.cuit)}>Ver Ficha</Button></div>
     },
     {
       title: 'Razon Social',
-      dataIndex: 'RazonSocial',
+      render: (text, record) => <div>{record.tramite.razonSocial}</div>,
       key: 'razonSocial',
     },
     {
       title: 'Tipo de Personeria',
-      dataIndex: 'TipoPersoneria',
+      render: (text, record) => <div>{record.tramite.personeria}</div>,
       key: 'TipoPersoneria',
     },
     {
       title: 'Nro Cuit',
-      dataIndex: 'NumeroCUIT',
+      render: (text, record) => <div>{record.tramite.cuit}</div>,
       key: 'NumeroCUIT',
     },
     {
       title: 'Capacidad de Contratacion',
-      render: (text, record) => <div>{numeral(record.CapacidadContratacion).format('$0,0.00')}</div>,
+      render: (text, record) => <div>{numeral(record.capacidadFinanciera).format('$0,0.00')}</div>,
       key: 'CapacidadContratacion',
     },
     {
       title: 'Capacidad de Ejecucion',
-      render: (text, record) => <div>{numeral(record.CapacidadEjecucion).format('$0,0.00')}</div>,
+      render: (text, record) => <div>{numeral(record.capacidadEjecucion).format('$0,0.00')}</div>,
       key: 'CapacidadEjecucion',
-    },
-    {
-      title: 'Fecha Preinscripcion',
-      dataIndex: 'FechaPreinscripcion',
-      key: 'FechaPreinscripcion',
     }
+    
 
 
   ]
@@ -134,8 +123,8 @@ export default () => {
         <Button loading={isMigratingData} onClick={handleMigrarEmpresa}>Migrar</Button>
       ]}
       onCancel={() => setShowModalMigrador(false)}>
-      <TextArea value={key} onChange={(e) => setKey(e.target.value)} rows={8} />
-      <div>Id Proveedor</div>
+     
+      <div>Id Proveedor a migrar</div>
       <Input value={idProveedor} onChange={e => setIdProveedor(e.target.value)}></Input>
     </Modal>
 
@@ -167,7 +156,7 @@ export default () => {
           onChange={(e) => setTextToSearch(e.target.value)}
           onSearch={async () => {
             setIsSearching(true)
-            setCertificados(await getCertificados(textToSearch, textToSearch))
+            setCertificados(await getCertificados(textToSearch))
             setIsSearching(false)
           }}
         />

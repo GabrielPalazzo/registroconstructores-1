@@ -27,11 +27,11 @@ class ConnectionManager {
       useUnifiedTopology: true,
     });
 
-    this.headers = process.env.CONTRATAR_AUTH_MODE ? {
+    this.headers = process.env.CONTRATAR_AUTH_MODE && process.env.CONTRATAR_AUTH_MODE==='COOKIE' ?   {
+      Cookie: this.CONTRATAR_KEY
+    } : {
       "Authorization": `Bearer ${this.CONTRATAR_KEY}`,
       "AuthorizationMethod": 'APIKEY'
-    } : {
-      Cookie: this.CONTRATAR_KEY
     }
 
   }
@@ -103,7 +103,7 @@ export class MigrateService extends ConnectionManager {
       headers: this.headers
     }).then(async result => {
       if (result.data) {
-        console.log(result)
+
         await db.collection('oldDatosInfoBasica').save({
           _id: codigoProveedor,
           ...result.data.Data
@@ -413,8 +413,34 @@ export class Parser extends ConnectionManager {
     };
 
     const db = await this.client.db(config.registro.dataBase)
+    
+
+    const certificadoViejo = await db.collection('certificados').findOne({
+      "NumeroCUIT":newTramite.cuit
+    })
+
+
+    const certificado: CertificadoCapacidad = {
+      _id: nanoid(),
+      tramite:newTramite,
+      otorgadoPor: {
+        usuario:null,
+        fecha: new Date().getTime()
+      },
+      vigencia: {
+        fechaDesde: new Date().getTime(),
+        fechaHasta: moment().add(1, 'year').toDate().getTime()
+      },
+      status: 'VIGENTE',
+      capacidadEjecucion: certificadoViejo.CapacidadEjecucion,
+      capacidadFinanciera: certificadoViejo.CapacidadContratacion,
+    }
+
+
     await db.collection('tramites').insertOne(newTramite);
     console.log('Tramite Cargado ')
+    await db.collection('certificadosOtorgados').save(certificado);
+    console.log('Certificado Generado')
   }
 
 }
