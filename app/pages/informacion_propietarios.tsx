@@ -391,14 +391,14 @@ export default (props) => {
             label="Último registro en el Libro de Depósito de Acciones "
             labelRequired="*"
             labelMessageError=""
-            defaultValue={tramite.datosSocietarios.sociedadAnonima.contrato.archivos as any}
+            defaultValue={tramite.archivoPropietarios as any}
             onOnLoad={file => {
-              tramite.datosSocietarios.sociedadAnonima.contrato.archivos.push(file)
+              tramite.archivoPropietarios.push(file)
               save()
               setIsLoading(false)
             }}
             onRemove={async fileToRemove => {
-              tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid !== fileToRemove.uid)
+              tramite.archivoPropietarios = tramite.archivoPropietarios.filter(f => f.cid !== fileToRemove.uid)
               updateObjTramite()
               await save()
               setIsLoading(false)
@@ -412,14 +412,14 @@ export default (props) => {
          label="Contrato social o última modificación aprobada correspondiente a cesión de cuotas sociales "
          labelRequired="*"
          labelMessageError=""
-         defaultValue={tramite.datosSocietarios.sociedadAnonima.contrato.archivos as any}
+         defaultValue={tramite.archivoPropietarios2 as any}
          onOnLoad={file => {
-           tramite.datosSocietarios.sociedadAnonima.contrato.archivos.push(file)
+           tramite.archivoPropietarios2.push(file)
            save()
            setIsLoading(false)
          }}
          onRemove={async fileToRemove => {
-           tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid !== fileToRemove.cid)
+           tramite.archivoPropietarios2 = tramite.archivoPropietarios2.filter(f => f.cid !== fileToRemove.cid)
            updateObjTramite()
            await save()
            setIsLoading(false)

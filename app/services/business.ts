@@ -154,6 +154,8 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
     domicilioLegal: '',
     constanciaDomicilioLegal: [],
     domicilioReal: '',
+    archivoPropietarios:[],
+    archivoPropietarios2:[],
     rubroConstruccion: {
       lugar: '',
       fecha: '',

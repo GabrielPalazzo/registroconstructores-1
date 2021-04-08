@@ -214,6 +214,8 @@ type TramiteAlta = {
   telefonoAlternativo:string
   constanciaDomicilioLegal: Array<Archivo>
   registroPublicoDeComercio: string
+  archivoPropietarios:Array<Archivo>
+  archivoPropietarios2:Array<Archivo>
   igj: string
   rubroConstruccion: {
     lugar: string,
