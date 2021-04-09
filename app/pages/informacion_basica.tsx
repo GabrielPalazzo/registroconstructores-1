@@ -96,6 +96,7 @@ export default (props) => {
   const [aplicaDecretoDocientosDos, setAplicaDecretoDoscientosDos] = useState(false)
   const [usuario, setUsuario] = useState(null)
 
+  const [idUsuarios, setIdUsuarios] = useState('')
   const [decretoRazonSocial, setDecretoRazonSocial] = useState('')
   const [decretoCuit, setDecretoCuit] = useState('')
   const [decretoTipoFuncionarios, setDecretoTipoFuncionarios] = useState('')
@@ -121,11 +122,16 @@ export default (props) => {
     setVisible(true)
   }
 
-  const handleSaveApoderado = () => {
+  const handleSaveApoderado = async (a) => {
     if (modo === MODO.VIEW) {
       setVisible(false)
       clearState()
       return
+    }
+
+    if (MODO.EDIT){
+      tramite.apoderados = tramite.apoderados.filter( r => JSON.stringify(r)!== idUsuarios)
+      
     }
 
     if (!apellido.trim()) {
@@ -159,7 +165,7 @@ export default (props) => {
       return
     }
 
-    if (!tipoApoderado.trim()) {
+    if (!tipoApoderado) {
       setError('El Tipo de apoderado es requerido')
       setShowError(true)
       return
@@ -175,6 +181,7 @@ export default (props) => {
 			return
 		}
 
+    
     tramite.apoderados.push({
       imagenesDni: [],
       apellido,
@@ -229,7 +236,19 @@ export default (props) => {
   }
 
 
+  const cargarApoderado= (r : Apoderado) => {
+    setIdUsuarios(JSON.stringify(r))
+    setApellido(r.apellido)
+     setNombre(r.nombre)
+     setEmailApoderado(r.email)
+     setNroDocumentoApoderado(r.nroDocumento)
+     setTipoDocumentoApoderado(r.tipoDocumento)
+     setTipoApoderado(r.tipoApoderado)
+     setFotosDNIApoderado(r.fotosDNI)
+     setActaAutoridadesApoderado(r.actaAutoridades)
+     setCuitApoderado(r.cuit)
 
+  }
   const columns = [
     {
       title: 'Eliminar',
@@ -246,19 +265,11 @@ export default (props) => {
         </Space>),
     },
     {
-      title: 'Ver',
+      title: 'Editar / Ver',
       key: 'ver',
-      render: (text, record) => <div onClick={() => {
-        setApellido(record.apellido)
-        setNombre(record.nombre)
-        setEmailApoderado(record.email)
-        setNroDocumentoApoderado(record.nroDocumento)
-        setTipoDocumentoApoderado(record.tipoDocumento)
-        setTipoApoderado(record.tipoApoderado)
-        setFotosDNIApoderado(record.fotosDNI)
-        setActaAutoridadesApoderado(record.actaAutoridades)
-        setCuitApoderado(record.cuit)
-        setEsAdministradorLegitimado(record.esAdministrador)
+      render: (text, record) =>  <div onClick={() => {
+        cargarApoderado(record)
+        setModo(MODO.EDIT)
         showModal()
       }}><FolderViewOutlined /></div>,
     },
@@ -297,6 +308,8 @@ export default (props) => {
 
 
   ]
+
+
 
   const addPersonasAlDecreto = () => {
     if (!tramite.datosDecretoDoscientosDos)
@@ -905,7 +918,7 @@ export default (props) => {
               setEsAdministradorLegitimado(false)
               setFotosDNIApoderado([])
               setActaAutoridadesApoderado([])
-              
+              setModo(MODO.NEW)
               showModal()
             }} icon={<PlusOutlined />}> Agregar</Button>
           </div> : ''}
@@ -915,7 +928,7 @@ export default (props) => {
           onOk={handleSaveApoderado}
           footer={[
             <Button onClick={handleCancel}>Cancelar</Button>,
-            <Button type="primary" onClick={handleSaveApoderado} >Agregar</Button>
+            <Button type="primary" onClick={handleSaveApoderado}  >Agregar</Button>
           ]}
           okText="Guardar"
           onCancel={handleCancel}

@@ -195,7 +195,7 @@ export default () => {
               setDocumentoSistemaCalidad(Object.assign([], documentoSistemaCalidad))
             }}
             onRemove={fileToRemove => {
-              setDocumentoSistemaCalidad(Object.assign([], documentoSistemaCalidad.filter(d => d.cid !== fileToRemove.cid)))
+              setDocumentoSistemaCalidad(Object.assign([], documentoSistemaCalidad.filter(d => d.cid !== fileToRemove.uid)))
             }}
           />
         </div>
@@ -1474,7 +1474,7 @@ export default () => {
                   setIsLoading(false)
                 }}
                 onRemove={fileToRemove => {
-                  tramite.datosSocietarios.PJESP.archivoUltimaModificacion = tramite.datosSocietarios.PJESP.archivoUltimaModificacion.filter(f => f.cid !== fileToRemove.cid)
+                  tramite.datosSocietarios.PJESP.archivoUltimaModificacion = tramite.datosSocietarios.PJESP.archivoUltimaModificacion.filter(f => f.cid !== fileToRemove.uid)
                   updateObjTramite()
                   save()
                   setIsLoading(false)
