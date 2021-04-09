@@ -385,49 +385,30 @@ export default (props) => {
       </div>
       </Wrapper>
       <div className="grid grid-cols-1 gap-4 mt-8">
-      {tramite.personeria === 'SA'  ? <div>
+      
         <div className="pb-6" >
-          <Upload
-            label="Último registro en el Libro de Depósito de Acciones "
-            labelRequired="*"
-            labelMessageError=""
-            defaultValue={tramite.archivoPropietarios as any}
-            onOnLoad={file => {
-              tramite.archivoPropietarios.push(file)
-              save()
-              setIsLoading(false)
-            }}
-            onRemove={async fileToRemove => {
-              tramite.archivoPropietarios = tramite.archivoPropietarios.filter(f => f.cid !== fileToRemove.uid)
-              updateObjTramite()
-              await save()
-              setIsLoading(false)
-            }}
-            
-          />
-        </div>
-        </div>:
-       <div className="pb-6" >
-       <Upload
-         label="Contrato social o última modificación aprobada correspondiente a cesión de cuotas sociales "
+        
+        <Upload
+         label= {tramite.personeria === 'SA'  ? "Último registro en el Libro de Depósito de Acciones" : "Contrato social o última modificación aprobada correspondiente a cesión de cuotas sociales " }
          labelRequired="*"
          labelMessageError=""
          defaultValue={tramite.archivoPropietarios2 as any}
          onOnLoad={file => {
+          if (!tramite.archivoPropietarios2)
+          tramite.archivoPropietarios2 = []
            tramite.archivoPropietarios2.push(file)
            save()
            setIsLoading(false)
          }}
          onRemove={async fileToRemove => {
-           tramite.archivoPropietarios2 = tramite.archivoPropietarios2.filter(f => f.cid !== fileToRemove.cid)
+           tramite.archivoPropietarios2 = tramite.archivoPropietarios2.filter(f => f.cid !== fileToRemove.uid)
            updateObjTramite()
            await save()
            setIsLoading(false)
-         }}
-         
-       />
-     </div>}
-
+         }}/>
+          
+        </div>
+      
 
       </div>
       <Table columns={columnsPropietarioSoc} scroll={{ x: 1500 }} dataSource={Object.assign([],tramite.propietarios)} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}} />

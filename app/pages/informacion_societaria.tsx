@@ -242,11 +242,14 @@ export default () => {
             labelRequired="*"
             labelMessageError=""
             required
+            value={tipoDocumento}
+            bindFunction={(value) => setTipoDocumento(value)}
             option={TipoDocumento.map(u => (
               <Option value={u.value}>{u.label}</Option>
 
             ))}
           />
+
         </div>
         <div className="pb-6" >
           <InputTextModal
@@ -265,8 +268,9 @@ export default () => {
             defaultOption="Tipo de Organo"
             labelRequired="*"
             labelMessageError=""
-            bindFunction={setTipoOrgano}
             required
+            value={tipoOrgano}
+            bindFunction={(value) => setTipoOrgano(value)}
             option={TipoOrgano.map(u => (
               <Option value={u.value}>{u.label}</Option>
 
@@ -282,7 +286,8 @@ export default () => {
             labelRequired="*"
             labelMessageError=""
             required
-            bindFunction={setTipoCargo}
+            value={tipoCargo}
+            bindFunction={(value) => setTipoCargo(value)}
             option={TipoCargo.map(u => (
               <Option value={u.value}>{u.label}</Option>
 
@@ -429,6 +434,7 @@ export default () => {
     setTipoCargo('')
     setTipoOrgano('')
     setDireccion('')
+    setNroDocumento('')
     setObservaciones('')
     setCuit('')
 
@@ -493,6 +499,7 @@ export default () => {
     setNombre('')
     setApellido('')
     setTipoDocumento('')
+    setNroDocumento('')
     setTipoCargo('')
     setTipoOrgano('')
     setDireccion('')
