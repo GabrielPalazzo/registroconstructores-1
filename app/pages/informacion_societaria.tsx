@@ -16,11 +16,13 @@ import LikeDislike from '../components/like_dislike'
 import SelectModal from '../components/select_modal'
 import UploadLine from '../components/uploadLine'
 import InputNumberModal from '../components/input_number'
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { QuestionCircleOutlined, EditOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
+
+import { LinkToFile } from '../components/linkToFile';
 
 import Wrapper from '../components/wrapper'
 import { RootState } from '../redux/store';
@@ -75,6 +77,7 @@ export default () => {
   const [actividad, setActividad] = useState('')
   const [porcentajeCapital, setPorcentajeCapital] = useState(0)
   const [votos, setAVotos] = useState(0)
+  const [idAutoridad, setIdAutoridad] = useState('')
 
   const [modificacionEstatutoDatos, setModificacionEstatutoDatos] = useState('')
   const [modificacionEstatutoFecha, setModificacionEstatutoFecha] = useState('')
@@ -91,7 +94,7 @@ export default () => {
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
 
-    
+
 
   }, [])
 
@@ -350,12 +353,13 @@ export default () => {
         </div>
 
         <div className="pb-6" >
+
           <Upload
             label="Adjunte frente y dorso del DNI, Pasaporte, cédula de identidad "
             labelRequired="*"
             labelMessageError=""
             defaultValue={fotosDNIAutoridades as any}
-            onOnLoad={file => {
+            onOnLoad={(file) => {
               fotosDNIAutoridades.push(file)
               setFotosDNIAutoridades(Object.assign([], fotosDNIAutoridades))
             }}
@@ -413,7 +417,7 @@ export default () => {
 
     if (!tramite.autoridadesSociedad)
       tramite.autoridadesSociedad = []
-
+      
 
     tramite.autoridadesSociedad.push({
       nombre,
@@ -437,6 +441,7 @@ export default () => {
     setNroDocumento('')
     setObservaciones('')
     setCuit('')
+    setFotosDNIAutoridades([])
 
     updateObjTramite()
     await save()
@@ -591,13 +596,38 @@ export default () => {
   ];
 
 
+
+
   const columnsAutoridad = [
     {
       title: 'Action',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => removeAutoridad(record)}><DeleteOutlined /></div> : <Space size="middle">
-        <LikeDislike />
-      </Space>),
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ?
+        <Popconfirm
+          title="Esta seguro que lo  desea Eliminar ?"
+          onConfirm={() => removeAutoridad(record)}
+          onCancel={cancel}
+          okText="Si, Eliminar"
+          cancelText="Cancelar"> <div ><DeleteOutlined /></div>
+        </Popconfirm> : <Space size="middle"> </Space>
+      ),
+    },
+    {
+      title: '',
+      key: 'edit',
+      render: (text, record) => <div onClick={() => {
+        setIdAutoridad(JSON.stringify(record))
+        setNombre(record.nombre)
+        setApellido(record.apellido)
+        setTipoDocumento(record.tipoDocumento)
+        setTipoCargo(record.tipoCargo)
+        setTipoOrgano(record.tipoOrgano)
+        setNroDocumento(record.nroDocumento)
+        setCuit(record.cuit)
+        setDireccion(record.direccion)
+        setFotosDNIAutoridades(record.fotosDNI)
+        setModalAutoridad(true)
+      }}><EditOutlined /></div>
     },
     {
       title: 'Nombre',
@@ -623,6 +653,11 @@ export default () => {
       title: 'Tipo de Organo',
       dataIndex: 'tipoOrgano',
       key: 'tipoOrgano',
+    },
+    {
+      title: 'Adjunto',
+      render: (text, record) => <div>{record.fotosDNI && record.fotosDNI.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
+      key: 'fotosDNI',
     }
   ]
 
@@ -705,32 +740,32 @@ export default () => {
 
   if (tramite && !tramite.datosSocietarios.PJESP) {
     tramite.datosSocietarios['PJESP'] = {
-      archivosContrato:[],
-      archivoModificacion:[],
-      archivoUltimaModificacion:[],
-      inscripcionConstitutiva:{
-        fecha:'',
-        datos:''
+      archivosContrato: [],
+      archivoModificacion: [],
+      archivoUltimaModificacion: [],
+      inscripcionConstitutiva: {
+        fecha: '',
+        datos: ''
       },
-      inscripcionSucursal:{
+      inscripcionSucursal: {
         fecha: '',
         datos: ''
       },
       modifcicacionObjeto: {
-        fecha:'',
-        datos:''
+        fecha: '',
+        datos: ''
       },
       ultimaModificacionInscripcion: {
-        fecha:'',
-        datos: '' 
+        fecha: '',
+        datos: ''
       },
       fechaVencimiento: {
-        fecha:''
+        fecha: ''
       }
 
     }
   }
-  
+
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
@@ -746,7 +781,7 @@ export default () => {
 
     <div className="px-20 mx-20 py-6 ">
 
-   
+
 
 
       {tramite.personeria === 'UTE' ? <div>
@@ -924,14 +959,14 @@ export default () => {
           </div>
         </Wrapper>
         <div className=" content-center  rounded-lg border  px-4 py-4">
-        <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
-        {isTramiteEditable(tramite) ?
-            <div className="content-center ">
-              <div className="  text-right content-center -mt-8 ">
-                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
-              </div>
+          <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
+            {isTramiteEditable(tramite) ?
+              <div className="content-center ">
+                <div className="  text-right content-center -mt-8 ">
+                  <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+                </div>
 
-            </div>: ''}
+              </div> : ''}
             <div className="pb-6">
               <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
                 tramite.autoridadesVencimiento = !e.target.checked
@@ -990,7 +1025,7 @@ export default () => {
           <div >
             <Wrapper title="Fecha" attributeName="fechaFirmaActaCooperativa" labelRequired="*">
               <DatePicker
-               labelRequired=""
+                labelRequired=""
                 placeholder="Fecha"
                 labelObservation=""
                 labeltooltip=""
@@ -1202,13 +1237,13 @@ export default () => {
         </div>
         <div className=" content-center  rounded-lg border  px-4 py-4">
           <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
-          {isTramiteEditable(tramite) ?
-            <div className=" content-center ">
-              <div className=" text-right content-center -mt-8 ">
-                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
-              </div>
+            {isTramiteEditable(tramite) ?
+              <div className=" content-center ">
+                <div className=" text-right content-center -mt-8 ">
+                  <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+                </div>
 
-            </div>: ''}
+              </div> : ''}
             <div className="pb-6">
               <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
                 tramite.autoridadesVencimiento = !e.target.checked
@@ -1472,13 +1507,13 @@ export default () => {
         </Wrapper>
         <div className=" content-center  rounded-lg border  px-4 py-4">
           <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
-          {isTramiteEditable(tramite) ?
-            <div className="content-center ">
-              <div className=" text-right content-center -mt-8 ">
-                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
-              </div>
+            {isTramiteEditable(tramite) ?
+              <div className="content-center ">
+                <div className=" text-right content-center -mt-8 ">
+                  <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+                </div>
 
-            </div>: ''}
+              </div> : ''}
             <div className="pb-6">
               <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
                 tramite.autoridadesVencimiento = !e.target.checked
@@ -1529,9 +1564,9 @@ export default () => {
           {renderModalAutoridad()}
         </Modal>
 
-      </div> :''}
+      </div> : ''}
 
-{tramite.personeria === 'SA' || tramite.personeria === 'SRL' || tramite.personeria === 'OFS' ?   <div>
+      {tramite.personeria === 'SA' || tramite.personeria === 'SRL' || tramite.personeria === 'OFS' ? <div>
         <div className="text-2xl font-bold py-4"> Firma del Contrato Constitutivo</div>
         <div className="grid grid-cols-4 gap-4 ">
           <div >
@@ -1554,26 +1589,26 @@ export default () => {
         </div>
 
         <div className="rounded-lg mt-4 border px-4 py-4">
-        <div className="text-2xl font-bold py-4"> Inscripción de Contrato Constitutivo (en D.P.P.J / I.G.J.)</div>
-           <div className="grid grid-cols-2 gap-4 ">
-              <div >
-              
+          <div className="text-2xl font-bold py-4"> Inscripción de Contrato Constitutivo (en D.P.P.J / I.G.J.)</div>
+          <div className="grid grid-cols-2 gap-4 ">
+            <div >
+
               <Wrapper title="Datos" attributeName="datosInscripcionContratoConstitutivo" labelRequired="*">
-              <InputText
-                attributeName="datosInscripcionContratoConstitutivo"
-              value={tramite.datosSocietarios.sociedadAnonima.inscripcion.datos}
+                <InputText
+                  attributeName="datosInscripcionContratoConstitutivo"
+                  value={tramite.datosSocietarios.sociedadAnonima.inscripcion.datos}
                   bindFunction={value => {
                     tramite.datosSocietarios.sociedadAnonima.inscripcion.datos = value
                     updateObjTramite()
                   }}
-                  
+
                   labelMessageError=""
                   required />
-                  </Wrapper>
-                  </div>
-              <div >
+              </Wrapper>
+            </div>
+            <div >
               <Wrapper title="Fecha" attributeName="fechaInscripcionContratoConstitutivo"
-              labelRequired="*"  >
+                labelRequired="*"  >
                 <DatePicker
                   value={tramite.datosSocietarios.sociedadAnonima.inscripcion.fecha}
                   bindFunction={value => {
@@ -1585,12 +1620,12 @@ export default () => {
                   labeltooltip=""
                   labelMessageError=""
                 />
-                </Wrapper>
-              </div>
+              </Wrapper>
+            </div>
 
-              <div >
+            <div >
               <Wrapper attributeName="DocumentoContratoConstitutivo" title="Contrato Constitutivo, junto con TODAS sus modificaciones hasta el día de hoy" labelRequired="*">
-      
+
                 <Upload
                   labelMessageError=""
                   defaultValue={tramite.datosSocietarios.sociedadAnonima.contrato.archivos as any}
@@ -1598,33 +1633,33 @@ export default () => {
                     if (!tramite.datosSocietarios.sociedadAnonima.contrato.archivos)
                       tramite.datosSocietarios.sociedadAnonima.contrato.archivos = []
                     tramite.datosSocietarios.sociedadAnonima.contrato.archivos.push(file)
-                    
+
                     save()
                     setIsLoading(false)
                   }}
                   onRemove={fileToRemove => {
                     tramite.datosSocietarios.sociedadAnonima.contrato.archivos = tramite.datosSocietarios.sociedadAnonima.contrato.archivos.filter(f => f.cid !== fileToRemove.uid)
-                    
+
                     save()
                     setIsLoading(false)
                   }}
                 />
 
 
-                
-                </Wrapper>
-              </div>
 
-
+              </Wrapper>
             </div>
+
+
+          </div>
         </div>
         <div className="rounded-lg mt-4 border px-4 py-4">
-        <div className="text-2xl font-bold py-4"> Modificación del Contrato Social (inscripta en D.P.P.J / I.G.J. correspondiente a ampliación del objeto social para realizar actividades del rubro Construcción)</div>
-            <div className="grid grid-cols-2 gap-4 ">
-              <div >
+          <div className="text-2xl font-bold py-4"> Modificación del Contrato Social (inscripta en D.P.P.J / I.G.J. correspondiente a ampliación del objeto social para realizar actividades del rubro Construcción)</div>
+          <div className="grid grid-cols-2 gap-4 ">
+            <div >
               <Wrapper title="Datos" attributeName="datosModificacionContratoo" labelRequired="*">
                 <InputText
-                attributeName="datosModificacionContratoo"
+                  attributeName="datosModificacionContratoo"
                   value={tramite.datosSocietarios.sociedadAnonima.modificacion.datos}
                   bindFunction={value => {
                     tramite.datosSocietarios.sociedadAnonima.modificacion.datos = value
@@ -1632,8 +1667,8 @@ export default () => {
                   }}
                   labelMessageError=""
                   required />
-                  </Wrapper></div>
-              <div >
+              </Wrapper></div>
+            <div >
               <Wrapper title="Fecha" attributeName="fechaModificacionContratoSA" >
                 <DatePicker
                   value={tramite.datosSocietarios.sociedadAnonima.modificacion.fecha}
@@ -1641,19 +1676,19 @@ export default () => {
                     tramite.datosSocietarios.sociedadAnonima.modificacion.fecha = value
                     updateObjTramite()
                   }}
-                   placeholder="Fecha"
+                  placeholder="Fecha"
                   labelObservation=""
                   labeltooltip=""
                   labelMessageError=""
                 />
-                </Wrapper>
-              </div>
+              </Wrapper>
+            </div>
 
-              <div >
+            <div >
               <Wrapper attributeName="DocumentoModificacionObjetoSocial" title="Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J." labelRequired="*">
-      
+
                 <Upload
-                 labelMessageError=""
+                  labelMessageError=""
                   defaultValue={tramite.datosSocietarios.sociedadAnonima.modificacion.archivos as any}
                   onOnLoad={file => {
                     if (!tramite.datosSocietarios.sociedadAnonima.modificacion.archivos)
@@ -1670,10 +1705,10 @@ export default () => {
                     setIsLoading(false)
                   }}
                 />
-                </Wrapper>
-              </div>
-
+              </Wrapper>
             </div>
+
+          </div>
 
         </div>
         <div className="rounded-lg mt-4 border px-4 py-4">
@@ -1763,15 +1798,15 @@ export default () => {
           </div>
         </div>
         <div className=" content-center  rounded-lg border  px-4 py-4">
-        <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
-        {isTramiteEditable(tramite) ?
-            <div className=" content-center ">
-              <div className=" text-right content-center -mt-8 ">
-                <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
-              </div>
+          <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
+            {isTramiteEditable(tramite) ?
+              <div className=" content-center ">
+                <div className=" text-right content-center -mt-8 ">
+                  <Button type="primary" onClick={() => setModalAutoridad(true)} icon={<PlusOutlined />}> Agregar</Button>
+                </div>
 
-            </div>: ''}
-            
+              </div> : ''}
+
             <div className="pb-6">
               <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
                 tramite.autoridadesVencimiento = !e.target.checked
@@ -1823,7 +1858,7 @@ export default () => {
         </Modal>
 
 
-      </div> :''}
+      </div> : ''}
 
       {isPersonaFisica(tramite) ? <div>
         <Wrapper isTitle title="Alta en AFIP (actividad referente a rubro Construcción)" attributeName="AltaEnAfipPF" >
@@ -2061,12 +2096,12 @@ export default () => {
       <div className="mt-4">
         <Collapse accordion>
           <Panel header=" Sistema de Calidad" key="1">
-          <Wrapper  title="Sistema de Calidad" attributeName="SistemaCalidad" >
-          {isTramiteEditable(tramite) ?
-            <div className="  text-center content-center mt-2 mb-4 ">
-              <Button type="primary" onClick={() => setModalCalidad(true)} icon={<PlusOutlined />}> Agregar</Button>
-            </div>:''}
-          </Wrapper>
+            <Wrapper title="Sistema de Calidad" attributeName="SistemaCalidad" >
+              {isTramiteEditable(tramite) ?
+                <div className="  text-center content-center mt-2 mb-4 ">
+                  <Button type="primary" onClick={() => setModalCalidad(true)} icon={<PlusOutlined />}> Agregar</Button>
+                </div> : ''}
+            </Wrapper>
             {tramite.sistemaCalidad && tramite.sistemaCalidad.length > 0 ? <Table columns={columnsCalidad}
               dataSource={Object.assign([], tramite.sistemaCalidad)}
               locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} /> : renderNoData()}
@@ -2110,40 +2145,40 @@ export default () => {
                 afterClose={() => setShowError(false)}
               /></div> : ''}
             <div className="grid grid-cols-2 gap-4 pb-6  ">
-           
+
 
 
               <div >
-              <Wrapper  title="CUIT / NIT" attributeName="CuitNit" labelRequired="*" >
-                <InputText
-                attributeName="CuitNit"
-                  value={cuitNit}
-                  bindFunction={(value) => { setCuitNit(value) }}
-                  labelMessageError=""
-                  required />
-              </Wrapper>
+                <Wrapper title="CUIT / NIT" attributeName="CuitNit" labelRequired="*" >
+                  <InputText
+                    attributeName="CuitNit"
+                    value={cuitNit}
+                    bindFunction={(value) => { setCuitNit(value) }}
+                    labelMessageError=""
+                    required />
+                </Wrapper>
 
               </div>
               <div >
-              <Wrapper  title="EmpresaParticipada" attributeName="EmpresaParticipada" labelRequired="*"  >
-                <InputText
-                attributeName="EmpresaParticipada"
-                  value={empresaParticipada}
-                  bindFunction={(value) => { setEmpresaParticipada(value) }}
-                  labelMessageError=""
-                  required />
-</Wrapper>
+                <Wrapper title="EmpresaParticipada" attributeName="EmpresaParticipada" labelRequired="*"  >
+                  <InputText
+                    attributeName="EmpresaParticipada"
+                    value={empresaParticipada}
+                    bindFunction={(value) => { setEmpresaParticipada(value) }}
+                    labelMessageError=""
+                    required />
+                </Wrapper>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-4 pb-6 ">
               <div >
-              <Wrapper  title="Actividad" attributeName="Actividad" labelRequired="*"  >
-                <InputText
-                attributeName="Actividad"
-                  value={actividad}
-                  bindFunction={(value) => { setActividad(value) }}
-                  labelMessageError=""
-                />
+                <Wrapper title="Actividad" attributeName="Actividad" labelRequired="*"  >
+                  <InputText
+                    attributeName="Actividad"
+                    value={actividad}
+                    bindFunction={(value) => { setActividad(value) }}
+                    labelMessageError=""
+                  />
                 </Wrapper>
               </div>
               <div >

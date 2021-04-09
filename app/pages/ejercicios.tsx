@@ -349,8 +349,8 @@ export default () => {
     setCierreEjercicio(r.fechaCierre)
     setInicioEjercicio(r.fechaInicio)
     setVentasDelEjercicio(r.ventasEjercicio)
-    setArchivos([])
-    setArchivosActaAsamblea([])
+    setArchivos(r.archivos)
+    setArchivosActaAsamblea(r.archivosActaAsamblea)
 
   }
 
