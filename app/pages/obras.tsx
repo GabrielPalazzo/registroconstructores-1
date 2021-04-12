@@ -16,7 +16,7 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { allowGuardar, getCodigoObra,getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
+import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
@@ -48,8 +48,8 @@ function cancel(e) {
 
 
 const MODO = {
-  NEW:'NEW',
-  EDIT:'EDIT',
+  NEW: 'NEW',
+  EDIT: 'EDIT',
   VIEW: 'VIEW'
 }
 
@@ -78,7 +78,7 @@ export default () => {
 
   const [obra, setObra] = useState<DDJJObra>(getEmptyObras())
   const [especialidad1, setEspecialidad1] = useState('')
-  const [modo, setModo]  = useState(MODO.NEW)
+  const [modo, setModo] = useState(MODO.NEW)
 
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export default () => {
       if (!(await getTramiteByCUIT(tramite.cuit)))
         await dispatch(saveTramite(tramite))
     }
-    
+
   }
 
   const updateObjTramite = () => {
@@ -142,10 +142,10 @@ export default () => {
       return
     }
     if (_.isEmpty(archivosPlazos)) {
-			setError('El documento respladatorio')
-			setShowError(true)
-			return
-		}
+      setError('El documento respladatorio')
+      setShowError(true)
+      return
+    }
     if (!obra.prorrogaNueva)
       obra.prorrogaNueva = []
 
@@ -165,15 +165,15 @@ export default () => {
 
   const renderModalObra = () => {
     return (<div>
-       {showError ? <div className="mb-4">
-      <Alert
-        message=''
-        description={error}
-        type="error"
-        showIcon
-        closable
-        afterClose={() => setShowError(false)}
-      /></div> : ''}
+      {showError ? <div className="mb-4">
+        <Alert
+          message=''
+          description={error}
+          type="error"
+          showIcon
+          closable
+          afterClose={() => setShowError(false)}
+        /></div> : ''}
       <div className="text-left bg-gray-300 p-4 px-6 ">
         <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2 rounded-full">{numeral(obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</Tag>
         <Tag>Certificado Total </Tag> <Tag color="magenta" className="mr-2 rounded-full">{numeral(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0).format('$0,0.00')}</Tag>
@@ -284,7 +284,7 @@ export default () => {
 
                 </div>
                 <div >
-                <SelectMultiple
+                  <SelectMultiple
                     labelRequired=""
                     value={obra.subEspecialidad2}
                     bindFunction={e => {
@@ -317,7 +317,7 @@ export default () => {
                     }}
                     labelMessageError=""
 
-                    maxLength={50}/>
+                    maxLength={50} />
                 </div>
 
               </div>
@@ -372,7 +372,7 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
-                 maxLength={50}/>
+                    maxLength={50} />
                 </div>
 
               </div>
@@ -606,12 +606,12 @@ export default () => {
                   label="Adjuntar Acta"
                   labelRequired="*"
                   defaultValue={archivosPlazos as any}
-                  onOnLoad={file =>{
+                  onOnLoad={file => {
                     archivosPlazos.push(file)
-                    setArchivosPlazos(Object.assign([],archivosPlazos))
+                    setArchivosPlazos(Object.assign([], archivosPlazos))
                   }}
                   onRemove={fileToRemove => {
-                    setArchivosPlazos(Object.assign([],archivosPlazos.filter(f=> f.cid !==fileToRemove.uid)))
+                    setArchivosPlazos(Object.assign([], archivosPlazos.filter(f => f.cid !== fileToRemove.uid)))
                   }}
 
                 />
@@ -681,8 +681,8 @@ export default () => {
         okText="Si, Eliminar"
         cancelText="Cancelar"
       > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-          <LikeDislike />
-        </Space>),
+        <LikeDislike />
+      </Space>),
     },
 
 
@@ -707,7 +707,7 @@ export default () => {
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR'  || tramite.status ==='OBSERVADO'  ? <Popconfirm
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' ? <Popconfirm
         title="Esta seguro que lo  deseas Eliminar  La Obra"
         onConfirm={() => {
           setModo(MODO.EDIT)
@@ -717,24 +717,24 @@ export default () => {
         okText="Si, Eliminar"
         cancelText="Cancelar"
       > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-          <LikeDislike />
-        </Space>),
+        <LikeDislike />
+      </Space>),
     },
     {
       title: 'Editar',
       key: 'editar',
-      render: (text, record) => (tramite && (tramite.status === 'BORRADOR' || tramite.status ==='OBSERVADO') ? <div onClick={() => {
+      render: (text, record) => (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO') ? <div onClick={() => {
         setModo(MODO.EDIT)
-        editarObrar(Object.assign({},record))
+        editarObrar(Object.assign({}, record))
       }} className="cursor-pointer"><EditOutlined /></div> : <Space size="middle">
       </Space>),
     },
     {
       title: 'Ver',
       key: 'ver',
-      render: (text, record) => <div onClick={() =>{
+      render: (text, record) => <div onClick={() => {
         setModo(MODO.VIEW)
-        editarObrar(Object.assign({},record))
+        editarObrar(Object.assign({}, record))
       }} className="cursor-pointer"><CloudDownloadOutlined /></div>
     },
 
@@ -744,9 +744,9 @@ export default () => {
       key: 'id',
     },
     //{
-      //title: 'Estado',
-      //dataIndex: 'estado',
-      //render : (text,record : DDJJObra) => <div>{_.last(record.datosObra).estado}</div> 
+    //title: 'Estado',
+    //dataIndex: 'estado',
+    //render : (text,record : DDJJObra) => <div>{_.last(record.datosObra).estado}</div> 
     //},
     {
       title: 'Denominación',
@@ -756,19 +756,19 @@ export default () => {
     {
       title: 'Comitente',
       dataIndex: 'comitente',
-      render: (text, record : DDJJObra) => <div>{record.razonSocialComitente}</div>,
+      render: (text, record: DDJJObra) => <div>{record.razonSocialComitente}</div>,
     },
     {
       title: 'Monto Vigente',
       dataIndex: 'Monto Vigente',
-      render: (text, record : DDJJObra) => <div>{numeral(record.montoInicial + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>,
-      
+      render: (text, record: DDJJObra) => <div>{numeral(record.montoInicial + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>,
+
     },
     {
       title: 'Certificado a la fecha',
       dataIndex: 'certificado',
-      render: (text, record : DDJJObra) => <div>{numeral(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0).format('$0,0.00')}</div>,
-    },{
+      render: (text, record: DDJJObra) => <div>{numeral(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0).format('$0,0.00')}</div>,
+    }, {
 
       title: 'Saldo',
       dataIndex: 'saldo',
@@ -776,10 +776,16 @@ export default () => {
     }
   ]
 
-  columns = tramite && (tramite.status === 'BORRADOR' || tramite.status ==='OBSERVADO') ? columns : columns.slice(2, columns.length)
+
+  if (isTramiteEditable(tramite)) {
+    if (tramite.categoria === 'DESACTUALIZADO')
+      columns = columns.slice(1, columns.length)
+  } else {
+    columns = columns.slice(2, columns.length)
+  }
 
 
-  
+
 
 
 
@@ -819,24 +825,25 @@ export default () => {
       setShowError(true)
       return
     }
-   
-    
+
+
     if ((!obra.plazoPorContrato)) {
       setError('El plazo  por contrato es requerido ')
       setShowError(true)
       return
     }
-    
-    
+
+
     tramite.ddjjObras = tramite.ddjjObras.filter((o: DDJJObra) => o.id !== obra.id)
-    tramite.ddjjObras.push(obra)
+    obra.status = null
+    tramite.ddjjObras.push(Object.assign({}, obra))
     await save()
-    setModalObras(false) 
+    setModalObras(false)
   }
 
-  
 
- 
+
+
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
@@ -845,39 +852,40 @@ export default () => {
     <div className="border-gray-200 border-b-2  px-10">
       <NavigationStep generalStatus={statusGeneralTramite} current={3} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
-    <div className="px-20 mx-20 py-6 ">
+    <div className="px-8 mx-8 py-6 ">
       <div className="flex  content-center  ">
-      <Wrapper title="Declaración jurada de Obras " attributeName="obras" isTitle>
-        <div className="text-right content-center  -mt-8">
-          {isTramiteEditable(tramite) ? <Button type="primary" onClick={() => {
-            const obraEmpty = getEmptyObras()
-            obraEmpty.id = getCodigoObra()
-            // obra.id = getCodigoObra()
-            setModo(MODO.NEW)
-            setObra(Object.assign({}, obraEmpty))
-            setModalObras(true)
-          }} icon={<PlusOutlined />}> Agregar</Button> : ''}
-        </div>
+        <Wrapper title="Declaración jurada de Obras " attributeName="obras" isTitle>
+          <div className="text-right content-center  -mt-8">
+            {isTramiteEditable(tramite) ? <Button type="primary" onClick={() => {
+              const obraEmpty = getEmptyObras()
+              obraEmpty.id = getCodigoObra()
+              // obra.id = getCodigoObra()
+              setModo(MODO.NEW)
+              setObra(Object.assign({}, obraEmpty))
+              setModalObras(true)
+            }} icon={<PlusOutlined />}> Agregar</Button> : ''}
+          </div>
         </Wrapper>
 
-        
+
       </div>
       <div className="mb-4 mt-8">
         <Alert message="El interesado deberá declarar sus antecedentes de ejecución de Obras según lo establecido en el artículo 11 de la DI-2021-3-APN-ONC#JGM" type="info" />
       </div>
       <div>
-        <Tabs defaultActiveKey="1" onChange={callback}  style={{marginLeft:"0px"}}>
-        <TabPane tab="Obras con modificaciones" key="1">
-          <div className="overflow-x-auto" >
-              {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras.filter(o => !o.status ||   o.status !=='APROBADA')} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
-            </div>
-          </TabPane>
-          <TabPane tab="Obras " key="2">
+        <Tabs defaultActiveKey="1" onChange={callback} style={{ marginLeft: "0px" }}>
+        <TabPane tab="Todas las obras declaradas" key="1">
             <div className="overflow-x-auto" >
-              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras.filter( o => o.status &&  o.status ==='APROBADA' )} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
+              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
             </div>
           </TabPane>
-         
+          <TabPane tab={`Obras a revisar por el Registro (${tramite.ddjjObras.filter(o => !o.status || o.status !== 'APROBADA').length})`} key="2">
+            <div className="overflow-x-auto" >
+              {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras.filter(o => !o.status || o.status !== 'APROBADA')} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
+            </div>
+          </TabPane>  
+          
+
         </Tabs>
       </div>
 
@@ -904,7 +912,7 @@ export default () => {
 
       </div>
     </div>
-   
+
   </div>
   )
 }

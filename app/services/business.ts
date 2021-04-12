@@ -424,10 +424,6 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
   }
 
 
-
-
-
-
   if (tramite.status === 'PENDIENTE DE REVISION' && getUsuario().isBackOffice()) {
     tramite.status = 'A SUPERVISAR'
     tramite.asignadoA = null
@@ -548,3 +544,10 @@ const generarCertificado = async (tramite: TramiteAlta, usuario: Usuario, db): P
 
 }
 
+
+export const cambiarADesActualizado = async (tramite: TramiteAlta) : Promise<TramiteAlta> =>{
+  tramite.categoria='DESACTUALIZADO'
+  tramite.status='BORRADOR'
+  await saveTramiteService(tramite)
+  return tramite 
+}

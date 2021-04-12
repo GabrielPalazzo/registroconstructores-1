@@ -11,11 +11,7 @@ export default async (req, res) => {
     await service.dbUpd()
     await serviceCargarProveedor.dbUpd()
 
-    if (await service.proveedorYaMigrado(idProveedor)) {
-        res.status(422).send('El proveedor ya se encuentra migrado')
-        return
-    }
-
+    
     await service.migrarProveedoresPreInscripcion(idProveedor)
     await service.migrarProveedoresInfoBasica(idProveedor)
     await service.migrarProveedoresBalances(idProveedor)

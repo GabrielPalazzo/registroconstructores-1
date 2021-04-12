@@ -59,8 +59,8 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     {
       title: 'Periodo',
       key: 'periodo',
-      sorter: (a, b) => moment(a.periodo).unix() - moment(b.periodo).unix(),
-     render: (text, record) => <div>{moment(record.periodo, 'DD/MM/YYYY').format('MMMM YYYY')}</div>
+      sorter: (a, b) => moment(a.periodo,'DD/MM/YYYY').unix() - moment(b.periodo).unix(),
+     render: (text, record) => <div>{moment(record.periodo).format('MMMM YYYY')}</div>
     }, {
       title: 'Monto',
       key:'monto',

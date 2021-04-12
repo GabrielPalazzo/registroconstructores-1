@@ -120,7 +120,7 @@ export default () => {
         <Breadcrumb.Item>Trámites</Breadcrumb.Item>
       </Breadcrumb>
     </div>
-    <div className="md:px-20  mx-20 py-6 grid grid-cols-2 px-4 ">
+    <div className="md:px-8  mx-8 py-6 grid grid-cols-2 px-4 ">
 
       <div className="text-2xl font-bold py-4"> Empresas administradas</div>
       <div className="text-2xl font-bold py-4 text-right">
@@ -137,7 +137,7 @@ export default () => {
     </div>
     <div className="pb-4 text-center  border-gray-200 border-t-2" >
 
-     <div className="text-sm mt-2"> version: 1.22.9 </div> 
+     <div className="text-sm mt-2"> version: 1.22.10 </div> 
 
     </div>
 

@@ -150,7 +150,7 @@ type AutoridadEmpresa  ={
 
 type Ejercicio = {
   codigo?: string
-  status?: 'APROBADO' | 'RECHAZADO' | null // APROBADO EN REVISION DES ESTIMADO 
+  status?: 'APROBADO' | 'RECHAZADO' | null | 'EN REVISION'  // APROBADO EN REVISION DES ESTIMADO 
   fechaInicio: string
   fechaCierre: string
   activoCorriente: number
@@ -195,7 +195,7 @@ type TramiteAlta = {
     attribute: string
     obs: string
   }>
-  categoria: 'PRE INSCRIPTO' | 'INSCRIPTO' | 'DESACTUALIZADO'
+  categoria: 'PRE INSCRIPTO' | 'INSCRIPTO' | 'DESACTUALIZADO' 
   status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION" | "A SUPERVISAR" | "SUBSANADO" | "PENDIENTE DE APROBACION" 
   rechazos:Array<{
     rechazadoPor: Usuario

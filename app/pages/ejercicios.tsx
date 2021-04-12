@@ -443,7 +443,15 @@ export default () => {
 		}
   ]
 
-  columnsBalances = isTramiteEditable(tramite)? columnsBalances : columnsBalances.slice(1,columnsBalances.length)
+
+  if (isTramiteEditable(tramite)) {
+    if (tramite.categoria==='DESACTUALIZADO')
+      columnsBalances = columnsBalances.slice(1,columnsBalances.length)
+  } else {
+    columnsBalances = columnsBalances.slice(2,columnsBalances.length)
+  }
+  
+  
 
 
 
@@ -575,7 +583,7 @@ export default () => {
     <div className="border-gray-200 border-b-2 px-10">
       <NavigationStep generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} current={2}  />
     </div>
-    <div className="px-20 mx-20 py-6 ">
+    <div className="px-8 mx-8 py-6 ">
       <div className="flex  content-center  ">
       <Wrapper title="Ejercicios" attributeName="ejercicios" isTitle>
         <div className=" text-right content-center mb-4 -mt-8">
@@ -595,14 +603,14 @@ export default () => {
 
       <div>
         <Tabs defaultActiveKey="1" onChange={callback}  >
-          <TabPane tab="Balances" key="1">
+          <TabPane tab="Balances declarados" key="1">
             <div className="overflow-x-auto" >
               {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],_.sortBy(tramite.ejercicios, (e:Ejercicio)=> moment(e.fechaInicio,'DD/MM/YYYY').toDate().getTime()))} scroll={{ x: 1800 }} onChange={onChange}  />}
             </div>
           </TabPane>
-          <TabPane tab="Balances con modificaciones" key="2">
+          <TabPane tab={`Balances para revisar por el Registro (${tramite.ejercicios.filter(e => !e.status ||  e.status !=='APROBADO').length})`} key="2">
           <div className="overflow-x-auto" >
-          {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],_.sortBy(tramite.ejercicios.filter(e => e.status && e.status !=='APROBADO'), (e:Ejercicio)=> moment(e.fechaInicio,'DD/MM/YYYY').toDate().getTime()))} onChange={onChange} scroll={{ x: 1800 }}  />}
+          {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],_.sortBy(tramite.ejercicios.filter(e => !e.status ||  e.status !=='APROBADO'), (e:Ejercicio)=> moment(e.fechaInicio,'DD/MM/YYYY').toDate().getTime()))} onChange={onChange} scroll={{ x: 1800 }}  />}
             </div>
           </TabPane>
         </Tabs>

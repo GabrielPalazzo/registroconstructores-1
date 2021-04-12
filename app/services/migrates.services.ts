@@ -13,7 +13,7 @@ class ConnectionManager {
   public CONTRATAR_URL
   public CONTRATAR_KEY
   public client
-  public headers 
+  public headers
 
   public httpsAgent = new https.Agent({
     rejectUnauthorized: false,
@@ -27,7 +27,7 @@ class ConnectionManager {
       useUnifiedTopology: true,
     });
 
-    this.headers = process.env.CONTRATAR_AUTH_MODE && process.env.CONTRATAR_AUTH_MODE==='COOKIE' ?   {
+    this.headers = process.env.CONTRATAR_AUTH_MODE && process.env.CONTRATAR_AUTH_MODE === 'COOKIE' ? {
       Cookie: this.CONTRATAR_KEY
     } : {
       "Authorization": `Bearer ${this.CONTRATAR_KEY}`,
@@ -48,7 +48,7 @@ class ConnectionManager {
     try {
       const result = await axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/ObtenerDatosConstancia?id=11444fecha=Sun%20Mar%2007%202021`, {
         httpsAgent: this.httpsAgent,
-        headers:this.headers
+        headers: this.headers
       })
       return {
         success: true,
@@ -69,7 +69,7 @@ export class MigrateService extends ConnectionManager {
 
 
   async proveedorYaMigrado(codigoProveedor) {
-   
+
     const db = this.client.db(config.registro.dataBase)
     return (await db.collection('oldDatosInfoBasica').findOne({ "_id": codigoProveedor })) ? true : false
   }
@@ -103,7 +103,6 @@ export class MigrateService extends ConnectionManager {
       headers: this.headers
     }).then(async result => {
       if (result.data) {
-
         await db.collection('oldDatosInfoBasica').save({
           _id: codigoProveedor,
           ...result.data.Data
@@ -223,10 +222,11 @@ export class Parser extends ConnectionManager {
 
   async init(id: string) {
     this.tramite = getEmptyTramiteAlta()
-    
+
     await this.dbUpd()
     const db = await this.client.db(config.registro.dataBase)
     this.preInscripcion = await db.collection('oldDatosPreInscripcion').findOne({ "_id": id })
+
     this.tramite.cuit = this.preInscripcion.InformacionEmpresa.NumeroCuit
     this.datosBasicos = (await db.collection('oldDatosInfoBasica').findOne({ "_id": this.preInscripcion._id }))['0']
     this.ejercicios = await db.collection('oldBalances').findOne({ "_id": this.preInscripcion._id })
@@ -248,7 +248,7 @@ export class Parser extends ConnectionManager {
         tipoDocumento: 'DNI',
         cuit: e.DatosPersona.NumeroCuit.replace(/-/g, ""),
         esAdministrador: e.DatosPersona.EsAdministradorLegitimado,
-        tipoApoderado: '',
+        tipoApoderado: e.DatosPersona.EsAdministradorLegitimado ? 'Apoderado' : 'Administrativo/Gestor',
         fotosDNI: [],
         imagenesDni: [],
         actaAutoridades: [],
@@ -293,7 +293,7 @@ export class Parser extends ConnectionManager {
         ventasEjercicio: e.IngresosNetos,
         capitalSuscripto: e.CapitalSocial,
         archivos: [],
-        archivosActaAsamblea:[]
+        archivosActaAsamblea: []
       }
     }
     this.tramite.ejercicios = this.ejercicios.map(mapEjercicio)
@@ -308,7 +308,6 @@ export class Parser extends ConnectionManager {
     this.tramite.razonSocial = this.preInscripcion.InformacionEmpresa.RazonSocial
     this.tramite.nroLegajo = this.preInscripcion.InformacionEmpresa.NumeroRegistroConstructores
     this.tramite.apoderados = this.parseApoderados()
-
     this.tramite.domicilioLegal = `${this.datosBasicos.DomicilioDC.NombreCalle} ${this.datosBasicos.DomicilioDC.Altura}, ${this.datosBasicos.DomicilioDC.Localidad.Descripcion} ${this.datosBasicos.DomicilioDC.Localidad.Departamento.Provincia.Descripcion}  ${this.datosBasicos.DomicilioDC.Localidad.Departamento.Provincia.Pais.Descripcion}`
     this.tramite.domicilioReal = `${this.datosBasicos.DomicilioEspecialDC.NombreCalle} ${this.datosBasicos.DomicilioEspecialDC.Altura}, ${this.datosBasicos.DomicilioEspecialDC.Localidad.Descripcion} ${this.datosBasicos.DomicilioEspecialDC.Localidad.Departamento.Provincia.Descripcion}  ${this.datosBasicos.DomicilioEspecialDC.Localidad.Departamento.Provincia.Pais.Descripcion}`
 
@@ -322,7 +321,7 @@ export class Parser extends ConnectionManager {
       return {
         codigo: cert.idBalance,
         monto: cert.Monto,
-        periodo: cert.FechaCierreEjercicio,
+        periodo: moment(cert.FechaCierreEjercicio).format('DD/MM/YYYY'),
         descripcion: 'MIGRADA',
         archivos: []
       }
@@ -348,6 +347,19 @@ export class Parser extends ConnectionManager {
       }
     }
 
+    const parseAmpliaciones = (r) => {
+      return {
+        id: r.Id,
+        monto: r.Monto,
+        fecha: this.formatearFecha(r.Fecha),
+        descripcion: 'MIGRADO',
+        archivos: []
+      }
+    }
+
+
+
+
 
 
     const parseObra = (raw: any): DDJJObra => {
@@ -363,13 +375,13 @@ export class Parser extends ConnectionManager {
           codigo: raw.DatosBasicosObra.codigo,
           tipoContratacion: getTipoContratacion(raw.DatosBasicosObra.TipoContratacion),
           nivel: getNivel(raw.DatosBasicosObra.Nivel),
-          fechaAdjudicacion: raw.PlazosObra.FechaAdjudicacion ? this.formatearFecha(raw.PlazosObra.FechaAdjudicacion ) : '',
+          fechaAdjudicacion: raw.PlazosObra.FechaAdjudicacion ? this.formatearFecha(raw.PlazosObra.FechaAdjudicacion) : '',
           fechaInicio: raw.PlazosObra.FechaActaInicio ? this.formatearFecha(raw.PlazosObra.FechaActaInicio) : '',
           fechaFin: raw.PlazosObra.FechaActaFin ? this.formatearFecha(raw.PlazosObra.FechaActaFin) : '',
           acta: []
         }],
-        ampliaciones: [], // FALTA COMPLETAR
-        redeterminaciones: raw.Redeterminaciones ? raw.Redeterminaciones.map(parseRedeterminaciones) : [], // Falta Completar,
+        ampliaciones: raw.Ampliaciones ? raw.Ampliaciones.map(parseAmpliaciones) : [],
+        redeterminaciones: raw.Redeterminaciones ? raw.Redeterminaciones.map(parseRedeterminaciones) : [],
         certificaciones: _.concat(raw.CertificadoAnual ? raw.CertificadoAnual.map(parseCertificacionesAnuales) : [], raw.CertificadoVigente ? raw.CertificadoVigente.map(parseCertificacionesVigentes) : []), // Falta completar
         prorroga: raw.PlazosObra.PlazoProrroga,
         archivosOrdenDeCompra: [],
@@ -406,26 +418,32 @@ export class Parser extends ConnectionManager {
 
   async save() {
     console.log('Tramite Cargado ')
+    const db = await this.client.db(config.registro.dataBase)
+
+    const tramiteAnterior = await db.collection('tramites').findOne({
+      "cuit": this.tramite.cuit
+    })
+
     const newTramite = {
-      _id: nanoid(),
+      _id: tramiteAnterior ? tramiteAnterior._id : nanoid(),
       ...this.tramite,
       createdAt: new Date(),
       creatorId: this.getCreatorFromApoderados(),
     };
 
-    const db = await this.client.db(config.registro.dataBase)
-    
+
+
 
     const certificadoViejo = await db.collection('certificados').findOne({
-      "NumeroCUIT":newTramite.cuit
+      "NumeroCUIT": newTramite.cuit
     })
 
 
     const certificado: CertificadoCapacidad = {
       _id: nanoid(),
-      tramite:newTramite,
+      tramite: newTramite,
       otorgadoPor: {
-        usuario:null,
+        usuario: null,
         fecha: new Date().getTime()
       },
       vigencia: {
@@ -437,13 +455,14 @@ export class Parser extends ConnectionManager {
       capacidadFinanciera: certificadoViejo.CapacidadContratacion,
     }
 
-
-    await db.collection('tramites').insertOne(newTramite);
+    await db.collection('tramites').save(newTramite);
     console.log('Tramite Cargado ')
-    await db.collection('certificadosOtorgados').save(certificado);
-    console.log('Certificado Generado')
+    if (!tramiteAnterior){
+      await db.collection('certificadosOtorgados').save(certificado);
+      console.log('Certificado Generado')
+    }
+      
   }
-
 }
 
 const getCodigoTipoEmpresa = (id) => {
@@ -451,7 +470,7 @@ const getCodigoTipoEmpresa = (id) => {
     case 3:
       return 'CONSTRUCTORA'
     case 4:
-      return 'PROVEEDORA' 
+      return 'PROVEEDORA'
     default:
       return 'CONSULTORA'
   }
@@ -525,7 +544,7 @@ const getEstado = (id) => {
     {
       "Descripcion": "En proceso de adjudicación",
       "Value": 3,
-      "codigo": "En adjudicacion"
+      "codigo": "Preadjudicada"
     },
     {
       "Descripcion": "Anulada",

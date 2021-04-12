@@ -373,7 +373,7 @@ export default (props) => {
 
 
 
-    <div className="px-20 mx-20 py-6 ">
+    <div className="px-8 mx-8 py-6 ">
       <div className="content-center  ">
       <Wrapper title="Propietario de sociedad" attributeName="Propietarioss" isTitle>
         <div className=" text-right content-center mb-4 -mt-8">

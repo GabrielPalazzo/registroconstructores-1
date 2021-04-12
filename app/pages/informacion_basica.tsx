@@ -574,7 +574,7 @@ export default (props) => {
         current={0} />
     </div>
 
-    <div className="px-20 mx-20 py-6 ">
+    <div className="px-8 mx-8 py-6 ">
 
       <div className="flex justify-between text-2xl font-bold py-4">
         <div>Datos de la empresa</div>

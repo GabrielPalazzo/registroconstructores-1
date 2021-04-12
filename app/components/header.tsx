@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
-import { Button, Modal, Avatar, Dropdown, Menu, Input } from 'antd';
-import { allowGuardar, closeSession, getUsuario, rechazarTramite } from '../services/business';
+import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space } from 'antd';
+import { allowGuardar, cambiarADesActualizado, closeSession, getUsuario, rechazarTramite } from '../services/business';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { setUpdateBorrador } from '../redux/actions/main';
+import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite';
+import {useDispatch} from 'react-redux'
 
 const { TextArea } = Input
 
@@ -23,8 +27,8 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
   const [showModalRechazar, setShowModalRechazar] = useState(false)
   const [motivoRechazo, setMotivoRechazo] = useState('')
   const [loadingRechazo, setLoadingRechazo] = useState(false)
+  const dispatch = useDispatch()
 
-  
   const confirmCancel = () => {
     setShowCancelar(false)
     onExit()
@@ -39,7 +43,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     router.push('/login')
   }
 
-  
+
 
   const menu = (
     <Menu>
@@ -63,10 +67,46 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
   const handleRechazarTramite = async () => {
 
     setLoadingRechazo(true)
-    await rechazarTramite(tramite,motivoRechazo)
+    await rechazarTramite(tramite, motivoRechazo)
     router.push('/backoffice/bandeja')
   }
 
+
+  const ButtonActualizar = () => {
+    const [showActualizarConfirmacion, setShowActualizarConfirmacion] = useState(false)
+    const [waitingConfirmFromServer, setWaitingConfirmFromServer] = useState(false)
+    const handleConfirmarAcutalizar = async () => {
+      setWaitingConfirmFromServer(true)
+      await cambiarADesActualizado(tramite)
+      await dispatch(setUpdateBorrador(tramite))
+      await dispatch(cargarUltimaRevisionAbierta(tramite))
+      router.push('/informacion_basica')
+      // setWaitingConfirmFromServer(false)
+      // setShowActualizarConfirmacion(false)
+    }
+
+    return <div>
+      <Modal 
+        title="Actualización de datos" 
+        visible={showActualizarConfirmacion} 
+        onCancel={() => setShowActualizarConfirmacion(false)}
+        footer={[
+          <Button key="back"  onClick={() => setShowActualizarConfirmacion(false)}>
+          Cancelar
+        </Button>,
+        <Button key="submit" type="primary" loading={waitingConfirmFromServer} onClick={handleConfirmarAcutalizar}>
+          Aceptar
+        </Button>,
+        ]}
+        >
+        <p>Ud puede comenzar el proceso de actualización y enviarlo cuando considere necesario. </p>
+        <p>Una vez que pulsa Aceptar comienza el proceso de actualización. </p>
+
+        <p>Desea actualizar la información de su empresa?</p>
+      </Modal>
+      <Button onClick={() => setShowActualizarConfirmacion(true)} type='primary'>Actualizar información</Button>
+    </div>
+  }
 
   if (!user)
     return <div></div>
@@ -74,21 +114,21 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
 
   return <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
 
-      <Modal title="Basic Modal" 
-        visible={showModalRechazar} 
-        
-        footer={[
-          <Button onClick={() => setShowModalRechazar(false)}>Cancelar</Button>,
-          <Button loading={loadingRechazo} type="primary" onClick={handleRechazarTramite} >Rechazar</Button>
-        ]}
-        
-        >
-        <p>Esta seguro que desea rechazar el trámite?</p>
-        <p>Por favor, indique el motivo de rechazo</p>
-        <p/>
-        <TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)} rows={4} />
+    <Modal title="Basic Modal"
+      visible={showModalRechazar}
 
-      </Modal>
+      footer={[
+        <Button onClick={() => setShowModalRechazar(false)}>Cancelar</Button>,
+        <Button loading={loadingRechazo} type="primary" onClick={handleRechazarTramite} >Rechazar</Button>
+      ]}
+
+    >
+      <p>Esta seguro que desea rechazar el trámite?</p>
+      <p>Por favor, indique el motivo de rechazo</p>
+      <p />
+      <TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)} rows={4} />
+
+    </Modal>
 
     <Modal
       title="Cancelar operación"
@@ -107,9 +147,10 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     </div>
     <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4 cursor-pointer">
 
-      {user.isAprobador() &&  tramite.categoria!=='INSCRIPTO' ? <Button onClick={() => {
+      {(user.isConstructor() && tramite.categoria == 'INSCRIPTO' && tramite.status === 'VERIFICADO') ? <ButtonActualizar /> : <div />}
+      {user.isAprobador() && tramite.categoria !== 'INSCRIPTO' ? <Button onClick={() => {
         setShowModalRechazar(true)
-      }} danger type='dashed'>Rechazar tramite</Button> : '' }
+      }} danger type='dashed'>Rechazar tramite</Button> : ''}
 
       <Button danger type="text" onClick={() => setShowCancelar(true)}>Cancelar</Button>
       {tramite && tramite.cuit && allowGuardar(tramite) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}>Guardar y salir</Button> : ''}
@@ -135,4 +176,6 @@ const Logo = () => (
     </defs>
   </svg>
 )
+
+
 

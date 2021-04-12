@@ -566,14 +566,14 @@ class Validator implements ValidatorInterface {
           toValidate.push({
             attribute:'ieric',
             dataId:'',
-            error:'El número de Ieric es requerido'
+            error:'El número de Ieric es requerido (en caso que posea IERIC)'
           })
       
         if(!this.tramite.vtoIeric)
           toValidate.push({
             attribute:'vtoIeric',
             dataId:'',
-            error:'La fecha de Vto de Ieric es requerido'
+            error:'La fecha de Vto de Ieric es requerido (En caso que posea IERIC)'
           })
 
           

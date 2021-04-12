@@ -157,7 +157,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
     </Modal>
 
-    <div className="px-4 md:px-20 mx-20 ">
+    <div className="px-4 md:px-8 mx-8 ">
       <Tabs defaultActiveKey="1" onChange={callback}>
         <TabPane tab="Todos" key="todos">
           <div className=" grid grid-cols-3  gap-4  ">

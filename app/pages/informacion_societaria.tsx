@@ -779,7 +779,7 @@ export default () => {
     </div>
 
 
-    <div className="px-20 mx-20 py-6 ">
+    <div className="px-8 mx-8 py-6 ">
 
 
 
