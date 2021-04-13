@@ -1,7 +1,7 @@
 import { Button, Empty, Modal, Progress, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import numeral from 'numeral'
-import { getCertificados, getCodigoObra } from '../services/business'
+import { calcularSaldoObra, getCertificados, getCodigoObra } from '../services/business'
 import { Loading } from './loading'
 import _ from 'lodash' 
 
@@ -35,18 +35,18 @@ let columns = [
   {
     title: 'Monto Vigente',
     dataIndex: 'Monto Vigente',
-    render: (text, record : DDJJObra) => <div>{numeral(record.montoInicial + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>,
+    render: (text, record : DDJJObra) => <div>{numeral(record.montoInicial + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((acc, val) => acc+=val) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>,
     
   },
   {
     title: 'Certificado a la fecha',
     dataIndex: 'certificado',
-    render: (text, record : DDJJObra) => <div>{numeral(record.certificaciones.length !== 0 ? record.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0).format('$0,0.00')}</div>,
+    render: (text, record : DDJJObra) => <div>{numeral(record.certificaciones.length !== 0 ? record.certificaciones.map(r => r.monto).reduce((acc, val) => acc +=val,0) : 0).format('$0,0.00')}</div>,
   },{
 
     title: 'Saldo',
     dataIndex: 'saldo',
-    render: (text, record: DDJJObra) => <div>{numeral((record.montoInicial) + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) - (record.certificaciones.length !== 0 ? record.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>
+    render: (text, record: DDJJObra) => <div>{numeral(calcularSaldoObra(record)).format('$0,0.00')}</div>
   }
 ]
 
@@ -100,7 +100,7 @@ export default(props:CertificadoProps) => {
         <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
           <div>
             <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Contratación Referencial</div>
-            <div className="text-xl font-bold  text-black-700 ">{ numeral(certificado.capacidadFinanciera).format('$0,0.00')}</div>
+            <div className="text-xl font-bold  text-black-700 ">{ certificado.capacidadFinanciera >= 0 ? numeral(certificado.capacidadFinanciera).format('$0,0.00'): '---'}</div>
           </div>
           <div>
             <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Ejecución Referencial</div>

@@ -551,3 +551,17 @@ export const cambiarADesActualizado = async (tramite: TramiteAlta) : Promise<Tra
   await saveTramiteService(tramite)
   return tramite 
 }
+
+
+
+export const calcularSaldoObra = (obra: DDJJObra) => {
+  
+  const sumaRedeterminaciones = obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => parseInt(r.monto.toFixed(2),10)).reduce((acc, val) => acc += val,0) : 0
+  const sumaAmpliaciones =  obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(a => parseInt(a.monto.toFixed(2),10)).reduce((acc, val) => acc += val,0) : 0
+  const sumaCertifcaciones = obra.certificaciones.length !== 0 ? obra.certificaciones.map(c => c.monto).reduce((acc, val) => acc += val,0) : 0
+
+  const saldo = (obra.montoInicial + sumaRedeterminaciones + sumaAmpliaciones)  - sumaCertifcaciones
+
+  return  saldo < 10 ? 0 : saldo
+  
+} 

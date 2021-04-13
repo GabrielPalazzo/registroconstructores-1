@@ -419,7 +419,7 @@ export default () => {
       sorter: (a, b) => a.pasivoCorriente - b.pasivoCorriente,
     },
     {
-      title: 'Pasivo Total',
+      title: 'Pasivo No corriente',
       render: (text,record: Ejercicio)=><div>{numeral(record.pasivoNoCorriente ).format('$0,0.00')}</div>,
       key: 'pasivoNoCorriente',
       sorter: (a, b) => a.pasivoNoCorriente - b.pasivoNoCorriente,

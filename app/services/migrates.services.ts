@@ -246,7 +246,7 @@ export class Parser extends ConnectionManager {
         email: e.DatosPersona.Email,
         nroDocumento: e.DatosPersona.NumeroDocumento,
         tipoDocumento: 'DNI',
-        cuit: e.DatosPersona.NumeroCuit.replace(/-/g, ""),
+        cuit:e.DatosPersona.NumeroCuit ?  e.DatosPersona.NumeroCuit.replace(/-/g, "") : 0,
         esAdministrador: e.DatosPersona.EsAdministradorLegitimado,
         tipoApoderado: e.DatosPersona.EsAdministradorLegitimado ? 'Apoderado' : 'Administrativo/Gestor',
         fotosDNI: [],
