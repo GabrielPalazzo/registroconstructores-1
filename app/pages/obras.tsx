@@ -16,7 +16,7 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable } from '../services/business';
+import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable,calcularSaldoObra, calcularCertificaciones } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
@@ -163,6 +163,9 @@ export default () => {
 
   }
 
+
+ 
+
   const renderModalObra = () => {
     return (<div>
       {showError ? <div className="mb-4">
@@ -174,11 +177,10 @@ export default () => {
           closable
           afterClose={() => setShowError(false)}
         /></div> : ''}
-      <div className="text-left bg-gray-300 p-4 px-6 ">
+      <div className="text-left bg-gray-300 p-4 px-6  ">
         <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2 rounded-full">{numeral(obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</Tag>
         <Tag>Certificado Total </Tag> <Tag color="magenta" className="mr-2 rounded-full">{numeral(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0).format('$0,0.00')}</Tag>
-        <Tag>Saldo </Tag> <Tag color="blue" className="mr-2 rounded-full">{numeral((obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</Tag>
-
+       <Tag>Saldo </Tag> <Tag color="blue" className="mr-2 rounded-full">{numeral((obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</Tag>
       </div>
       <Tabs defaultActiveKey="datosGenerales" onChange={callback}>
         <TabPane tab="General" key="datosGenerales">
@@ -667,6 +669,14 @@ export default () => {
   }
 
 
+ 
+  const Saldo = (record) => {
+    return (<div >
+      {numeral(calcularSaldoObra(record)).format('$0,0.00')}
+
+    </div>
+           )
+  }
 
 
   let columnsPlazos = [
@@ -767,12 +777,12 @@ export default () => {
     {
       title: 'Certificado a la fecha',
       dataIndex: 'certificado',
-      render: (text, record: DDJJObra) => <div>{numeral(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0).format('$0,0.00')}</div>,
+      render: (text, record: DDJJObra) => <div>{numeral(calcularCertificaciones(record)).format('$0,0.00')}</div>,
     }, {
 
       title: 'Saldo',
       dataIndex: 'saldo',
-      render: (text, record: DDJJObra) => <div>{numeral((obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>
+      render: (text, record: DDJJObra) => <div>{numeral(calcularSaldoObra(record)).format('$0,0.00')}</div>
     }
   ]
 
