@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty, Alert, message, Timeline } from 'antd'
+import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty, Alert, message, Timeline, Tooltip } from 'antd'
 import { Space } from 'antd'
 import { eliminarBorrador, getColorStatus, rechazarTramite, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
 import { useDispatch } from 'react-redux'
@@ -140,11 +140,11 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
 
       <div className="text-base  text-black-700 pb-4 ">
-      <Timeline>
-      {activeProfile2 && activeProfile.rechazos && activeProfile2.rechazos.map(e => <div><Timeline.Item>{e.motivo}</Timeline.Item></div>)}
-        
+        <Timeline>
+          {activeProfile2 && activeProfile.rechazos && activeProfile2.rechazos.map(e => <div><Timeline.Item>{e.motivo}</Timeline.Item></div>)}
+
         </Timeline>
-        </div>
+      </div>
 
 
 
@@ -164,16 +164,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   actions={[
 
                     <div className="text-left pl-4">
-                      {e.categoria === 'INSCRIPTO'  ? <Certificado
+                      {e.categoria === 'INSCRIPTO' ? <Certificado
                         cuit={e.cuit}
                       /> : <div className="text-left ">
-                      <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                        onClick={() => {
-                          showModalObservaciones()
-                          setActiveProfile2(e)
-                          setShowProfile2(true)
-                        }}> <EyeOutlined /> Ver Observaciones</Button>
-                    </div>}</div>,
+                        <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                          onClick={() => {
+                            showModalObservaciones()
+                            setActiveProfile2(e)
+                            setShowProfile2(true)
+                          }}> <EyeOutlined /> Ver Observaciones</Button>
+                      </div>}</div>,
 
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
@@ -219,9 +219,14 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-
-                      <Tag >{e.categoria}</Tag>
+                      <Tooltip title="Estado de la Inscripción">
+                        <Tag >{e.categoria}</Tag>
+                      </Tooltip>
+                      <Tooltip title="Estado de la Trámite">
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
+                      </Tooltip>
+
+                     
                       <div className="absolute inset-y-10 right-0 w-1 pr-6">
                         <EliminarBorrador tramite={e} />
                       </div>
@@ -245,16 +250,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
                   actions={[
                     <div className="text-left pl-4">
-                      {e.categoria === 'INSCRIPTO'  ? <Certificado
+                      {e.categoria === 'INSCRIPTO' ? <Certificado
                         cuit={e.cuit}
                       /> : <div className="text-left ">
-                      <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                        onClick={() => {
-                          showModalObservaciones()
-                          setActiveProfile2(e)
-                          setShowProfile2(true)
-                        }}> <EyeOutlined /> Ver Observaciones</Button>
-                    </div>}</div>,
+                        <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                          onClick={() => {
+                            showModalObservaciones()
+                            setActiveProfile2(e)
+                            setShowProfile2(true)
+                          }}> <EyeOutlined /> Ver Observaciones</Button>
+                      </div>}</div>,
 
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
@@ -272,8 +277,12 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-                      <Tag >{e.categoria}</Tag>
+                    <Tooltip title="Estado de la Inscripción">
+                        <Tag >{e.categoria}</Tag>
+                      </Tooltip>
+                      <Tooltip title="Estado de la Trámite">
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
+                      </Tooltip>
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
@@ -354,8 +363,12 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-                      <Tag >{e.categoria}</Tag>
+                    <Tooltip title="Estado de la Inscripción">
+                        <Tag >{e.categoria}</Tag>
+                      </Tooltip>
+                      <Tooltip title="Estado de la Trámite">
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
+                      </Tooltip>
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
@@ -372,16 +385,16 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                 <Card className="rounded h-full " style={{ background: "#525252" }}
                   actions={[
                     <div className="text-left pl-4">
-                    {e.categoria === 'INSCRIPTO'  ? <Certificado
-                      cuit={e.cuit}
-                    /> : <div className="text-left ">
-                    <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                      onClick={() => {
-                        showModalObservaciones()
-                        setActiveProfile2(e)
-                        setShowProfile2(true)
-                      }}> <EyeOutlined /> Ver Observaciones</Button>
-                  </div>}</div>,
+                      {e.categoria === 'INSCRIPTO' ? <Certificado
+                        cuit={e.cuit}
+                      /> : <div className="text-left ">
+                        <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                          onClick={() => {
+                            showModalObservaciones()
+                            setActiveProfile2(e)
+                            setShowProfile2(true)
+                          }}> <EyeOutlined /> Ver Observaciones</Button>
+                      </div>}</div>,
                     <div className="text-right pr-4 text-primary-500">
                       <Button type="link" style={{ fontWeight: 'bold', textAlign: "right", color: '#0072bb' }}
                         onClick={async () => {
@@ -398,8 +411,12 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   ]}>
                   <div className="pb-2">
                     <div className="flex">
-                      <Tag >{e.categoria}</Tag>
+                    <Tooltip title="Estado de la Inscripción">
+                        <Tag >{e.categoria}</Tag>
+                      </Tooltip>
+                      <Tooltip title="Estado de la Trámite">
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
+                      </Tooltip>
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
