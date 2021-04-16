@@ -180,7 +180,7 @@ export default () => {
       <div className="text-left bg-gray-300 p-4 px-6  ">
         <Tag>Monto Vigente</Tag> <Tag color="green" className="mr-2 rounded-full">{numeral(obra.montoInicial + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</Tag>
         <Tag>Certificado Total </Tag> <Tag color="magenta" className="mr-2 rounded-full">{numeral(obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0).format('$0,0.00')}</Tag>
-       <Tag>Saldo </Tag> <Tag color="blue" className="mr-2 rounded-full">{numeral((obra.montoInicial) + (obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) - (obra.certificaciones.length !== 0 ? obra.certificaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</Tag>
+       <Tag>Saldo </Tag> <Tag color="blue" className="mr-2 rounded-full"><Saldo/></Tag>
       </div>
       <Tabs defaultActiveKey="datosGenerales" onChange={callback}>
         <TabPane tab="General" key="datosGenerales">

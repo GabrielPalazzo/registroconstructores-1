@@ -575,3 +575,4 @@ export const calcularCertificaciones = (obra: DDJJObra) => {
   return  saldo 
   
 }
+
