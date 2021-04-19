@@ -287,6 +287,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                       <Tooltip title="Estado de la Trámite">
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                       </Tooltip>
+                      {e.ddjjObras.map(r => 
+                      <div>  {r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
+
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
@@ -327,6 +330,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                     <div className="flex">
                       <Tag >{e.categoria}</Tag>
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
+                      {e.ddjjObras.map(r => 
+                      <div>  {r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
+
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
@@ -373,6 +379,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                       <Tooltip title="Estado de la Trámite">
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                       </Tooltip>
+                      {e.ddjjObras.map(r => 
+                      <div>  {r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
+
                      
                     </div>
                   </div>
@@ -422,6 +431,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                       <Tooltip title="Estado de la Trámite">
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                       </Tooltip>
+                      {e.ddjjObras.map(r => 
+                      <div>  {r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
+
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>

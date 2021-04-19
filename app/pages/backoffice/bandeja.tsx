@@ -253,6 +253,9 @@ export default () => {
                       </Tag> : <Tag color="red" className="" >
                         <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
                       </Tag>}
+                      {t.ddjjObras.map(r => 
+                      <div>  {r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
+
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
@@ -298,6 +301,9 @@ export default () => {
                       </Tag> : <Tag color="red" className="" >
                         <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
                       </Tag>}
+                      {t.ddjjObras.map(r => 
+                      <div>  {r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
+
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
@@ -343,6 +349,9 @@ export default () => {
                       </Tag> : <Tag color="red" className="" >
                         <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
                       </Tag>}
+                      {t.ddjjObras.map(r => 
+                      <div>  {r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
+
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
