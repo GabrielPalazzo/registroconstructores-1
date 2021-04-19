@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty, Alert, message, Timeline, Tooltip } from 'antd'
 import { Space } from 'antd'
-import { eliminarBorrador, getColorStatus, rechazarTramite, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed } from '../services/business'
+import { eliminarBorrador, getColorStatus, rechazarTramite, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed,getEmptyObras } from '../services/business'
 import { useDispatch } from 'react-redux'
 import { setUpdateBorrador } from '../redux/actions/main'
 import { useRouter } from 'next/router'
 import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined, DeleteTwoTone } from '@ant-design/icons';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite'
 import Certificado from './certificado'
+import obras from '../pages/obras'
+import { ObrasDatosGenerales } from './obraDatosGenerales'
 
 const onSearch = value => console.log(value);
 const { Search } = Input;
@@ -21,7 +23,7 @@ function callback(key) {
 export interface BandejaConstructorProps {
   tramites: Array<TramiteAlta>
   refreshFunction: Function,
-  masterLoadingFunction: Function
+  masterLoadingFunction: Function,
 }
 
 
@@ -141,7 +143,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
       <div className="text-base  text-black-700 pb-4 ">
         <Timeline>
-          {activeProfile2 && activeProfile.rechazos && activeProfile2.rechazos.map(e => <div><Timeline.Item>{e.motivo}</Timeline.Item></div>)}
+          {activeProfile2  && activeProfile2.rechazos.map(e => <div><Timeline.Item>{e.motivo}</Timeline.Item></div>)}
 
         </Timeline>
       </div>
@@ -225,8 +227,10 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                       <Tooltip title="Estado de la Trámite">
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                       </Tooltip>
+                      {e.ddjjObras.map(r => 
+                      <div>  {r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
 
-                     
+                      
                       <div className="absolute inset-y-10 right-0 w-1 pr-6">
                         <EliminarBorrador tramite={e} />
                       </div>
@@ -369,6 +373,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                       <Tooltip title="Estado de la Trámite">
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                       </Tooltip>
+                     
                     </div>
                   </div>
                   <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
