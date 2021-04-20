@@ -771,7 +771,7 @@ export default () => {
     {
       title: 'Monto Vigente',
       dataIndex: 'Monto Vigente',
-      render: (text, record: DDJJObra) => <div>{numeral(record.montoInicial + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>,
+      render: (text, record: DDJJObra) => <div>{numeral(record.montoInicial + (record.redeterminaciones && record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0) + (record.ampliaciones && record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>,
 
     },
     {

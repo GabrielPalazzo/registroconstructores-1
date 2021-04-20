@@ -28,9 +28,6 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
   if ((!usuarioLogueado) || (!tramite))
     return <div></div>
 
-
-  console.log(tramite)
-
   const Locked = () => {
     return <div onClick={() => {
       

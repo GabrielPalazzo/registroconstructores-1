@@ -72,7 +72,7 @@ export default (props) => {
   const [personeria, setPersoneria] = useState(null)
   const [waitingType, setWaitingType] = useState<'sync' | 'waiting'>('waiting')
 
-  //const tramiteSesion: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
+  const tramiteSesion: TramiteAlta = useSelector(state => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
   const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion)
@@ -551,7 +551,7 @@ export default (props) => {
     return <Loading message="" type={waitingType} />
 
   const showSaveButton = () => {
-    if (!allowGuardar(tramite))
+    if (!allowGuardar(tramiteSesion))
       return <div></div>
 
     return <div className=" mt-6 pt-6 text-center">

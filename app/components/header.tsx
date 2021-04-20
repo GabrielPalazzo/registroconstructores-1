@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space } from 'antd';
-import { allowGuardar, cambiarADesActualizado, closeSession, getUsuario, rechazarTramite } from '../services/business';
+import { allowGuardar, cambiarADesActualizado, closeSession, getEmptyTramiteAlta, getUsuario, rechazarTramite } from '../services/business';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { setUpdateBorrador } from '../redux/actions/main';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite';
 import {useDispatch} from 'react-redux'
+import {useSelector} from 'react-redux'
+import { RootState } from '../redux/store';
 
 const { TextArea } = Input
 
@@ -28,6 +30,8 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
   const [motivoRechazo, setMotivoRechazo] = useState('')
   const [loadingRechazo, setLoadingRechazo] = useState(false)
   const dispatch = useDispatch()
+
+  const tramiteSession = useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
 
   const confirmCancel = () => {
     setShowCancelar(false)
@@ -153,7 +157,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
       }} danger type='dashed'>Rechazar tramite</Button> : ''}
 
       <Button danger type="text" onClick={() => setShowCancelar(true)}>Cancelar</Button>
-      {tramite && tramite.cuit && allowGuardar(tramite) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}>Guardar y salir</Button> : ''}
+      {tramite && tramite.cuit && allowGuardar(tramiteSession) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}>Guardar y salir</Button> : ''}
       <Dropdown overlay={menu} trigger={['click']}>
         <div onClick={e => e.preventDefault()}>
           <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2', marginLeft: '10px' }} >{user.userData().GivenName.substring(0, 1)}</Avatar>

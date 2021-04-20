@@ -341,7 +341,7 @@ export const getUsuario = () => {
     userData: () => user,
     isConstructor: () => user && user.Role.filter(r => r === 'CONSTRUCTOR').length > 0,
     isBackOffice: () => user && user.Role.filter(r => r === 'EVALUADOR ECONOMICO' || r === 'EVALUADOR TECNICO' || r === 'CONTROLADOR ECONOMICO' || r === 'CONTROLADOR TECNICO' || r === 'JEFE REGISTRO' || r === 'SUPERVISOR').length > 0,
-    isControlador: () => user && user.Role.filter(r => r.includes('CONTROLADOR')).length > 0,
+    isControlador: () => user && user.Role.filter(r => _.includes(['EVALUADOR ECONOMICO','EVALUADOR TECNICO'],r)).length > 0,
     isSupervisor: () => user && user.Role.filter(r => r.includes('SUPERVISOR')).length > 0,
     isAprobador: () => user && user.Role.filter(r => r === 'JEFE REGISTRO').length > 0
   }
@@ -473,18 +473,22 @@ export const getObservacionesTecnicoRaw = (revisionTramite: RevisionTramite): st
 }
 
 export const allowGuardar = (tramite: TramiteAlta) => {
+
+
+  window['usuario'] = getUsuario()
   if (['BORRADOR', 'OBSERVADO'].includes(tramite.status) && getUsuario().isConstructor())
     return true
 
-  if (getUsuario().isControlador() && ['PENDIENTE DE REVISION', 'SUBSANADO'].includes(tramite.status))
+  if (getUsuario().isControlador() && ['PENDIENTE DE REVISION', 'SUBSANADO'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
 
-  if (getUsuario().isSupervisor() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR'].includes(tramite.status))
+  if (getUsuario().isSupervisor() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR'].includes(tramite.status)&& (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
 
-  if (getUsuario().isAprobador() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR', 'A APROBAR'].includes(tramite.status))
+  if (getUsuario().isAprobador() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR', 'A APROBAR'].includes(tramite.status)&& (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
 
+    
 
 
   return false
