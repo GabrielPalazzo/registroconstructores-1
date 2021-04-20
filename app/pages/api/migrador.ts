@@ -12,11 +12,12 @@ export default async (req, res) => {
     await serviceCargarProveedor.dbUpd()
 
     
+    await service.migrarProveedoresCerficado(idProveedor)
     await service.migrarProveedoresPreInscripcion(idProveedor)
     await service.migrarProveedoresInfoBasica(idProveedor)
     await service.migrarProveedoresBalances(idProveedor)
     await service.migrarProveedoresDatosObra(idProveedor)
-    await service.migrarProveedoresCerficado(idProveedor)
+    
     await serviceCargarProveedor.init(idProveedor)
     await serviceCargarProveedor.parseInformacionBasica()
     await serviceCargarProveedor.parseEjercicios()
