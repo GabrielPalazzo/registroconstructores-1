@@ -211,6 +211,7 @@ export class Parser extends ConnectionManager {
   private datosBasicos
   private ejercicios
   private obras
+  private certificadoOld
 
   getTramite() {
     return this.tramite
@@ -230,6 +231,7 @@ export class Parser extends ConnectionManager {
     this.tramite.cuit = this.preInscripcion.InformacionEmpresa.NumeroCuit
     this.datosBasicos = (await db.collection('oldDatosInfoBasica').findOne({ "_id": this.preInscripcion._id }))['0']
     this.ejercicios = await db.collection('oldBalances').findOne({ "_id": this.preInscripcion._id })
+    this.certificadoOld = await db.collection('certificados').findOne({ "_id": this.preInscripcion._id })
     this.ejercicios = Object.keys(this.ejercicios)
       .filter(k => k !== '_id')
       .map(e => this.ejercicios[e])
@@ -302,7 +304,8 @@ export class Parser extends ConnectionManager {
   parseInformacionBasica() {
     this.tramite.cuit = this.preInscripcion.InformacionEmpresa.NumeroCuit
     this.tramite.status = "VERIFICADO"
-    this.tramite.categoria = "INSCRIPTO"
+    
+    this.tramite.categoria =  _.includes(['Desactualizado por formulario','Inscripto con Actualización' ],this.certificadoOld.EstadoProveedor)  ? 'INSCRIPTO CON ACTUALIZACION' : _.includes(['Desactualizado por documentos vencidos', 'Desactualizado' ],this.certificadoOld.EstadoProveedor) ? 'DESACTUALIZADO' :  "INSCRIPTO"
     this.tramite.personeria = getCodigoTipoPersoneria(this.preInscripcion.InformacionEmpresa.tipoProveedor) as any
     this.tramite.tipoEmpresa = this.preInscripcion.InformacionEmpresa.TiposEmpresa.map(t => getCodigoTipoEmpresa(t))
     this.tramite.razonSocial = this.preInscripcion.InformacionEmpresa.RazonSocial
@@ -451,8 +454,8 @@ export class Parser extends ConnectionManager {
         fechaHasta: moment().add(1, 'year').toDate().getTime()
       },
       status: 'VIGENTE',
-      capacidadEjecucion: certificadoViejo.CapacidadEjecucion,
-      capacidadFinanciera: certificadoViejo.CapacidadContratacion,
+      capacidadEjecucion: this.certificadoOld.CapacidadEjecucion,
+      capacidadFinanciera: this.certificadoOld.CapacidadContratacion,
     }
 
     await db.collection('tramites').save(newTramite);

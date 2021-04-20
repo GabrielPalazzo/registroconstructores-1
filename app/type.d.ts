@@ -195,7 +195,7 @@ type TramiteAlta = {
     attribute: string
     obs: string
   }>
-  categoria: 'PRE INSCRIPTO' | 'INSCRIPTO' | 'DESACTUALIZADO' 
+  categoria: 'PRE INSCRIPTO' | 'INSCRIPTO' | 'DESACTUALIZADO' | 'INSCRIPTO CON ACTUALIZACION'
   status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION" | "A SUPERVISAR" | "SUBSANADO" | "PENDIENTE DE APROBACION" 
   rechazos:Array<{
     rechazadoPor: Usuario
