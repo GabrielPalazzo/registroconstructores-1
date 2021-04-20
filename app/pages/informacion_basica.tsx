@@ -300,7 +300,7 @@ export default (props) => {
       key: 'tipoApoderado',
     },
     {
-      title: 'Es Adminsitrador Leg.',
+      title: 'Es Administrador Leg.',
       dataIndex: 'esAdministrador',
       key: 'esAdministrador',
       render: text => <div>{text ? 'Si' : 'No'}</div>
