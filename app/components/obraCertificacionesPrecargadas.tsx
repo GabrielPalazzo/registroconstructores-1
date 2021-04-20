@@ -26,7 +26,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 }) => {
 
   // const [periodos, setPeriodos] = useState(obra.certificaciones)
-  const [periodo, setPeriodo] = useState('')
+  const [periodo, setPeriodo] = useState(null)
   const [descripcion, setDescripcion] = useState('')
   const [monto, setMonto] = useState(0)
   const [periodoSeleccionado, setPeriodoSeleccionado] = useState(null)
@@ -59,8 +59,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     {
       title: 'Periodo',
       key: 'periodo',
-      sorter: (a, b) => moment(a.periodo,'DD/MM/YYYY').unix() - moment(b.periodo).unix(),
-     render: (text, record) => <div>{moment(record.periodo).format('MMMM YYYY')}</div>
+    render: (text, record) => <div>{moment(record.periodo , 'DD/MM/YYYY').format('MMMM YYYY')}</div>
     }, {
       title: 'Monto',
       key:'monto',
@@ -120,7 +119,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     setPeriodo(null)
     setMonto(0)
     setDescripcion('')
-    setPeriodoSeleccionado(null)
+    setPeriodoSeleccionado('')
     setArchivos([])
     obra.certificaciones = periodosCopy
     onChange(Object.assign({},obra))
@@ -155,7 +154,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
       <div >
         <DatePickerModal
-          picker='month'
+          picker="month"
           placeholder="Periodo (mm/yyyy)"
           label="Periodo"
           labelRequired="*"
@@ -163,7 +162,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
           labeltooltip=""
           labelMessageError=""
           value={periodo}
-          bindFunction={setPeriodo}
+          bindFunction={(value) => { setPeriodo(value) }}
         />
       </div>
       <div >

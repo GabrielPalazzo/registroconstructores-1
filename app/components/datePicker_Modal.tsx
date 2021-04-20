@@ -47,7 +47,7 @@ export default (props: Props) => {
         }}
         value={props.value && moment(props.value, dateFormat)}
         picker={props.picker ? props.picker  : 'date'}
-        format={dateFormat} />
+        format={props.picker && props.picker ==='month' ? 'MMMM YYYY' : dateFormat} />
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">
       {props.labelMessageError}
