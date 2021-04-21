@@ -34,6 +34,7 @@ export const getTramitesParaVerificar = (): Promise<Array<TramiteAlta>> => {
   })
 }
 
+
 export const getTramites = (): Promise<Array<TramiteAlta>> => {
   return axios.get('/api/tramites', {
     headers: {
@@ -474,8 +475,6 @@ export const getObservacionesTecnicoRaw = (revisionTramite: RevisionTramite): st
 
 export const allowGuardar = (tramite: TramiteAlta) => {
 
-
-  window['usuario'] = getUsuario()
   if (['BORRADOR', 'OBSERVADO'].includes(tramite.status) && getUsuario().isConstructor())
     return true
 

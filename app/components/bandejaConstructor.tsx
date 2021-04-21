@@ -228,7 +228,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                       </Tooltip>
                       {e.ddjjObras.map(r => 
-                      <div>  {r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
+                      <div>  {r.datosObra && r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
 
                       
                       <div className="absolute inset-y-10 right-0 w-1 pr-6">
@@ -432,7 +432,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                       <Tag color={getColorStatus(e)}>{e.status}</Tag>
                       </Tooltip>
                       {e.ddjjObras.map(r => 
-                      <div>  {r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
+                      <div>  {r.datosObra && r.datosObra.map(r => <div>{r.estado  === 'Adjudicada' ?   <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
 
                     </div>
                   </div>
