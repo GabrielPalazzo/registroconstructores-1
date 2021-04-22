@@ -46,7 +46,7 @@ class ConnectionManager {
 
   async doPreflight() {
     try {
-      const result = await axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/ObtenerDatosConstancia?id=11444fecha=Sun%20Mar%2007%202021`, {
+      const result = await axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/ObtenerDatosConstancia?id=11444fecha=${moment().format('ddd D MMM YYYY')}`, {
         httpsAgent: this.httpsAgent,
         headers: this.headers
       })
@@ -184,11 +184,8 @@ export class MigrateService extends ConnectionManager {
   }
 
   async migrarProveedoresCerficado(codigoProveedor: string) {
-
     const db = this.client.db(config.registro.dataBase)
-
-
-    return axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/ObtenerDatosConstancia?id=${codigoProveedor}&fecha=Thu%20Mar%2018%202021`, {
+    return axios.get(`${process.env.URL_CONTRATAR}/API/Proveedores/ObtenerDatosConstancia?id=${codigoProveedor}&fecha=${moment().format('ddd D MMM YYYY')}`, {
       httpsAgent: this.httpsAgent,
       headers: this.headers
     }).then(async result => {
@@ -197,7 +194,7 @@ export class MigrateService extends ConnectionManager {
           _id: codigoProveedor,
           ...result.data
         })
-        console.log('Certificado Migrado')
+        console.log(`Certificado Migrado. Proveedor ${codigoProveedor}`)
       }
     })
   }
