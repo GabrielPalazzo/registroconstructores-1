@@ -714,6 +714,9 @@ export default () => {
     }
   ]
 
+  const tieneObservaciones = (obra) =>  !_.isEmpty(obra.certificaciones.filter(c => c.status==='RECHAZADA'))
+  
+
   let columns = [
     {
       title: 'Eliminar',
@@ -739,12 +742,17 @@ export default () => {
         editarObrar(Object.assign({}, record))
       }} className="cursor-pointer"><EditOutlined /></div> : <Space size="middle">
       </Space>),
+    },{
+      title: 'Obs',
+      key: 'Obs',
+      render: (text, record) => <div>{tieneObservaciones(record) ? 'Observada' : ''}</div>
     },
     {
       title: 'Ver',
       key: 'ver',
       render: (text, record) => <div onClick={() => {
         setModo(MODO.VIEW)
+        console.log(record)
         editarObrar(Object.assign({}, record))
       }} className="cursor-pointer"><CloudDownloadOutlined /></div>
     },

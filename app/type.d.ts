@@ -64,6 +64,8 @@ type Redeterminaciones ={
   fecha:string
   descripcion:string
   archivos: Array<Archivo>
+  status?: null | 'APROBADA' | 'EN REVISION' | 'RECHAZADA'
+  observacionRegistro?:string
 }
 type AmpliacionesObras ={
   id: string
@@ -97,11 +99,14 @@ type DDJJObra ={
   ampliaciones:Array<AmpliacionesObras>
   redeterminaciones: Array<Redeterminaciones>
   certificaciones: Array<{
+    status?: null | 'APROBADA' | 'EN REVISION' | 'RECHAZADA'
+    observacionRegistro?:string
     codigo: string,
     monto: number
     periodo: string
     descripcion: string
     archivos:Array<Archivo>
+    
   }>
   archivosOrdenDeCompra:Array<Archivo>
   plazoPorContrato:number
