@@ -40,6 +40,8 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		obra.redeterminaciones = Object.assign([], obra.redeterminaciones.filter((r: Redeterminaciones) => o.id !== r.id))
 		onChange(Object.assign({}, obra))
 	}
+
+  
 	const columnsRedeterminaciones = [
 		{
 			title: 'Eliminar',
