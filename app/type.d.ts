@@ -73,6 +73,8 @@ type AmpliacionesObras ={
   fecha:string
   descripcion:string
   archivos: Array<Archivo>
+  status?: null | 'APROBADA' | 'EN REVISION' | 'RECHAZADA'
+  observacionRegistro?:string
 }
 type Certificaciones ={
   numeroCertificacion:number

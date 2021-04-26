@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
+import { getCodigoObra, getEmptyTramiteAlta, getUsuario } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import Upload from './upload'
-import { Button, Select, Table, Alert, Space, Empty } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Select, Table, Alert, Space, Empty, Tooltip, Modal, Input } from 'antd';
+import { PlusOutlined, DeleteOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 import InputNumberModal from './input_number'
 import { LinkToFile } from './linkToFile'
 import _ from 'lodash'
 import { RootState } from '../redux/store'
-import moment from 'moment'
+import numeral from 'numeral'
+
+const { Option } = Select
+const { TextArea } = Input
 
 export interface ObrasRedeterminacionesProps {
 	obra: DDJJObra
@@ -31,7 +34,9 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	const [error, setError] = useState('')
 	const [archivos, setArchivos] = useState<Array<Archivo>>([])
 	const [showError, setShowError] = useState(false)
-
+	const [redeterinacionSeleccionada, setRedeterminacionSeleccionada] = useState(null)
+	const [showMotivoRechazo, setShowMotivoRechazo] = useState(false)
+	const [motivoRechazo, setMotivoRechazo] = useState('')
 	useEffect(() => {
 
 	}, [])
@@ -41,8 +46,48 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		onChange(Object.assign({}, obra))
 	}
 
-  
-	const columnsRedeterminaciones = [
+	const Accion = (prop) => {
+
+		if ((!tramite.asignadoA) || (!getUsuario().isConstructor() && tramite.asignadoA && tramite.asignadoA.cuit !== getUsuario().userData().cuit))
+			return <div>{prop.redeterminacion.status ? prop.redeterminacion.status : 'SIN EVALUAR'}</div>
+
+		return <div>
+			<Select
+				value={prop.redeterminacion.status}
+				onChange={e => {
+					setRedeterminacionSeleccionada(prop.redeterminacion)
+					if (e === 'RECHAZADO') {
+						setShowMotivoRechazo(true)
+					} else {
+						const idx = _.findIndex(obra.redeterminaciones, c => { return c.id === prop.redeterminacion.id })
+						obra.redeterminaciones[idx] = {
+							...obra.redeterminaciones[idx],
+							status: e as any
+						}
+						onChange(Object.assign({}, obra))
+					}
+
+
+				}} style={{ width: 150 }} >
+				<Option key='APROBADA' value='APROBADA'>APROBADA</Option>
+				<Option key='RECHAZADA' value='RECHAZADO'>RECHAZADA</Option>
+				<Option key='DESESTIMADA' value='DESESTIMADA'>DESESTIMADA</Option>
+			</Select>
+		</div>
+	}
+
+
+	let columnsRedeterminaciones = [
+		{
+			title: 'Estado',
+			key: 'Estado',
+			render: (text, record) => <Accion redeterminacion={record} />
+		},
+		{
+			title: '',
+			key: 'evaluacion',
+			render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
+		},
 		{
 			title: 'Eliminar',
 			key: 'action',
@@ -59,7 +104,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		{
 			title: 'Monto',
 			dataIndex: 'monto',
-			key: 'monto',
+			render: (text, record) => <div>{numeral(record.monto).format('$0,0.00')}</div>,
 			sorter: (a, b) => a.monto - b.monto,
 		},
 		{
@@ -75,6 +120,9 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 
 
 	];
+
+	columnsRedeterminaciones = getUsuario().isConstructor() ? columnsRedeterminaciones.slice(1, columnsRedeterminaciones.length - 1) : [columnsRedeterminaciones[0], columnsRedeterminaciones[1], columnsRedeterminaciones[3], columnsRedeterminaciones[4], columnsRedeterminaciones[5],columnsRedeterminaciones[6]]
+
 
 	const add = () => {
 		if ((!monto)) {
@@ -97,8 +145,8 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			setShowError(true)
 			return
 		}
-		
-		
+
+
 
 
 		obra.redeterminaciones.push({
@@ -110,14 +158,14 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		})
 		// setDataSource(Object.assign([], dataSource))
 		// obra.redeterminaciones = Object.assign([], dataSource)
-		
+
 		setMonto(0)
 		setFecha(null)
 		setDescripcion('')
 		setArchivos([])
-		onChange(Object.assign({},obra))
+		onChange(Object.assign({}, obra))
 		clearState()
-		
+
 	}
 
 	const clearState = () => {
@@ -125,9 +173,9 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		setFecha(null)
 		setDescripcion('')
 		setArchivos([])
-	  }
+	}
 
-	  
+
 
 	return <div>
 		{showError ? <div className="mb-4">
@@ -139,10 +187,31 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				closable
 				afterClose={() => setShowError(false)}
 			/></div> : ''}
+
+		<Modal
+			visible={showMotivoRechazo}
+			onCancel={() => setShowMotivoRechazo(false)}
+			onOk={() => {
+				const idx = _.findIndex(obra.redeterminaciones, c => { return c.id === redeterinacionSeleccionada.id })
+
+				obra.redeterminaciones[idx] = {
+					...obra.redeterminaciones[idx],
+					status: 'RECHAZADA',
+					observacionRegistro: motivoRechazo
+				}
+				setShowMotivoRechazo(false)
+				setMotivoRechazo('')
+				onChange(Object.assign({}, obra))
+			}}
+
+		>
+			<p>Por favor, indique el motivo de rechazo o desestimación</p>
+			<TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)}></TextArea>
+		</Modal>
 		<div className="rounded-lg px-4 py-2  pb-4 border mt-6">
 			<div className="text-xl font-bold py-2 w-3/4">  Redeterminaciones</div>
 			<div className="grid grid-cols-4 gap-4 ">
-			<div className="pb-6" >
+				<div className="pb-6" >
 					<DatePickerModal
 						placeholder="Fecha  (dd/mm/yyyy)"
 						label="Fecha de la redeterminación"
@@ -167,7 +236,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 					/>
 
 				</div>
-				
+
 				<div className="pb-6" >
 					<InputTextModal
 						label="Descripción"
@@ -196,28 +265,28 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				</div>
 			</div>
 			<div className="text-center ">
-				
+
 				<div className=" ">
 					<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
 				</div>
 			</div>
 
 			<div className="mt-4 ">
-				<Table columns={columnsRedeterminaciones} 
-				dataSource={Object.assign([],obra.redeterminaciones)} 
-				locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} 
-				summary={pageData => {
-					return <div>
-					  {pageData.length > 0 ? <div className="ml-4 font-semibold">
-						<Table.Summary.Row>
-						  <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
-						  <Table.Summary.Cell index={1}>
-							<div >{pageData.map(d => d.monto).reduce((val, acc) => acc = val + acc)}</div>
-						  </Table.Summary.Cell>
-						</Table.Summary.Row>
-					  </div> : ''}
-					</div>
-				  }} />
+				<Table columns={columnsRedeterminaciones}
+					dataSource={Object.assign([], obra.redeterminaciones)}
+					locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }}
+					summary={pageData => {
+						return <div>
+							{pageData.length > 0 ? <div className="ml-4 font-semibold">
+								<Table.Summary.Row>
+									<Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
+									<Table.Summary.Cell index={1}>
+										<div >{numeral(pageData.map(d => d.monto).reduce((val, acc) => acc = val + acc)).format('$0,0.00')}</div>
+									</Table.Summary.Cell>
+								</Table.Summary.Row>
+							</div> : ''}
+						</div>
+					}} />
 
 			</div>
 

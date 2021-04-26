@@ -13,7 +13,10 @@ handler.get(async (req: any, res: NextApiResponse) => {
 
   const tramites = await req.db
     .collection('tramites')
-    .find({'categoria': 'PRE INSCRIPTO'})
+    .find({"$or":[
+      {'categoria': 'PRE INSCRIPTO'},
+      {'categoria': 'DESACTUALIZADO'}
+    ]})
     .toArray();
   res.send({ tramites });
   

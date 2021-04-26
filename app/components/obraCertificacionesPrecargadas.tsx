@@ -11,13 +11,13 @@ import numeral from 'numeral'
 import { LinkToFile } from './linkToFile'
 import _ from 'lodash'
 import DatePickerModal from './datePicker_Modal'
-import {Modal,Input, Tooltip} from 'antd'
-import { LikeFilled, DislikeFilled  } from '@ant-design/icons';
+import { Modal, Input, Tooltip } from 'antd'
+import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 import { RootState } from '../redux/store'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const { Option } = Select
-const {TextArea} = Input
+const { TextArea } = Input
 
 export interface CertificacionesPrecargadasProps {
   obra: DDJJObra,
@@ -32,7 +32,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   onChange = () => null
 }) => {
 
-  const tramite : TramiteAlta= useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
+  const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
   const [periodo, setPeriodo] = useState(null)
   const [descripcion, setDescripcion] = useState('')
   const [monto, setMonto] = useState(0)
@@ -51,10 +51,10 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
 
   const Accion = (prop) => {
-   
-    if ((!tramite.asignadoA) || (!getUsuario().isConstructor() && tramite.asignadoA && tramite.asignadoA.cuit!== getUsuario().userData().cuit ))
+
+    if ((!tramite.asignadoA) || (!getUsuario().isConstructor() && tramite.asignadoA && tramite.asignadoA.cuit !== getUsuario().userData().cuit))
       return <div>{prop.certificacion.status ? prop.certificacion.status : 'SIN EVALUAR'}</div>
-    
+
     return <div>
       <Select
         value={prop.certificacion.status}
@@ -88,8 +88,8 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     },
     {
       title: '',
-      key:'evaluacion',
-      render:(text,record) =>  <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled  style={{color: '#F9A822'}} /> : <LikeFilled style={{color: record.status && record.status ==='APROBADA' ?  '#2E7D33' : '#9CA3AF'}} />}</div></Tooltip>
+      key: 'evaluacion',
+      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
     },
     {
       title: 'Eliminar',
@@ -119,7 +119,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     }
   ]
 
-  columns = getUsuario().isConstructor() ?   columns.slice(1,  columns.length-1) : [columns[0],columns[1],columns[3],columns[4],columns[5]]
+  columns = getUsuario().isConstructor() ? columns.slice(1, columns.length - 1) : [columns[0], columns[1], columns[3], columns[4], columns[5]]
 
 
 
@@ -194,10 +194,10 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       visible={showMotivoRechazo}
       onCancel={() => setShowMotivoRechazo(false)}
       onOk={() => {
-        const idx = _.findIndex(obra.certificaciones, c => {return c.codigo === certificadoSeleccionado.codigo})
+        const idx = _.findIndex(obra.certificaciones, c => { return c.codigo === certificadoSeleccionado.codigo })
 
         obra.certificaciones[idx] = {
-          ...obra.certificaciones[idx], 
+          ...obra.certificaciones[idx],
           status: 'RECHAZADA',
           observacionRegistro: motivoRechazo
         }

@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
+import { getCodigoObra, getEmptyTramiteAlta, getUsuario } from '../services/business'
 import InputTextModal from './input_text_modal'
 import InputNumberModal from './input_number'
 import SelectModal from './select_modal'
 import Upload from './upload'
-import { Button, Select, Table, Alert, Space, Empty } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Select, Table, Alert, Space, Empty, Input, Tooltip, Modal } from 'antd';
+import { PlusOutlined, DeleteOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 import { LinkToFile } from './linkToFile'
 import { RootState } from '../redux/store'
 import _ from 'lodash'
+
+
+const { Option } = Select
+const { TextArea } = Input
 
 export interface ObrasAmpliacionesProps {
   obra: DDJJObra
@@ -30,6 +34,9 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
   //const [dataSource, setDataSource] = useState<Array<AmpliacionesObras>>(obra.ampliaciones)
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
+  const [ampliacionSeleccionada, setAmpliacionSeleccionada] = useState(null)
+  const [showMotivoRechazo, setShowMotivoRechazo] = useState(false)
+  const [motivoRechazo, setMotivoRechazo] = useState('')
 
   useEffect(() => {
 
@@ -41,7 +48,47 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     onChange(Object.assign({}, obra))
   }
 
-  const columnsAmpliaciones = [
+  const Accion = (prop) => {
+
+    if ((!tramite.asignadoA) || (!getUsuario().isConstructor() && tramite.asignadoA && tramite.asignadoA.cuit !== getUsuario().userData().cuit))
+      return <div>{prop.ampliacion.status ? prop.ampliacion.status : 'SIN EVALUAR'}</div>
+
+    return <div>
+      <Select
+        value={prop.ampliacion.status}
+        onChange={e => {
+          setAmpliacionSeleccionada(prop.ampliacion)
+          if (e === 'RECHAZADO') {
+            setShowMotivoRechazo(true)
+          } else {
+            const idx = _.findIndex(obra.ampliaciones, c => { return c.id === prop.ampliacion.id })
+            obra.ampliaciones[idx] = {
+              ...obra.ampliaciones[idx],
+              status: e as any
+            }
+            onChange(Object.assign({}, obra))
+          }
+
+
+        }} style={{ width: 150 }} >
+        <Option key='APROBADA' value='APROBADA'>APROBADA</Option>
+        <Option key='RECHAZADA' value='RECHAZADO'>RECHAZADA</Option>
+        <Option key='DESESTIMADA' value='DESESTIMADA'>DESESTIMADA</Option>
+      </Select>
+    </div>
+  }
+
+  let columnsAmpliaciones = [
+    {
+      title: 'Estado',
+      key: 'Estado',
+      render: (text, record) => <Accion ampliacion={record} />
+    },
+    {
+      title: '',
+      key: 'evaluacion',
+      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
+    },
     {
       title: 'Eliminar',
       key: 'action',
@@ -74,6 +121,9 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
 
   ];
 
+  columnsAmpliaciones = getUsuario().isConstructor() ? columnsAmpliaciones.slice(1, columnsAmpliaciones.length - 1) : [columnsAmpliaciones[0], columnsAmpliaciones[1], columnsAmpliaciones[3], columnsAmpliaciones[4], columnsAmpliaciones[5], columnsAmpliaciones[6]]
+
+
   const add = () => {
     if ((!monto)) {
       setError('El monto  es requerido')
@@ -91,10 +141,10 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       return
     }
     if (_.isEmpty(archivos)) {
-			setError('El documento respaldatorio es requerido')
-			setShowError(true)
-			return
-		}
+      setError('El documento respaldatorio es requerido')
+      setShowError(true)
+      return
+    }
 
     obra.ampliaciones.push({
       id: getCodigoObra(),
@@ -121,6 +171,28 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         closable
         afterClose={() => setShowError(false)}
       /></div> : ''}
+
+    <Modal
+      visible={showMotivoRechazo}
+      onCancel={() => setShowMotivoRechazo(false)}
+      onOk={() => {
+        const idx = _.findIndex(obra.ampliaciones, c => { return c.id === ampliacionSeleccionada.id })
+
+        obra.ampliaciones[idx] = {
+          ...obra.ampliaciones[idx],
+          status: 'RECHAZADA',
+          observacionRegistro: motivoRechazo
+        }
+        setShowMotivoRechazo(false)
+        setMotivoRechazo('')
+        onChange(Object.assign({}, obra))
+      }}
+
+    >
+      <p>Por favor, indique el motivo de rechazo o desestimación</p>
+      <TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)}></TextArea>
+    </Modal>
+
     <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
 
       <div className="text-xl font-bold py-2 w-3/4">  Ampliaciones</div>
@@ -128,7 +200,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         <Alert message="En esta sección podrá cargar ampliaciones de contrato, adendas, economías, reducciones contractuales, etc." type="info" />
       </div>
       <div className="grid grid-cols-4 gap-4 ">
-      <div className="pb-6" >
+        <div className="pb-6" >
           <DatePickerModal
             placeholder="Fecha  (dd/mm/yyyy)"
             label="Fecha de la Ampliación"
@@ -153,7 +225,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
             required />
         </div>
 
-        
+
         <div className="pb-6" >
           <InputTextModal
             label="Descripción"
@@ -185,22 +257,22 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
       </div>
       <div className="mt-4 ">
-        <Table 
-        columns={columnsAmpliaciones} 
-        dataSource={ Object.assign([],obra.ampliaciones)} 
-        locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} 
-        summary={pageData => {
-          return <div>
-            {pageData.length > 0 ? <div className="ml-4 font-semibold">
-              <Table.Summary.Row>
-                <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
-                <Table.Summary.Cell index={1}>
-                  <div >{pageData.map(d => d.monto).reduce((val, acc) => acc = val + acc)}</div>
-                </Table.Summary.Cell>
-              </Table.Summary.Row>
-            </div> : ''}
-          </div>
-        }}/>
+        <Table
+          columns={columnsAmpliaciones}
+          dataSource={Object.assign([], obra.ampliaciones)}
+          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }}
+          summary={pageData => {
+            return <div>
+              {pageData.length > 0 ? <div className="ml-4 font-semibold">
+                <Table.Summary.Row>
+                  <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
+                  <Table.Summary.Cell index={1}>
+                    <div >{pageData.map(d => d.monto).reduce((val, acc) => acc = val + acc)}</div>
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              </div> : ''}
+            </div>
+          }} />
       </div>
 
     </div>
