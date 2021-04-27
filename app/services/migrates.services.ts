@@ -306,12 +306,16 @@ export class Parser extends ConnectionManager {
     if (_.includes(['Desactualizado por documentos vencidos', 'Desactualizado' ],this.certificadoOld.EstadoProveedor))
       return 'DESACTUALIZADO'
 
+    if (categoria ==='En evaluación')
+      return 'PRE INSCRIPTO'
+
     return 'INSCRIPTO'
   }
 
   parseInformacionBasica() {
+
     this.tramite.cuit = this.preInscripcion.InformacionEmpresa.NumeroCuit
-    this.tramite.status = "VERIFICADO"
+    this.tramite.status = this.determinarCategoria(this.certificadoOld.EstadoProveedor) ==='PRE INSCRIPTO' ? 'BORRADOR' :  "VERIFICADO"
     
     this.tramite.categoria =  this.determinarCategoria(this.certificadoOld.EstadoProveedor)
     this.tramite.personeria = getCodigoTipoPersoneria(this.preInscripcion.InformacionEmpresa.tipoProveedor) as any
