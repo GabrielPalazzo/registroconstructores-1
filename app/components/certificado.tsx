@@ -2,8 +2,9 @@ import { Button, Empty, Modal, Progress, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import numeral from 'numeral'
 import { calcularSaldoObra, getCertificados, getCodigoObra } from '../services/business'
-import { Loading } from './loading'
+import { PDFDownloadLink} from '@react-pdf/renderer';
 import _ from 'lodash' 
+import CertificadoPDF from './certificadoPDF'
 
 interface CertificadoProps  {
   razonSocial?: string
@@ -77,7 +78,13 @@ export default(props:CertificadoProps) => {
       onCancel={() => setShowCertificado(false)}
       width={1000}>
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{certificado.tramite.razonSocial}</div>
-
+      <div>
+    <PDFDownloadLink document={<CertificadoPDF certificado={certificado}/>} fileName="certificado.pdf">
+      {({ blob, url, loading, error }) =>
+        loading ? 'Loading document...' : 'Download now!'
+      }
+    </PDFDownloadLink>
+  </div>
       <div className="grid grid-cols-2 gap-4 mb-4 ">
         <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
           <div>

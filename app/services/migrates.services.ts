@@ -298,11 +298,22 @@ export class Parser extends ConnectionManager {
     this.tramite.ejercicios = this.ejercicios.map(mapEjercicio)
   }
 
+  private determinarCategoria(categoria){
+    console.log(categoria)
+    if (_.includes(['Desactualizado por formulario','Inscripto con Actualización' ],categoria))
+      return 'INSCRIPTO CON ACTUALIZACION'
+
+    if (_.includes(['Desactualizado por documentos vencidos', 'Desactualizado' ],this.certificadoOld.EstadoProveedor))
+      return 'DESACTUALIZADO'
+
+    return 'INSCRIPTO'
+  }
+
   parseInformacionBasica() {
     this.tramite.cuit = this.preInscripcion.InformacionEmpresa.NumeroCuit
     this.tramite.status = "VERIFICADO"
     
-    this.tramite.categoria =  _.includes(['Desactualizado por formulario','Inscripto con Actualización' ],this.certificadoOld.EstadoProveedor)  ? 'INSCRIPTO CON ACTUALIZACION' : _.includes(['Desactualizado por documentos vencidos', 'Desactualizado' ],this.certificadoOld.EstadoProveedor) ? 'DESACTUALIZADO' :  "INSCRIPTO"
+    this.tramite.categoria =  this.determinarCategoria(this.certificadoOld.EstadoProveedor)
     this.tramite.personeria = getCodigoTipoPersoneria(this.preInscripcion.InformacionEmpresa.tipoProveedor) as any
     this.tramite.tipoEmpresa = this.preInscripcion.InformacionEmpresa.TiposEmpresa.map(t => getCodigoTipoEmpresa(t))
     this.tramite.razonSocial = this.preInscripcion.InformacionEmpresa.RazonSocial
