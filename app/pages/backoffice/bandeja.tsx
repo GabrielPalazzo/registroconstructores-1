@@ -107,6 +107,7 @@ export default () => {
                 <div className="flex justify-between">
                   <div>
                     <div className="flex">
+                    <div className="mr-2"><Tag >{t.categoria}</Tag></div>
                       <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
@@ -155,6 +156,7 @@ export default () => {
                 <div className="flex justify-between">
                   <div className="">
                     <div className="flex">
+                      <div className="mr-2"><Tag >{t.categoria}</Tag></div>
                       <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
@@ -203,7 +205,9 @@ export default () => {
                 <div className="flex justify-between">
                   <div>
                     <div className="flex">
-                      <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
+                    <div className="mr-2"><Tag >{t.categoria}</Tag></div>
+                    <div className="mr-2"><Tag >{t.categoria}</Tag></div>
+                     <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
                       </Tag> : <Tag color="red" className="" >
@@ -250,6 +254,7 @@ export default () => {
                 <div className="flex justify-between">
                   <div>
                     <div className="flex">
+                    <div className="mr-2"><Tag >{t.categoria}</Tag></div>
                       <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
@@ -296,6 +301,7 @@ export default () => {
                 <div className="flex justify-between">
                   <div>
                     <div className="flex">
+                    <div className="mr-2"><Tag >{t.categoria}</Tag></div>
                       <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
@@ -342,6 +348,7 @@ export default () => {
                 <div className="flex justify-between">
                   <div>
                     <div className="flex">
+                    <div className="mr-2"><Tag >{t.categoria}</Tag></div>
                       <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
