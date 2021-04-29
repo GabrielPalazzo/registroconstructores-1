@@ -2,11 +2,11 @@ import { Button, Empty, Modal, Progress, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import numeral from 'numeral'
 import { calcularSaldoObra, getCertificados, getCodigoObra } from '../services/business'
-import { PDFDownloadLink} from '@react-pdf/renderer';
-import _ from 'lodash' 
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import _ from 'lodash'
 import CertificadoPDF from './certificadoPDF'
 
-interface CertificadoProps  {
+interface CertificadoProps {
   razonSocial?: string
   personeria?: string
   cuit: string
@@ -31,19 +31,19 @@ let columns = [
   {
     title: 'Comitente',
     dataIndex: 'comitente',
-    render: (text, record : DDJJObra) => <div>{record.razonSocialComitente}</div>,
+    render: (text, record: DDJJObra) => <div>{record.razonSocialComitente}</div>,
   },
   {
     title: 'Monto Vigente',
     dataIndex: 'Monto Vigente',
-    render: (text, record : DDJJObra) => <div>{numeral(record.montoInicial + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((acc, val) => acc+=val) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>,
-    
+    render: (text, record: DDJJObra) => <div>{numeral(record.montoInicial + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((acc, val) => acc += val) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>,
+
   },
   {
     title: 'Certificado a la fecha',
     dataIndex: 'certificado',
-    render: (text, record : DDJJObra) => <div>{numeral(record.certificaciones.length !== 0 ? record.certificaciones.map(r => r.monto).reduce((acc, val) => acc +=val,0) : 0).format('$0,0.00')}</div>,
-  },{
+    render: (text, record: DDJJObra) => <div>{numeral(record.certificaciones.length !== 0 ? record.certificaciones.map(r => r.monto).reduce((acc, val) => acc += val, 0) : 0).format('$0,0.00')}</div>,
+  }, {
 
     title: 'Saldo',
     dataIndex: 'saldo',
@@ -52,19 +52,19 @@ let columns = [
 ]
 
 
-export default(props:CertificadoProps) => {
+export default (props: CertificadoProps) => {
 
   const [certificado, setCertificado] = useState<CertificadoCapacidad>(null)
   const [showCertificado, setShowCertificado] = useState(false)
 
   useEffect(() => {
     (async () => {
-      if (!certificado){
+      if (!certificado) {
         const certificados: Array<CertificadoCapacidad> = await getCertificados(props.cuit)
         setCertificado(_.last(certificados))
       }
     })()
-  },[])
+  }, [])
 
 
   return <div>
@@ -78,13 +78,17 @@ export default(props:CertificadoProps) => {
       onCancel={() => setShowCertificado(false)}
       width={1000}>
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{certificado.tramite.razonSocial}</div>
+      {/* 
       <div>
-    <PDFDownloadLink document={<CertificadoPDF certificado={certificado}/>} fileName="certificado.pdf">
-      {({ blob, url, loading, error }) =>
-        loading ? 'Loading document...' : 'Download now!'
-      }
-    </PDFDownloadLink>
-  </div>
+
+        <PDFDownloadLink document={<CertificadoPDF certificado={certificado} />} fileName="certificado.pdf">
+          {({ blob, url, loading, error }) =>
+            loading ? 'Loading document...' : 'Download now!'
+          }
+        </PDFDownloadLink>
+
+      </div>
+      */}
       <div className="grid grid-cols-2 gap-4 mb-4 ">
         <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
           <div>
@@ -107,24 +111,24 @@ export default(props:CertificadoProps) => {
         <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
           <div>
             <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Contratación Referencial</div>
-            <div className="text-xl font-bold  text-black-700 ">{ certificado.capacidadFinanciera >= 0 ? numeral(certificado.capacidadFinanciera).format('$0,0.00'): '---'}</div>
+            <div className="text-xl font-bold  text-black-700 ">{certificado.capacidadFinanciera >= 0 ? numeral(certificado.capacidadFinanciera).format('$0,0.00') : '---'}</div>
           </div>
           <div>
             <div className="text-sm  text-muted-700 ">Capacidad Económico Financiera de Ejecución Referencial</div>
-            <div className="text-xl font-bold  text-black-700 ">{ numeral(certificado.capacidadEjecucion).format('$0,0.00')}</div>
+            <div className="text-xl font-bold  text-black-700 ">{numeral(certificado.capacidadEjecucion).format('$0,0.00')}</div>
           </div>
         </div>
         <div className="grid grid-cols-2 border gap-4 px-4 py-4 text-center">
-          {[].map( (especialidad : any) => <div key={getCodigoObra()}>
+          {[].map((especialidad: any) => <div key={getCodigoObra()}>
             <div className="text-base font-semibold tracking-wider "><Progress type="circle" width={80} percent={especialidad.Porcentaje} /></div>
             <div className="text-sm  text-muted-700 ">{especialidad.DescripcionEspecialidad}</div>
-          </div>) }
-          
+          </div>)}
+
 
         </div>
       </div>
       <div className="text-xl font-bold mt-4 mb-4">Obras Consideradas en el cálculo de capacidad</div>
-      <Table dataSource={certificado.tramite.ddjjObras.filter(o => o.status && o.status==='APROBADA')} columns={columns} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
+      <Table dataSource={certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA')} columns={columns} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
 
 
 
