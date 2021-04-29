@@ -361,7 +361,7 @@ export const getReviewAbierta = (tramite: TramiteAlta): RevisionTramite => {
   if (!tramite) return null
 
   return tramite.revisiones ? _.last(tramite.revisiones
-    .filter(r => !_.isEmpty(r.reviews.filter(review => !review.isOk)))) : null
+    .filter(r => r && !_.isEmpty(r.reviews.filter(review => !review.isOk)))) : null
 }
 
 export const closeSession = () => {

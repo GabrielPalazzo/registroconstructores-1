@@ -6,6 +6,7 @@ const handler = nextConnect();
 
 handler.use(middleware);
 
+
 handler.get(async (req: any, res: NextApiResponse) => {
   if (req.user.Role.filter(r => 'CONTROLADOR').length ===0)
     res.status(401).send('Forbidden')
@@ -18,7 +19,7 @@ handler.get(async (req: any, res: NextApiResponse) => {
       {'categoria': 'DESACTUALIZADO'}
     ]})
     .toArray();
-  res.send({ tramites });
+  res.send({tramites});
   
 });
 
