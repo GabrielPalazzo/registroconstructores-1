@@ -34,8 +34,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems:'center',
     textAlign:'center',
-    margin:40,
+    margin:10,
   },
+
+  
   sectionContentHead: {
     marginLeft: 10,
     marginRight: 10,
@@ -83,6 +85,7 @@ const styles = StyleSheet.create({
     color: '#949397',
     fontSize: '10px',
     display: 'flex',
+    width:'600px',
     flexDirection: 'column',
     justifyContent: 'space-between',
     flexGrow: 1
@@ -91,6 +94,7 @@ const styles = StyleSheet.create({
     color: '#949397',
     fontSize: '10px',
     display: 'flex',
+    width:'600px',
     flexDirection: 'column',
     justifyContent: 'space-between',
     flexGrow: 1,
@@ -156,21 +160,21 @@ const styles = StyleSheet.create({
   sectionEtiqueta: {
     color: '#5b5b5f',
     fontSize: '10px',
-    fontWeight: 'bold',
+    fontWeight: 'extrabold',
     textTransform: 'uppercase'
 },
 sectionEtiquetaTable: {
   color: '#5b5b5f',
-  fontSize: '10px',
+  fontSize: '8px',
+  height:'35px',
+  alignContent:'center',
   fontWeight: 'bold',
   textTransform: 'uppercase',
   borderBottom: '1px solid #5b5b5f',
-  padding:5,
-  height:'50px'
+ textAlign:'center',
 },
   sectionContentTable: {
     color: '#5b5b5f',
-    fontSize: '12px',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -180,10 +184,35 @@ sectionEtiquetaTable: {
     color: '#949397',
     fontSize: '10px',
     display: 'flex',
+    width:'300px',
     flexDirection: 'column',
     justifyContent: 'space-between',
     flexGrow: 1,
-    border: '1px solid #5b5b5f',
+    borderLeft: '1px solid #5b5b5f',
+    borderBottom: '1px solid #5b5b5f',
+  },
+  sectionContentTableColumnBorder2: {
+    color: '#949397',
+    fontSize: '10px',
+    display: 'flex',
+    textAlign:'center',
+    width:'180px',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flexGrow: 1,
+    borderLeft: '1px solid #5b5b5f',
+    borderBottom: '1px solid #5b5b5f',
+  },
+  sectionContentTableColumnBorder3: {
+    color: '#949397',
+    fontSize: '10px',
+    display: 'flex',
+    width:'500px',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flexGrow: 1,
+    borderLeft: '1px solid #5b5b5f',
+    borderBottom: '1px solid #5b5b5f',
   },
 });
 
@@ -194,8 +223,7 @@ export default (props) => (
 
       <View style={styles.sectionHeader} >
         <LOGO/>
-    
-        <Text >2021: Año de Martín Miguel de Güemes</Text>
+    <Text >2021: Año de Martín Miguel de Güemes</Text>
       </View>
       <View style={styles.sectionContentHead} >
         <View style={styles.sectionContentHeadColumn3}  >
@@ -255,15 +283,15 @@ export default (props) => (
         </View>
         <View style={styles.sectionContentCapacidadColumnBorder2}  >
           <Text  >%</Text>
-          <Text style={styles.sectionEtiqueta}>100,00</Text>
+          <Text style={styles.sectionEtiqueta}>100</Text>
         </View>
         <View style={styles.sectionContentEspecialidadColumnBorder2}  >
           <Text  >Tipo:</Text>
-          <Text style={styles.sectionEtiqueta}></Text>
+          <Text style={styles.sectionEtiqueta}>INGENIERIA VIAL</Text>
         </View>
         <View style={styles.sectionContentCapacidadColumnBorder2}  >
           <Text  >%:</Text>
-          <Text style={styles.sectionEtiqueta}></Text>
+          <Text style={styles.sectionEtiqueta}>100</Text>
         </View>
       </View>
 
@@ -274,16 +302,16 @@ export default (props) => (
 
       <View style={styles.sectionContentTable} >
         <View style={styles.sectionContentTableColumnBorder}  >
-          <Text style={styles.sectionEtiquetaTable}>Razon Social Comitente</Text>
+          <Text style={[styles.sectionEtiquetaTable,{fontWeight:'heavy'}]}>Razon SocialComitente</Text>
           <Text style={{  margin:5}}  >Ministerio de Obras Publicas</Text>
           <Text style={{  margin:5}}  >Aguas Argentina</Text>
         </View>
-        <View style={styles.sectionContentTableColumnBorder}  >
+        <View style={styles.sectionContentTableColumnBorder3}  >
         <Text style={styles.sectionEtiquetaTable}>Denominación</Text>
         <Text style={{  margin:5}} >Construccion planta de tratamiento de liquidos  cloacales y obras complementarias- Unidad Penitenciaria n° 1 - Carcel de Coronda.</Text>
         <Text style={{  margin:5}} >Ampliacion planta de tratamiento de efluentes.</Text>
         </View>
-        <View style={styles.sectionContentTableColumnBorder}  >
+        <View style={styles.sectionContentTableColumnBorder2}  >
         <Text style={styles.sectionEtiquetaTable}>Fecha de Adjudicación</Text>
         <Text style={{  margin:5}}  >13/01/2012</Text>
         <Text  style={{  margin:5}} >13/01/2012</Text>
@@ -320,7 +348,7 @@ export default (props) => (
 
 
 const LOGO = () =>(
-  <Svg height="90px" >
+  <Svg height="70px" >
 
   <Path fill="#66AED7" d="M37.25,24.78l-0.01-0.03L37.25,24.78c0.58-0.09,1.1-0.14,1.54-0.14c1.44,0,1.66,0.48,1.69,0.53
     c0,0.01,0.05,0.12,0.2,0.12c0.02,0,0.05,0,0.07-0.01c0.04-0.01,0.08-0.03,0.09-0.05c0.02-0.04,0.02-0.09-0.01-0.16
