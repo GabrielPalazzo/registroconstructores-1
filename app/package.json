@@ -50,7 +50,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "rnc-main-lib": "^1.0.9",
+    "rnc-main-lib": "^1.0.10",
     "swagger-ui-react": "^3.38.0",
     "tailwindcss": "^1.9.6",
     "ts-mongoose": "0.0.21"
