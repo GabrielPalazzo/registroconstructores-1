@@ -78,17 +78,17 @@ export default (props: CertificadoProps) => {
       onCancel={() => setShowCertificado(false)}
       width={1000}>
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{certificado.tramite.razonSocial}</div>
-      {/* 
+      {
       <div>
-
+        {/* 
         <PDFDownloadLink document={<CertificadoPDF certificado={certificado} />} fileName="certificado.pdf">
           {({ blob, url, loading, error }) =>
-            loading ? 'Loading document...' : 'Download now!'
+            loading ? 'Loading document...' : 'Descargar Certificado'
           }
         </PDFDownloadLink>
-
+        */}
       </div>
-      */}
+      }
       <div className="grid grid-cols-2 gap-4 mb-4 ">
         <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
           <div>

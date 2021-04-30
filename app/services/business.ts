@@ -3,7 +3,7 @@ import * as jwt from "jsonwebtoken"
 import _ from 'lodash'
 import moment from 'moment'
 import { customAlphabet, nanoid } from 'nanoid'
-import { CalculadoraCapacidad } from 'rnc-main-lib' 
+import { CalculadoraCapacidad } from 'rnc-main-lib'
 
 
 
@@ -155,8 +155,8 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
     domicilioLegal: '',
     constanciaDomicilioLegal: [],
     domicilioReal: '',
-    archivoPropietarios:[],
-    archivoPropietarios2:[],
+    archivoPropietarios: [],
+    archivoPropietarios2: [],
     rubroConstruccion: {
       lugar: '',
       fecha: '',
@@ -342,7 +342,7 @@ export const getUsuario = () => {
     userData: () => user,
     isConstructor: () => user && user.Role.filter(r => r === 'CONSTRUCTOR').length > 0,
     isBackOffice: () => user && user.Role.filter(r => r === 'EVALUADOR ECONOMICO' || r === 'EVALUADOR TECNICO' || r === 'CONTROLADOR ECONOMICO' || r === 'CONTROLADOR TECNICO' || r === 'JEFE REGISTRO' || r === 'SUPERVISOR').length > 0,
-    isControlador: () => user && user.Role.filter(r => _.includes(['EVALUADOR ECONOMICO','EVALUADOR TECNICO'],r)).length > 0,
+    isControlador: () => user && user.Role.filter(r => _.includes(['EVALUADOR ECONOMICO', 'EVALUADOR TECNICO'], r)).length > 0,
     isSupervisor: () => user && user.Role.filter(r => r.includes('SUPERVISOR')).length > 0,
     isAprobador: () => user && user.Role.filter(r => r === 'JEFE REGISTRO').length > 0
   }
@@ -354,7 +354,7 @@ export const isInReview = (tramite: TramiteAlta) => {
     return false
 
   return tramite.asignadoA.cuit === getUsuario().userData().cuit
-    
+
 }
 
 export const getReviewAbierta = (tramite: TramiteAlta): RevisionTramite => {
@@ -406,6 +406,11 @@ const aprobarTramite = async (tramite: TramiteAlta): Promise<CertificadoCapacida
 }
 
 export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> => {
+
+
+  if ((tramite.categoria === 'PRE INSCRIPTO' || tramite.categoria === 'DESACTUALIZADO') && (getUsuario().isConstructor())) {
+    tramite.creatorId = getUsuario().userData()
+  }
 
   if (tramite.status === 'BORRADOR') {
     tramite.status = "PENDIENTE DE REVISION"
@@ -481,13 +486,13 @@ export const allowGuardar = (tramite: TramiteAlta) => {
   if (getUsuario().isControlador() && ['PENDIENTE DE REVISION', 'SUBSANADO'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
 
-  if (getUsuario().isSupervisor() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR'].includes(tramite.status)&& (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
+  if (getUsuario().isSupervisor() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
 
-  if (getUsuario().isAprobador() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR', 'A APROBAR'].includes(tramite.status)&& (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
+  if (getUsuario().isAprobador() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR', 'A APROBAR'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
 
-    
+
 
 
   return false
@@ -503,7 +508,7 @@ export const getUniqCode = () => {
   return nanoid().toUpperCase()
 }
 
-const generarCertificado = async (tramite: TramiteAlta, usuario: Usuario, db): Promise<CertificadoCapacidad> => {
+export const generarCertificado = async (tramite: TramiteAlta, usuario: Usuario, db): Promise<CertificadoCapacidad> => {
 
   const calculadora = new CalculadoraCapacidad(tramite)
   await calculadora.init()
@@ -514,16 +519,15 @@ const generarCertificado = async (tramite: TramiteAlta, usuario: Usuario, db): P
     .tomarLosTresPrimerosElementos()
     .aplicarPromedioLineal()
     .aplicarIndicesEconomicos()
-    .actualizarPorAntiguedad()
-    .value
 
-  const capacidadFinanciera =
-    calculadora.filtrarObrasCandidatas()
+  const capacidadFinanciera = _.isEmpty(tramite.ddjjObras) ? capacidadEjecucion :
+    capacidadEjecucion - calculadora.filtrarObrasCandidatas()
       .value
       .map(obra => {
-        return calculadora.getCompromiso(obra) + calculadora.getIndicadorMultiplicador(obra)
+        return calculadora.getCompromiso(obra)
       })
       .reduce((acc, val) => acc += val, 0)
+
 
 
   const certificado: CertificadoCapacidad = {
@@ -548,34 +552,34 @@ const generarCertificado = async (tramite: TramiteAlta, usuario: Usuario, db): P
 }
 
 
-export const cambiarADesActualizado = async (tramite: TramiteAlta) : Promise<TramiteAlta> =>{
-  tramite.categoria='DESACTUALIZADO'
-  tramite.status='BORRADOR'
+export const cambiarADesActualizado = async (tramite: TramiteAlta): Promise<TramiteAlta> => {
+  tramite.categoria = 'DESACTUALIZADO'
+  tramite.status = 'BORRADOR'
   await saveTramiteService(tramite)
-  return tramite 
+  return tramite
 }
 
 
 
 export const calcularSaldoObra = (obra: DDJJObra) => {
-  
-  const sumaRedeterminaciones =  obra.redeterminaciones && obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => parseInt(r.monto.toFixed(2),10)).reduce((acc, val) => acc += val,0) : 0
-  const sumaAmpliaciones =  obra.ampliaciones && obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(a => parseInt(a.monto.toFixed(2),10)).reduce((acc, val) => acc += val,0) : 0
-  const sumaCertifcaciones = obra.certificaciones && obra.certificaciones.length !== 0 ? obra.certificaciones.map(c => c.monto).reduce((acc, val) => acc += val,0) : 0
 
-  const saldo = (obra.montoInicial + sumaRedeterminaciones + sumaAmpliaciones)  - sumaCertifcaciones
+  const sumaRedeterminaciones = obra.redeterminaciones && obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => parseInt(r.monto.toFixed(2), 10)).reduce((acc, val) => acc += val, 0) : 0
+  const sumaAmpliaciones = obra.ampliaciones && obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(a => parseInt(a.monto.toFixed(2), 10)).reduce((acc, val) => acc += val, 0) : 0
+  const sumaCertifcaciones = obra.certificaciones && obra.certificaciones.length !== 0 ? obra.certificaciones.map(c => c.monto).reduce((acc, val) => acc += val, 0) : 0
 
-  return  saldo < 10 ? 0 : saldo
-  
-} 
+  const saldo = (obra.montoInicial + sumaRedeterminaciones + sumaAmpliaciones) - sumaCertifcaciones
+
+  return saldo < 10 ? 0 : saldo
+
+}
 
 export const calcularCertificaciones = (obra: DDJJObra) => {
-  
-  const sumaCertifcaciones = obra.certificaciones && obra.certificaciones.length !== 0 ? obra.certificaciones.map(c => c.monto).reduce((acc, val) => acc += val,0) : 0
+
+  const sumaCertifcaciones = obra.certificaciones && obra.certificaciones.length !== 0 ? obra.certificaciones.map(c => c.monto).reduce((acc, val) => acc += val, 0) : 0
 
   const saldo = sumaCertifcaciones
 
-  return  saldo 
-  
+  return saldo
+
 }
 

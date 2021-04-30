@@ -5,6 +5,7 @@ import { NextApiResponse } from 'next';
 import _ from 'lodash'
 import moment from 'moment'
 import { CalculadoraCapacidad } from 'rnc-main-lib'
+import { generarCertificado } from '../../../services/business';
 
 const handler = nextConnect();
 
@@ -14,7 +15,6 @@ handler.use(middleware);
 const finalizarTramite = async (tramite: TramiteAlta, usuario: Usuario, db): Promise<TramiteAlta> => {
 
   const newTramite = {
-    _id: nanoid(),
     ...tramite,
     aprobacion: {
       aprobadoPor: usuario,
@@ -38,7 +38,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
   if (_.isEmpty(req.user.Role.filter(r => r === 'JEFE REGISTRO')))
     res.status(403).send('Forbidden')
 
-  // console.log(req.body)
+
 
   const tramite: TramiteAlta = req.body
 
@@ -71,7 +71,4 @@ handler.post(async (req: any, res: NextApiResponse) => {
 });
 
 export default handler;
-function generarCertificado(tramiteActualizado: TramiteAlta, user: any, db: any) {
-  throw new Error('Function not implemented.');
-}
 

@@ -25,7 +25,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
     // get by id
     await req.db
     .collection('tramites')
-    .replaceOne({'_id': req.body._id}, req.body);
+    .save(req.body);
     return res.send(req.body);
     
     //update

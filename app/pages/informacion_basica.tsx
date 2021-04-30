@@ -948,7 +948,7 @@ export default (props) => {
         <div className="flex  content-center ">
           <div className="text-2xl font-bold py-4 w-3/4">  INFORMACIÓN DECRETO 202/2017</div>
         </div>
-        <div className="grid grid-cols-2 gap-4 ">
+        {tramite.status!=='BORRADOR' && <div className="grid grid-cols-2 gap-4 ">
           <div >
             <InputText
               label="Declarante"
@@ -963,7 +963,8 @@ export default (props) => {
               bindFunction={() => null}
               required />
           </div>
-        </div>
+        </div>}
+        
 
         <div className="rounded-lg border mt-4  px-4 py-4 bg-gray-300">
           <p>Artículo 1.- Toda persona que se presente en un procedimiento de contratación pública o de otorgamiento de una licencia, permiso, autorización, habilitación o derecho real sobre un bien de dominio público o privado del Estado, llevado a cabo por cualquiera de los organismos y entidades del Sector Público Nacional comprendidas en el artículo 8 de la Ley N° 24156, debe presentar una “Declaración Jurada de Intereses” en la que deberá declarar si se encuentra o no alcanzada por alguno de los siguientes supuestos de vinculación, respecto del Presidente y Vicepresidente de la Nación, Jefe de Gabinete de Ministros y demás Ministros y autoridades de igual rango en el Poder Ejecutivo Nacional, aunque estos no tuvieran competencia para decidir sobre la contratación o acto de que se trata:
