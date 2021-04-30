@@ -87,39 +87,44 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       render: (text, record) => <Accion certificacion={record} />
     },
     {
-      title: '',
+      title: 'pepe',
       key: 'evaluacion',
-      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
+      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
+      width: '4%'
     },
     {
       title: 'Eliminar',
       key: 'delete ',
+      width: '4%',
       render: (text, record) => <div onClick={() => borrarPeriodo(record)}><DeleteOutlined /></div>
     },
     {
       title: 'Periodo',
       key: 'periodo',
       render: (text, record) => <div>{moment(record.periodo, 'DD/MM/YYYY').format('MMMM YYYY')}</div>
-    }, {
+    }, 
+    {
       title: 'Monto',
       key: 'monto',
       sorter: (a, b) => a.monto - b.monto,
       render: (text, record) => <div>{numeral(record.monto).format('$0,0.00')}</div>
     },
+    
     {
       title: 'Descripción',
       key: 'descripcion',
-      dataIndex: 'descripcion',
-      //render: (text,record) => <div>{descripcion}</div>
+      dataIndex: 'descripcion'
     },
     {
       title: 'Adjunto',
-      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
       key: 'adjunto',
-    }
+      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
+      
+    },
+    
   ]
 
-  columns = getUsuario().isConstructor() ? columns.slice(1, columns.length - 1) : [columns[0], columns[1], columns[3], columns[4], columns[5]]
+  columns = getUsuario().isConstructor() ? columns.slice(1, columns.length ) : [columns[0], columns[1], columns[3], columns[4], columns[5], columns[6], columns[7]]
 
 
 

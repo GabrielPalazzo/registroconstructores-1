@@ -121,7 +121,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
 
   ];
 
-  columnsAmpliaciones = getUsuario().isConstructor() ? columnsAmpliaciones.slice(1, columnsAmpliaciones.length - 1) : [columnsAmpliaciones[0], columnsAmpliaciones[1], columnsAmpliaciones[3], columnsAmpliaciones[4], columnsAmpliaciones[5], columnsAmpliaciones[6]]
+  columnsAmpliaciones = getUsuario().isConstructor() ? columnsAmpliaciones.slice(1, columnsAmpliaciones.length ) : [columnsAmpliaciones[0], columnsAmpliaciones[1], columnsAmpliaciones[3], columnsAmpliaciones[4], columnsAmpliaciones[5], columnsAmpliaciones[6]]
 
 
   const add = () => {

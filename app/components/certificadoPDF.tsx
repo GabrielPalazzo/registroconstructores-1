@@ -2,9 +2,12 @@ import React from 'react';
 import { Page, Text, View, Document, StyleSheet,Svg,Path,Line} from '@react-pdf/renderer';
 import moment from 'moment'
 
+
+
 // Create styles
 const styles = StyleSheet.create({
   page: {
+     
     padding: 10,
     display: 'flex',
     flexDirection: 'column',
@@ -17,6 +20,7 @@ const styles = StyleSheet.create({
     margin:20,
   },
   sectionFooterBold: {
+    fontFamily: 'Roboto-Bold',
     fontWeight:'bold',
   },
   sectionFooterRegular: {
