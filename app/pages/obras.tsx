@@ -714,7 +714,7 @@ export default () => {
     }
   ]
 
-  const tieneObservaciones = (obra) =>  !_.isEmpty(obra.certificaciones.filter(c => c.status==='RECHAZADA')) ||  !_.isEmpty(obra.ampliaciones.filter(c => c.status==='RECHAZADA')) ||  !_.isEmpty(obra.redeterminaciones.filter(c => c.status==='RECHAZADA'))
+  const tieneObservaciones = (obra) =>  !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status==='RECHAZADA')) ||  !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status==='RECHAZADA')) ||  !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status==='RECHAZADA'))
   
 
   let columns = [

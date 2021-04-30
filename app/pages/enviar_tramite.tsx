@@ -153,8 +153,6 @@ export default () => {
   const EnviarBackOffice = () => {
    const reviewAbierta =   revisionTramite.revision &&  revisionTramite.revision.reviews.filter(r=> !r.isOk)
    
-
-    console.log(reviewAbierta)
     return <div className="px-20 py-6 text-center m-auto mt-6">
 
 
