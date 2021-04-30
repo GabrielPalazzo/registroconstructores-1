@@ -87,7 +87,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       render: (text, record) => <Accion certificacion={record} />
     },
     {
-      title: 'pepe',
+      title: '',
       key: 'evaluacion',
       render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
 
