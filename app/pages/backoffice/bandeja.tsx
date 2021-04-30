@@ -206,7 +206,6 @@ export default () => {
                   <div>
                     <div className="flex">
                     <div className="mr-2"><Tag >{t.categoria}</Tag></div>
-                    <div className="mr-2"><Tag >{t.categoria}</Tag></div>
                      <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
                       {!t.asignadoA ? <Tag color="green" className="" >
                         <div><UnlockFilled /> Sin asignar </div>
