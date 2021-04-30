@@ -6,8 +6,11 @@ const handler = nextConnect();
 
 handler.use(middleware);
 
+
+
+
 handler.get(async (req: any, res: NextApiResponse) => {
-  console.log(req.user.cuit)
+  
   const tramites = await req.db
     .collection('tramites')
     .find({
