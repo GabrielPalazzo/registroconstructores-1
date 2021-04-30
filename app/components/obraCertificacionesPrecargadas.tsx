@@ -90,12 +90,11 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       title: 'pepe',
       key: 'evaluacion',
       render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
-      width: '4%'
+
     },
     {
       title: 'Eliminar',
       key: 'delete ',
-      width: '4%',
       render: (text, record) => <div onClick={() => borrarPeriodo(record)}><DeleteOutlined /></div>
     },
     {
