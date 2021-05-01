@@ -123,7 +123,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     
   ]
 
-  columns = getUsuario().isConstructor() ? columns.slice(1, columns.length ) : [columns[0], columns[1], columns[3], columns[4], columns[5]]
+  columns = getUsuario().isConstructor() ? columns.slice(1, columns.length ) : [columns[0], columns[1], columns[3], columns[4], columns[5], columns[6]]
 
 
 
