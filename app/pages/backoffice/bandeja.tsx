@@ -3,7 +3,7 @@ import { Button, Card, Tabs, Collapse, Tag, Menu, Dropdown, Avatar } from 'antd'
 import { ArrowRightOutlined, DownCircleOutlined, CloudDownloadOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
-import { closeSession, getObservacionesTecnicoRaw, getReviewAbierta, getUsuario } from '../../services/business';
+import { closeSession, getObservacionesTecnicoRaw, getReviewAbierta, getTramiteByCUIT, getUsuario } from '../../services/business';
 import { Loading } from '../../components/loading'
 import { getTramitesParaVerificar } from '../../services/business'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,6 +11,7 @@ import moment from 'moment'
 import { setTramiteView } from '../../redux/actions/main';
 import { SET_TRAMITE_NUEVO, SET_TRAMITE_VIEW } from '../../redux/reducers/main';
 import { cargarUltimaRevisionAbierta } from '../../redux/actions/revisionTramite';
+import _ from 'lodash'
 
 const { TabPane } = Tabs;
 const Panel = Collapse.Panel;
@@ -40,11 +41,7 @@ export default () => {
   useEffect(() => {
     (async () => {
       setUsuario(getUsuario().userData())
-      setTramites((await getTramitesParaVerificar()).filter((t: TramiteAlta) => t.status === 'SUBSANADO'
-        || t.status === 'A SUPERVISAR'
-        || t.status === 'BORRADOR'
-        || t.status === 'PENDIENTE DE APROBACION'
-        || t.status === 'PENDIENTE DE REVISION'))
+      setTramites((await getTramitesParaVerificar()))
     })()
   }, [])
 
@@ -101,7 +98,7 @@ export default () => {
         <div className="text-2xl font-bold py-4">{`Hola ${usuario.GivenName} ${usuario.Surname}`} </div>
 
         <Tabs defaultActiveKey={getDefaultTabActive()} onChange={callback}>
-          <TabPane tab="Bandeja de trabajo" key="1">
+          <TabPane tab={`Bandeja de trabajo  (${tramites.filter((ft: TramiteAlta) => ft.asignadoA === null).length})`} key="1">
             {tramites.filter((ft: TramiteAlta) => ft.asignadoA === null).map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
@@ -135,8 +132,9 @@ export default () => {
                   </div>
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
-                      dispatch(setTramiteView(t))
-                      dispatch(cargarUltimaRevisionAbierta(t))
+                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      await dispatch(setTramiteView(tramiteATrabajar))
+                      await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')
 
                     }}>ver tramite <ArrowRightOutlined /> </Button>
@@ -150,7 +148,7 @@ export default () => {
 
 
           </TabPane>
-          <TabPane tab="Mis Asignados" key="2">
+          <TabPane tab={`Mis Asignados (${tramites.filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).length})`} key="2">
             {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
@@ -184,8 +182,9 @@ export default () => {
                   </div>
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
-                      await dispatch(setTramiteView(t))
-                      await dispatch(cargarUltimaRevisionAbierta(t))
+                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      await dispatch(setTramiteView(tramiteATrabajar))
+                      await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')
 
                     }}>ver tramite <ArrowRightOutlined /> </Button>
@@ -199,7 +198,7 @@ export default () => {
 
           </TabPane>
 
-          <TabPane tab="A Revisar / Controlar" key="3">
+          <TabPane tab={`A Revisar / Controlar (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION').length})`} key="3">
             {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
@@ -233,8 +232,9 @@ export default () => {
                   </div>
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
-                      await dispatch(setTramiteView(t))
-                      await dispatch(cargarUltimaRevisionAbierta(t))
+                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      await dispatch(setTramiteView(tramiteATrabajar))
+                      await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')
 
                     }}>ver tramite <ArrowRightOutlined /> </Button>
@@ -247,7 +247,7 @@ export default () => {
             ))}
           </TabPane>
 
-          <TabPane tab="A Supervisar" key="4">
+          <TabPane tab={`A Supervisar (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').length})`} key="4">
             {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
@@ -281,8 +281,9 @@ export default () => {
                   </div>
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
-                      await dispatch(setTramiteView(t))
-                      await dispatch(cargarUltimaRevisionAbierta(t))
+                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      await dispatch(setTramiteView(tramiteATrabajar))
+                      await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')
 
                     }}>ver tramite <ArrowRightOutlined /> </Button>
@@ -294,7 +295,7 @@ export default () => {
               </div>
             ))}
           </TabPane>
-          <TabPane tab="Pendientes de Aprobación" key="5">
+          <TabPane tab={`Pendientes de Aprobación (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE APROBACION').length})`} key="5">
             {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE APROBACION').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
@@ -328,8 +329,9 @@ export default () => {
                   </div>
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
-                      await dispatch(setTramiteView(t))
-                      await dispatch(cargarUltimaRevisionAbierta(t))
+                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      await dispatch(setTramiteView(tramiteATrabajar))
+                      await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')
 
                     }}>ver tramite <ArrowRightOutlined /> </Button>
@@ -341,7 +343,57 @@ export default () => {
               </div>
             ))}
           </TabPane>
-          <TabPane tab="Borradores *" key="6">
+
+          <TabPane tab={`Con actualizaciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO').length})`} key="6">
+            {_.sortBy(tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'), t => t.razonSocial).map((t: TramiteAlta) => (
+              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+                <div className="flex justify-between">
+                  <div>
+                    <div className="flex">
+                    <div className="mr-2"><Tag >{t.categoria}</Tag></div>
+                      <div className="mr-2"><Tag color={getObservacionesTecnicoRaw(getReviewAbierta(t)) ? "orange" : "green"}>{t.status}</Tag></div>
+                      {!t.asignadoA ? <Tag color="green" className="" >
+                        <div><UnlockFilled /> Sin asignar </div>
+                      </Tag> : <Tag color="red" className="" >
+                        <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
+                      </Tag>}
+                     
+                    </div>
+                    <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
+                    <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
+                  CUIT: {t.cuit}<br />
+                  Exp: {'A Definir'}</div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="">
+                    <div>
+                      <div className="font-bold text-black-700 text-sm">Observaciones del técnico:</div>
+                      <div className=" text-muted-700 text-xs">{`Observaciones del técnico: ${getObservacionesTecnicoRaw(getReviewAbierta(t))}`}</div>
+                    </div>
+                    <div className="mt-4">
+                      <div className="font-bold text-primary-700 text-sm"> <CloudDownloadOutlined /> Descargar observaciones</div>
+                    </div>
+                  </div>
+                  <div className="text-right mt-4">
+                    <Button type="primary" onClick={async () => {
+                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      await dispatch(setTramiteView(tramiteATrabajar))
+                      await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
+                      router.push('/informacion_basica')
+
+                    }}>ver tramite <ArrowRightOutlined /> </Button>
+
+
+                  </div>
+                </div>
+
+              </div>
+            ))}
+          </TabPane>
+
+          <TabPane tab="Borradores *" key="7">
             {tramites.filter((t: TramiteAlta) => t.status === 'BORRADOR').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
@@ -388,6 +440,7 @@ export default () => {
               </div>
             ))}
           </TabPane>
+
 
         </Tabs>
       </div>

@@ -12,6 +12,7 @@
     "publish": "build && vercel --prod",
     "migrate:certificados": "npx ts-node  ./jobs/migrate_certificates.ts",
     "migrate:proveedores": "npx ts-node ./jobs/migrar_proveedores.ts",
+    "run:liberar_reviews":"npx ts-node ./jobs/liberar_review.ts",
     "run:cargar_tramite": "npx ts-node ./jobs/cargar_tramite.ts"
   },
   "dependencies": {

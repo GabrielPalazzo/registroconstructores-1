@@ -583,3 +583,9 @@ export const calcularCertificaciones = (obra: DDJJObra) => {
 
 }
 
+export const getVigenciaCertificado = (tramite:TramiteAlta) => {
+  const ultimoEjercicioIdx = _.last(tramite.ejercicios.map(e => moment(e.fechaCierre, 'DD/MM/YYYY').toDate().getTime()).sort())
+  const ultimoEjercicio : Ejercicio = tramite.ejercicios.filter(e => moment(e.fechaCierre, 'DD/MM/YYYY').toDate().getTime() === ultimoEjercicioIdx)[0]
+  return moment(ultimoEjercicio.fechaCierre, 'DD/MM/YYYY').add(18,'months').format('DD/MM/YYYY')
+}
+

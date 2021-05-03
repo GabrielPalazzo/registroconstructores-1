@@ -1,13 +1,14 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet,Svg,Path,Line} from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Svg, Path, Line } from '@react-pdf/renderer';
 import moment from 'moment'
-
-
+import { calcularSaldoObra, getVigenciaCertificado } from '../services/business';
+import numeral from 'numeral'
+import _ from 'lodash'
 
 // Create styles
 const styles = StyleSheet.create({
   page: {
-     
+
     padding: 10,
     display: 'flex',
     flexDirection: 'column',
@@ -17,17 +18,17 @@ const styles = StyleSheet.create({
     color: '#5b5b5f',
     fontSize: '7px',
     textAlign: 'center',
-    margin:20,
+    margin: 20,
   },
   sectionFooterBold: {
     fontFamily: 'Roboto-Bold',
-    fontWeight:'bold',
+    fontWeight: 'bold',
   },
   sectionFooterRegular: {
-    fontWeight:'light',
+    fontWeight: 'light',
   },
-  textsize10:{
-    fontSize:'10px'
+  textsize10: {
+    fontSize: '10px'
   },
 
   sectionHeader: {
@@ -36,25 +37,25 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems:'center',
-    textAlign:'center',
-    margin:10,
+    alignItems: 'center',
+    textAlign: 'center',
+    margin: 10,
   },
 
-  
+
   sectionContentHead: {
     marginLeft: 10,
     marginRight: 10,
-    marginTop:10,
+    marginTop: 10,
     color: '#5b5b5f',
     fontSize: '10px',
-    
+
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   sectionContentHead2: {
-    margin:10,
+    margin: 10,
     display: 'flex',
     flexDirection: 'row',
   },
@@ -69,8 +70,8 @@ const styles = StyleSheet.create({
   sectionContentHeadColumn2: {
     display: 'flex',
     flexDirection: 'column',
-    paddingLeft:20,
-    paddingRight:40,
+    paddingLeft: 20,
+    paddingRight: 40,
   },
   sectionContentEspecialidades: {
     color: '#5b5b5f',
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     color: '#949397',
     fontSize: '10px',
     display: 'flex',
-    width:'600px',
+    width: '600px',
     flexDirection: 'column',
     justifyContent: 'space-between',
     flexGrow: 1
@@ -98,12 +99,12 @@ const styles = StyleSheet.create({
     color: '#949397',
     fontSize: '10px',
     display: 'flex',
-    width:'600px',
+    width: '600px',
     flexDirection: 'column',
     justifyContent: 'space-between',
     flexGrow: 1,
     borderLeft: '1px solid #5b5b5f',
-    paddingLeft:20
+    paddingLeft: 20
   },
   sectionContentCapacidadColumnBorder2: {
     color: '#949397',
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexGrow: 1,
     borderLeft: '1px solid #5b5b5f',
-    textAlign:'center'
+    textAlign: 'center'
   },
   sectionContentEspecialidadColumn: {
     color: '#949397',
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexGrow: 6,
     borderLeft: '1px solid #5b5b5f',
-    paddingLeft:20
+    paddingLeft: 20
   },
 
   sectionContentTitle: {
@@ -142,8 +143,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#00bbeb'
   },
   sectionContent100: {
-    padding:10,
-    marginBottom:10,
+    padding: 10,
+    marginBottom: 10,
     fontWeight: 'bold',
     color: '#5b5b5f',
     fontSize: '8pt',
@@ -166,29 +167,29 @@ const styles = StyleSheet.create({
     fontSize: '10px',
     fontWeight: 'extrabold',
     textTransform: 'uppercase'
-},
-sectionEtiquetaTable: {
-  color: '#5b5b5f',
-  fontSize: '8px',
-  height:'35px',
-  alignContent:'center',
-  fontWeight: 'bold',
-  textTransform: 'uppercase',
-  borderBottom: '1px solid #5b5b5f',
- textAlign:'center',
-},
+  },
+  sectionEtiquetaTable: {
+    color: '#5b5b5f',
+    fontSize: '8px',
+    height: '35px',
+    alignContent: 'center',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    borderBottom: '1px solid #5b5b5f',
+    textAlign: 'center',
+  },
   sectionContentTable: {
     color: '#5b5b5f',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  
+
   sectionContentTableColumnBorder: {
     color: '#949397',
     fontSize: '10px',
     display: 'flex',
-    width:'300px',
+    width: '300px',
     flexDirection: 'column',
     justifyContent: 'space-between',
     flexGrow: 1,
@@ -199,8 +200,8 @@ sectionEtiquetaTable: {
     color: '#949397',
     fontSize: '10px',
     display: 'flex',
-    textAlign:'center',
-    width:'180px',
+    textAlign: 'center',
+    width: '180px',
     flexDirection: 'column',
     justifyContent: 'space-between',
     flexGrow: 1,
@@ -211,7 +212,7 @@ sectionEtiquetaTable: {
     color: '#949397',
     fontSize: '10px',
     display: 'flex',
-    width:'500px',
+    width: '500px',
     flexDirection: 'column',
     justifyContent: 'space-between',
     flexGrow: 1,
@@ -220,160 +221,840 @@ sectionEtiquetaTable: {
   },
 });
 
+
+const tipoEspecialidad = [
+  {
+    label: 'INGENIERIA VIAL',
+    value: 'IV',
+  },
+  {
+    label: 'INGENIERÍA HIDRÁULICA',
+    value: 'IH',
+  },
+  {
+    label: 'SANITARIA',
+    value: 'SANITARIA',
+  },
+  {
+    label: 'INGENIERÍA FERROVIARIA',
+    value: 'IF',
+  },
+  {
+    label: 'INGENIERÍA ELECTROMECANICA',
+    value: 'IE',
+  },
+  {
+    label: 'INGENIERÍA  MECÁNICA',
+    value: 'IM',
+  },
+  {
+    label: 'INGENIERÍA AMBIENTAL',
+    value: 'IA',
+  },
+  {
+    label: 'ENERGIA',
+    value: 'ENERGIA',
+  },
+  {
+    label: 'INGENIERÍA NAVAL',
+    value: 'IN',
+  },
+  {
+    label: 'TELECOMUNICACIONES',
+    value: 'TELECOMUNICACIONES',
+  },
+  {
+    label: 'ELECTRÓNICA',
+    value: 'ELECTRONICA',
+  },
+  {
+    label: 'OBRAS MENORES EN LA VIA PÚBLICA',
+    value: 'OMVP',
+  },
+  {
+    label: 'INFORMÁTICA',
+    value: 'INFORMATICA',
+  },
+  {
+    label: 'INGENIERÍA AERONÁUTICA Y ESPACIAL',
+    value: 'IAE',
+  },
+  {
+    label: 'OBRAS DE ARQUITECTURA',
+    value: 'OA',
+  },
+
+
+]
+
+const tipoSubespecialidadIA = [
+  {
+    label: 'Pavimentos Rígidos',
+    value: 'PR',
+    parent: 'IV',
+  },
+  {
+    label: 'Pavimentos Flexibles',
+    value: 'PF',
+    parent: 'IV',
+  },
+  {
+    label: 'Puentes (Obras de arte mayor)',
+    value: 'Puentes',
+    parent: 'IV',
+  },
+  {
+    label: 'Aeródromos (Pistas)',
+    value: 'AERODROMO',
+    parent: 'IV',
+  },
+  {
+    label: 'Túneles',
+    value: 'Tuneles',
+    parent: 'IV',
+  },
+  {
+    label: 'Movimiento de Suelos',
+    value: 'MS',
+    parent: 'IV',
+  },
+  {
+    label: 'Estabilización de Terrenos, Autopistas',
+    value: 'EA',
+    parent: 'IV',
+  },
+  {
+    label: 'Gaviones',
+    value: 'Gaviones',
+    parent: 'IV',
+  },
+  {
+    label: 'Conservación de Caminos',
+    value: 'CC',
+    parent: 'IV',
+  },
+  {
+    label: 'Pavimentos Urbanos y articulados',
+    value: 'PUA',
+    parent: 'IV',
+  },
+  {
+    label: 'Voladuras',
+    value: 'Voladuras',
+    parent: 'IV',
+  },
+  {
+    label: 'Limpieza de Terrenos, Desbosques',
+    value: 'LTD',
+    parent: 'IV',
+  },
+  {
+    label: 'Destronque',
+    value: 'Destronque',
+    parent: 'IV',
+  },
+  {
+    label: 'Relevamiento Topográfico,(Apertura de Trazas)',
+    value: 'RT',
+    parent: 'IV',
+  },
+  {
+    label: 'Señalización Horizontal y Vertical',
+    value: 'SHV',
+    parent: 'IV',
+  },
+  {
+    label: 'Obras de Arte Menor',
+    value: 'OAM',
+    parent: 'IV',
+  },
+  {
+    label: 'Presas,Diques,Escolleras',
+    value: 'PDE',
+    parent: 'IH',
+  }, {
+    label: 'Obras de Arte Menor',
+    value: 'OAM',
+    parent: 'IH',
+  }, {
+    label: 'Canales Navegables',
+    value: 'Canales Navegables',
+    parent: 'IH',
+  }, {
+    label: 'Portuarias',
+    value: 'Portuarias',
+    parent: 'IH',
+  }, {
+    label: 'Acueductos',
+    value: 'Acueductos',
+    parent: 'IH',
+  }, {
+    label: 'Hidromecánicas',
+    value: 'Hidromecánicas',
+    parent: 'IH',
+  }, {
+    label: 'Acondicionamiento Hidráulico,',
+    value: 'Acondicionamiento_Hidráulico,',
+    parent: 'IH',
+  }, {
+    label: '(Sistematización de ríos y lagos)',
+    value: 'SRL',
+    parent: 'IH',
+  }, {
+    label: 'Canales de riego, Esclusas',
+    value: 'CRE',
+    parent: 'IH',
+  }, {
+    label: 'Dragados',
+    value: 'Dragados',
+    parent: 'IH',
+  }, {
+    label: 'Perforaciones',
+    value: 'Perforaciones',
+    parent: 'IH',
+  }, {
+    label: 'Tablestacados',
+    value: 'Tablestacados',
+    parent: 'IH',
+  }, {
+    label: 'Defensa aluvionales',
+    value: 'Defensa_aluvionales',
+    parent: 'IH',
+  }, {
+    label: 'Planta de Potabilización Pozos',
+    value: 'PPB',
+    parent: 'SANITARIA',
+  }, {
+    label: 'Plantas de Depuración',
+    value: 'PD',
+    parent: 'SANITARIA',
+  }, {
+    label: 'Impulsión y Bombeo',
+    value: 'Impulsión_Bombeo',
+    parent: 'SANITARIA',
+  }, {
+    label: 'Redes Principales de Desagüe',
+    value: 'RPDD',
+    parent: 'SANITARIA',
+  }, {
+    label: 'Redes Principales de Provisión de Agua',
+    value: 'RPPA',
+    parent: 'SANITARIA',
+  }, {
+    label: 'Pozos-Perforaciones-Drenaje',
+    value: 'Pozos-Perforaciones-Drenaje',
+    parent: 'SANITARIA',
+  }, {
+    label: 'Redes Secundarias de Desagüe',
+    value: 'RSD',
+    parent: 'SANITARIA',
+  }, {
+    label: 'Redes Secundarias de Provisión de Agua',
+    value: 'RSPA',
+    parent: 'SANITARIA',
+  }, {
+    label: 'Impermeabilización',
+    value: 'Impermeabilización',
+    parent: 'SANITARIA',
+  }
+  , {
+    label: 'Mantenimiento en General',
+    value: 'MG',
+    parent: 'SANITARIA',
+  }, {
+    label: 'Electrificación',
+    value: 'Electrificación',
+    parent: 'IF',
+  }, {
+    label: 'Subterráneos',
+    value: 'Subterráneos',
+    parent: 'IF',
+  }, {
+    label: 'Material Rodante',
+    value: 'Material Rodante',
+    parent: 'IF',
+  }, {
+    label: 'Señalización y Enclavamiento',
+    value: 'Señalización_Enclavamiento',
+    parent: 'IF',
+  }, {
+    label: 'Instalación para Seguridad',
+    value: 'Instalación_para_Seguridad',
+    parent: 'IF',
+  }, {
+    label: 'Mantenimiento ferroviario',
+    value: 'Mantenimiento_ferroviario',
+    parent: 'IF',
+  }, {
+    label: 'Vía y Obra',
+    value: 'VO',
+    parent: 'IF',
+  }, {
+    label: 'Centrales Hidroeléctricas',
+    value: 'Centrales_Hidroeléctricas',
+    parent: 'IE',
+  }, {
+    label: 'Línea de Alta Tensión',
+    value: 'LAT',
+    parent: 'IE',
+  }, {
+    label: 'Subusinas',
+    value: 'Subusinas',
+    parent: 'IE',
+  }, {
+    label: 'Centrales Térmicas',
+    value: 'Centrales_Térmicas',
+    parent: 'IE',
+  }, {
+    label: 'Centrales Nucleares',
+    value: 'Centrales_Nucleares',
+    parent: 'IE',
+  }, {
+    label: 'Gasoductos',
+    value: 'Gasoductos',
+    parent: 'IE',
+  }, {
+    label: 'Planta de Impulsión y Almacenamiento',
+    value: 'Planta_de _mpulsión_Almacenamiento',
+    parent: 'IE',
+  }, {
+    label: 'Instalaciones eléctricas',
+    value: 'Instalaciones_eléctricas',
+    parent: 'IE',
+  }, {
+    label: 'Instalaciones Electromecánicas',
+    value: 'Instalaciones_Electromecánicas',
+    parent: 'IE',
+  }, {
+    label: 'Instalaciones Electrotérmicas',
+    value: 'InstalacionesElectrotérmicas',
+    parent: 'IE',
+  }, {
+    label: 'Instalaciones Acústicas',
+    value: 'InstalacionesAcústicas',
+    parent: 'IE',
+  }, {
+    label: 'Línea de Media y Baja Tensión',
+    value: 'LíneaMediaBajaTensións',
+    parent: 'IE',
+  }, {
+    label: 'Electrificación Rural',
+    value: 'ElectrificaciónRural',
+    parent: 'IE',
+  }, {
+    label: 'Red de alumbrado público',
+    value: 'Redalumbradopúblico',
+    parent: 'IE',
+  }, {
+    label: 'Semaforización',
+    value: 'Semaforización',
+    parent: 'IE',
+  }, {
+    label: 'Señalamiento y Balizamiento',
+    value: 'SeñalamientoBalizamiento',
+    parent: 'IE',
+  }, {
+    label: 'Radioeléctrico',
+    value: 'Radioeléctrico',
+    parent: 'IE',
+  }, {
+    label: 'Mantenimiento eléctrico',
+    value: 'Mantenimientoeléctrico',
+    parent: 'IE',
+  }, {
+    label: 'Instalaciones Termomecánicas',
+    value: 'InstalacionesTermomecánicas',
+    parent: 'IE',
+  }, {
+    label: 'Instalaciones Térmicas, Refrigeración',
+    value: 'InstalacionesTérmicasRefrigeración',
+    parent: 'IE',
+  }, {
+    label: 'Aire Acondicionado',
+    value: 'AireAcondicionado',
+    parent: 'IE',
+  }, {
+    label: 'Energía Solar',
+    value: 'EnergíaSolar',
+    parent: 'IE',
+  }
+  , {
+    label: 'Horno de Ventilación',
+    value: 'HornoVentilación',
+    parent: 'IE',
+  }
+  , {
+    label: 'Soldaduras',
+    value: 'Soldaduras',
+    parent: 'IE',
+  }
+  , {
+    label: 'Mantenimiento Térmico',
+    value: 'MantenimientoTérmico',
+    parent: 'IE',
+  }
+  , {
+    label: 'Redes de Distribución de Gas',
+    value: 'RedesDistribuciónGas',
+    parent: 'IE',
+  }
+  , {
+    label: 'Provisión de Gas Natural',
+    value: 'ProvisiónGasNatural',
+    parent: 'IE',
+  }, {
+    label: 'Elevadores de Granos',
+    value: 'ElevadoresGranos',
+    parent: 'IM',
+  }, {
+    label: 'Translación Vertical Ascensores',
+    value: 'TranslaciónVerticalAscensores',
+    parent: 'IM',
+  }, {
+    label: 'Montacargas',
+    value: 'Montacargas',
+    parent: 'IM',
+  }, {
+    label: 'Cintas Transportadoras',
+    value: 'CintasTransportadoras',
+    parent: 'IM',
+  }, {
+    label: 'Silos y Norias',
+    value: 'SilosNorias',
+    parent: 'IM',
+  }, {
+    label: 'Fábrica de Motores',
+    value: 'FábricaMotores',
+    parent: 'IM',
+  }, {
+    label: 'Equipos Rodantes',
+    value: 'EquiposRodantes',
+    parent: 'IM',
+  }, {
+    label: 'Mantenimiento Mecánico',
+    value: 'MantenimientoMecánico',
+    parent: 'IM',
+  }, {
+    label: 'Instalaciones Industriales',
+    value: 'InstalacionesIndustriales',
+    parent: 'IM',
+  }, {
+    label: 'Instalaciones Metalúrgicas',
+    value: 'InstalacionesMetalúrgicas',
+    parent: 'IM',
+  }, {
+    label: 'Servicios de mantenimiento y limpieza',
+    value: 'ServiciosmantenimientoLimpieza',
+    parent: 'IA',
+  }, {
+    label: 'Recolección de residuos Peligrosos',
+    value: 'RecolecciónresiduosP',
+    parent: 'IA',
+  }, {
+    label: 'Recolección de residuos Domesticos',
+    value: 'RecolecciónresiduosD',
+    parent: 'IA',
+  }, {
+    label: 'Oleoducto, Poliductos',
+    value: 'OleoductoPoliductos',
+    parent: 'ENERGIA',
+  }, {
+    label: 'Plantas de Impulsión y Almacenamiento',
+    value: 'PlantasAlmacenamiento',
+    parent: 'ENERGIA',
+  }, {
+    label: 'Perforaciones y Pozos',
+    value: 'PerforacionesPozos',
+    parent: 'ENERGIA',
+  }, {
+    label: 'Instalación y Mantenimiento de Surtidores de Combustible',
+    value: 'InstalaciónCombustible',
+    parent: 'ENERGIA',
+  }, {
+    label: 'Servicios para la Industria del Petróleo',
+    value: 'ServiciosPetróleo',
+    parent: 'ENERGIA',
+  }, {
+    label: 'Servicios para la Industria de Mantenimiento',
+    value: 'ServiciosIndustriaMantenimiento',
+    parent: 'ENERGIA',
+  }, {
+    label: 'Astilleros (Construcción de Buques)',
+    value: 'AstillerosConstrucciónBuques',
+    parent: 'IN',
+  }, {
+    label: 'Talleres Navales',
+    value: 'TalleresNavales',
+    parent: 'IN',
+  }, {
+    label: 'Reparaciones Navales',
+    value: 'ReparacionesNavales',
+    parent: 'IN',
+  }, {
+    label: 'Reflotamientos',
+    value: 'Reflotamientos',
+    parent: 'IN',
+  }, {
+    label: 'Salvamentos Marítimos y Fluviales',
+    value: 'SalvamentosMarítimosFluviales',
+    parent: 'IN',
+  }, {
+    label: 'Telegrafía y Telefonía',
+    value: 'TelegrafíaTelefonía',
+    parent: 'TELECOMUNICACIONES',
+  }, {
+    label: 'Telecomunicaciones',
+    value: 'Telecomunicaciones',
+    parent: 'TELECOMUNICACIONES',
+  }, {
+    label: 'Radioenlace',
+    value: 'Radioenlace',
+    parent: 'TELECOMUNICACIONES',
+  }, {
+    label: 'Radar',
+    value: 'Radar',
+    parent: 'TELECOMUNICACIONES',
+  }, {
+    label: 'Sistema de Señalización',
+    value: 'SistemaSeñalización',
+    parent: 'ELECTRONICA',
+  }, {
+    label: 'Letreros Electrónicos',
+    value: 'LetrerosElectrónicos',
+    parent: 'ELECTRONICA',
+  }, {
+    label: 'Reparación de veredas y/o calzadas',
+    value: 'ReparaciónVeredas',
+    parent: 'OMVP',
+  }, {
+    label: 'Bacheos en calles de hormigón y/o asfalto',
+    value: 'Bacheoscalles',
+    parent: 'OMVP',
+  }, {
+    label: 'Construcción de rampas para discapacitados',
+    value: 'Construcciónrampasdiscapacitados',
+    parent: 'OMVP',
+  }, {
+    label: 'Construcción de bicisendas',
+    value: 'Construcciónbicisendas',
+    parent: 'OMVP',
+  }, {
+    label: 'Construcción de cercos en terrenos baldíos',
+    value: 'ConstrucciónCercosTerrenosBaldíos',
+    parent: 'OMVP',
+  }, {
+    label: 'Colocación de señales urbanas',
+    value: 'ColocaciónSeñalesUrbanas',
+    parent: 'OMVP',
+  }, {
+    label: 'Colocación de refugios para colectivos y/o taxis',
+    value: 'ColocaciónRefugio',
+    parent: 'OMVP',
+  }, {
+    label: 'Podas de árboles',
+    value: 'Podasárboles',
+    parent: 'OMVP',
+  }, {
+    label: 'Informática',
+    value: 'Informática',
+    parent: 'INFORMATICA',
+  }, {
+    label: 'Ingeniería Aeronáutica y Espacial',
+    value: 'IngenieríaAeronáuticaEspacial',
+    parent: 'IAE',
+  }, {
+    label: 'Construcciones Civiles en General',
+    value: 'ConstruccionesCivilesGeneral',
+    parent: 'OA',
+  }, {
+    label: 'Construcciones Industriales',
+    value: 'ConstruccionesIndustriales',
+    parent: 'OA',
+  }, {
+    label: 'Estructuras de Hormigón Armado',
+    value: 'EstructurasHormigónArmado',
+    parent: 'OA',
+  }, {
+    label: 'Urbanismo',
+    value: 'Urbanismo',
+    parent: 'OA',
+  }, {
+    label: 'Construcciones Prefabricadas',
+    value: 'ConstruccionesPrefabricadas',
+    parent: 'OA',
+  }, {
+    label: 'Construcciones Metálicas',
+    value: 'ConstruccionesMetálicas',
+    parent: 'OA',
+  }, {
+    label: 'Estructuras Metálicas (galpones, etc.)',
+    value: 'Estructuras_Metálicas',
+    parent: 'OA',
+  }, {
+    label: 'Restauración y Refacción de Edificios',
+    value: 'RestauraciónEdificios',
+    parent: 'OA',
+  }, {
+    label: 'Restauración de Sitios, Monumentos y Lugares Históricos.',
+    value: 'RestauraciónMonumentos ',
+    parent: 'OA',
+  }, {
+    label: 'Instalaciones contra incendio',
+    value: 'Instalacionesincendio',
+    parent: 'OA',
+  }, {
+    label: 'Instalaciones de Seguridad',
+    value: 'InstalacionesSeguridad',
+    parent: 'OA',
+  }, {
+    label: 'Instalaciones Complementarias',
+    value: 'InstalacionesComplementarias',
+    parent: 'OA',
+  }, {
+    label: 'Demoliciones y Excavaciones',
+    value: 'DemolicionesExcavaciones',
+    parent: 'OA',
+  }, {
+    label: 'Aislaciones Acústicas',
+    value: 'AislacionesAcusticas',
+    parent: 'OA',
+  }, {
+    label: 'Aislaciones Termicas',
+    value: 'AislacionesTermicas',
+    parent: 'OA',
+  }, {
+    label: 'Aislaciones Hidrófugas',
+    value: 'AislacionesHidrófugas',
+    parent: 'OA',
+  }, {
+    label: 'Impermeabilizaciones',
+    value: 'Impermeabilizaciones',
+    parent: 'OA',
+  }
+  , {
+    label: 'Albañilería',
+    value: 'Albañilería',
+    parent: 'OA',
+  }
+  , {
+    label: 'Limpieza de Frentes',
+    value: 'LimpiezaFrentes',
+    parent: 'OA',
+  }
+  , {
+    label: 'Pinturas y Afines',
+    value: 'PinturasAfines',
+    parent: 'OA',
+  }
+  , {
+    label: 'Marmolería',
+    value: 'Marmolería',
+    parent: 'OA',
+  }
+  , {
+    label: 'Carpintería',
+    value: 'Carpintería',
+    parent: 'OA',
+  }
+  , {
+    label: 'Herrería',
+    value: 'Herrería',
+    parent: 'OA',
+  }, {
+    label: 'Yesería',
+    value: 'Yesería',
+    parent: 'OA',
+  }, {
+    label: 'Vidriería',
+    value: 'Vidriería',
+    parent: 'OA',
+  }, {
+    label: 'Decoración Integral (provisión y colocación)',
+    value: 'DecoraciónIntegral',
+    parent: 'OA',
+  }, {
+    label: 'Limpieza de Edificios',
+    value: 'LimpiezadeEdificios',
+    parent: 'OA',
+  }, {
+    label: 'Parquización y Forestación',
+    value: 'ParquizaciónyForestación',
+    parent: 'OA',
+  }, {
+    label: 'Equipamiento Urbano',
+    value: 'EquipamientoUrbano',
+    parent: 'OA',
+  }, {
+    label: 'Amoblamientos',
+    value: 'Amoblamientos',
+    parent: 'OA',
+  }
+
+
+
+]
+
 // Create Document Component
-export default (props) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
+export default (props) => {
 
-      <View style={styles.sectionHeader} >
-        <LOGO/>
-    <Text >2021: Año de Martín Miguel de Güemes</Text>
-      </View>
-      <View style={styles.sectionContentHead} >
-        <View style={styles.sectionContentHeadColumn3}  >
-          <Text style={styles.sectionH2}  >Constancia de Inscripción</Text>
-          <Text style={{ fontSize:'10pt', marginBottom:20}}  >Registro Nacional de Constructores y de Firmas Consultoras de Obras Públicas.</Text>
-        </View>
-        <View style={styles.sectionContentHeadColumn2}  >
-        
-          <Text style={styles.sectionH2}  >Fecha de emisión</Text>
-          <Text  >{moment().format('DD/MM/YYYY')}</Text>
+  const getDescripcionEspecialidad = (especialidad) => {
+    const element = tipoEspecialidad.filter( e => e.value=== especialidad)
+    return _.isEmpty(element) ? "" : element[0].label
+  }
+  const especialidades  = _.concat(props.certificado.tramite.ddjjObras.map( (o:DDJJObra) => getDescripcionEspecialidad(o.especialidad1)),props.certificado.tramite.ddjjObras.map( (o:DDJJObra) => getDescripcionEspecialidad(o.especialidad2)))
+  
 
-        </View>
+  return (
 
-      </View>
-      <View style={styles.sectionContentTitle} >
-        <Text  >Datos de la empresa</Text>
-      </View>
-      <View style={styles.sectionContentHead} >
-        <View style={styles.sectionContentHeadColumn3}  >
-          <Text style={styles.sectionEtiqueta}  >{props.certificado.tramite.razonSocial}</Text>
-          <Text  >Registrado como:<Text style={styles.sectionEtiqueta}>{props.certificado.tramite.tipoEmpresa}</Text>  </Text>
-          <Text  >Estado:  <Text style={styles.sectionEtiqueta}>VEr ESTADO</Text>  </Text>
-          <Text  >Cuit:  <Text style={styles.sectionEtiqueta}>{props.certificado.tramite.cuit}</Text>  </Text>
+    <Document>
+      <Page size="A4" style={styles.page}>
+  
+        <View style={styles.sectionHeader} >
+          <LOGO />
+          <Text >2021: Año de Martín Miguel de Güemes</Text>
         </View>
-        <View style={styles.sectionContentHeadColumn2}>
+        <View style={styles.sectionContentHead} >
+          <View style={styles.sectionContentHeadColumn3}  >
+            <Text style={styles.sectionH2}  >Constancia de Inscripción</Text>
+            <Text style={{ fontSize: '10pt', marginBottom: 20 }}  >Registro Nacional de Constructores y de Firmas Consultoras de Obras Públicas.</Text>
+          </View>
+          <View style={styles.sectionContentHeadColumn2}  >
+  
+            <Text style={styles.sectionH2}  >Fecha de emisión</Text>
+            <Text  >{moment().format('DD/MM/YYYY')}</Text>
+  
+          </View>
+  
+        </View>
+        <View style={styles.sectionContentTitle} >
+          <Text  >Datos de la empresa</Text>
+        </View>
+        <View style={styles.sectionContentHead} >
+          <View style={styles.sectionContentHeadColumn3}  >
+            <Text style={styles.sectionEtiqueta}  >{props.certificado.tramite.razonSocial}</Text>
+            <Text  >Registrado como:<Text style={styles.sectionEtiqueta}>{props.certificado.tramite.tipoEmpresa}</Text>  </Text>
+            <Text  >Estado:  <Text style={styles.sectionEtiqueta}>VEr ESTADO</Text>  </Text>
+            <Text  >Cuit:  <Text style={styles.sectionEtiqueta}>{props.certificado.tramite.cuit}</Text>  </Text>
+          </View>
+          <View style={styles.sectionContentHeadColumn2}>
+            <Text style={styles.sectionH2}>Fecha de vigencia</Text>
+            <Text style={styles.sectionH2}>{getVigenciaCertificado(props.certificado.tramite)}</Text>
+          </View>
+        </View>
+        <View style={styles.sectionContent100}>
+          <Text>LA CAPACIDAD ECONÓMICO FINANCIERA DE CONTRATACIÓN REFERENCIAL SE ENCUENTRA VIGENTE AL MOMENTO DE LA CONSULTA.</Text>
+        </View>
+  
+  
+        <View style={styles.sectionContentTitle} >
+          <Text  >Capacidades</Text>
+        </View>
+        <View style={styles.sectionContentCapacidad} >
+          <View style={styles.sectionContentCapacidadColumn}  >
+            <Text  >Capacidad económico financiera de contratación referencial:</Text>
+            <Text style={styles.sectionEtiqueta}>{ numeral(props.certificado.capacidadFinanciera ).format('$0,0.00')}</Text>
+          </View>
+          <View style={styles.sectionContentCapacidadColumnBorder}  >
+            <Text  >Capacidad económico financiera de ejecución referencial:</Text>
+            <Text style={styles.sectionEtiqueta}>{numeral(props.certificado.capacidadEjecucion ).format('$0,0.00')}</Text>
+          </View>
+        </View>
+  
+        <View style={styles.sectionContentTitle} >
+          <Text  >Especialidades</Text>
+        </View>
+  
+        <View style={styles.sectionContentCapacidad} >
+          <View style={styles.sectionContentEspecialidadColumn}  >
+            <Text  >Tipo:</Text>
+            <Text style={styles.sectionEtiqueta}>{_.uniq(especialidades.filter(e => e!=='')).join(', ')}</Text>
+          </View>
+          
+         
+          
+        </View>
+  
+  
+  {/* 
+        <View style={styles.sectionContentTitle} >
+          <Text  >Obras Adjudicadas y/o en Ejecución</Text>
+        </View>
+  
+  
+        <View style={styles.sectionContentTable} >
+          <View style={styles.sectionContentTableColumnBorder}  >
+            <Text style={[styles.sectionEtiquetaTable, { fontWeight: 'heavy' }]}>Razon SocialComitente</Text>
+            {props.certificado.tramite.ddjjObras.map((o: DDJJObra) => <Text style={{ margin: 5 }}  >{o.razonSocialComitente}</Text>)}
+  
+          </View>
+          <View style={styles.sectionContentTableColumnBorder3}  >
+            <Text style={styles.sectionEtiquetaTable}>Denominación</Text>
+            {props.certificado.tramite.ddjjObras.map((o: DDJJObra) => <Text style={{ margin: 5 }} >{o.denominacion}</Text>)}
+  
+          </View>
+          <View style={styles.sectionContentTableColumnBorder2}  >
+            <Text style={styles.sectionEtiquetaTable}>Fecha de Adjudicación</Text>
+            {props.certificado.tramite.ddjjObras.map((o: DDJJObra) => <Text style={{ margin: 5 }}  >{o.datosObra[0].fechaAdjudicacion}</Text>)}
+  
+          </View>
+          <View style={styles.sectionContentTableColumnBorder}  >
+            <Text style={styles.sectionEtiquetaTable}>Monto Contractual</Text>
+            {props.certificado.tramite.ddjjObras.map((o: DDJJObra) => <Text style={{ margin: 5 }} >{o.montoInicial}</Text>)}
+          </View>
+          <View style={styles.sectionContentTableColumnBorder}  >
+            <Text style={styles.sectionEtiquetaTable}>Saldo</Text>
+            {props.certificado.tramite.ddjjObras.map((o: DDJJObra) => <Text style={{ margin: 5 }} >{calcularSaldoObra(o)}</Text>)}
+  
+          </View>
+        </View>*/}
+  
+  
+  
+        <View style={styles.sectionFooter} >
+          <Text style={styles.sectionFooterBold}>EL ORGANISMO CONTRATANTE PODRÁ CONSULTAR ESTA INFORMACIÓN EN LA PLATAFORMA CONTRAT.AR (HTTPS://CONTRATAR.GOB.AR/)
+          </Text>
+        </View>
+        <View style={styles.sectionFooter} >
+          <Text style={styles.sectionFooterBold}>ONC |
+            <Text style={styles.sectionFooterRegular}>OFICINA NACIONAL DE CONTRATACIONES </Text>
+          </Text>
+        </View>
+  
+  
+      </Page>
+    </Document>
+  );
+  
+  
+  
+  
+  
+}
 
-          <Text style={styles.sectionH2}>Fecha de vigencia</Text>
-          <Text style={styles.sectionH2}>{moment().format('DD/MM/YYYY')}</Text>
 
-        </View>
-      </View>
-      <View style={styles.sectionContent100}>
-        <Text>LA CAPACIDAD ECONÓMICO FINANCIERA DE CONTRATACIÓN REFERENCIAL SE ENCUENTRA VIGENTE AL MOMENTO DE LA CONSULTA.</Text>
-      </View>
-     
-
-      <View style={styles.sectionContentTitle} >
-        <Text  >Capacidades</Text>
-      </View>
-      <View style={styles.sectionContentCapacidad} >
-        <View style={styles.sectionContentCapacidadColumn}  >
-          <Text  >Capacidad económico financiera de contratación referencial:</Text>
-          <Text style={styles.sectionEtiqueta}>$1.199.940.034,58</Text>
-        </View>
-        <View style={styles.sectionContentCapacidadColumnBorder}  >
-          <Text  >Capacidad económico financiera de ejecución referencial:</Text>
-          <Text style={styles.sectionEtiqueta}>$1.199.940.034,58</Text>
-        </View>
-        </View>
-      <View style={styles.sectionContentTitle} >
-        <Text  >Especialidades</Text>
-      </View>
-      <View style={styles.sectionContentCapacidad} >
-        <View style={styles.sectionContentEspecialidadColumn}  >
-          <Text  >Tipo:</Text>
-          <Text style={styles.sectionEtiqueta}>INGENIERIA VIAL</Text>
-        </View>
-        <View style={styles.sectionContentCapacidadColumnBorder2}  >
-          <Text  >%</Text>
-          <Text style={styles.sectionEtiqueta}>100</Text>
-        </View>
-        <View style={styles.sectionContentEspecialidadColumnBorder2}  >
-          <Text  >Tipo:</Text>
-          <Text style={styles.sectionEtiqueta}>INGENIERIA VIAL</Text>
-        </View>
-        <View style={styles.sectionContentCapacidadColumnBorder2}  >
-          <Text  >%:</Text>
-          <Text style={styles.sectionEtiqueta}>100</Text>
-        </View>
-      </View>
-
-      <View style={styles.sectionContentTitle} >
-        <Text  >Obras Adjudicadas y/o en Ejecución</Text>
-      </View>
-    
-
-      <View style={styles.sectionContentTable} >
-        <View style={styles.sectionContentTableColumnBorder}  >
-          <Text style={[styles.sectionEtiquetaTable,{fontWeight:'heavy'}]}>Razon SocialComitente</Text>
-          <Text style={{  margin:5}}  >Ministerio de Obras Publicas</Text>
-          <Text style={{  margin:5}}  >Aguas Argentina</Text>
-        </View>
-        <View style={styles.sectionContentTableColumnBorder3}  >
-        <Text style={styles.sectionEtiquetaTable}>Denominación</Text>
-        <Text style={{  margin:5}} >Construccion planta de tratamiento de liquidos  cloacales y obras complementarias- Unidad Penitenciaria n° 1 - Carcel de Coronda.</Text>
-        <Text style={{  margin:5}} >Ampliacion planta de tratamiento de efluentes.</Text>
-        </View>
-        <View style={styles.sectionContentTableColumnBorder2}  >
-        <Text style={styles.sectionEtiquetaTable}>Fecha de Adjudicación</Text>
-        <Text style={{  margin:5}}  >13/01/2012</Text>
-        <Text  style={{  margin:5}} >13/01/2012</Text>
-        </View>
-        <View style={styles.sectionContentTableColumnBorder}  >
-        <Text style={styles.sectionEtiquetaTable}>Monto Contractual</Text>
-        <Text style={{  margin:5}} >$67.680.421,67</Text>
-        <Text style={{  margin:5}} >$67.680.421,67</Text>
-        </View>
-        <View style={styles.sectionContentTableColumnBorder}  >
-        <Text style={styles.sectionEtiquetaTable}>Saldo</Text>
-        <Text style={{  margin:5}} >$67.680.421,67</Text>
-        <Text style={{  margin:5}} >$67.680.421,67</Text>
-        </View>
-      </View>
-      
-
-      <View style={styles.sectionFooter} >
-        <Text style={styles.sectionFooterBold}>EL ORGANISMO CONTRATANTE PODRÁ CONSULTAR ESTA INFORMACIÓN EN LA PLATAFORMA CONTRAT.AR (HTTPS://CONTRATAR.GOB.AR/)
-        </Text>
-      </View>
-      <View style={styles.sectionFooter} >
-        <Text style={styles.sectionFooterBold}>ONC |   
-          <Text style={styles.sectionFooterRegular}>OFICINA NACIONAL DE CONTRATACIONES </Text>
-        </Text>
-      </View>
-      
-
-    </Page>
-  </Document>
-);
-
-
-
-
-const LOGO = () =>(
+const LOGO = () => (
   <Svg height="70px" >
 
-  <Path fill="#66AED7" d="M37.25,24.78l-0.01-0.03L37.25,24.78c0.58-0.09,1.1-0.14,1.54-0.14c1.44,0,1.66,0.48,1.69,0.53
+    <Path fill="#66AED7" d="M37.25,24.78l-0.01-0.03L37.25,24.78c0.58-0.09,1.1-0.14,1.54-0.14c1.44,0,1.66,0.48,1.69,0.53
     c0,0.01,0.05,0.12,0.2,0.12c0.02,0,0.05,0,0.07-0.01c0.04-0.01,0.08-0.03,0.09-0.05c0.02-0.04,0.02-0.09-0.01-0.16
     c0-0.01-0.34-0.93-1.82-1.09c-0.01,0-0.8-0.1-1.65,0.05c-0.23,0.04-0.3,0.58-0.3,0.58c-0.01,0.06,0,0.11,0.03,0.14
     C37.14,24.8,37.22,24.79,37.25,24.78"/>
-  <Path fill="#66AED7" d="M34.79,25.4L34.79,25.4c-0.34-0.16-1.13-0.12-1.14-0.12c-1.26,0.04-1.61,0.83-1.62,0.84
+    <Path fill="#66AED7" d="M34.79,25.4L34.79,25.4c-0.34-0.16-1.13-0.12-1.14-0.12c-1.26,0.04-1.61,0.83-1.62,0.84
     c-0.03,0.08-0.04,0.15-0.01,0.19c0.03,0.05,0.1,0.06,0.1,0.06c0.26,0.06,0.33-0.13,0.34-0.14c0,0,0.08-0.24,0.63-0.38
     c0.01,0,0.02,0,0.03,0.01c0.01,0.01,0.01,0.02,0.01,0.03c-0.03,0.08-0.05,0.16-0.05,0.24c0,0.35,0.28,0.64,0.64,0.64
     s0.64-0.29,0.64-0.64c0-0.09-0.02-0.17-0.05-0.25c0-0.01,0-0.02,0.01-0.03c0.01-0.01,0.02-0.01,0.03-0.01
     c0.22,0.09,0.39,0.24,0.49,0.45c0.04,0.07,0.11,0.12,0.37,0.12c0.06,0,0.13-0.01,0.17-0.05c0.02-0.03,0.01-0.07,0.01-0.08
     C35.21,25.6,34.8,25.4,34.79,25.4"/>
-  <Path fill="#66AED7" d="M37.2,26.4c0.26,0,0.33-0.05,0.37-0.12c0.1-0.21,0.27-0.36,0.49-0.45c0.01,0,0.03,0,0.03,0.01
+    <Path fill="#66AED7" d="M37.2,26.4c0.26,0,0.33-0.05,0.37-0.12c0.1-0.21,0.27-0.36,0.49-0.45c0.01,0,0.03,0,0.03,0.01
     c0.01,0.01,0.01,0.02,0.01,0.03c-0.03,0.08-0.05,0.16-0.05,0.25c0,0.35,0.29,0.64,0.64,0.64c0.35,0,0.64-0.29,0.64-0.64
     c0-0.08-0.01-0.16-0.05-0.24c0-0.01,0-0.02,0.01-0.03c0.01-0.01,0.02-0.01,0.03-0.01c0.54,0.13,0.62,0.36,0.63,0.39
     c0.01,0.02,0.09,0.19,0.32,0.13c0.05-0.01,0.09-0.03,0.11-0.06c0.03-0.04,0.02-0.11-0.01-0.19c0-0.01-0.36-0.79-1.61-0.83
     c-0.08,0-0.81-0.02-1.14,0.12c0,0-0.42,0.21-0.57,0.86c-0.01,0.03-0.01,0.07,0.01,0.09C37.07,26.4,37.14,26.4,37.2,26.4"/>
-  <Path fill="#66AED7" d="M31.64,25.29L31.64,25.29C31.64,25.29,31.64,25.29,31.64,25.29c0.03,0.01,0.06,0.01,0.08,0.01
+    <Path fill="#66AED7" d="M31.64,25.29L31.64,25.29C31.64,25.29,31.64,25.29,31.64,25.29c0.03,0.01,0.06,0.01,0.08,0.01
     c0.15,0,0.2-0.12,0.2-0.12c0.01-0.03,0.36-0.85,3.22-0.39c0,0,0.11,0.02,0.16-0.03c0.03-0.03,0.04-0.07,0.03-0.14
     c0-0.02-0.08-0.55-0.3-0.59c-0.31-0.05-0.64-0.08-0.99-0.08c-0.38,0-0.64,0.03-0.65,0.03c-1.5,0.16-1.82,1.08-1.82,1.09
     c-0.03,0.07-0.03,0.13-0.01,0.16C31.58,25.28,31.63,25.29,31.64,25.29"/>
-  <Path fill="#66AED7" d="M55.73,56.31c0.01-0.11-0.03-0.22-0.11-0.29c-0.07-0.06-0.16-0.08-0.25-0.07c0.07-0.15,0.14-0.3,0.19-0.46
+    <Path fill="#66AED7" d="M55.73,56.31c0.01-0.11-0.03-0.22-0.11-0.29c-0.07-0.06-0.16-0.08-0.25-0.07c0.07-0.15,0.14-0.3,0.19-0.46
     c0.24-0.67,0.37-1.43,0.38-2.28c0-0.11-0.05-0.21-0.14-0.27c-0.07-0.05-0.16-0.07-0.24-0.05c0.05-0.15,0.1-0.3,0.14-0.45
     c0.18-0.69,0.23-1.46,0.15-2.3c-0.01-0.11-0.07-0.21-0.17-0.26c-0.08-0.04-0.17-0.05-0.25-0.02c0.05-0.17,0.09-0.35,0.11-0.53
     c0.11-0.7,0.08-1.48-0.07-2.31c-0.02-0.11-0.09-0.2-0.19-0.24c-0.06-0.02-0.13-0.03-0.19-0.02c0.02-0.12,0.04-0.25,0.05-0.38
@@ -721,15 +1402,15 @@ const LOGO = () =>(
     c-0.38-0.69-0.52-1.5-0.41-2.43c0.03-0.28,0.09-0.57,0.17-0.85c0-0.01,0.01-0.02,0.03-0.02c0.01,0,0.02,0.01,0.03,0.02
     c0.34,0.58,0.52,1.29,0.53,1.32c0.02,0.09,0.1,0.16,0.19,0.18c0.09,0.02,0.19-0.03,0.24-0.11c0.47-0.76,1.06-1.19,1.46-1.41
     c0.01-0.01,0.02-0.01,0.03,0c0.01,0.01,0.01,0.02,0.01,0.03C55,57.3,54.83,57.82,54.61,58.26"/>
-  <Path fill="#66AED7" d="M81.18,53.53l-1.56-4.77c-0.05-0.16-0.21-0.28-0.38-0.28h-6.64c-0.17,0-0.33,0.11-0.38,0.28l-1.56,4.77
+    <Path fill="#66AED7" d="M81.18,53.53l-1.56-4.77c-0.05-0.16-0.21-0.28-0.38-0.28h-6.64c-0.17,0-0.33,0.11-0.38,0.28l-1.56,4.77
     c-0.05,0.16-0.21,0.28-0.38,0.28h-2.43c-0.27,0-0.46-0.27-0.38-0.53l5.96-17.7c0.06-0.16,0.21-0.27,0.38-0.27h4.25
     c0.17,0,0.32,0.11,0.38,0.27l5.95,17.7c0.09,0.26-0.11,0.53-0.38,0.53h-2.46C81.38,53.8,81.23,53.69,81.18,53.53 M73.72,45.8h4.39
     c0.27,0,0.46-0.26,0.38-0.52l-2.2-6.72c-0.12-0.37-0.64-0.37-0.76,0l-2.19,6.72C73.25,45.54,73.44,45.8,73.72,45.8"/>
-  <Path fill="#66AED7" d="M86.82,40.17h1.95c0.2,0,0.37,0.15,0.4,0.34l0.2,1.43h0.18c0.4-0.64,0.93-1.12,1.58-1.45
+    <Path fill="#66AED7" d="M86.82,40.17h1.95c0.2,0,0.37,0.15,0.4,0.34l0.2,1.43h0.18c0.4-0.64,0.93-1.12,1.58-1.45
     c0.65-0.33,1.37-0.49,2.16-0.49c0.24,0,0.49,0.01,0.74,0.04c0.2,0.02,0.35,0.2,0.35,0.4v2.17c0,0.23-0.2,0.41-0.43,0.4
     c-0.25-0.02-0.53-0.03-0.85-0.03c-0.65,0-1.29,0.13-1.92,0.4c-0.58,0.25-1.04,0.59-1.39,1.02c-0.06,0.07-0.09,0.16-0.09,0.26v8.74
     c0,0.22-0.18,0.4-0.4,0.4h-2.48c-0.22,0-0.4-0.18-0.4-0.4V40.57C86.43,40.35,86.6,40.17,86.82,40.17"/>
-  <Path fill="#66AED7" d="M98.34,59.41c-0.65-0.08-1.27-0.2-1.85-0.35c-0.18-0.04-0.3-0.21-0.3-0.39v-1.77c0-0.26,0.25-0.44,0.5-0.38
+    <Path fill="#66AED7" d="M98.34,59.41c-0.65-0.08-1.27-0.2-1.85-0.35c-0.18-0.04-0.3-0.21-0.3-0.39v-1.77c0-0.26,0.25-0.44,0.5-0.38
     c1.27,0.33,2.49,0.49,3.64,0.49c0.93,0,1.69-0.12,2.27-0.36c0.58-0.24,1.01-0.62,1.29-1.14c0.28-0.52,0.42-1.22,0.42-2.07v-1.08
     h-0.16c-0.43,0.49-0.94,0.88-1.56,1.15c-0.61,0.28-1.3,0.41-2.07,0.41c-0.97,0-1.86-0.23-2.65-0.71s-1.42-1.2-1.9-2.2
     c-0.48-0.99-0.71-2.24-0.71-3.74c0-2.4,0.62-4.21,1.87-5.45c1.25-1.23,3.11-1.85,5.57-1.86c0.82,0,1.66,0.06,2.54,0.19
@@ -738,33 +1419,33 @@ const LOGO = () =>(
     c0.07-0.07,0.11-0.18,0.11-0.28v-6.94c0-0.19-0.14-0.36-0.33-0.4c-0.52-0.1-1.04-0.15-1.55-0.15c-1.29,0-2.26,0.36-2.9,1.08
     c-0.65,0.72-0.97,1.86-0.97,3.42c0,1.56,0.27,2.66,0.81,3.29c0.54,0.64,1.32,0.96,2.33,0.96C102.21,51.23,102.69,51.14,103.15,50.95
     "/>
-  <Path fill="#66AED7" d="M121.51,47.97h-7.61c-0.24,0-0.42,0.21-0.4,0.45c0.07,0.68,0.23,1.23,0.47,1.66c0.29,0.52,0.74,0.9,1.35,1.13
+    <Path fill="#66AED7" d="M121.51,47.97h-7.61c-0.24,0-0.42,0.21-0.4,0.45c0.07,0.68,0.23,1.23,0.47,1.66c0.29,0.52,0.74,0.9,1.35,1.13
     c0.61,0.23,1.42,0.35,2.44,0.35c0.87,0,1.85-0.12,2.93-0.36c0.25-0.05,0.49,0.13,0.49,0.39v1.67c0,0.19-0.13,0.35-0.31,0.39
     c-1.2,0.27-2.39,0.41-3.56,0.41c-1.62,0-2.96-0.25-4.01-0.74c-1.04-0.49-1.83-1.26-2.34-2.29c-0.52-1.04-0.77-2.39-0.77-4.04
     c0-1.52,0.24-2.81,0.71-3.86c0.47-1.05,1.16-1.84,2.06-2.37c0.9-0.53,1.99-0.79,3.26-0.79c1.86,0,3.27,0.6,4.24,1.79
     c0.97,1.2,1.45,2.97,1.45,5.33v0.49C121.91,47.79,121.73,47.97,121.51,47.97 M114.19,42.99c-0.41,0.54-0.65,1.4-0.71,2.6
     c-0.01,0.23,0.17,0.42,0.4,0.42h4.56c0.23,0,0.41-0.19,0.4-0.42c-0.06-1.19-0.29-2.06-0.68-2.6c-0.44-0.6-1.09-0.9-1.96-0.9
     C115.32,42.09,114.65,42.39,114.19,42.99"/>
-  <Path fill="#66AED7" d="M124.75,40.17h1.97c0.2,0,0.36,0.14,0.39,0.34l0.17,1.1h0.18c0.52-0.53,1.13-0.94,1.83-1.22
+    <Path fill="#66AED7" d="M124.75,40.17h1.97c0.2,0,0.36,0.14,0.39,0.34l0.17,1.1h0.18c0.52-0.53,1.13-0.94,1.83-1.22
     c0.7-0.28,1.46-0.42,2.26-0.42c1.41,0,2.52,0.41,3.34,1.24c0.82,0.83,1.22,2.14,1.22,3.93v8.27c0,0.22-0.18,0.4-0.4,0.4h-2.48
     c-0.22,0-0.4-0.18-0.4-0.4v-8.09c0-0.91-0.19-1.55-0.57-1.94c-0.38-0.39-0.94-0.58-1.68-0.58c-0.55,0-1.09,0.11-1.62,0.34
     c-0.49,0.21-0.9,0.51-1.24,0.92c-0.06,0.07-0.09,0.17-0.09,0.26v9.09c0,0.22-0.18,0.4-0.4,0.4h-2.48c-0.22,0-0.4-0.18-0.4-0.4V40.57
     C124.35,40.35,124.53,40.17,124.75,40.17"/>
-  <Path fill="#66AED7" d="M147.37,51.63v1.83c0,0.19-0.13,0.36-0.32,0.4c-0.69,0.14-1.37,0.21-2.04,0.21c-3.23,0-4.85-1.63-4.85-4.89
+    <Path fill="#66AED7" d="M147.37,51.63v1.83c0,0.19-0.13,0.36-0.32,0.4c-0.69,0.14-1.37,0.21-2.04,0.21c-3.23,0-4.85-1.63-4.85-4.89
     v-5.99c0-0.22-0.18-0.4-0.4-0.4h-1.55c-0.22,0-0.4-0.18-0.4-0.4v-1.82c0-0.22,0.18-0.4,0.4-0.4h1.6c0.2,0,0.37-0.15,0.4-0.35
     l0.49-4.16c0.02-0.2,0.19-0.35,0.4-0.35h1.95c0.22,0,0.4,0.18,0.4,0.4v4.07c0,0.22,0.18,0.4,0.4,0.4h3.01c0.22,0,0.4,0.18,0.4,0.4
     v1.82c0,0.22-0.18,0.4-0.4,0.4h-3.01c-0.22,0-0.4,0.18-0.4,0.4v5.46c0,0.67,0.09,1.2,0.26,1.59c0.17,0.39,0.43,0.67,0.78,0.84
     c0.35,0.17,0.81,0.26,1.39,0.26c0.3,0,0.65-0.03,1.06-0.1C147.15,51.19,147.37,51.38,147.37,51.63"/>
-  <Path fill="#66AED7" d="M149.76,37.38c-0.35-0.3-0.52-0.74-0.52-1.32c0-0.57,0.17-1.02,0.52-1.32c0.34-0.31,0.86-0.46,1.56-0.46
+    <Path fill="#66AED7" d="M149.76,37.38c-0.35-0.3-0.52-0.74-0.52-1.32c0-0.57,0.17-1.02,0.52-1.32c0.34-0.31,0.86-0.46,1.56-0.46
     c0.69,0,1.21,0.15,1.56,0.46c0.35,0.31,0.52,0.75,0.52,1.32c0,0.57-0.17,1.01-0.52,1.32c-0.35,0.3-0.87,0.46-1.56,0.46
     C150.62,37.83,150.1,37.68,149.76,37.38 M149.67,53.4V40.57c0-0.22,0.18-0.4,0.4-0.4h2.49c0.22,0,0.4,0.18,0.4,0.4V53.4
     c0,0.22-0.18,0.4-0.4,0.4h-2.49C149.84,53.8,149.67,53.62,149.67,53.4"/>
-  <Path fill="#66AED7" d="M156.03,40.17h1.97c0.2,0,0.36,0.14,0.39,0.34l0.17,1.1h0.18c0.52-0.53,1.13-0.94,1.83-1.22
+    <Path fill="#66AED7" d="M156.03,40.17h1.97c0.2,0,0.36,0.14,0.39,0.34l0.17,1.1h0.18c0.52-0.53,1.13-0.94,1.83-1.22
     c0.7-0.28,1.46-0.42,2.26-0.42c1.41,0,2.52,0.41,3.34,1.24c0.82,0.83,1.22,2.14,1.22,3.93v8.27c0,0.22-0.18,0.4-0.4,0.4h-2.48
     c-0.22,0-0.4-0.18-0.4-0.4v-8.09c0-0.91-0.19-1.55-0.57-1.94c-0.38-0.39-0.94-0.58-1.67-0.58c-0.55,0-1.09,0.11-1.62,0.34
     c-0.49,0.21-0.9,0.51-1.24,0.92c-0.06,0.07-0.09,0.17-0.09,0.26v9.09c0,0.22-0.18,0.4-0.4,0.4h-2.48c-0.22,0-0.4-0.18-0.4-0.4V40.57
     C155.63,40.35,155.81,40.17,156.03,40.17"/>
-  <Path fill="#66AED7" d="M178.43,40.48c0.86,0.34,1.5,0.91,1.92,1.71c0.42,0.79,0.63,1.87,0.63,3.22v8c0,0.22-0.18,0.4-0.4,0.4h-1.97
+    <Path fill="#66AED7" d="M178.43,40.48c0.86,0.34,1.5,0.91,1.92,1.71c0.42,0.79,0.63,1.87,0.63,3.22v8c0,0.22-0.18,0.4-0.4,0.4h-1.97
     c-0.2,0-0.36-0.14-0.39-0.34l-0.17-1.08h-0.17c-0.41,0.54-0.94,0.95-1.58,1.23c-0.65,0.28-1.36,0.42-2.14,0.42
     c-0.89,0-1.66-0.16-2.31-0.48c-0.65-0.32-1.15-0.76-1.5-1.34c-0.34-0.58-0.52-1.26-0.52-2.04c0-1.27,0.43-2.24,1.3-2.94
     c0.87-0.69,2.24-1.11,4.11-1.26l2.55-0.24v-0.54c0-0.69-0.11-1.24-0.33-1.63c-0.22-0.4-0.57-0.68-1.04-0.84
@@ -773,9 +1454,8 @@ const LOGO = () =>(
      M176.56,51.44c0.41-0.16,0.77-0.41,1.1-0.75c0.07-0.07,0.11-0.18,0.11-0.29v-2.3c0-0.23-0.2-0.42-0.43-0.4l-1.8,0.16
     c-0.86,0.08-1.49,0.29-1.88,0.62c-0.4,0.33-0.59,0.79-0.59,1.38c0,0.6,0.18,1.06,0.53,1.37c0.35,0.32,0.87,0.47,1.56,0.47
     C175.64,51.72,176.11,51.62,176.56,51.44"/>
-  
-  
-  </Svg>
-  
-) 
 
+
+  </Svg>
+
+)

@@ -19,8 +19,8 @@ interface CertificadoProps {
 
 let columns = [
   {
-    title: 'codigo',
-    dataIndex: 'id',
+    title: 'Estado',
+    render: (text,record: DDJJObra)  => <div> {record.datosObra[0].estado}</div>,
     key: 'id',
   },
   {
@@ -80,13 +80,13 @@ export default (props: CertificadoProps) => {
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{certificado.tramite.razonSocial}</div>
       {
       <div>
-        {/* 
+        {
         <PDFDownloadLink document={<CertificadoPDF certificado={certificado} />} fileName="certificado.pdf">
           {({ blob, url, loading, error }) =>
             loading ? 'Loading document...' : 'Descargar Certificado'
           }
         </PDFDownloadLink>
-        */}
+        }
       </div>
       }
       <div className="grid grid-cols-2 gap-4 mb-4 ">
@@ -127,8 +127,8 @@ export default (props: CertificadoProps) => {
 
         </div>
       </div>
-      <div className="text-xl font-bold mt-4 mb-4">Obras Consideradas en el cálculo de capacidad</div>
-      <Table dataSource={certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA')} columns={columns} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
+      <div className="text-xl font-bold mt-4 mb-4">Compromisos: </div>
+      <Table dataSource={certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA').filter( (o:DDJJObra) => _.includes(['Preadjudicada','Adjudicada','Ejecucion'],o.datosObra[0].estado))} columns={columns} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
 
 
 

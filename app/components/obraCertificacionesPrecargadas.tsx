@@ -87,7 +87,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       render: (text, record) => <Accion certificacion={record} />
     },
     {
-      title: 'pepe',
+      title: '',
       key: 'evaluacion',
       render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
       width: '4%'
@@ -124,7 +124,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     
   ]
 
-  columns = getUsuario().isConstructor() ? columns.slice(1, columns.length ) : [columns[0], columns[1], columns[3], columns[4], columns[5], columns[6], columns[7]]
+  columns = getUsuario().isConstructor() ? columns.slice(1, columns.length ) : [columns[0], columns[1], columns[3], columns[4], columns[5], columns[6]]
 
 
 
