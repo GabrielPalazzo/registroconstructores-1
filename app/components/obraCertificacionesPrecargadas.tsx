@@ -89,13 +89,12 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     {
       title: '',
       key: 'evaluacion',
-      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
-      width: '4%'
+      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
+
     },
     {
       title: 'Eliminar',
       key: 'delete ',
-      width: '4%',
       render: (text, record) => <div onClick={() => borrarPeriodo(record)}><DeleteOutlined /></div>
     },
     {
@@ -118,7 +117,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     {
       title: 'Adjunto',
       key: 'adjunto',
-      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
+      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>
       
     },
     

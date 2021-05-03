@@ -26,6 +26,7 @@ import { LinkToFile } from '../components/linkToFile';
 
 import Wrapper from '../components/wrapper'
 import { RootState } from '../redux/store';
+import wrapper from '../components/wrapper';
 
 function confirm(e) {
   console.log(e);
@@ -1300,18 +1301,21 @@ export default () => {
         <div className="text-2xl font-bold py-4"> Inscripción constitutiva en país de origen</div>
         <div className="grid grid-cols-3 gap-4 ">
           <div >
-            <InputTextModal
+
+          <Wrapper title="Datos" attributeName="DatosInscripcionPJESP" labelRequired="*">
+            <InputText
+             attributeName="DatosInscripcionPJES"
               value={tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos}
               bindFunction={value => {
                 tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos = value
                 updateObjTramite()
               }}
-              label="Datos"
-              labelRequired="*"
-              placeholder=""
               labelMessageError=""
-              required /></div>
+              required />
+              </Wrapper>
+              </div>
           <div >
+          <Wrapper title="Fecha" attributeName="FechaInscripcionPJESP" labelRequired="*">
             <DatePickerModal
               label="Fecha"
               labelRequired="*"
@@ -1325,27 +1329,30 @@ export default () => {
                 updateObjTramite()
               }}
             />
+            </Wrapper>
           </div>
 
         </div>
         <div className="text-2xl font-bold py-4"> Inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)</div>
         <div className="grid grid-cols-3 gap-4 ">
           <div >
-            <InputTextModal
+          <Wrapper title="Datos" attributeName="DatosInscripcionPJES" labelRequired="*">
+            <InputText
+             attributeName="DatosInscripcionPJES"
               value={tramite.datosSocietarios.PJESP.inscripcionSucursal.datos}
               bindFunction={value => {
                 tramite.datosSocietarios.PJESP.inscripcionSucursal.datos = value
                 updateObjTramite()
               }}
-              label="Datos"
-              labelRequired="*"
-              placeholder=""
+             
               labelMessageError=""
-              required /></div>
+              required />
+              </Wrapper>
+              </div>
           <div >
+            <Wrapper title="Datos" attributeName="FechaInscripcionPJES" labelRequired="*">
             <DatePickerModal
-              label="Fecha"
-              labelRequired="*"
+             
               placeholder="Fecha"
               labelObservation=""
               labeltooltip=""
@@ -1357,6 +1364,7 @@ export default () => {
                 updateObjTramite()
               }}
             />
+            </Wrapper>
           </div>
           <div >
             <Upload
