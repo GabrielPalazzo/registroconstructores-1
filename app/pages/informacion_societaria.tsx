@@ -1351,7 +1351,7 @@ export default () => {
           <div >
             <Wrapper title="Fecha" attributeName="FechaInscripcionPJES" labelRequired="*">
             <DatePickerModal
-             labelRequired="*"
+             labelRequired=""
               placeholder=""
               labelObservation=""
               labeltooltip=""
