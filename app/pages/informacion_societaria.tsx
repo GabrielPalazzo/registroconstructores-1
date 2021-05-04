@@ -1317,9 +1317,8 @@ export default () => {
           <div >
           <Wrapper title="Fecha" attributeName="FechaInscripcionPJESP" labelRequired="*">
             <DatePickerModal
-              label="Fecha"
-              labelRequired="*"
-              placeholder="Fecha"
+            labelRequired=""
+              placeholder=""
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
@@ -1350,10 +1349,10 @@ export default () => {
               </Wrapper>
               </div>
           <div >
-            <Wrapper title="Datos" attributeName="FechaInscripcionPJES" labelRequired="*">
+            <Wrapper title="Fecha" attributeName="FechaInscripcionPJES" labelRequired="*">
             <DatePickerModal
-             
-              placeholder="Fecha"
+             labelRequired="*"
+              placeholder=""
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
@@ -1367,9 +1366,10 @@ export default () => {
             </Wrapper>
           </div>
           <div >
+          <Wrapper title="Inscripción efectiva de la sucursal en D.P.P.J. / I.G.J., junto con todas sus modificaciones" attributeName="modificacionUpload"
+              labelRequired="*"  >
             <Upload
-              label="Inscripción efectiva de la sucursal en D.P.P.J. / I.G.J., junto con todas sus modificaciones"
-              defaultValue={tramite.datosSocietarios.PJESP.archivosContrato as any}
+             defaultValue={tramite.datosSocietarios.PJESP.archivosContrato as any}
               onOnLoad={file => {
                 if (!tramite.datosSocietarios.PJESP.archivosContrato)
                   tramite.datosSocietarios.PJESP.archivosContrato = []
@@ -1385,6 +1385,7 @@ export default () => {
                 setIsLoading(false)
               }}
             />
+            </Wrapper>
           </div>
         </div>
 
@@ -1392,22 +1393,24 @@ export default () => {
         <Tooltip title="En caso de que la empresa sea Constructora desde la inscripción inicial de la Sucursal en Argentina, repetir mismos datos y fecha de la Inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J."> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
         <div className="grid grid-cols-2 gap-4 ">
           <div >
-            <InputTextModal
-              label="Datos"
-              labelRequired=""
-              placeholder=""
+          <Wrapper title="Datos" attributeName="DatosModificacionObjetoPJES" labelRequired="*">
+            <InputText
+             attributeName="DatosModificacionObjetoPJES"
+          
               labelMessageError=""
               value={tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos}
               bindFunction={value => {
                 tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos = value
                 updateObjTramite()
               }}
-              required /></div>
+              required />
+              </Wrapper>
+              </div>
           <div >
+          <Wrapper title="Fecha" attributeName="FechaModificacionObjetoPJES" labelRequired="*">
+           
             <DatePickerModal
-              label="Fecha"
-              labelRequired=""
-              placeholder="Fecha"
+            labelRequired="*"
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
@@ -1417,10 +1420,12 @@ export default () => {
                 updateObjTramite()
               }}
             />
+            </Wrapper>
           </div>
           <div >
+          <Wrapper title="Modificación del Objeto de la Sucursal Argentina al rubro Construcción inscripto en D.P.P.J / I.G.J." attributeName="modificacionObjetoUpload"
+              labelRequired="*"  >
             <Upload
-              label="Modificación del Objeto de la Sucursal Argentina al rubro Construcción inscripto en D.P.P.J / I.G.J."
               defaultValue={tramite.datosSocietarios.PJESP.archivoModificacion as any}
               onOnLoad={file => {
                 if (!tramite.datosSocietarios.PJESP.archivoModificacion)
@@ -1437,11 +1442,13 @@ export default () => {
                 setIsLoading(false)
               }}
             />
+            </Wrapper>
           </div>
         </div>
         <Wrapper isTitle title="Última modificación de inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)" attributeName="UltimaModificacionInscripcionPJESP" >
           <div className="grid grid-cols-2 gap-4 ">
             <div >
+              
               <InputTextModal
                 label="Datos"
                 labelRequired=""
