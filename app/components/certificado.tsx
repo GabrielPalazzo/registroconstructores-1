@@ -85,6 +85,7 @@ export default (props: CertificadoProps) => {
           {({ blob, url, loading, error }) =>
             loading ? 'Loading document...' : 'Descargar Certificado'
           }
+         
         </PDFDownloadLink>
         }
       </div>

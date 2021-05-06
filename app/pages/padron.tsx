@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { closeSession, getCertificados, getTramiteByCUIT, migrarCertificados, migrarEmpresa } from '../services/business'
+import React, { useEffect, useState } from 'react'
+import { closeSession, getCertificados, getTramiteByCUIT, getUsuario, migrarCertificados, migrarEmpresa } from '../services/business'
 import { useRouter } from 'next/router'
 import { Avatar, Dropdown, Menu, Input, Table, Button, Modal } from 'antd'
 import numeral from 'numeral'
@@ -24,13 +24,24 @@ export default () => {
   const [key, setKey] = useState('')
   const [idProveedor, setIdProveedor] = useState('')
   const [isMigratingData, setIsMigratingData] = useState(false)
+  const [allowed,setAllowed] = useState(false)
 
   const router = useRouter()
+
+  useEffect(() => {
+    const usuario = getUsuario().userData()
+
+    if (!getUsuario() || !getUsuario().isBackOffice())
+      router.push('/login')
+    else
+      setAllowed(true)
+  },[])
 
   const cerrarSesion = () => {
     closeSession()
     router.push('/login')
   }
+
 
   const menu = (
     <Menu>
@@ -89,7 +100,7 @@ export default () => {
       render: (text, record) => <div>{numeral(record.capacidadEjecucion).format('$0,0.00')}</div>,
       key: 'CapacidadEjecucion',
     }
-    
+
 
 
   ]
@@ -108,6 +119,8 @@ export default () => {
     return <Loading message="Aguarde un instante por favor" type="sync" />
 
 
+  if (!allowed) return <Loading  message='Aguarde un instante...' type='waiting'/>
+
   return <div>
 
     <Modal title="Basic Modal"
@@ -123,7 +136,7 @@ export default () => {
         <Button loading={isMigratingData} onClick={handleMigrarEmpresa}>Migrar</Button>
       ]}
       onCancel={() => setShowModalMigrador(false)}>
-     
+
       <div>Id Proveedor a migrar</div>
       <Input value={idProveedor} onChange={e => setIdProveedor(e.target.value)}></Input>
     </Modal>
