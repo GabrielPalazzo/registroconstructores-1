@@ -553,10 +553,12 @@ export const generarCertificado = async (tramite: TramiteAlta, usuario: Usuario,
 
 
 export const cambiarADesActualizado = async (tramite: TramiteAlta): Promise<TramiteAlta> => {
+  
+  delete tramite["_id"]
   tramite.categoria = 'DESACTUALIZADO'
   tramite.status = 'BORRADOR'
-  await saveTramiteService(tramite)
-  return tramite
+  //await saveTramiteService(tramite)
+  return tramite = await saveTramiteService(tramite)
 }
 
 

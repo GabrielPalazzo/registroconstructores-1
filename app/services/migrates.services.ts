@@ -439,15 +439,19 @@ export class Parser extends ConnectionManager {
       "cuit": this.tramite.cuit
     })
 
+    const certificadoOriginal = await db.collection('certificadosOtorgados').findOne({
+      "tramite.cuit": this.tramite.cuit
+    })
+
+    
+
+
     const newTramite = {
-      _id: tramiteAnterior ? tramiteAnterior._id : nanoid(),
+      _id: certificadoOriginal ? certificadoOriginal.tramite._id : nanoid(),
       ...this.tramite,
       createdAt: new Date(),
       creatorId: this.getCreatorFromApoderados(),
     };
-
-
-
 
     const certificadoViejo = await db.collection('certificados').findOne({
       "NumeroCUIT": newTramite.cuit
@@ -472,7 +476,7 @@ export class Parser extends ConnectionManager {
 
     await db.collection('tramites').save(newTramite);
     console.log('Tramite Cargado ')
-    if (!tramiteAnterior){
+    if (!certificadoOriginal){
       await db.collection('certificadosOtorgados').save(certificado);
       console.log('Certificado Generado')
     }
