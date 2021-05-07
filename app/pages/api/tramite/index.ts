@@ -23,6 +23,8 @@ handler.post(async (req: any, res: NextApiResponse) => {
  
   if(req.body._id) {
     // get by id
+    console.log(req.body._id)
+
     await req.db
     .collection('tramites')
     .save(req.body);
@@ -30,15 +32,17 @@ handler.post(async (req: any, res: NextApiResponse) => {
     
     //update
   } else {
-    console.log('create a new one');
+    const newId= nanoid()
+    
     const newTramite = {
-      _id: nanoid(),
+      _id: newId,
       ...req.body,
       createdAt: new Date(),
       creatorId: req.user,
     };
-  
-    await req.db.collection('tramites').insertOne(newTramite);
+    console.log(newTramite._id)
+    const result = await req.db.collection('tramites').insertOne(newTramite);
+    console.log(newTramite._id)
     return res.send(newTramite);  
   }
 });

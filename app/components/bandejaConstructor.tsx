@@ -166,9 +166,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   actions={[
 
                     <div className="text-left pl-4">
-                      {e.categoria === 'INSCRIPTO' ? <Certificado
+                      {e.categoria === 'INSCRIPTO' || e.categoria === 'INSCRIPTO CON ACTUALIZACION' ? <Certificado
                         cuit={e.cuit}
-                      /> : <div className="text-left ">
+                      /> : <div className="text-left ">x
                         <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
                           onClick={() => {
                             showModalObservaciones()

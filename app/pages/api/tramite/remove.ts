@@ -23,15 +23,10 @@ handler.get(async (req: any, res: NextApiResponse) => {
     );
 
 
+  await req.db.collection('tramites').deleteOne({"_id": id})
+  res.send('Done')
 
 
-  if (tramite.creatorId.cuit === req.user.cuit){
-    await req.db.collection('tramites').deleteOne({"_id": id})
-    res.send('Done')
-  }else {
-    res.status(403).send('No tienes permisos para eliminar este trámite')
-  }
-  
 
 });
 
