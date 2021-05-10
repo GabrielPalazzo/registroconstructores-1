@@ -387,6 +387,9 @@ export const isPersonaFisica = (tramite: TramiteAlta): boolean => {
   return tramite.personeria === 'PF'
 }
 
+export const isPersonaExtranjera = (tramite: TramiteAlta): boolean => {
+  return tramite.personeria === 'PJESP'
+}
 
 export const isTramiteEditable = (tramite: TramiteAlta): boolean => {
   return (tramite && tramite.status === 'BORRADOR') || (tramite && !tramite.cuit) || (!tramite)

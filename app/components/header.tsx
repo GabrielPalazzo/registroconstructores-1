@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space } from 'antd';
 import { allowGuardar, cambiarADesActualizado, closeSession, getEmptyTramiteAlta, getUsuario, rechazarTramite } from '../services/business';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined , EditOutlined ,SaveOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { setUpdateBorrador } from '../redux/actions/main';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite';
 import {useDispatch} from 'react-redux'
@@ -109,7 +109,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
 
         <p>Desea actualizar la información de su empresa?</p>
       </Modal>
-      <Button onClick={() => setShowActualizarConfirmacion(true)} type='primary'>Actualizar información</Button>
+      <Button onClick={() => setShowActualizarConfirmacion(true)} type='text'> <EditOutlined /> Actualizar información</Button>
     </div>
   }
 
@@ -157,8 +157,8 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
         setShowModalRechazar(true)
       }} danger type='dashed'>Rechazar tramite</Button> : ''}
 
-      <Button danger type="text" onClick={() => setShowCancelar(true)}>Cancelar</Button>
-      {tramite && tramite.cuit && allowGuardar(tramiteSession) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}>Guardar y salir</Button> : ''}
+      <Button danger type="text" onClick={() => setShowCancelar(true)} style={{color:'#ED3D8F'}}>  <ArrowLeftOutlined /> Cancelar</Button>
+      {tramite && tramite.cuit && allowGuardar(tramiteSession) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}> <SaveOutlined /> Guardar y salir</Button> : ''}
       <Dropdown overlay={menu} trigger={['click']}>
         <div onClick={e => e.preventDefault()}>
           <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2', marginLeft: '10px' }} >{user.userData().GivenName.substring(0, 1)}</Avatar>
