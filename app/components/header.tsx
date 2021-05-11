@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
-import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space } from 'antd';
+import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space, Tag } from 'antd';
 import { allowGuardar, cambiarADesActualizado, closeSession, getEmptyTramiteAlta, getUsuario, rechazarTramite } from '../services/business';
 import { ExclamationCircleOutlined , EditOutlined ,SaveOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { setUpdateBorrador } from '../redux/actions/main';
@@ -109,7 +109,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
 
         <p>Desea actualizar la información de su empresa?</p>
       </Modal>
-      <Button onClick={() => setShowActualizarConfirmacion(true)} type='text'> <EditOutlined /> Actualizar información</Button>
+      <Button onClick={() => setShowActualizarConfirmacion(true)} type='text'  style={{fontWeight: 'bold',}}>  <EditOutlined /> Actualizar datos</Button>
     </div>
   }
 
@@ -157,7 +157,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
         setShowModalRechazar(true)
       }} danger type='dashed'>Rechazar tramite</Button> : ''}
 
-      <Button danger type="text" onClick={() => setShowCancelar(true)} style={{color:'#ED3D8F'}}>  <ArrowLeftOutlined /> Cancelar</Button>
+      <Button danger type="text" onClick={() => setShowCancelar(true)} style={{color:'#ED3D8F', fontWeight: 'bold',}}>  <ArrowLeftOutlined /> Cancelar</Button>
       {tramite && tramite.cuit && allowGuardar(tramiteSession) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}> <SaveOutlined /> Guardar y salir</Button> : ''}
       <Dropdown overlay={menu} trigger={['click']}>
         <div onClick={e => e.preventDefault()}>

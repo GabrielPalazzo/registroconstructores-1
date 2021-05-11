@@ -768,6 +768,7 @@ export default (props) => {
 
         <div >
         <Wrapper title="Adjunte Constancia de Inscripción en AFIP" attributeName="constanciaAFIP" labelRequired="*">
+       
           <Upload
             {...props}
             defaultValue={tramite.inscripcionAFIPConstancia}
@@ -784,6 +785,7 @@ export default (props) => {
               save()
             }}
             labelMessageError="" />
+            
             </Wrapper>
 
         </div>
