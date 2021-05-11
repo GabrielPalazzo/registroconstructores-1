@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space, Tag } from 'antd';
 import { allowGuardar, cambiarADesActualizado, closeSession, getEmptyTramiteAlta, getUsuario, rechazarTramite } from '../services/business';
-import { ExclamationCircleOutlined , EditOutlined ,SaveOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined , EditOutlined ,SaveOutlined, ArrowLeftOutlined, CloseOutlined  } from '@ant-design/icons';
 import { setUpdateBorrador } from '../redux/actions/main';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite';
 import {useDispatch} from 'react-redux'
@@ -155,7 +155,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
       {(user.isConstructor() && (tramite.categoria == 'INSCRIPTO' && tramite.status === 'VERIFICADO')) || (user.isConstructor() &&(tramite.categoria == 'INSCRIPTO CON ACTUALIZACION' && tramite.status === 'VERIFICADO')) || (user.isConstructor() &&(tramite.categoria == 'DESACTUALIZADO')) ? <ButtonActualizar /> : <div />}
       {user.isAprobador() && tramite.categoria !== 'INSCRIPTO' ? <Button onClick={() => {
         setShowModalRechazar(true)
-      }} danger type='dashed'>Rechazar tramite</Button> : ''}
+      }} danger type='text'  style={{ fontWeight: 'bold', marginLeft: '10px', color:'#F5222D' }} > <CloseOutlined />Rechazar tramite</Button> : ''}
 
       <Button danger type="text" onClick={() => setShowCancelar(true)} style={{color:'#ED3D8F', fontWeight: 'bold',}}>  <ArrowLeftOutlined /> Cancelar</Button>
       {tramite && tramite.cuit && allowGuardar(tramiteSession) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}> <SaveOutlined /> Guardar y salir</Button> : ''}
