@@ -189,6 +189,7 @@ export class MigrateService extends ConnectionManager {
       httpsAgent: this.httpsAgent,
       headers: this.headers
     }).then(async result => {
+     
       if (result.data) {
         await db.collection('certificados').save({
           _id: codigoProveedor,
@@ -225,6 +226,7 @@ export class Parser extends ConnectionManager {
     const db = await this.client.db(config.registro.dataBase)
     this.preInscripcion = await db.collection('oldDatosPreInscripcion').findOne({ "_id": id })
 
+    
     this.tramite.cuit = this.preInscripcion.InformacionEmpresa.NumeroCuit
     this.datosBasicos = (await db.collection('oldDatosInfoBasica').findOne({ "_id": this.preInscripcion._id }))['0']
     this.ejercicios = await db.collection('oldBalances').findOne({ "_id": this.preInscripcion._id })
@@ -245,7 +247,7 @@ export class Parser extends ConnectionManager {
         email: e.DatosPersona.Email,
         nroDocumento: e.DatosPersona.NumeroDocumento,
         tipoDocumento: 'DNI',
-        cuit:e.DatosPersona.NumeroCuit ?  e.DatosPersona.NumeroCuit.replace(/-/g, "") : 0,
+        cuit:e.DatosPersona && e.DatosPersona.NumeroCuit ?  e.DatosPersona.NumeroCuit.replace(/-/g, "") : 0,
         esAdministrador: e.DatosPersona.EsAdministradorLegitimado,
         tipoApoderado: e.DatosPersona.EsAdministradorLegitimado ? 'Apoderado' : 'Administrativo/Gestor',
         fotosDNI: [],
@@ -314,6 +316,7 @@ export class Parser extends ConnectionManager {
 
   parseInformacionBasica() {
 
+    
     this.tramite.cuit = this.preInscripcion.InformacionEmpresa.NumeroCuit
     this.tramite.status = this.determinarCategoria(this.certificadoOld.EstadoProveedor) ==='PRE INSCRIPTO' ? 'BORRADOR' :  "VERIFICADO"
     
@@ -439,12 +442,15 @@ export class Parser extends ConnectionManager {
       "cuit": this.tramite.cuit
     })
 
+    
     const certificadoOriginal = await db.collection('certificadosOtorgados').findOne({
       "tramite.cuit": this.tramite.cuit
     })
 
     
 
+
+    console.log(certificadoOriginal)
 
     const newTramite = {
       _id: certificadoOriginal ? certificadoOriginal.tramite._id : nanoid(),
@@ -453,10 +459,15 @@ export class Parser extends ConnectionManager {
       creatorId: this.getCreatorFromApoderados(),
     };
 
+  
     const certificadoViejo = await db.collection('certificados').findOne({
       "NumeroCUIT": newTramite.cuit
     })
 
+
+
+    //Borramos certificado vigente y colocamos el que viene de la migracion
+    await db.collection('certificadosOtorgados').deleteMany({"tramite.cuit": newTramite.cuit})
 
     const certificado: CertificadoCapacidad = {
       _id: nanoid(),
@@ -476,10 +487,8 @@ export class Parser extends ConnectionManager {
 
     await db.collection('tramites').save(newTramite);
     console.log('Tramite Cargado ')
-    if (!certificadoOriginal){
-      await db.collection('certificadosOtorgados').save(certificado);
-      console.log('Certificado Generado')
-    }
+    await db.collection('certificadosOtorgados').save(certificado);
+    console.log('Certificado Generado')
       
   }
 }
