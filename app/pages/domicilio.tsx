@@ -7,7 +7,7 @@ import Upload from '../components/upload'
 import { Button, Steps, Alert } from 'antd';
 import Substeps from '../components/subSteps'
 import { useSelector } from 'react-redux'
-import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica } from '../services/business';
+import { allowGuardar, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica,isPersonaExtranjera } from '../services/business';
 import { useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
 import { Loading } from '../components/loading';
@@ -85,7 +85,7 @@ export default () => {
     <div className="border-gray-200 border-b-2 px-20 ">
       <NavigationStep current={1} generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
-    <Substeps progressDot current={0} esPersonaFisica={isPersonaFisica(tramite)} />
+    <Substeps progressDot current={0} esPersonaFisica={isPersonaFisica(tramite) || isPersonaExtranjera(tramite) } />
     <div className="px-8 mx-8 py-6 ">
 
       <div className="text-2xl font-bold py-4"> Domicilio Legal</div>

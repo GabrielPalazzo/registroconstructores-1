@@ -17,6 +17,10 @@ interface Props {
   onOnLoad: Function
   defaultValue: []
   onRemove: Function
+  disabled?: boolean
+  isEditable?: boolean
+
+  locked?: boolean
 }
 
 const mapFile = (fileToMap) => {
@@ -93,6 +97,7 @@ export default (props: Props) => {
     </div>
     <div className="w-full">
       <Dragger key={getCodigoObra()}
+       disabled={props.isEditable === undefined ? false : !props.isEditable || props.locked}
         className="flex py-1 text-left"
         {...propsUpload}>
         <p className="ant-upload-drag-icon inline-block mr-2">
