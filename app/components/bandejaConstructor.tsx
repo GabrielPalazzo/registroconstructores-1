@@ -27,6 +27,18 @@ export interface BandejaConstructorProps {
 }
 
 
+const renderNoData = () => {
+  return (<div>
+    <Card>
+      <div className="mt-4">
+        <div className="text-sm text-center">No hay Datos ingresados</div>
+       
+      </div>
+    </Card>
+
+  </div>)
+}
+
 export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
   tramites = [],
   refreshFunction = () => null,
@@ -248,6 +260,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
         </TabPane>
         <TabPane tab="Borradores" key="borradores">
           <div className=" grid grid-cols-3  gap-4  ">
+
             {tramites.filter(t => t.status === 'BORRADOR').map((e: TramiteAlta) => (
               <div className="cursor-pointer    " >
                 <Card className="rounded h-full " style={{ background: "#525252" }}
