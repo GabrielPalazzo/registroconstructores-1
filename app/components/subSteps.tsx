@@ -3,6 +3,7 @@ import { Steps} from 'antd';
 import { PlusOutlined ,ArrowRightOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 
+
 const { Step } = Steps;
 
 export default (props) => {
@@ -17,7 +18,7 @@ export default (props) => {
 </Steps>:
   <Steps progressDot current={props.current}>
     <Step title="Domicilio"  onClick={() => router.push('/domicilio')} className="cursor-pointer"/>
-    <Step title="Comercial" onClick={() => router.push('/informacion_societaria')} className="cursor-pointer" />
+    <Step title="Registral" onClick={() => router.push('/informacion_societaria')} className="cursor-pointer" />
   </Steps>}
   </div>
 }
