@@ -119,7 +119,7 @@ export default (props) => {
     >
       <TextArea placeholder="Escriba aqui el motivo " allowClear onChange={(e) => setTextObs(e.target.value)} />
     </Modal>
-    <div className="flex pb-2">
+    <div className="flex ">
       <div className="flex w-3/4">
         <div >
         

@@ -37,7 +37,7 @@ export default (props) => {
 
   return (<div >
     <div className="flex">
-      <div className="w-3/4 mb-2">
+      <div className="w-3/4 ">
         <label className="font-bold text-muted-700 text-sm">{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
       </div>
     </div>

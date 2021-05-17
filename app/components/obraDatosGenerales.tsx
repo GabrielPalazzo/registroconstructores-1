@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
 import InputTextModal from './input_text_modal'
+import {InputText} from './input_text'
 import SelectModal from './select_modal'
+import SelectSimple from './select'
 import Upload from './upload'
 import { Button, Select, Table, Alert, Space, Empty } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -10,6 +12,8 @@ import DatePickerModal from './datePicker_Modal'
 import {LinkToFile} from '../components/linkToFile'
 import { RootState } from '../redux/store'
 import _ from 'lodash'
+import Wrapper from './wrapper'
+
 
 
 const { Option } = Select;
@@ -267,18 +271,22 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       <div className="grid grid-cols-1 gap-4 ">
 
         <div className="pb-6" >
-          <InputTextModal
-            label="Denominacion"
-            labelRequired="*"
-            locked={modo === 'VIEW'}
+
+        <Wrapper attributeName="Denominacion" title="Denominacion" labelRequired="*">
+          <InputText
+            attributeName='Denominacion'
             value={obra.denominacion}
             bindFunction={(value) => {
               obra.denominacion = value
               onChange(Object.assign({}, obra))
             }}
-
-
-            disabled />
+            placeHolder="Denominacion"
+            labelObservation=""
+            labeltooltip=""
+            labelMessageError=""
+            required />
+        </Wrapper>
+         
 
         </div>
       </div>
@@ -286,28 +294,27 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
       <div className="grid grid-cols-4 gap-4 ">
         <div className="pb-6" >
-          <SelectModal
-            title="Estado"
+        <Wrapper title="Estado" attributeName="estado" labelRequired="*">
+        
+        <SelectSimple
             defaultOption="Tipo de Estado"
-            labelRequired="*"
             labelMessageError=""
-            locked={modo === 'VIEW'}
             value={estado}
             bindFunction={(value) => setEstado(value)}
             option={EstadoObra.map(u => (
               <Option value={u.value}>{u.label}</Option>
-
-
+              
             ))}
+            required
           />
+          </Wrapper>
         </div>
 
         <div className="pb-6" >
-          <SelectModal
-            title="Tipo de Contratacion"
+        <Wrapper title="Tipo de Contratacion" attributeName="TipoContratacion" labelRequired="*">
+        
+        <SelectSimple
             defaultOption="Tipo de contratacion"
-            labelRequired="*"
-            locked={modo === 'VIEW'}
             labelMessageError=""
             value={tipoContratacion}
             bindFunction={(value) => { settipoContratacion(value) }}
@@ -317,13 +324,13 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
             ))}
           />
+          </Wrapper>
         </div>
         <div className="pb-6" >
-          <SelectModal
-            title="Nivel"
-            locked={modo === 'VIEW'}
+        <Wrapper title="Nivel" attributeName="Nivel" labelRequired="*">
+        
+        <SelectSimple
             defaultOption="Nivel"
-            labelRequired="*"
             labelMessageError=""
             value={nivel}
             bindFunction={(value) => { setNivel(value) }}
@@ -333,14 +340,18 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
             ))}
           />
+          </Wrapper>
         </div>
 
 
         <div className="pb-6" >
+
+        
+            <Wrapper title={estado === 'Preadjudicada' ? 'Fecha de Pre Adjudicación' : 'Fecha de Adjudicación'} attributeName="FechaPreAdjuducada" labelRequired="*">
           <DatePickerModal
             placeholder="Fecha  (dd/mm/yyyy)"
-            label={estado === 'Preadjudicada' ? 'Fecha de Pre Adjudicación' : 'Fecha de Adjudicación'}
-            labelRequired="*"
+            
+            labelRequired=""
             labelObservation=""
             locked={modo === 'VIEW'}
             labeltooltip=""
@@ -348,26 +359,30 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             value={fechaAdjudicacion}
             bindFunction={(value) => { setfechaAdjudicacion(value) }}
           />
+          </Wrapper>
         </div>
         {estado === 'Ejecucion' || estado === 'Finalizada' || estado === 'Anulada' || estado === 'Suspendida' ?
           <div className="pb-6" >
+              <Wrapper title="Fecha de Inicio" attributeName="FechaInicio" labelRequired="*">
+        
             <DatePickerModal
               placeholder="Fecha  (dd/mm/yyyy)"
-              label="Fecha  de Inicio"
               locked={modo === 'VIEW'}
-              labelRequired="*"
+              labelRequired=""
               labelObservation=""
               labeltooltip=""
               labelMessageError=""
               value={fechaInicio}
               bindFunction={(value) => { setfechaInicio(value) }}
             />
+            </Wrapper>
           </div> : ''}
         {estado === 'Finalizada' || estado === 'Anulada' || estado === 'Suspendida' ? <div className="pb-6" >
+        <Wrapper title={estado === 'Finalizada' ? 'Fecha de Finalizacion' : 'Fecha de Suspencion'} attributeName="FechaFin" labelRequired="*">
+        
           <DatePickerModal
             placeholder="Fecha  (dd/mm/yyyy)"
-            label={estado === 'Finalizada' ? 'Fecha de Finalizacion' : 'Fecha de Suspencion'}
-            labelRequired="*"
+            labelRequired=""
             locked={modo === 'VIEW'}
             labelObservation=""
             labeltooltip=""
@@ -375,12 +390,15 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             value={fechaFin}
             bindFunction={(value) => { setfechaFin(value) }}
           />
+          </Wrapper>
         </div> : ''}
 
         <div className="pb-6" >
+        <Wrapper title="Adjunte Acta" attributeName="acta" labelRequired="*">
+       
+        
           <Upload
-            label="Adjunte Acta "
-            labelRequired="*"
+            
             labelMessageError=""
            // defaultValue={(obra.actasObra ? Object.assign([],obra.actasObra ): Object.assign([],[])) as any}
            // onOnLoad={file => {
@@ -407,6 +425,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
 
           />
+          </Wrapper>
         </div>
         <div className="mt-8 ">
           <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
