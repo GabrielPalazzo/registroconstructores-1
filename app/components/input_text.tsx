@@ -75,7 +75,7 @@ export const InputText: React.FC<IProps> = ({
 
   return <div >
     
-    <div className="flex pb-2">
+    <div className="flex pb-1">
     {label && <div className="w-3/4">
         <label className="font-bold text-muted-700 text-sm">{label} <span className="text-danger-700 ml-1">{labelRequired}</span> </label>
       </div>

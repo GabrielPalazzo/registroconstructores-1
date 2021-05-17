@@ -190,13 +190,18 @@ export default () => {
             <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
             <div className="grid grid-cols-2 gap-4 ">
               <div className="pb-6" >
-                <InputTextModal
-                  label="Ubicacion"
-                  labelRequired="*"
-                  value={ubicacionText}
-                  bindFunction={setUbicacionText}
-                  labelMessageError=""
-                />
+              <Wrapper attributeName="Ubicacion" title="Ubicacion" labelRequired="*">
+                  <InputText
+                    attributeName='Ubicacion'
+                    value={ubicacionText}
+                    bindFunction={setUbicacionText}
+                    placeHolder="Ubicacion"
+                    labelObservation=""
+                    labeltooltip=""
+                    labelMessageError=""
+                    required
+                  />
+                </Wrapper>
               </div>
               <div className="mt-8 ">
                 <Button onClick={agregarUbicacion} type="primary" icon={<PlusOutlined />}> Agregar</Button>
@@ -255,8 +260,10 @@ export default () => {
 
                 </div>
                 <div className="pb-6" >
-                  <InputTextModal
-                    label="Otros"
+                
+                <Wrapper attributeName="Otros" title="Otros" labelRequired="*">
+                  <InputText
+                   attributeName='Otros'
                     labelRequired=""
                     value={obra.subEspecialidades1Otros}
                     bindFunction={e => {
@@ -264,7 +271,12 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
-                    maxLength={50} />
+                    maxLength={50}
+                    placeHolder="Otros"
+                    labelObservation=""
+                    labeltooltip=""
+                    required />
+                    </Wrapper>
                 </div>
 
               </div>
@@ -310,8 +322,11 @@ export default () => {
 
                 </div>
                 <div className="pb-6" >
-                  <InputTextModal
-                    label="Otros"
+
+                    <Wrapper attributeName="Otros2" title="Otros2" labelRequired="*">
+                  <InputText
+                   attributeName='Otros2'
+                
                     labelRequired=""
                     value={obra.subEspecialidades2Otros}
                     bindFunction={e => {
@@ -320,7 +335,12 @@ export default () => {
                     }}
                     labelMessageError=""
 
-                    maxLength={50} />
+                    maxLength={50}
+                    placeHolder="Otros"
+                    labelObservation=""
+                    labeltooltip=""
+                    required  />
+                    </Wrapper>
                 </div>
 
               </div>
@@ -366,7 +386,9 @@ export default () => {
 
                 </div>
                 <div className="pb-6" >
-                  <InputTextModal
+                <Wrapper attributeName="Otros3" title="Otros" labelRequired="*">
+                  <InputText
+                   attributeName='Otros3'
                     label="Otros"
                     labelRequired=""
                     value={obra.subEspecialidades3Otros}
@@ -375,7 +397,12 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
-                    maxLength={50} />
+                    maxLength={50}
+                    placeHolder="Otros"
+                    labelObservation=""
+                    labeltooltip=""
+                    required  />
+                    </Wrapper>
                 </div>
 
               </div>
@@ -384,8 +411,10 @@ export default () => {
             <div className="grid grid-cols-2 gap-4 ">
 
               <div className="pb-6" >
-                <InputTextModal
-                  label="Razón Social de la UTE"
+              <Wrapper attributeName="razonSocialUTE" title="Razón Social de la UTE" labelRequired="*">
+                  <InputText
+                   attributeName='razonSocialUTE'
+                
                   labelRequired=""
                   value={obra.razonSocialUTE}
                   bindFunction={e => {
@@ -394,11 +423,13 @@ export default () => {
                   }}
                   labelMessageError=""
                 />
+                </Wrapper>
               </div>
               <div className="grid grid-cols-2 gap-4 ">
                 <div className="pb-6" >
-                  <InputTextModal
-                    label="CUIT de la UTE"
+                <Wrapper attributeName="CuitlUTE" title="CUIT de la UTE" labelRequired="*">
+                  <InputText
+                   attributeName='CuitUTE'
                     labelRequired=""
                     value={obra.cuitUTE}
                     bindFunction={e => {
@@ -407,8 +438,10 @@ export default () => {
                     }}
                     labelMessageError=""
                   />
+                  </Wrapper>
                 </div>
                 <div className="pb-6" >
+                
                   <InputNumberModal
                     label="% de participación"
                     min={0}
@@ -423,9 +456,10 @@ export default () => {
                 </div>
               </div>
               <div className="pb-6" >
-                <InputTextModal
-                  label="Razón Social Comitente"
-                  labelRequired="*"
+              <Wrapper attributeName="razonSocialComitente" title="Razón Social Comitente" labelRequired="*">
+                  <InputText
+                   attributeName='razonSocialComitente'
+                labelRequired=""
                   value={obra.razonSocialComitente}
                   bindFunction={e => {
                     obra.razonSocialComitente = e
@@ -433,12 +467,14 @@ export default () => {
                   }}
                   labelMessageError=""
                 />
+                </Wrapper>
               </div>
               <div className="grid grid-cols-2 gap-4 ">
                 <div className="pb-6" >
-                  <InputTextModal
-                    label="CUIT comitente"
-                    labelRequired="*"
+                <Wrapper attributeName="cuitComitente" title="CUIT comitente" labelRequired="*">
+                  <InputText
+                   attributeName='cuitComitente'
+                    labelRequired=""
                     value={obra.cuitComitente}
                     bindFunction={e => {
                       obra.cuitComitente = e
@@ -446,6 +482,7 @@ export default () => {
                     }}
                     labelMessageError=""
                   />
+                  </Wrapper>
                 </div>
                 <div className="pb-6" >
 
