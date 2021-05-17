@@ -143,6 +143,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
     esCasadoTitular: false,
     nombreConyuge: '',
     apellidoConyuge: '',
+    archivoDocConyuge:[],
     tipoDocumentoConyuge: '',
     documentoConyugue: '',
     status: 'BORRADOR',

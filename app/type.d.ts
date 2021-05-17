@@ -186,6 +186,7 @@ type TramiteAlta = {
   apellidoConyuge: string
   tipoDocumentoConyuge: string
   documentoConyugue: string
+  archivoDocConyuge: Array<Archivo>
   personeria: 'PF' | 'SA' | 'SRL' | 'Cooperativa' | 'UTE' | 'PJESP' | 'OFS' | ''
   tipoEmpresa: []
   emailInstitucional: string

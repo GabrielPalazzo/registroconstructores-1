@@ -889,11 +889,28 @@ export default (props) => {
 
           </div>
           <div >
-            <Upload
-              {...props}
-              label="Adjunte Frente y Dorso del DNI"
-              labelRequired="*"
-              labelMessageError="" />
+
+          <Wrapper title="Adjunte Frente y Dorso del DNI" attributeName="archivoDocConyuge" labelRequired="*">
+       
+       <Upload
+         {...props}
+         defaultValue={tramite.archivoDocConyuge}
+         onOnLoad={(files) => {
+           if (!tramite.archivoDocConyuge)
+             tramite.archivoDocConyuge = []
+           tramite.archivoDocConyuge.push(files)
+           save()
+         }}
+         onRemove={fileToRemove => {
+           console.log(fileToRemove)
+
+           tramite.archivoDocConyuge = tramite.archivoDocConyuge.filter(f => f.cid !== fileToRemove.uid)
+           save()
+         }}
+         labelMessageError="" />
+         
+         </Wrapper>
+           
 
           </div>
         </div>
