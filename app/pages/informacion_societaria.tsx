@@ -79,7 +79,7 @@ export default () => {
   const [porcentajeCapital, setPorcentajeCapital] = useState(0)
   const [votos, setAVotos] = useState(0)
   const [idAutoridad, setIdAutoridad] = useState('')
-
+  const [poseeIeric, setPoseeIeric] = useState(false)
   const [modificacionEstatutoDatos, setModificacionEstatutoDatos] = useState('')
   const [modificacionEstatutoFecha, setModificacionEstatutoFecha] = useState('')
   const [error, setError] = useState('')
@@ -969,10 +969,11 @@ export default () => {
 
               </div> : ''}
             <div className="pb-6">
-              <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
+              <Checkbox value={tramite.autoridadesVencimiento}
+               onChange={e => {
                 tramite.autoridadesVencimiento = !e.target.checked
                 updateObjTramite()
-                //save()
+                save()
               }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
 
             </div>
@@ -2028,15 +2029,20 @@ export default () => {
         <div className="text-2xl font-bold"> Inscripción en I.E.R.I.C. (Instituto de Estadística y Registro de la Industria de la Construcción)</div>
         <div className="grid grid-cols-1 mb-4 mt-4  ">
           {isPersonaFisica(tramite) ?
-            <Checkbox value={tramite.poseeIERIC} onChange={e => {
+            <Checkbox value={tramite.poseeIERIC} 
+            
+             onChange={ e => {
               console.log(e.target.checked)
-              tramite.poseeIERIC = !e.target.checked
+
+              tramite.poseeIERIC = e.target.checked
               updateObjTramite()
-              //save()
+
             }}>Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1.</Checkbox>
-            : <Checkbox value={tramite.poseeIERIC} onChange={e => {
+            : <Checkbox value={tramite.poseeIERIC} 
+            onChange={ e => {
               console.log(e.target.checked)
-              tramite.poseeIERIC = !e.target.checked
+
+              tramite.poseeIERIC = e.target.checked
               updateObjTramite()
               //save()
             }}>Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b.</Checkbox>

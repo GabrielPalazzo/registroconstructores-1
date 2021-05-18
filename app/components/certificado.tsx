@@ -72,24 +72,24 @@ export default (props: CertificadoProps) => {
       visible={showCertificado}
       onOk={() => setShowCertificado(false)}
       footer={[
-        <Button onClick={() => setShowCertificado(false)}>Cerrar</Button>
-
+        <Button onClick={() => setShowCertificado(false)}>Cerrar</Button>,
+        <Button type="primary" style={{color: '#fff' }}> {
+          <span>
+            {
+            <PDFDownloadLink document={<CertificadoPDF certificado={certificado} />} fileName="certificado.pdf">
+              {({ blob, url, loading, error }) =>
+                loading ? 'Loading document...' : 'Descargar Certificado'
+              }
+             
+            </PDFDownloadLink>
+            }
+          </span>
+          }</Button>
       ]}
       onCancel={() => setShowCertificado(false)}
       width={1000}>
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{certificado.tramite.razonSocial}</div>
-      {
-      <div>
-        {
-        <PDFDownloadLink document={<CertificadoPDF certificado={certificado} />} fileName="certificado.pdf">
-          {({ blob, url, loading, error }) =>
-            loading ? 'Loading document...' : 'Descargar Certificado'
-          }
-         
-        </PDFDownloadLink>
-        }
-      </div>
-      }
+      
       <div className="grid grid-cols-2 gap-4 mb-4 ">
         <div className="grid grid-cols-2 gap-4 border px-4 py-4" >
           <div>
@@ -137,5 +137,12 @@ export default (props: CertificadoProps) => {
 
     </Modal>}
     <Button loading={!certificado} onClick={() => setShowCertificado(true)} >Ver Certificado</Button>
+    <style>
+      {
+        `
+        a{color:#fff }
+        `
+      }
+    </style>
   </div>
 }
