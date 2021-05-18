@@ -422,11 +422,12 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
           />
         </div>
-        <div className="mt-8 ">
-          <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
-        </div>
+        
 
       </div>
+      <div className=" text-center ">
+          <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
+        </div>
       <div className="mt-4">
         <Table columns={columnsEstado} dataSource={Object.assign([],obra.datosObra)} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
       </div>

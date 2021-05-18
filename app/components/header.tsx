@@ -152,7 +152,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     </div>
     <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4 cursor-pointer">
 
-      {(user.isConstructor() && (tramite.categoria == 'INSCRIPTO' && tramite.status === 'VERIFICADO')) || (user.isConstructor() &&(tramite.categoria == 'INSCRIPTO CON ACTUALIZACION' && tramite.status === 'VERIFICADO')) || (user.isConstructor() &&(tramite.categoria == 'DESACTUALIZADO')) ? <ButtonActualizar /> : <div />}
+      {(user.isConstructor() && (tramite.categoria == 'INSCRIPTO' && tramite.status === 'VERIFICADO')) || (user.isConstructor() &&(tramite.categoria == 'INSCRIPTO CON ACTUALIZACION' && tramite.status === 'VERIFICADO')) || (user.isConstructor() && (tramite.categoria == 'DESACTUALIZADO' && tramite.status === 'VERIFICADO')) ? <ButtonActualizar /> : <div />}
       {user.isAprobador() && tramite.categoria !== 'INSCRIPTO' ? <Button onClick={() => {
         setShowModalRechazar(true)
       }} danger type='text'  style={{ fontWeight: 'bold', marginLeft: '10px', color:'#F5222D' }} > <CloseOutlined />Rechazar tramite</Button> : ''}

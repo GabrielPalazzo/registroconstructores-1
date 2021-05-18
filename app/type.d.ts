@@ -25,7 +25,7 @@ type Apoderado = {
   nroDocumento: string,
   tipoDocumento: string,
   cuit: string
-  esAdministrador: Boolean
+  esAdministrador: boolean
   imagenesDni: Array<Archivo>
   tipoApoderado: string
   fotosDNI: Array<Archivo>

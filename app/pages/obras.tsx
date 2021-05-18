@@ -704,7 +704,8 @@ export default () => {
 
                 />
               </div>
-              <div className="mt-8 ">
+              </div> <div className="grid grid-cols-1  ">
+              <div className="text-center ">
                 <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
               </div>
 
@@ -969,6 +970,8 @@ export default () => {
           </div>
         </Wrapper>
 
+
+        
 
       </div>
       <div className="mb-4 mt-8">

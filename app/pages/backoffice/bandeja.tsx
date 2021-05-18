@@ -149,7 +149,7 @@ export default () => {
 
           </TabPane>
           <TabPane tab={`Mis Asignados (${tramites.filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).length})`} key="2">
-            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).map((t: TramiteAlta) => (
+            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div className="">
@@ -199,7 +199,7 @@ export default () => {
           </TabPane>
 
           <TabPane tab={`A Revisar / Controlar (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION').length})`} key="3">
-            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION').map((t: TramiteAlta) => (
+            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>
@@ -248,7 +248,7 @@ export default () => {
           </TabPane>
 
           <TabPane tab={`A Supervisar (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').length})`} key="4">
-            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').map((t: TramiteAlta) => (
+            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>
@@ -296,7 +296,7 @@ export default () => {
             ))}
           </TabPane>
           <TabPane tab={`Pendientes de Aprobación (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE APROBACION').length})`} key="5">
-            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE APROBACION').map((t: TramiteAlta) => (
+            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE APROBACION').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>

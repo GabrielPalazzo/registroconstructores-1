@@ -6,7 +6,7 @@ import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
 import DatePicker from '../components/datePicker'
-import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined,FolderViewOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined, FolderViewOutlined } from '@ant-design/icons';
 import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import SelectMultiple from '../components/select_multiple'
@@ -129,9 +129,9 @@ export default (props) => {
       return
     }
 
-    if (MODO.EDIT){
-      tramite.apoderados = tramite.apoderados.filter( r => JSON.stringify(r)!== idUsuarios)
-      
+    if (MODO.EDIT) {
+      tramite.apoderados = tramite.apoderados.filter(r => JSON.stringify(r) !== idUsuarios)
+
     }
 
     if (!apellido.trim()) {
@@ -171,17 +171,17 @@ export default (props) => {
       return
     }
     if (_.isEmpty(fotosDNIApoderado)) {
-			setError('La foto del dni es requerida')
-			setShowError(true)
-			return
-		}
-    if  ((tipoApoderado === 'Apoderado'  ) && (_.isEmpty(actaAutoridadesApoderado))) {
-			setError('El documento es requerido ')
-			setShowError(true)
-			return
-		}
+      setError('La foto del dni es requerida')
+      setShowError(true)
+      return
+    }
+    if ((tipoApoderado === 'Apoderado') && (_.isEmpty(actaAutoridadesApoderado))) {
+      setError('El documento es requerido ')
+      setShowError(true)
+      return
+    }
 
-    
+
     tramite.apoderados.push({
       imagenesDni: [],
       apellido,
@@ -198,6 +198,7 @@ export default (props) => {
     })
     save()
     setVisible(false)
+
     clearState()
   }
 
@@ -209,6 +210,7 @@ export default (props) => {
     setNroDocumentoApoderado('')
     setCuitApoderado('')
     setEmailApoderado('')
+    setEsAdministradorLegitimado(false)
   }
 
   const handleCancel = e => {
@@ -236,18 +238,19 @@ export default (props) => {
   }
 
 
-  const cargarApoderado= (r : Apoderado) => {
+  const cargarApoderado = (r: Apoderado) => {
     setIdUsuarios(JSON.stringify(r))
     setApellido(r.apellido)
-     setNombre(r.nombre)
-     setEmailApoderado(r.email)
-     setNroDocumentoApoderado(r.nroDocumento)
-     setTipoDocumentoApoderado(r.tipoDocumento)
-     setTipoApoderado(r.tipoApoderado)
-     setFotosDNIApoderado(r.fotosDNI)
-     setActaAutoridadesApoderado(r.actaAutoridades)
-     setCuitApoderado(r.cuit)
-
+    setNombre(r.nombre)
+    setEmailApoderado(r.email)
+    setNroDocumentoApoderado(r.nroDocumento)
+    setTipoDocumentoApoderado(r.tipoDocumento)
+    setTipoApoderado(r.tipoApoderado)
+    setFotosDNIApoderado(r.fotosDNI)
+    setActaAutoridadesApoderado(r.actaAutoridades)
+    setCuitApoderado(r.cuit)
+    setActaAdminLegitimado(r.actaAdminLegitimado)
+    setEsAdministradorLegitimado(r.esAdministrador)
   }
   const columns = [
     {
@@ -261,13 +264,13 @@ export default (props) => {
           okText="Si, Eliminar"
           cancelText="Cancelar"
         > <div ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-          
+
         </Space>),
     },
     {
       title: 'Editar / Ver',
       key: 'ver',
-      render: (text, record) =>  <div onClick={() => {
+      render: (text, record) => <div onClick={() => {
         cargarApoderado(record)
         setModo(MODO.EDIT)
         showModal()
@@ -446,29 +449,36 @@ export default (props) => {
             />
           </div>
         </div> : <div>
-            <div className="pb-6" >
-              <RadioGroup
-                label="¿Qué tipo de persona desea dar de alta? "
-                labelRequired="*"
-                value={tipoApoderado}
-                bindFunction={setTipoApoderado}
-                labelMessageError=""
-                radioOptions={tipoPersona.map(u => (
-                  <Radio value={u.value} >
-                    {u.label}
-                  </Radio>
-                ))
-                }
+          <div className="pb-6" >
+            <RadioGroup
+              label="¿Qué tipo de persona desea dar de alta? "
+              labelRequired="*"
+              value={tipoApoderado}
+              bindFunction={setTipoApoderado}
+              labelMessageError=""
+              radioOptions={tipoPersona.map(u => (
+                <Radio value={u.value} >
+                  {u.label}
+                </Radio>
+              ))
+              }
 
-              />
-            </div>
-          </div>}
+            />
+          </div>
+        </div>}
         {tipoApoderado === 'Administrativo/Gestor' ? '' :
 
           <div className="pb-6" >
+            
             <Switch
               value={esAdministradorLegitimado}
-              onChange={setEsAdministradorLegitimado}
+              onChange={value => {
+                tramite.apoderados = value
+                setTramite(Object.assign({}, tramite))
+              }}
+
+
+              
               label="Administrador Legitimado"
               labelRequired=""
               SwitchLabel1="Si"
@@ -510,7 +520,7 @@ export default (props) => {
                 setActaAutoridadesApoderado(Object.assign([], actaAutoridadesApoderado))
               }}
               onRemove={fileToRemove => {
-                 console.log(fileToRemove)
+                console.log(fileToRemove)
 
                 setActaAutoridadesApoderado(Object.assign([], actaAutoridadesApoderado.filter(f => f.cid !== fileToRemove.uid)))
               }}
@@ -519,20 +529,21 @@ export default (props) => {
         }
         {!esAdministradorLegitimado ?
           '' : <div className="pb-6" >
+
             <Upload
               label="Adjuntar Acta de Adm. Legitimado"
               labelRequired="*"
               labelMessageError=""
-             
-              defaultValue={ actaAdminLegitimado as any}
+
+              defaultValue={actaAdminLegitimado as any}
               onOnLoad={(file) => {
                 actaAdminLegitimado.push(file)
-                setActaAdminLegitimado(Object.assign([],  actaAdminLegitimado))
+                setActaAdminLegitimado(Object.assign([], actaAdminLegitimado))
               }}
               onRemove={fileToRemove => {
-                 console.log(fileToRemove)
+                console.log(fileToRemove)
 
-                setActaAdminLegitimado(Object.assign([],  actaAdminLegitimado.filter(f => f.cid !== fileToRemove.uid)))
+                setActaAdminLegitimado(Object.assign([], actaAdminLegitimado.filter(f => f.cid !== fileToRemove.uid)))
               }}
             />
           </div>}
@@ -688,40 +699,40 @@ export default (props) => {
         }
 
         <div >
-        <Wrapper title="CUIT" attributeName="cuit" labelRequired="*">
-          <InputText
-            
-            attributeName="cuit"
-            type="number"
-            disabled={tramite._id ? true : false}
-            value={tramite.cuit}
-            bindFunction={(value) => {
-              tramite.cuit = value
-              setTramite(Object.assign({}, tramite))
-            }}
+          <Wrapper title="CUIT" attributeName="cuit" labelRequired="*">
+            <InputText
 
-            placeHolder="Ingrese el numero de cuit sin guiones"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-            required />
-            </Wrapper>
+              attributeName="cuit"
+              type="number"
+              disabled={tramite._id ? true : false}
+              value={tramite.cuit}
+              bindFunction={(value) => {
+                tramite.cuit = value
+                setTramite(Object.assign({}, tramite))
+              }}
+
+              placeHolder="Ingrese el numero de cuit sin guiones"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+              required />
+          </Wrapper>
 
         </div>
         <div >
-        <Wrapper title="Nro de Legajo" attributeName="nroDeLegajo">
-          <InputText
-            attributeName="nroDeLegajo"
-            value={tramite.nroLegajo}
-            bindFunction={(value) => {
-              tramite.nroLegajo = value
-              updateObjTramite()
-            }}
-            placeHolder="Ingrese número de legajo de antigua inscripción en RNCOP"
-            labelObservation=""
-            labeltooltip=""
-            labelMessageError=""
-          />
+          <Wrapper title="Nro de Legajo" attributeName="nroDeLegajo">
+            <InputText
+              attributeName="nroDeLegajo"
+              value={tramite.nroLegajo}
+              bindFunction={(value) => {
+                tramite.nroLegajo = value
+                updateObjTramite()
+              }}
+              placeHolder="Ingrese número de legajo de antigua inscripción en RNCOP"
+              labelObservation=""
+              labeltooltip=""
+              labelMessageError=""
+            />
           </Wrapper>
 
         </div>
@@ -767,26 +778,26 @@ export default (props) => {
        </div> : ''}*/}
 
         <div >
-        <Wrapper title="Adjunte Constancia de Inscripción en AFIP" attributeName="constanciaAFIP" labelRequired="*">
-       
-          <Upload
-            {...props}
-            defaultValue={tramite.inscripcionAFIPConstancia}
-            onOnLoad={(files) => {
-              if (!tramite.inscripcionAFIPConstancia)
-                tramite.inscripcionAFIPConstancia = []
-              tramite.inscripcionAFIPConstancia.push(files)
-              save()
-            }}
-            onRemove={fileToRemove => {
-              console.log(fileToRemove)
+          <Wrapper title="Adjunte Constancia de Inscripción en AFIP" attributeName="constanciaAFIP" labelRequired="*">
 
-              tramite.inscripcionAFIPConstancia = tramite.inscripcionAFIPConstancia.filter(f => f.cid !== fileToRemove.uid)
-              save()
-            }}
-            labelMessageError="" />
-            
-            </Wrapper>
+            <Upload
+              {...props}
+              defaultValue={tramite.inscripcionAFIPConstancia}
+              onOnLoad={(files) => {
+                if (!tramite.inscripcionAFIPConstancia)
+                  tramite.inscripcionAFIPConstancia = []
+                tramite.inscripcionAFIPConstancia.push(files)
+                save()
+              }}
+              onRemove={fileToRemove => {
+                console.log(fileToRemove)
+
+                tramite.inscripcionAFIPConstancia = tramite.inscripcionAFIPConstancia.filter(f => f.cid !== fileToRemove.uid)
+                save()
+              }}
+              labelMessageError="" />
+
+          </Wrapper>
 
         </div>
         {/*   {isPersonaFisica(tramite) ? '' :
@@ -890,27 +901,27 @@ export default (props) => {
           </div>
           <div >
 
-          <Wrapper title="Adjunte Frente y Dorso del DNI" attributeName="archivoDocConyuge" labelRequired="*">
-       
-       <Upload
-         {...props}
-         defaultValue={tramite.archivoDocConyuge}
-         onOnLoad={(files) => {
-           if (!tramite.archivoDocConyuge)
-             tramite.archivoDocConyuge = []
-           tramite.archivoDocConyuge.push(files)
-           save()
-         }}
-         onRemove={fileToRemove => {
-           console.log(fileToRemove)
+            <Wrapper title="Adjunte Frente y Dorso del DNI" attributeName="archivoDocConyuge" labelRequired="*">
 
-           tramite.archivoDocConyuge = tramite.archivoDocConyuge.filter(f => f.cid !== fileToRemove.uid)
-           save()
-         }}
-         labelMessageError="" />
-         
-         </Wrapper>
-           
+              <Upload
+                {...props}
+                defaultValue={tramite.archivoDocConyuge}
+                onOnLoad={(files) => {
+                  if (!tramite.archivoDocConyuge)
+                    tramite.archivoDocConyuge = []
+                  tramite.archivoDocConyuge.push(files)
+                  save()
+                }}
+                onRemove={fileToRemove => {
+                  console.log(fileToRemove)
+
+                  tramite.archivoDocConyuge = tramite.archivoDocConyuge.filter(f => f.cid !== fileToRemove.uid)
+                  save()
+                }}
+                labelMessageError="" />
+
+            </Wrapper>
+
 
           </div>
         </div>
@@ -925,7 +936,7 @@ export default (props) => {
         </div>*/}
 
         <Wrapper isTitle title={isPersonaFisica ? 'Apoderados / Usuarios *' : 'Apoderados y/o Representantes legales *'} attributeName="datosApoderados">
-        {isTramiteEditable(tramite) ? <div className="  text-right content-center -mt-8 mb-4 ">
+          {isTramiteEditable(tramite) ? <div className="  text-right content-center -mt-8 mb-4 ">
             <Button type="primary" onClick={() => {
               setNombre('')
               setApellido('')
@@ -934,32 +945,33 @@ export default (props) => {
               setEmailApoderado('')
               setTipoApoderado(null)
               setCuitApoderado('')
-              setEsAdministradorLegitimado(false)
+              setEsAdministradorLegitimado(true)
               setFotosDNIApoderado([])
               setActaAutoridadesApoderado([])
+              setActaAdminLegitimado([])
               setModo(MODO.NEW)
               showModal()
             }} icon={<PlusOutlined />}> Agregar</Button>
           </div> : ''}
-        <Modal
-          title="Datos del Usuario"
-          visible={visible}
-          onOk={handleSaveApoderado}
-          footer={[
-            <Button onClick={handleCancel}>Cancelar</Button>,
-            <Button type="primary" onClick={handleSaveApoderado}  >Agregar</Button>
-          ]}
-          okText="Guardar"
-          onCancel={handleCancel}
-          cancelText="Cancelar"
-          width={1000}
-        >
-          {renderApoderadosSection()}
-        </Modal>
+          <Modal
+            title="Datos del Usuario"
+            visible={visible}
+            onOk={handleSaveApoderado}
+            footer={[
+              <Button onClick={handleCancel}>Cancelar</Button>,
+              <Button type="primary" onClick={handleSaveApoderado}  >Agregar</Button>
+            ]}
+            okText="Guardar"
+            onCancel={handleCancel}
+            cancelText="Cancelar"
+            width={1000}
+          >
+            {renderApoderadosSection()}
+          </Modal>
 
-        <Table columns={columns}
-          dataSource={tramite.apoderados}
-          locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay Apoderados y/o Usuarios </span>}></Empty>, }} />
+          <Table columns={columns}
+            dataSource={tramite.apoderados}
+            locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay Apoderados y/o Usuarios </span>}></Empty>, }} />
         </Wrapper>
       </div>
 
@@ -967,7 +979,7 @@ export default (props) => {
         <div className="flex  content-center ">
           <div className="text-2xl font-bold py-4 w-3/4">  INFORMACIÓN DECRETO 202/2017</div>
         </div>
-        {tramite.status!=='BORRADOR' && <div className="grid grid-cols-2 gap-4 ">
+        {tramite.status !== 'BORRADOR' && <div className="grid grid-cols-2 gap-4 ">
           <div >
             <InputText
               label="Declarante"
@@ -983,7 +995,7 @@ export default (props) => {
               required />
           </div>
         </div>}
-        
+
 
         <div className="rounded-lg border mt-4  px-4 py-4 bg-gray-300">
           <p>Artículo 1.- Toda persona que se presente en un procedimiento de contratación pública o de otorgamiento de una licencia, permiso, autorización, habilitación o derecho real sobre un bien de dominio público o privado del Estado, llevado a cabo por cualquiera de los organismos y entidades del Sector Público Nacional comprendidas en el artículo 8 de la Ley N° 24156, debe presentar una “Declaración Jurada de Intereses” en la que deberá declarar si se encuentra o no alcanzada por alguno de los siguientes supuestos de vinculación, respecto del Presidente y Vicepresidente de la Nación, Jefe de Gabinete de Ministros y demás Ministros y autoridades de igual rango en el Poder Ejecutivo Nacional, aunque estos no tuvieran competencia para decidir sobre la contratación o acto de que se trata:
@@ -1031,36 +1043,36 @@ export default (props) => {
           <div className="text-xl font-bold py-4 w-3/4">  Vínculos a Declarar</div>
 
           <div className="grid grid-cols-2  gap-4 mt-2 ">
-           
+
             <div >
-            <Wrapper title="¿Con cuál funcionario?" attributeName="funcionario" labelRequired="*">
-              <SelectSimple
-                value={decretoTipoFuncionarios}
-                bindFunction={setDecretoTipoFuncionarios}
-                defaultOption="Seleccione el tipo de personeria"
-                labelRequired="*"
-                labelMessageError=""
-                required
-                option={tipoFuncionarios.map(u => (
-                  <Option value={u.value}>{u.label}</Option>
-                ))} />
-</Wrapper>
-            </div>
-            <div className="flex" >
-              <div className="w-full mr-2">
-              <Wrapper title="Tipo de vínculo" attributeName="vinculo" labelRequired="*">
-            
+              <Wrapper title="¿Con cuál funcionario?" attributeName="funcionario" labelRequired="*">
                 <SelectSimple
-                  value={decretoTipoVinculo}
-                  bindFunction={setDecretoTipoVinculo}
-                  defaultOption="Seleccione el tipo de vinculo"
+                  value={decretoTipoFuncionarios}
+                  bindFunction={setDecretoTipoFuncionarios}
+                  defaultOption="Seleccione el tipo de personeria"
                   labelRequired="*"
                   labelMessageError=""
                   required
-                  option={tipoVinculo.map(u => (
+                  option={tipoFuncionarios.map(u => (
                     <Option value={u.value}>{u.label}</Option>
                   ))} />
-                  </Wrapper>
+              </Wrapper>
+            </div>
+            <div className="flex" >
+              <div className="w-full mr-2">
+                <Wrapper title="Tipo de vínculo" attributeName="vinculo" labelRequired="*">
+
+                  <SelectSimple
+                    value={decretoTipoVinculo}
+                    bindFunction={setDecretoTipoVinculo}
+                    defaultOption="Seleccione el tipo de vinculo"
+                    labelRequired="*"
+                    labelMessageError=""
+                    required
+                    option={tipoVinculo.map(u => (
+                      <Option value={u.value}>{u.label}</Option>
+                    ))} />
+                </Wrapper>
               </div>
               <div className="  mt-8 ">
                 <Button type="primary" onClick={addPersonasAlDecreto} > Agregar</Button>

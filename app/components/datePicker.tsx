@@ -36,7 +36,7 @@ export default (props: Props) => {
   const tramite : TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
 
   return (<div >
-    <div className="flex pb-2">
+    <div className="flex ">
       {
         props.label && <div className="w-3/5">
         <label className="font-bold text-muted-700 text-sm">{props.label}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
