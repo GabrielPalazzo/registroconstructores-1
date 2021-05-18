@@ -73,7 +73,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         }} style={{ width: 150 }} >
         <Option key='APROBADA' value='APROBADA'>APROBADA</Option>
         <Option key='RECHAZADA' value='RECHAZADO'>RECHAZADA</Option>
-        <Option key='DESESTIMADA' value='DESESTIMADA'>DESESTIMADA</Option>
+       {/*  <Option key='DESESTIMADA' value='DESESTIMADA'>DESESTIMADA</Option>*/}
       </Select>
     </div>
   }

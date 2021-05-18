@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { NavigationStep } from '../components/steps'
 import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
-import InputNumberModal from '../components/input_number'
+import  InputNumberModal  from '../components/input_number'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
@@ -252,7 +252,7 @@ export default () => {
 
         <div className="pb-6" >
           <InputNumberModal
-            label={isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto'}
+           label={isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto'}
             type="number" step="any"
             labelRequired="*"
             placeholder="000000,000 "

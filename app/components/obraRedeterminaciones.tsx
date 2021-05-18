@@ -71,7 +71,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				}} style={{ width: 150 }} >
 				<Option key='APROBADA' value='APROBADA'>APROBADA</Option>
 				<Option key='RECHAZADA' value='RECHAZADO'>RECHAZADA</Option>
-				<Option key='DESESTIMADA' value='DESESTIMADA'>DESESTIMADA</Option>
+				{/*  <Option key='DESESTIMADA' value='DESESTIMADA'>DESESTIMADA</Option>*/}
 			</Select>
 		</div>
 	}

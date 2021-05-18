@@ -5,8 +5,8 @@ import InputTextModal from './input_text_modal'
 import {InputText} from './input_text'
 import SelectModal from './select_modal'
 import Upload from './upload'
-import { Button, Select, Table, Alert, Space, Empty } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Select, Table, Alert, Space, Empty,Tooltip } from 'antd';
+import { PlusOutlined, DeleteOutlined, DislikeFilled,LikeFilled } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 import {LinkToFile} from '../components/linkToFile'
 import { RootState } from '../redux/store'
@@ -63,6 +63,12 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
 
       </Space>),
+    },
+
+    {
+      title: '',
+      key: 'evaluacion',
+      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
     },
     {
       title: 'Estado',
@@ -290,7 +296,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
         </div>
       </div>
 
-
+      <div className="rounded-lg px-4 py-2 mb-4  pt-4 pb-4 border">
       <div className="grid grid-cols-4 gap-4 ">
         <div className="pb-6" >
           
@@ -423,6 +429,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       </div>
       <div className="mt-4">
         <Table columns={columnsEstado} dataSource={Object.assign([],obra.datosObra)} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
+      </div>
       </div>
     </div>
 }

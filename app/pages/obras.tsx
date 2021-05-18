@@ -9,6 +9,7 @@ import Switch from '../components/switch'
 import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message, Alert } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
+import SelectSimple from '../components/select'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
 import DatePickerModal from '../components/datePicker_Modal'
@@ -16,7 +17,7 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable,calcularSaldoObra, calcularCertificaciones } from '../services/business';
+import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable, calcularSaldoObra, calcularCertificaciones } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
@@ -24,13 +25,13 @@ import { ObrasAmpliaciones } from '../components/obrasAmpliaciones'
 import { isError } from 'util';
 import { CertificacionesPrecargadas } from '../components/obraCertificacionesPrecargadas';
 import SelectMultiple from '../components/select_multiple'
-import SelectSimple from '../components/select'
 import InputNumberModal from '../components/input_number'
 import numeral from 'numeral'
 import Wrapper from '../components/wrapper'
 import { LinkToFile } from '../components/linkToFile';
 import _ from 'lodash'
 import { RootState } from '../redux/store';
+import wrapper from '../components/wrapper';
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -164,7 +165,7 @@ export default () => {
   }
 
 
- 
+
 
   const renderModalObra = () => {
     return (<div>
@@ -190,7 +191,7 @@ export default () => {
             <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
             <div className="grid grid-cols-2 gap-4 ">
               <div className="pb-6" >
-              <Wrapper attributeName="Ubicacion" title="Ubicacion" labelRequired="*">
+                <Wrapper attributeName="Ubicacion" title="Ubicacion" labelRequired="*">
                   <InputText
                     attributeName='Ubicacion'
                     value={ubicacionText}
@@ -219,190 +220,195 @@ export default () => {
 
             <div className="grid grid-cols-3 gap-4 ">
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
-                <div >
-                  <SelectModal
-                    value={obra.especialidad1}
-                    bindFunction={e => {
-                      obra.especialidad1 = e
-                      updateObjTramite()
-                    }}
-                    title="Especialidad"
-                    defaultOption="Seleccione una especialidad"
-                    labelRequired="*"
-                    labelMessageError=""
-                    required
-                    option={tipoEspecialidad.map(u => (
-                      <Option value={u.value}>{u.label}</Option>
-                    ))} />
+              <div  >
+                  <Wrapper title="Especialidad" attributeName="especialidad" labelRequired="*">
 
+                    <SelectSimple
+                      value={obra.especialidad1}
+                      bindFunction={e => {
+                        obra.especialidad1 = e
+                        updateObjTramite()
+                      }}
+                      defaultOption="Seleccione una especialidad"
+                      labelMessageError=""
+                      required
+                      option={tipoEspecialidad.map(u => (
+                        <Option value={u.value}>{u.label}</Option>
+                      ))} />
+                  </Wrapper>
                 </div>
-                <div >
-                  <SelectMultiple
-                    labelRequired="*"
-                    value={obra.subEspecialidad1}
-                    bindFunction={e => {
-                      obra.subEspecialidad1 = e
-                      setObra(Object.assign([], obra))
-                    }}
-                    title="Seleccione la SubEspecialidad"
-                    labelObservation=""
-                    labeltooltip=""
-                    labelMessageError=""
-                    placeholder="Tipo de suebEspecialidad"
-                    required
-                    options={tipoSubespecialidadIA.filter(se => se.parent === obra.especialidad1).map(u => (
-                      <Option value={u.value} label={u.label}>
-                        {u.label}
-                      </Option>
-                    ))
+                <div className="pt-2" >
+                  <Wrapper title="Seleccione al menos (3) SubEspecialidad" attributeName="subespecialidad1" labelRequired="*">
 
-                    } />
+                    <SelectMultiple
+                      value={obra.subEspecialidad1}
+                      bindFunction={e => {
+                        obra.subEspecialidad1 = e
+                        setObra(Object.assign([], obra))
+                      }}
+                      labelObservation=""
+                      labeltooltip=""
+                      labelMessageError=""
+                      placeholder="Tipo de suebEspecialidad"
+                      required
+                      options={tipoSubespecialidadIA.filter(se => se.parent === obra.especialidad1).map(u => (
+                        <Option value={u.value} label={u.label}>
+                          {u.label}
+                        </Option>
+                      ))
 
+                      } />
+                  </Wrapper>
                 </div>
                 <div className="pb-6" >
-                
-                <Wrapper attributeName="Otros" title="Otros" labelRequired="*">
-                  <InputText
-                   attributeName='Otros'
-                    labelRequired=""
-                    value={obra.subEspecialidades1Otros}
-                    bindFunction={e => {
-                      obra.subEspecialidades1Otros = e
-                      setObra(Object.assign({}, obra))
-                    }}
-                    labelMessageError=""
-                    maxLength={50}
-                    placeHolder="Otros"
-                    labelObservation=""
-                    labeltooltip=""
-                    required />
-                    </Wrapper>
+
+                  <Wrapper attributeName="Otros" title="Otros" labelRequired="*">
+                    <InputText
+                      attributeName='Otros'
+                      labelRequired=""
+                      value={obra.subEspecialidades1Otros}
+                      bindFunction={e => {
+                        obra.subEspecialidades1Otros = e
+                        setObra(Object.assign({}, obra))
+                      }}
+                      labelMessageError=""
+                      maxLength={50}
+                      placeHolder="Otros"
+                      labelObservation=""
+                      labeltooltip=""
+                      required />
+                  </Wrapper>
                 </div>
 
               </div>
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
-                <div >
-                  <SelectModal
-                    value={obra.especialidad2}
-                    bindFunction={e => {
-                      obra.especialidad2 = e
-                      updateObjTramite()
-                    }}
-                    title="Especialidad"
-                    defaultOption="Seleccione una especialidad"
-                    labelRequired=""
-                    labelMessageError=""
-                    required
-                    option={tipoEspecialidad.map(u => (
-                      <Option value={u.value}>{u.label}</Option>
-                    ))} />
+              <div  >
+                  <Wrapper title="Especialidad" attributeName="especialidad2" labelRequired="*">
 
+                    <SelectSimple
+                      value={obra.especialidad2}
+                      bindFunction={e => {
+                        obra.especialidad2 = e
+                        updateObjTramite()
+                      }}
+                      defaultOption="Seleccione una especialidad"
+                      labelRequired=""
+                      labelMessageError=""
+                      required
+                      option={tipoEspecialidad.map(u => (
+                        <Option value={u.value}>{u.label}</Option>
+                      ))} />
+                  </Wrapper>
                 </div>
-                <div >
-                  <SelectMultiple
-                    labelRequired=""
-                    value={obra.subEspecialidad2}
-                    bindFunction={e => {
-                      obra.subEspecialidad2 = e
-                      setObra(Object.assign({}, obra))
-                    }}
-                    title="Seleccione la SubEspecialidad"
-                    labelObservation=""
-                    labeltooltip=""
-                    labelMessageError=""
-                    placeholder="Tipo de suebEspecialidad"
-                    required
-                    options={tipoSubespecialidadIA.filter(se => se.parent === obra.especialidad2).map(u => (
-                      <Option value={u.value} label={u.label}>
-                        {u.label}
-                      </Option>
-                    ))
+                <div className="pt-2" >
+                  <Wrapper title="Seleccione al menos (3) SubEspecialidad" attributeName="subespecialidad2" labelRequired="*">
 
-                    } />
+                    <SelectMultiple
 
+                      value={obra.subEspecialidad2}
+                      bindFunction={e => {
+                        obra.subEspecialidad2 = e
+                        setObra(Object.assign({}, obra))
+                      }}
+                      labelObservation=""
+                      labeltooltip=""
+                      labelMessageError=""
+                      placeholder="Tipo de suebEspecialidad"
+                      required
+                      options={tipoSubespecialidadIA.filter(se => se.parent === obra.especialidad2).map(u => (
+                        <Option value={u.value} label={u.label}>
+                          {u.label}
+                        </Option>
+                      ))
+
+                      } />
+                  </Wrapper>
                 </div>
                 <div className="pb-6" >
 
-                    <Wrapper attributeName="Otros2" title="Otros2" labelRequired="*">
-                  <InputText
-                   attributeName='Otros2'
-                
-                    labelRequired=""
-                    value={obra.subEspecialidades2Otros}
-                    bindFunction={e => {
-                      obra.subEspecialidades2Otros = e
-                      setObra(Object.assign({}, obra))
-                    }}
-                    labelMessageError=""
+                  <Wrapper attributeName="Otros" title="Otros2" labelRequired="*">
+                    <InputText
+                      attributeName='Otros2'
 
-                    maxLength={50}
-                    placeHolder="Otros"
-                    labelObservation=""
-                    labeltooltip=""
-                    required  />
-                    </Wrapper>
+                      labelRequired=""
+                      value={obra.subEspecialidades2Otros}
+                      bindFunction={e => {
+                        obra.subEspecialidades2Otros = e
+                        setObra(Object.assign({}, obra))
+                      }}
+                      labelMessageError=""
+
+                      maxLength={50}
+                      placeHolder="Otros"
+                      labelObservation=""
+                      labeltooltip=""
+                      required />
+                  </Wrapper>
                 </div>
 
               </div>
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
-                <div >
-                  <SelectModal
-                    value={obra.especialidad3}
-                    bindFunction={e => {
-                      obra.especialidad3 = e
-                      updateObjTramite()
-                    }}
-                    title="Especialidad"
-                    defaultOption="Seleccione una especialidad"
-                    labelRequired=""
-                    labelMessageError=""
-                    required
-                    option={tipoEspecialidad.map(u => (
-                      <Option value={u.value}>{u.label}</Option>
-                    ))} />
+                <div  >
+                  <Wrapper title="Especialidad" attributeName="especialidad3" labelRequired="*">
 
+                    <SelectSimple
+                      value={obra.especialidad3}
+                      bindFunction={e => {
+                        obra.especialidad3 = e
+                        updateObjTramite()
+                      }}
+                      defaultOption="Seleccione una especialidad"
+                      labelRequired=""
+                      labelMessageError=""
+                      required
+                      option={tipoEspecialidad.map(u => (
+                        <Option value={u.value}>{u.label}</Option>
+                      ))} />
+                  </Wrapper>
                 </div>
-                <div >
-                  <SelectMultiple
-                    labelRequired=""
-                    value={obra.subEspecialidad3}
-                    bindFunction={e => {
-                      obra.subEspecialidad3 = e
-                      setObra(Object.assign({}, obra))
-                    }}
-                    title="Seleccione la SubEspecialidad"
-                    labelObservation=""
-                    labeltooltip=""
-                    labelMessageError=""
-                    placeholder="Tipo de suebEspecialidad"
-                    required
-                    options={tipoSubespecialidadIA.filter(se => se.parent === obra.especialidad3).map(u => (
-                      <Option value={u.value} label={u.label}>
-                        {u.label}
-                      </Option>
-                    ))
+                <div className="pt-2" >
+                  <Wrapper title="Seleccione al menos (3) SubEspecialidad" attributeName="subespecialidad3" labelRequired="*">
 
-                    } />
+                    <SelectMultiple
 
+                      value={obra.subEspecialidad3}
+                      bindFunction={e => {
+                        obra.subEspecialidad3 = e
+                        setObra(Object.assign({}, obra))
+                      }}
+                      labelObservation=""
+                      labeltooltip=""
+                      labelMessageError=""
+                      placeholder="Tipo de suebEspecialidad"
+                      required
+                      options={tipoSubespecialidadIA.filter(se => se.parent === obra.especialidad3).map(u => (
+                        <Option value={u.value} label={u.label}>
+                          {u.label}
+                        </Option>
+                      ))
+
+                      } />
+
+                  </Wrapper>
                 </div>
                 <div className="pb-6" >
-                <Wrapper attributeName="Otros3" title="Otros" labelRequired="*">
-                  <InputText
-                   attributeName='Otros3'
-                    label="Otros"
-                    labelRequired=""
-                    value={obra.subEspecialidades3Otros}
-                    bindFunction={e => {
-                      obra.subEspecialidades3Otros = e
-                      setObra(Object.assign({}, obra))
-                    }}
-                    labelMessageError=""
-                    maxLength={50}
-                    placeHolder="Otros"
-                    labelObservation=""
-                    labeltooltip=""
-                    required  />
-                    </Wrapper>
+                  <Wrapper attributeName="Otros3" title="Otros" labelRequired="*">
+                    <InputText
+                      attributeName='Otros3'
+                      label=""
+                      labelRequired=""
+                      value={obra.subEspecialidades3Otros}
+                      bindFunction={e => {
+                        obra.subEspecialidades3Otros = e
+                        setObra(Object.assign({}, obra))
+                      }}
+                      labelMessageError=""
+                      maxLength={50}
+                      placeHolder="Otros"
+                      labelObservation=""
+                      labeltooltip=""
+                      required />
+                  </Wrapper>
                 </div>
 
               </div>
@@ -411,116 +417,125 @@ export default () => {
             <div className="grid grid-cols-2 gap-4 ">
 
               <div className="pb-6" >
-              <Wrapper attributeName="razonSocialUTE" title="Razón Social de la UTE" labelRequired="*">
+                <Wrapper attributeName="razonSocialUTE" title="Razón Social de la UTE" labelRequired="*">
                   <InputText
-                   attributeName='razonSocialUTE'
-                
-                  labelRequired=""
-                  value={obra.razonSocialUTE}
-                  bindFunction={e => {
-                    obra.razonSocialUTE = e
-                    setObra(Object.assign({}, obra))
-                  }}
-                  labelMessageError=""
-                />
+                    attributeName='razonSocialUTE'
+
+                    labelRequired=""
+                    value={obra.razonSocialUTE}
+                    bindFunction={e => {
+                      obra.razonSocialUTE = e
+                      setObra(Object.assign({}, obra))
+                    }}
+                    labelMessageError=""
+                  />
                 </Wrapper>
               </div>
               <div className="grid grid-cols-2 gap-4 ">
                 <div className="pb-6" >
-                <Wrapper attributeName="CuitlUTE" title="CUIT de la UTE" labelRequired="*">
-                  <InputText
-                   attributeName='CuitUTE'
-                    labelRequired=""
-                    value={obra.cuitUTE}
-                    bindFunction={e => {
-                      obra.cuitUTE = e
-                      setObra(Object.assign({}, obra))
-                    }}
-                    labelMessageError=""
-                  />
+                  <Wrapper attributeName="CuitlUTE" title="CUIT de la UTE" labelRequired="*">
+                    <InputText
+                      attributeName='CuitUTE'
+                      labelRequired=""
+                      value={obra.cuitUTE}
+                      bindFunction={e => {
+                        obra.cuitUTE = e
+                        setObra(Object.assign({}, obra))
+                      }}
+                      labelMessageError=""
+                    />
                   </Wrapper>
                 </div>
                 <div className="pb-6" >
-                
-                  <InputNumberModal
-                    label="% de participación"
-                    min={0}
-                    labelRequired=""
-                    value={obra.participacionUTE}
-                    bindFunction={e => {
-                      obra.participacionUTE = e
-                      setObra(Object.assign({}, obra))
-                    }}
-                    labelMessageError=""
-                  />
+                  <Wrapper title="% de Participacion" attributeName="%PARTICIPACION" labelRequired="*">
+
+                    <InputNumberModal
+                      label=""
+                      labelRequired=""
+                      min={0}
+                      type="number"
+                      value={obra.participacionUTE}
+                      bindFunction={e => {
+                        obra.participacionUTE = e
+                        setObra(Object.assign({}, obra))
+                      }}
+                      labelMessageError=""
+                    />
+                  </Wrapper>
                 </div>
               </div>
               <div className="pb-6" >
-              <Wrapper attributeName="razonSocialComitente" title="Razón Social Comitente" labelRequired="*">
+                <Wrapper attributeName="razonSocialComitente" title="Razón Social Comitente" labelRequired="*">
                   <InputText
-                   attributeName='razonSocialComitente'
-                labelRequired=""
-                  value={obra.razonSocialComitente}
-                  bindFunction={e => {
-                    obra.razonSocialComitente = e
-                    setObra(Object.assign({}, obra))
-                  }}
-                  labelMessageError=""
-                />
-                </Wrapper>
-              </div>
-              <div className="grid grid-cols-2 gap-4 ">
-                <div className="pb-6" >
-                <Wrapper attributeName="cuitComitente" title="CUIT comitente" labelRequired="*">
-                  <InputText
-                   attributeName='cuitComitente'
+                    attributeName='razonSocialComitente'
                     labelRequired=""
-                    value={obra.cuitComitente}
+                    value={obra.razonSocialComitente}
                     bindFunction={e => {
-                      obra.cuitComitente = e
+                      obra.razonSocialComitente = e
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
                   />
+                </Wrapper>
+              </div>
+              <div className="grid grid-cols-2 gap-4 ">
+                <div className="pb-6" >
+                  <Wrapper attributeName="cuitComitente" title="CUIT comitente" labelRequired="*">
+                    <InputText
+                      attributeName='cuitComitente'
+                      labelRequired=""
+                      value={obra.cuitComitente}
+                      bindFunction={e => {
+                        obra.cuitComitente = e
+                        setObra(Object.assign({}, obra))
+                      }}
+                      labelMessageError=""
+                    />
                   </Wrapper>
                 </div>
                 <div className="pb-6" >
+                  <Wrapper title="Monto inicial contrato" attributeName="montoInicial" labelRequired="*">
 
-                  <InputNumberModal
-                    type="number"
-                    label="Monto inicial del contrato"
-                    labelRequired="*"
-                    min={0} step="any"
-                    placeholder="000000,000 "
-                    value={obra.montoInicial}
-                    bindFunction={e => {
-                      obra.montoInicial = e
-                      setObra(Object.assign({}, obra))
-                    }}
-                    labelMessageError=""
-                    required />
+                    <InputNumberModal
+
+                      type="number"
+                      label=""
+                      labelRequired=""
+                      min={0} step="any"
+                      placeholder="000000,000 "
+                      value={obra.montoInicial}
+                      bindFunction={e => {
+                        obra.montoInicial = e
+                        setObra(Object.assign({}, obra))
+                      }}
+                      labelMessageError=""
+                      required />
+                  </Wrapper>
 
                 </div>
               </div>
             </div>
             <div className="pb-6" >
-              <Upload
-                label="Adjuntar Contrato Inicial / Orden de Compra "
-                labelRequired="*"
-                labelMessageError=""
-                defaultValue={obra.archivosOrdenDeCompra as any}
-                onOnLoad={file => {
-                  if (!obra.archivosOrdenDeCompra)
-                    obra.archivosOrdenDeCompra = []
-                  obra.archivosOrdenDeCompra.push(file)
-                  setObra(Object.assign({}, obra))
-                }}
-                onRemove={fileToRemove => {
-                  obra.archivosOrdenDeCompra = obra.archivosOrdenDeCompra.filter(f => f.cid !== fileToRemove.uid)
-                  setObra(Object.assign({}, obra))
-                }}
 
-              />
+
+              <Wrapper title="Adjuntar Contrato Inicial / Orden de Compra" attributeName="contratoInicial" labelRequired="*">
+
+                <Upload
+                  labelMessageError=""
+                  defaultValue={obra.archivosOrdenDeCompra as any}
+                  onOnLoad={file => {
+                    if (!obra.archivosOrdenDeCompra)
+                      obra.archivosOrdenDeCompra = []
+                    obra.archivosOrdenDeCompra.push(file)
+                    setObra(Object.assign({}, obra))
+                  }}
+                  onRemove={fileToRemove => {
+                    obra.archivosOrdenDeCompra = obra.archivosOrdenDeCompra.filter(f => f.cid !== fileToRemove.uid)
+                    setObra(Object.assign({}, obra))
+                  }}
+
+                />
+              </Wrapper>
             </div>
           </div>
 
@@ -542,77 +557,110 @@ export default () => {
             <div className="grid grid-cols-4 gap-4 ">
 
               <div className="pb-6" >
-                <InputNumberModal
-                  label="Por contrato"
-                  labelRequired="*"
-                  type="number"
-                  min={0}
-                  value={obra.plazoPorContrato}
-                  bindFunction={e => {
-                    obra.plazoPorContrato = e
-                    setObra(Object.assign({}, obra))
-                  }}
-                  labelMessageError=""
-                />
+
+                <Wrapper title="Por Contrato" attributeName="porContrato" labelRequired="*">
+
+                  <InputNumberModal
+                    type="number"
+                    labelRequired=""
+                    label=""
+                    min={0}
+                    value={obra.plazoPorContrato}
+                    bindFunction={e => {
+                      obra.plazoPorContrato = e
+                      setObra(Object.assign({}, obra))
+                    }}
+                    labelMessageError=""
+                    required
+                  />
+                </Wrapper>
               </div>
               <div className="pb-6 hidden" >
-                <InputNumberModal
-                  label="Prórroga"
-                  labelRequired="*"
-                  type="number"
+                 <Wrapper  title="% de Participacion"  attributeName="% de Participacion" labelRequired="*">
 
-                  value={obra.prorroga}
-                  bindFunction={e => {
-                    obra.prorroga = e
-                    setObra(Object.assign({}, obra))
-                  }}
+                    <InputNumberModal
+                      label=""
+                      labelRequired=""
+                      min={0}
+                      type="number"
+                      value={obra.participacionUTE}
+                      bindFunction={e => {
+                        obra.participacionUTE = e
+                        setObra(Object.assign({}, obra))
+                      }}
+                      labelMessageError=""
+                    />
+                  </Wrapper>
+                <Wrapper  title="Prorroga"  attributeName="Proroga" labelRequired="*">
 
-                  labelMessageError=""
-                />
+                  <InputNumberModal
+                    type="number"
+                    labelRequired=""
+                    label=""
+
+                    value={obra.prorroga}
+                    bindFunction={e => {
+                      obra.prorroga = e
+                      setObra(Object.assign({}, obra))
+                    }}
+
+                    labelMessageError=""
+                  />
+                </Wrapper>
               </div>
               <div className="pb-6" >
-                <InputNumberModal
-                  label="Prórroga"
-                  labelRequired="*"
-                  type="number"
+                <Wrapper  title="Prórroga"  attributeName="Proroga" labelRequired="*">
 
-                  value={obra.prorrogaNueva && obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0}
-                  bindFunction={e => {
-                    null
-                  }}
-                  labelMessageError=""
-                />
+                  <InputNumberModal
+                    label=""
+                    type="number"
+                    labelRequired=""
+                    value={obra.prorrogaNueva && obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0}
+                    bindFunction={e => {
+                      null
+                    }}
+                    labelMessageError=""
+                  />
+                </Wrapper>
               </div>
               <div className="pb-6" >
-                <InputNumberModal
-                  label="Transcurrido"
-                  labelRequired="*"
-                  type="number"
-                  min={0}
-                  step=".01"
-                  value={obra.transcurrido}
-                  bindFunction={e => {
-                    obra.transcurrido = e
-                    setObra(Object.assign({}, obra))
-                  }}
-                  labelMessageError=""
-                />
+                <Wrapper  title="Transcurrido"  attributeName="Transcurrido" labelRequired="*">
+
+                  <InputNumberModal
+                    type="number"
+                    label=""
+                    labelRequired=""
+                    min={0}
+                    step=".01"
+                    value={obra.transcurrido}
+                    bindFunction={e => {
+                      obra.transcurrido = e
+                      setObra(Object.assign({}, obra))
+                    }}
+                    labelMessageError=""
+                  />
+                </Wrapper>
               </div>
               <div className="pb-6" >
-                <InputNumberModal
-                  label="Restante"
-                  type="number"
-                  disabled={true}
-                  min={0}
-                  step=".01"
-                  labelRequired="*"
-                  value={(obra.plazoPorContrato + (obra.prorrogaNueva && obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0)) - obra.transcurrido}
-                  bindFunction={e => null}
-                  labelMessageError=""
-                />
+                <Wrapper  title="Restante"  attributeName="Restante" labelRequired="*">
+
+                  <InputNumberModal
+                    label=""
+                    type="number"
+                    labelRequired=""
+                    disabled={true}
+                    min={0}
+                    step=".01"
+                    value={(obra.plazoPorContrato + (obra.prorrogaNueva && obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0)) - obra.transcurrido}
+                    bindFunction={e => null}
+                    labelMessageError=""
+                  />
+                </Wrapper>
               </div>
             </div>
 
+            <div className="rounded-lg px-4 py-2 mb-4  pt-4 pb-4 border">
+      
             <div className="text-xl font-bold py-2 w-3/4"> Agregar nueva Prórroga</div>
             <div className="grid grid-cols-4 gap-4 ">
               <div className="pb-6" >
@@ -679,6 +727,7 @@ export default () => {
               }} />
 
           </div>
+          </div>
         </TabPane>
       </Tabs>
     </div>)
@@ -707,13 +756,13 @@ export default () => {
   }
 
 
- 
+
   const Saldo = (record) => {
     return (<div >
       {numeral(calcularSaldoObra(record)).format('$0,0.00')}
 
     </div>
-           )
+    )
   }
 
 
@@ -751,8 +800,8 @@ export default () => {
     }
   ]
 
-  const tieneObservaciones = (obra) =>  !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status==='RECHAZADA')) ||  !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status==='RECHAZADA')) ||  !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status==='RECHAZADA'))
-  
+  const tieneObservaciones = (obra) => !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'RECHAZADA')) || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'RECHAZADA')) || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'RECHAZADA'))
+
 
   let columns = [
     {
@@ -779,7 +828,7 @@ export default () => {
         editarObrar(Object.assign({}, record))
       }} className="cursor-pointer"><EditOutlined /></div> : <Space size="middle">
       </Space>),
-    },{
+    }, {
       title: 'Obs',
       key: 'Obs',
       render: (text, record) => <div>{tieneObservaciones(record) ? 'Observada' : ''}</div>
@@ -897,10 +946,7 @@ export default () => {
     setModalObras(false)
   }
 
-
-
-
-  return (<div>
+ return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
       router.push('/')
@@ -930,7 +976,7 @@ export default () => {
       </div>
       <div>
         <Tabs defaultActiveKey="1" onChange={callback} style={{ marginLeft: "0px" }}>
-        <TabPane tab="Todas las obras declaradas" key="1">
+          <TabPane tab="Todas las obras declaradas" key="1">
             <div className="overflow-x-auto" >
               {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
             </div>
@@ -939,8 +985,8 @@ export default () => {
             <div className="overflow-x-auto" >
               {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras.filter(o => !o.status || o.status !== 'APROBADA')} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
             </div>
-          </TabPane>  
-          
+          </TabPane>
+
 
         </Tabs>
       </div>
