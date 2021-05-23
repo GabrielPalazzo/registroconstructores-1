@@ -60,7 +60,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
         value={prop.certificacion.status}
         onChange={e => {
           setCertificadoSeleccionado(prop.certificacion)
-          if (e === 'RECHAZADO') {
+          if (e === 'OBSERVADA') {
             setShowMotivoRechazo(true)
           } else {
             const idx = _.findIndex(obra.certificaciones, c => { return c.codigo === prop.certificacion.codigo })
@@ -74,7 +74,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
         }} style={{ width: 150 }} >
         <Option key='APROBADA' value='APROBADA'>APROBADA</Option>
-        <Option key='RECHAZADA' value='RECHAZADO'>OBSERVADA</Option>
+        <Option key='OBSERVADA' value='OBSERVADA'>OBSERVADA</Option>
        <Option key='DESESTIMADA' value='DESESTIMADA'>DESESTIMADA</Option>
       </Select>
     </div>

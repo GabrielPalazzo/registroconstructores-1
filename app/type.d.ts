@@ -238,6 +238,7 @@ type TramiteAlta = {
     votos:number,
   }>
   autoridadesVencimiento: boolean
+  autoridadesFechaVencimiento: string
   autoridadesSociedad: Array<{
     nombre: string
     apellido: string

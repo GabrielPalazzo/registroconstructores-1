@@ -472,13 +472,7 @@ export default (props) => {
             
             <Switch
               value={esAdministradorLegitimado}
-              onChange={value => {
-                tramite.apoderados = value
-                setTramite(Object.assign({}, tramite))
-              }}
-
-
-              
+              onChange={setEsAdministradorLegitimado}
               label="Administrador Legitimado"
               labelRequired=""
               SwitchLabel1="Si"

@@ -164,6 +164,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
       datos: ''
     },
     autoridadesSociedad: [],
+    autoridadesFechaVencimiento:'',
     inversionesPermanentes: [],
     autoridadesVencimiento: true,
     sistemaCalidad: [],
@@ -184,7 +185,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
       datos: '',
       fecha: ''
     },
-    poseeIERIC: true,
+    poseeIERIC: false,
     datosSocietarios: {
       cooperativa: {
         archivoActaConstitutiva: [],

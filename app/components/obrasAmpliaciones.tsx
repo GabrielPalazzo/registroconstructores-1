@@ -58,7 +58,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         value={prop.ampliacion.status}
         onChange={e => {
           setAmpliacionSeleccionada(prop.ampliacion)
-          if (e === 'RECHAZADO') {
+          if (e === 'OBSERVADA') {
             setShowMotivoRechazo(true)
           } else {
             const idx = _.findIndex(obra.ampliaciones, c => { return c.id === prop.ampliacion.id })
@@ -72,7 +72,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
 
         }} style={{ width: 150 }} >
         <Option key='APROBADA' value='APROBADA'>APROBADA</Option>
-        <Option key='RECHAZADA' value='RECHAZADO'>RECHAZADA</Option>
+        <Option key='OBSERVADA' value='OBSERVADA'>OBSERVADA</Option>
        {/*  <Option key='DESESTIMADA' value='DESESTIMADA'>DESESTIMADA</Option>*/}
       </Select>
     </div>

@@ -56,7 +56,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				value={prop.redeterminacion.status}
 				onChange={e => {
 					setRedeterminacionSeleccionada(prop.redeterminacion)
-					if (e === 'RECHAZADO') {
+					if (e === 'OBSERVADA') {
 						setShowMotivoRechazo(true)
 					} else {
 						const idx = _.findIndex(obra.redeterminaciones, c => { return c.id === prop.redeterminacion.id })
@@ -70,7 +70,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 
 				}} style={{ width: 150 }} >
 				<Option key='APROBADA' value='APROBADA'>APROBADA</Option>
-				<Option key='RECHAZADA' value='RECHAZADO'>RECHAZADA</Option>
+				<Option key='OBSERRVADA' value='OBSERVADA'>OBSERVADA</Option>
 				{/*  <Option key='DESESTIMADA' value='DESESTIMADA'>DESESTIMADA</Option>*/}
 			</Select>
 		</div>

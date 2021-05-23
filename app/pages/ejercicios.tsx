@@ -7,7 +7,7 @@ import  InputNumberModal  from '../components/input_number'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider,message,Popconfirm } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider,message,Popconfirm, Statistic} from 'antd';
 import { PlusOutlined, DeleteOutlined,EditOutlined, CloudDownloadOutlined, FolderViewOutlined} from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -224,6 +224,7 @@ export default () => {
 
         </div>
         <div className="pb-6" >
+        
           <InputTextModal
             label="Pasivo Total"
             type="number" step="any"
@@ -232,10 +233,10 @@ export default () => {
             bindFunction={() => null}
             value={pasivoNoCorriente + pasivoCorriente}
             labelMessageError=""
-            disabled ={true} />
+            disabled={true}/>
 
         </div>
-        <div className="pb-6" >
+        <div className="pb-6" > 
           <InputNumberModal
             label="Ventas del ejercicio"
             type="number" step="any"

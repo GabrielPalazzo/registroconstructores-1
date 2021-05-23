@@ -238,7 +238,7 @@ export default () => {
                   </Wrapper>
                 </div>
                 <div className="pt-2" >
-                  <Wrapper title="Seleccione al menos (3) SubEspecialidad" attributeName="subespecialidad1" labelRequired="*">
+                  <Wrapper title="Seleccione  (3) SubEspecialidad" attributeName="subespecialidad1" labelRequired="*">
 
                     <SelectMultiple
                       value={obra.subEspecialidad1}
@@ -301,7 +301,7 @@ export default () => {
                   </Wrapper>
                 </div>
                 <div className="pt-2" >
-                  <Wrapper title="Seleccione al menos (3) SubEspecialidad" attributeName="subespecialidad2" labelRequired="*">
+                  <Wrapper title="Seleccione  (3) SubEspecialidad" attributeName="subespecialidad2" labelRequired="*">
 
                     <SelectMultiple
 
@@ -326,7 +326,7 @@ export default () => {
                 </div>
                 <div className="pb-6" >
 
-                  <Wrapper attributeName="Otros" title="Otros2" labelRequired="*">
+                  <Wrapper attributeName="Otros2" title="Otros" labelRequired="*">
                     <InputText
                       attributeName='Otros2'
 
@@ -367,7 +367,7 @@ export default () => {
                   </Wrapper>
                 </div>
                 <div className="pt-2" >
-                  <Wrapper title="Seleccione al menos (3) SubEspecialidad" attributeName="subespecialidad3" labelRequired="*">
+                  <Wrapper title="Seleccione (3) SubEspecialidad" attributeName="subespecialidad3" labelRequired="*">
 
                     <SelectMultiple
 
@@ -801,7 +801,7 @@ export default () => {
     }
   ]
 
-  const tieneObservaciones = (obra) => !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'RECHAZADA')) || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'RECHAZADA')) || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'RECHAZADA'))
+  const tieneObservaciones = (obra) => !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA')) || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
 
 
   let columns = [

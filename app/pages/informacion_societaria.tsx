@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useDebugValue } from 'react';
 import { useRouter } from 'next/router'
 import { NavigationStep } from '../components/steps'
 import { InputText } from '../components/input_text'
@@ -84,8 +84,7 @@ export default () => {
   const [modificacionEstatutoFecha, setModificacionEstatutoFecha] = useState('')
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
-
-
+  const [autoridadesVencimiento,setAutoridadesVencimiento]= useState(false)
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
@@ -114,7 +113,10 @@ export default () => {
   }
 
 
+  const cargarIeric = (r: TramiteAlta) => {
 
+    setPoseeIeric(r.poseeIERIC)
+  }
 
 
   const { Step } = Steps;
@@ -418,7 +420,7 @@ export default () => {
 
     if (!tramite.autoridadesSociedad)
       tramite.autoridadesSociedad = []
-      
+
 
     tramite.autoridadesSociedad.push({
       nombre,
@@ -722,6 +724,8 @@ export default () => {
   ]
 
 
+ 
+
   const showSaveButton = () => {
     if (!allowGuardar(tramite))
       return <div></div>
@@ -970,11 +974,11 @@ export default () => {
               </div> : ''}
             <div className="pb-6">
               <Checkbox value={tramite.autoridadesVencimiento}
-               onChange={e => {
-                tramite.autoridadesVencimiento = !e.target.checked
-                updateObjTramite()
-                save()
-              }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+                onChange={e => {
+                  tramite.autoridadesVencimiento = !e.target.checked
+                  updateObjTramite()
+                  save()
+                }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
 
             </div>
             <div className="pb-6" >
@@ -1303,32 +1307,32 @@ export default () => {
         <div className="grid grid-cols-3 gap-4 ">
           <div >
 
-          <Wrapper title="Datos" attributeName="DatosInscripcionPJESP" labelRequired="*">
-            <InputText
-             attributeName="DatosInscripcionPJES"
-              value={tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos}
-              bindFunction={value => {
-                tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos = value
-                updateObjTramite()
-              }}
-              labelMessageError=""
-              required />
-              </Wrapper>
-              </div>
+            <Wrapper title="Datos" attributeName="DatosInscripcionPJESP" labelRequired="*">
+              <InputText
+                attributeName="DatosInscripcionPJES"
+                value={tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos}
+                bindFunction={value => {
+                  tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos = value
+                  updateObjTramite()
+                }}
+                labelMessageError=""
+                required />
+            </Wrapper>
+          </div>
           <div >
-          <Wrapper title="Fecha" attributeName="FechaInscripcionPJESP" labelRequired="*">
-            <DatePickerModal
-            labelRequired=""
-              placeholder=""
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={tramite.datosSocietarios.PJESP.inscripcionConstitutiva.fecha}
-              bindFunction={value => {
-                tramite.datosSocietarios.PJESP.inscripcionConstitutiva.fecha = value
-                updateObjTramite()
-              }}
-            />
+            <Wrapper title="Fecha" attributeName="FechaInscripcionPJESP" labelRequired="*">
+              <DatePickerModal
+                labelRequired=""
+                placeholder=""
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                value={tramite.datosSocietarios.PJESP.inscripcionConstitutiva.fecha}
+                bindFunction={value => {
+                  tramite.datosSocietarios.PJESP.inscripcionConstitutiva.fecha = value
+                  updateObjTramite()
+                }}
+              />
             </Wrapper>
           </div>
 
@@ -1336,56 +1340,56 @@ export default () => {
         <div className="text-2xl font-bold py-4"> Inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)</div>
         <div className="grid grid-cols-3 gap-4 ">
           <div >
-          <Wrapper title="Datos" attributeName="DatosInscripcionPJES" labelRequired="*">
-            <InputText
-             attributeName="DatosInscripcionPJES"
-              value={tramite.datosSocietarios.PJESP.inscripcionSucursal.datos}
-              bindFunction={value => {
-                tramite.datosSocietarios.PJESP.inscripcionSucursal.datos = value
-                updateObjTramite()
-              }}
-             
-              labelMessageError=""
-              required />
-              </Wrapper>
-              </div>
-          <div >
-            <Wrapper title="Fecha" attributeName="FechaInscripcionPJES" labelRequired="*">
-            <DatePickerModal
-             labelRequired=""
-              placeholder=""
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
+            <Wrapper title="Datos" attributeName="DatosInscripcionPJES" labelRequired="*">
+              <InputText
+                attributeName="DatosInscripcionPJES"
+                value={tramite.datosSocietarios.PJESP.inscripcionSucursal.datos}
+                bindFunction={value => {
+                  tramite.datosSocietarios.PJESP.inscripcionSucursal.datos = value
+                  updateObjTramite()
+                }}
 
-              value={tramite.datosSocietarios.PJESP.inscripcionSucursal.fecha}
-              bindFunction={value => {
-                tramite.datosSocietarios.PJESP.inscripcionSucursal.fecha = value
-                updateObjTramite()
-              }}
-            />
+                labelMessageError=""
+                required />
             </Wrapper>
           </div>
           <div >
-          <Wrapper title="Inscripción efectiva de la sucursal en D.P.P.J. / I.G.J., junto con todas sus modificaciones" attributeName="modificacionUpload"
+            <Wrapper title="Fecha" attributeName="FechaInscripcionPJES" labelRequired="*">
+              <DatePickerModal
+                labelRequired=""
+                placeholder=""
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+
+                value={tramite.datosSocietarios.PJESP.inscripcionSucursal.fecha}
+                bindFunction={value => {
+                  tramite.datosSocietarios.PJESP.inscripcionSucursal.fecha = value
+                  updateObjTramite()
+                }}
+              />
+            </Wrapper>
+          </div>
+          <div >
+            <Wrapper title="Inscripción efectiva de la sucursal en D.P.P.J. / I.G.J., junto con todas sus modificaciones" attributeName="modificacionUpload"
               labelRequired="*"  >
-            <Upload
-             defaultValue={tramite.datosSocietarios.PJESP.archivosContrato as any}
-              onOnLoad={file => {
-                if (!tramite.datosSocietarios.PJESP.archivosContrato)
-                  tramite.datosSocietarios.PJESP.archivosContrato = []
-                tramite.datosSocietarios.PJESP.archivosContrato.push(file)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-              onRemove={fileToRemove => {
-                tramite.datosSocietarios.PJESP.archivosContrato = tramite.datosSocietarios.PJESP.archivosContrato.filter(f => f.cid !== fileToRemove.uid)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-            />
+              <Upload
+                defaultValue={tramite.datosSocietarios.PJESP.archivosContrato as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.PJESP.archivosContrato)
+                    tramite.datosSocietarios.PJESP.archivosContrato = []
+                  tramite.datosSocietarios.PJESP.archivosContrato.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.PJESP.archivosContrato = tramite.datosSocietarios.PJESP.archivosContrato.filter(f => f.cid !== fileToRemove.uid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+              />
             </Wrapper>
           </div>
         </div>
@@ -1394,62 +1398,62 @@ export default () => {
         <Tooltip title="En caso de que la empresa sea Constructora desde la inscripción inicial de la Sucursal en Argentina, repetir mismos datos y fecha de la Inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J."> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
         <div className="grid grid-cols-2 gap-4 ">
           <div >
-          <Wrapper title="Datos" attributeName="DatosModificacionObjetoPJES" labelRequired="*">
-            <InputText
-             attributeName="DatosModificacionObjetoPJES"
-          
-              labelMessageError=""
-              value={tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos}
-              bindFunction={value => {
-                tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos = value
-                updateObjTramite()
-              }}
-              required />
-              </Wrapper>
-              </div>
-          <div >
-          <Wrapper title="Fecha" attributeName="FechaModificacionObjetoPJES" labelRequired="*">
-           
-            <DatePickerModal
-            labelRequired="*"
-              labelObservation=""
-              labeltooltip=""
-              labelMessageError=""
-              value={tramite.datosSocietarios.PJESP.modifcicacionObjeto.fecha}
-              bindFunction={value => {
-                tramite.datosSocietarios.PJESP.modifcicacionObjeto.fecha = value
-                updateObjTramite()
-              }}
-            />
+            <Wrapper title="Datos" attributeName="DatosModificacionObjetoPJES" labelRequired="*">
+              <InputText
+                attributeName="DatosModificacionObjetoPJES"
+
+                labelMessageError=""
+                value={tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos}
+                bindFunction={value => {
+                  tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos = value
+                  updateObjTramite()
+                }}
+                required />
             </Wrapper>
           </div>
           <div >
-          <Wrapper title="Modificación del Objeto de la Sucursal Argentina al rubro Construcción inscripto en D.P.P.J / I.G.J." attributeName="modificacionObjetoUpload"
+            <Wrapper title="Fecha" attributeName="FechaModificacionObjetoPJES" labelRequired="*">
+
+              <DatePickerModal
+                labelRequired="*"
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+                value={tramite.datosSocietarios.PJESP.modifcicacionObjeto.fecha}
+                bindFunction={value => {
+                  tramite.datosSocietarios.PJESP.modifcicacionObjeto.fecha = value
+                  updateObjTramite()
+                }}
+              />
+            </Wrapper>
+          </div>
+          <div >
+            <Wrapper title="Modificación del Objeto de la Sucursal Argentina al rubro Construcción inscripto en D.P.P.J / I.G.J." attributeName="modificacionObjetoUpload"
               labelRequired="*"  >
-            <Upload
-              defaultValue={tramite.datosSocietarios.PJESP.archivoModificacion as any}
-              onOnLoad={file => {
-                if (!tramite.datosSocietarios.PJESP.archivoModificacion)
-                  tramite.datosSocietarios.PJESP.archivoModificacion = []
-                tramite.datosSocietarios.PJESP.archivoModificacion.push(file)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-              onRemove={fileToRemove => {
-                tramite.datosSocietarios.PJESP.archivoModificacion = tramite.datosSocietarios.PJESP.archivoModificacion.filter(f => f.cid !== fileToRemove.uid)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-            />
+              <Upload
+                defaultValue={tramite.datosSocietarios.PJESP.archivoModificacion as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.PJESP.archivoModificacion)
+                    tramite.datosSocietarios.PJESP.archivoModificacion = []
+                  tramite.datosSocietarios.PJESP.archivoModificacion.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.PJESP.archivoModificacion = tramite.datosSocietarios.PJESP.archivoModificacion.filter(f => f.cid !== fileToRemove.uid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+              />
             </Wrapper>
           </div>
         </div>
         <Wrapper isTitle title="Última modificación de inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)" attributeName="UltimaModificacionInscripcionPJESP" >
           <div className="grid grid-cols-2 gap-4 ">
             <div >
-              
+
               <InputTextModal
                 label="Datos"
                 labelRequired=""
@@ -1638,7 +1642,8 @@ export default () => {
                 />
               </Wrapper>
             </div>
-
+          </div>
+          <div className="grid grid-cols-1 gap-4 ">
             <div >
               <Wrapper attributeName="DocumentoContratoConstitutivo" title="Contrato Constitutivo, junto con TODAS sus modificaciones hasta el día de hoy" labelRequired="*">
 
@@ -1699,6 +1704,8 @@ export default () => {
                 />
               </Wrapper>
             </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 ">
 
             <div >
               <Wrapper attributeName="DocumentoModificacionObjetoSocial" title="Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J." labelRequired="*">
@@ -1760,7 +1767,8 @@ export default () => {
                   labelMessageError=""
                 />
               </div>
-
+            </div>
+            <div className="grid grid-cols-1 gap-4 ">
               <div >
                 <Upload
                   label="Última modificación del Contrato Social, inscripta en en D.P.P.J / I.G.J."
@@ -1824,12 +1832,31 @@ export default () => {
               </div> : ''}
 
             <div className="pb-6">
-              <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
-                tramite.autoridadesVencimiento = !e.target.checked
-                updateObjTramite()
-                //save()
-              }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
 
+             
+              <Checkbox value={tramite.autoridadesVencimiento}
+                onChange={e => {
+                  tramite.autoridadesVencimiento = !e.target.checked
+                  updateObjTramite()
+                  save()
+                }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+
+</div> <div className="pb-6">
+             
+              {tramite.autoridadesVencimiento ? <div>
+                <DatePicker
+                  label="Fecha de Vencimiento"
+                  value={tramite.autoridadesFechaVencimiento}
+                  bindFunction={(value) => {
+                    tramite.autoridadesFechaVencimiento = value
+                    updateObjTramite()
+                  }}
+                  labelRequired="*"
+                  placeholder="Inspeccion General de Justicia"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                /></div> : ""}
             </div>
             <div className="pb-6" >
               <Upload
@@ -2029,26 +2056,41 @@ export default () => {
         <div className="text-2xl font-bold"> Inscripción en I.E.R.I.C. (Instituto de Estadística y Registro de la Industria de la Construcción)</div>
         <div className="grid grid-cols-1 mb-4 mt-4  ">
           {isPersonaFisica(tramite) ?
-            <Checkbox value={tramite.poseeIERIC} 
-            
-             onChange={ e => {
-              console.log(e.target.checked)
-
-              tramite.poseeIERIC = e.target.checked
-              updateObjTramite()
-
-            }}>Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1.</Checkbox>
-            : <Checkbox value={tramite.poseeIERIC} 
-            onChange={ e => {
-              console.log(e.target.checked)
-
-              tramite.poseeIERIC = e.target.checked
-              updateObjTramite()
-              //save()
-            }}>Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b.</Checkbox>
+          <div className="">
+          <Switch
+          value={tramite.poseeIERIC}
+       onChange={value => {
+         tramite.poseeIERIC = value
+         setTramite(Object.assign({}, tramite))
+       }}
+       label="Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1."
+       labelRequired=""
+       SwitchLabel1=""
+       SwitchLabel2=""
+       labelObservation=""
+       labeltooltip=""
+       labelMessageError=""
+       /></div>
+            :  <div className="">
+               <Switch
+          value={tramite.poseeIERIC}
+       onChange={value => {
+         tramite.poseeIERIC = value
+         setTramite(Object.assign({}, tramite))
+       }}
+       label="Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b."
+       labelRequired=""
+       SwitchLabel1=""
+       SwitchLabel2=""
+       labelObservation=""
+       labeltooltip=""
+       labelMessageError=""
+       />
+       
+            </div>
           }
         </div>
-        {tramite.poseeIERIC ? <div className="grid grid-cols-3 gap-4 ">
+        {tramite.poseeIERIC ? '':<div className="grid grid-cols-3 gap-4 ">
           <div>
             <Wrapper title="IERIC" attributeName="nroIeric" >
               <InputText
@@ -2112,7 +2154,7 @@ export default () => {
           </div>
 
 
-        </div> : ''}
+        </div> }
       </div>
       <div className="mt-4">
         <Collapse accordion>
