@@ -84,7 +84,7 @@ export default () => {
   const [modificacionEstatutoFecha, setModificacionEstatutoFecha] = useState('')
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
-  const [autoridadesVencimiento,setAutoridadesVencimiento]= useState(false)
+  const [autoridadesVencimiento, setAutoridadesVencimiento] = useState(false)
 
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion) || 'SET_TRAMITE_NUEVO'
@@ -724,7 +724,7 @@ export default () => {
   ]
 
 
- 
+
 
   const showSaveButton = () => {
     if (!allowGuardar(tramite))
@@ -972,14 +972,67 @@ export default () => {
                 </div>
 
               </div> : ''}
-            <div className="pb-6">
-              <Checkbox value={tramite.autoridadesVencimiento}
-                onChange={e => {
-                  tramite.autoridadesVencimiento = !e.target.checked
-                  updateObjTramite()
-                  save()
-                }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+            <div className="grid grid-cols-2 gap-4 ">
 
+              <div className="pb-6">
+
+                <Switch
+                  value={tramite.autoridadesVencimiento}
+                  onChange={value => {
+                    tramite.autoridadesVencimiento = value
+                    setTramite(Object.assign({}, tramite))
+                  }}
+                  label="Declaro que la designación de autoridades  no tiene vencimiento."
+                  labelRequired=""
+                  SwitchLabel1=""
+                  SwitchLabel2=""
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                />
+
+
+              </div> <div className="pb-6">
+
+                {tramite.autoridadesVencimiento ? '' : <div>
+                  <DatePicker
+                    label="Fecha de Vencimiento"
+                    value={tramite.autoridadesFechaVencimiento}
+                    bindFunction={(value) => {
+                      tramite.autoridadesFechaVencimiento = value
+                      updateObjTramite()
+                    }}
+                    labelRequired="*"
+                    placeholder="Inspeccion General de Justicia"
+                    labelObservation=""
+                    labeltooltip=""
+                    labelMessageError=""
+                  /></div>}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4 ">
+              <div className="pb-6" >
+                <Upload
+                  label="Ultima acta de designacion de autoridades inscripta en la Inspeccion General de Justicia o Registro Publico de comercio"
+                  labelRequired="*"
+                  labelMessageError=""
+                  defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.archivoAutoridades)
+                      tramite.datosSocietarios.archivoAutoridades = []
+                    tramite.datosSocietarios.archivoAutoridades.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
+              </div>
             </div>
             <div className="pb-6" >
               <Upload
@@ -1250,13 +1303,67 @@ export default () => {
                 </div>
 
               </div> : ''}
-            <div className="pb-6">
-              <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
-                tramite.autoridadesVencimiento = !e.target.checked
-                updateObjTramite()
-                //save()
-              }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+            <div className="grid grid-cols-2 gap-4 ">
 
+              <div className="pb-6">
+
+                <Switch
+                  value={tramite.autoridadesVencimiento}
+                  onChange={value => {
+                    tramite.autoridadesVencimiento = value
+                    setTramite(Object.assign({}, tramite))
+                  }}
+                  label="Declaro que la designación de autoridades  no tiene vencimiento."
+                  labelRequired=""
+                  SwitchLabel1=""
+                  SwitchLabel2=""
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                />
+
+
+              </div> <div className="pb-6">
+
+                {tramite.autoridadesVencimiento ? '' : <div>
+                  <DatePicker
+                    label="Fecha de Vencimiento"
+                    value={tramite.autoridadesFechaVencimiento}
+                    bindFunction={(value) => {
+                      tramite.autoridadesFechaVencimiento = value
+                      updateObjTramite()
+                    }}
+                    labelRequired="*"
+                    placeholder="Inspeccion General de Justicia"
+                    labelObservation=""
+                    labeltooltip=""
+                    labelMessageError=""
+                  /></div>}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4 ">
+              <div className="pb-6" >
+                <Upload
+                  label="Ultima acta de designacion de autoridades inscripta en la Inspeccion General de Justicia o Registro Publico de comercio"
+                  labelRequired="*"
+                  labelMessageError=""
+                  defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.archivoAutoridades)
+                      tramite.datosSocietarios.archivoAutoridades = []
+                    tramite.datosSocietarios.archivoAutoridades.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
+              </div>
             </div>
             <div className="pb-6" >
               <Upload
@@ -1534,13 +1641,67 @@ export default () => {
                 </div>
 
               </div> : ''}
-            <div className="pb-6">
-              <Checkbox value={tramite.autoridadesVencimiento} onChange={e => {
-                tramite.autoridadesVencimiento = !e.target.checked
-                updateObjTramite()
-                //save()
-              }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
+            <div className="grid grid-cols-2 gap-4 ">
 
+              <div className="pb-6">
+
+                <Switch
+                  value={tramite.autoridadesVencimiento}
+                  onChange={value => {
+                    tramite.autoridadesVencimiento = value
+                    setTramite(Object.assign({}, tramite))
+                  }}
+                  label="Declaro que la designación de autoridades  no tiene vencimiento."
+                  labelRequired=""
+                  SwitchLabel1=""
+                  SwitchLabel2=""
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                />
+
+
+              </div> <div className="pb-6">
+
+                {tramite.autoridadesVencimiento ? '' : <div>
+                  <DatePicker
+                    label="Fecha de Vencimiento"
+                    value={tramite.autoridadesFechaVencimiento}
+                    bindFunction={(value) => {
+                      tramite.autoridadesFechaVencimiento = value
+                      updateObjTramite()
+                    }}
+                    labelRequired="*"
+                    placeholder="Inspeccion General de Justicia"
+                    labelObservation=""
+                    labeltooltip=""
+                    labelMessageError=""
+                  /></div>}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4 ">
+              <div className="pb-6" >
+                <Upload
+                  label="Ultima acta de designacion de autoridades inscripta en la Inspeccion General de Justicia o Registro Publico de comercio"
+                  labelRequired="*"
+                  labelMessageError=""
+                  defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.archivoAutoridades)
+                      tramite.datosSocietarios.archivoAutoridades = []
+                    tramite.datosSocietarios.archivoAutoridades.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
+              </div>
             </div>
             <div className="pb-6" >
               <Upload
@@ -1830,55 +1991,67 @@ export default () => {
                 </div>
 
               </div> : ''}
+            <div className="grid grid-cols-2 gap-4 ">
 
-            <div className="pb-6">
+              <div className="pb-6">
 
-             
-              <Checkbox value={tramite.autoridadesVencimiento}
-                onChange={e => {
-                  tramite.autoridadesVencimiento = !e.target.checked
-                  updateObjTramite()
-                  save()
-                }}>Declaro que la designación de autoridades  no tiene vencimiento.</Checkbox>
-
-</div> <div className="pb-6">
-             
-              {tramite.autoridadesVencimiento ? <div>
-                <DatePicker
-                  label="Fecha de Vencimiento"
-                  value={tramite.autoridadesFechaVencimiento}
-                  bindFunction={(value) => {
-                    tramite.autoridadesFechaVencimiento = value
-                    updateObjTramite()
+                <Switch
+                  value={tramite.autoridadesVencimiento}
+                  onChange={value => {
+                    tramite.autoridadesVencimiento = value
+                    setTramite(Object.assign({}, tramite))
                   }}
-                  labelRequired="*"
-                  placeholder="Inspeccion General de Justicia"
+                  label="Declaro que la designación de autoridades  no tiene vencimiento."
+                  labelRequired=""
+                  SwitchLabel1=""
+                  SwitchLabel2=""
                   labelObservation=""
                   labeltooltip=""
                   labelMessageError=""
-                /></div> : ""}
+                />
+
+
+              </div> <div className="pb-6">
+
+                {tramite.autoridadesVencimiento ? '' : <div>
+                  <DatePicker
+                    label="Fecha de Vencimiento"
+                    value={tramite.autoridadesFechaVencimiento}
+                    bindFunction={(value) => {
+                      tramite.autoridadesFechaVencimiento = value
+                      updateObjTramite()
+                    }}
+                    labelRequired="*"
+                    placeholder="Inspeccion General de Justicia"
+                    labelObservation=""
+                    labeltooltip=""
+                    labelMessageError=""
+                  /></div>}
+              </div>
             </div>
-            <div className="pb-6" >
-              <Upload
-                label="Ultima acta de designacion de autoridades inscripta en la Inspeccion General de Justicia o Registro Publico de comercio"
-                labelRequired="*"
-                labelMessageError=""
-                defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
-                onOnLoad={file => {
-                  if (!tramite.datosSocietarios.archivoAutoridades)
-                    tramite.datosSocietarios.archivoAutoridades = []
-                  tramite.datosSocietarios.archivoAutoridades.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={fileToRemove => {
-                  tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-              />
+            <div className="grid grid-cols-1 gap-4 ">
+              <div className="pb-6" >
+                <Upload
+                  label="Ultima acta de designacion de autoridades inscripta en la Inspeccion General de Justicia o Registro Publico de comercio"
+                  labelRequired="*"
+                  labelMessageError=""
+                  defaultValue={tramite.datosSocietarios.archivoAutoridades as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.archivoAutoridades)
+                      tramite.datosSocietarios.archivoAutoridades = []
+                    tramite.datosSocietarios.archivoAutoridades.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.archivoAutoridades = tramite.datosSocietarios.archivoAutoridades.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
+              </div>
             </div>
           </Wrapper>
           {tramite.autoridadesSociedad && tramite.autoridadesSociedad.length > 0 ?
@@ -2056,41 +2229,41 @@ export default () => {
         <div className="text-2xl font-bold"> Inscripción en I.E.R.I.C. (Instituto de Estadística y Registro de la Industria de la Construcción)</div>
         <div className="grid grid-cols-1 mb-4 mt-4  ">
           {isPersonaFisica(tramite) ?
-          <div className="">
-          <Switch
-          value={tramite.poseeIERIC}
-       onChange={value => {
-         tramite.poseeIERIC = value
-         setTramite(Object.assign({}, tramite))
-       }}
-       label="Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1."
-       labelRequired=""
-       SwitchLabel1=""
-       SwitchLabel2=""
-       labelObservation=""
-       labeltooltip=""
-       labelMessageError=""
-       /></div>
-            :  <div className="">
-               <Switch
-          value={tramite.poseeIERIC}
-       onChange={value => {
-         tramite.poseeIERIC = value
-         setTramite(Object.assign({}, tramite))
-       }}
-       label="Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b."
-       labelRequired=""
-       SwitchLabel1=""
-       SwitchLabel2=""
-       labelObservation=""
-       labeltooltip=""
-       labelMessageError=""
-       />
-       
+            <div className="">
+              <Switch
+                value={tramite.poseeIERIC}
+                onChange={value => {
+                  tramite.poseeIERIC = value
+                  setTramite(Object.assign({}, tramite))
+                }}
+                label="Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1."
+                labelRequired=""
+                SwitchLabel1=""
+                SwitchLabel2=""
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+              /></div>
+            : <div className="">
+              <Switch
+                value={tramite.poseeIERIC}
+                onChange={value => {
+                  tramite.poseeIERIC = value
+                  setTramite(Object.assign({}, tramite))
+                }}
+                label="Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b."
+                labelRequired=""
+                SwitchLabel1=""
+                SwitchLabel2=""
+                labelObservation=""
+                labeltooltip=""
+                labelMessageError=""
+              />
+
             </div>
           }
         </div>
-        {tramite.poseeIERIC ? '':<div className="grid grid-cols-3 gap-4 ">
+        {tramite.poseeIERIC ? '' : <div className="grid grid-cols-3 gap-4 ">
           <div>
             <Wrapper title="IERIC" attributeName="nroIeric" >
               <InputText
@@ -2154,7 +2327,7 @@ export default () => {
           </div>
 
 
-        </div> }
+        </div>}
       </div>
       <div className="mt-4">
         <Collapse accordion>
