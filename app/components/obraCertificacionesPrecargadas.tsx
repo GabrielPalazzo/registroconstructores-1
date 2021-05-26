@@ -242,7 +242,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
           label="Monto"
           step="any"
           labelRequired="*"
-
+className=""
           placeholder="000000,000 "
           value={monto}
           bindFunction={(val) => setMonto(parseFloat(val))}
