@@ -71,7 +71,7 @@ export default () => {
     <Menu>
       <Menu.Item>
         <div >
-          <a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores/normas-internas" target="_blank">
+          <a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores/normas-internas" target="_blank" style={{color:'#000'}}>
            Normativa e Instructivos
         </a>
         </div>
@@ -129,7 +129,7 @@ export default () => {
           onClick={async () => {
             await dispatch(setActionType(SET_TRAMITE_NUEVO))
             router.push('/informacion_basica')
-          }}>Nuevo trámite </Button>
+          }}>Nueva inscripción </Button>
       </div>
     </div>
     <div className="pb-10">
@@ -137,7 +137,7 @@ export default () => {
     </div>
     <div className="pb-4 text-center  border-gray-200 border-t-2" >
 
-     <div className="text-sm mt-2"> version: 1.22.18 </div> 
+     <div className="text-sm mt-2"> version: 1.22.19 </div> 
 
     </div>
 
