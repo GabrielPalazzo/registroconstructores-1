@@ -148,6 +148,7 @@ export default (props) => {
           <InputNumberModal
             label="% del capital"
             labelRequired="*"
+            className=""
             placeholder="Ingrese El porcentaje del Capital "
             step=".01"
             value={porcentajeCapital}
@@ -161,6 +162,7 @@ export default (props) => {
           <InputNumberModal
             label="Monto del capital"
             labelRequired="*"
+            className=""
             placeholder="Ingrese El porcentaje del Capital debe "
             step=".01"
             value={montoCapital}
@@ -173,6 +175,7 @@ export default (props) => {
           <InputNumberModal
             label="Cantidad de votos"
             labelRequired="*"
+            className=""
             placeholder="Ingrese El porcentaje del Capital debe "
             step=".01"
             value={cantidadVoto}
