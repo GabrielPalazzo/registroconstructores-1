@@ -31,6 +31,7 @@ interface Props {
   formatter?:any
   locked?: boolean
   isEditable?: boolean
+  className: string
 }
 
 export default (props: Props) => {
@@ -59,6 +60,7 @@ export default (props: Props) => {
         step={props.step}
         formatter={props.formatter}
         precision={2}
+        className={props.className}
     
       />
     </div>

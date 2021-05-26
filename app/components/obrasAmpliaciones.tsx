@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getCodigoObra, getEmptyTramiteAlta, getUsuario } from '../services/business'
+import { getCodigoObra, getEmptyTramiteAlta, getUsuario, isTramiteEditable } from '../services/business'
 import InputTextModal from './input_text_modal'
 import InputNumberModal from './input_number'
 import SelectModal from './select_modal'
@@ -11,6 +11,8 @@ import DatePickerModal from './datePicker_Modal'
 import { LinkToFile } from './linkToFile'
 import { RootState } from '../redux/store'
 import _ from 'lodash'
+
+import Wrapper from './wrapper'
 
 
 const { Option } = Select
@@ -194,8 +196,10 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     </Modal>
 
     <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
-
-      <div className="text-xl font-bold py-2 w-3/4">  Ampliaciones</div>
+    <Wrapper isTitle title="Ampliaciones" attributeName="ampliaciones" >
+      
+		
+      <div className="text-xl font-bold py-2 w-3/4">  </div>
       <div className="mb-4">
         <Alert message="En esta sección podrá cargar ampliaciones de contrato, adendas, economías, reducciones contractuales, etc." type="info" />
       </div>
@@ -220,6 +224,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
             type="number" step="any"
             labelRequired="*"
             labelMessageError=""
+            className=""
             value={monto}
             bindFunction={(val) => setMonto(parseFloat(val))}
             required />
@@ -253,9 +258,11 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         </div>
 
       </div>
+      {isTramiteEditable(tramite) ?
       <div className=" text-center">
         <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
-      </div>
+      </div>:''}
+      </Wrapper>
       <div className="mt-4 ">
         <Table
           columns={columnsAmpliaciones}

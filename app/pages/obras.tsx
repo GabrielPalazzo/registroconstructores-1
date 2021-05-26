@@ -220,7 +220,7 @@ export default () => {
 
             <div className="grid grid-cols-3 gap-4 ">
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
-              <div  >
+                <div  >
                   <Wrapper title="Especialidad" attributeName="especialidad" labelRequired="*">
 
                     <SelectSimple
@@ -282,7 +282,7 @@ export default () => {
 
               </div>
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
-              <div  >
+                <div  >
                   <Wrapper title="Especialidad" attributeName="especialidad2" labelRequired="*">
 
                     <SelectSimple
@@ -450,6 +450,7 @@ export default () => {
                   <Wrapper title="% de Participacion" attributeName="%PARTICIPACION" labelRequired="*">
 
                     <InputNumberModal
+                      className=""
                       label=""
                       labelRequired=""
                       min={0}
@@ -497,7 +498,7 @@ export default () => {
                   <Wrapper title="Monto inicial contrato" attributeName="montoInicial" labelRequired="*">
 
                     <InputNumberModal
-
+                      className=""
                       type="number"
                       label=""
                       labelRequired=""
@@ -564,6 +565,7 @@ export default () => {
                     type="number"
                     labelRequired=""
                     label=""
+                    className=""
                     min={0}
                     value={obra.plazoPorContrato}
                     bindFunction={e => {
@@ -576,27 +578,29 @@ export default () => {
                 </Wrapper>
               </div>
               <div className="pb-6 hidden" >
-                 <Wrapper  title="% de Participacion"  attributeName="% de Participacion" labelRequired="*">
+                <Wrapper title="% de Participacion" attributeName="% de Participacion" labelRequired="*">
 
-                    <InputNumberModal
-                      label=""
-                      labelRequired=""
-                      min={0}
-                      type="number"
-                      value={obra.participacionUTE}
-                      bindFunction={e => {
-                        obra.participacionUTE = e
-                        setObra(Object.assign({}, obra))
-                      }}
-                      labelMessageError=""
-                    />
-                  </Wrapper>
-                <Wrapper  title="Prorroga"  attributeName="Proroga" labelRequired="*">
+                  <InputNumberModal
+                    label=""
+                    className=""
+                    labelRequired=""
+                    min={0}
+                    type="number"
+                    value={obra.participacionUTE}
+                    bindFunction={e => {
+                      obra.participacionUTE = e
+                      setObra(Object.assign({}, obra))
+                    }}
+                    labelMessageError=""
+                  />
+                </Wrapper>
+                <Wrapper title="Prorroga" attributeName="Proroga" labelRequired="*">
 
                   <InputNumberModal
                     type="number"
                     labelRequired=""
                     label=""
+                    className="input-disabled"
 
                     value={obra.prorroga}
                     bindFunction={e => {
@@ -609,22 +613,21 @@ export default () => {
                 </Wrapper>
               </div>
               <div className="pb-6" >
-                <Wrapper  title="Prórroga"  attributeName="Proroga" labelRequired="*">
 
-                  <InputNumberModal
-                    label=""
-                    type="number"
-                    labelRequired=""
-                    value={obra.prorrogaNueva && obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0}
-                    bindFunction={e => {
-                      null
-                    }}
-                    labelMessageError=""
-                  />
-                </Wrapper>
+                <InputNumberModal
+                  label="Prorroga"
+                  type="number"
+                  labelRequired=""
+                  value={obra.prorrogaNueva && obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0}
+                  bindFunction={e => {
+                    null
+                  }}
+                  labelMessageError=""
+                  className="input-disabled"
+                />
               </div>
               <div className="pb-6" >
-                <Wrapper  title="Transcurrido"  attributeName="Transcurrido" labelRequired="*">
+                <Wrapper title="Transcurrido" attributeName="Transcurrido" labelRequired="*">
 
                   <InputNumberModal
                     type="number"
@@ -638,96 +641,104 @@ export default () => {
                       setObra(Object.assign({}, obra))
                     }}
                     labelMessageError=""
+                    className=""
+
                   />
                 </Wrapper>
               </div>
               <div className="pb-6" >
-                <Wrapper  title="Restante"  attributeName="Restante" labelRequired="*">
 
-                  <InputNumberModal
-                    label=""
-                    type="number"
-                    labelRequired=""
-                    disabled={true}
-                    min={0}
-                    step=".01"
-                    value={(obra.plazoPorContrato + (obra.prorrogaNueva && obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0)) - obra.transcurrido}
-                    bindFunction={e => null}
-                    labelMessageError=""
-                  />
-                </Wrapper>
+                <InputNumberModal
+                  label="Restante"
+                  type="number"
+                  labelRequired=""
+                  disabled={true}
+                  className="input-disabled"
+
+                  min={0}
+                  step=".01"
+                  value={(obra.plazoPorContrato + (obra.prorrogaNueva && obra.prorrogaNueva.length !== 0 ? obra.prorrogaNueva.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc) : 0)) - obra.transcurrido}
+                  bindFunction={e => null}
+                  labelMessageError=""
+                />
               </div>
             </div>
 
             <div className="rounded-lg px-4 py-2 mb-4  pt-4 pb-4 border">
-      
-            <div className="text-xl font-bold py-2 w-3/4"> Agregar nueva Prórroga</div>
-            <div className="grid grid-cols-4 gap-4 ">
-              <div className="pb-6" >
-                <DatePickerModal
-                  placeholder="Fecha  (dd/mm/yyyy)"
-                  label="Fecha "
-                  labelRequired="*"
-                  labelObservation=""
-                  labeltooltip=""
-                  labelMessageError=""
-                  value={prorrogaFecha}
+              <Wrapper title="Agregar nueva Prórroga " attributeName="nuevaProrroga" isTitle>
 
-                  bindFunction={(value) => { setProrrogaFecha(value) }}
-                />
-              </div>
-              <div className="pb-6" >
-                <InputNumberModal
-                  label="Meses"
-                  type="number" step="any"
-                  labelRequired="*"
+                <div className="grid grid-cols-4 gap-4 ">
+                  <div className="pb-6" >
+                    <DatePickerModal
+                      placeholder="Fecha  (dd/mm/yyyy)"
+                      label="Fecha "
+                      labelRequired="*"
+                      labelObservation=""
+                      labeltooltip=""
+                      labelMessageError=""
+                      value={prorrogaFecha}
 
-                  placeholder="000000,000 "
-                  value={prorrogaMeses}
-                  bindFunction={(value) => { setProrrogaMeses(value) }}
-                  labelMessageError=""
-                  required />
+                      bindFunction={(value) => { setProrrogaFecha(value) }}
+                    />
+                  </div>
+                  <div className="pb-6" >
+                    <InputNumberModal
+                      label="Meses"
+                      type="number" step="any"
+                      labelRequired="*"
+                      className=""
 
-              </div>
-              <div className="pb-6" >
-                <Upload
-                  label="Adjuntar Acta"
-                  labelRequired="*"
-                  defaultValue={archivosPlazos as any}
-                  onOnLoad={file => {
-                    archivosPlazos.push(file)
-                    setArchivosPlazos(Object.assign([], archivosPlazos))
-                  }}
-                  onRemove={fileToRemove => {
-                    setArchivosPlazos(Object.assign([], archivosPlazos.filter(f => f.cid !== fileToRemove.uid)))
-                  }}
+                      placeholder="000000,000 "
+                      value={prorrogaMeses}
+                      bindFunction={(value) => { setProrrogaMeses(value) }}
+                      labelMessageError=""
+                      required />
 
-                />
-              </div>
-              </div> <div className="grid grid-cols-1  ">
-              <div className="text-center ">
-                <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
-              </div>
+                  </div>
+                  <div className="pb-6" >
+                    <Upload
+                      label="Adjuntar Acta"
+                      labelRequired="*"
+                      defaultValue={archivosPlazos as any}
+                      onOnLoad={file => {
+                        archivosPlazos.push(file)
+                        setArchivosPlazos(Object.assign([], archivosPlazos))
+                      }}
+                      onRemove={fileToRemove => {
+                        setArchivosPlazos(Object.assign([], archivosPlazos.filter(f => f.cid !== fileToRemove.uid)))
+                      }}
+
+                    />
+                  </div>
+                </div>
+
+                {isTramiteEditable(tramite) ?
+                  <div className="grid grid-cols-1  ">
+                    <div className="text-center ">
+                      <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
+                    </div>
+
+                  </div>
+                  : ''}
+              </Wrapper>
+              <Table
+                columns={columnsPlazos}
+                dataSource={Object.assign([], obra.prorrogaNueva)}
+                locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }}
+                summary={pageData => {
+                  return <div>
+                    {pageData.length > 0 ? <div className="ml-4 font-semibold">
+                      <Table.Summary.Row>
+                        <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
+                        <Table.Summary.Cell index={1}>
+                          <div >{pageData.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc)}</div>
+                        </Table.Summary.Cell>
+                      </Table.Summary.Row>
+                    </div> : ''}
+                  </div>
+                }} />
 
             </div>
-            <Table
-              columns={columnsPlazos}
-              dataSource={Object.assign([], obra.prorrogaNueva)}
-              locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }}
-              summary={pageData => {
-                return <div>
-                  {pageData.length > 0 ? <div className="ml-4 font-semibold">
-                    <Table.Summary.Row>
-                      <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
-                      <Table.Summary.Cell index={1}>
-                        <div >{pageData.map(d => d.prorrogaMeses).reduce((val, acc) => acc = val + acc)}</div>
-                      </Table.Summary.Cell>
-                    </Table.Summary.Row>
-                  </div> : ''}
-                </div>
-              }} />
-
-          </div>
           </div>
         </TabPane>
       </Tabs>
@@ -947,7 +958,7 @@ export default () => {
     setModalObras(false)
   }
 
- return (<div>
+  return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
       router.push('/')
@@ -971,7 +982,7 @@ export default () => {
         </Wrapper>
 
 
-        
+
 
       </div>
       <div className="mb-4 mt-8">
@@ -1017,6 +1028,16 @@ export default () => {
 
       </div>
     </div>
+    <style>
+      {`
+      .input-disabled {
+        color: rgba(0, 0, 0, 0.25) !important;
+        background-color: #f5f5f5 !important;
+        cursor: not-allowed !important;
+        opacity: 1 !important;
+    }
+    `}
+      </style>
 
   </div>
   )

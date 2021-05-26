@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getCodigoObra, getEmptyTramiteAlta, getUsuario } from '../services/business'
+import { getCodigoObra, getEmptyTramiteAlta, getUsuario, isTramiteEditable } from '../services/business'
 import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import Upload from './upload'
@@ -12,6 +12,7 @@ import { LinkToFile } from './linkToFile'
 import _ from 'lodash'
 import { RootState } from '../redux/store'
 import numeral from 'numeral'
+import Wrapper from './wrapper'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -209,8 +210,10 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			<TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)}></TextArea>
 		</Modal>
 		<div className="rounded-lg px-4 py-2  pb-4 border mt-6">
-			<div className="text-xl font-bold py-2 w-3/4">  Redeterminaciones</div>
-			<div className="grid grid-cols-4 gap-4 ">
+		<Wrapper isTitle title="Redeterminaciones" attributeName="redeterminaciones" >
+      
+		
+			<div className="grid grid-cols-4 gap-4 mt-4 ">
 				<div className="pb-6" >
 					<DatePickerModal
 						placeholder="Fecha  (dd/mm/yyyy)"
@@ -231,6 +234,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 						type="number" step="any"
 						labelRequired="*"
 						labelMessageError=""
+						className=""
 						value={monto}
 						bindFunction={(val) => setMonto(parseFloat(val))}
 					/>
@@ -264,13 +268,14 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 					/>
 				</div>
 			</div>
+			{isTramiteEditable(tramite) ?
 			<div className="text-center ">
 
 				<div className=" ">
 					<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
 				</div>
-			</div>
-
+			</div>:''}
+</Wrapper>
 			<div className="mt-4 ">
 				<Table columns={columnsRedeterminaciones}
 					dataSource={Object.assign([], obra.redeterminaciones)}

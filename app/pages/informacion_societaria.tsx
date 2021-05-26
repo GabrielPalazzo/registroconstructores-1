@@ -2263,7 +2263,7 @@ export default () => {
             </div>
           }
         </div>
-        {tramite.poseeIERIC ?   <div className="grid grid-cols-3 gap-4 ">
+        {tramite.poseeIERIC ? <div className="grid grid-cols-3 gap-4 ">
           <div>
             <Wrapper title="IERIC" attributeName="nroIeric" >
               <InputText
@@ -2327,7 +2327,7 @@ export default () => {
           </div>
 
 
-        </div>: <div/>}
+        </div> : <div />}
       </div>
       <div className="mt-4">
         <Collapse accordion>
@@ -2426,7 +2426,9 @@ export default () => {
                   placeholder="000000 "
                   value={porcentajeCapital}
                   bindFunction={(value) => { setPorcentajeCapital(value) }}
+                  className=""
                   labelMessageError=""
+
                   required />
 
 
@@ -2440,6 +2442,7 @@ export default () => {
                   placeholder="000000,000 "
                   value={votos}
                   bindFunction={(value) => { setAVotos(value) }}
+                  className=""
 
                   labelMessageError=""
                   required />

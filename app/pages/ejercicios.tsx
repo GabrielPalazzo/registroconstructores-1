@@ -157,6 +157,8 @@ export default () => {
             label="Activo Corriente"
             labelRequired="*"
             min={0} step="any"
+className=""
+
             placeholder="000000,000 "
             value={activoCorriente}
             locked={modo === MODO.VIEW}
@@ -171,6 +173,7 @@ export default () => {
             label="Activo no Corriente"
             type="number" 
             labelRequired="*"
+className=""
             
             placeholder="000000,000 "
             min={0}
@@ -200,6 +203,8 @@ export default () => {
             type="number" step="any"
             labelRequired="*"
             min={0}
+className=""
+
             placeholder="000000,000 "
             locked={modo === MODO.VIEW}
             value={pasivoCorriente}
@@ -214,6 +219,8 @@ export default () => {
             label="Pasivo no Corriente"
             type="number" step="any"
             labelRequired="*"
+className=""
+
             placeholder="000000,000 "
             value={pasivoNoCorriente}
             locked={modo === MODO.VIEW}
@@ -241,6 +248,8 @@ export default () => {
             label="Ventas del ejercicio"
             type="number" step="any"
             labelRequired="*"
+className=""
+
             min={0}
             placeholder="000000,000 "
             value={ventasDelEjercicio}
@@ -255,6 +264,8 @@ export default () => {
           <InputNumberModal
            label={isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto'}
             type="number" step="any"
+className=""
+
             labelRequired="*"
             placeholder="000000,000 "
             min={0}
