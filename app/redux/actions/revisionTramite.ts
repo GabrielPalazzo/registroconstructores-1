@@ -30,12 +30,12 @@ export const InitRevisionTramite = () => async (dispatch, getState) => {
     tramite.revisiones = []
 
   else {
-    if (tramite.revisiones.filter(r => r.status === 'ABIERTA').length === 0) {
+    if (tramite.revisiones.filter(r => r && r.status === 'ABIERTA').length === 0) {
       tramite.revisiones.push(revision)
       saveTramiteService(tramite)
     }
     else
-      revision = _.last(tramite.revisiones.filter(r => r.status === 'ABIERTA'))
+      revision = _.last(tramite.revisiones.filter(r =>  r && r.status === 'ABIERTA'))
   }
 
   return dispatch({
