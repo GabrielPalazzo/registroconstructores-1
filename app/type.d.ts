@@ -64,7 +64,7 @@ type Redeterminaciones ={
   fecha:string
   descripcion:string
   archivos: Array<Archivo>
-  status?: null | 'APROBADA' | 'EN REVISION' | 'RECHAZADA'
+  status?: null | 'APROBADA' | 'EN REVISION' | 'OBSERVADA'
   observacionRegistro?:string
 }
 type AmpliacionesObras ={
@@ -73,7 +73,7 @@ type AmpliacionesObras ={
   fecha:string
   descripcion:string
   archivos: Array<Archivo>
-  status?: null | 'APROBADA' | 'EN REVISION' | 'RECHAZADA'
+  status?: null | 'APROBADA' | 'EN REVISION' | 'OBSERVADA'
   observacionRegistro?:string
 }
 type Certificaciones ={
@@ -101,7 +101,7 @@ type DDJJObra ={
   ampliaciones:Array<AmpliacionesObras>
   redeterminaciones: Array<Redeterminaciones>
   certificaciones: Array<{
-    status?: null | 'APROBADA' | 'EN REVISION' | 'RECHAZADA'
+    status?: null | 'APROBADA' | 'EN REVISION' | 'OBSERVADA'
     observacionRegistro?:string
     codigo: string,
     monto: number

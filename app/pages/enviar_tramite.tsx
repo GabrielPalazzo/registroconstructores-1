@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { NavigationStep } from '../components/steps'
 import { InputText } from '../components/input_text'
 import { HeaderPrincipal } from '../components/header'
-import { Button, Steps, Card, Result, Alert } from 'antd';
+import { Button, Steps, Card, Result, Alert, Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
 import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, sendTramite } from '../services/business';
@@ -50,7 +50,20 @@ export default () => {
 
   }, [])
 
- 
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const save = async () => {
     setWaitingType('sync')
@@ -93,14 +106,33 @@ export default () => {
             <div className="text-base font-bold text-primary-700 pb-2 "> ¿Desea confirmar el envío de su trámite?</div>
             <div className="text-muted-700 text-sm  mt-2 self-center"  > Puede revisar cada uno de los pasos haciendo click en los mismos</div>
           </Card>
+
+          <Modal title="ATENCIÓN" visible={isModalVisible}
+            footer={[
+              <Button onClick={() => handleCancel()}>Cancelar</Button>,
+              <Button disabled={!puedeEnviarTramimte} type="primary" onClick={() => {
+                setIsLoading(true)
+                sendTramite(tramite).then(result => {
+                  dispatch(saveTramite(result))
+                  router.push('/success')
+                })
+              }}> Confirmar Tramite</Button>
+             
+            ]
+
+            }
+          >
+            <p>Se recuerda que la información antes solicitada en los distintos formularios de este trámite, y lo consignado por el interesado y/o sus representantes, revisten carácter de Declaración Jurada. Dichos formularios deberán ser completados según lo establecido por Disposición DI-2021-3-APN-ONC#JGM, y ante cualquier faltante u omisión se aplicará lo allí dispuesto, pudiendo cierta información no ser subsanable.
+            Normativa e instructivos:
+<a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores" target="_blank">https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores</a>
+            </p>
+            <p>
+              La confirmación y envío del trámite presume que el interesado y/o sus representantes se han informado y sus declaraciones juradas cumplen con lo dispuesto en el reglamento mencionado
+</p>
+
+          </Modal>
           <div className="mt-6 pt-4 text-center">
-            <Button disabled={!puedeEnviarTramimte} type="primary" onClick={() => {
-              setIsLoading(true)
-              sendTramite(tramite).then(result => {
-                dispatch(saveTramite(result))
-                router.push('/success')
-              })
-            }}> Enviar Tramite</Button>
+            <Button disabled={!puedeEnviarTramimte} type="primary" onClick={showModal}> Confirmar Tramite</Button>
           </div>
         </div>
         :
@@ -151,8 +183,8 @@ export default () => {
   }
 
   const EnviarBackOffice = () => {
-   const reviewAbierta =   revisionTramite.revision &&  revisionTramite.revision.reviews.filter(r=> !r.isOk)
-   
+    const reviewAbierta = revisionTramite.revision && revisionTramite.revision.reviews.filter(r => !r.isOk)
+
     return <div className="px-20 py-6 text-center m-auto mt-6">
 
 
@@ -171,7 +203,7 @@ export default () => {
       }
       <Card className="rounded mr-2 text-center m-autop" style={{ width: 500, margin: 'auto' }}>
         <div className="text-base font-bold text-primary-700 pb-2 "> ¿Desea continuar con el tratamiento de su tramite?</div>
-        <div className="text-muted-700 text-sm  mt-2 self-center"  >{!_.isEmpty(reviewAbierta)? 'Este tramite será enviando directamente al remitente ya que contiene las siguientes observaciones ' : getUsuario().isAprobador ? 'Este tramite está en condiciones de ser aprobado. Si está de acuerdo pulse Enviar Tramite' : 'Este tramite será enviado al siguiente nivel de supervisión'}</div>
+        <div className="text-muted-700 text-sm  mt-2 self-center"  >{!_.isEmpty(reviewAbierta) ? 'Este tramite será enviando directamente al remitente ya que contiene las siguientes observaciones ' : getUsuario().isAprobador ? 'Este tramite está en condiciones de ser aprobado. Si está de acuerdo pulse Enviar Tramite' : 'Este tramite será enviado al siguiente nivel de supervisión'}</div>
         {
           reviewAbierta &&
           <div className="text-left pt-4 ">
@@ -188,7 +220,7 @@ export default () => {
             dispatch(saveTramite(result))
             router.push('/')
           })
-        }}> Enviar Tramite</Button>
+        }}>Confirmar trámite</Button>
       </div>
     </div>
   }

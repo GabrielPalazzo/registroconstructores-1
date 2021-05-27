@@ -97,7 +97,7 @@ export const NavigationStep: React.FC<NavigationStepProps> = ({
         }} />
 
       <Step
-        title="Enviar trámite"
+        title="Finalizar trámite"
         status={generalStatus[4]}
         className="cursor-pointer"
         onClick={() => {

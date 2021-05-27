@@ -91,7 +91,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     {
       title: '',
       key: 'evaluacion',
-      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
+      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'OBSERVADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
 
     },
     {
@@ -204,7 +204,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
         obra.certificaciones[idx] = {
           ...obra.certificaciones[idx],
-          status: 'RECHAZADA',
+          status: 'OBSERVADA',
           observacionRegistro: motivoRechazo
         }
         setShowMotivoRechazo(false)
@@ -218,7 +218,6 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     </Modal>
     <Wrapper isTitle title="Certificaciones" attributeName="certificaciones" >
      
-    <div className="text-xl font-bold py-2 w-3/4">  Certificaciones</div>
     <div className="mb-4">
       <Alert message="“En esta sección podrá cargar cada certificado de la obra, y deberá hacerlo una vez se encuentre facturado, y de forma mensual. Indicar período de facturación (MM/AAAA), monto facturado en ese mes, una breve descripción sobre que es lo que compone este período, y la documental que sustente esta carga. Deberá adjuntar el certificado junto con su factura. En caso de que la cantidad de facturas emitidas al mes sea muy considerable, podrá presentar una certificación contable del libro IVA Ventas, indicando fecha, número de comprobante emitido, importe de la factura, y total mes a mes.”" type="info" />
     </div>

@@ -89,7 +89,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     {
       title: '',
       key: 'evaluacion',
-      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
+      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'OBSERVADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
     },
     {
       title: 'Eliminar',
@@ -182,7 +182,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
 
         obra.ampliaciones[idx] = {
           ...obra.ampliaciones[idx],
-          status: 'RECHAZADA',
+          status: 'OBSERVADA',
           observacionRegistro: motivoRechazo
         }
         setShowMotivoRechazo(false)

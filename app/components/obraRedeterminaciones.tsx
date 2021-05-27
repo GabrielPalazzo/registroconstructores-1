@@ -71,7 +71,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 
 				}} style={{ width: 150 }} >
 				<Option key='APROBADA' value='APROBADA'>APROBADA</Option>
-				<Option key='OBSERRVADA' value='OBSERVADA'>OBSERVADA</Option>
+				<Option key='OBSERVADA' value='OBSERVADA'>OBSERVADA</Option>
 				{/*  <Option key='DESESTIMADA' value='DESESTIMADA'>DESESTIMADA</Option>*/}
 			</Select>
 		</div>
@@ -87,7 +87,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		{
 			title: '',
 			key: 'evaluacion',
-			render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'RECHAZADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
+			render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'OBSERVADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
 		},
 		{
 			title: 'Eliminar',
@@ -197,7 +197,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 
 				obra.redeterminaciones[idx] = {
 					...obra.redeterminaciones[idx],
-					status: 'RECHAZADA',
+					status: 'OBSERVADA',
 					observacionRegistro: motivoRechazo
 				}
 				setShowMotivoRechazo(false)
