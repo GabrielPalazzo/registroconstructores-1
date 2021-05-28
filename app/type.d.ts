@@ -142,6 +142,10 @@ type DDJJObra ={
   subEspecialidad3:Array<string>
   subespecialidades:string
   subEspecialidades3Otros:string
+  observacionesDelRegistro?: { //TODO MARIA
+    denominacion: string
+    ubicacionGeografica: string
+  }
   
 }
 
