@@ -32,6 +32,7 @@ import { LinkToFile } from '../components/linkToFile';
 import _ from 'lodash'
 import { RootState } from '../redux/store';
 import wrapper from '../components/wrapper';
+import WrapperObras from '../components/wrapperObras'
 
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -56,7 +57,6 @@ const MODO = {
 
 
 export default () => {
-
   const [modalObras, setModalObras] = useState(false)
   const [scroll, setScroll] = useState(undefined)
 
@@ -191,9 +191,11 @@ export default () => {
             <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
             <div className="grid grid-cols-2 gap-4 ">
               <div className="pb-6" >
-                <Wrapper attributeName="Ubicacion" title="Ubicacion" labelRequired="*">
+             
                   <InputText
-                    attributeName='Ubicacion'
+                  attributeName=''
+                  label="ubicacion"
+                  labelRequired="*"
                     value={ubicacionText}
                     bindFunction={setUbicacionText}
                     placeHolder="Ubicacion"
@@ -202,7 +204,6 @@ export default () => {
                     labelMessageError=""
                     required
                   />
-                </Wrapper>
               </div>
               <div className="mt-8 ">
                 <Button onClick={agregarUbicacion} type="primary" icon={<PlusOutlined />}> Agregar</Button>
@@ -221,8 +222,8 @@ export default () => {
             <div className="grid grid-cols-3 gap-4 ">
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
-                  <Wrapper title="Especialidad" attributeName="especialidad" labelRequired="*">
-
+                <WrapperObras title="Especialidad" obra={obra}  field='especialidad1' onChange ={onChange}>
+     
                     <SelectSimple
                       value={obra.especialidad1}
                       bindFunction={e => {
@@ -235,7 +236,7 @@ export default () => {
                       option={tipoEspecialidad.map(u => (
                         <Option value={u.value}>{u.label}</Option>
                       ))} />
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
                 <div className="pt-2" >
                   <Wrapper title="Seleccione  (3) SubEspecialidad" attributeName="subespecialidad1" labelRequired="*">
