@@ -197,12 +197,14 @@ export default () => {
           <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
             <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
             <div className="grid grid-cols-2 gap-4 ">
+            <WrapperObras title="Ubicacion " obra={obra}  field='ubicacion' onChange ={o => updateObra(o)} labelRequired="*">
+     
               <div className="pb-6" >
              
                   <InputText
                   attributeName=''
-                  label="ubicacion"
-                  labelRequired="*"
+                  label=""
+                  labelRequired=""
                     value={ubicacionText}
                     bindFunction={setUbicacionText}
                     placeHolder="Ubicacion"
@@ -215,6 +217,7 @@ export default () => {
               <div className="mt-8 ">
                 <Button onClick={agregarUbicacion} type="primary" icon={<PlusOutlined />}> Agregar</Button>
               </div>
+              </WrapperObras>
             </div>
 
             <div className="mt-4 ">
@@ -229,7 +232,7 @@ export default () => {
             <div className="grid grid-cols-3 gap-4 ">
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
-                <WrapperObras title="Especialidad" obra={obra}  field='especialidad1' onChange ={o => updateObra(o)}>
+                <WrapperObras title="Especialidad" obra={obra}  field='especialidad1' onChange ={o => updateObra(o)} labelRequired="*">
      
                     <SelectSimple
                       value={obra.especialidad1}
@@ -246,8 +249,8 @@ export default () => {
                   </WrapperObras>
                 </div>
                 <div className="pt-2" >
-                  <Wrapper title="Seleccione  (3) SubEspecialidad" attributeName="subespecialidad1" labelRequired="*" onChange ={save}>
-
+                <WrapperObras title="Seleccione  (3) SubEspecialidad" obra={obra}  field='subEspecialidad1' onChange ={o => updateObra(o)} labelRequired="*">
+     
                     <SelectMultiple
                       value={obra.subEspecialidad1}
                       bindFunction={e => {
@@ -266,12 +269,12 @@ export default () => {
                       ))
 
                       } />
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
                 <div className="pb-6" >
 
-                  <Wrapper attributeName="Otros" title="Otros" labelRequired="*" onChange ={save}>
-                    <InputText
+                <WrapperObras title="Otros" obra={obra}  field='subEspecialidades1Otros' onChange ={o => updateObra(o)} labelRequired="*">
+         <InputText
                       attributeName='Otros'
                       labelRequired=""
                       value={obra.subEspecialidades1Otros}
@@ -285,14 +288,15 @@ export default () => {
                       labelObservation=""
                       labeltooltip=""
                       required />
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
 
               </div>
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
-                  <Wrapper title="Especialidad" attributeName="especialidad2" labelRequired="*" onChange ={async() =>{updateObjTramite(); save()}}>
-
+                <WrapperObras title="Especialidad" obra={obra}  field='especialidad2' onChange ={o => updateObra(o)} labelRequired="*">
+     
+          
                     <SelectSimple
                       value={obra.especialidad2}
                       bindFunction={e => {
@@ -306,11 +310,11 @@ export default () => {
                       option={tipoEspecialidad.map(u => (
                         <Option value={u.value}>{u.label}</Option>
                       ))} />
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
                 <div className="pt-2" >
-                  <Wrapper title="Seleccione  (3) SubEspecialidad" attributeName="subespecialidad2" labelRequired="*">
-
+                <WrapperObras title="Seleccione  (3) SubEspecialidad" obra={obra}  field='subEspecialidad2' onChange ={o => updateObra(o)} labelRequired="*">
+     
                     <SelectMultiple
 
                       value={obra.subEspecialidad2}
@@ -330,12 +334,12 @@ export default () => {
                       ))
 
                       } />
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
                 <div className="pb-6" >
-
-                  <Wrapper attributeName="Otros2" title="Otros" labelRequired="*">
-                    <InputText
+                <WrapperObras title="Otros" obra={obra}  field='Otros2' onChange ={o => updateObra(o)} labelRequired="*">
+     
+                  <InputText
                       attributeName='Otros2'
 
                       labelRequired=""
@@ -351,14 +355,14 @@ export default () => {
                       labelObservation=""
                       labeltooltip=""
                       required />
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
 
               </div>
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
-                  <Wrapper title="Especialidad" attributeName="especialidad3" labelRequired="*">
-
+                <WrapperObras title="Especialidad" obra={obra}  field='especialidad3' onChange ={o => updateObra(o)} labelRequired="">
+     
                     <SelectSimple
                       value={obra.especialidad3}
                       bindFunction={e => {
@@ -372,11 +376,12 @@ export default () => {
                       option={tipoEspecialidad.map(u => (
                         <Option value={u.value}>{u.label}</Option>
                       ))} />
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
                 <div className="pt-2" >
-                  <Wrapper title="Seleccione (3) SubEspecialidad" attributeName="subespecialidad3" labelRequired="*">
 
+                <WrapperObras title="Seleccione (3) SubEspecialidad" obra={obra}  field='subEspecialidad3' onChange ={o => updateObra(o)} labelRequired="">
+     
                     <SelectMultiple
 
                       value={obra.subEspecialidad3}
@@ -397,11 +402,13 @@ export default () => {
 
                       } />
 
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
-                <div className="pb-6" >
-                  <Wrapper attributeName="Otros3" title="Otros" labelRequired="*">
-                    <InputText
+                <div className="pb-6" 
+                >
+                   <WrapperObras title="Otros" obra={obra}  field='Otros3' onChange ={o => updateObra(o)} labelRequired="">
+     
+                   <InputText
                       attributeName='Otros3'
                       label=""
                       labelRequired=""
@@ -416,7 +423,7 @@ export default () => {
                       labelObservation=""
                       labeltooltip=""
                       required />
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
 
               </div>
@@ -425,9 +432,10 @@ export default () => {
             <div className="grid grid-cols-2 gap-4 ">
 
               <div className="pb-6" >
-                <Wrapper attributeName="razonSocialUTE" title="Razón Social de la UTE" labelRequired="*">
-                  <InputText
-                    attributeName='razonSocialUTE'
+              <WrapperObras title="Razón Social de la UTE" obra={obra}  field='razonSocialUTE' onChange ={o => updateObra(o)} labelRequired="*">
+     
+                 <InputText
+                    attributeName=''
 
                     labelRequired=""
                     value={obra.razonSocialUTE}
@@ -437,13 +445,14 @@ export default () => {
                     }}
                     labelMessageError=""
                   />
-                </Wrapper>
+                </WrapperObras>
               </div>
               <div className="grid grid-cols-2 gap-4 ">
                 <div className="pb-6" >
-                  <Wrapper attributeName="CuitlUTE" title="CUIT de la UTE" labelRequired="*">
-                    <InputText
-                      attributeName='CuitUTE'
+                <WrapperObras title="CUIT de la UTE" obra={obra}  field='cuitUTE' onChange ={o => updateObra(o)} labelRequired="*">
+     
+                  <InputText
+                      attributeName=''
                       labelRequired=""
                       value={obra.cuitUTE}
                       bindFunction={e => {
@@ -452,11 +461,11 @@ export default () => {
                       }}
                       labelMessageError=""
                     />
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
                 <div className="pb-6" >
-                  <Wrapper title="% de Participacion" attributeName="%PARTICIPACION" labelRequired="*">
-
+                <WrapperObras title="% de Participacion" obra={obra}  field='participacionUTE' onChange ={o => updateObra(o)} labelRequired="*">
+     
                     <InputNumberModal
                       className=""
                       label=""
@@ -470,13 +479,13 @@ export default () => {
                       }}
                       labelMessageError=""
                     />
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
               </div>
               <div className="pb-6" >
-                <Wrapper attributeName="razonSocialComitente" title="Razón Social Comitente" labelRequired="*">
-                  <InputText
-                    attributeName='razonSocialComitente'
+              <WrapperObras title="Razón Social Comitente" obra={obra}  field='razonSocialComitente' onChange ={o => updateObra(o)} labelRequired="*">
+      <InputText
+                    attributeName=''
                     labelRequired=""
                     value={obra.razonSocialComitente}
                     bindFunction={e => {
@@ -485,11 +494,12 @@ export default () => {
                     }}
                     labelMessageError=""
                   />
-                </Wrapper>
+                </WrapperObras>
               </div>
               <div className="grid grid-cols-2 gap-4 ">
                 <div className="pb-6" >
-                  <Wrapper attributeName="cuitComitente" title="CUIT comitente" labelRequired="*">
+                <WrapperObras title="CUIT comitente" obra={obra}  field='cuitComitente' onChange ={o => updateObra(o)} labelRequired="*">
+     
                     <InputText
                       attributeName='cuitComitente'
                       labelRequired=""
@@ -500,11 +510,12 @@ export default () => {
                       }}
                       labelMessageError=""
                     />
-                  </Wrapper>
+                  </WrapperObras>
                 </div>
                 <div className="pb-6" >
-                  <Wrapper title="Monto inicial contrato" attributeName="montoInicial" labelRequired="*">
-
+                <WrapperObras title="Monto inicial contrato" obra={obra}  field='montoInicial' onChange ={o => updateObra(o)} labelRequired="*">
+     
+                 
                     <InputNumberModal
                       className=""
                       type="number"
@@ -519,7 +530,7 @@ export default () => {
                       }}
                       labelMessageError=""
                       required />
-                  </Wrapper>
+                  </WrapperObras>
 
                 </div>
               </div>
