@@ -3,12 +3,12 @@ import { useRouter } from 'next/router'
 import { NavigationStep } from '../components/steps'
 import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
-import  InputNumberModal  from '../components/input_number'
+import InputNumberModal from '../components/input_number'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert,Empty,ConfigProvider,message,Popconfirm, Statistic} from 'antd';
-import { PlusOutlined, DeleteOutlined,EditOutlined, CloudDownloadOutlined, FolderViewOutlined} from '@ant-design/icons';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert, Empty, ConfigProvider, message, Popconfirm, Statistic } from 'antd';
+import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined, FolderViewOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
@@ -72,11 +72,11 @@ export default () => {
   const [pasivoNoCorriente, setPasivoNoCorriente] = useState(0)
   const [ventasDelEjercicio, setVentasDelEjercicio] = useState(0)
   const [capitalSuscripto, setCapitalSuscripto] = useState(0)
-  const [archivos,setArchivos] = useState<Array<Archivo>>([])
-  const [archivosActaAsamblea,setArchivosActaAsamblea] = useState<Array<Archivo>>([])
+  const [archivos, setArchivos] = useState<Array<Archivo>>([])
+  const [archivosActaAsamblea, setArchivosActaAsamblea] = useState<Array<Archivo>>([])
   const [error, setError] = useState(null)
   const [modo, setModo] = useState(MODO.NEW)
- const [showError, setShowError] = useState(false)
+  const [showError, setShowError] = useState(false)
 
 
 
@@ -105,7 +105,7 @@ export default () => {
   function callback(key) {
     console.log(key);
   }
-  
+
 
   function onChange(pagination, filters, sorter, extra) {
     console.log('params', pagination, filters, sorter, extra);
@@ -114,7 +114,7 @@ export default () => {
 
   const renderModalEjercicios = () => {
     return (<div>
-     
+
       {error ? <div className="mb-4">
         <Alert
           message=''
@@ -153,11 +153,11 @@ export default () => {
 
         <div className="pb-6" >
           <InputNumberModal
-            type="number" 
+            type="number"
             label="Activo Corriente"
             labelRequired="*"
             min={0} step="any"
-className=""
+            className=""
 
             placeholder="000000,000 "
             value={activoCorriente}
@@ -171,10 +171,10 @@ className=""
         <div className="pb-6" >
           <InputNumberModal
             label="Activo no Corriente"
-            type="number" 
+            type="number"
             labelRequired="*"
-className=""
-            
+            className=""
+
             placeholder="000000,000 "
             min={0}
             step="any"
@@ -198,12 +198,12 @@ className=""
 
         </div>
         <div className="pb-6" >
-        <InputNumberModal
+          <InputNumberModal
             label="Pasivo Corriente"
             type="number" step="any"
             labelRequired="*"
             min={0}
-className=""
+            className=""
 
             placeholder="000000,000 "
             locked={modo === MODO.VIEW}
@@ -215,11 +215,11 @@ className=""
         </div>
 
         <div className="pb-6" >
-        <InputNumberModal
+          <InputNumberModal
             label="Pasivo no Corriente"
             type="number" step="any"
             labelRequired="*"
-className=""
+            className=""
 
             placeholder="000000,000 "
             value={pasivoNoCorriente}
@@ -231,7 +231,7 @@ className=""
 
         </div>
         <div className="pb-6" >
-        
+
           <InputTextModal
             label="Pasivo Total"
             type="number" step="any"
@@ -240,15 +240,15 @@ className=""
             bindFunction={() => null}
             value={pasivoNoCorriente + pasivoCorriente}
             labelMessageError=""
-            disabled={true}/>
+            disabled={true} />
 
         </div>
-        <div className="pb-6" > 
+        <div className="pb-6" >
           <InputNumberModal
             label="Ventas del ejercicio"
             type="number" step="any"
             labelRequired="*"
-className=""
+            className=""
 
             min={0}
             placeholder="000000,000 "
@@ -262,9 +262,9 @@ className=""
 
         <div className="pb-6" >
           <InputNumberModal
-           label={isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto'}
+            label={isPersonaFisica(tramite) ? 'Caja y Bancos' : 'Capital suscripto'}
             type="number" step="any"
-className=""
+            className=""
 
             labelRequired="*"
             placeholder="000000,000 "
@@ -277,7 +277,7 @@ className=""
 
         </div>
         <div className="pb-6" >
-        <InputTextModal
+          <InputTextModal
             label="Patrimonio Neto"
             placeholder="000000,000 "
             type="number" step="any"
@@ -286,8 +286,8 @@ className=""
             value={(activoNoCorriente + activoCorriente) - (pasivoCorriente + pasivoNoCorriente)}
             labelMessageError=""
             disabled={true}
-             />
-             
+          />
+
 
 
         </div>
@@ -295,45 +295,45 @@ className=""
           <Upload
             label="Adjunte el balance contable  "
             labelRequired="*"
-           
+
             labelMessageError=""
             defaultValue={archivos as any}
 
-            
+
             onOnLoad={file => {
               archivos.push(file)
-              setArchivos(Object.assign([],archivos))
+              setArchivos(Object.assign([], archivos))
               save()
               setIsLoading(false)
             }}
             onRemove={fileToRemove => {
-              setArchivos(Object.assign([],archivos.filter(f => f.cid!==fileToRemove.uid)))
+              setArchivos(Object.assign([], archivos.filter(f => f.cid !== fileToRemove.uid)))
             }}
           />
         </div>
-        {(tramite.personeria === 'SA' ||  tramite.personeria === 'Cooperativa' || tramite.personeria === 'SRL') ?  
-        <div className="pb-6" >
-          <Upload
-            label="Acta  asamblea de aprobación del balance  "
-            labelRequired="*"
-           
-            labelMessageError=""
-            defaultValue={archivosActaAsamblea as any}
-            onOnLoad={file => {
-              archivosActaAsamblea.push(file)
-              setArchivosActaAsamblea(Object.assign([],archivosActaAsamblea))
-            }}
-            onRemove={fileToRemove => {
-              setArchivosActaAsamblea(Object.assign([],archivosActaAsamblea.filter(f => f.cid!==fileToRemove.uid)))
-            }}
+        {(tramite.personeria === 'SA' || tramite.personeria === 'Cooperativa' || tramite.personeria === 'SRL') ?
+          <div className="pb-6" >
+            <Upload
+              label="Acta  asamblea de aprobación del balance  "
+              labelRequired="*"
 
-           
-					
-          />
-        </div>:''}
+              labelMessageError=""
+              defaultValue={archivosActaAsamblea as any}
+              onOnLoad={file => {
+                archivosActaAsamblea.push(file)
+                setArchivosActaAsamblea(Object.assign([], archivosActaAsamblea))
+              }}
+              onRemove={fileToRemove => {
+                setArchivosActaAsamblea(Object.assign([], archivosActaAsamblea.filter(f => f.cid !== fileToRemove.uid)))
+              }}
+
+
+
+            />
+          </div> : ''}
 
       </div>
-    </div> )
+    </div>)
   }
 
   const renderNoData = () => {
@@ -351,7 +351,7 @@ className=""
     </div>)
   }
 
-  const cargarEjercicio = (r : Ejercicio) => {
+  const cargarEjercicio = (r: Ejercicio) => {
     setIdBalance(JSON.stringify(r))
     setActivoCorriente(r.activoCorriente)
     setActivoNoCorriente(r.activoNoCorriente)
@@ -371,38 +371,38 @@ className=""
       title: 'Eliminar',
       key: 'action',
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' ? <Popconfirm
-      title="Esta seguro que lo  desea Eliminar ?"
-      onConfirm={() =>  eliminarEjercicio(record)}
-      onCancel={cancel}
-      okText="Si, Eliminar"
-      cancelText="Cancelar"
-    > <div className="cursor=pointer" ><DeleteOutlined /></div></Popconfirm>: <Space size="middle">
+        title="Esta seguro que lo  desea Eliminar ?"
+        onConfirm={() => eliminarEjercicio(record)}
+        onCancel={cancel}
+        okText="Si, Eliminar"
+        cancelText="Cancelar"
+      > <div className="cursor=pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
 
       </Space>),
     },
     {
       title: 'Editar',
       key: 'editar',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' ?  <div onClick={() => {
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' ? <div onClick={() => {
         cargarEjercicio(record)
         setModo(MODO.EDIT)
         setModalEjercicios(true)
-      }}><EditOutlined /></div>:  <Space size="middle" />)
-    },{
+      }}><EditOutlined /></div> : <Space size="middle" />)
+    }, {
       title: 'View',
-      key:'view',
-      render: (text,record) => <div onClick={() => {
+      key: 'view',
+      render: (text, record) => <div onClick={() => {
         cargarEjercicio(record)
         setModo(MODO.VIEW)
         setModalEjercicios(true)
-        
+
       }}><FolderViewOutlined /></div>
     },
     {
       title: 'Inicio de ejercicio',
       dataIndex: 'fechaInicio',
       key: 'fechaInicio',
-      
+
     },
     {
       title: 'Cierre de ejercicio',
@@ -413,32 +413,32 @@ className=""
     },
     {
       title: 'Activo Corriente',
-      render: (text,record: Ejercicio)=><div>{numeral(record.activoCorriente).format('$0,0.00')}</div>,
+      render: (text, record: Ejercicio) => <div>{numeral(record.activoCorriente).format('$0,0.00')}</div>,
       key: 'activoCorriente',
       sorter: (a, b) => a.activoCorriente - b.activoCorriente,
     },
     {
       title: 'Activo No Corriente',
-      render: (text,record: Ejercicio)=><div>{numeral(record.activoNoCorriente ).format('$0,0.00')}</div>,
+      render: (text, record: Ejercicio) => <div>{numeral(record.activoNoCorriente).format('$0,0.00')}</div>,
       key: 'activoNoCorriente',
       sorter: (a, b) => a.activoNoCorriente - b.activoNoCorriente,
     },
 
     {
       title: 'Pasivo Corriente',
-      render: (text,record: Ejercicio)=><div>{numeral(record.pasivoCorriente).format('$0,0.00')}</div>,
+      render: (text, record: Ejercicio) => <div>{numeral(record.pasivoCorriente).format('$0,0.00')}</div>,
       key: 'pasivoCorriente',
       sorter: (a, b) => a.pasivoCorriente - b.pasivoCorriente,
     },
     {
       title: 'Pasivo No corriente',
-      render: (text,record: Ejercicio)=><div>{numeral(record.pasivoNoCorriente ).format('$0,0.00')}</div>,
+      render: (text, record: Ejercicio) => <div>{numeral(record.pasivoNoCorriente).format('$0,0.00')}</div>,
       key: 'pasivoNoCorriente',
       sorter: (a, b) => a.pasivoNoCorriente - b.pasivoNoCorriente,
     },
     {
       title: 'Ventas del ejercicio',
-      render: (text,record: Ejercicio)=><div>{numeral(record.ventasEjercicio).format('$0,0.00')}</div>,
+      render: (text, record: Ejercicio) => <div>{numeral(record.ventasEjercicio).format('$0,0.00')}</div>,
       key: 'ventasDelEjercicio',
       sorter: (a, b) => a.ventasEjercicio - b.ventasEjercicio,
     },
@@ -449,21 +449,21 @@ className=""
       sorter: (a, b) => a.capitalSuscripto - b.capitalSuscripto,
     },
     {
-			title: 'Adjunto',
-			render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)}  {record.archivosActaAsamblea && record.archivosActaAsamblea.map(f => <LinkToFile fileName={f.name} id={f.cid} />)}</div>,
-			key: 'adjunto',
-		}
+      title: 'Adjunto',
+      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)}  {record.archivosActaAsamblea && record.archivosActaAsamblea.map(f => <LinkToFile fileName={f.name} id={f.cid} />)}</div>,
+      key: 'adjunto',
+    }
   ]
 
 
   if (isTramiteEditable(tramite)) {
-    if (tramite.categoria==='DESACTUALIZADO')
-      columnsBalances = columnsBalances.slice(1,columnsBalances.length)
+    if (tramite.categoria === 'DESACTUALIZADO')
+      columnsBalances = columnsBalances.slice(1, columnsBalances.length)
   } else {
-    columnsBalances = columnsBalances.slice(2,columnsBalances.length)
+    columnsBalances = columnsBalances.slice(2, columnsBalances.length)
   }
-  
-  
+
+
 
 
 
@@ -475,17 +475,17 @@ className=""
     save()
   }
 
-  
+
 
   const guardarEjercicio = async (e) => {
 
-    if (modo===MODO.VIEW){
+    if (modo === MODO.VIEW) {
       setModalEjercicios(false)
       clearState()
       return
     }
-    
-  
+
+
     if (!tramite.ejercicios)
       tramite.ejercicios = []
 
@@ -530,23 +530,23 @@ className=""
       return
     }
     if (_.isEmpty(archivos)) {
-			setError('El balance contable es requerido')
-			setShowError(true)
-			return
-		}
-    
-    if ((tramite.personeria === 'SA' || tramite.personeria === 'PJESP'|| tramite.personeria === 'Cooperativa') && (_.isEmpty(archivosActaAsamblea))) {
-			setError('El acta  es requerido')
-			setShowError(true)
-			return
-		}
-    
+      setError('El balance contable es requerido')
+      setShowError(true)
+      return
+    }
+
+    if ((tramite.personeria === 'SA' || tramite.personeria === 'PJESP' || tramite.personeria === 'Cooperativa') && (_.isEmpty(archivosActaAsamblea))) {
+      setError('El acta  es requerido')
+      setShowError(true)
+      return
+    }
 
 
-    
-    
-    if (MODO.EDIT){
-      tramite.ejercicios = tramite.ejercicios.filter( e => JSON.stringify(e)!== idBalance)
+
+
+
+    if (MODO.EDIT) {
+      tramite.ejercicios = tramite.ejercicios.filter(e => JSON.stringify(e) !== idBalance)
     }
 
 
@@ -562,7 +562,7 @@ className=""
       archivos,
       archivosActaAsamblea
     })
-    
+
     setArchivos([])
     setArchivosActaAsamblea([])
     setCierreEjercicio(null)
@@ -571,7 +571,7 @@ className=""
     await save()
     setModalEjercicios(false)
     clearState()
-    
+
   }
 
   const clearState = () => {
@@ -593,21 +593,21 @@ className=""
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 px-10">
-      <NavigationStep generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} current={2}  />
+      <NavigationStep generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} current={2} />
     </div>
     <div className="px-8 mx-8 py-6 ">
       <div className="flex  content-center  ">
-      <Wrapper title="Ejercicios" attributeName="ejercicios" isTitle>
-        <div className=" text-right content-center mb-4 -mt-8">
-          {isTramiteEditable(tramite) ?<Button type="primary" onClick={() => {
-            setModalEjercicios(true)
-            clearState()
-            setModo(MODO.NEW)
-          }} icon={<PlusOutlined />}> Agregar</Button> : '' }
-        </div>
-       
+        <Wrapper title="Ejercicios" attributeName="ejercicios" isTitle>
+          <div className=" text-right content-center mb-4 -mt-8">
+            {isTramiteEditable(tramite) ? <Button type="primary" onClick={() => {
+              setModalEjercicios(true)
+              clearState()
+              setModo(MODO.NEW)
+            }} icon={<PlusOutlined />}> Agregar</Button> : ''}
+          </div>
+
         </Wrapper>
-        
+
       </div>
       <div className="mb-4 mt-4">
         <Alert message="El interesado deberá declarar sus balances según lo establecido en la DI-2021-3- APN-ONC#JGM, artículos 11,12 y anexo al artículo 4 de dicha disposición" type="info" />
@@ -617,12 +617,12 @@ className=""
         <Tabs defaultActiveKey="1" onChange={callback}  >
           <TabPane tab="Balances declarados" key="1">
             <div className="overflow-x-auto" >
-              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],_.sortBy(tramite.ejercicios, (e:Ejercicio)=> moment(e.fechaInicio,'DD/MM/YYYY').toDate().getTime()))} scroll={{ x: 1800 }} onChange={onChange}  />}
+              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} dataSource={Object.assign([], _.sortBy(tramite.ejercicios, (e: Ejercicio) => moment(e.fechaInicio, 'DD/MM/YYYY').toDate().getTime()))} scroll={{ x: 1800 }} onChange={onChange} />}
             </div>
           </TabPane>
-          <TabPane tab={`Balances para revisar por el Registro (${tramite.ejercicios.filter(e => !e.status ||  e.status !=='APROBADO').length})`} key="2">
-          <div className="overflow-x-auto" >
-          {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances}  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>,}}  dataSource={Object.assign([],_.sortBy(tramite.ejercicios.filter(e => !e.status ||  e.status !=='APROBADO'), (e:Ejercicio)=> moment(e.fechaInicio,'DD/MM/YYYY').toDate().getTime()))} onChange={onChange} scroll={{ x: 1800 }}  />}
+          <TabPane tab={`Balances para revisar por el Registro (${tramite.ejercicios.filter(e => !e.status || e.status !== 'APROBADO').length})`} key="2">
+            <div className="overflow-x-auto" >
+              {!tramite.ejercicios || tramite.ejercicios.length === 0 ? renderNoData() : <Table columns={columnsBalances} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} dataSource={Object.assign([], _.sortBy(tramite.ejercicios.filter(e => !e.status || e.status !== 'APROBADO'), (e: Ejercicio) => moment(e.fechaInicio, 'DD/MM/YYYY').toDate().getTime()))} onChange={onChange} scroll={{ x: 1800 }} />}
             </div>
           </TabPane>
         </Tabs>
@@ -633,12 +633,12 @@ className=""
         visible={modalEjercicios}
         okText="Guardar"
         cancelText="Cancelar"
-        onCancel={() => setModalEjercicios(false) }
+        onCancel={() => setModalEjercicios(false)}
         width={1000}
         footer={[
-        <Button onClick={() => setModalEjercicios(false)}>Cancel</Button>,
-        <Button onClick={guardarEjercicio} type='primary' disabled={!isTramiteEditable(tramite)}>Guardar</Button>
-      ]}
+          <Button onClick={() => setModalEjercicios(false)}>Cancel</Button>,
+          <Button onClick={guardarEjercicio} type='primary' disabled={!isTramiteEditable(tramite)}>Guardar</Button>
+        ]}
       >
         {renderModalEjercicios()}
       </Modal>
@@ -646,7 +646,7 @@ className=""
       <div className="mt-6 pt-6 text-center">
         {allowGuardar(tramite) ? <Link href="/obras" >
           <Button type="primary" >Continuar</Button>
-        </Link>: ''}
+        </Link> : ''}
       </div>
     </div>
   </div>
