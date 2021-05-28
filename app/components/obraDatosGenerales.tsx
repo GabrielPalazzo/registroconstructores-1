@@ -12,6 +12,7 @@ import {LinkToFile} from '../components/linkToFile'
 import { RootState } from '../redux/store'
 import _ from 'lodash'
 import Wrapper from './wrapper'
+import WrapperObras from './wrapperObras'
 
 
 
@@ -275,7 +276,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
         <div className="pb-6" >
 
-        <Wrapper attributeName="Denominacion" title="Denominacion" labelRequired="*">
+        <WrapperObras title="Denominacion" obra={obra}>
           <InputText
             attributeName='Denominacion'
             value={obra.denominacion}
@@ -288,7 +289,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             labeltooltip=""
             labelMessageError=""
             required />
-        </Wrapper>
+        </WrapperObras>
          
 
         </div>
@@ -297,7 +298,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       <div className="rounded-lg px-4 py-2 mb-4  pt-4 pb-4 border">
       <Wrapper isTitle title=" Datos Generales" attributeName="datosGenerales" >
       
-      <div className="text-xl font-bold py-2 w-3/4"> </div>
+      <div className="text-xl font-bold py-2 w-3/4"> Datos Generales </div>
       <div className="grid grid-cols-4 gap-4 ">
         <div className="pb-6" >
           
