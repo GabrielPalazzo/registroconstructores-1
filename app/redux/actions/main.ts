@@ -47,7 +47,7 @@ export const saveTramite = (tramite: TramiteAlta) => async (dispatch, getState) 
   const revisionTramite = getState().revisionTramites.revision
   
   if ((tramite.status==='PENDIENTE DE REVISION') && (getUsuario().isBackOffice()) && tramite.asignadoA && tramite.asignadoA.iat ===getUsuario().userData().iat) {
-    tramite.revisiones = tramite.revisiones.filter(r => r.status!=='ABIERTA')
+    tramite.revisiones = tramite.revisiones.filter(r => r && r.status!=='ABIERTA')
     tramite.revisiones.push(revisionTramite)
   }
 

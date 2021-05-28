@@ -257,6 +257,8 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
     setActas([])
   }
 
+  
+
 
   
    return <div>

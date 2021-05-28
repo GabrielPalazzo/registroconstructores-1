@@ -103,6 +103,13 @@ export default () => {
 
   }
 
+  const updateObra = (obra: DDJJObra) => {
+    const idxObra = tramite.ddjjObras.findIndex( o => o.id === obra.id)
+    tramite.ddjjObras[idxObra]=obra
+    updateObjTramite()
+    save()
+  }
+
   const updateObjTramite = () => {
     setTramite(Object.assign({}, tramite))
   }
@@ -222,7 +229,7 @@ export default () => {
             <div className="grid grid-cols-3 gap-4 ">
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
-                <WrapperObras title="Especialidad" obra={obra}  field='especialidad1' onChange ={onChange}>
+                <WrapperObras title="Especialidad" obra={obra}  field='especialidad1' onChange ={o => updateObra(o)}>
      
                     <SelectSimple
                       value={obra.especialidad1}
@@ -239,7 +246,7 @@ export default () => {
                   </WrapperObras>
                 </div>
                 <div className="pt-2" >
-                  <Wrapper title="Seleccione  (3) SubEspecialidad" attributeName="subespecialidad1" labelRequired="*">
+                  <Wrapper title="Seleccione  (3) SubEspecialidad" attributeName="subespecialidad1" labelRequired="*" onChange ={save}>
 
                     <SelectMultiple
                       value={obra.subEspecialidad1}
@@ -263,7 +270,7 @@ export default () => {
                 </div>
                 <div className="pb-6" >
 
-                  <Wrapper attributeName="Otros" title="Otros" labelRequired="*">
+                  <Wrapper attributeName="Otros" title="Otros" labelRequired="*" onChange ={save}>
                     <InputText
                       attributeName='Otros'
                       labelRequired=""
@@ -284,7 +291,7 @@ export default () => {
               </div>
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
-                  <Wrapper title="Especialidad" attributeName="especialidad2" labelRequired="*">
+                  <Wrapper title="Especialidad" attributeName="especialidad2" labelRequired="*" onChange ={async() =>{updateObjTramite(); save()}}>
 
                     <SelectSimple
                       value={obra.especialidad2}
