@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { Button, Modal, Tooltip } from 'antd'
 import { DislikeFilled, InfoCircleOutlined, InfoCircleTwoTone, LikeFilled } from '@ant-design/icons'
 import TextArea from 'antd/lib/input/TextArea'
-import { getReviewAbierta, getUsuario } from '../services/business'
+import { getReviewAbierta, getToken, getUsuario } from '../services/business'
 import { RootState } from '../redux/store'
 
 
@@ -21,6 +21,7 @@ const colors = [
 export default (props) => {
 	const { attributeName } = props
 	const dispatch = useDispatch()
+	const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
 	const revisionTramite = useSelector((state: RootState) => state.revisionTramites)
 	const [showObs, setShowObs] = useState(false)
 	const [textObs, setTextObs] = useState('')
@@ -128,15 +129,17 @@ export default (props) => {
 				</div>}
 			</div>
 
-			<div className="justify-end w-2/5">
-				<div className=" text-right">
-					<Button type="link" onClick={() => {
-						obra.observacionesDelRegistro[props.field] = ''
-						props.onChange(Object.assign({}, obra))
-					}} icon={<LikeFilled style={{ color: getColorIcon(true) }} />} />
-					<Button onClick={() => setShowObs(true)} type="link" icon={<DislikeFilled style={{ color: getColorIcon(false) }} />} />
+			{!getUsuario().isConstructor() &&  tramite.asignadoA && tramite.categoria!=='INSCRIPTO' && 
+				<div className="justify-end w-2/5">
+					<div className=" text-right">
+						<Button type="link" onClick={() => {
+							obra.observacionesDelRegistro[props.field] = ''
+							props.onChange(Object.assign({}, obra))
+						}} icon={<LikeFilled style={{ color: getColorIcon(true) }} />} />
+						<Button onClick={() => setShowObs(true)} type="link" icon={<DislikeFilled style={{ color: getColorIcon(false) }} />} />
+					</div>
 				</div>
-			</div>
+			}
 		</div >
 		{React.isValidElement(props.children) ? React.cloneElement(props.children, { isEditable: isEditable() }) : props.children}
 
