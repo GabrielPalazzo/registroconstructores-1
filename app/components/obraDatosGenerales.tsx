@@ -276,7 +276,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
         <div className="pb-6" >
 
-        <WrapperObras title="Denominacion" obra={obra} parent='observacionesDelRegistro' field='denominacion' onChange ={onChange}>
+        <WrapperObras title="Denominacion" obra={obra}  field='denominacion' onChange ={onChange}>
           <InputText
             attributeName='Denominacion'
             value={obra.denominacion}
