@@ -28,42 +28,36 @@ export default (props) => {
 
 
 	const obra: DDJJObra = props.obra
-	if (!obra.datosObra[0].observacionesDelRegistro)
+	if (obra && !obra.datosObra[0].observacionesDelRegistro)
 		obra.datosObra[0].observacionesDelRegistro = {
 			denominacion: '',
 			datosGenerales: ''
 		}
-	obra.datosObra[0].observacionesDelRegistro.denominacion
-
+	console.log(	obra.datosObra[0].observacionesDelRegistro)
 	const isEditable = () => {
 		return true
 	}
 
 	const getColorIcon = (handUp: boolean) => {
-		const r = revisionTramite && revisionTramite.revision && revisionTramite.revision.reviews.filter(r => r.field.toUpperCase() === attributeName.toUpperCase())
-		if (!r || r.length == 0)
+		if (	obra.datosObra[0][props.parent][props.field] === null)
 			return "#1890ff"
 
-		if (_.last(r).field.toUpperCase() === attributeName.toUpperCase()) {
+		
 			if (handUp)
-				return _.last(r).isOk ? 'green' : '#e2e8f0'
+				return 	obra.datosObra[0].observacionesDelRegistro[props.parent][props.field]==='' ? 'green' : '#e2e8f0'
 			else
-				return !_.last(r).isOk ? 'red' : '#e2e8f0'
-		}
+				return obra.datosObra[0].observacionesDelRegistro[props.parent][props.field]!=='' ? 'red' : '#e2e8f0'
+		
 	}
 
 	const disLike = () => {
-		if (!revisionTramite.revision)
-			revisionTramite.revision = {
-				reviews: []
-			}
+		obra.datosObra[0].observacionesDelRegistro[props.parent][props.field]= textObs
+		props.onChange(Object.assign({},obra))
 
 		setShowObs(false)
 
 		if (!textObs)
 			return
-
-		
 		setTextObs('')
 	}
 
@@ -109,7 +103,10 @@ export default (props) => {
 
 	 <div className="justify-end w-2/5">
 				<div className=" text-right">
-					<Button type="link" icon={<LikeFilled style={{ color: getColorIcon(true) }} />} />
+					<Button type="link" onClick={() => {
+						obra.datosObra[0].observacionesDelRegistro[props.parent][props.field]=''
+						props.onChange(Object.assign({},obra))
+					}} icon={<LikeFilled style={{ color: getColorIcon(true) }} />} />
 					<Button onClick={() => setShowObs(true)} type="link" icon={<DislikeFilled style={{ color: getColorIcon(false) }} />} />
 				</div>
 			</div>
