@@ -33,7 +33,7 @@ export default (props) => {
 			denominacion: '',
 			datosGenerales: ''
 		}
-	console.log(	obra.datosObra[0].observacionesDelRegistro)
+	console.log(obra.datosObra[0].observacionesDelRegistro)
 	const isEditable = () => {
 		return true
 	}

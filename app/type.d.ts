@@ -60,7 +60,6 @@ type DatosObraGeneral = {
   observacionesDelRegistro ?:{
     denominacion: string
     datosGenerales: string 
-    
   }
 }
 type Redeterminaciones ={
