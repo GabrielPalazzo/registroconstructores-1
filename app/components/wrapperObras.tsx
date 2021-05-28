@@ -29,15 +29,35 @@ export default (props) => {
 
 	const obra: DDJJObra = props.obra
 
-	
+
 
 	if (obra && !obra.observacionesDelRegistro)
 		obra.observacionesDelRegistro = {
 			denominacion: null,
-			ubicacionGeografica: null
+			ubicacionGeografica: null,
+			plazoPorContrato: null,
+			transcurrido: null,
+			restante: null,
+			razonSocialUTE: null,
+			cuitUTE: null,
+			participacionUTE: null,
+			razonSocialComitente: null,
+			cuitComitente: null,
+			montoInicial: null,
+			especialidad1: null,
+			subEspecialidad1: null,
+			subEspecialidades1Otros: null,
+			especialidad2: null,
+			subEspecialidad2: null,
+			subEspecialidades2Otros: null,
+			especialidad3: null,
+			subEspecialidad3: null,
+			subespecialidades: null,
+			subEspecialidades3Otros: null,
+			datosGenerales:null
 		}
 
-	
+
 
 	if (!obra)
 		return <div></div>
@@ -61,7 +81,7 @@ export default (props) => {
 
 	const disLike = () => {
 		obra.observacionesDelRegistro[props.field] = textObs
-		
+
 
 		props.onChange(Object.assign({}, obra))
 
@@ -73,7 +93,7 @@ export default (props) => {
 	}
 
 	const getReviewText = () => {
-		return obra.observacionesDelRegistro[props.field] 
+		return obra.observacionesDelRegistro[props.field]
 	}
 
 

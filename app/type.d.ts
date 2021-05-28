@@ -144,6 +144,26 @@ type DDJJObra ={
   observacionesDelRegistro?: { //TODO MARIA
     denominacion: string
     ubicacionGeografica: string
+    transcurrido:number
+    plazoPorContrato:number
+    restante:number
+    razonSocialUTE:string
+    cuitUTE:string
+    participacionUTE:string
+    razonSocialComitente:string
+    cuitComitente:string
+    montoInicial:number
+    especialidad1: string
+    subEspecialidad1:Array<string>
+    subEspecialidades1Otros:string
+    especialidad2: string
+    subEspecialidad2:Array<string>
+    subEspecialidades2Otros:string
+    especialidad3: string
+    subEspecialidad3:Array<string>
+    subespecialidades:string
+    subEspecialidades3Otros:string
+    datosGenerales:string
   }
   
 }
