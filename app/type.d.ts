@@ -57,6 +57,11 @@ type DatosObraGeneral = {
   fechaInicio:string
   fechaFin:string
   acta: Array<Archivo>
+  observacionesDelRegistro ?:{
+    denominacion: string
+    datosGenerales: string 
+    
+  }
 }
 type Redeterminaciones ={
   id: string
