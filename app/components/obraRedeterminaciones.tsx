@@ -14,6 +14,8 @@ import { RootState } from '../redux/store'
 import numeral from 'numeral'
 import Wrapper from './wrapper'
 
+import WrapperObras from './wrapperObras'
+
 const { Option } = Select
 const { TextArea } = Input
 
@@ -210,8 +212,8 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			<TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)}></TextArea>
 		</Modal>
 		<div className="rounded-lg px-4 py-2  pb-4 border mt-6">
-		<Wrapper isTitle title="Redeterminaciones" attributeName="redeterminaciones" >
-      
+		<WrapperObras isTitle title="Redeterminaciones" obra={obra}  field='redeterminacionesTitle' onChange ={onChange}>
+       
 		
 			<div className="grid grid-cols-4 gap-4 mt-4 ">
 				<div className="pb-6" >
@@ -275,7 +277,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 					<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
 				</div>
 			</div>:''}
-</Wrapper>
+</WrapperObras>
 			<div className="mt-4 ">
 				<Table columns={columnsRedeterminaciones}
 					dataSource={Object.assign([], obra.redeterminaciones)}

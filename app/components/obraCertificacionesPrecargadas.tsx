@@ -16,6 +16,7 @@ import { LikeFilled, DislikeFilled } from '@ant-design/icons';
 import { RootState } from '../redux/store'
 import { useSelector } from 'react-redux'
 
+import WrapperObras from './wrapperObras'
 import Wrapper from './wrapper'
 
 const { Option } = Select
@@ -216,7 +217,8 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       <p>Por favor, indique el motivo de rechazo o desestimación</p>
       <TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)}></TextArea>
     </Modal>
-    <Wrapper isTitle title="Certificaciones" attributeName="certificaciones" >
+    <WrapperObras title="Certificaciones" obra={obra}  field='certificacionesTitle' onChange ={onChange}>
+        
      
     <div className="mb-4">
       <Alert message="“En esta sección podrá cargar cada certificado de la obra, y deberá hacerlo una vez se encuentre facturado, y de forma mensual. Indicar período de facturación (MM/AAAA), monto facturado en ese mes, una breve descripción sobre que es lo que compone este período, y la documental que sustente esta carga. Deberá adjuntar el certificado junto con su factura. En caso de que la cantidad de facturas emitidas al mes sea muy considerable, podrá presentar una certificación contable del libro IVA Ventas, indicando fecha, número de comprobante emitido, importe de la factura, y total mes a mes.”" type="info" />
@@ -282,7 +284,7 @@ className=""
       <Button onClick={agregarPeriodo} type={periodo ? 'primary' : 'ghost'}>{periodoSeleccionado ? 'Editar' : 'Agregar'}</Button>
     </div>:''}
 
-</Wrapper>
+</WrapperObras>
     <div>
       <Table pagination={false} columns={columns} dataSource={Object.assign([], obra.certificaciones)}
         summary={pageData => {

@@ -298,7 +298,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
       </div>
 
       <div className="rounded-lg px-4 py-2 mb-4  pt-4 pb-4 border">
-      <WrapperObras title="Datos Generales" obra={obra}  field='datosGenerales' onChange ={onChange}>
+      <WrapperObras isTitle title="Datos Generales" obra={obra}  field='datosGenerales' onChange ={onChange}>
        
       
       <div className="grid grid-cols-4 gap-4 ">

@@ -164,6 +164,8 @@ type DDJJObra ={
     subespecialidades:string
     subEspecialidades3Otros:string
     datosGenerales:string
+    archivosOrdenDeCompra:Array<Archivo>
+    addProrroga:string
   }
   
 }

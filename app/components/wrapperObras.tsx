@@ -55,7 +55,12 @@ export default (props) => {
 			subEspecialidad3: null,
 			subespecialidades: null,
 			subEspecialidades3Otros: null,
-			datosGenerales:null
+			datosGenerales:null,
+			archivosOrdenDeCompra:null,
+			addProrroga:null,
+			certificacionesTitle:null,
+			ampliacionesTitle:null,
+			redeterminacionesTitle:null
 		}
 
 
@@ -111,7 +116,7 @@ export default (props) => {
 		</Modal>
 		<div className="flex ">
 			<div className="flex w-3/4">
-				<div >
+				<div className={props.isTitle ? 'text-2xl font-bold py-4' : 'font-bold text-muted-700 text-sm'} >
 
 					<label className={props.isTitle ? 'text-2xl font-bold py-4' : 'font-bold text-muted-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
 				</div>
@@ -128,8 +133,7 @@ export default (props) => {
 					))}
 				</div>}
 			</div>
-
-			{!getUsuario().isConstructor() &&  tramite.asignadoA && tramite.categoria!=='INSCRIPTO' && 
+			{!getUsuario().isConstructor() &&  tramite.asignadoA && tramite.categoria!=='INSCRIPTO'  ? 
 				<div className="justify-end w-2/5">
 					<div className=" text-right">
 						<Button type="link" onClick={() => {
@@ -138,7 +142,7 @@ export default (props) => {
 						}} icon={<LikeFilled style={{ color: getColorIcon(true) }} />} />
 						<Button onClick={() => setShowObs(true)} type="link" icon={<DislikeFilled style={{ color: getColorIcon(false) }} />} />
 					</div>
-				</div>
+				</div>:''
 			}
 		</div >
 		{React.isValidElement(props.children) ? React.cloneElement(props.children, { isEditable: isEditable() }) : props.children}

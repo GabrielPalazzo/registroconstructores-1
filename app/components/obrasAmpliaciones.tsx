@@ -11,9 +11,8 @@ import DatePickerModal from './datePicker_Modal'
 import { LinkToFile } from './linkToFile'
 import { RootState } from '../redux/store'
 import _ from 'lodash'
-
+import WrapperObras from './wrapperObras'
 import Wrapper from './wrapper'
-
 
 const { Option } = Select
 const { TextArea } = Input
@@ -196,8 +195,8 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     </Modal>
 
     <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
-    <Wrapper isTitle title="Ampliaciones" attributeName="ampliaciones" >
-      
+    <WrapperObras title="Ampliaciones" obra={obra}  field='denominacion' onChange ={onChange}>
+         
 		
       <div className="text-xl font-bold py-2 w-3/4">  </div>
       <div className="mb-4">
@@ -262,7 +261,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       <div className=" text-center">
         <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
       </div>:''}
-      </Wrapper>
+      </WrapperObras>
       <div className="mt-4 ">
         <Table
           columns={columnsAmpliaciones}
