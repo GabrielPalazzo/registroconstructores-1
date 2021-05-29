@@ -217,7 +217,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       <p>Por favor, indique el motivo de rechazo o desestimación</p>
       <TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)}></TextArea>
     </Modal>
-    <WrapperObras title="Certificaciones" obra={obra}  field='certificacionesTitle' onChange ={onChange}>
+    <WrapperObras title="Certificaciones" obra={obra}  field='certificacionesTitles' onChange ={onChange}>
         
      
     <div className="mb-4">

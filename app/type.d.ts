@@ -166,6 +166,9 @@ type DDJJObra ={
     datosGenerales:string
     archivosOrdenDeCompra:Array<Archivo>
     addProrroga:string
+    certificacionesTitles:string
+    ampliacionesTitle:string
+    redeterminacionesTitle:string
   }
   
 }

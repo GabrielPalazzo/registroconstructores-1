@@ -58,7 +58,7 @@ export default (props) => {
 			datosGenerales:null,
 			archivosOrdenDeCompra:null,
 			addProrroga:null,
-			certificacionesTitle:null,
+			certificacionesTitles:null,
 			ampliacionesTitle:null,
 			redeterminacionesTitle:null
 		}
