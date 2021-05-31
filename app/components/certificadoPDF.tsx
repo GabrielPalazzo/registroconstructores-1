@@ -4,6 +4,7 @@ import moment from 'moment'
 import { calcularSaldoObra, getVigenciaCertificado } from '../services/business';
 import numeral from 'numeral'
 import _ from 'lodash'
+import certificado from './certificado';
 
 
 //Font.register({ family: 'Roboto', src: source });
@@ -906,8 +907,23 @@ export default (props) => {
   }
   const especialidades = _.concat(props.certificado.tramite.ddjjObras.map((o: DDJJObra) => getDescripcionEspecialidad(o.especialidad1)), props.certificado.tramite.ddjjObras.map((o: DDJJObra) => getDescripcionEspecialidad(o.especialidad2)))
 
-
-  console.log(props)
+ const getEstadoText = () =>{
+    console.log (props.certificado) 
+    const cert = props.certificado
+    if (cert.tramite.categoria === 'INSCRIPTO')
+      return 'La empresa se encuentra inscripta y con su información actualizada en este momento. Consulte los próximos vencimientos en esta constancia.'
+    
+    if (cert.tramite.categoria === 'PRE INSCRIPTO')
+    return 'Trámite correspondiente a Inscripción ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas iniciado .'
+    
+    if (cert.tramite.categoria === 'DESACTUALIZADO')
+    return 'Trámite correspondiente a Actualización de datos iniciado ante el RNCYFCOP. Tener en cuenta que los datos actualizados podrán afectar considerablemente la capacidad luego de aprobarse el trámite.'
+    
+    if (cert.tramite.categoria === 'INSCRIPTO CON ACTUALIZACION')
+    return 'Trámite correspondiente a actualización de datos iniciado. Tener en cuenta que los datos actualizados podrán afectar considerablemente la capacidad luego de aprobarse el trámite.'
+  
+      return ''
+ }
 
   return (
 
@@ -1370,7 +1386,7 @@ export default (props) => {
           </View>
         </View>
         <View style={styles.sectionContent100}>
-          <Text>{`LA CAPACIDAD ECONÓMICO FINANCIERA DE CONTRATACIÓN REFERENCIAL ${props.certificado.tramite.categoria === 'INSCRIPTO' && props.certificado.tramite.status === 'VERIFICADO' ? '' : ' NO '} SE ENCUENTRA VIGENTE AL MOMENTO DE LA CONSULTA.`}</Text>
+          <Text>{getEstadoText()}</Text>
         </View>
 
 

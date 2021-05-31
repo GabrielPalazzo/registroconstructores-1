@@ -508,6 +508,7 @@ export default (props) => {
               label={tipoApoderado === 'Apoderado' ? 'Adjunte el Poder' : ' Acta de designación de autoridades'}
               labelRequired="*"
               labelMessageError=""
+              
               defaultValue={actaAutoridadesApoderado as any}
               onOnLoad={(file) => {
                 actaAutoridadesApoderado.push(file)

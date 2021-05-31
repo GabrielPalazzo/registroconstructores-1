@@ -34,8 +34,10 @@ export interface IProps {
   labelRequired?: string
   attributeName: string
   maxLength?: number
+  isEditable?: boolean
+  }
   
-}
+
 
 
 
@@ -53,7 +55,9 @@ export const InputText: React.FC<IProps> = ({
   labelRequired,
   maxLength,
   labeltooltip,
-  attributeName
+  attributeName,
+  isEditable = false
+
 }) => {
 
   const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
@@ -64,14 +68,13 @@ export const InputText: React.FC<IProps> = ({
 
   
 
-  const isEditable = () => {
-    const element = getReviewAbierta(tramite) && getReviewAbierta(tramite).reviews.filter(r => (r.field ===attributeName.toUpperCase()))
+ // const isEditable = () => {
+   // const element = getReviewAbierta(tramite) && getReviewAbierta(tramite).reviews.filter(r => (r.field ===attributeName.toUpperCase()))
     /** Solo se permite editar aquellos elementos que estan observados o bien que no quue no fueron revisados */
-    return tramite.status ==='BORRADOR' ||
-      (tramite.status ==='OBSERVADO' && (_.isEmpty(element) || !element[0].isOk)) 
-      && getUsuario().isConstructor()
-  }
-
+    //return tramite.status ==='BORRADOR' ||
+     // (tramite.status ==='OBSERVADO' && (_.isEmpty(element) || !element[0].isOk)) 
+      //&& getUsuario().isConstructor()
+  //}
 
   return <div >
     
@@ -89,7 +92,7 @@ export const InputText: React.FC<IProps> = ({
         value={value}
         placeholder={placeHolder}
         required={required}
-        disabled={!isEditable()}
+        disabled={isEditable === undefined ? false : !isEditable }
         onChange={(e) => bindFunction(e.target.value)}
         type={type}
         maxLength ={maxLength}

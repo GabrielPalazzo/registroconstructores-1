@@ -97,9 +97,12 @@ export default (props: Props) => {
     </div>
     <div className="w-full">
       <Dragger key={getCodigoObra()}
+      maxCount={2}
        disabled={props.isEditable === undefined ? false : !props.isEditable || props.locked}
         className="flex py-1 text-left"
-        {...propsUpload}>
+        {...propsUpload}
+        
+        >
         <p className="ant-upload-drag-icon inline-block mr-2">
           <CloudUploadOutlined />
         </p>

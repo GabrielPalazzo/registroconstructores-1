@@ -17,7 +17,7 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable, calcularSaldoObra, calcularCertificaciones } from '../services/business';
+import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable, calcularSaldoObra, calcularCertificaciones, hasObservacionesObra } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
@@ -675,6 +675,7 @@ export default () => {
             </div>
 
             <div className="rounded-lg px-4 py-2 mb-4  pt-4 pb-4 border">
+
             < WrapperObras isTitle title="Agregar nueva Prórroga" obra={obra}  field='addProrroga' onChange ={o => updateObra(o)} labelRequired="">
               
               
@@ -827,12 +828,17 @@ export default () => {
 
   const tieneObservaciones = (obra) => !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA')) || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
 
+  const allowDeleteObra = (obra)=>{
 
+    return !hasObservacionesObra(obra) && (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO'))
+   
+  }
   let columns = [
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' ? <Popconfirm
+      render: (text, record) => (allowDeleteObra(record) ? <Space size="middle">
+      </Space> : <Popconfirm
         title="Esta seguro que lo  deseas Eliminar  La Obra"
         onConfirm={() => {
           setModo(MODO.EDIT)
@@ -841,9 +847,7 @@ export default () => {
         onCancel={cancel}
         okText="Si, Eliminar"
         cancelText="Cancelar"
-      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-        <LikeDislike />
-      </Space>),
+      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> )
     },
     {
       title: 'Editar',
@@ -987,7 +991,7 @@ export default () => {
               const obraEmpty = getEmptyObras()
               obraEmpty.id = getCodigoObra()
               // obra.id = getCodigoObra()
-              setModo(MODO.NEW)
+             //setModo(MODO.NEW)
               setObra(Object.assign({}, obraEmpty))
               setModalObras(true)
             }} icon={<PlusOutlined />}> Agregar</Button> : ''}

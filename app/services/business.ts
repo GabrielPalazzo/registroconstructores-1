@@ -596,3 +596,33 @@ export const getVigenciaCertificado = (tramite:TramiteAlta) => {
   return moment(ultimoEjercicio.fechaCierre, 'DD/MM/YYYY').add(18,'months').format('DD/MM/YYYY')
 }
 
+export const hasObservacionesObra =(obra:DDJJObra)=>{
+ return  obra.observacionesDelRegistro.denominacion
+      || obra.observacionesDelRegistro.ubicacionGeografica
+			|| obra.observacionesDelRegistro.plazoPorContrato
+			|| obra.observacionesDelRegistro.transcurrido
+			|| obra.observacionesDelRegistro.restante
+			|| obra.observacionesDelRegistro.razonSocialUTE
+			|| obra.observacionesDelRegistro.cuitUTE
+			|| obra.observacionesDelRegistro.participacionUTE
+			|| obra.observacionesDelRegistro.razonSocialComitente
+			|| obra.observacionesDelRegistro.cuitComitente
+			|| obra.observacionesDelRegistro.montoInicial
+			|| obra.observacionesDelRegistro.especialidad1
+			|| obra.observacionesDelRegistro.subEspecialidad1
+			|| obra.observacionesDelRegistro.subEspecialidades1Otros
+			|| obra.observacionesDelRegistro.especialidad2
+			|| obra.observacionesDelRegistro.subEspecialidad2
+			|| obra.observacionesDelRegistro.subEspecialidades2Otros
+			|| obra.observacionesDelRegistro.especialidad3
+			|| obra.observacionesDelRegistro.subEspecialidad3
+			|| obra.observacionesDelRegistro.subespecialidades
+			|| obra.observacionesDelRegistro.subEspecialidades3Otros
+			|| obra.observacionesDelRegistro.datosGenerales
+			|| obra.observacionesDelRegistro.archivosOrdenDeCompra
+			|| obra.observacionesDelRegistro.addProrroga
+			|| obra.observacionesDelRegistro.certificacionesTitles
+			|| obra.observacionesDelRegistro.ampliacionesTitle
+			|| obra.observacionesDelRegistro.redeterminacionesTitle
+			|| obra.observacionesDelRegistro.likeProrroga
+}
