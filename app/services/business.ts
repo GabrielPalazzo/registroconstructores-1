@@ -166,7 +166,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
     autoridadesSociedad: [],
     autoridadesFechaVencimiento:'',
     inversionesPermanentes: [],
-    autoridadesVencimiento: true,
+    autoridadesVencimiento: false,
     sistemaCalidad: [],
     ejercicios: [],
     ddjjObras: [],
@@ -394,7 +394,7 @@ export const isPersonaExtranjera = (tramite: TramiteAlta): boolean => {
 }
 
 export const isTramiteEditable = (tramite: TramiteAlta): boolean => {
-  return (tramite && tramite.status === 'BORRADOR') || (tramite && !tramite.cuit) || (!tramite)
+  return (tramite && tramite.status === 'BORRADOR')  ||(tramite && tramite.status === 'OBSERVADO') || (tramite && !tramite.cuit) || (!tramite)
 }
 
 
