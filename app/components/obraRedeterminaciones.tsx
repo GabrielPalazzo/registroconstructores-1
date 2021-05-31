@@ -212,9 +212,8 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			<TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)}></TextArea>
 		</Modal>
 		<div className="rounded-lg px-4 py-2  pb-4 border mt-6">
-		<WrapperObras isTitle title="Redeterminaciones" obra={obra}  field='redeterminacionesTitle' onChange ={onChange}>
-       
-		
+		<div className="text-xl font-bold py-2 w-3/4">Redeterminaciones </div>
+
 			<div className="grid grid-cols-4 gap-4 mt-4 ">
 				<div className="pb-6" >
 					<DatePickerModal
@@ -270,14 +269,12 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 					/>
 				</div>
 			</div>
-			{isTramiteEditable(tramite) ?
 			<div className="text-center ">
 
 				<div className=" ">
 					<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
 				</div>
-			</div>:''}
-</WrapperObras>
+			</div>
 			<div className="mt-4 ">
 				<Table columns={columnsRedeterminaciones}
 					dataSource={Object.assign([], obra.redeterminaciones)}

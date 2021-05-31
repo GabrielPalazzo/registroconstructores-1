@@ -195,8 +195,8 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     </Modal>
 
     <div className="rounded-lg px-4 py-2  pb-4 border mt-6">
-    <WrapperObras title="Ampliaciones" obra={obra}  field='denominacion' onChange ={onChange}>
-         
+    <div className="text-xl font-bold py-2 w-3/4"> Ampliaciones </div>
+
 		
       <div className="text-xl font-bold py-2 w-3/4">  </div>
       <div className="mb-4">
@@ -257,11 +257,9 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         </div>
 
       </div>
-      {isTramiteEditable(tramite) ?
       <div className=" text-center">
         <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
-      </div>:''}
-      </WrapperObras>
+      </div>
       <div className="mt-4 ">
         <Table
           columns={columnsAmpliaciones}

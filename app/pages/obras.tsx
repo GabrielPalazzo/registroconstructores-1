@@ -802,7 +802,8 @@ export default () => {
         okText="Si, Eliminar"
         cancelText="Cancelar"
       > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-        <LikeDislike />
+       < WrapperObras  obra={obra}  field='likeProrroga' onChange ={o => updateObra(o)} labelRequired="">
+        </ WrapperObras>
       </Space>),
     },
 

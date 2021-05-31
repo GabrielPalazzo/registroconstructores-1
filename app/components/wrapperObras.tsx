@@ -60,7 +60,8 @@ export default (props) => {
 			addProrroga:null,
 			certificacionesTitles:null,
 			ampliacionesTitle:null,
-			redeterminacionesTitle:null
+			redeterminacionesTitle:null,
+			likeProrroga:null
 		}
 
 

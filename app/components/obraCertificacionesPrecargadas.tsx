@@ -217,8 +217,9 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       <p>Por favor, indique el motivo de rechazo o desestimación</p>
       <TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)}></TextArea>
     </Modal>
-    <WrapperObras title="Certificaciones" obra={obra}  field='certificacionesTitles' onChange ={onChange}>
-        
+    <div className="text-xl font-bold py-2 w-3/4"> Certificaciones </div>
+
+    
      
     <div className="mb-4">
       <Alert message="“En esta sección podrá cargar cada certificado de la obra, y deberá hacerlo una vez se encuentre facturado, y de forma mensual. Indicar período de facturación (MM/AAAA), monto facturado en ese mes, una breve descripción sobre que es lo que compone este período, y la documental que sustente esta carga. Deberá adjuntar el certificado junto con su factura. En caso de que la cantidad de facturas emitidas al mes sea muy considerable, podrá presentar una certificación contable del libro IVA Ventas, indicando fecha, número de comprobante emitido, importe de la factura, y total mes a mes.”" type="info" />
@@ -279,12 +280,9 @@ className=""
 
 
     </div>
-    {isTramiteEditable(tramite) ?
     <div className=" text-center mb-4">
       <Button onClick={agregarPeriodo} type={periodo ? 'primary' : 'ghost'}>{periodoSeleccionado ? 'Editar' : 'Agregar'}</Button>
-    </div>:''}
-
-</WrapperObras>
+    </div>
     <div>
       <Table pagination={false} columns={columns} dataSource={Object.assign([], obra.certificaciones)}
         summary={pageData => {

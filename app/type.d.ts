@@ -169,6 +169,7 @@ type DDJJObra ={
     certificacionesTitles:string
     ampliacionesTitle:string
     redeterminacionesTitle:string
+    likeProrroga:string
   }
   
 }
