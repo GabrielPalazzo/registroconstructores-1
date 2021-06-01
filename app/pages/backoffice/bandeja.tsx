@@ -100,7 +100,8 @@ export default () => {
         <Tabs defaultActiveKey={getDefaultTabActive()} onChange={callback}>
           <TabPane tab={`Bandeja de trabajo  (${tramites.filter((ft: TramiteAlta) => ft.asignadoA === null).length})`} key="1">
             {tramites.filter((ft: TramiteAlta) => ft.asignadoA === null).map((t: TramiteAlta) => (
-              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+             
+             <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>
                     <div className="flex">

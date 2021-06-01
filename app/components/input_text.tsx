@@ -23,7 +23,7 @@ export interface IProps {
   value: string
   label?: string
   showHands?: boolean
-  bindFunction: Function
+  bindFunction?: Function
   type?: string
   placeHolder?: string
   required?: boolean
@@ -35,6 +35,7 @@ export interface IProps {
   attributeName: string
   maxLength?: number
   isEditable?: boolean
+  locked? : boolean
   }
   
 
@@ -56,7 +57,8 @@ export const InputText: React.FC<IProps> = ({
   maxLength,
   labeltooltip,
   attributeName,
-  isEditable = false
+  isEditable = false,
+  locked = false
 
 }) => {
 
@@ -93,6 +95,7 @@ export const InputText: React.FC<IProps> = ({
         placeholder={placeHolder}
         required={required}
         disabled={isEditable === undefined ? false : !isEditable }
+
         onChange={(e) => bindFunction(e.target.value)}
         type={type}
         maxLength ={maxLength}

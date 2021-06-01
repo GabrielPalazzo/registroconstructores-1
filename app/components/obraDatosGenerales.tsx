@@ -280,7 +280,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
         <WrapperObras title="Denominacion" obra={obra}  field='denominacion' onChange ={onChange}>
           <InputText
-            attributeName='Denominacion'
+            attributeName='denominacion'
             value={obra.denominacion}
             bindFunction={(value) => {
               obra.denominacion = value

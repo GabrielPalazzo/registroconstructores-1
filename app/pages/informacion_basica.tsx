@@ -831,10 +831,12 @@ export default (props) => {
         <div className="text-2xl font-bold py-4"> Datos del Conyuge</div>
         <div className="grid grid-cols-2 gap-4 ">
           <div className="" >
+          <Wrapper attributeName="NombreConyuge" title="Nombre " labelRequired="*">
+         
             <InputText
               attributeName="NombreConyuge"
-              label="Nombre"
-              labelRequired="*"
+              label=""
+              labelRequired=""
               placeHolder="Nombre"
               labelObservation=""
               labeltooltip=""
@@ -845,12 +847,15 @@ export default (props) => {
                 setTramite(Object.assign({}, tramite))
               }}
             />
+            </Wrapper>
           </div>
           <div className="" >
+          <Wrapper attributeName="apellidoConyuge" title="Apellido " labelRequired="*">
+         
             <InputText
               attributeName="apellidoConyuge"
-              label="Apellido"
-              labelRequired="*"
+              label=""
+              labelRequired=""
               placeHolder="Apellido"
               labelObservation=""
               labeltooltip=""
@@ -861,6 +866,7 @@ export default (props) => {
                 setTramite(Object.assign({}, tramite))
               }}
             />
+            </Wrapper>
           </div>
           <div className="pb-6" >
             <SelectModal

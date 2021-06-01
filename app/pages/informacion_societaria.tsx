@@ -878,6 +878,7 @@ export default () => {
         <Wrapper isTitle title="Última modificación del contrato de la U.T.E." attributeName="ultimaModificacionContratoUTE" >
           <div className="grid grid-cols-3 gap-4 ">
             <div >
+
               <InputTextModal
                 label="Datos"
                 labelRequired=""
@@ -1560,9 +1561,11 @@ export default () => {
         <Wrapper isTitle title="Última modificación de inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)" attributeName="UltimaModificacionInscripcionPJESP" >
           <div className="grid grid-cols-2 gap-4 ">
             <div >
+    <Wrapper title="Datos" attributeName="datosMODSUC"
+              labelRequired=""  >
 
               <InputTextModal
-                label="Datos"
+                label=""
                 labelRequired=""
                 placeholder=""
                 labelMessageError=""
@@ -1571,11 +1574,15 @@ export default () => {
                   tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.datos = value
                   updateObjTramite()
                 }}
-                required /></div>
+                required />
+                </Wrapper>
+                </div>
 
             <div >
+            <Wrapper title="Fecha" attributeName="fechaMODSUC"
+              labelRequired="*"  >
+
               <DatePickerModal
-                label="Fecha"
                 labelRequired=""
                 placeholder="Fecha"
                 labelObservation=""
@@ -1587,6 +1594,7 @@ export default () => {
                   updateObjTramite()
                 }}
               />
+              </Wrapper>
             </div>
             <div >
               <Upload
@@ -1900,8 +1908,10 @@ export default () => {
           <Wrapper isTitle title="Última modificación del Contrato Social (inscripta en D.P.P.J / I.G.J.)" attributeName="ultimaModifcacionContratoSA" >
             <div className="grid grid-cols-2 gap-4 ">
               <div >
+              <Wrapper title="Datos" attributeName="rubroConsutrccionDatos"
+              labelRequired="*"  >
+
                 <InputText
-                  label="Datos"
                   attributeName="rubroConsutrccionDatos"
                   value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos}
                   bindFunction={(value) => {
@@ -1913,10 +1923,13 @@ export default () => {
                   labeltooltip=""
                   labelMessageError=""
                   required />
+                  </Wrapper>
               </div>
               <div >
+              <Wrapper title="Fecha" attributeName="rubroConsutrccionFecha"  labelRequired="*"  >
+             
                 <DatePicker
-                  label="Fecha"
+                  label=""
                   value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha}
                   bindFunction={(value) => {
                     tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha = value
@@ -1927,6 +1940,7 @@ export default () => {
                   labeltooltip=""
                   labelMessageError=""
                 />
+                </Wrapper>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 ">

@@ -71,8 +71,8 @@ export default (props) => {
 
 	const isEditable = () => {
 		console.log(obra.observacionesDelRegistro[props.field] !== null && obra.observacionesDelRegistro[props.field].length > 0 ,obra.observacionesDelRegistro[props.field])
-		
-		return obra.observacionesDelRegistro[props.field] !== null && obra.observacionesDelRegistro[props.field].length > 0
+		return obra.observacionesDelRegistro[props.field] !== null && obra.observacionesDelRegistro[props.field].length > 0 || tramite.status ==='BORRADOR' ||
+		(tramite.status ==='OBSERVADO' && (_.isEmpty() )) && getUsuario().isConstructor()
 	}
 
 	const getColorIcon = (handUp: boolean) => {

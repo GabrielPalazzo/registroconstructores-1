@@ -148,6 +148,7 @@ export default () => {
       </div>
       <div className="grid grid-cols-2 mt-4 gap-4 ">
         <div className="pb-6" >
+        <Wrapper attributeName="telefono" title="Telefono" labelRequired="*">
           <InputText
             value={tramite.telefono}
             attributeName='telefono'
@@ -155,16 +156,18 @@ export default () => {
               tramite.telefono = value
               updateObjTramite()
             }}
-            label="Telefono"
+            label=""
             labelRequired="*"
             placeHolder="Indique el numero de telefono"
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
             required />
-
+</Wrapper>
         </div>
+        
         <div className="pb-6" >
+        <Wrapper attributeName="telefonoAlternativo" title="Telefono Alternativo" labelRequired="">
           <InputText
             value={tramite.telefonoAlternativo}
             attributeName='telefonoAlternativo'
@@ -172,14 +175,14 @@ export default () => {
               tramite.telefonoAlternativo = value
               updateObjTramite()
             }}
-            label="Telefono Alternativo"
+            label=""
             labelRequired=""
             placeHolder="Indique el numero de telefono"
             labelObservation=""
             labeltooltip=""
             labelMessageError=""
             required />
-
+          </Wrapper>
         </div>
       </div>
 

@@ -597,32 +597,32 @@ export const getVigenciaCertificado = (tramite:TramiteAlta) => {
 }
 
 export const hasObservacionesObra =(obra:DDJJObra)=>{
- return  obra.observacionesDelRegistro.denominacion
-      || obra.observacionesDelRegistro.ubicacionGeografica
-			|| obra.observacionesDelRegistro.plazoPorContrato
-			|| obra.observacionesDelRegistro.transcurrido
-			|| obra.observacionesDelRegistro.restante
-			|| obra.observacionesDelRegistro.razonSocialUTE
-			|| obra.observacionesDelRegistro.cuitUTE
-			|| obra.observacionesDelRegistro.participacionUTE
-			|| obra.observacionesDelRegistro.razonSocialComitente
-			|| obra.observacionesDelRegistro.cuitComitente
-			|| obra.observacionesDelRegistro.montoInicial
-			|| obra.observacionesDelRegistro.especialidad1
-			|| obra.observacionesDelRegistro.subEspecialidad1
-			|| obra.observacionesDelRegistro.subEspecialidades1Otros
-			|| obra.observacionesDelRegistro.especialidad2
-			|| obra.observacionesDelRegistro.subEspecialidad2
-			|| obra.observacionesDelRegistro.subEspecialidades2Otros
-			|| obra.observacionesDelRegistro.especialidad3
-			|| obra.observacionesDelRegistro.subEspecialidad3
-			|| obra.observacionesDelRegistro.subespecialidades
-			|| obra.observacionesDelRegistro.subEspecialidades3Otros
-			|| obra.observacionesDelRegistro.datosGenerales
-			|| obra.observacionesDelRegistro.archivosOrdenDeCompra
-			|| obra.observacionesDelRegistro.addProrroga
-			|| obra.observacionesDelRegistro.certificacionesTitles
-			|| obra.observacionesDelRegistro.ampliacionesTitle
-			|| obra.observacionesDelRegistro.redeterminacionesTitle
-			|| obra.observacionesDelRegistro.likeProrroga
+ return obra.observacionesDelRegistro && obra.observacionesDelRegistro.denominacion
+      || obra.observacionesDelRegistro &&  obra.observacionesDelRegistro.ubicacionGeografica
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.plazoPorContrato
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.transcurrido
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.restante
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.razonSocialUTE
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.cuitUTE
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.participacionUTE
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.razonSocialComitente
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.cuitComitente
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.montoInicial
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.especialidad1
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.subEspecialidad1
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.subEspecialidades1Otros
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.especialidad2
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.subEspecialidad2
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.subEspecialidades2Otros
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.especialidad3
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.subEspecialidad3
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.subespecialidades
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.subEspecialidades3Otros
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.datosGenerales
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.archivosOrdenDeCompra
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.addProrroga
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.certificacionesTitles
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.ampliacionesTitle
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.redeterminacionesTitle
+			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.likeProrroga
 }
