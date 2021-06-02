@@ -92,13 +92,21 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     {
       title: '',
       key: 'evaluacion',
-      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'OBSERVADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
+      render: (text, record) => 
+      <Tooltip title={record.observacionRegistro}>
+        <div>{record.status === 'OBSERVADA' ? 
+        <DislikeFilled style={{ color: '#F9A822' }} /> : 
+        <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div>
+      </Tooltip>
 
     },
     {
       title: 'Eliminar',
       key: 'delete ',
-      render: (text, record) => <div onClick={() => borrarPeriodo(record)}><DeleteOutlined /></div>
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR'|| record.status === 'OBSERVADA' ? 
+      <div onClick={() => borrarPeriodo(record)}><DeleteOutlined /></div> : ''),
+      
+     
     },
     {
       title: 'Periodo',

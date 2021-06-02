@@ -61,7 +61,8 @@ export default (props) => {
 			certificacionesTitles:null,
 			ampliacionesTitle:null,
 			redeterminacionesTitle:null,
-			likeProrroga:null
+			likeProrroga:null,
+			ubicacion:null
 		}
 
 
@@ -71,8 +72,7 @@ export default (props) => {
 
 	const isEditable = () => {
 		console.log(obra.observacionesDelRegistro[props.field] !== null && obra.observacionesDelRegistro[props.field].length > 0 ,obra.observacionesDelRegistro[props.field])
-		return obra.observacionesDelRegistro[props.field] !== null && obra.observacionesDelRegistro[props.field].length > 0 || tramite.status ==='BORRADOR' ||
-		(tramite.status ==='OBSERVADO' && (_.isEmpty() )) && getUsuario().isConstructor()
+		return obra.observacionesDelRegistro[props.field] !== null && obra.observacionesDelRegistro[props.field].length > 0 || tramite.status ==='BORRADOR' && getUsuario().isConstructor()
 	}
 
 	const getColorIcon = (handUp: boolean) => {
@@ -119,7 +119,7 @@ export default (props) => {
 		</Modal>
 		<div className="flex ">
 			<div className="flex w-3/4">
-				<div className={props.isTitle ? 'text-2xl font-bold py-4' : 'font-bold text-muted-700 text-sm'} >
+				<div  >
 
 					<label className={props.isTitle ? 'text-2xl font-bold py-4' : 'font-bold text-muted-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
 				</div>
