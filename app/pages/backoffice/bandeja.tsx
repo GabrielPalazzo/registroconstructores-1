@@ -99,7 +99,7 @@ export default () => {
 
         <Tabs defaultActiveKey={getDefaultTabActive()} onChange={callback}>
           <TabPane tab={`Bandeja de trabajo  (${tramites.filter((ft: TramiteAlta) => ft.asignadoA === null).length})`} key="1">
-            {tramites.filter((ft: TramiteAlta) => ft.asignadoA === null).map((t: TramiteAlta) => (
+            {tramites.filter((ft: TramiteAlta) =>  ft.asignadoA === null && ft.status !== 'BORRADOR').map((t: TramiteAlta) => (
              
              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
@@ -346,7 +346,7 @@ export default () => {
           </TabPane>
 
           <TabPane tab={`Con actualizaciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO').length})`} key="6">
-            {_.sortBy(tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'BORRADOR'), t => t.razonSocial).map((t: TramiteAlta) => (
+            {_.sortBy(tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'BORRADOR' ||  t.categoria === 'DESACTUALIZADO'  && t.status !== 'VERIFICADO'), t => t.razonSocial).map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>

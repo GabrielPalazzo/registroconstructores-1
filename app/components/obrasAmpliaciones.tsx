@@ -258,9 +258,10 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
         </div>
 
       </div>
+      {getUsuario().isConstructor() ?
       <div className=" text-center">
         <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
-      </div>
+      </div> :''}
       <div className="mt-4 ">
         <Table
           columns={columnsAmpliaciones}

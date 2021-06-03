@@ -6,8 +6,8 @@ import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message, Alert } from 'antd';
-import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined } from '@ant-design/icons';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message, Alert, Tooltip } from 'antd';
+import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined,DislikeFilled, LikeFilled  } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import SelectSimple from '../components/select'
 import { Collapse } from 'antd';
@@ -17,7 +17,7 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable, calcularSaldoObra, calcularCertificaciones, hasObservacionesObra } from '../services/business';
+import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable, calcularSaldoObra, calcularCertificaciones, hasObservacionesObra,  getUsuario, } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
@@ -76,7 +76,9 @@ export default () => {
   const [archivos, setArchivos] = useState<Array<Archivo>>([])
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
-
+  const [plazosSeleccionada, setPlazosSeleccionada] = useState(null)
+	const [showMotivoRechazo, setShowMotivoRechazo] = useState(false)
+	const [motivoRechazo, setMotivoRechazo] = useState('')
 
   const [obra, setObra] = useState<DDJJObra>(getEmptyObras())
   const [especialidad1, setEspecialidad1] = useState('')
@@ -203,8 +205,8 @@ export default () => {
 
               <div className="pb-6" >
              
-                  <InputText
-                  attributeName=''
+                  <InputText 
+                  attributeName='ubicacionGeografica'
                   labelRequired="*"
                     value={ubicacionText}
                     bindFunction={setUbicacionText}
@@ -790,22 +792,24 @@ export default () => {
     )
   }
 
+  
+
 
   let columnsPlazos = [
+    
 
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite.status === 'BORRADOR' ? <Popconfirm
+      render: (text, record) => (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' ? <Popconfirm
         title="Esta seguro que lo  deseas Eliminar  la prorroga?"
         onConfirm={() => removePlazos(record)}
         onCancel={cancel}
         okText="Si, Eliminar"
         cancelText="Cancelar"
-      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
-       < WrapperObras  obra={obra}  field='likeProrroga' onChange ={o => updateObra(o)} labelRequired="">
-        </ WrapperObras>
-      </Space>),
+      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : 
+      ''
+       ),
     },
 
 
@@ -921,7 +925,7 @@ export default () => {
 
 
 
-
+ 
 
   const renderNoData = () => {
     return (<div>

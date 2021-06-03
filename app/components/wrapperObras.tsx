@@ -62,7 +62,6 @@ export default (props) => {
 			ampliacionesTitle:null,
 			redeterminacionesTitle:null,
 			likeProrroga:null,
-			ubicacion:null
 		}
 
 

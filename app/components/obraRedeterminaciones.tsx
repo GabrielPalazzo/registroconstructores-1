@@ -269,12 +269,14 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 					/>
 				</div>
 			</div>
+			{getUsuario().isConstructor() ?
 			<div className="text-center ">
 
 				<div className=" ">
 					<Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
 				</div>
 			</div>
+			:''}
 			<div className="mt-4 ">
 				<Table columns={columnsRedeterminaciones}
 					dataSource={Object.assign([], obra.redeterminaciones)}

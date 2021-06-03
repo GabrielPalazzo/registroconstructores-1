@@ -122,6 +122,7 @@ type DDJJObra ={
     prorrogaMeses:number
     prorrogaFecha:string
     archivosPlazos: Array<Archivo>
+    status?: null | 'APROBADA' | 'EN REVISION' | 'OBSERVADA'
   }>
   transcurrido:number
   restante:number
@@ -170,6 +171,7 @@ type DDJJObra ={
     ampliacionesTitle:string
     redeterminacionesTitle:string
     likeProrroga:string
+
   }
   
 }

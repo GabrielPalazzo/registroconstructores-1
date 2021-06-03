@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getCodigoObra, getEmptyTramiteAlta } from '../services/business'
+import { getCodigoObra, getEmptyTramiteAlta,getUsuario } from '../services/business'
 import InputTextModal from './input_text_modal'
 import {InputText} from './input_text'
 import SelectModal from './select_modal'
@@ -429,9 +429,10 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
         
 
       </div>
+      {getUsuario().isConstructor() ? 
       <div className=" text-center ">
           <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
-        </div>
+        </div>:''}
       <div className="mt-4">
         <Table columns={columnsEstado} dataSource={Object.assign([],obra.datosObra)} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
       </div>

@@ -288,9 +288,10 @@ className=""
 
 
     </div>
+    {getUsuario().isConstructor() ?
     <div className=" text-center mb-4">
       <Button onClick={agregarPeriodo} type={periodo ? 'primary' : 'ghost'}>{periodoSeleccionado ? 'Editar' : 'Agregar'}</Button>
-    </div>
+    </div>: ''}
     <div>
       <Table pagination={false} columns={columns} dataSource={Object.assign([], obra.certificaciones)}
         summary={pageData => {
