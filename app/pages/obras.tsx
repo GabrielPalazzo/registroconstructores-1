@@ -830,7 +830,15 @@ export default () => {
     }
   ]
 
-  const tieneObservaciones = (obra) => !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA')) || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
+  const tieneObservaciones = (obra) => 
+  {
+
+    return !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA')) 
+    || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) 
+    || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
+    || hasObservacionesObra(obra)
+  }
+  
 
   const allowDeleteObra = (obra)=>{
 
@@ -864,7 +872,7 @@ export default () => {
     }, {
       title: 'Obs',
       key: 'Obs',
-      render: (text, record) => <div>{tieneObservaciones(record) ? 'Observada' : ''}</div>
+      render: (text, record) => <div>{tieneObservaciones(record) ? 'Observada' : 'En revision'}</div>
     },
     {
       title: 'Ver',
@@ -995,7 +1003,7 @@ export default () => {
               const obraEmpty = getEmptyObras()
               obraEmpty.id = getCodigoObra()
               // obra.id = getCodigoObra()
-             //setModo(MODO.NEW)
+              setModo(MODO.NEW)
               setObra(Object.assign({}, obraEmpty))
               setModalObras(true)
             }} icon={<PlusOutlined />}> Agregar</Button> : ''}
@@ -1016,7 +1024,7 @@ export default () => {
               {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
             </div>
           </TabPane>
-          <TabPane tab={`Obras a revisar por el Registro (${tramite.ddjjObras.filter(o => !o.status || o.status !== 'APROBADA').length})`} key="2">
+          <TabPane tab={`Obras a revisar por el Registro (${tramite.ddjjObras.filter(o => !o.status || tieneObservaciones(o)).length})`} key="2">
             <div className="overflow-x-auto" >
               {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras.filter(o => !o.status || o.status !== 'APROBADA')} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
             </div>
