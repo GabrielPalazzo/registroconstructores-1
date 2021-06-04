@@ -258,7 +258,25 @@ export class Parser extends ConnectionManager {
     }
 
 
-    return this.preInscripcion.PersonasLegales.map(mapToApoderados)
+
+    if (this.preInscripcion.InformacionEmpresa.tipoProveedor===1)
+      return this.preInscripcion.PersonasLegales = [{
+        nombre: this.preInscripcion.InformacionEmpresa.RazonSocial,
+        apellido: this.preInscripcion.InformacionEmpresa.RazonSocial,
+        email: "",
+        nroDocumento: this.preInscripcion.InformacionEmpresa.NumeroCuit,
+        tipoDocumento:'CUIT',
+        cuit: this.preInscripcion.InformacionEmpresa.NumeroCuit,
+        esAdministrador: true,
+        fotosDNI: [],
+        imagenesDni: [],
+        actaAutoridades: [],
+        actaAdminLegitimado: []
+      } as Apoderado]
+    else 
+      this.preInscripcion.PersonasLegales.map(mapToApoderados) 
+    
+      
 
   }
 
@@ -449,8 +467,6 @@ export class Parser extends ConnectionManager {
 
     
 
-
-    console.log(certificadoOriginal)
 
     const newTramite = {
       _id: certificadoOriginal ? certificadoOriginal.tramite._id : nanoid(),
