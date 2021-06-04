@@ -3,6 +3,7 @@ import middleware from '../../../middlewares/middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import _ from 'lodash'
 import moment from 'moment'
+import { getCodigoObra } from '../../../services/business';
 
 const handler = nextConnect();
 
@@ -36,10 +37,12 @@ handler.get(async (req: any, res: NextApiResponse) => {
             ).toArray()
 
         const fixCertificacionesDate = (cert) => {
-            console.log(cert.periodo)
             if (cert.periodo.length > 10)
                 cert.periodo = moment(cert.periodo).format('DD/MM/YYYY')
-
+                
+            if ( !cert.codigo)
+                cert.codigo = getCodigoObra()
+                
             return cert
         }
 
