@@ -2242,7 +2242,7 @@ export default () => {
 
         <div className="text-2xl font-bold"> Inscripción en I.E.R.I.C. (Instituto de Estadística y Registro de la Industria de la Construcción)</div>
         <div className="grid grid-cols-1 mb-4 mt-4  ">
-          
+        <Wrapper title={isPersonaFisica(tramite) ? "Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1." : "Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b."} attributeName="siIeric" >
             <div className="">
               <Switch
                 value={tramite.poseeIERIC}
@@ -2250,7 +2250,7 @@ export default () => {
                   tramite.poseeIERIC = value
                   setTramite(Object.assign({}, tramite))
                 }}
-                label={isPersonaFisica(tramite) ? "Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1." : "Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b."}
+                label=""
                 labelRequired=""
                 SwitchLabel1="Si"
                 SwitchLabel2="No"
@@ -2258,7 +2258,7 @@ export default () => {
                 labeltooltip=""
                 labelMessageError=""
               /></div>
-           
+           </Wrapper>
         </div>
         {tramite.poseeIERIC ?'' : <div className="grid grid-cols-3 gap-4 ">
           <div>
