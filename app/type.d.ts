@@ -97,7 +97,7 @@ type CertificacionesCerradas={
 type DDJJObra ={
   id: string
   actasObra: Array<Archivo>
-  status?:"APROBADA" | '' | 'EN REVISION' | 'RECHAZADA'
+  status?:'APROBADA' | 'OBSERVADA' | 'EN REVISION' | 'RECHAZADA' | 'DESESTIMADA' | ''
   denominacion:string
   ubicacion:Array<string>
   datosObra:Array<DatosObraGeneral>

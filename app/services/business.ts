@@ -626,3 +626,19 @@ export const hasObservacionesObra =(obra:DDJJObra)=>{
 			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.redeterminacionesTitle
 			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.likeProrroga
 }
+
+/**
+ * Este metodo permite determinar a ciencia cierta cual es el estado de la obra ya que existsen multiples instancias y condiciones que afectan a su calculo
+ * @param obra Obra sobre la cual se quiere hacer el analisis
+ * @returns Devuele el estado calculado de la obra
+ */
+export const determinarEstadoObra = (obra:DDJJObra) : 'APROBADA' | 'OBSERVADA' | 'EN REVISION' | 'RECHAZADA' | 'DESESTIMADA'=>{
+
+  if (!obra.status)
+    return  hasObservacionesObra(obra) ? 'OBSERVADA' : 'EN REVISION'
+
+   
+  
+
+  return obra.status
+}
