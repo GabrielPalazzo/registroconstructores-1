@@ -17,7 +17,7 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable, calcularSaldoObra, calcularCertificaciones, hasObservacionesObra,  getUsuario, } from '../services/business';
+import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable, calcularSaldoObra, calcularCertificaciones, hasObservacionesObra,  getUsuario, determinarEstadoObra, } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
@@ -1021,12 +1021,21 @@ export default () => {
         <Tabs defaultActiveKey="1" onChange={callback} style={{ marginLeft: "0px" }}>
           <TabPane tab="Todas las obras declaradas" key="1">
             <div className="overflow-x-auto" >
-              {tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
+              {tramite.ddjjObras.length === 0 ? renderNoData() : 
+                <Table 
+                  columns={columns} 
+                  dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA')} 
+                  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} 
+                    description={<span> No hay información cargada </span>}>
+                  </Empty> }} />}
             </div>
           </TabPane>
           <TabPane tab={`Obras a revisar por el Registro (${tramite.ddjjObras.filter(o => !o.status || tieneObservaciones(o)).length})`} key="2">
             <div className="overflow-x-auto" >
-              {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : <Table columns={columns} dataSource={tramite.ddjjObras.filter(o => !o.status || o.status !== 'APROBADA')} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
+              {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : 
+                <Table 
+                  columns={columns} 
+                  dataSource={tramite.ddjjObras.filter( o => determinarEstadoObra(o) ==='OBSERVADA' ||determinarEstadoObra(o) ==='EN REVISION')} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
             </div>
           </TabPane>
 
