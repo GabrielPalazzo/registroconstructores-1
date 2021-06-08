@@ -6,7 +6,7 @@ import { HeaderPrincipal } from '../components/header'
 import { Button, Steps, Card, Result, Alert, Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, sendTramite } from '../services/business';
+import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, sendTramite,  hasObservacionesObra } from '../services/business';
 import { validatorTramite } from '../services/validator'
 import { Loading } from '../components/loading';
 import { RootState } from '../redux/store';
@@ -211,7 +211,7 @@ export default () => {
               {reviewAbierta.map(r => <li>{r.review}</li>)}
             </ul>
           </div>
-        }
+        } 
       </Card>
       <div className="mt-6 pt-4 text-center">
         <Button type="primary" onClick={() => {

@@ -62,6 +62,8 @@ export default (props) => {
 			ampliacionesTitle:null,
 			redeterminacionesTitle:null,
 			likeProrroga:null,
+			ubicacion:null,
+			ubicacionText:null
 		}
 
 
@@ -70,10 +72,9 @@ export default (props) => {
 		return <div></div>
 
 	const isEditable = () => {
-		console.log(obra.observacionesDelRegistro[props.field] !== null && obra.observacionesDelRegistro[props.field].length > 0 ,obra.observacionesDelRegistro[props.field])
-	
 		
-		return obra.observacionesDelRegistro[props.field] !== null && obra.observacionesDelRegistro[props.field].length > 0 
+		
+		return obra.observacionesDelRegistro[props.field] && obra.observacionesDelRegistro[props.field] !== null  && (obra.observacionesDelRegistro[props.field] &&  obra.observacionesDelRegistro[props.field].length > 0 )
 		|| tramite.status ==='BORRADOR'  && getUsuario().isConstructor()
 	}
 

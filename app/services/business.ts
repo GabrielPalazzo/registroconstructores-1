@@ -625,6 +625,8 @@ export const hasObservacionesObra =(obra:DDJJObra)=>{
 			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.ampliacionesTitle
 			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.redeterminacionesTitle
 			|| obra.observacionesDelRegistro && obra.observacionesDelRegistro.likeProrroga
+      || obra.observacionesDelRegistro && obra.observacionesDelRegistro.ubicacion
+      || obra.observacionesDelRegistro && obra.observacionesDelRegistro.ubicacionText
 }
 
 /**
@@ -632,10 +634,10 @@ export const hasObservacionesObra =(obra:DDJJObra)=>{
  * @param obra Obra sobre la cual se quiere hacer el analisis
  * @returns Devuele el estado calculado de la obra
  */
-export const determinarEstadoObra = (obra:DDJJObra) : 'APROBADA' | 'OBSERVADA' | 'EN REVISION' | 'RECHAZADA' | 'DESESTIMADA'=>{
+export const determinarEstadoObra = (obra:DDJJObra) : 'APROBADA' | 'OBSERVADA' |'SUPERVIZADA' |'A REVISAR' | 'RECHAZADA' | 'DESESTIMADA'=>{
 
   if (!obra.status)
-    return  hasObservacionesObra(obra) ? 'OBSERVADA' : 'EN REVISION'
+    return  hasObservacionesObra(obra) ? 'OBSERVADA' : 'A REVISAR'
 
    
   

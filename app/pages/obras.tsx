@@ -7,7 +7,7 @@ import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
 import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message, Alert, Tooltip } from 'antd';
-import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined,DislikeFilled, LikeFilled  } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined,DislikeFilled, LikeFilled, CheckOutlined  } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import SelectSimple from '../components/select'
 import { Collapse } from 'antd';
@@ -107,6 +107,7 @@ export default () => {
   }
 
   const updateObra = (obra: DDJJObra) => {
+    console.log(obra.status)
     const idxObra = tramite.ddjjObras.findIndex( o => o.id === obra.id)
     tramite.ddjjObras[idxObra]=obra
     updateObjTramite()
@@ -199,30 +200,30 @@ export default () => {
         <TabPane tab="General" key="datosGenerales">
           <ObrasDatosGenerales obra={obra} onChange={setObra} modo={modo as any} />
           <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
-            <div className="text-xl font-bold py-2 w-3/4">  Ubicación geográfica</div>
-            <div className="grid grid-cols-2 gap-4 ">
-            < WrapperObras title="Ubicacion" obra={obra}  field='ubicacionGeografica' onChange ={o => updateObra(o)} labelRequired="*">
+          < WrapperObras isTitle title="Ubicación geográfica" obra={obra}  field='ubicacionGeografica' onChange ={o => updateObra(o)} >
 
+            <div className="grid grid-cols-2 gap-4 ">
+           
               <div className="pb-6" >
              
-                  <InputText 
-                  attributeName='ubicacionGeografica'
+                  <InputTextModal 
                   labelRequired="*"
-                    value={ubicacionText}
-                    bindFunction={setUbicacionText}
-                    placeHolder="Ubicacion"
-                    labelObservation=""
-                    labeltooltip=""
-                    labelMessageError=""
+                  label="Ubicacion"
+                  value={ubicacionText}
+                  bindFunction={setUbicacionText}
+                  labelMessageError=""
                     required
                   />
+
+
               </div>
-              </ WrapperObras>
+              {isTramiteEditable(tramite) ?
               <div className="mt-8 ">
                 <Button onClick={agregarUbicacion} type="primary" icon={<PlusOutlined />}> Agregar</Button>
-              </div>
+              </div> :''}
               
             </div>
+            </ WrapperObras>
 
             <div className="mt-4 ">
               {obra.ubicacion.map(u => <Tag closable onClose={() => removerUbicacion(u)} color="#50B7B2">{u}</Tag>)}
@@ -872,7 +873,7 @@ export default () => {
     }, {
       title: 'Obs',
       key: 'Obs',
-      render: (text, record) => <div>{tieneObservaciones(record) ? 'Observada' : 'En revision'}</div>
+      render: (text, record) => <div>{determinarEstadoObra(record)}</div>
     },
     {
       title: 'Ver',
@@ -932,7 +933,12 @@ export default () => {
 
 
 
+const supervizar = async() =>{
+  obra.status = 'SUPERVIZADA'
+  //setObra({...obra})
+  await updateObra(obra)
 
+}
  
 
   const renderNoData = () => {
@@ -1024,7 +1030,7 @@ export default () => {
               {tramite.ddjjObras.length === 0 ? renderNoData() : 
                 <Table 
                   columns={columns} 
-                  dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA' || determinarEstadoObra(o) ==='OBSERVADA' || determinarEstadoObra(o) ==='EN REVISION' )} 
+                  dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA'  || determinarEstadoObra(o) ==='OBSERVADA' || determinarEstadoObra(o) ==='A REVISAR' )} 
                   pagination={{ pageSize: 20 }}
                   locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} 
                     description={<span> No hay información cargada </span>}>
@@ -1036,7 +1042,7 @@ export default () => {
               {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : 
                 <Table 
                   columns={columns} 
-                  dataSource={tramite.ddjjObras.filter( o => determinarEstadoObra(o) ==='OBSERVADA' ||determinarEstadoObra(o) ==='EN REVISION')}
+                  dataSource={tramite.ddjjObras.filter( o => determinarEstadoObra(o) ==='OBSERVADA' ||determinarEstadoObra(o) ==='A REVISAR' || determinarEstadoObra(o) ==='SUPERVIZADA')}
                   pagination={{ pageSize: 20 }}
                    locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
             </div>
@@ -1054,7 +1060,9 @@ export default () => {
         cancelText="Cancelar"
         footer={[
           <Button onClick={() => setModalObras(false)}>Cancel</Button>,
-          <Button onClick={saveObra} type='primary' disabled={!isTramiteEditable(tramite)}>Guardar</Button>
+          <Button onClick={saveObra} type='primary' disabled={!isTramiteEditable(tramite)}>Guardar</Button>,
+          <div className="float-right">{getUsuario().isSupervisor() || getUsuario().isAprobador()  ?
+          <Button onClick={ supervizar} style={{backgroundColor: '#52c41a', color:'#fff'}}> <CheckOutlined /> Supervizada</Button>:''}</div>
         ]}
         width={1200}
       >

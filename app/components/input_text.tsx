@@ -94,8 +94,7 @@ export const InputText: React.FC<IProps> = ({
         value={value}
         placeholder={placeHolder}
         required={required}
-        disabled={isEditable === undefined ? false : !isEditable }
-
+        disabled={isEditable === undefined ? false : !isEditable}
         onChange={(e) => bindFunction(e.target.value)}
         type={type}
         maxLength ={maxLength}
