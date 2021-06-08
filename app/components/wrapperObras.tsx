@@ -71,9 +71,10 @@ export default (props) => {
 
 	const isEditable = () => {
 		console.log(obra.observacionesDelRegistro[props.field] !== null && obra.observacionesDelRegistro[props.field].length > 0 ,obra.observacionesDelRegistro[props.field])
+	
+		
 		return obra.observacionesDelRegistro[props.field] !== null && obra.observacionesDelRegistro[props.field].length > 0 
 		|| tramite.status ==='BORRADOR'  && getUsuario().isConstructor()
-		|| tramite.status ==='OBSERVADO'  && getUsuario().isConstructor()
 	}
 
 	const getColorIcon = (handUp: boolean) => {
@@ -89,6 +90,7 @@ export default (props) => {
 
 	}
 
+	
 	const disLike = () => {
 		obra.observacionesDelRegistro[props.field] = textObs
 
@@ -143,6 +145,7 @@ export default (props) => {
 						<Button type="link" onClick={() => {
 							obra.observacionesDelRegistro[props.field] = ''
 							props.onChange(Object.assign({}, obra))
+							
 						}} icon={<LikeFilled style={{ color: getColorIcon(true) }} />} />
 						<Button onClick={() => setShowObs(true)} type="link" icon={<DislikeFilled style={{ color: getColorIcon(false) }} />} />
 					</div>

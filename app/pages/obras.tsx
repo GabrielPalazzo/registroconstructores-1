@@ -1024,7 +1024,8 @@ export default () => {
               {tramite.ddjjObras.length === 0 ? renderNoData() : 
                 <Table 
                   columns={columns} 
-                  dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA')} 
+                  dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA' || determinarEstadoObra(o) ==='OBSERVADA' || determinarEstadoObra(o) ==='EN REVISION' )} 
+                  pagination={{ pageSize: 20 }}
                   locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} 
                     description={<span> No hay información cargada </span>}>
                   </Empty> }} />}
@@ -1035,7 +1036,9 @@ export default () => {
               {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : 
                 <Table 
                   columns={columns} 
-                  dataSource={tramite.ddjjObras.filter( o => determinarEstadoObra(o) ==='OBSERVADA' ||determinarEstadoObra(o) ==='EN REVISION')} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
+                  dataSource={tramite.ddjjObras.filter( o => determinarEstadoObra(o) ==='OBSERVADA' ||determinarEstadoObra(o) ==='EN REVISION')}
+                  pagination={{ pageSize: 20 }}
+                   locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
             </div>
           </TabPane>
 

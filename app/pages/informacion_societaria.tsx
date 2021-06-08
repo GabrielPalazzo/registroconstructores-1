@@ -113,10 +113,6 @@ export default () => {
   }
 
 
-  const cargarIeric = (r: TramiteAlta) => {
-
-    setPoseeIeric(r.poseeIERIC)
-  }
 
 
   const { Step } = Steps;
