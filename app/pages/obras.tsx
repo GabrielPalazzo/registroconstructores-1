@@ -890,16 +890,22 @@ export default () => {
       dataIndex: 'id',
       key: 'id',
     },
-    //{
-    //title: 'Estado',
-    //dataIndex: 'estado',
-    //render : (text,record : DDJJObra) => <div>{_.last(record.datosObra).estado}</div> 
-    //},
+    
     {
       title: 'Denominación',
       dataIndex: 'denominacion',
       key: 'denominacion',
     },
+    {
+      title: 'Estado',
+      dataIndex: 'estado',
+      render : (text,record : DDJJObra) => <div>{_.last(record.datosObra.map(r => r.estado)) }</div> 
+      },
+      {
+        title: 'Tipo de Contratacion',
+        dataIndex: 'tipoContratacion',
+        render : (text,record : DDJJObra) => <div>{_.last(record.datosObra.map(r => r.tipoContratacion)) }</div> 
+        },
     {
       title: 'Comitente',
       dataIndex: 'comitente',

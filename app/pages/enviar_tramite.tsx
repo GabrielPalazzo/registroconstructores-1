@@ -6,14 +6,14 @@ import { HeaderPrincipal } from '../components/header'
 import { Button, Steps, Card, Result, Alert, Modal } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, sendTramite,  hasObservacionesObra } from '../services/business';
+import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, sendTramite, hasObservacionesObra } from '../services/business';
 import { validatorTramite } from '../services/validator'
 import { Loading } from '../components/loading';
 import { RootState } from '../redux/store';
 import _ from 'lodash'
 
 const { Step } = Steps;
-export default () => {
+export default (props) => {
   const [isLoading, setIsLoading] = useState(false)
   const [waitingType, setWaitingType] = useState('sync')
   const dispatch = useDispatch()
@@ -28,6 +28,7 @@ export default () => {
   const [erroresSeccionObras, setErroresSeccionObras] = useState<Array<ValidatorErrorElement>>([])
   const [puedeEnviarTramimte, setPuedeEnviarTramite] = useState(false)
   const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
+  const obra: DDJJObra = props.obra
 
   useEffect(() => {
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
@@ -117,7 +118,7 @@ export default () => {
                   router.push('/success')
                 })
               }}> Confirmar Tramite</Button>
-             
+
             ]
 
             }
@@ -184,7 +185,8 @@ export default () => {
 
   const EnviarBackOffice = () => {
     const reviewAbierta = revisionTramite.revision && revisionTramite.revision.reviews.filter(r => !r.isOk)
-
+   
+   
     return <div className="px-20 py-6 text-center m-auto mt-6">
 
 
@@ -208,10 +210,14 @@ export default () => {
           reviewAbierta &&
           <div className="text-left pt-4 ">
             <ul className="list-disc">
-              {reviewAbierta.map(r => <li>{r.review}</li>)}
+              {reviewAbierta.map(r => <li>{r.review}
+              </li>)}
             </ul>
           </div>
-        } 
+        }
+        
+
+
       </Card>
       <div className="mt-6 pt-4 text-center">
         <Button type="primary" onClick={() => {
