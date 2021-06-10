@@ -50,6 +50,7 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
         await dispatch(InitRevisionTramite())
         await dispatch(lockTramite(Object.assign({},tramite)))
       }
+      tramite.status = 'EN REVISION'
       
         
     }}>
