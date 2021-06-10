@@ -353,8 +353,8 @@ export default () => {
             ))}
           </TabPane>
 
-          <TabPane tab={`Con actualizaciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO').length})`} key="6">
-            {_.sortBy(tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'BORRADOR' ), t => t.razonSocial).map((t: TramiteAlta) => (
+          <TabPane tab={`Con actualizaciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'VERIFICADO' ).length})`} key="6">
+            {_.sortBy(tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'BORRADOR' && t.status !== 'VERIFICADO' ), t => t.razonSocial).map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>
