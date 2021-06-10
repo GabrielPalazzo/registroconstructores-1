@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Tabs, Collapse, Tag, Menu, Dropdown, Avatar } from 'antd';
+import { Button, Card, Tabs, Collapse, Tag, Menu, Dropdown, Avatar,Input } from 'antd';
 import { ArrowRightOutlined, DownCircleOutlined, CloudDownloadOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
@@ -19,6 +19,9 @@ const Panel = Collapse.Panel;
 function callback(key) {
   console.log(key);
 }
+
+const { Search } = Input;
+const onSearch = value => console.log(value);
 
 const customPanelStyle = {
   background: '#fafafa',
@@ -96,13 +99,16 @@ export default () => {
 
       <div className="px-4 md:px-20 py-6  ">
         <div className="text-2xl font-bold py-4">{`Hola ${usuario.GivenName} ${usuario.Surname}`} </div>
+       
 
         <Tabs defaultActiveKey={getDefaultTabActive()} onChange={callback}>
+       
           <TabPane tab={`Bandeja de trabajo  (${tramites.filter((ft: TramiteAlta) => ft.asignadoA === null).length})`} key="1">
             {tramites.filter((ft: TramiteAlta) =>  ft.asignadoA === null && ft.status !== 'BORRADOR').map((t: TramiteAlta) => (
              
              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
+              
                   <div>
                     <div className="flex">
                     <div className="mr-2"><Tag >{t.categoria}</Tag></div>
@@ -151,7 +157,9 @@ export default () => {
           </TabPane>
           <TabPane tab={`Mis Asignados (${tramites.filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).length})`} key="2">
             {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).map((t: TramiteAlta) => (
-              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+             
+             <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+                
                 <div className="flex justify-between">
                   <div className="">
                     <div className="flex">

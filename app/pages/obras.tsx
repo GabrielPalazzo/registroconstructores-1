@@ -200,7 +200,7 @@ export default () => {
         <TabPane tab="General" key="datosGenerales">
           <ObrasDatosGenerales obra={obra} onChange={setObra} modo={modo as any} />
           <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
-          < WrapperObras isTitle title="Ubicación geográfica" obra={obra}  field='ubicacionGeografica' onChange ={o => updateObra(o)} >
+          < WrapperObras isTitle title="Ubicación geográfica" obra={obra}  field='ubicacionGeografica' onChange ={o => updateObra(o)} attributeName="ubicacion" >
 
             <div className="grid grid-cols-2 gap-4 ">
            
