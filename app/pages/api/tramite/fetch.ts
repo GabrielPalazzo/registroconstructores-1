@@ -15,11 +15,11 @@ handler.use(middleware);
 
 handler.get(async (req: any, res: NextApiResponse) => {
   const {
-    query: { cuit,token },
+    query: { cuit,token,id },
   } = req
 
  
-  const tramite = await axios.get(`https://rnc.argentina.gob.ar/api/tramite/find?cuit=${cuit}`,{
+  const tramite = await axios.get(`https://rnc.argentina.gob.ar/api/tramite/findById?id=${id}`,{
       headers: {
           Authorization: `Bearer ${token}`
       }
