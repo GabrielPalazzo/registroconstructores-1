@@ -57,6 +57,19 @@ export const getTramiteByCUIT = (cuit: string): Promise<TramiteAlta> => {
   })
 }
 
+export const getTramiteByID = (_id: string): Promise<TramiteAlta> => {
+  return axios.get(`/api/tramite/findById?_id=${_id}`, {
+   
+    headers: {
+      Authorization: 'Bearer ' + getToken()
+    }
+  }).then((t) => {
+    return t.data.tramite as TramiteAlta
+  }).catch(err => {
+    return null
+  })
+}
+
 export const getCertificados = (cuit: string): Promise<any> => {
   return axios.get(`/api/certificado?cuit=${cuit}`, {
     headers: {

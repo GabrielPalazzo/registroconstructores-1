@@ -3,7 +3,7 @@ import { Button, Card, Tabs, Collapse, Tag, Menu, Dropdown, Avatar,Input } from 
 import { ArrowRightOutlined, DownCircleOutlined, CloudDownloadOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
-import { closeSession, getObservacionesTecnicoRaw, getReviewAbierta, getTramiteByCUIT, getUsuario } from '../../services/business';
+import { closeSession, getObservacionesTecnicoRaw, getReviewAbierta, getTramiteByCUIT, getUsuario,getTramiteByID } from '../../services/business';
 import { Loading } from '../../components/loading'
 import { getTramitesParaVerificar } from '../../services/business'
 import { useDispatch, useSelector } from 'react-redux'
@@ -139,7 +139,7 @@ export default () => {
                   </div>
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
-                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      const tramiteATrabajar = await getTramiteByID(t._id)
                       await dispatch(setTramiteView(tramiteATrabajar))
                       await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')
@@ -191,7 +191,8 @@ export default () => {
                   </div>
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
-                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      console.log(getTramiteByID(t._id))
+                      const tramiteATrabajar = await getTramiteByID(t._id)
                       await dispatch(setTramiteView(tramiteATrabajar))
                       await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')
@@ -241,7 +242,7 @@ export default () => {
                   </div>
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
-                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      const tramiteATrabajar = await getTramiteByID(t._id)
                       await dispatch(setTramiteView(tramiteATrabajar))
                       await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')
@@ -256,7 +257,7 @@ export default () => {
             ))}
           </TabPane>
 
-          <TabPane tab={`A Supervisar (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').length})`} key="4">
+          <TabPane tab={`A Supervisar (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' ).filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').length})`} key="4">
             {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
@@ -290,7 +291,7 @@ export default () => {
                   </div>
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
-                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      const tramiteATrabajar = await getTramiteByID(t._id)
                       await dispatch(setTramiteView(tramiteATrabajar))
                       await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')
@@ -338,7 +339,7 @@ export default () => {
                   </div>
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
-                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      const tramiteATrabajar = await getTramiteByID(t._id)
                       await dispatch(setTramiteView(tramiteATrabajar))
                       await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')
@@ -387,7 +388,7 @@ export default () => {
                   </div>
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
-                      const tramiteATrabajar = await getTramiteByCUIT(t.cuit)
+                      const tramiteATrabajar = await getTramiteByID(t._id)
                       await dispatch(setTramiteView(tramiteATrabajar))
                       await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')
