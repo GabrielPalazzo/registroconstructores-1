@@ -67,6 +67,10 @@ handler.get(async (req: any, res: NextApiResponse) => {
         // tramite.revisiones.map(r => r.reviews)
         const reviews = tramite.revisiones[0].reviews.map(r => {return {...r,isOk:true, field:''}})
         tramite.revisiones[0].reviews = reviews
+        await req.db.collection('tramits')
+            .save(tramite)
+
+        
             
     }
 
