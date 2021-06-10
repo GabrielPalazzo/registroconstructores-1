@@ -13,7 +13,7 @@ handler.use(middleware);
 
 handler.get(async (req: any, res: NextApiResponse) => {
     const {
-        query: { cuit,type },
+        query: { cuit,type, id },
     } = req
 
     if (!req.user) {
@@ -57,9 +57,24 @@ handler.get(async (req: any, res: NextApiResponse) => {
         }
     }
 
+    const fixReviews = async () => {
+        const tramite: TramiteAlta = await req.db
+            .collection('tramites')
+            .findOne({
+                "_id": id
+            })
+        
+        // tramite.revisiones.map(r => r.reviews)
+        const reviews = tramite.revisiones[0].reviews.map(r => {return {...r,isOk:true, field:''}})
+        tramite.revisiones[0].reviews = reviews
+            
+    }
+
     if (type==='CERTIFICACIONES')
         await fixCertificaciones()
     
+    if (type==='REMOVEREVIEWS')
+        await fixReviews()
 
 
 
