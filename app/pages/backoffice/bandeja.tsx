@@ -257,7 +257,7 @@ export default () => {
             ))}
           </TabPane>
 
-          <TabPane tab={`A Supervisar (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' ).filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').length})`} key="4">
+          <TabPane tab={`A Supervisar (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' || t.categoria === 'DESACTUALIZADO'   && t.status === 'A SUPERVISAR' ).filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').length})`} key="4">
             {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
@@ -354,7 +354,7 @@ export default () => {
             ))}
           </TabPane>
 
-          <TabPane tab={`Con actualizaciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'VERIFICADO' ).length})`} key="6">
+          <TabPane tab={`Con actualizaciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'VERIFICADO'  && t.status !== 'A SUPERVISAR' ).length})`} key="6">
             {_.sortBy(tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'BORRADOR' && t.status !== 'VERIFICADO' ), t => t.razonSocial).map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
