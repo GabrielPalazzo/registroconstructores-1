@@ -2,11 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
 
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
- const authHeader = req.headers['authorization'] ? req.headers['authorization']  : req.query.token
+ const authHeader = req.headers['authorization'] ? req.headers['authorization']  : 'Bearer ' + req.query.token
  
  
- const token = authHeader && authHeader.split(' ')[1]
- console.log(authHeader)
+ const token = authHeader && authHeader.split(' ')[1] 
 
  if (!token) return res.status(401).send('Acceso denegado. Debe proveer un token') // if there isn't any token
  jwt.verify(token, process.env.SESSION_SECRET as string, (err: any, user: any) => {
