@@ -45,7 +45,7 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
 
   const UnLocked = () => {
     return <div onClick={async () => {
-      if ((tramite.status==='PENDIENTE DE REVISION')||(tramite.status==='A SUPERVISAR')||(tramite.status==='SUBSANADO')) {
+      if ((tramite.status==='PENDIENTE DE REVISION')||(tramite.status==='A SUPERVISAR')||(tramite.status==='EN REVISION')||(tramite.status==='SUBSANADO')) {
         tramite.asignadoA = user as Usuario
         await dispatch(InitRevisionTramite())
         await dispatch(lockTramite(Object.assign({},tramite)))
@@ -63,7 +63,7 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
   if (!tramite)
     return <div></div>
 
-  const showComponente = () => tramite.status==='PENDIENTE DE REVISION' || (tramite.status==='A SUPERVISAR' && getUsuario().isSupervisor()) || (tramite.status=='SUBSANADO' && getUsuario().isBackOffice())
+  const showComponente = () => tramite.status==='PENDIENTE DE REVISION'|| tramite.status==='EN REVISION' || (tramite.status==='A SUPERVISAR' && getUsuario().isSupervisor()) || (tramite.status=='SUBSANADO' && getUsuario().isBackOffice())
 
   const isLocked = () => !tramite.asignadoA ? false : true
 
