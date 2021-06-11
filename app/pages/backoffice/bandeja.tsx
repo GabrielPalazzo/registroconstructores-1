@@ -103,10 +103,10 @@ export default () => {
 
         <Tabs defaultActiveKey={getDefaultTabActive()} onChange={callback}>
        
-          <TabPane tab={`Inscripciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'VERIFICADO'  && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION' || t.status === 'OBSERVADO'|| t.status === 'A SUPERVISAR' || t.status === 'SUBSANADO' || t.status === 'EN REVISION').length})`} key="3">
-            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR'  && t.status !== 'VERIFICADO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION' || t.status === 'OBSERVADO'|| t.status === 'A SUPERVISAR' || t.status === 'SUBSANADO' || t.status === 'EN REVISION').map((t: TramiteAlta) => (
+        <TabPane tab={`Inscripciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'VERIFICADO'  && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION').length})`} key="1">
+            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR'  && t.status !== 'VERIFICADO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
-                <div className="flex justify-between">
+       <div className="flex justify-between">
                   <div>
                     <div className="flex">
                     <div className="mr-2"><Tag >{t.categoria}</Tag></div>
@@ -151,10 +151,11 @@ export default () => {
               </div>
             ))}
           </TabPane>
-          <TabPane tab={`Actualizaciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'VERIFICADO'   && t.status !== 'BORRADOR' ).length})`} key="6">
-            {_.sortBy(tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'BORRADOR' && t.status !== 'VERIFICADO'  && t.status === 'A SUPERVISAR' ), t => t.razonSocial).map((t: TramiteAlta) => (
-              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
-                <div className="flex justify-between">
+                         
+          <TabPane tab={`Actualizaciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'VERIFICADO'   && t.status !== 'BORRADOR' ).length})`} key="2">
+           {_.sortBy(tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'BORRADOR' && t.status !== 'VERIFICADO' ), t => t.razonSocial).map((t: TramiteAlta) => (
+            <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+      <div className="flex justify-between">
                   <div>
                     <div className="flex">
                     <div className="mr-2"><Tag >{t.categoria}</Tag></div>
@@ -200,11 +201,11 @@ export default () => {
             ))}
           </TabPane>
        
-          <TabPane tab={`Mis Asignados (${tramites.filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).length})`} key="2">
+          <TabPane tab={`Mis Asignados (${tramites.filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).length})`} key="3">
             {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).map((t: TramiteAlta) => (
              
              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
-                
+     
                 <div className="flex justify-between">
                   <div className="">
                     <div className="flex">
@@ -254,8 +255,8 @@ export default () => {
           </TabPane>
 
           <TabPane tab={`A Supervisar (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' || t.categoria === 'DESACTUALIZADO'  ).filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').length})`} key="4">
-            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').map((t: TramiteAlta) => (
-              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+  {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').map((t: TramiteAlta) => (
+             <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>
                     <div className="flex">
@@ -303,7 +304,7 @@ export default () => {
           </TabPane>
           <TabPane tab={`Pendientes de Aprobación (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' || t.categoria === 'DESACTUALIZADO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE APROBACION').length})`} key="5">
             {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR' || t.categoria === 'DESACTUALIZADO'   && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE APROBACION').map((t: TramiteAlta) => (
-              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+    <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>
                     <div className="flex">
@@ -350,11 +351,11 @@ export default () => {
             ))}
           </TabPane>
 
-          <TabPane tab={`Bandeja de trabajo  (${tramites.filter((ft: TramiteAlta) => ft.asignadoA === null).length})`} key="1">
+          <TabPane tab={`Bandeja de trabajo  (${tramites.filter((ft: TramiteAlta) => ft.asignadoA === null).length})`} key="6">
             {tramites.filter((ft: TramiteAlta) =>  ft.asignadoA === null && ft.status !== 'BORRADOR').map((t: TramiteAlta) => (
              
              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
-                <div className="flex justify-between">
+          <div className="flex justify-between">
               
                   <div>
                     <div className="flex">
