@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
-import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space, Tag } from 'antd';
-import { allowGuardar, cambiarADesActualizado, closeSession, getEmptyTramiteAlta, getUsuario, rechazarTramite } from '../services/business';
+import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space, Tag, Tooltip } from 'antd';
+import { allowGuardar, cambiarADesActualizado, closeSession, getEmptyTramiteAlta, getUsuario, getColorStatus,rechazarTramite } from '../services/business';
 import { ExclamationCircleOutlined , EditOutlined ,SaveOutlined, ArrowLeftOutlined, CloseOutlined  } from '@ant-design/icons';
 import { setUpdateBorrador } from '../redux/actions/main';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite';
@@ -158,7 +158,12 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
       }} danger type='text'  style={{ fontWeight: 'bold', marginLeft: '10px', color:'#F5222D' }} > <CloseOutlined />Rechazar tramite</Button> : ''}
 
       <Button danger type="text" onClick={() => setShowCancelar(true)} style={{color:'#ED3D8F', fontWeight: 'bold',}}>  <ArrowLeftOutlined /> Cancelar</Button>
+     
       {tramite && tramite.cuit && allowGuardar(tramiteSession) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}> <SaveOutlined /> Guardar y salir</Button> : ''}
+      <Tooltip title="Estado de la Trámite">
+                    <Tag color={getColorStatus(tramite)}>{tramite.status}</Tag>
+                  </Tooltip>
+     
       <Dropdown overlay={menu} trigger={['click']}>
         <div onClick={e => e.preventDefault()}>
           <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2', marginLeft: '10px' }} >{user.userData().GivenName.substring(0, 1)}</Avatar>
@@ -166,6 +171,15 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
       </Dropdown>
 
     </div>
+    <style>
+      {`
+      .ant-tag{height: 25px;
+        margin-top: 4px;
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-left: 10px;}`
+      }
+    </style>
 
   </div>
 }
