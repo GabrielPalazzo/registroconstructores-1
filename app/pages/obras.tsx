@@ -843,7 +843,8 @@ export default () => {
 
   const allowDeleteObra = (obra)=>{
 
-    return !hasObservacionesObra(obra) && (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO'))
+    return  tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO') ||
+    !hasObservacionesObra(obra) && (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO'))
    
   }
   let columns = [
