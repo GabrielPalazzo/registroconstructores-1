@@ -494,6 +494,17 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     return saveTramiteService(tramite)
   }
 
+if (tramite.status === 'EN REVISION') {
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+      tramite.status = 'OBSERVADO'
+      tramite.asignadoA = null
+    } else {
+      tramite.categoria = 'INSCRIPTO'
+      tramite.status = 'VERIFICADO'
+      //tramite.revisiones=[]
+    }
+    return saveTramiteService(tramite)
+  }
 
 }
 
