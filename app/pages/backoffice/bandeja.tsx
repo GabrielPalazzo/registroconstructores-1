@@ -102,9 +102,15 @@ export default () => {
        
 
         <Tabs defaultActiveKey={getDefaultTabActive()} onChange={callback}>
-       
-        <TabPane tab={`Inscripciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'VERIFICADO'  && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION').length})`} key="1">
-            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR'  && t.status !== 'VERIFICADO').filter((t: TramiteAlta) => t.status === 'PENDIENTE DE REVISION' ||  t.status === 'EN REVISION' || t.status === 'OBSERVADO' ||  t.status === 'SUBSANADO' ||  t.status === 'A SUPERVISAR' ||  t.status === 'PENDIENTE DE APROBACION' ).map((t: TramiteAlta) => (
+         
+        <TabPane tab={`Inscripciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'VERIFICADO'  && t.status !== 'BORRADOR').length})`} key="1">
+            {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR'  && t.status !== 'VERIFICADO').filter((t: TramiteAlta) => 
+            t.status === 'PENDIENTE DE REVISION' ||  
+            t.status === 'EN REVISION' || 
+            t.status === 'OBSERVADO' ||  
+            t.status === 'SUBSANADO' ||  
+            t.status === 'A SUPERVISAR' ||  
+            t.status === 'PENDIENTE DE APROBACION' ).map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
        <div className="flex justify-between">
                   <div>

@@ -46,11 +46,15 @@ export const setPaso = (paso: string) => async (dispatch, getState) => {
 export const saveTramite = (tramite: TramiteAlta) => async (dispatch, getState) => {
   const revisionTramite = getState().revisionTramites.revision
   
- // if ((tramite.status==='PENDIENTE DE REVISION') && (getUsuario().isBackOffice()) && tramite.asignadoA && tramite.asignadoA.iat ===getUsuario().userData().iat) {
-   //   tramite.revisiones = tramite.revisiones.filter(r => r && r.status!=='ABIERTA')
-     // tramite.revisiones.push(revisionTramite)
-  //}
-   tramite.revisiones[0] = revisionTramite
+ if ((tramite.status==='PENDIENTE DE REVISION') && (getUsuario().isBackOffice()) && tramite.asignadoA && tramite.asignadoA.iat ===getUsuario().userData().iat) {
+     tramite.revisiones = tramite.revisiones.filter(r => r && r.status!=='ABIERTA')
+      tramite.revisiones.push(revisionTramite)
+  }
+  if ((tramite.status==='EN REVISION') && (getUsuario().isBackOffice()) && tramite.asignadoA && tramite.asignadoA.iat ===getUsuario().userData().iat) {
+    tramite.revisiones = tramite.revisiones.filter(r => r && r.status!=='ABIERTA')
+     tramite.revisiones.push(revisionTramite)
+ }
+  // tramite.revisiones[0] = revisionTramite
   const t = await saveTramiteService(tramite)
   return dispatch({
     type: SAVE_TRAMITE,
