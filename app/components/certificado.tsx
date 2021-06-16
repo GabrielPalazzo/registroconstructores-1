@@ -1,13 +1,14 @@
 import { Button, Empty, Modal, Progress, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import numeral from 'numeral'
-import { calcularSaldoObra, generarCertificado, getCertificados, getCodigoObra } from '../services/business'
+import { calcularSaldoObra, generarCertificado, getCertificados, getCodigoObra, getToken } from '../services/business'
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import _ from 'lodash'
 import CertificadoPDF from './certificadoPDF'
 import { nanoid } from 'nanoid';
 import { CalculadoraCapacidad } from 'rnc-main-lib'
 import moment from 'moment';
+import axios from 'axios';
 
 
 export interface CertificadoProps {
@@ -74,43 +75,13 @@ export const Certificado: React.FC<CertificadoProps> = ({
   const [showCertificado, setShowCertificado] = useState(false)
 
   const generar = async () => {
-    const calculadora = new CalculadoraCapacidad(tramite)
-    await calculadora.init()
-    const capacidadEjecucion = calculadora
-      .getMontoCertificacionesPorPeriodo()
-      .aplicarIndiceCorreccion()
-      .ordenarMontoDescendente()
-      .tomarLosTresPrimerosElementos()
-      .aplicarPromedioLineal()
-      .aplicarIndicesEconomicos()
-  
-    const capacidadFinanciera = _.isEmpty(tramite.ddjjObras) ? capacidadEjecucion :
-      capacidadEjecucion - calculadora.filtrarObrasCandidatas()
-        .value
-        .map(obra => {
-          return calculadora.getCompromiso(obra)
-        })
-        .reduce((acc, val) => acc += val, 0)
-  
-  
-  
-    const certificadoGenerado: CertificadoCapacidad = {
-      _id: nanoid(),
-      tramite,
-      otorgadoPor: {
-        usuario:null,
-        fecha: new Date().getTime()
-      },
-      vigencia: {
-        fechaDesde: new Date().getTime(),
-        fechaHasta: moment().add(1, 'year').toDate().getTime()
-      },
-      status: 'VIGENTE',
-      capacidadEjecucion,
-      capacidadFinanciera,
-    }
+    const result = await axios.post('/api/certificado/preview',tramite,{
+      headers:{
+        Authorization: `Bearer ` + getToken()
+      }
+    })
 
-    return certificadoGenerado
+    return result.data
   }
 
   useEffect(() => {
@@ -207,3 +178,4 @@ export const Certificado: React.FC<CertificadoProps> = ({
     </style>
   </div>
 }
+
