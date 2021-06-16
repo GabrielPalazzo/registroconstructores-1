@@ -65,8 +65,8 @@ export const Certificado: React.FC<CertificadoProps> = ({
   tipoEmpresa="", 
   capacidadContratacion=0, 
   capacidadEjecucion=0,
-  obras: [],
-  porcentajesEspecialidades: [],
+  obras= [],
+  porcentajesEspecialidades= [],
   tramite=null
 }) => {
 
@@ -119,12 +119,13 @@ export const Certificado: React.FC<CertificadoProps> = ({
         const certificados: Array<CertificadoCapacidad> = await getCertificados(cuit)
         setCertificado(_.last(certificados))
       } else if (tramite) {
-        setCertificado(await generar())
+        const certGen = await generar()
+        setCertificado(certGen)
       }
     })()
   }, [])
 
-  return <div>Vive</div>
+
 
 
   return <div>
