@@ -1,20 +1,25 @@
 import { Button, Empty, Modal, Progress, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import numeral from 'numeral'
-import { calcularSaldoObra, getCertificados, getCodigoObra } from '../services/business'
+import { calcularSaldoObra, generarCertificado, getCertificados, getCodigoObra } from '../services/business'
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import _ from 'lodash'
 import CertificadoPDF from './certificadoPDF'
+import { nanoid } from 'nanoid';
+import { CalculadoraCapacidad } from 'rnc-main-lib'
+import moment from 'moment';
 
-interface CertificadoProps {
+
+export interface CertificadoProps {
   razonSocial?: string
   personeria?: string
-  cuit: string
+  cuit?: string
   tipoEmpresa?: string,
   capacidadContratacion?: number,
   capacidadEjecucion?: number,
-  obras?: [],
-  porcentajesEspecialidades?: []
+  obras?: Array<DDJJObra>,
+  porcentajesEspecialidades?: Array<any>,
+  tramite?:TramiteAlta
 }
 
 let columns = [
@@ -52,19 +57,74 @@ let columns = [
 ]
 
 
-export default (props: CertificadoProps) => {
+
+export const Certificado: React.FC<CertificadoProps> = ({
+	razonSocial="",
+  personeria="", 
+  cuit="", 
+  tipoEmpresa="", 
+  capacidadContratacion=0, 
+  capacidadEjecucion=0,
+  obras: [],
+  porcentajesEspecialidades: [],
+  tramite=null
+}) => {
 
   const [certificado, setCertificado] = useState<CertificadoCapacidad>(null)
   const [showCertificado, setShowCertificado] = useState(false)
 
+  const generar = async () => {
+    const calculadora = new CalculadoraCapacidad(tramite)
+    await calculadora.init()
+    const capacidadEjecucion = calculadora
+      .getMontoCertificacionesPorPeriodo()
+      .aplicarIndiceCorreccion()
+      .ordenarMontoDescendente()
+      .tomarLosTresPrimerosElementos()
+      .aplicarPromedioLineal()
+      .aplicarIndicesEconomicos()
+  
+    const capacidadFinanciera = _.isEmpty(tramite.ddjjObras) ? capacidadEjecucion :
+      capacidadEjecucion - calculadora.filtrarObrasCandidatas()
+        .value
+        .map(obra => {
+          return calculadora.getCompromiso(obra)
+        })
+        .reduce((acc, val) => acc += val, 0)
+  
+  
+  
+    const certificadoGenerado: CertificadoCapacidad = {
+      _id: nanoid(),
+      tramite,
+      otorgadoPor: {
+        usuario:null,
+        fecha: new Date().getTime()
+      },
+      vigencia: {
+        fechaDesde: new Date().getTime(),
+        fechaHasta: moment().add(1, 'year').toDate().getTime()
+      },
+      status: 'VIGENTE',
+      capacidadEjecucion,
+      capacidadFinanciera,
+    }
+
+    return certificadoGenerado
+  }
+
   useEffect(() => {
     (async () => {
-      if (!certificado) {
-        const certificados: Array<CertificadoCapacidad> = await getCertificados(props.cuit)
+      if (!tramite && !certificado) {
+        const certificados: Array<CertificadoCapacidad> = await getCertificados(cuit)
         setCertificado(_.last(certificados))
+      } else if (tramite) {
+        setCertificado(await generar())
       }
     })()
   }, [])
+
+  return <div>Vive</div>
 
 
   return <div>
@@ -98,7 +158,7 @@ export default (props: CertificadoProps) => {
           </div>
           <div>
             <div className="text-sm  text-muted-700 ">CUIT</div>
-            <div className="text-2xl font-bold  text-black-700 ">{props.cuit}</div>
+            <div className="text-2xl font-bold  text-black-700 ">{cuit}</div>
           </div>
         </div>
         <div className="grid grid-cols-1 border gap-4 px-4 py-4">

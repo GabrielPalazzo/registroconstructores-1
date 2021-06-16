@@ -7,7 +7,7 @@ import { setUpdateBorrador } from '../redux/actions/main'
 import { useRouter } from 'next/router'
 import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined, DeleteTwoTone } from '@ant-design/icons';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite'
-import Certificado from './certificado'
+import {Certificado} from './certificado'
 import obras from '../pages/obras'
 import { ObrasDatosGenerales } from './obraDatosGenerales'
 import _ from 'lodash'
