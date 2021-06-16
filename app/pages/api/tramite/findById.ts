@@ -8,12 +8,12 @@ handler.use(middleware);
 
 handler.get(async (req: any, res: NextApiResponse) => {
   const {
-    query: { id },
+    query: { _id },
   } = req
 
   const tramite = await req.db
     .collection('tramites')
-    .findOne({"_id": id
+    .findOne({"_id": _id
       }
     );
   res.send({tramite});

@@ -57,6 +57,19 @@ export const getTramiteByCUIT = (cuit: string): Promise<TramiteAlta> => {
   })
 }
 
+export const getTramiteByID = (_id: string): Promise<TramiteAlta> => {
+  return axios.get(`/api/tramite/findById?_id=${_id}`, {
+   
+    headers: {
+      Authorization: 'Bearer ' + getToken()
+    }
+  }).then((t) => {
+    return t.data.tramite as TramiteAlta
+  }).catch(err => {
+    return null
+  })
+}
+
 export const getCertificados = (cuit: string): Promise<any> => {
   return axios.get(`/api/certificado?cuit=${cuit}`, {
     headers: {
@@ -440,6 +453,11 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     tramite.asignadoA = null
     return saveTramiteService(tramite)
   }
+  if (tramite.status === 'EN REVISION' && getUsuario().isBackOffice()) {
+    tramite.status = 'A SUPERVISAR'
+    tramite.asignadoA = null
+    return saveTramiteService(tramite)
+  }
 
   if (tramite.status === 'OBSERVADO' && getUsuario().isConstructor()) {
     tramite.status = 'SUBSANADO'
@@ -476,6 +494,17 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     return saveTramiteService(tramite)
   }
 
+if (tramite.status === 'EN REVISION') {
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+      tramite.status = 'OBSERVADO'
+      tramite.asignadoA = null
+    } else {
+      tramite.categoria = 'INSCRIPTO'
+      tramite.status = 'VERIFICADO'
+      //tramite.revisiones=[]
+    }
+    return saveTramiteService(tramite)
+  }
 
 }
 
@@ -488,13 +517,13 @@ export const allowGuardar = (tramite: TramiteAlta) => {
   if (['BORRADOR', 'OBSERVADO'].includes(tramite.status) && getUsuario().isConstructor())
     return true
 
-  if (getUsuario().isControlador() && ['PENDIENTE DE REVISION', 'SUBSANADO'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
+  if (getUsuario().isControlador() && ['PENDIENTE DE REVISION','EN REVISION', 'SUBSANADO'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
 
-  if (getUsuario().isSupervisor() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
+  if (getUsuario().isSupervisor() && ['PENDIENTE DE REVISION', 'EN REVISION', 'SUBSANADO', 'A SUPERVISAR'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
 
-  if (getUsuario().isAprobador() && ['PENDIENTE DE REVISION', 'SUBSANADO', 'A SUPERVISAR', 'A APROBAR'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
+  if (getUsuario().isAprobador() && ['PENDIENTE DE REVISION','EN REVISION', 'SUBSANADO', 'A SUPERVISAR', 'A APROBAR'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
 
 

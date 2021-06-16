@@ -601,7 +601,7 @@ export default () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ?
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status === 'OBSERVADO'  ?
         <Popconfirm
           title="Esta seguro que lo  desea Eliminar ?"
           onConfirm={() => removeAutoridad(record)}

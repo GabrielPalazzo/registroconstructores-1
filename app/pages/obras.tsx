@@ -843,15 +843,15 @@ export default () => {
 
   const allowDeleteObra = (obra)=>{
 
-    return !hasObservacionesObra(obra) && (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO'))
+    return  tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO') ||
+    !hasObservacionesObra(obra) && (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO'))
    
   }
   let columns = [
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (allowDeleteObra(record) ? <Space size="middle">
-      </Space> : <Popconfirm
+      render: (text, record) => (allowDeleteObra(record) ?  <Popconfirm
         title="Esta seguro que lo  deseas Eliminar  La Obra"
         onConfirm={() => {
           setModo(MODO.EDIT)
@@ -860,7 +860,8 @@ export default () => {
         onCancel={cancel}
         okText="Si, Eliminar"
         cancelText="Cancelar"
-      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> )
+      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm>: <Space size="middle">
+      </Space>  )
     },
     {
       title: 'Editar',
