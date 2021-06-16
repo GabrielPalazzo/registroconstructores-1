@@ -56,7 +56,8 @@ export default () => {
         || t.status === 'A SUPERVISAR'
         || t.status === 'BORRADOR'
         || t.status === 'PENDIENTE DE APROBACION'
-        || t.status === 'PENDIENTE DE REVISION'))
+        || t.status === 'PENDIENTE DE REVISION'
+         || t.status === 'EN REVISION'))
     })()
   }, [])
 

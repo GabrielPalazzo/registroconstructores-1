@@ -60,6 +60,7 @@ export default (props) => {
       isOk: true,
       review: ''
     })
+    tramite.revisiones[0] = revisionTramite.revision
     dispatch(updateRevisionTramite(Object.assign({}, revisionTramite.revision)))
   }
 

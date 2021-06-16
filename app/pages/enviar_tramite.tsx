@@ -9,6 +9,7 @@ import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
 import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, sendTramite, hasObservacionesObra } from '../services/business';
 import { validatorTramite } from '../services/validator'
 import { Loading } from '../components/loading';
+import Certificado from '../components/certificado'
 import { RootState } from '../redux/store';
 import _ from 'lodash'
 
@@ -220,6 +221,16 @@ export default (props) => {
 
       </Card>
       <div className="mt-6 pt-4 text-center">
+       <div className="float-left"><Certificado
+        razonSocial="pepe"
+        capacidadContratacion={0}
+        capacidadEjecucion={0}
+        obras={[]}
+        porcentajesEspecialidades={[]}
+        tipoEmpresa={'Cns'}
+        personeria={'sdf'}
+        cuit={'232323'}
+      /></div>
         <Button type="primary" onClick={() => {
           setIsLoading(true)
           sendTramite(tramite).then(result => {
