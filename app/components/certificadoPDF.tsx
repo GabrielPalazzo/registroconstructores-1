@@ -4,7 +4,7 @@ import moment from 'moment'
 import { calcularSaldoObra, getVigenciaCertificado } from '../services/business';
 import numeral from 'numeral'
 import _ from 'lodash'
-import certificado from './certificado';
+import { Certificado } from './certificado';
 
 
 //Font.register({ family: 'Roboto', src: source });

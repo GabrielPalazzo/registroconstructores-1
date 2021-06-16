@@ -3,7 +3,7 @@ import { closeSession, getCertificados, getTramiteByCUIT, getUsuario, migrarCert
 import { useRouter } from 'next/router'
 import { Avatar, Dropdown, Menu, Input, Table, Button, Modal } from 'antd'
 import numeral from 'numeral'
-import Certificado from '../components/certificado'
+import {Certificado} from '../components/certificado'
 import { Loading } from '../components/loading'
 import { useDispatch } from 'react-redux'
 import { setTramiteView } from '../redux/actions/main'

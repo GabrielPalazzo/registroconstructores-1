@@ -9,7 +9,7 @@ import { saveTramite, setStatusGeneralTramite } from '../redux/actions/main'
 import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isPersonaFisica, sendTramite, hasObservacionesObra } from '../services/business';
 import { validatorTramite } from '../services/validator'
 import { Loading } from '../components/loading';
-import Certificado from '../components/certificado'
+import {Certificado} from '../components/certificado'
 import { RootState } from '../redux/store';
 import _ from 'lodash'
 
@@ -83,6 +83,14 @@ export default (props) => {
   const updateObjTramite = () => {
     setTramite(Object.assign({}, tramite))
   }
+
+  const [showProfile, setShowProfile] = useState(false)
+  const [activeProfile, setActiveProfile] = useState<TramiteAlta>(null)
+  const [modalObservaciones, setModalObservaciones] = useState(false)
+
+  const [activeProfile2, setActiveProfile2] = useState<TramiteAlta>(null)
+  const [showProfile2, setShowProfile2] = useState(false)
+
 
   const EnviarParaPreInscripcion = () => {
 
@@ -221,16 +229,12 @@ export default (props) => {
 
       </Card>
       <div className="mt-6 pt-4 text-center">
-       <div className="float-left"><Certificado
-        razonSocial="pepe"
-        capacidadContratacion={0}
-        capacidadEjecucion={0}
-        obras={[]}
-        porcentajesEspecialidades={[]}
-        tipoEmpresa={'Cns'}
-        personeria={'sdf'}
-        cuit={'232323'}
-      /></div>
+       {/* 
+       <div >
+       
+         <Certificado
+        tramite={tramite} />
+        </div>*/}
         <Button type="primary" onClick={() => {
           setIsLoading(true)
           sendTramite(tramite).then(result => {
@@ -246,6 +250,32 @@ export default (props) => {
     return <Loading message="" type="waiting" />
 
   return <div>
+
+<Modal title="Certificado"
+      visible={showProfile}
+      onOk={handleOk}
+      footer={[
+        <Button type="primary" >Descargar Certificado</Button>,
+        <Button onClick={handleCancel}>Cerrar</Button>
+
+
+      ]}
+      onCancel={() => setShowProfile(false)}
+      width={1000}>
+      <div><Certificado
+        razonSocial={activeProfile2 && activeProfile2.razonSocial}
+        capacidadContratacion={0}
+        capacidadEjecucion={0}
+        obras={[]}
+        porcentajesEspecialidades={[]}
+        tipoEmpresa={'Cns'}
+        personeria={'sdf'}
+        cuit={'232323'}
+      /></div>
+
+
+    </Modal> 
+
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
       router.push('/')
