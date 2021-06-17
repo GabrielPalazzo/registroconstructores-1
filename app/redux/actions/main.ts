@@ -50,8 +50,10 @@ export const saveTramite = (tramite: TramiteAlta) => async (dispatch, getState) 
  //    tramite.revisiones = tramite.revisiones.filter(r => r && r.status!=='ABIERTA')
  //     tramite.revisiones.push(revisionTramite)
  // }
-    if(tramite.revisiones)
-          tramite.revisiones[0] = revisionTramite
+  if(tramite.revisiones){
+    tramite.revisiones[0] = revisionTramite
+  }
+       
   const t = await saveTramiteService(tramite)
   return dispatch({
     type: SAVE_TRAMITE,

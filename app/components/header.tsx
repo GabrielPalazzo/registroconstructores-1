@@ -30,7 +30,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
   const [motivoRechazo, setMotivoRechazo] = useState('')
   const [loadingRechazo, setLoadingRechazo] = useState(false)
   const dispatch = useDispatch()
-
+  const [activeProfile2, setActiveProfile2] = useState<TramiteAlta>(null)
   const tramiteSession = useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
 
   const confirmCancel = () => {
@@ -147,9 +147,11 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     >
       <p>Todos los cambios no guardados se perderán.</p>
     </Modal>
-    <div className="px-4 pt-4 py-2">
+    <div className="flex px-4 pt-4 py-2">
       <Logo />
+      <div className="pl-4 uppercase text-muted-700 align-middle pt-1 text-sm font-bold pb-4  ">{tramite.razonSocial}</div>
     </div>
+   
     <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4 cursor-pointer">
 
       {(user.isConstructor() && (tramite.categoria == 'INSCRIPTO' && tramite.status === 'VERIFICADO')) || (user.isConstructor() &&(tramite.categoria == 'INSCRIPTO CON ACTUALIZACION' && tramite.status === 'VERIFICADO')) || (user.isConstructor() && (tramite.categoria == 'DESACTUALIZADO' && tramite.status === 'VERIFICADO')) ? <ButtonActualizar /> : <div />}
@@ -185,8 +187,8 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
 }
 
 const Logo = () => (
-  <svg width="153" height="30" viewBox="0 0 153 30" fill="none" >
-    <rect width="152.542" height="30" fill="url(#pattern0)" />
+  <svg width="153" height="28" viewBox="0 0 153 28" fill="none" >
+    <rect width="152.542" height="28" fill="url(#pattern0)" />
     <defs>
       <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
         <use href="#image0" transform="scale(0.00333333 0.0169492)" />
