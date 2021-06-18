@@ -841,15 +841,24 @@ export default () => {
   }
   
 
-  const allowDeleteObra = (obra)=>{
+  const allowDeleteObra = (obra: DDJJObra)=>{
 
-    return  tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO') ||
+    return  tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO'  ) ||
     !hasObservacionesObra(obra) && (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO'))
    
   }
   let columns = [
     {
-      title: 'Eliminar',
+      title: '',
+      key: 'action',
+       
+    },{
+      title: 'Obs',
+      key: 'Obs',
+      render: (text, record) => <div>{determinarEstadoObra(record)}</div>
+    },
+    {
+      title: <DeleteOutlined />,
       key: 'action',
       render: (text, record) => (allowDeleteObra(record) ?  <Popconfirm
         title="Esta seguro que lo  deseas Eliminar  La Obra"
@@ -864,27 +873,18 @@ export default () => {
       </Space>  )
     },
     {
-      title: 'Editar',
+      title: 'Editar / Ver',
       key: 'editar',
-      render: (text, record) => (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO') ? <div onClick={() => {
+      render: (text, record) => (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' || tramite.status === 'SUBSANADO') ? <div onClick={() => {
         setModo(MODO.EDIT)
         editarObrar(Object.assign({}, record))
-      }} className="cursor-pointer"><EditOutlined /></div> : <Space size="middle">
-      </Space>),
-    }, {
-      title: 'Obs',
-      key: 'Obs',
-      render: (text, record) => <div>{determinarEstadoObra(record)}</div>
-    },
-    {
-      title: 'Ver',
-      key: 'ver',
-      render: (text, record) => <div onClick={() => {
+      }} className="cursor-pointer"><EditOutlined /></div> : <div onClick={() => {
         setModo(MODO.VIEW)
         console.log(record)
         editarObrar(Object.assign({}, record))
-      }} className="cursor-pointer"><CloudDownloadOutlined /></div>
-    },
+      }} className="cursor-pointer"><CloudDownloadOutlined /></div>),
+    }, 
+   
 
     {
       title: 'codigo',
@@ -1039,6 +1039,7 @@ const supervizar = async() =>{
                   columns={columns} 
                   dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA'  || determinarEstadoObra(o) ==='OBSERVADA' || determinarEstadoObra(o) ==='A REVISAR' )} 
                   pagination={{ pageSize: 20 }}
+                  scroll={{ x: 1500 }} 
                   locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} 
                     description={<span> No hay información cargada </span>}>
                   </Empty> }} />}
@@ -1048,7 +1049,8 @@ const supervizar = async() =>{
             <div className="overflow-x-auto" >
               {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : 
                 <Table 
-                  columns={columns} 
+                  columns={columns}
+                  scroll={{ x: 1500 }} 
                   dataSource={tramite.ddjjObras.filter( o => determinarEstadoObra(o) ==='OBSERVADA' ||determinarEstadoObra(o) ==='A REVISAR' || determinarEstadoObra(o) ==='SUPERVIZADA')}
                   pagination={{ pageSize: 20 }}
                    locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}

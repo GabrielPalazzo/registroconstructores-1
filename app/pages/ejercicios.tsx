@@ -26,6 +26,7 @@ import _ from 'lodash'
 import { RootState } from '../redux/store';
 import { LinkToFile } from '../components/linkToFile'
 
+
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Option } = Select;
@@ -319,9 +320,12 @@ export default () => {
 
               labelMessageError=""
               defaultValue={archivosActaAsamblea as any}
-              onOnLoad={file => {
+              
+              onOnLoad={(file) => {
                 archivosActaAsamblea.push(file)
                 setArchivosActaAsamblea(Object.assign([], archivosActaAsamblea))
+                save()
+              setIsLoading(false)
               }}
               onRemove={fileToRemove => {
                 setArchivosActaAsamblea(Object.assign([], archivosActaAsamblea.filter(f => f.cid !== fileToRemove.uid)))
@@ -380,13 +384,14 @@ export default () => {
 
       </Space>),
     },
+    
     {
       title: 'Editar',
       key: 'editar',
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' ? <div onClick={() => {
         cargarEjercicio(record)
         setModo(MODO.EDIT)
-        setModalEjercicios(true)
+        setModalEjercicios(Object.assign({}, record))
       }}><EditOutlined /></div> : <Space size="middle" />)
     }, {
       title: 'View',
