@@ -726,7 +726,7 @@ export default () => {
     if (!allowGuardar(tramite))
       return <div></div>
 
-    return <div className="mt-6 pt-6 text-center">
+    return <div className="pt-4 text-center">
 
       <Button type="primary" onClick={async () => {
         await save()
@@ -772,9 +772,16 @@ export default () => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2 px-10">
-      <NavigationStep generalStatus={statusGeneralTramite} current={1} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
+
+    <div className="border-gray-200 border-b-2 flex ">
+      <div className="px-20 pt-2 w-3/4">
+        <NavigationStep generalStatus={statusGeneralTramite} current={1} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
+      </div>
+      <div className="pt-2 w-1/4">
+        {showSaveButton()}
+      </div>
     </div>
+
     <div className="w-2/5 m-auto text-base  mt-8">
       <Substeps progressDot current={1} esPersonaFisica={isPersonaFisica(tramite)} />
     </div>
@@ -2507,7 +2514,7 @@ export default () => {
 
         </Collapse>
       </div>
-      {showSaveButton()}
+
 
     </div>
     <style>

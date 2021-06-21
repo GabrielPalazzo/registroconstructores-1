@@ -7,7 +7,7 @@ import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
 import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message, Alert, Tooltip } from 'antd';
-import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined,DislikeFilled, LikeFilled, CheckOutlined  } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined, DislikeFilled, LikeFilled, CheckOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import SelectSimple from '../components/select'
 import { Collapse } from 'antd';
@@ -17,7 +17,7 @@ import UploadLine from '../components/uploadLine'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable, calcularSaldoObra, calcularCertificaciones, hasObservacionesObra,  getUsuario, determinarEstadoObra, } from '../services/business';
+import { allowGuardar, getCodigoObra, getEmptyObras, getEmptyTramiteAlta, getTramiteByCUIT, isConstructora, isPersonaFisica, isTramiteEditable, calcularSaldoObra, calcularCertificaciones, hasObservacionesObra, getUsuario, determinarEstadoObra, } from '../services/business';
 import { saveTramite } from '../redux/actions/main'
 import { ObrasDatosGenerales } from '../components/obraDatosGenerales'
 import { ObrasRedeterminaciones } from '../components/obraRedeterminaciones';
@@ -77,8 +77,8 @@ export default () => {
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
   const [plazosSeleccionada, setPlazosSeleccionada] = useState(null)
-	const [showMotivoRechazo, setShowMotivoRechazo] = useState(false)
-	const [motivoRechazo, setMotivoRechazo] = useState('')
+  const [showMotivoRechazo, setShowMotivoRechazo] = useState(false)
+  const [motivoRechazo, setMotivoRechazo] = useState('')
 
   const [obra, setObra] = useState<DDJJObra>(getEmptyObras())
   const [especialidad1, setEspecialidad1] = useState('')
@@ -108,8 +108,8 @@ export default () => {
 
   const updateObra = (obra: DDJJObra) => {
     console.log(obra.status)
-    const idxObra = tramite.ddjjObras.findIndex( o => o.id === obra.id)
-    tramite.ddjjObras[idxObra]=obra
+    const idxObra = tramite.ddjjObras.findIndex(o => o.id === obra.id)
+    tramite.ddjjObras[idxObra] = obra
     updateObjTramite()
     save()
   }
@@ -200,29 +200,29 @@ export default () => {
         <TabPane tab="General" key="datosGenerales">
           <ObrasDatosGenerales obra={obra} onChange={setObra} modo={modo as any} />
           <div className="rounded-lg px-4 py-2 pb-4 border mt-6">
-          < WrapperObras isTitle title="Ubicación geográfica" obra={obra}  field='ubicacionGeografica' onChange ={o => updateObra(o)} attributeName="ubicacion" >
+            < WrapperObras isTitle title="Ubicación geográfica" obra={obra} field='ubicacionGeografica' onChange={o => updateObra(o)} attributeName="ubicacion" >
 
-            <div className="grid grid-cols-2 gap-4 ">
-           
-              <div className="pb-6" >
-             
-                  <InputTextModal 
-                  labelRequired="*"
-                  label="Ubicacion"
-                  value={ubicacionText}
-                  bindFunction={setUbicacionText}
-                  labelMessageError=""
+              <div className="grid grid-cols-2 gap-4 ">
+
+                <div className="pb-6" >
+
+                  <InputTextModal
+                    labelRequired="*"
+                    label="Ubicacion"
+                    value={ubicacionText}
+                    bindFunction={setUbicacionText}
+                    labelMessageError=""
                     required
                   />
 
 
+                </div>
+                {isTramiteEditable(tramite) ?
+                  <div className="mt-8 ">
+                    <Button onClick={agregarUbicacion} type="primary" icon={<PlusOutlined />}> Agregar</Button>
+                  </div> : ''}
+
               </div>
-              {isTramiteEditable(tramite) ?
-              <div className="mt-8 ">
-                <Button onClick={agregarUbicacion} type="primary" icon={<PlusOutlined />}> Agregar</Button>
-              </div> :''}
-              
-            </div>
             </ WrapperObras>
 
             <div className="mt-4 ">
@@ -237,7 +237,7 @@ export default () => {
             <div className="grid grid-cols-3 gap-4 ">
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
-                <WrapperObras title="Especialidad" obra={obra}  field='especialidad1' onChange ={o => updateObra(o)}>
+                  <WrapperObras title="Especialidad" obra={obra} field='especialidad1' onChange={o => updateObra(o)}>
 
                     <SelectSimple
                       value={obra.especialidad1}
@@ -254,7 +254,7 @@ export default () => {
                   </WrapperObras>
                 </div>
                 <div className="pt-2" >
-                < WrapperObras title="Seleccione  (3) SubEspecialidad" obra={obra}  field='subEspecialidad1' onChange ={o => updateObra(o)} labelRequired="*">
+                  < WrapperObras title="Seleccione  (3) SubEspecialidad" obra={obra} field='subEspecialidad1' onChange={o => updateObra(o)} labelRequired="*">
 
                     <SelectMultiple
                       value={obra.subEspecialidad1}
@@ -277,9 +277,9 @@ export default () => {
                   </WrapperObras>
                 </div>
                 <div className="pb-6" >
-                < WrapperObras title="Otros" obra={obra}  field='subEspecialidades1Otros' onChange ={o => updateObra(o)} labelRequired="*">
+                  < WrapperObras title="Otros" obra={obra} field='subEspecialidades1Otros' onChange={o => updateObra(o)} labelRequired="*">
 
-                   <InputText
+                    <InputText
                       attributeName='Otros'
                       labelRequired=""
                       value={obra.subEspecialidades1Otros}
@@ -299,8 +299,8 @@ export default () => {
               </div>
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
-                < WrapperObras title="Especialidad" obra={obra}  field='especialidad2' onChange ={o => updateObra(o)} labelRequired="*">
-<SelectSimple
+                  < WrapperObras title="Especialidad" obra={obra} field='especialidad2' onChange={o => updateObra(o)} labelRequired="*">
+                    <SelectSimple
                       value={obra.especialidad2}
                       bindFunction={e => {
                         obra.especialidad2 = e
@@ -316,8 +316,8 @@ export default () => {
                   </WrapperObras>
                 </div>
                 <div className="pt-2" >
-                < WrapperObras title="Seleccione  (3) SubEspecialidad" obra={obra}  field='subEspecialidad2' onChange ={o => updateObra(o)} labelRequired="*">
-                   <SelectMultiple
+                  < WrapperObras title="Seleccione  (3) SubEspecialidad" obra={obra} field='subEspecialidad2' onChange={o => updateObra(o)} labelRequired="*">
+                    <SelectMultiple
 
                       value={obra.subEspecialidad2}
                       bindFunction={e => {
@@ -339,8 +339,8 @@ export default () => {
                   </WrapperObras>
                 </div>
                 <div className="pb-6" >
-                < WrapperObras title="Otros" obra={obra}  field='subEspecialidades2Otros' onChange ={o => updateObra(o)} labelRequired="*">
-                 <InputText
+                  < WrapperObras title="Otros" obra={obra} field='subEspecialidades2Otros' onChange={o => updateObra(o)} labelRequired="*">
+                    <InputText
                       attributeName='Otros2'
 
                       labelRequired=""
@@ -362,8 +362,8 @@ export default () => {
               </div>
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
-                < WrapperObras title="Especialidad" obra={obra}  field='especialidad3' onChange ={o => updateObra(o)} labelRequired="">
-              
+                  < WrapperObras title="Especialidad" obra={obra} field='especialidad3' onChange={o => updateObra(o)} labelRequired="">
+
                     <SelectSimple
                       value={obra.especialidad3}
                       bindFunction={e => {
@@ -380,8 +380,8 @@ export default () => {
                   </WrapperObras>
                 </div>
                 <div className="pt-2" >
-                < WrapperObras title="Seleccione (3) SubEspecialidad" obra={obra}  field='subEspecialidad3' onChange ={o => updateObra(o)} labelRequired="">
-              <SelectMultiple
+                  < WrapperObras title="Seleccione (3) SubEspecialidad" obra={obra} field='subEspecialidad3' onChange={o => updateObra(o)} labelRequired="">
+                    <SelectMultiple
 
                       value={obra.subEspecialidad3}
                       bindFunction={e => {
@@ -404,8 +404,8 @@ export default () => {
                   </WrapperObras>
                 </div>
                 <div className="pb-6" >
-                     < WrapperObras title="Otros" obra={obra}  field='subEspecialidades3Otros' onChange ={o => updateObra(o)} labelRequired="">
-             
+                  < WrapperObras title="Otros" obra={obra} field='subEspecialidades3Otros' onChange={o => updateObra(o)} labelRequired="">
+
                     <InputText
                       attributeName='Otros3'
                       label=""
@@ -430,9 +430,9 @@ export default () => {
             <div className="grid grid-cols-2 gap-4 ">
 
               <div className="pb-6" >
-              < WrapperObras title="Razón Social de la UTE" obra={obra}  field='razonSocialUTE' onChange ={o => updateObra(o)} labelRequired="*">
-             
-                 <InputText
+                < WrapperObras title="Razón Social de la UTE" obra={obra} field='razonSocialUTE' onChange={o => updateObra(o)} labelRequired="*">
+
+                  <InputText
                     attributeName='razonSocialUTE'
 
                     labelRequired=""
@@ -447,9 +447,9 @@ export default () => {
               </div>
               <div className="grid grid-cols-2 gap-4 ">
                 <div className="pb-6" >
-                   < WrapperObras title="CUIT de la UTE" obra={obra}  field='cuitUTE' onChange ={o => updateObra(o)} labelRequired="*">
-             
-                   <InputText
+                  < WrapperObras title="CUIT de la UTE" obra={obra} field='cuitUTE' onChange={o => updateObra(o)} labelRequired="*">
+
+                    <InputText
                       attributeName=''
                       labelRequired=""
                       value={obra.cuitUTE}
@@ -462,9 +462,9 @@ export default () => {
                   </WrapperObras>
                 </div>
                 <div className="pb-6" >
-                < WrapperObras title="% de Participacio" obra={obra}  field='participacionUTE' onChange ={o => updateObra(o)} labelRequired="*">
-             
-            
+                  < WrapperObras title="% de Participacio" obra={obra} field='participacionUTE' onChange={o => updateObra(o)} labelRequired="*">
+
+
                     <InputNumberModal
                       className=""
                       label=""
@@ -482,9 +482,9 @@ export default () => {
                 </div>
               </div>
               <div className="pb-6" >
-              < WrapperObras title="Razón Social Comitente" obra={obra}  field='razonSocialComitente' onChange ={o => updateObra(o)} labelRequired="*">
-             
-                <InputText
+                < WrapperObras title="Razón Social Comitente" obra={obra} field='razonSocialComitente' onChange={o => updateObra(o)} labelRequired="*">
+
+                  <InputText
                     attributeName='razonSocialComitente'
                     labelRequired=""
                     value={obra.razonSocialComitente}
@@ -499,7 +499,7 @@ export default () => {
               <div className="grid grid-cols-2 gap-4 ">
                 <div className="pb-6" >
 
-                < WrapperObras title="CUIT comitente" obra={obra}  field='cuitComitente' onChange ={o => updateObra(o)} labelRequired="*">
+                  < WrapperObras title="CUIT comitente" obra={obra} field='cuitComitente' onChange={o => updateObra(o)} labelRequired="*">
                     <InputText
                       attributeName=''
                       labelRequired=""
@@ -513,8 +513,8 @@ export default () => {
                   </WrapperObras>
                 </div>
                 <div className="pb-6" >
-                < WrapperObras title="Monto inicial contrato" obra={obra}  field='montoInicial' onChange ={o => updateObra(o)} labelRequired="*">
-                 
+                  < WrapperObras title="Monto inicial contrato" obra={obra} field='montoInicial' onChange={o => updateObra(o)} labelRequired="*">
+
                     <InputNumberModal
                       className=""
                       type="number"
@@ -536,8 +536,8 @@ export default () => {
             </div>
             <div className="pb-6" >
 
-            < WrapperObras title="Adjuntar Contrato Inicial / Orden de Compra" obra={obra}  field='archivosOrdenDeCompra' onChange ={o => updateObra(o)} labelRequired="*">
-                
+              < WrapperObras title="Adjuntar Contrato Inicial / Orden de Compra" obra={obra} field='archivosOrdenDeCompra' onChange={o => updateObra(o)} labelRequired="*">
+
                 <Upload
                   labelMessageError=""
                   defaultValue={obra.archivosOrdenDeCompra as any}
@@ -575,8 +575,8 @@ export default () => {
             <div className="grid grid-cols-4 gap-4 ">
 
               <div className="pb-6" >
-              < WrapperObras title="Por Contrato" obra={obra}  field='plazoPorContrato' onChange ={o => updateObra(o)} labelRequired="*">
-               <InputNumberModal
+                < WrapperObras title="Por Contrato" obra={obra} field='plazoPorContrato' onChange={o => updateObra(o)} labelRequired="*">
+                  <InputNumberModal
                     type="number"
                     labelRequired=""
                     label=""
@@ -609,21 +609,21 @@ export default () => {
                     labelMessageError=""
                   />
                 </Wrapper>
-               
-                  <InputNumberModal
-                    type="number"
-                    labelRequired="*"
-                    label="Prorroga"
-                    className="input-disabled"
 
-                    value={obra.prorroga}
-                    bindFunction={e => {
-                      obra.prorroga = e
-                      setObra(Object.assign({}, obra))
-                    }}
+                <InputNumberModal
+                  type="number"
+                  labelRequired="*"
+                  label="Prorroga"
+                  className="input-disabled"
 
-                    labelMessageError=""
-                  />
+                  value={obra.prorroga}
+                  bindFunction={e => {
+                    obra.prorroga = e
+                    setObra(Object.assign({}, obra))
+                  }}
+
+                  labelMessageError=""
+                />
               </div>
               <div className="pb-6" >
 
@@ -640,9 +640,9 @@ export default () => {
                 />
               </div>
               <div className="pb-6" >
-              < WrapperObras title="Transcurrido" obra={obra}  field='transcurrido' onChange ={o => updateObra(o)} labelRequired="*">
-              
-                 <InputNumberModal
+                < WrapperObras title="Transcurrido" obra={obra} field='transcurrido' onChange={o => updateObra(o)} labelRequired="*">
+
+                  <InputNumberModal
                     type="number"
                     label=""
                     labelRequired=""
@@ -679,10 +679,10 @@ export default () => {
 
             <div className="rounded-lg px-4 py-2 mb-4  pt-4 pb-4 border">
 
-            < WrapperObras isTitle title="Agregar nueva Prórroga" obra={obra}  field='addProrroga' onChange ={o => updateObra(o)} labelRequired="">
-              
-              
-          
+              < WrapperObras isTitle title="Agregar nueva Prórroga" obra={obra} field='addProrroga' onChange={o => updateObra(o)} labelRequired="">
+
+
+
                 <div className="grid grid-cols-4 gap-4 ">
                   <div className="pb-6" >
                     <DatePickerModal
@@ -793,11 +793,11 @@ export default () => {
     )
   }
 
-  
+
 
 
   let columnsPlazos = [
-    
+
 
     {
       title: 'Eliminar',
@@ -808,9 +808,9 @@ export default () => {
         onCancel={cancel}
         okText="Si, Eliminar"
         cancelText="Cancelar"
-      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : 
-      ''
-       ),
+      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> :
+        ''
+      ),
     },
 
 
@@ -831,32 +831,31 @@ export default () => {
     }
   ]
 
-  const tieneObservaciones = (obra) => 
-  {
+  const tieneObservaciones = (obra) => {
 
-    return !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA')) 
-    || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) 
-    || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
-    || hasObservacionesObra(obra)
+    return !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA'))
+      || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA'))
+      || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
+      || hasObservacionesObra(obra)
   }
-  
 
-  const allowDeleteObra = (obra: DDJJObra)=>{
 
-    return  tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO'  ) ||
-    !hasObservacionesObra(obra) && (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO'))
-   
+  const allowDeleteObra = (obra: DDJJObra) => {
+
+    return tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO') ||
+      !hasObservacionesObra(obra) && (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO'))
+
   }
   let columns = [
     {
       title: '',
       key: 'action',
-       
+
     },
     {
       title: <DeleteOutlined />,
       key: 'action',
-      render: (text, record) => (allowDeleteObra(record) ?  <Popconfirm
+      render: (text, record) => (allowDeleteObra(record) ? <Popconfirm
         title="Esta seguro que lo  deseas Eliminar  La Obra"
         onConfirm={() => {
           setModo(MODO.EDIT)
@@ -865,9 +864,9 @@ export default () => {
         onCancel={cancel}
         okText="Si, Eliminar"
         cancelText="Cancelar"
-      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm>: <Space size="middle">
-      </Space>  )
-    },{
+      > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
+      </Space>)
+    }, {
       title: 'Obs',
       key: 'Obs',
       render: (text, record) => <div>{determinarEstadoObra(record)}</div>
@@ -883,15 +882,15 @@ export default () => {
         console.log(record)
         editarObrar(Object.assign({}, record))
       }} className="cursor-pointer"><CloudDownloadOutlined /></div>),
-    }, 
-   
+    },
+
 
     {
       title: 'codigo',
       dataIndex: 'id',
       key: 'id',
     },
-    
+
     {
       title: 'Denominación',
       dataIndex: 'denominacion',
@@ -900,13 +899,13 @@ export default () => {
     {
       title: 'Estado',
       dataIndex: 'estado',
-      render : (text,record : DDJJObra) => <div>{_.last(record.datosObra.map(r => r.estado)) }</div> 
-      },
-      {
-        title: 'Tipo de Contratacion',
-        dataIndex: 'tipoContratacion',
-        render : (text,record : DDJJObra) => <div>{_.last(record.datosObra.map(r => r.tipoContratacion)) }</div> 
-        },
+      render: (text, record: DDJJObra) => <div>{_.last(record.datosObra.map(r => r.estado))}</div>
+    },
+    {
+      title: 'Tipo de Contratacion',
+      dataIndex: 'tipoContratacion',
+      render: (text, record: DDJJObra) => <div>{_.last(record.datosObra.map(r => r.tipoContratacion))}</div>
+    },
     {
       title: 'Comitente',
       dataIndex: 'comitente',
@@ -940,13 +939,13 @@ export default () => {
 
 
 
-const supervizar = async() =>{
-  obra.status = 'SUPERVIZADA'
-  //setObra({...obra})
-  await updateObra(obra)
+  const supervizar = async () => {
+    obra.status = 'SUPERVIZADA'
+    //setObra({...obra})
+    await updateObra(obra)
 
-}
- 
+  }
+
 
   const renderNoData = () => {
     return (<div>
@@ -954,7 +953,7 @@ const supervizar = async() =>{
         <div className="mt-4">
           <div className="text-sm text-center">No hay Datos ingresados</div>
           <div className="text-primary-700 text-sm text-center mt-2 font-bold flex justify-center">Cargue uno presionando Agregar
-        <svg width="70" height="31" viewBox="0 0 70 31" fill="none" xmlns="http://www.w3.org/2000/svg" className="pl-2">
+            <svg width="70" height="31" viewBox="0 0 70 31" fill="none" xmlns="http://www.w3.org/2000/svg" className="pl-2">
               <path d="M30.8624 25.6685L31.1624 26.6225L30.8624 25.6685ZM69.9995 2.03192C70.0171 1.47992 69.5839 1.01814 69.0319 1.00051L60.0365 0.713215C59.4845 0.695585 59.0227 1.12878 59.0051 1.68078C58.9875 2.23279 59.4207 2.69457 59.9727 2.7122L67.9686 2.96757L67.7132 10.9635C67.6956 11.5155 68.1288 11.9773 68.6808 11.9949C69.2328 12.0125 69.6946 11.5793 69.7122 11.0273L69.9995 2.03192ZM1 29.8452C0.886109 30.8387 0.886455 30.8388 0.886848 30.8388C0.88704 30.8388 0.887479 30.8389 0.887865 30.8389C0.888635 30.839 0.889592 30.8391 0.890733 30.8392C0.893015 30.8395 0.896038 30.8398 0.899799 30.8402C0.907319 30.8411 0.917788 30.8422 0.931181 30.8436C0.957967 30.8464 0.996449 30.8503 1.04643 30.855C1.14638 30.8645 1.29231 30.8773 1.48262 30.8914C1.86323 30.9197 2.42138 30.9531 3.14418 30.9753C4.58971 31.0198 6.69421 31.0195 9.35444 30.8432C14.6748 30.4906 22.2199 29.4339 31.1624 26.6225L30.5625 24.7146C21.7905 27.4724 14.4045 28.5041 9.22219 28.8476C6.63111 29.0193 4.59145 29.0189 3.20566 28.9763C2.51279 28.955 1.98348 28.9231 1.63055 28.8969C1.45408 28.8838 1.32173 28.8722 1.23508 28.864C1.19176 28.8599 1.15986 28.8566 1.1396 28.8545C1.12946 28.8534 1.12224 28.8526 1.11795 28.8522C1.1158 28.8519 1.11439 28.8518 1.11371 28.8517C1.11337 28.8517 1.11322 28.8517 1.11325 28.8517C1.11326 28.8517 1.11342 28.8517 1.11343 28.8517C1.11364 28.8517 1.11389 28.8517 1 29.8452ZM31.1624 26.6225C49.0798 20.9894 57.7588 13.9165 69.6842 2.72932L68.3158 1.27068C56.4952 12.3597 48.0739 19.2091 30.5625 24.7146L31.1624 26.6225Z" fill="#0072BB" />
             </svg></div>
         </div>
@@ -1005,87 +1004,95 @@ const supervizar = async() =>{
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2  px-10">
+    <div className="border-gray-200 border-b-2 flex ">
+      <div className="px-20 pt-2 w-3/4">
       <NavigationStep generalStatus={statusGeneralTramite} current={3} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
-    <div className="px-8  py-6 bg-muted-100">
-      <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
-      <div className="flex  content-center  ">
-        <Wrapper title="Declaración jurada de Obras " attributeName="obras" isTitle>
-          <div className="text-right content-center  -mt-8">
-            {isTramiteEditable(tramite) ? <Button type="primary" onClick={() => {
-              const obraEmpty = getEmptyObras()
-              obraEmpty.id = getCodigoObra()
-              // obra.id = getCodigoObra()
-              setModo(MODO.NEW)
-              setObra(Object.assign({}, obraEmpty))
-              setModalObras(true)
-            }} icon={<PlusOutlined />}> Agregar</Button> : ''}
-          </div>
-        </Wrapper>
-
-
-
-
-      </div>
-      <div className="mb-4 mt-8">
-        <Alert message="El interesado deberá declarar sus antecedentes de ejecución de Obras según lo establecido en el artículo 11 de la DI-2021-3-APN-ONC#JGM" type="info" />
-      </div>
-      <div>
-        <Tabs defaultActiveKey="1" onChange={callback} style={{ marginLeft: "0px" }}>
-          <TabPane tab="Todas las obras declaradas" key="1">
-            <div className="overflow-x-auto" >
-              {tramite.ddjjObras.length === 0 ? renderNoData() : 
-                <Table 
-                  columns={columns} 
-                  dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA'  || determinarEstadoObra(o) ==='OBSERVADA' || determinarEstadoObra(o) ==='A REVISAR' )} 
-                  pagination={{ pageSize: 20 }}
-                  scroll={{ x: 1500 }} 
-                  locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} 
-                    description={<span> No hay información cargada </span>}>
-                  </Empty> }} />}
-            </div>
-          </TabPane>
-          <TabPane tab={`Obras a revisar por el Registro (${tramite.ddjjObras.filter(o => !o.status || tieneObservaciones(o)).length})`} key="2">
-            <div className="overflow-x-auto" >
-              {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() : 
-                <Table 
-                  columns={columns}
-                  scroll={{ x: 1500 }} 
-                  dataSource={tramite.ddjjObras.filter( o => determinarEstadoObra(o) ==='OBSERVADA' ||determinarEstadoObra(o) ==='A REVISAR' || determinarEstadoObra(o) ==='SUPERVIZADA')}
-                  pagination={{ pageSize: 20 }}
-                   locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
-            </div>
-          </TabPane>
-
-
-        </Tabs>
-      </div>
-
-      <Modal
-        title={`Datos de la obra ${obra.id} `}
-        visible={modalObras}
-        okText="Guardar"
-        onCancel={() => setModalObras(false)}
-        cancelText="Cancelar"
-        footer={[
-          <Button onClick={() => setModalObras(false)}>Cancel</Button>,
-          <Button onClick={saveObra} type='primary' disabled={!isTramiteEditable(tramite)}>Guardar</Button>,
-          <div className="float-right">{getUsuario().isSupervisor() || getUsuario().isAprobador()  ?
-          <Button onClick={ supervizar} style={{backgroundColor: '#52c41a', color:'#fff'}}> <CheckOutlined /> Supervizada</Button>:''}</div>
-        ]}
-        width={1200}
-      >
-        {renderModalObra()}
-      </Modal>
-</div>
-      <div className="mt-6 pt-6 text-center">
+      <div className="pt-2 w-1/4">
+      <div className="pt-4 text-center">
         {allowGuardar(tramite) ? <Link href="/enviar_tramite" >
           <Button type="primary" > Continuar</Button>
         </Link> : ''}
 
 
       </div>
+      </div>
+    </div>
+   
+    <div className="px-8  py-6 bg-muted-100">
+      <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+        <div className="flex  content-center  ">
+          <Wrapper title="Declaración jurada de Obras " attributeName="obras" isTitle>
+            <div className="text-right content-center  -mt-8">
+              {isTramiteEditable(tramite) ? <Button type="primary" onClick={() => {
+                const obraEmpty = getEmptyObras()
+                obraEmpty.id = getCodigoObra()
+                // obra.id = getCodigoObra()
+                setModo(MODO.NEW)
+                setObra(Object.assign({}, obraEmpty))
+                setModalObras(true)
+              }} icon={<PlusOutlined />}> Agregar</Button> : ''}
+            </div>
+          </Wrapper>
+
+
+
+
+        </div>
+        <div className="mb-4 mt-8">
+          <Alert message="El interesado deberá declarar sus antecedentes de ejecución de Obras según lo establecido en el artículo 11 de la DI-2021-3-APN-ONC#JGM" type="info" />
+        </div>
+        <div>
+          <Tabs defaultActiveKey="1" onChange={callback} style={{ marginLeft: "0px" }}>
+            <TabPane tab="Todas las obras declaradas" key="1">
+              <div className="overflow-x-auto" >
+                {tramite.ddjjObras.length === 0 ? renderNoData() :
+                  <Table
+                    columns={columns}
+                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA' || determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR')}
+                    pagination={{ pageSize: 20 }}
+                    scroll={{ x: 1500 }}
+                    locale={{
+                      emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}
+                        description={<span> No hay información cargada </span>}>
+                      </Empty>
+                    }} />}
+              </div>
+            </TabPane>
+            <TabPane tab={`Obras a revisar por el Registro (${tramite.ddjjObras.filter(o => !o.status || tieneObservaciones(o)).length})`} key="2">
+              <div className="overflow-x-auto" >
+                {!tramite.ddjjObras || tramite.ddjjObras.length === 0 ? renderNoData() :
+                  <Table
+                    columns={columns}
+                    scroll={{ x: 1500 }}
+                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'SUPERVIZADA')}
+                    pagination={{ pageSize: 20 }}
+                    locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
+              </div>
+            </TabPane>
+
+
+          </Tabs>
+        </div>
+
+        <Modal
+          title={`Datos de la obra ${obra.id} `}
+          visible={modalObras}
+          okText="Guardar"
+          onCancel={() => setModalObras(false)}
+          cancelText="Cancelar"
+          footer={[
+            <Button onClick={() => setModalObras(false)}>Cancel</Button>,
+            <Button onClick={saveObra} type='primary' disabled={!isTramiteEditable(tramite)}>Guardar</Button>,
+            <div className="float-right">{getUsuario().isSupervisor() || getUsuario().isAprobador() ?
+              <Button onClick={supervizar} style={{ backgroundColor: '#52c41a', color: '#fff' }}> <CheckOutlined /> Supervizada</Button> : ''}</div>
+          ]}
+          width={1200}
+        >
+          {renderModalObra()}
+        </Modal>
+      </div>
+      
     </div>
     <style>
       {`
@@ -1097,7 +1104,7 @@ const supervizar = async() =>{
         margin-top:4px;
     }
     `}
-      </style>
+    </style>
 
   </div>
   )

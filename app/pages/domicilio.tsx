@@ -62,7 +62,7 @@ export default () => {
       return <div></div>
 
 
-    return <div className="mt-6 pt-6 text-center">
+    return <div className="pt-4 text-center">
       <Button type="primary" onClick={async () => {
         if (tramite.emailInstitucional.trim() && !/\S+@\S+\.\S+/.test(tramite.emailInstitucional.trim())) {
           setError('El campo Email se debe ser xxxxx@jjjj.jjj')
@@ -82,12 +82,18 @@ export default () => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2 px-20 ">
+    <div className="border-gray-200 border-b-2 flex ">
+      <div className="px-20 pt-2 w-3/4">
       <NavigationStep current={1} generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
-    <div className="w-2/5 m-auto text-base mt-8">
+    <div className="pt-2 w-1/4">
+    {showBotonGuardar()}
+        </div>
+        </div>
+    <div className="w-2/5 m-auto text-base  mt-8">
     <Substeps progressDot current={0} esPersonaFisica={isPersonaFisica(tramite) || isPersonaExtranjera(tramite)} />
     </div>
+    
     <div className="px-8  py-6 bg-muted-100">
       <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
 

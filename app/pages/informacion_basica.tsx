@@ -560,7 +560,7 @@ export default (props) => {
     if (!allowGuardar(tramiteSesion))
       return <div></div>
 
-    return <div className=" mt-6 pt-6 text-center">
+    return <div className="  pt-4 text-center">
       <Button type="primary" onClick={async () => {
         await save()
         router.push('/domicilio')
@@ -573,11 +573,16 @@ export default (props) => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2 px-20">
+    <div className="border-gray-200 border-b-2 flex ">
+      <div className="px-20 pt-2 w-3/4">
       <NavigationStep
         generalStatus={statusGeneralTramite}
         completaBalanceYObras={isConstructora(tramite)}
         current={0} />
+      </div>
+      <div className="pt-2 w-1/4">
+      {showSaveButton()}
+        </div>
     </div>
 
     <div className="px-8  py-6 bg-muted-100">
@@ -1095,7 +1100,7 @@ export default (props) => {
       </div>
 
 
-      {showSaveButton()}
+    
     </div>
 
   </div>
