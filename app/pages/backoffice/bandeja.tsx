@@ -414,7 +414,7 @@ export default () => {
 
           </TabPane>
         
-        {/* <TabPane tab="Borradores *" key="7">
+        <TabPane tab="Borradores *" key="7">
             {tramites.filter((t: TramiteAlta) => t.status === 'BORRADOR').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
@@ -461,7 +461,7 @@ export default () => {
               </div>
             ))}
           </TabPane>
-*/} 
+
 
         </Tabs>
       </div>

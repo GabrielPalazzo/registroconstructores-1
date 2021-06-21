@@ -376,7 +376,8 @@ export default (props) => {
 
 
 
-    <div className="px-8 mx-8 py-6 ">
+    <div className="px-8  py-6 bg-muted-100">
+      <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
       <div className="content-center  ">
       <Wrapper title="Propietario de sociedad" attributeName="Propietarioss" isTitle>
         <div className=" text-right content-center mb-4 -mt-8">
@@ -427,6 +428,7 @@ export default (props) => {
       >
         {renderModalPropietarios()}
       </Modal>
+      </div>
       <div className="mt-6  pt-6 text-center">
         
           <Button type="primary" onClick={async () => {

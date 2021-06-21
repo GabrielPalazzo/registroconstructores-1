@@ -600,7 +600,8 @@ export default () => {
     <div className="border-gray-200 border-b-2 px-10">
       <NavigationStep generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} current={2} />
     </div>
-    <div className="px-8 mx-8 py-6 ">
+    <div className="px-8  py-6 bg-muted-100">
+      <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
       <div className="flex  content-center  ">
         <Wrapper title="Ejercicios" attributeName="ejercicios" isTitle>
           <div className=" text-right content-center mb-4 -mt-8">
@@ -647,7 +648,7 @@ export default () => {
       >
         {renderModalEjercicios()}
       </Modal>
-
+</div>
       <div className="mt-6 pt-6 text-center">
         {allowGuardar(tramite) ? <Link href="/obras" >
           <Button type="primary" >Continuar</Button>

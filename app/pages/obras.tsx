@@ -852,10 +852,6 @@ export default () => {
       title: '',
       key: 'action',
        
-    },{
-      title: 'Obs',
-      key: 'Obs',
-      render: (text, record) => <div>{determinarEstadoObra(record)}</div>
     },
     {
       title: <DeleteOutlined />,
@@ -871,6 +867,10 @@ export default () => {
         cancelText="Cancelar"
       > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm>: <Space size="middle">
       </Space>  )
+    },{
+      title: 'Obs',
+      key: 'Obs',
+      render: (text, record) => <div>{determinarEstadoObra(record)}</div>
     },
     {
       title: 'Editar / Ver',
@@ -1008,7 +1008,8 @@ const supervizar = async() =>{
     <div className="border-gray-200 border-b-2  px-10">
       <NavigationStep generalStatus={statusGeneralTramite} current={3} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
     </div>
-    <div className="px-8 mx-8 py-6 ">
+    <div className="px-8  py-6 bg-muted-100">
+      <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
       <div className="flex  content-center  ">
         <Wrapper title="Declaración jurada de Obras " attributeName="obras" isTitle>
           <div className="text-right content-center  -mt-8">
@@ -1077,7 +1078,7 @@ const supervizar = async() =>{
       >
         {renderModalObra()}
       </Modal>
-
+</div>
       <div className="mt-6 pt-6 text-center">
         {allowGuardar(tramite) ? <Link href="/enviar_tramite" >
           <Button type="primary" > Continuar</Button>
