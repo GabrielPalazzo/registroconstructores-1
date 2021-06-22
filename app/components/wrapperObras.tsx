@@ -153,6 +153,7 @@ export default (props) => {
 				</div>:''
 			}
 		</div >
+		
 		{React.isValidElement(props.children) ? React.cloneElement(props.children, { isEditable: isEditable() }) : props.children}
 
 	</div >

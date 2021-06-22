@@ -380,7 +380,7 @@ export default () => {
         <div className="mt-4">
           <div className="text-sm text-center">No hay Datos ingresados</div>
           <div className="text-primary-700 text-sm text-center mt-2 font-bold flex justify-center">Cargue uno presionando Agregar
-      <svg width="70" height="31" viewBox="0 0 70 31" fill="none" xmlns="http://www.w3.org/2000/svg" className="pl-2">
+            <svg width="70" height="31" viewBox="0 0 70 31" fill="none" xmlns="http://www.w3.org/2000/svg" className="pl-2">
               <path d="M30.8624 25.6685L31.1624 26.6225L30.8624 25.6685ZM69.9995 2.03192C70.0171 1.47992 69.5839 1.01814 69.0319 1.00051L60.0365 0.713215C59.4845 0.695585 59.0227 1.12878 59.0051 1.68078C58.9875 2.23279 59.4207 2.69457 59.9727 2.7122L67.9686 2.96757L67.7132 10.9635C67.6956 11.5155 68.1288 11.9773 68.6808 11.9949C69.2328 12.0125 69.6946 11.5793 69.7122 11.0273L69.9995 2.03192ZM1 29.8452C0.886109 30.8387 0.886455 30.8388 0.886848 30.8388C0.88704 30.8388 0.887479 30.8389 0.887865 30.8389C0.888635 30.839 0.889592 30.8391 0.890733 30.8392C0.893015 30.8395 0.896038 30.8398 0.899799 30.8402C0.907319 30.8411 0.917788 30.8422 0.931181 30.8436C0.957967 30.8464 0.996449 30.8503 1.04643 30.855C1.14638 30.8645 1.29231 30.8773 1.48262 30.8914C1.86323 30.9197 2.42138 30.9531 3.14418 30.9753C4.58971 31.0198 6.69421 31.0195 9.35444 30.8432C14.6748 30.4906 22.2199 29.4339 31.1624 26.6225L30.5625 24.7146C21.7905 27.4724 14.4045 28.5041 9.22219 28.8476C6.63111 29.0193 4.59145 29.0189 3.20566 28.9763C2.51279 28.955 1.98348 28.9231 1.63055 28.8969C1.45408 28.8838 1.32173 28.8722 1.23508 28.864C1.19176 28.8599 1.15986 28.8566 1.1396 28.8545C1.12946 28.8534 1.12224 28.8526 1.11795 28.8522C1.1158 28.8519 1.11439 28.8518 1.11371 28.8517C1.11337 28.8517 1.11322 28.8517 1.11325 28.8517C1.11326 28.8517 1.11342 28.8517 1.11343 28.8517C1.11364 28.8517 1.11389 28.8517 1 29.8452ZM31.1624 26.6225C49.0798 20.9894 57.7588 13.9165 69.6842 2.72932L68.3158 1.27068C56.4952 12.3597 48.0739 19.2091 30.5625 24.7146L31.1624 26.6225Z" fill="#0072BB" />
             </svg></div>
         </div>
@@ -601,7 +601,7 @@ export default () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status === 'OBSERVADO'  ?
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status === 'OBSERVADO' ?
         <Popconfirm
           title="Esta seguro que lo  desea Eliminar ?"
           onConfirm={() => removeAutoridad(record)}
@@ -726,7 +726,7 @@ export default () => {
     if (!allowGuardar(tramite))
       return <div></div>
 
-    return <div className="mt-6 pt-6 text-center">
+    return <div className="pt-4 text-center">
 
       <Button type="primary" onClick={async () => {
         await save()
@@ -772,195 +772,208 @@ export default () => {
       save()
       router.push('/')
     }} />
-    <div className="border-gray-200 border-b-2 px-10">
-      <NavigationStep generalStatus={statusGeneralTramite} current={1} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
+
+    <div className="border-gray-200 border-b-2 flex ">
+      <div className="px-20 pt-2 w-3/4">
+        <NavigationStep generalStatus={statusGeneralTramite} current={1} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
+      </div>
+      <div className="pt-2 w-1/4">
+        {showSaveButton()}
+      </div>
     </div>
-    <div className="w-2/5 m-auto text-base mt-8">
+
+    <div className="w-2/5 m-auto text-base  mt-8">
       <Substeps progressDot current={1} esPersonaFisica={isPersonaFisica(tramite)} />
     </div>
 
 
-    <div className="px-8 mx-8 py-6 ">
-
-
+    <div className="px-8  py-6 bg-muted-100">
 
 
       {tramite.personeria === 'UTE' ? <div>
 
-
-        <div className="text-2xl font-bold py-4"> Firma del Contrato de la U.T.E.</div>
-        <div className="grid grid-cols-3 gap-4 ">
-          <div>
-            <Wrapper title="Fecha" attributeName="fechaInscripcionUTE"
-              labelRequired="*"  >
-
-              <DatePickerModal
-                labelRequired="*"
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.fechaInscripcion}
-                bindFunction={value => {
-                  tramite.datosSocietarios.fechaInscripcion = value
-                  updateObjTramite()
-                }}
-              />
-            </Wrapper>
-          </div>
-
-        </div>
-
-        <div className="text-2xl font-bold py-4"> Inscripción del contrato de la U.T.E</div>
-
-        <div className="grid grid-cols-2 gap-4 ">
-          <div >
-            <Wrapper title="datos" attributeName="datosInscripcionContratoUTE" labelRequired="*">
-              <InputText
-                attributeName="datosInscripcionContratoUTE"
-                value={tramite.datosSocietarios.ute.inscripcionUTE.datos}
-                bindFunction={value => {
-                  tramite.datosSocietarios.ute.inscripcionUTE.datos = value
-                  updateObjTramite()
-                }}
-                labelMessageError=""
-                required />
-            </Wrapper>
-          </div>
-          <div >
-            <Wrapper title="Fecha" attributeName="fechaInscripcionContratoUTE"
-              labelRequired="*"  >
-              <DatePicker
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-
-                value={tramite.datosSocietarios.ute.inscripcionUTE.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.ute.inscripcionUTE.fecha = value
-                  updateObjTramite()
-                }}
-              />
-            </Wrapper>
-          </div>
-          <div >
-            <Wrapper title="Contrato de la U.T.E. y junto con TODAS sus modificaciones" attributeName="contratoUTEUpload"
-              labelRequired="*"  >
-              <Upload
-                labelMessageError=""
-                defaultValue={tramite.datosSocietarios.ute.archivosContrato as any}
-                onOnLoad={file => {
-                  if (!tramite.datosSocietarios.ute.archivosContrato)
-                    tramite.datosSocietarios.ute.archivosContrato = []
-                  tramite.datosSocietarios.ute.archivosContrato.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={fileToRemove => {
-                  tramite.datosSocietarios.ute.archivosContrato = tramite.datosSocietarios.ute.archivosContrato.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-
-
-              />
-            </Wrapper>
-          </div>
-        </div>
-
-        <Wrapper isTitle title="Última modificación del contrato de la U.T.E." attributeName="ultimaModificacionContratoUTE" >
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold py-4"> Firma del Contrato de la U.T.E.</div>
           <div className="grid grid-cols-3 gap-4 ">
-            <div >
+            <div>
+              <Wrapper title="Fecha" attributeName="fechaInscripcionUTE"
+                labelRequired="*"  >
 
-              <InputTextModal
-                label="Datos"
-                labelRequired=""
-                placeholder=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.ute.modificacionUTE.datos}
-                bindFunction={value => {
-                  tramite.datosSocietarios.ute.modificacionUTE.datos = value
-                  updateObjTramite()
-                }}
-                required /></div>
-            <div >
-              <DatePickerModal
-                label="Fecha"
-                labelRequired=""
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.ute.modificacionUTE.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.ute.modificacionUTE.fecha = value
-                  updateObjTramite()
-                }}
-              />
+                <DatePickerModal
+                  labelRequired="*"
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.fechaInscripcion}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.fechaInscripcion = value
+                    updateObjTramite()
+                  }}
+                />
+              </Wrapper>
             </div>
-            <div >
-              <Upload
-                label=" Última modificación del Contrato de la U.T.E"
-                labelRequired=""
-                labelMessageError=""
-                defaultValue={tramite.datosSocietarios.ute.modificacionUTE.archivos as any}
-                onRemove={fileToRemove => {
-                  tramite.datosSocietarios.ute.modificacionUTE.archivos = tramite.datosSocietarios.ute.modificacionUTE.archivos.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onOnLoad={file => {
-                  if (!tramite.datosSocietarios.ute.modificacionUTE.archivos)
-                    tramite.datosSocietarios.ute.modificacionUTE.archivos = []
-                  tramite.datosSocietarios.ute.modificacionUTE.archivos.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-              />
-            </div>
-          </div>
-        </Wrapper>
-        <Wrapper isTitle title="Fecha de vencimiento del Contrato de la UTE" attributeName="fechaVencimientoContratoUTE">
-          <div className="grid grid-cols-3 gap-4 mb-4 ">
-
-            <div >
-              <DatePickerModal
-                label="Fecha"
-                labelRequired=""
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.fechaVencimiento}
-                bindFunction={value => {
-                  tramite.datosSocietarios.fechaVencimiento = value
-                  updateObjTramite()
-                }}
-              />
-            </div>
-            <div className="mt-8 ml-2 mr-4"> <Checkbox >No Corresponde</Checkbox></div>
-            <div className="w-full" >
-              <InputTextModal
-                label="Observaciones"
-                labelRequired=""
-                placeholder=""
-                labelMessageError=""
-                value=""
-                bindFunction={value => {
-
-                }}
-              /></div>
-
-
 
           </div>
-        </Wrapper>
-        <div className=" content-center  rounded-lg border  px-4 py-4">
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold py-4"> Inscripción del contrato de la U.T.E</div>
+
+          <div className="grid grid-cols-2 gap-4 ">
+            <div >
+              <Wrapper title="datos" attributeName="datosInscripcionContratoUTE" labelRequired="*">
+                <InputText
+                  attributeName="datosInscripcionContratoUTE"
+                  value={tramite.datosSocietarios.ute.inscripcionUTE.datos}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.ute.inscripcionUTE.datos = value
+                    updateObjTramite()
+                  }}
+                  labelMessageError=""
+                  required />
+              </Wrapper>
+            </div>
+            <div >
+              <Wrapper title="Fecha" attributeName="fechaInscripcionContratoUTE"
+                labelRequired="*"  >
+                <DatePicker
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+
+                  value={tramite.datosSocietarios.ute.inscripcionUTE.fecha}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.ute.inscripcionUTE.fecha = value
+                    updateObjTramite()
+                  }}
+                />
+              </Wrapper>
+            </div>
+          </div> <div className="grid grid-cols-2 gap-4 ">
+            <div >
+              <Wrapper title="Contrato de la U.T.E. y junto con TODAS sus modificaciones" attributeName="contratoUTEUpload"
+                labelRequired="*"  >
+                <Upload
+                  labelMessageError=""
+                  defaultValue={tramite.datosSocietarios.ute.archivosContrato as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.ute.archivosContrato)
+                      tramite.datosSocietarios.ute.archivosContrato = []
+                    tramite.datosSocietarios.ute.archivosContrato.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.ute.archivosContrato = tramite.datosSocietarios.ute.archivosContrato.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+
+
+                />
+              </Wrapper>
+            </div>
+          </div>
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <Wrapper isTitle title="Última modificación del contrato de la U.T.E." attributeName="ultimaModificacionContratoUTE" >
+            <div className="grid grid-cols-3 gap-4 ">
+              <div >
+
+                <InputTextModal
+                  label="Datos"
+                  labelRequired=""
+                  placeholder=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.ute.modificacionUTE.datos}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.ute.modificacionUTE.datos = value
+                    updateObjTramite()
+                  }}
+                  required /></div>
+              <div >
+                <DatePickerModal
+                  label="Fecha"
+                  labelRequired=""
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.ute.modificacionUTE.fecha}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.ute.modificacionUTE.fecha = value
+                    updateObjTramite()
+                  }}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-4 ">
+              <div >
+                <Upload
+                  label=" Última modificación del Contrato de la U.T.E"
+                  labelRequired=""
+                  labelMessageError=""
+                  defaultValue={tramite.datosSocietarios.ute.modificacionUTE.archivos as any}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.ute.modificacionUTE.archivos = tramite.datosSocietarios.ute.modificacionUTE.archivos.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.ute.modificacionUTE.archivos)
+                      tramite.datosSocietarios.ute.modificacionUTE.archivos = []
+                    tramite.datosSocietarios.ute.modificacionUTE.archivos.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
+              </div>
+            </div>
+          </Wrapper>
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <Wrapper isTitle title="Fecha de vencimiento del Contrato de la UTE" attributeName="fechaVencimientoContratoUTE">
+            <div className="grid grid-cols-2 gap-4 mb-4 ">
+
+              <div >
+                <DatePickerModal
+                  label="Fecha"
+                  labelRequired=""
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.fechaVencimiento}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.fechaVencimiento = value
+                    updateObjTramite()
+                  }}
+                />
+              </div>
+              <div className="mt-8 ml-2 mr-4"> <Checkbox >No Corresponde</Checkbox></div>
+              <div className="w-full" >
+                <InputTextModal
+                  label="Observaciones"
+                  labelRequired=""
+                  placeholder=""
+                  labelMessageError=""
+                  value=""
+                  bindFunction={value => {
+
+                  }}
+                /></div>
+
+
+
+            </div>
+          </Wrapper>
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
             {isTramiteEditable(tramite) ?
               <div className="content-center ">
@@ -1076,222 +1089,237 @@ export default () => {
       </div> : ''}
 
       {tramite.personeria === 'Cooperativa' ? <div>
-        <div className="text-2xl font-bold py-4"> Firma del Acta Constitutiva</div>
-        <div className="grid grid-cols-3 gap-4 ">
-          <div >
-            <Wrapper title="Fecha" attributeName="fechaFirmaActaCooperativa" labelRequired="*">
-              <DatePicker
-                labelRequired=""
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.fechaInscripcion}
-                bindFunction={value => {
-                  tramite.datosSocietarios.fechaInscripcion = value
-                  updateObjTramite()
-                }}
-              />
-            </Wrapper>
-          </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold py-4"> Firma del Acta Constitutiva</div>
+          <div className="grid grid-cols-2 gap-4 ">
+            <div >
+              <Wrapper title="Fecha" attributeName="fechaFirmaActaCooperativa" labelRequired="*">
+                <DatePicker
+                  labelRequired=""
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.fechaInscripcion}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.fechaInscripcion = value
+                    updateObjTramite()
+                  }}
+                />
+              </Wrapper>
+            </div>
 
+          </div>
         </div>
-        <div className="text-2xl font-bold py-4"> Inscripción de Acta Constitutiva en I.N.A.E.S</div>
-        <div className="grid grid-cols-2 gap-4 ">
-          <div >
-            <Wrapper title="Datos" attributeName="datosInscripcionINAES" labelRequired="*">
-              <InputText
-                attributeName="datosInscripcionINAES"
-                value={tramite.datosSocietarios.cooperativa.inscriptionINAES.datos}
-                bindFunction={value => {
-                  tramite.datosSocietarios.cooperativa.inscriptionINAES.datos = value
-                  updateObjTramite()
-                }}
-                labelMessageError=""
-                required />
-            </Wrapper>
-          </div>
-          <div >
-            <Wrapper title="Fecha" attributeName="fechaInscripcionINAES" labelRequired="*">
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold py-4"> Inscripción de Acta Constitutiva en I.N.A.E.S</div>
+          <div className="grid grid-cols-2 gap-4 ">
+            <div >
+              <Wrapper title="Datos" attributeName="datosInscripcionINAES" labelRequired="*">
+                <InputText
+                  attributeName="datosInscripcionINAES"
+                  value={tramite.datosSocietarios.cooperativa.inscriptionINAES.datos}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.cooperativa.inscriptionINAES.datos = value
+                    updateObjTramite()
+                  }}
+                  labelMessageError=""
+                  required />
+              </Wrapper>
+            </div>
+            <div >
+              <Wrapper title="Fecha" attributeName="fechaInscripcionINAES" labelRequired="*">
 
-              <DatePickerModal
+                <DatePickerModal
+                  labelRequired="*"
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+
+                  value={tramite.datosSocietarios.cooperativa.inscriptionINAES.fecha}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.cooperativa.inscriptionINAES.fecha = value
+                    updateObjTramite()
+                  }}
+                />
+              </Wrapper>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 ">
+            <div >
+              <Upload
+                label="Acta Constitutiva, junto con TODAS sus modificaciones hasta el día de hoy"
                 labelRequired="*"
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
                 labelMessageError=""
+                defaultValue={tramite.datosSocietarios.cooperativa.archivoActaConstitutiva as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.cooperativa.archivoActaConstitutiva)
+                    tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = []
 
-                value={tramite.datosSocietarios.cooperativa.inscriptionINAES.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.cooperativa.inscriptionINAES.fecha = value
+                  tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.push(file)
                   updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.filter(f => f.cid !== fileToRemove.uid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
                 }}
               />
-            </Wrapper>
-          </div>
-          <div >
-            <Upload
-              label="Acta Constitutiva, junto con TODAS sus modificaciones hasta el día de hoy"
-              labelRequired="*"
-              labelMessageError=""
-              defaultValue={tramite.datosSocietarios.cooperativa.archivoActaConstitutiva as any}
-              onOnLoad={file => {
-                if (!tramite.datosSocietarios.cooperativa.archivoActaConstitutiva)
-                  tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = []
-
-                tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.push(file)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-              onRemove={fileToRemove => {
-                tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.filter(f => f.cid !== fileToRemove.uid)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-            />
+            </div>
           </div>
         </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold pb-4 py-4">Modificación estatutaria Inscripta en I.N.A.E.S (objeto social referente a rubro Construcción)
+            <Tooltip title="En caso de que la cooperativa sea Constructora desde su Constitución, repetir mismos datos y fecha de la Inscripción de Acta Constitutiva en I.N.A.E.S "> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
+          <div className="grid grid-cols-2 gap-4 ">
+            <div >
+              <Wrapper title="Datos" attributeName="datosModificacionEstatutariaINAES" labelRequired="*">
+                <InputText
+                  attributeName="datosModificacionEstatutariaINAES"
 
-        <div className="text-2xl font-bold pb-4 py-4">Modificación estatutaria Inscripta en I.N.A.E.S (objeto social referente a rubro Construcción)
-        <Tooltip title="En caso de que la cooperativa sea Constructora desde su Constitución, repetir mismos datos y fecha de la Inscripción de Acta Constitutiva en I.N.A.E.S "> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
-        <div className="grid grid-cols-2 gap-4 ">
-          <div >
-            <Wrapper title="Datos" attributeName="datosModificacionEstatutariaINAES" labelRequired="*">
-              <InputText
-                attributeName="datosModificacionEstatutariaINAES"
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.cooperativa.modificacionINAES.datos}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.cooperativa.modificacionINAES.datos = value
+                    updateObjTramite()
+                  }}
+                  required />
+              </Wrapper>
+            </div>
+            <div >
+              <Wrapper title="Fecha" attributeName="fechamodificacionINAES" labelRequired="*">
+                <DatePickerModal
 
-                labelMessageError=""
-                value={tramite.datosSocietarios.cooperativa.modificacionINAES.datos}
-                bindFunction={value => {
-                  tramite.datosSocietarios.cooperativa.modificacionINAES.datos = value
-                  updateObjTramite()
-                }}
-                required />
-            </Wrapper>
+                  labelRequired=""
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.cooperativa.modificacionINAES.fecha}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.cooperativa.modificacionINAES.fecha = value
+                    updateObjTramite()
+                  }}
+                />
+              </Wrapper>
+            </div>
           </div>
-          <div >
-            <Wrapper title="Fecha" attributeName="fechamodificacionINAES" labelRequired="*">
-              <DatePickerModal
-
-                labelRequired=""
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
+          <div className="grid grid-cols-1 gap-4 ">
+            <div >
+              <Upload
+                label="Modificación del Objeto de la cooperativa a rubro construccion"
+                labelRequired="*"
                 labelMessageError=""
-                value={tramite.datosSocietarios.cooperativa.modificacionINAES.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.cooperativa.modificacionINAES.fecha = value
+                defaultValue={tramite.datosSocietarios.cooperativa.modificacionINAES.archivos as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.cooperativa.modificacionINAES.archivos)
+                    tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = []
+
+                  tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.push(file)
                   updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.filter(f => f.cid !== fileToRemove.uid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
                 }}
               />
-            </Wrapper>
-          </div>
-          <div >
-            <Upload
-              label="Modificación del Objeto de la cooperativa a rubro construccion"
-              labelRequired="*"
-              labelMessageError=""
-              defaultValue={tramite.datosSocietarios.cooperativa.modificacionINAES.archivos as any}
-              onOnLoad={file => {
-                if (!tramite.datosSocietarios.cooperativa.modificacionINAES.archivos)
-                  tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = []
-
-                tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.push(file)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-              onRemove={fileToRemove => {
-                tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.filter(f => f.cid !== fileToRemove.uid)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-            />
+            </div>
           </div>
         </div>
-        <div className="text-2xl font-bold py-4">Última modificación estatutaria Inscripta en I.N.A.E.S.</div>
-        <div className="grid grid-cols-2 gap-4 ">
-          <div >
-            <Wrapper title="Datos" attributeName="datosultimaModificacionEstatutariaINAES" labelRequired="*">
-              <InputText
-                attributeName="datosultimaModificacionEstatutariaINAES"
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold py-4">Última modificación estatutaria Inscripta en I.N.A.E.S.</div>
+          <div className="grid grid-cols-2 gap-4 ">
+            <div >
+              <Wrapper title="Datos" attributeName="datosultimaModificacionEstatutariaINAES" labelRequired="*">
+                <InputText
+                  attributeName="datosultimaModificacionEstatutariaINAES"
 
-                labelRequired=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos}
-                bindFunction={value => {
-                  tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos = value
-                  updateObjTramite()
-                }}
-                required />
-            </Wrapper></div>
+                  labelRequired=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos = value
+                    updateObjTramite()
+                  }}
+                  required />
+              </Wrapper></div>
 
-          <div >
-            <Wrapper title="Fecha" attributeName="fechaultimaModificacionINAES" labelRequired="*">
-              <DatePickerModal
+            <div >
+              <Wrapper title="Fecha" attributeName="fechaultimaModificacionINAES" labelRequired="*">
+                <DatePickerModal
 
-                labelRequired=""
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos = value
-                  updateObjTramite()
-                }}
-              />
-            </Wrapper>
+                  labelRequired=""
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.fecha}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos = value
+                    updateObjTramite()
+                  }}
+                />
+              </Wrapper>
+            </div>
           </div>
-          <div >
-            <Upload
-              label="Última modificación estatutaria Inscripta en I.N.A.E.S."
-              labelRequired="*"
-              labelMessageError=""
-              defaultValue={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos as any}
-              onOnLoad={file => {
-                if (!tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos)
-                  tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = []
-
-                tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.push(file)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-              onRemove={fileToRemove => {
-                tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.filter(f => f.cid !== fileToRemove.uid)
-                updateObjTramite()
-                save()
-                setIsLoading(false)
-              }}
-            />
-          </div>
-        </div>
-        <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato / Acta Constitutiva</div>
-        <div className="grid grid-cols-3 gap-4 mb-4 ">
-          <div >
-            <Wrapper title="Fecha" attributeName="fechaVencimientoCooperativa" labelRequired="*">
-              <DatePickerModal
-
-                labelRequired=""
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
+          <div className="grid grid-cols-1 gap-4 ">
+            <div >
+              <Upload
+                label="Última modificación estatutaria Inscripta en I.N.A.E.S."
+                labelRequired="*"
                 labelMessageError=""
-                value={tramite.datosSocietarios.fechaVencimiento}
-                bindFunction={value => {
-                  tramite.datosSocietarios.fechaVencimiento = value
+                defaultValue={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos)
+                    tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = []
+
+                  tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.push(file)
                   updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.filter(f => f.cid !== fileToRemove.uid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
                 }}
               />
-            </Wrapper>
+            </div>
           </div>
-
         </div>
-        <div className=" content-center  rounded-lg border  px-4 py-4">
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato / Acta Constitutiva</div>
+          <div className="grid grid-cols-2 gap-4 mb-4 ">
+            <div >
+              <Wrapper title="Fecha" attributeName="fechaVencimientoCooperativa" labelRequired="*">
+                <DatePickerModal
+
+                  labelRequired=""
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.fechaVencimiento}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.fechaVencimiento = value
+                    updateObjTramite()
+                  }}
+                />
+              </Wrapper>
+            </div>
+
+          </div>
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
             {isTramiteEditable(tramite) ?
               <div className=" content-center ">
@@ -1407,236 +1435,254 @@ export default () => {
       </div> : ''}
 
       {tramite.personeria === 'PJESP' ? <div>
-        <div className="text-2xl font-bold py-4"> Inscripción constitutiva en país de origen</div>
-        <div className="grid grid-cols-3 gap-4 ">
-          <div >
-
-            <Wrapper title="Datos" attributeName="DatosInscripcionPJESP" labelRequired="*">
-              <InputText
-                attributeName="DatosInscripcionPJES"
-                value={tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos}
-                bindFunction={value => {
-                  tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos = value
-                  updateObjTramite()
-                }}
-                labelMessageError=""
-                required />
-            </Wrapper>
-          </div>
-          <div >
-            <Wrapper title="Fecha" attributeName="FechaInscripcionPJESP" labelRequired="*">
-              <DatePickerModal
-                labelRequired=""
-                placeholder=""
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.PJESP.inscripcionConstitutiva.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.PJESP.inscripcionConstitutiva.fecha = value
-                  updateObjTramite()
-                }}
-              />
-            </Wrapper>
-          </div>
-
-        </div>
-        <div className="text-2xl font-bold py-4"> Inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)</div>
-        <div className="grid grid-cols-3 gap-4 ">
-          <div >
-            <Wrapper title="Datos" attributeName="DatosInscripcionPJES" labelRequired="*">
-              <InputText
-                attributeName="DatosInscripcionPJES"
-                value={tramite.datosSocietarios.PJESP.inscripcionSucursal.datos}
-                bindFunction={value => {
-                  tramite.datosSocietarios.PJESP.inscripcionSucursal.datos = value
-                  updateObjTramite()
-                }}
-
-                labelMessageError=""
-                required />
-            </Wrapper>
-          </div>
-          <div >
-            <Wrapper title="Fecha" attributeName="FechaInscripcionPJES" labelRequired="*">
-              <DatePickerModal
-                labelRequired=""
-                placeholder=""
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-
-                value={tramite.datosSocietarios.PJESP.inscripcionSucursal.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.PJESP.inscripcionSucursal.fecha = value
-                  updateObjTramite()
-                }}
-              />
-            </Wrapper>
-          </div>
-          <div >
-            <Wrapper title="Inscripción efectiva de la sucursal en D.P.P.J. / I.G.J., junto con todas sus modificaciones" attributeName="modificacionUpload"
-              labelRequired="*"  >
-              <Upload
-                defaultValue={tramite.datosSocietarios.PJESP.archivosContrato as any}
-                onOnLoad={file => {
-                  if (!tramite.datosSocietarios.PJESP.archivosContrato)
-                    tramite.datosSocietarios.PJESP.archivosContrato = []
-                  tramite.datosSocietarios.PJESP.archivosContrato.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={fileToRemove => {
-                  tramite.datosSocietarios.PJESP.archivosContrato = tramite.datosSocietarios.PJESP.archivosContrato.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-              />
-            </Wrapper>
-          </div>
-        </div>
-
-        <div className="text-2xl font-bold py-4"> Modificación del objeto de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)
-        <Tooltip title="En caso de que la empresa sea Constructora desde la inscripción inicial de la Sucursal en Argentina, repetir mismos datos y fecha de la Inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J."> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
-        <div className="grid grid-cols-2 gap-4 ">
-          <div >
-            <Wrapper title="Datos" attributeName="DatosModificacionObjetoPJES" labelRequired="*">
-              <InputText
-                attributeName="DatosModificacionObjetoPJES"
-
-                labelMessageError=""
-                value={tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos}
-                bindFunction={value => {
-                  tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos = value
-                  updateObjTramite()
-                }}
-                required />
-            </Wrapper>
-          </div>
-          <div >
-            <Wrapper title="Fecha" attributeName="FechaModificacionObjetoPJES" labelRequired="*">
-
-              <DatePickerModal
-                labelRequired="*"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.PJESP.modifcicacionObjeto.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.PJESP.modifcicacionObjeto.fecha = value
-                  updateObjTramite()
-                }}
-              />
-            </Wrapper>
-          </div>
-          <div >
-            <Wrapper title="Modificación del Objeto de la Sucursal Argentina al rubro Construcción inscripto en D.P.P.J / I.G.J." attributeName="modificacionObjetoUpload"
-              labelRequired="*"  >
-              <Upload
-                defaultValue={tramite.datosSocietarios.PJESP.archivoModificacion as any}
-                onOnLoad={file => {
-                  if (!tramite.datosSocietarios.PJESP.archivoModificacion)
-                    tramite.datosSocietarios.PJESP.archivoModificacion = []
-                  tramite.datosSocietarios.PJESP.archivoModificacion.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={fileToRemove => {
-                  tramite.datosSocietarios.PJESP.archivoModificacion = tramite.datosSocietarios.PJESP.archivoModificacion.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-              />
-            </Wrapper>
-          </div>
-        </div>
-        <Wrapper isTitle title="Última modificación de inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)" attributeName="UltimaModificacionInscripcionPJESP" >
-          <div className="grid grid-cols-2 gap-4 ">
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold py-4"> Inscripción constitutiva en país de origen</div>
+          <div className="grid grid-cols-3 gap-4 ">
             <div >
-    <Wrapper title="Datos" attributeName="datosMODSUC"
-              labelRequired=""  >
 
-              <InputTextModal
-                label=""
-                labelRequired=""
-                placeholder=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.datos}
-                bindFunction={value => {
-                  tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.datos = value
-                  updateObjTramite()
-                }}
-                required />
-                </Wrapper>
-                </div>
-
-            <div >
-            <Wrapper title="Fecha" attributeName="fechaMODSUC"
-              labelRequired="*"  >
-
-              <DatePickerModal
-                labelRequired=""
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.fecha = value
-                  updateObjTramite()
-                }}
-              />
+              <Wrapper title="Datos" attributeName="DatosInscripcionPJESP" labelRequired="*">
+                <InputText
+                  attributeName="DatosInscripcionPJES"
+                  value={tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.PJESP.inscripcionConstitutiva.datos = value
+                    updateObjTramite()
+                  }}
+                  labelMessageError=""
+                  required />
               </Wrapper>
             </div>
             <div >
-              <Upload
-                label="Última modificación de la Inscripción de la Sucursal en Argentina, inscripta en D.P.P.J. / I.G.J."
-                defaultValue={tramite.datosSocietarios.PJESP.archivoUltimaModificacion as any}
-                onOnLoad={file => {
-                  if (!tramite.datosSocietarios.PJESP.archivoUltimaModificacion)
-                    tramite.datosSocietarios.PJESP.archivoUltimaModificacion = []
-                  tramite.datosSocietarios.PJESP.archivoUltimaModificacion.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={fileToRemove => {
-                  tramite.datosSocietarios.PJESP.archivoUltimaModificacion = tramite.datosSocietarios.PJESP.archivoUltimaModificacion.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-              />
+              <Wrapper title="Fecha" attributeName="FechaInscripcionPJESP" labelRequired="*">
+                <DatePickerModal
+                  labelRequired=""
+                  placeholder=""
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.PJESP.inscripcionConstitutiva.fecha}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.PJESP.inscripcionConstitutiva.fecha = value
+                    updateObjTramite()
+                  }}
+                />
+              </Wrapper>
             </div>
+
           </div>
-        </Wrapper>
-        <Wrapper isTitle title="Fecha de vencimiento del Contrato / Acta Constitutiva" attributeName="FechaVencimientoPJESP" >
-
-
-          <div className="grid grid-cols-3 gap-4  mb-4 ">
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold py-4"> Inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)</div>
+          <div className="grid grid-cols-2 gap-4 ">
             <div >
-              <DatePickerModal
-                label="Fecha"
-                labelRequired=""
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                value={tramite.datosSocietarios.PJESP.fechaVencimiento.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.PJESP.fechaVencimiento.fecha = value
-                  updateObjTramite()
-                }}
-              />
+              <Wrapper title="Datos" attributeName="DatosInscripcionPJES" labelRequired="*">
+                <InputText
+                  attributeName="DatosInscripcionPJES"
+                  value={tramite.datosSocietarios.PJESP.inscripcionSucursal.datos}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.PJESP.inscripcionSucursal.datos = value
+                    updateObjTramite()
+                  }}
+
+                  labelMessageError=""
+                  required />
+              </Wrapper>
+            </div>
+            <div >
+              <Wrapper title="Fecha" attributeName="FechaInscripcionPJES" labelRequired="*">
+                <DatePickerModal
+                  labelRequired=""
+                  placeholder=""
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+
+                  value={tramite.datosSocietarios.PJESP.inscripcionSucursal.fecha}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.PJESP.inscripcionSucursal.fecha = value
+                    updateObjTramite()
+                  }}
+                />
+              </Wrapper>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 ">
+            <div >
+              <Wrapper title="Inscripción efectiva de la sucursal en D.P.P.J. / I.G.J., junto con todas sus modificaciones" attributeName="modificacionUpload"
+                labelRequired="*"  >
+                <Upload
+                  defaultValue={tramite.datosSocietarios.PJESP.archivosContrato as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.PJESP.archivosContrato)
+                      tramite.datosSocietarios.PJESP.archivosContrato = []
+                    tramite.datosSocietarios.PJESP.archivosContrato.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.PJESP.archivosContrato = tramite.datosSocietarios.PJESP.archivosContrato.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
+              </Wrapper>
+            </div>
+          </div>
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold py-4"> Modificación del objeto de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)
+            <Tooltip title="En caso de que la empresa sea Constructora desde la inscripción inicial de la Sucursal en Argentina, repetir mismos datos y fecha de la Inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J."> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
+          <div className="grid grid-cols-2 gap-4 ">
+            <div >
+              <Wrapper title="Datos" attributeName="DatosModificacionObjetoPJES" labelRequired="*">
+                <InputText
+                  attributeName="DatosModificacionObjetoPJES"
+
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.PJESP.modifcicacionObjeto.datos = value
+                    updateObjTramite()
+                  }}
+                  required />
+              </Wrapper>
+            </div>
+            <div >
+              <Wrapper title="Fecha" attributeName="FechaModificacionObjetoPJES" labelRequired="*">
+
+                <DatePickerModal
+                  labelRequired="*"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.PJESP.modifcicacionObjeto.fecha}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.PJESP.modifcicacionObjeto.fecha = value
+                    updateObjTramite()
+                  }}
+                />
+              </Wrapper>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 ">
+            <div >
+              <Wrapper title="Modificación del Objeto de la Sucursal Argentina al rubro Construcción inscripto en D.P.P.J / I.G.J." attributeName="modificacionObjetoUpload"
+                labelRequired="*"  >
+                <Upload
+                  defaultValue={tramite.datosSocietarios.PJESP.archivoModificacion as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.PJESP.archivoModificacion)
+                      tramite.datosSocietarios.PJESP.archivoModificacion = []
+                    tramite.datosSocietarios.PJESP.archivoModificacion.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.PJESP.archivoModificacion = tramite.datosSocietarios.PJESP.archivoModificacion.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
+              </Wrapper>
+            </div>
+          </div>
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+
+          <Wrapper isTitle title="Última modificación de inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)" attributeName="UltimaModificacionInscripcionPJESP" >
+            <div className="grid grid-cols-2 gap-4 ">
+              <div >
+                <Wrapper title="Datos" attributeName="datosMODSUC"
+                  labelRequired=""  >
+
+                  <InputTextModal
+                    label=""
+                    labelRequired=""
+                    placeholder=""
+                    labelMessageError=""
+                    value={tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.datos}
+                    bindFunction={value => {
+                      tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.datos = value
+                      updateObjTramite()
+                    }}
+                    required />
+                </Wrapper>
+              </div>
+
+              <div >
+                <Wrapper title="Fecha" attributeName="fechaMODSUC"
+                  labelRequired="*"  >
+
+                  <DatePickerModal
+                    labelRequired=""
+                    placeholder="Fecha"
+                    labelObservation=""
+                    labeltooltip=""
+                    labelMessageError=""
+                    value={tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.fecha}
+                    bindFunction={value => {
+                      tramite.datosSocietarios.PJESP.ultimaModificacionInscripcion.fecha = value
+                      updateObjTramite()
+                    }}
+                  />
+                </Wrapper>
+              </div>
             </div>
 
-          </div>
-        </Wrapper>
-        <div className=" content-center  rounded-lg border  px-4 py-4">
+            <div className="grid grid-cols-1 gap-4 ">
+              <div >
+                <Upload
+                  label="Última modificación de la Inscripción de la Sucursal en Argentina, inscripta en D.P.P.J. / I.G.J."
+                  defaultValue={tramite.datosSocietarios.PJESP.archivoUltimaModificacion as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.PJESP.archivoUltimaModificacion)
+                      tramite.datosSocietarios.PJESP.archivoUltimaModificacion = []
+                    tramite.datosSocietarios.PJESP.archivoUltimaModificacion.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.PJESP.archivoUltimaModificacion = tramite.datosSocietarios.PJESP.archivoUltimaModificacion.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
+              </div>
+            </div>
+          </Wrapper>
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+
+          <Wrapper isTitle title="Fecha de vencimiento del Contrato / Acta Constitutiva" attributeName="FechaVencimientoPJESP" >
+
+
+            <div className="grid grid-cols-3 gap-4  mb-4 ">
+              <div >
+                <DatePickerModal
+                  label="Fecha"
+                  labelRequired=""
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.datosSocietarios.PJESP.fechaVencimiento.fecha}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.PJESP.fechaVencimiento.fecha = value
+                    updateObjTramite()
+                  }}
+                />
+              </div>
+
+            </div>
+          </Wrapper>
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
             {isTramiteEditable(tramite) ?
               <div className="content-center ">
@@ -1752,28 +1798,30 @@ export default () => {
       </div> : ''}
 
       {tramite.personeria === 'SA' || tramite.personeria === 'SRL' || tramite.personeria === 'OFS' ? <div>
-        <div className="text-2xl font-bold py-4"> Firma del Contrato Constitutivo</div>
-        <div className="grid grid-cols-4 gap-4 ">
-          <div >
-            <Wrapper title="Fecha" attributeName="fechaContratoConstitutivo"
-              labelRequired="*"  >
-              <DatePicker
-                value={tramite.datosSocietarios.sociedadAnonima.contrato.fecha}
-                bindFunction={value => {
-                  tramite.datosSocietarios.sociedadAnonima.contrato.fecha = value
-                  updateObjTramite()
-                }}
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-              />
-            </Wrapper>
-          </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold py-4"> Firma del Contrato Constitutivo</div>
+          <div className="grid grid-cols-4 gap-4 ">
+            <div >
+              <Wrapper title="Fecha" attributeName="fechaContratoConstitutivo"
+                labelRequired="*"  >
+                <DatePicker
+                  value={tramite.datosSocietarios.sociedadAnonima.contrato.fecha}
+                  bindFunction={value => {
+                    tramite.datosSocietarios.sociedadAnonima.contrato.fecha = value
+                    updateObjTramite()
+                  }}
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                />
+              </Wrapper>
+            </div>
 
+          </div>
         </div>
 
-        <div className="rounded-lg mt-4 border px-4 py-4">
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <div className="text-2xl font-bold py-4"> Inscripción de Contrato Constitutivo (en D.P.P.J / I.G.J.)</div>
           <div className="grid grid-cols-2 gap-4 ">
             <div >
@@ -1839,7 +1887,7 @@ export default () => {
 
           </div>
         </div>
-        <div className="rounded-lg mt-4 border px-4 py-4">
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <div className="text-2xl font-bold py-4"> Modificación del Contrato Social (inscripta en D.P.P.J / I.G.J. correspondiente a ampliación del objeto social para realizar actividades del rubro Construcción)</div>
           <div className="grid grid-cols-2 gap-4 ">
             <div >
@@ -1899,43 +1947,43 @@ export default () => {
           </div>
 
         </div>
-        <div className="rounded-lg mt-4 border px-4 py-4">
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
 
           <Wrapper isTitle title="Última modificación del Contrato Social (inscripta en D.P.P.J / I.G.J.)" attributeName="ultimaModifcacionContratoSA" >
             <div className="grid grid-cols-2 gap-4 ">
               <div >
-              <Wrapper title="Datos" attributeName="rubroConsutrccionDatos"
-              labelRequired="*"  >
+                <Wrapper title="Datos" attributeName="rubroConsutrccionDatos"
+                  labelRequired="*"  >
 
-                <InputText
-                  attributeName="rubroConsutrccionDatos"
-                  value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos}
-                  bindFunction={(value) => {
-                    tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos = value
-                    updateObjTramite()
-                  }}
-                  placeHolder="Inspeccion General de Justicia"
-                  labelObservation=""
-                  labeltooltip=""
-                  labelMessageError=""
-                  required />
-                  </Wrapper>
+                  <InputText
+                    attributeName="rubroConsutrccionDatos"
+                    value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos}
+                    bindFunction={(value) => {
+                      tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.datos = value
+                      updateObjTramite()
+                    }}
+                    placeHolder="Inspeccion General de Justicia"
+                    labelObservation=""
+                    labeltooltip=""
+                    labelMessageError=""
+                    required />
+                </Wrapper>
               </div>
               <div >
-              <Wrapper title="Fecha" attributeName="rubroConsutrccionFecha"  labelRequired="*"  >
-             
-                <DatePicker
-                  label=""
-                  value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha}
-                  bindFunction={(value) => {
-                    tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha = value
-                    updateObjTramite()
-                  }}
-                  placeholder="Inspeccion General de Justicia"
-                  labelObservation=""
-                  labeltooltip=""
-                  labelMessageError=""
-                />
+                <Wrapper title="Fecha" attributeName="rubroConsutrccionFecha" labelRequired="*"  >
+
+                  <DatePicker
+                    label=""
+                    value={tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha}
+                    bindFunction={(value) => {
+                      tramite.datosSocietarios.sociedadAnonima.ultimaModificacion.fecha = value
+                      updateObjTramite()
+                    }}
+                    placeholder="Inspeccion General de Justicia"
+                    labelObservation=""
+                    labeltooltip=""
+                    labelMessageError=""
+                  />
                 </Wrapper>
               </div>
             </div>
@@ -1972,27 +2020,29 @@ export default () => {
 
             locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />
         </div>
-        <div className="text-2xl font-bold py-4 mt-4"> Fecha de vencimiento del Contrato Social</div>
-        <div className="grid grid-cols-2 gap-4 ">
-          <div >
-            <Wrapper title="Fecha" attributeName="fechaVencimientoContratoSA" >
-              <DatePicker
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <div className="text-2xl font-bold py-4 mt-4"> Fecha de vencimiento del Contrato Social</div>
+          <div className="grid grid-cols-2 gap-4 ">
+            <div >
+              <Wrapper title="Fecha" attributeName="fechaVencimientoContratoSA" >
+                <DatePicker
 
-                value={tramite.datosSocietarios.fechaVencimiento}
-                bindFunction={(value) => {
-                  tramite.datosSocietarios.fechaVencimiento = value
-                  updateObjTramite()
-                }}
-                labelRequired="*"
-                placeholder="Inspeccion General de Justicia"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-              />
-            </Wrapper>
+                  value={tramite.datosSocietarios.fechaVencimiento}
+                  bindFunction={(value) => {
+                    tramite.datosSocietarios.fechaVencimiento = value
+                    updateObjTramite()
+                  }}
+                  labelRequired="*"
+                  placeholder="Inspeccion General de Justicia"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                />
+              </Wrapper>
+            </div>
           </div>
         </div>
-        <div className=" content-center  rounded-lg border  px-4 py-4">
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <Wrapper isTitle title="Autoridades" attributeName="Autoridades" >
             {isTramiteEditable(tramite) ?
               <div className=" content-center ">
@@ -2023,7 +2073,7 @@ export default () => {
 
               </div> <div className="pb-6">
 
-                {tramite.autoridadesVencimiento ? '': <div>
+                {tramite.autoridadesVencimiento ? '' : <div>
                   <DatePicker
                     label="Fecha de Vencimiento"
                     value={tramite.autoridadesFechaVencimiento}
@@ -2087,158 +2137,167 @@ export default () => {
       </div> : ''}
 
       {isPersonaFisica(tramite) ? <div>
-        <Wrapper isTitle title="Alta en AFIP (actividad referente a rubro Construcción)" attributeName="AltaEnAfipPF" >
-          <div className="grid grid-cols-3 gap-4 ">
-            <div >
-              <InputTextModal
-                value={tramite.altaAFIP.datos}
-                bindFunction={value => {
-                  tramite.altaAFIP.datos = value
-                  setTramite(Object.assign({}, tramite))
-                }}
-                label="Datos"
-                labelRequired="*"
-                placeholder=""
-                labelMessageError=""
-                required />
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <Wrapper isTitle title="Alta en AFIP (actividad referente a rubro Construcción)" attributeName="AltaEnAfipPF" >
+            <div className="grid grid-cols-2 gap-4 ">
+              <div >
+                <InputTextModal
+                  value={tramite.altaAFIP.datos}
+                  bindFunction={value => {
+                    tramite.altaAFIP.datos = value
+                    setTramite(Object.assign({}, tramite))
+                  }}
+                  label="Datos"
+                  labelRequired="*"
+                  placeholder=""
+                  labelMessageError=""
+                  required />
+              </div>
+              <div >
+                <DatePickerModal
+                  label="Fecha"
+                  labelRequired="*"
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.altaAFIP.fecha}
+                  bindFunction={value => {
+                    tramite.altaAFIP.fecha = value
+                    setTramite(Object.assign({}, tramite))
+                  }}
+                />
+              </div>
             </div>
-            <div >
-              <DatePickerModal
-                label="Fecha"
-                labelRequired="*"
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                value={tramite.altaAFIP.fecha}
-                bindFunction={value => {
-                  tramite.altaAFIP.fecha = value
-                  setTramite(Object.assign({}, tramite))
-                }}
-              />
+            <div className="grid grid-cols-1 gap-4 ">
+              <div >
+                <Upload
+                  label="Constancia de Inscripción en AFIP"
+                  labelRequired="*"
+                  labelMessageError=""
+                  defaultValue={tramite.datosSocietarios.personaFisica.constanciaInscripcion as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.personaFisica.constanciaInscripcion)
+                      tramite.datosSocietarios.personaFisica.constanciaInscripcion = []
+                    tramite.datosSocietarios.personaFisica.constanciaInscripcion.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.personaFisica.constanciaInscripcion = tramite.datosSocietarios.personaFisica.constanciaInscripcion.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
+              </div>
             </div>
-            <div >
-              <Upload
-                label="Constancia de Inscripción en AFIP"
-                labelRequired="*"
-                labelMessageError=""
-                defaultValue={tramite.datosSocietarios.personaFisica.constanciaInscripcion as any}
-                onOnLoad={file => {
-                  if (!tramite.datosSocietarios.personaFisica.constanciaInscripcion)
-                    tramite.datosSocietarios.personaFisica.constanciaInscripcion = []
-                  tramite.datosSocietarios.personaFisica.constanciaInscripcion.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={fileToRemove => {
-                  tramite.datosSocietarios.personaFisica.constanciaInscripcion = tramite.datosSocietarios.personaFisica.constanciaInscripcion.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-              />
-            </div>
-          </div>
-        </Wrapper>
-        <Wrapper isTitle title="Matrícula de Comerciante (inscripción en D.P.P.J / I.G.J.)" attributeName="MatriculaComerciantePF" >
+          </Wrapper>
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <Wrapper isTitle title="Matrícula de Comerciante (inscripción en D.P.P.J / I.G.J.)" attributeName="MatriculaComerciantePF" >
 
-          <div className="grid grid-cols-3 gap-4 ">
-            <div >
-              <InputTextModal
-                value={tramite.matriculaComerciante.datos}
-                bindFunction={value => {
-                  tramite.matriculaComerciante.datos = value
-                  setTramite(Object.assign({}, tramite))
-                }}
-                label="Datos"
-                labelRequired="*"
-                placeholder=""
-                labelMessageError=""
-                required /></div>
-            <div >
-              <DatePickerModal
-                label="Fecha"
-                labelRequired="*"
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
+            <div className="grid grid-cols-2 gap-4 ">
+              <div >
+                <InputTextModal
+                  value={tramite.matriculaComerciante.datos}
+                  bindFunction={value => {
+                    tramite.matriculaComerciante.datos = value
+                    setTramite(Object.assign({}, tramite))
+                  }}
+                  label="Datos"
+                  labelRequired="*"
+                  placeholder=""
+                  labelMessageError=""
+                  required /></div>
+              <div >
+                <DatePickerModal
+                  label="Fecha"
+                  labelRequired="*"
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
 
-                value={tramite.matriculaComerciante.fecha}
-                bindFunction={value => {
-                  tramite.matriculaComerciante.fecha = value
-                  setTramite(Object.assign({}, tramite))
-                }}
-              />
+                  value={tramite.matriculaComerciante.fecha}
+                  bindFunction={value => {
+                    tramite.matriculaComerciante.fecha = value
+                    setTramite(Object.assign({}, tramite))
+                  }}
+                />
+              </div>
             </div>
-            <div >
-              <Upload
-                label="Matrícula de Comerciante"
-                labelRequired="*"
-                labelMessageError=""
-                defaultValue={tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante as any}
-                onOnLoad={file => {
-                  if (!tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante)
-                    tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = []
-                  tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={fileToRemove => {
-                  tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
+            <div className="grid grid-cols-1 gap-4 ">
+              <div >
+                <Upload
+                  label="Matrícula de Comerciante"
+                  labelRequired="*"
+                  labelMessageError=""
+                  defaultValue={tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante)
+                      tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = []
+                    tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
 
-              />
+                />
+              </div>
             </div>
-          </div>
-        </Wrapper>
-        <Wrapper isTitle title="Última modificación de Matrícula de Comerciante / Modificación de Actividades en AFIP" attributeName="UltimaModificacionMatriculaPF" >
-          <div className="grid grid-cols-3 gap-4 ">
-            <div >
-              <InputTextModal
-                label="Datos"
-                labelRequired=""
-                placeholder=""
-                labelMessageError=""
-                value={tramite.ultimaModificacionMatriculaOActividadesAFIP.datos}
-                bindFunction={value => {
-                  tramite.ultimaModificacionMatriculaOActividadesAFIP.datos = value
-                  setTramite(Object.assign({}, tramite))
-                }}
-                required /></div>
-            <div >
-              <DatePickerModal
-                label="Fecha"
-                labelRequired=""
-                placeholder="Fecha"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-                value={tramite.ultimaModificacionMatriculaOActividadesAFIP.fecha}
-                bindFunction={value => {
-                  tramite.ultimaModificacionMatriculaOActividadesAFIP.fecha = value
-                  setTramite(Object.assign({}, tramite))
-                }}
-              />
+          </Wrapper>
+        </div>
+        <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
+          <Wrapper isTitle title="Última modificación de Matrícula de Comerciante / Modificación de Actividades en AFIP" attributeName="UltimaModificacionMatriculaPF" >
+            <div className="grid grid-cols-2 gap-4 ">
+              <div >
+                <InputTextModal
+                  label="Datos"
+                  labelRequired=""
+                  placeholder=""
+                  labelMessageError=""
+                  value={tramite.ultimaModificacionMatriculaOActividadesAFIP.datos}
+                  bindFunction={value => {
+                    tramite.ultimaModificacionMatriculaOActividadesAFIP.datos = value
+                    setTramite(Object.assign({}, tramite))
+                  }}
+                  required /></div>
+              <div >
+                <DatePickerModal
+                  label="Fecha"
+                  labelRequired=""
+                  placeholder="Fecha"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                  value={tramite.ultimaModificacionMatriculaOActividadesAFIP.fecha}
+                  bindFunction={value => {
+                    tramite.ultimaModificacionMatriculaOActividadesAFIP.fecha = value
+                    setTramite(Object.assign({}, tramite))
+                  }}
+                />
+              </div>
+
             </div>
-
-          </div>
-        </Wrapper>
-
+          </Wrapper>
+        </div>
       </div> : <div></div>}
 
 
 
-      <div className="rounded-lg mt-4 border px-4 py-4">
+      <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
 
         <div className="text-2xl font-bold"> Inscripción en I.E.R.I.C. (Instituto de Estadística y Registro de la Industria de la Construcción)</div>
         <div className="grid grid-cols-1 mb-4 mt-4  ">
-        <Wrapper title={isPersonaFisica(tramite) ? "Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1." : "Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b."} attributeName="siIeric" >
+          <Wrapper title={isPersonaFisica(tramite) ? "Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1." : "Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b."} attributeName="siIeric" >
             <div className="">
               <Switch
                 value={tramite.poseeIERIC}
@@ -2254,9 +2313,9 @@ export default () => {
                 labeltooltip=""
                 labelMessageError=""
               /></div>
-           </Wrapper>
+          </Wrapper>
         </div>
-        {tramite.poseeIERIC ?'' : <div className="grid grid-cols-3 gap-4 ">
+        {tramite.poseeIERIC ? '' : <div className="grid grid-cols-3 gap-4 ">
           <div>
             <Wrapper title="IERIC" attributeName="nroIeric" >
               <InputText
@@ -2322,7 +2381,7 @@ export default () => {
 
         </div>}
       </div>
-      <div className="mt-4">
+      <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
         <Collapse accordion>
           <Panel header=" Sistema de Calidad" key="1">
             <Wrapper title="Sistema de Calidad" attributeName="SistemaCalidad" >
@@ -2455,7 +2514,7 @@ export default () => {
 
         </Collapse>
       </div>
-      {showSaveButton()}
+
 
     </div>
     <style>
