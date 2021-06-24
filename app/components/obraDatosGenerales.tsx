@@ -258,9 +258,6 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
   }
 
   
-
-
-  
    return <div>
       {showError ? <div className="mb-4">
         <Alert
@@ -278,7 +275,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
         <div className="pb-6" >
 
-        <WrapperObras title="Denominacion" obra={obra}  field='denominacion' onChange ={onChange}>
+        <WrapperObras title="Denominacion" obra={obra}  field='denominacion' onChange={o => onChange(Object.assign({}, obra))}>
           <InputText
             attributeName='denominacion'
             value={obra.denominacion}
@@ -352,6 +349,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
             ))}
           />
         </div>
+  
 
 
         <div className="pb-6" >

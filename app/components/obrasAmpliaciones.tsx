@@ -93,7 +93,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR'|| tramite && tramite.status  === 'OBSERVADO' ? 
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR'|| tramite && tramite.status  === 'OBSERVADO' || record.status === 'OBSERVADA' ? 
       <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
 
       </Space>),

@@ -595,7 +595,18 @@ export default () => {
   ];
 
 
-
+  const cargarAutoridades = (record) => {
+    setIdAutoridad(JSON.stringify(record))
+        setNombre(record.autoridadesSociedad.nombre)
+        setApellido(record.autoridadesSociedad.apellido)
+        setTipoDocumento(record.autoridadesSociedad.tipoDocumento)
+        setTipoCargo(record.autoridadesSociedad.tipoCargo)
+        setTipoOrgano(record.autoridadesSociedad.tipoOrgano)
+        setNroDocumento(record.autoridadesSociedad.nroDocumento)
+        setCuit(record.autoridadesSociedad.cuit)
+        setDireccion(record.autoridadesSociedad.direccion)
+        setFotosDNIAutoridades(record.autoridadesSociedad.fotosDNI)
+  }
 
   const columnsAutoridad = [
     {
@@ -615,16 +626,7 @@ export default () => {
       title: '',
       key: 'edit',
       render: (text, record) => <div onClick={() => {
-        setIdAutoridad(JSON.stringify(record))
-        setNombre(record.nombre)
-        setApellido(record.apellido)
-        setTipoDocumento(record.tipoDocumento)
-        setTipoCargo(record.tipoCargo)
-        setTipoOrgano(record.tipoOrgano)
-        setNroDocumento(record.nroDocumento)
-        setCuit(record.cuit)
-        setDireccion(record.direccion)
-        setFotosDNIAutoridades(record.fotosDNI)
+        cargarAutoridades(record)
         setModalAutoridad(true)
       }}><EditOutlined /></div>
     },
