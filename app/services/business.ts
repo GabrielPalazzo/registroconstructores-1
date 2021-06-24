@@ -343,13 +343,13 @@ export const getStatusObsParsed = (tramite: TramiteAlta): string => {
 }
 
 export const getUsuario = () => {
-  let user: Usuario = null
+  let user: any = null
   const token = localStorage.getItem('token')
 
   if (token) {
     jwt.verify(token, process.env.SESSION_SECRET as string, (err, decode) => {
       if (err) return null
-      user = decode as Usuario
+      user = decode
     })
   }
 
