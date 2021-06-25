@@ -111,7 +111,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
     if (t.status !== 'VERIFICADO') return true
 
-    return t.status === 'VERIFICADO' && _.isEmpty(tramites.filter(tr => tr.status !== 'VERIFICADO'))
+    return t.status === 'VERIFICADO' && _.isEmpty(tramites.filter(tr => tr.cuit === t.cuit && tr.status !== 'VERIFICADO'))
   }
 
 
