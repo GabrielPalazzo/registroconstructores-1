@@ -130,7 +130,7 @@ export default (props) => {
     }
 
     if (MODO.EDIT) {
-      tramite.apoderados = tramite.apoderados.filter(r => JSON.stringify(r) !== idUsuarios)
+      tramite.apoderados =  tramite.apoderados && tramite.apoderados.filter(r => JSON.stringify(r) !== idUsuarios)
 
     }
 
