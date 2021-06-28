@@ -182,7 +182,7 @@ export default (props) => {
     }
 
 
-    tramite.apoderados.push({
+    tramite.apoderados && tramite.apoderados.push({
       imagenesDni: [],
       apellido,
       nombre,

@@ -847,11 +847,7 @@ export default () => {
 
   }
   let columns = [
-    {
-      title: '',
-      key: 'action',
-
-    },
+   
     {
       title: <DeleteOutlined />,
       key: 'action',
@@ -930,12 +926,12 @@ export default () => {
   ]
 
 
-  if (isTramiteEditable(tramite)) {
+  {/*if (isTramiteEditable(tramite)) {
     if (tramite.categoria === 'DESACTUALIZADO')
       columns = columns.slice(1, columns.length)
   } else {
     columns = columns.slice(2, columns.length)
-  }
+  }*/}
 
 
 
