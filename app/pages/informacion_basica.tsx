@@ -180,7 +180,8 @@ export default (props) => {
       setShowError(true)
       return
     }
-
+    if (!tramite.apoderados)
+          tramite.apoderados = []
 
     tramite.apoderados && tramite.apoderados.push({
       imagenesDni: [],
