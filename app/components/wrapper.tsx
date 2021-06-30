@@ -7,6 +7,7 @@ import { DislikeFilled, InfoCircleOutlined, InfoCircleTwoTone, LikeFilled } from
 import TextArea from 'antd/lib/input/TextArea'
 import { getReviewAbierta, getUsuario } from '../services/business'
 import { RootState } from '../redux/store'
+import { saveTramite } from '../redux/actions/main'
 
 
 const customColors = ['#2897D4'];
@@ -62,6 +63,7 @@ export default (props) => {
     })
     tramite.revisiones[0] = revisionTramite.revision
     dispatch(updateRevisionTramite(Object.assign({}, revisionTramite.revision)))
+    dispatch(saveTramite(Object.assign({}, tramite)))
   }
 
   const disLike = () => {
@@ -82,6 +84,8 @@ export default (props) => {
       review: textObs
     })
     dispatch(updateRevisionTramite(Object.assign({}, revisionTramite.revision)))
+    tramite.revisiones[0] = revisionTramite.revision
+    dispatch(saveTramite(Object.assign({}, tramite)))
     setTextObs('')
   }
 

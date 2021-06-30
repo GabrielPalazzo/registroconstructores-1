@@ -215,6 +215,7 @@ type TramiteAlta = {
   revisiones?: Array<RevisionTramite>
   id: string
   createdAt?: Date
+  submitedAt?: Date
   razonSocial: string
   nombreTitular: string
   apellidoTitular: string

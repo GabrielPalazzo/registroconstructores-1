@@ -17,7 +17,14 @@ handler.get(async (req: any, res: NextApiResponse) => {
     .find({"$or":[
       {'categoria': 'PRE INSCRIPTO'},
       {'categoria': 'DESACTUALIZADO'}
-    ]})
+    ]},{
+      categoria:1,
+      status:1,
+      createAt:1,
+      _id:1,
+      razonSocial:1,
+      cuit:1
+    } )
     .toArray();
   res.send({tramites});
   

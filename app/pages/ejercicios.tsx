@@ -322,6 +322,7 @@ export default () => {
               defaultValue={archivosActaAsamblea as any}
 
               onOnLoad={(file) => {
+                
                 archivosActaAsamblea.push(file)
                 setArchivosActaAsamblea(Object.assign([], archivosActaAsamblea))
                 save()
@@ -573,6 +574,7 @@ export default () => {
       ventasEjercicio: ventasDelEjercicio,
       archivos,
       archivosActaAsamblea
+     
     })
 
     setArchivos([])
