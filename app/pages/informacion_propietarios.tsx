@@ -313,7 +313,7 @@ export default (props) => {
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' ? <div onClick={() => removePropietario(record)}><DeleteOutlined /></div> : <Space size="middle"></Space>)
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status === 'OBSERVADO' ? <div onClick={() => removePropietario(record)}><DeleteOutlined /></div> : <Space size="middle"></Space>)
     },
     {
       title: 'Titular',
