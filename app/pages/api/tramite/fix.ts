@@ -14,7 +14,7 @@ handler.use(middleware);
 
 handler.get(async (req: any, res: NextApiResponse) => {
     const {
-        query: { cuit,type, id },
+        query: { cuit, type, id },
     } = req
 
     if (!req.user) {
@@ -24,12 +24,12 @@ handler.get(async (req: any, res: NextApiResponse) => {
     if (_.isEmpty(req.user.Role.filter(r => r === 'JEFE REGISTRO')))
         res.status(403).send('Forbidden')
 
-    if (!type){
+    if (!type) {
         res.send('ERROR - Debe indicar el tipo de operación a realizar')
     }
 
     const fixCertificaciones = async () => {
-        
+
         const tramites: Array<TramiteAlta> = await req.db
             .collection('tramites')
             .find({
@@ -40,10 +40,10 @@ handler.get(async (req: any, res: NextApiResponse) => {
         const fixCertificacionesDate = (cert) => {
             if (cert.periodo.length > 10)
                 cert.periodo = moment(cert.periodo).format('DD/MM/YYYY')
-                
-            if ( !cert.codigo)
+
+            if (!cert.codigo)
                 cert.codigo = getCodigoObra()
-                
+
             return cert
         }
 
@@ -65,52 +65,57 @@ handler.get(async (req: any, res: NextApiResponse) => {
                 "_id": id
             })
         // tramite.revisiones.map(r => r.reviews)
-        const reviews = tramite.revisiones[0].reviews.map(r => {return {...r,isOk:true, review:''}})
+        const reviews = tramite.revisiones[0].reviews.map(r => { return { ...r, isOk: true, review: '' } })
         tramite.revisiones[0].reviews = reviews
-        tramite.revisiones = tramite.revisiones.slice(0,1)
+        tramite.revisiones = tramite.revisiones.slice(0, 1)
         await req.db.collection('tramites')
             .save(tramite)
-        
-        
+
+
     }
 
-    const fixUTE = async ()=> {
-        const tramite: TramiteAlta = await req.db
-            .collection('tramites')
-            .findOne({
-                "_id": id
-            })
+    const fixUTE = async () => {
+        try {
+            const tramite: TramiteAlta = await req.db
+                .collection('tramites')
+                .findOne({
+                    "_id": id
+                })
 
-            const datosBasicosRaw = await req.db.collection('oldDatosPreInscripcion').findOne({"InformacionEmpresa.NumeroCuit":tramite.cuit})
-            
-            const oldObras = await req.db.collection('oldObras').findOne({"_id":datosBasicosRaw.Id.toString()})
-    
- 
-            for (let i=0;i<oldObras.obras.length ; i++) {
+            const datosBasicosRaw = await req.db.collection('oldDatosPreInscripcion').findOne({ "InformacionEmpresa.NumeroCuit": tramite.cuit })
+
+            const oldObras = await req.db.collection('oldObras').findOne({ "_id": datosBasicosRaw.Id.toString() })
+
+
+            for (let i = 0; i < oldObras.obras.length; i++) {
                 tramite
                     .ddjjObras[i]
                     .participacionUTE = oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE ? oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE.PorcentajeParticipacion : ''
-    
+
                 tramite
                     .ddjjObras[i]
-                    .razonSocialUTE = oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE ?  oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE.RazonSocial : ''
-    
+                    .razonSocialUTE = oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE ? oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE.RazonSocial : ''
+
                 tramite
                     .ddjjObras[i]
-                    .cuitUTE = oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE ?  oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE.Cuit : ''
+                    .cuitUTE = oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE ? oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE.Cuit : ''
             }
-    
+
             await req.db.collection('tramites').save(tramite)
+        } catch (err) {
+            req.send(err.toString())
+        }
+
     }
 
-    if (type==='UTE'){
+    if (type === 'UTE') {
         await fixUTE()
     }
 
-    if (type==='CERTIFICACIONES')
+    if (type === 'CERTIFICACIONES')
         await fixCertificaciones()
-    
-    if (type==='REMOVEREVIEWS')
+
+    if (type === 'REMOVEREVIEWS')
         await fixReviews()
 
 
