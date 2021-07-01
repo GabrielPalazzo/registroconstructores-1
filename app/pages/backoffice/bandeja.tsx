@@ -126,7 +126,7 @@ export default () => {
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
-                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'): 'NO INFORMA'}</div><br />
+                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -160,7 +160,7 @@ export default () => {
           </TabPane>
                          
           <TabPane tab={`Actualizaciones (${tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'VERIFICADO'   && t.status !== 'BORRADOR' ).length})`} key="2">
-           {_.sortBy(tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'BORRADOR' && t.status !== 'VERIFICADO' ), t => t.razonSocial).map((t: TramiteAlta) => (
+           {_.sortBy(tramites.filter((t: TramiteAlta) => t.categoria === 'DESACTUALIZADO'  && t.status !== 'BORRADOR' && t.status !== 'VERIFICADO' ), t => t.submitedAt).map((t: TramiteAlta) => (
             <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
       <div className="flex justify-between">
                   <div>
@@ -176,7 +176,7 @@ export default () => {
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
-                    <div className=" text-xs  text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'): 'NO INFORMA'}</div><br />
+                    <div className=" text-xs  text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm')}</div><br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
