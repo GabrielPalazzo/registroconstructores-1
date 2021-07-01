@@ -428,9 +428,9 @@ export class Parser extends ConnectionManager {
         plazoPorContrato: raw.PlazosObra.Plazo,
         transcurrido: raw.PlazosObra.PlazoTranscurrido,
         restante: raw.PlazosObra.Plazo + raw.PlazosObra.PlazoProrroga - raw.PlazosObra.PlazoTranscurrido,
-        razonSocialUTE: 'NO INFORMA', // Falta Completar,
-        cuitUTE: 'NO INFORMA', // FALTA COMPLETAR
-        participacionUTE: 'NO INFORMA',
+        razonSocialUTE: raw.DatosBasicosObra.PersonaUTE ? raw.DatosBasicosObra.PersonaUTE.RazonSocial : 'NO INFORMA', // Falta Completar,
+        cuitUTE: raw.DatosBasicosObra.PersonaUTE ? raw.DatosBasicosObra.PersonaUTE.Cuit : 'NO INFORMA', // FALTA COMPLETAR
+        participacionUTE: raw.DatosBasicosObra.PersonaUTE ? raw.DatosBasicosObra.PersonaUTE.PorcentajeParticipacion : 'NO INFORMA',
         razonSocialComitente: raw.DatosBasicosObra.PersonaComitente ? raw.DatosBasicosObra.PersonaComitente.RazonSocial : 'NO INFORMADO',
         cuitComitente: raw.DatosBasicosObra.PersonaComitente ? raw.DatosBasicosObra.PersonaComitente.Cuit : "NO INFORMADO",
         montoInicial: raw.MontoInicialContrato,

@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import _ from 'lodash'
 import moment from 'moment'
 import { getCodigoObra } from '../../../services/business';
+import { fixControlledValue } from 'antd/lib/input/Input';
 
 const handler = nextConnect();
 
@@ -63,16 +64,47 @@ handler.get(async (req: any, res: NextApiResponse) => {
             .findOne({
                 "_id": id
             })
-        
         // tramite.revisiones.map(r => r.reviews)
         const reviews = tramite.revisiones[0].reviews.map(r => {return {...r,isOk:true, review:''}})
         tramite.revisiones[0].reviews = reviews
         tramite.revisiones = tramite.revisiones.slice(0,1)
         await req.db.collection('tramites')
             .save(tramite)
-
         
+        
+    }
+
+    const fixUTE = async ()=> {
+        const tramite: TramiteAlta = await req.db
+            .collection('tramites')
+            .findOne({
+                "_id": id
+            })
+
+            const datosBasicosRaw = await req.db.collection('oldDatosPreInscripcion').findOne({"InformacionEmpresa.NumeroCuit":tramite.cuit})
             
+            const oldObras = await req.db.collection('oldObras').findOne({"_id":datosBasicosRaw.Id.toString()})
+    
+ 
+            for (let i=0;i<oldObras.obras.length ; i++) {
+                tramite
+                    .ddjjObras[i]
+                    .participacionUTE = oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE ? oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE.PorcentajeParticipacion : ''
+    
+                tramite
+                    .ddjjObras[i]
+                    .razonSocialUTE = oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE ?  oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE.RazonSocial : ''
+    
+                tramite
+                    .ddjjObras[i]
+                    .cuitUTE = oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE ?  oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE.Cuit : ''
+            }
+    
+            await req.db.collection('tramites').save(tramite)
+    }
+
+    if (type==='UTE'){
+        await fixUTE()
     }
 
     if (type==='CERTIFICACIONES')
