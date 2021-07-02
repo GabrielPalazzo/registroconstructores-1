@@ -211,7 +211,8 @@ export default (props) => {
     setNroDocumentoApoderado('')
     setCuitApoderado('')
     setEmailApoderado('')
-    setEsAdministradorLegitimado(false)
+    setEsAdministradorLegitimado(true)
+    setTipoApoderado('')
   }
 
   const handleCancel = e => {
@@ -720,6 +721,7 @@ export default (props) => {
             </Wrapper>
 
           </div>
+            {/*
           <div >
             <Wrapper title="Nro de Legajo" attributeName="nroDeLegajo">
               <InputText
@@ -737,7 +739,7 @@ export default (props) => {
             </Wrapper>
 
           </div>
-          {/* <div className="flex">
+         <div className="flex">
           <div className="w-full" >
             <InputText
               label="IERIC"
