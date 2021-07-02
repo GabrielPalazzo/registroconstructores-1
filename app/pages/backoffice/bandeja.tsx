@@ -176,7 +176,7 @@ export default () => {
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
-                    <div className=" text-xs  text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm')}</div><br />
+                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -232,8 +232,8 @@ export default () => {
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
-                    <div className=" text-xs  text-muted-700">Envio del trámite: {moment(t.submitedAt).format('DD/MM/YYYY HH:mm')}</div><br />
-                  CUIT: {t.cuit}<br />
+                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
+                 CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
                 </div>
@@ -284,8 +284,8 @@ export default () => {
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
-                    <div className=" text-xs text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'): 'NO INFORMA'}</div><br />
-                  CUIT: {t.cuit}<br />
+                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
+                 CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
                 </div>
@@ -333,6 +333,8 @@ export default () => {
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
+                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
+               
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -385,6 +387,8 @@ export default () => {
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                     <div className=" text-xs text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'): 'NO INFORMA'}</div><br />
+                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
+               
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
