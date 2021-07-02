@@ -86,23 +86,33 @@ handler.get(async (req: any, res: NextApiResponse) => {
 
             const oldObras = await req.db.collection('oldObras').findOne({ "_id": datosBasicosRaw.Id.toString() })
 
+            let oldObra = null
 
             for (let i = 0; i < oldObras.obras.length; i++) {
+                oldObra = oldObras.obras.find( o => tramite.ddjjObras[i].datosObra[0].fechaAdjudicacion === o.FechaAdjudicacion && tramite.ddjjObras[i].denominacion.toUpperCase() === o.Denominacion.toUpperCase())
+                
+                if (!oldObra)
+                    console.log({
+                        index: i,
+                        denominacion: tramite.ddjjObras[i].denominacion,
+                        fechaAdjudicacion: tramite.ddjjObras[i].datosObra[0].fechaAdjudicacion
+                    })
                 tramite
                     .ddjjObras[i]
-                    .participacionUTE = oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE ? oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE.PorcentajeParticipacion : ''
+                    .participacionUTE = oldObra.detalle[0].DatosBasicosObra.PersonaUTE ? oldObra.detalle[0].DatosBasicosObra.PersonaUTE.PorcentajeParticipacion : ''
 
                 tramite
                     .ddjjObras[i]
-                    .razonSocialUTE = oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE ? oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE.RazonSocial : ''
+                    .razonSocialUTE = oldObra.detalle[0].DatosBasicosObra.PersonaUTE ? oldObra.detalle[0].DatosBasicosObra.PersonaUTE.RazonSocial : ''
 
                 tramite
                     .ddjjObras[i]
-                    .cuitUTE = oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE ? oldObras.obras[i].detalle[0].DatosBasicosObra.PersonaUTE.Cuit : ''
+                    .cuitUTE = oldObra.detalle[0].DatosBasicosObra.PersonaUTE ? oldObra.detalle[0].DatosBasicosObra.PersonaUTE.Cuit : ''
             }
 
             await req.db.collection('tramites').save(tramite)
         } catch (err) {
+            console.log(err)
             req.send(err.toString())
         }
 
