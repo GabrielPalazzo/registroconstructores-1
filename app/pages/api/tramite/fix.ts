@@ -108,7 +108,7 @@ handler.get(async (req: any, res: NextApiResponse) => {
             await req.db.collection('tramites').save(tramite)
         } catch (err) {
             console.log(err)
-            req.send(err.toString())
+            res.send(err.toString())
         }
 
     }
