@@ -91,12 +91,7 @@ handler.get(async (req: any, res: NextApiResponse) => {
             for (let i = 0; i < oldObras.obras.length; i++) {
                 oldObra = oldObras.obras.find( o => tramite.ddjjObras[i].datosObra[0].fechaAdjudicacion === o.FechaAdjudicacion && tramite.ddjjObras[i].denominacion.toUpperCase() === o.Denominacion.toUpperCase())
                 
-                if (!oldObra)
-                    console.log({
-                        index: i,
-                        denominacion: tramite.ddjjObras[i].denominacion,
-                        fechaAdjudicacion: tramite.ddjjObras[i].datosObra[0].fechaAdjudicacion
-                    })
+
                 tramite
                     .ddjjObras[i]
                     .participacionUTE = oldObra.detalle[0].DatosBasicosObra.PersonaUTE ? oldObra.detalle[0].DatosBasicosObra.PersonaUTE.PorcentajeParticipacion : ''
