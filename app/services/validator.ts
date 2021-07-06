@@ -114,14 +114,14 @@ class Validator implements ValidatorInterface {
 
       
 
-      if((isPersonaFisica(this.tramite) &&  (this.tramite.cuit != getUsuario().userData().cuit))){
-        toValidate.push({
-          attribute:'noMismaPersona',
-          dataId:'',
-          error:`Siendo una persona físca Los tramites son personales y no puede iniciar uno a nombre de terceros.
-          Si quiere realizar un trámite a nombre de un tercero deberá agregarlo como usuario en la sección de apoderados / usuarios`
-        })
-      }
+    //  if((isPersonaFisica(this.tramite) &&  (this.tramite.cuit != getUsuario().userData().cuit))){
+    //  toValidate.push({
+    //      attribute:'noMismaPersona',
+    //      dataId:'',
+    //      error:`Siendo una persona físca Los tramites son personales y no puede iniciar uno a nombre de terceros.
+    //      Si quiere realizar un trámite a nombre de un tercero deberá agregarlo como usuario en la sección de apoderados / usuarios`
+    //    })
+    //  }
 
         
 

@@ -101,6 +101,19 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
 
     },
     {
+      title: '',
+      key: 'edit',
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' 
+      || tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? <div onClick={() => {
+        setPeriodoSeleccionado(record)
+        setPeriodo(record.periodo)
+        setDescripcion(record.descripcion)
+        setArchivos(record.archivos)
+        setMonto(record.monto)
+      }}><EditOutlined /></div>: '')
+    },
+
+    {
       title: 'Eliminar',
       key: 'delete ',
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' 

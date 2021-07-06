@@ -6,7 +6,7 @@ import InputNumberModal from './input_number'
 import SelectModal from './select_modal'
 import Upload from './upload'
 import { Button, Select, Table, Alert, Space, Empty, Input, Tooltip, Modal } from 'antd';
-import { PlusOutlined, DeleteOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, DislikeFilled, LikeFilled,EditOutlined } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 import { LinkToFile } from './linkToFile'
 import { RootState } from '../redux/store'
@@ -21,6 +21,12 @@ export interface ObrasAmpliacionesProps {
   obra: DDJJObra
   onChange: Function
 }
+const MODO = {
+  NEW: 'NEW',
+  EDIT: 'EDIT',
+  VIEW: 'VIEW'
+  }
+
 
 export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
   obra = null,
@@ -38,6 +44,13 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
   const [ampliacionSeleccionada, setAmpliacionSeleccionada] = useState(null)
   const [showMotivoRechazo, setShowMotivoRechazo] = useState(false)
   const [motivoRechazo, setMotivoRechazo] = useState('')
+  const [idAmpliaciones, setIdAmpliaciones] = useState('')
+
+	const [modo, setModo] = useState(MODO.NEW)
+	useEffect(() => {
+
+	}, [])
+
 
   useEffect(() => {
 
@@ -48,6 +61,15 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     obra.ampliaciones = Object.assign([], obra.ampliaciones.filter((a: AmpliacionesObras) => o.id !== a.id))
     onChange(Object.assign({}, obra))
   }
+
+
+	const cargarAmpliaciones = (record) => {
+		setIdAmpliaciones(JSON.stringify(record))
+		setFecha(record.fecha)
+		setDescripcion(record.descripcion)
+		setArchivos(record.archivos)
+		setMonto(record.monto)
+	  }
 
   const Accion = (prop) => {
 
@@ -90,6 +112,16 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       key: 'evaluacion',
       render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'OBSERVADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
     },
+    {
+			title: '',
+			key: 'edit',
+			render: (text, record) => (tramite && tramite.status === 'BORRADOR' 
+			|| tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? <div onClick={() => {
+        cargarAmpliaciones(record)
+				setModo(MODO.EDIT)
+				setAmpliacionSeleccionada(Object.assign({}, record))
+			}}><EditOutlined /></div>: '')
+		  },
     {
       title: 'Eliminar',
       key: 'action',
@@ -148,6 +180,10 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       setShowError(true)
       return
     }
+    if (MODO.EDIT) {
+			obra.ampliaciones =  obra.ampliaciones && obra.ampliaciones.filter(r => JSON.stringify(r) !== idAmpliaciones)
+	  
+		  }
 
     obra.ampliaciones.push({
       id: getCodigoObra(),

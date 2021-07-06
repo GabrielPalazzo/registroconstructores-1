@@ -5,7 +5,7 @@ import InputTextModal from './input_text_modal'
 import SelectModal from './select_modal'
 import Upload from './upload'
 import { Button, Select, Table, Alert, Space, Empty, Tooltip, Modal, Input } from 'antd';
-import { PlusOutlined, DeleteOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, DislikeFilled, LikeFilled, EditOutlined  } from '@ant-design/icons';
 import DatePickerModal from './datePicker_Modal'
 import InputNumberModal from './input_number'
 import { LinkToFile } from './linkToFile'
@@ -24,6 +24,12 @@ export interface ObrasRedeterminacionesProps {
 	onChange: Function
 }
 
+const MODO = {
+	NEW: 'NEW',
+	EDIT: 'EDIT',
+	VIEW: 'VIEW'
+  }
+  
 export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	obra = null,
 	onChange = () => null
@@ -40,6 +46,10 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 	const [redeterinacionSeleccionada, setRedeterminacionSeleccionada] = useState(null)
 	const [showMotivoRechazo, setShowMotivoRechazo] = useState(false)
 	const [motivoRechazo, setMotivoRechazo] = useState('')
+
+	const [idRedeterminaciones, setIdRedeterminaciones] = useState('')
+
+	const [modo, setModo] = useState(MODO.NEW)
 	useEffect(() => {
 
 	}, [])
@@ -79,6 +89,13 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		</div>
 	}
 
+	const cargarRederteminaciones = (record) => {
+		setIdRedeterminaciones(JSON.stringify(record))
+		setFecha(record.fecha)
+		setDescripcion(record.descripcion)
+		setArchivos(record.archivos)
+		setMonto(record.monto)
+	  }
 
 	let columnsRedeterminaciones = [
 		{
@@ -91,6 +108,16 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			key: 'evaluacion',
 			render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'OBSERVADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
 		},
+		{
+			title: '',
+			key: 'edit',
+			render: (text, record) => (tramite && tramite.status === 'BORRADOR' 
+			|| tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? <div onClick={() => {
+				cargarRederteminaciones(record)
+				setModo(MODO.EDIT)
+				setRedeterminacionSeleccionada(Object.assign({}, record))
+			}}><EditOutlined /></div>: '')
+		  },
 		{
 			title: 'Eliminar',
 			key: 'action',
@@ -152,9 +179,12 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		}
 
 
-
-
+		if (MODO.EDIT) {
+			obra.redeterminaciones =  obra.redeterminaciones && obra.redeterminaciones.filter(r => JSON.stringify(r) !== idRedeterminaciones)
+	  
+		  }
 		obra.redeterminaciones.push({
+			
 			id: getCodigoObra(),
 			monto,
 			fecha,
@@ -172,6 +202,11 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		clearState()
 
 	}
+
+	
+    
+   
+   
 
 	const clearState = () => {
 		setMonto(0)
