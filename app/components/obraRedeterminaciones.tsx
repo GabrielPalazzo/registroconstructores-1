@@ -153,7 +153,7 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 
 	];
 
-	columnsRedeterminaciones = getUsuario().isConstructor() ? columnsRedeterminaciones.slice(1, columnsRedeterminaciones.length ) : [columnsRedeterminaciones[0], columnsRedeterminaciones[1], columnsRedeterminaciones[3], columnsRedeterminaciones[4], columnsRedeterminaciones[5],columnsRedeterminaciones[6]]
+	columnsRedeterminaciones = getUsuario().isConstructor() ? columnsRedeterminaciones.slice(1, columnsRedeterminaciones.length ) : [columnsRedeterminaciones[0], columnsRedeterminaciones[1], columnsRedeterminaciones[3], columnsRedeterminaciones[4], columnsRedeterminaciones[5],columnsRedeterminaciones[6],columnsRedeterminaciones[7]]
 
 
 	const add = () => {
