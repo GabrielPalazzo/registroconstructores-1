@@ -23799,6 +23799,20 @@ html, body, #__next {
   height: 0px !important;
 }
 
+.ant-tabs-tab{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 32px 0 0;
+  padding: 3px 3px;
+  background: transparent;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid #E2E2E2;
+  background: #E2E2E2;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

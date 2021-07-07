@@ -132,3 +132,22 @@ font-family:'Encode Sans', sans-serif !important;
     .ant-btn-icon-only {
         width: 32px;
         height: 0px !important;}
+.ant-tabs-tab{
+    position: relative;
+    display: -moz-inline-box;
+    display: inline-flex;
+    -moz-box-align: center;
+    align-items: center;
+    margin: 0 32px 0 0;
+    padding: 3px 3px;
+    background: transparent;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    border: 1px solid #E2E2E2;
+    background: #E2E2E2;
+}
+.ant-tabs {
+    margin-top: 10px !important;
+}
+
