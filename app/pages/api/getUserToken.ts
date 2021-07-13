@@ -10,19 +10,17 @@ export default (req, res) => {
           "authorization":`Bearer ${req.body.access_token}`
         }
       }).then(result => {
-        console.log(req.body.access_token)
         res.json(signToken({
           iat: parseInt(moment().format("X"),10),
           cuit:result.data.cuit,
-          GivenName: result.data.given_name,
-          Surname: result.data.family_name,
+          GivenName: result.data.given_name || '',
+          Surname: result.data.family_name || '',
           email:'',
           sub:result.data.sub,
           Role:['CONSTRUCTOR']
         }))
       })
       .catch( err => {
-        console.log(err)
         res.statusCode=403
         res.json({sucess:false,message:"Invalid token"})
       })
