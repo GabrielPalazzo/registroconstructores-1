@@ -115,7 +115,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     {
 			title: '',
 			key: 'edit',
-			render: (text, record) => (tramite && tramite.status === 'BORRADOR' 
+			render: (text, record) => (tramite && tramite.status === 'BORRADOR'  || tramite && tramite.status  === 'OBSERVADO'
 			|| tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? <div onClick={() => {
         cargarAmpliaciones(record)
 				setModo(MODO.EDIT)
@@ -125,7 +125,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR'
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status  === 'OBSERVADO'
       || tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? 
       <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
 
