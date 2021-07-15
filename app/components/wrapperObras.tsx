@@ -73,7 +73,6 @@ export default (props) => {
 
 	const isEditable = () => {
 		
-		
 		return obra.observacionesDelRegistro[props.field] && obra.observacionesDelRegistro[props.field] !== null  && (obra.observacionesDelRegistro[props.field] &&  obra.observacionesDelRegistro[props.field].length > 0 )
 		|| tramite.status ==='BORRADOR'  && getUsuario().isConstructor()
 	}
