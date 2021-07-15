@@ -17,6 +17,7 @@ import { RootState } from '../redux/store';
 
 const { Step } = Steps;
 export default () => {
+  const tramiteSesion: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
   const router = useRouter()
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
@@ -39,7 +40,7 @@ export default () => {
   }
 
   const save = async () => {
-    if (tramite.status === 'BORRADOR') {
+    
       setWaitingType('sync')
       setIsLoading(true)
       if (tramite._id) {
@@ -48,17 +49,21 @@ export default () => {
         if (!(await getTramiteByCUIT(tramite.cuit)))
           await dispatch(saveTramite(tramite))
       }
-    }
+      setIsLoading(false)
+  
 
 
   }
 
+
+
+
   if (isLoading)
     return <Loading message="" type={waitingType} />
-
+   
 
   const showBotonGuardar = () => {
-    if (!allowGuardar(tramite))
+    if (!allowGuardar(tramiteSesion))
       return <div></div>
 
 
