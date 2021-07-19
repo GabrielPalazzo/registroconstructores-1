@@ -16,7 +16,7 @@ import DatePickerModal from '../components/datePicker_Modal'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora, isTramiteEditable, allowGuardar } from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora, isTramiteEditable, allowGuardar , getUsuario} from '../services/business';
 import { saveTramite, setTramiteView } from '../redux/actions/main'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import moment from 'moment'
@@ -78,8 +78,6 @@ export default () => {
   const [error, setError] = useState(null)
   const [modo, setModo] = useState(MODO.NEW)
   const [showError, setShowError] = useState(false)
-
-
 
   useEffect(() => {
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
@@ -320,18 +318,20 @@ export default () => {
 
               labelMessageError=""
               defaultValue={archivosActaAsamblea as any}
+              
+              onRemove={fileToRemove => {
+                setArchivosActaAsamblea(Object.assign([], archivosActaAsamblea.filter(f => f.cid !== fileToRemove.uid)))
+              }}
+              
 
-              onOnLoad={(file) => {
+              onOnLoad={file => {
                 
-                archivosActaAsamblea.push(file)
+                archivosActaAsamblea &&  archivosActaAsamblea.push(file)
                 setArchivosActaAsamblea(Object.assign([], archivosActaAsamblea))
                 save()
                 setIsLoading(false)
               }}
-              onRemove={fileToRemove => {
-                setArchivosActaAsamblea(Object.assign([], archivosActaAsamblea.filter(f => f.cid !== fileToRemove.uid)))
-              }}
-
+             
 
 
             />
@@ -370,6 +370,8 @@ export default () => {
     setArchivosActaAsamblea(r.archivosActaAsamblea)
 
   }
+  
+
 
   let columnsBalances = [
     {

@@ -45,11 +45,15 @@ export default (props: Props) => {
       <Select
         disabled={!props.isEditable}
         style={{ width: '100%' }}
-        defaultValue={!props.value ? props.defaultOption : props.value} onChange={(value) => {
+        defaultValue={!props.value ? props.defaultOption : props.value} 
+        onChange={(value) => {
           props.bindFunction(value)
         }}>
+          
         {props.option}
       </Select>
+
+      
     </div>
     <div className="w-full text-xs text-danger-700 px-2 ">
       {props.labelMessageError}

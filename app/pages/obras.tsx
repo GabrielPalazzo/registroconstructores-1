@@ -82,6 +82,8 @@ export default () => {
 
   const [obra, setObra] = useState<DDJJObra>(getEmptyObras())
   const [especialidad1, setEspecialidad1] = useState('')
+  const [especialidad2, setEspecialidad2] = useState('')
+  const [especialidad3, setEspecialidad3] = useState('')
   const [modo, setModo] = useState(MODO.NEW)
 
 
@@ -243,13 +245,13 @@ export default () => {
                       value={obra.especialidad1}
                       bindFunction={e => {
                         obra.especialidad1 = e
-                        updateObjTramite()
+                        setObra(Object.assign([], obra))
                       }}
                       defaultOption="Seleccione una especialidad"
                       labelMessageError=""
                       required
                       option={tipoEspecialidad.map(u => (
-                        <Option value={u.value}>{u.label}</Option>
+                        <Option value={u.value}>{u.label }</Option>
                       ))} />
                   </WrapperObras>
                 </div>
@@ -304,7 +306,7 @@ export default () => {
                       value={obra.especialidad2}
                       bindFunction={e => {
                         obra.especialidad2 = e
-                        updateObjTramite()
+                        setObra(Object.assign([], obra))
                       }}
                       defaultOption="Seleccione una especialidad"
                       labelRequired=""
@@ -368,7 +370,7 @@ export default () => {
                       value={obra.especialidad3}
                       bindFunction={e => {
                         obra.especialidad3 = e
-                        updateObjTramite()
+                        setObra(Object.assign([], obra))
                       }}
                       defaultOption="Seleccione una especialidad"
                       labelRequired=""
@@ -979,6 +981,11 @@ export default () => {
       setShowError(true)
       return
     }
+    if (_.isEmpty( obra.archivosOrdenDeCompra)) {
+      setError('El documento respladatorio del contrato es requerido')
+      setShowError(true)
+      return
+    }
 
 
     if ((!obra.plazoPorContrato)) {
@@ -992,7 +999,11 @@ export default () => {
     obra.status = null
     tramite.ddjjObras.push(Object.assign({}, obra))
     await save()
+    clearState()
     setModalObras(false)
+  }
+  const clearState = () => {
+    setEspecialidad1('')
   }
 
   return (<div>

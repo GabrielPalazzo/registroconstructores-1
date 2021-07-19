@@ -26,7 +26,7 @@ class Validator implements ValidatorInterface {
 
       const usuario = getUsuario().userData()
       window['apoderados']= this.tramite.apoderados
-      if (this.tramite.personeria!=='PF')
+      if (this.tramite.personeria!=='PF' ||  this.tramite.personeria==='PF')
         return !_.isEmpty( this.tramite.apoderados.filter( apoderado => (apoderado.cuit.toString() ===usuario.cuit.toString()) && apoderado.esAdministrador ))
       else
         return this.tramite.creatorId.cuit === usuario.cuit

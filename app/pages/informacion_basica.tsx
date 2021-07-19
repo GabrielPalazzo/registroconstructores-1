@@ -961,6 +961,7 @@ export default (props) => {
                 setActaAutoridadesApoderado([])
                 setActaAdminLegitimado([])
                 setModo(MODO.NEW)
+                clearState()
                 showModal()
               }} icon={<PlusOutlined />}> Agregar</Button>
             </div> : ''}
