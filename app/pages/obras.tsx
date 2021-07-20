@@ -5,6 +5,7 @@ import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload_obras'
+import Upload2 from '../components/upload'
 import Switch from '../components/switch'
 import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message, Alert, Tooltip } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined, DislikeFilled, LikeFilled, CheckOutlined } from '@ant-design/icons';
@@ -26,6 +27,8 @@ import { isError } from 'util';
 import { CertificacionesPrecargadas } from '../components/obraCertificacionesPrecargadas';
 import SelectMultiple from '../components/select_multiple'
 import InputNumberModal from '../components/input_number_modal'
+
+import InputNumberModal2 from '../components/input_number'
 import numeral from 'numeral'
 import Wrapper from '../components/wrapper'
 import { LinkToFile } from '../components/linkToFile';
@@ -698,7 +701,7 @@ export default () => {
                     />
                   </div>
                   <div className="pb-6" >
-                    <InputNumberModal
+                    <InputNumberModal2
                       label="Meses"
                       type="number" step="any"
                       labelRequired="*"
@@ -712,7 +715,7 @@ export default () => {
 
                   </div>
                   <div className="pb-6" >
-                    <Upload
+                    <Upload2
                       label="Adjuntar Acta"
                       labelRequired="*"
                       defaultValue={archivosPlazos as any}
