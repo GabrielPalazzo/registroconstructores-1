@@ -25,7 +25,7 @@ import { ObrasAmpliaciones } from '../components/obrasAmpliaciones'
 import { isError } from 'util';
 import { CertificacionesPrecargadas } from '../components/obraCertificacionesPrecargadas';
 import SelectMultiple from '../components/select_multiple'
-import InputNumberModal from '../components/input_number'
+import InputNumberModal from '../components/input_number_modal'
 import numeral from 'numeral'
 import Wrapper from '../components/wrapper'
 import { LinkToFile } from '../components/linkToFile';
@@ -82,8 +82,6 @@ export default () => {
 
   const [obra, setObra] = useState<DDJJObra>(getEmptyObras())
   const [especialidad1, setEspecialidad1] = useState('')
-  const [especialidad2, setEspecialidad2] = useState('')
-  const [especialidad3, setEspecialidad3] = useState('')
   const [modo, setModo] = useState(MODO.NEW)
 
 
@@ -251,7 +249,7 @@ export default () => {
                       labelMessageError=""
                       required
                       option={tipoEspecialidad.map(u => (
-                        <Option value={u.value}>{u.label }</Option>
+                        <Option value={u.value}>{u.label}</Option>
                       ))} />
                   </WrapperObras>
                 </div>
@@ -999,11 +997,7 @@ export default () => {
     obra.status = null
     tramite.ddjjObras.push(Object.assign({}, obra))
     await save()
-    clearState()
     setModalObras(false)
-  }
-  const clearState = () => {
-    setEspecialidad1('')
   }
 
   return (<div>

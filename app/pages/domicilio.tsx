@@ -104,6 +104,7 @@ export default () => {
 
         <div className="text-2xl font-bold py-4"> Domicilio Legal</div>
         <div >
+         
           <Wrapper attributeName="domicilioLegal" title="Domicilio" labelRequired="*">
             <InputText
               attributeName='domicilioLegal'

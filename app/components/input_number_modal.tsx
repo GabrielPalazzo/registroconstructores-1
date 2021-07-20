@@ -53,7 +53,7 @@ export default (props: Props) => {
         value={props.value}
         placeholder={props.placeholder}
         required={props.required}
-        disabled={props.isEditable ===  undefined ? false : !props.isEditable || props.locked}
+        disabled={props.isEditable ===  null ? false : !props.isEditable || props.locked}
        
         onChange={ e => props.bindFunction(e)}
         type={props.type}

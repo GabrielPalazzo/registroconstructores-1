@@ -29,6 +29,7 @@ interface Props {
   showHands?: boolean
   attributeName?: string
   isEditable?:boolean
+  locked?: boolean
 }
 
 export default (props: Props) => {
@@ -45,7 +46,7 @@ export default (props: Props) => {
     </div>
     <div className="w-full">
       <Select
-        disabled={props.isEditable === undefined ? false : !props.isEditable}
+        disabled={props.isEditable === null || undefined  ? false : !props.isEditable || props.locked}
         mode="multiple"
         style={{ width: '100%' }}
         value={props.value ? props.value : []}

@@ -98,7 +98,7 @@ export default (props: Props) => {
     <div className="w-full">
       <Dragger key={getCodigoObra()}
       maxCount={2}
-       disabled={props.isEditable === undefined ? false : !props.isEditable || props.locked}
+       disabled={props.isEditable === null ? false : !props.isEditable || props.locked}
         className="flex py-1 text-left"
         {...propsUpload}
         

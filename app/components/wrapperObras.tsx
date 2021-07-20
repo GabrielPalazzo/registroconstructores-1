@@ -73,8 +73,13 @@ export default (props) => {
 
 	const isEditable = () => {
 		
-		return obra.observacionesDelRegistro[props.field] && obra.observacionesDelRegistro[props.field] !== null  && (obra.observacionesDelRegistro[props.field] &&  obra.observacionesDelRegistro[props.field].length > 0 )
-		|| tramite.status ==='BORRADOR'  && getUsuario().isConstructor()
+		return  obra.observacionesDelRegistro[props.field] && obra.observacionesDelRegistro[props.field] !== null  && (obra.observacionesDelRegistro[props.field] &&  obra.observacionesDelRegistro[props.field].length > 0 ) ||
+		obra.observacionesDelRegistro[props.field] && obra.observacionesDelRegistro[props.field] !== undefined  && (obra.observacionesDelRegistro[props.field] &&  obra.observacionesDelRegistro[props.field].length > 0 )
+		|| tramite.status ==='BORRADOR'  && getUsuario().isConstructor() || 
+		tramite.status ==='OBSERVADO' && obra.observacionesDelRegistro[props.field] && obra.observacionesDelRegistro[props.field] !== null  && (obra.observacionesDelRegistro[props.field] &&  obra.observacionesDelRegistro[props.field].length > 0 )
+		|| 
+		tramite.status ==='OBSERVADO' && obra.observacionesDelRegistro[props.field] && obra.observacionesDelRegistro[props.field] !== undefined  && (obra.observacionesDelRegistro[props.field] &&  obra.observacionesDelRegistro[props.field].length > 0 )
+	
 	}
 
 	const getColorIcon = (handUp: boolean) => {
