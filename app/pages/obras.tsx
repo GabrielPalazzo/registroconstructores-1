@@ -890,11 +890,7 @@ export default () => {
       key: 'id',
     },
 
-    {
-      title: 'Denominación',
-      dataIndex: 'denominacion',
-      key: 'denominacion',
-    },
+    
     {
       title: 'Estado',
       dataIndex: 'estado',
@@ -904,6 +900,16 @@ export default () => {
       title: 'Tipo de Contratacion',
       dataIndex: 'tipoContratacion',
       render: (text, record: DDJJObra) => <div>{_.last(record.datosObra.map(r => r.tipoContratacion))}</div>
+    },
+    {
+      title: 'Fecha de adjudicacion',
+      dataIndex: 'fechaAdjudicacion',
+      render: (text, record: DDJJObra) => <div>{_.last(record.datosObra.map(r => r.fechaAdjudicacion))}</div>
+    },
+    {
+      title: 'Denominación',
+      dataIndex: 'denominacion',
+      key: 'denominacion',
     },
     {
       title: 'Comitente',
@@ -982,11 +988,11 @@ export default () => {
       setShowError(true)
       return
     }
-    if (_.isEmpty( obra.archivosOrdenDeCompra)) {
-      setError('El documento respladatorio del contrato es requerido')
-      setShowError(true)
-      return
-    }
+   // if (_.isEmpty( obra.archivosOrdenDeCompra)) {
+   //   setError('El documento respladatorio del contrato es requerido')
+   //   setShowError(true)
+   //   return
+   // }
 
 
     if ((!obra.plazoPorContrato)) {
