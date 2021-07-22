@@ -89,7 +89,7 @@ handler.get(async (req: any, res: NextApiResponse) => {
             let oldObra = null
 
             for (let i = 0; i < oldObras.obras.length; i++) {
-                oldObra = oldObras.obras.find( o => tramite.ddjjObras[i].datosObra[0].fechaAdjudicacion === o.FechaAdjudicacion && tramite.ddjjObras[i].denominacion.toUpperCase() === o.Denominacion.toUpperCase() && tramite.ddjjObras[i].montoInicial === o.MontoInicial )
+                oldObra = oldObras.obras.find( o => tramite.ddjjObras[i].datosObra[0].fechaAdjudicacion === o.FechaAdjudicacion && tramite.ddjjObras[i].denominacion.toUpperCase() === o.Denominacion.toUpperCase() )
                 
 
                 tramite
