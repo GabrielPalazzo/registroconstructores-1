@@ -370,7 +370,10 @@ export default (props) => {
 
     <div className="border-gray-200 border-b-2 flex ">
       <div className="px-20 pt-2 w-3/4">
-        <NavigationStep generalStatus={statusGeneralTramite} current={1} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
+        <NavigationStep 
+        generalStatus={statusGeneralTramite} 
+        current={1}  
+        completaBalanceYObras={isConstructora(tramite) }  />
       </div>
       <div className="pt-2 w-1/4">
         <div className=" pt-4 text-center">

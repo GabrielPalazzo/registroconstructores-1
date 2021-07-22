@@ -777,7 +777,10 @@ export default () => {
 
     <div className="border-gray-200 border-b-2 flex ">
       <div className="px-20 pt-2 w-3/4">
-        <NavigationStep generalStatus={statusGeneralTramite} current={1} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
+        <NavigationStep 
+        current={1} 
+        generalStatus={statusGeneralTramite} 
+        completaBalanceYObras={isConstructora(tramite) }  />
       </div>
       <div className="pt-2 w-1/4">
         {showSaveButton()}
