@@ -6,8 +6,8 @@ import InputTextModal from '../components/input_text_modal'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload_obras'
 import Upload2 from '../components/upload'
-import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message, Alert, Tooltip } from 'antd';
+import Switch2 from '../components/switch'
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Tag, Space, Empty, Popconfirm, message, Alert, Tooltip, Switch} from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined, DislikeFilled, LikeFilled, CheckOutlined } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import SelectSimple from '../components/select'
@@ -110,7 +110,6 @@ export default () => {
   }
 
   const updateObra = (obra: DDJJObra) => {
-    console.log(obra.status)
     const idxObra = tramite.ddjjObras.findIndex(o => o.id === obra.id)
     tramite.ddjjObras[idxObra] = obra
     updateObjTramite()
@@ -849,7 +848,28 @@ export default () => {
       !hasObservacionesObra(obra) && (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO'))
 
   }
+
+  const desestimarObra =(desestimar,o)=>{
+    if (desestimar){
+      o.status = 'DESESTIMADA'
+    }
+    else 
+      o.status ='A REVISAR'
+    updateObra(Object.assign({},o))
+  }
+
   let columns = [
+    {
+      title: '',
+      key: 'Desestimar',
+      render: (text, record) => <div><Switch checked = {record.status=== 'DESESTIMADA'} onChange={value => desestimarObra(value,record)} />
+    </div>
+    },
+    {
+      title: 'Obs',
+      key: 'Obs',
+      render: (text, record) => <div>{determinarEstadoObra(record) === 'DESESTIMADA' && getUsuario().isConstructor() ? ' ' : determinarEstadoObra(record) }</div>
+    },
    
     {
       title: <DeleteOutlined />,
@@ -865,13 +885,10 @@ export default () => {
         cancelText="Cancelar"
       > <div className="cursor-pointer" ><DeleteOutlined /></div></Popconfirm> : <Space size="middle">
       </Space>)
-    }, {
-      title: 'Obs',
-      key: 'Obs',
-      render: (text, record) => <div>{determinarEstadoObra(record)}</div>
-    },
+    }, 
+   
     {
-      title: 'Editar / Ver',
+      title: ' ',
       key: 'editar',
       render: (text, record) => (tramite && (tramite.status === 'BORRADOR' || tramite.status === 'OBSERVADO' || tramite.status === 'SUBSANADO') ? <div onClick={() => {
         setModo(MODO.EDIT)
@@ -881,6 +898,7 @@ export default () => {
         console.log(record)
         editarObrar(Object.assign({}, record))
       }} className="cursor-pointer"><CloudDownloadOutlined /></div>),
+    
     },
 
 
@@ -888,33 +906,39 @@ export default () => {
       title: 'codigo',
       dataIndex: 'id',
       key: 'id',
+  
     },
 
     
     {
       title: 'Estado',
       dataIndex: 'estado',
-      render: (text, record: DDJJObra) => <div>{_.last(record.datosObra.map(r => r.estado))}</div>
+      render: (text, record: DDJJObra) => <div>{_.last(record.datosObra.map(r => r.estado))}</div>,
+  
     },
     {
-      title: 'Tipo de Contratacion',
+      title: 'T. Contrat',
       dataIndex: 'tipoContratacion',
-      render: (text, record: DDJJObra) => <div>{_.last(record.datosObra.map(r => r.tipoContratacion))}</div>
+      render: (text, record: DDJJObra) => <div>{_.last(record.datosObra.map(r => r.tipoContratacion))}</div>,
+    
     },
     {
-      title: 'Fecha de adjudicacion',
+      title: 'F. adj.',
       dataIndex: 'fechaAdjudicacion',
-      render: (text, record: DDJJObra) => <div>{_.last(record.datosObra.map(r => r.fechaAdjudicacion))}</div>
+      render: (text, record: DDJJObra) => <div>{_.last(record.datosObra.map(r => r.fechaAdjudicacion))}</div>,
+  
     },
     {
       title: 'Denominación',
       dataIndex: 'denominacion',
       key: 'denominacion',
+      width: 250,
     },
     {
       title: 'Comitente',
       dataIndex: 'comitente',
       render: (text, record: DDJJObra) => <div>{record.razonSocialComitente}</div>,
+      width: 250,
     },
     {
       title: 'Monto Vigente',
@@ -934,6 +958,8 @@ export default () => {
     }
   ]
 
+  columns = getUsuario().isConstructor() ? columns.slice(1, columns.length ) : [columns[0], columns[1], columns[3], columns[4], columns[5], columns[6], columns[7], columns[8], columns[9], columns[10], columns[11], columns[12]]
+
 
   {/*if (isTramiteEditable(tramite)) {
     if (tramite.categoria === 'DESACTUALIZADO')
@@ -942,6 +968,7 @@ export default () => {
     columns = columns.slice(2, columns.length)
   }*/}
 
+  
 
 
   const supervizar = async () => {
@@ -1062,7 +1089,7 @@ export default () => {
                 {tramite.ddjjObras.length === 0 ? renderNoData() :
                   <Table
                     columns={columns}
-                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA' || determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR')}
+                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA' || determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'DESESTIMADA')}
                     pagination={{ pageSize: 20 }}
                     scroll={{ x: 1500 }}
                     locale={{
@@ -1078,7 +1105,7 @@ export default () => {
                   <Table
                     columns={columns}
                     scroll={{ x: 1500 }}
-                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'SUPERVIZADA')}
+                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'SUPERVIZADA' )}
                     pagination={{ pageSize: 20 }}
                     locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
               </div>
@@ -1116,6 +1143,7 @@ export default () => {
         opacity: 1 !important;
         margin-top:4px;
     }
+    .ant-table {font-size:12px !important}
     `}
     </style>
 

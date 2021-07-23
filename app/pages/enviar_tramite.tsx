@@ -282,7 +282,9 @@ export default (props) => {
       router.push('/')
     }} />
     <div className="border-gray-200 border-b-2 px-20">
-      <NavigationStep current={4} generalStatus={statusGeneralTramite} completaBalanceYObras={!isPersonaFisica(tramite) || isConstructora(tramite)} />
+      <NavigationStep current={4} 
+      generalStatus={statusGeneralTramite} 
+      completaBalanceYObras={ isConstructora(tramite)} />
     </div>
     {getUsuario().isConstructor() ? <EnviarParaPreInscripcion /> : <EnviarBackOffice />}
 
