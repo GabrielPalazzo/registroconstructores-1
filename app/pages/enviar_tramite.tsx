@@ -222,6 +222,7 @@ export default (props) => {
             <ul className="list-disc">
               {reviewAbierta.map(r => <li>{r.review}
               </li>)}
+              
             </ul>
           </div>
         }

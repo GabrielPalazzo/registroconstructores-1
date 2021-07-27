@@ -43,6 +43,7 @@ export default (props: Props) => {
 
     </div>
     <div className="w-full">
+
       <Select
          disabled={props.isEditable === null || undefined  ? false : !props.isEditable || props.locked}
       

@@ -113,6 +113,8 @@ handler.get(async (req: any, res: NextApiResponse) => {
 
     }
 
+   
+
     if (type === 'UTE') {
         await fixUTE()
     }

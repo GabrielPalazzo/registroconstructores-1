@@ -696,7 +696,7 @@ export default () => {
       title: 'Action',
       key: 'action',
       render: (text, record) => (tramite.status === 'BORRADOR' ? <div onClick={() => removeSistemaCalidad(record)} className="cursor-pointer"><DeleteOutlined /></div> : <Space size="middle">
-        <LikeDislike />
+        
       </Space>),
     },
     {
@@ -718,7 +718,13 @@ export default () => {
       title: 'Fecha Expiración',
       dataIndex: 'fechaExpiracion',
       key: 'fechaExpiracion',
+    },
+    {
+      title: 'Adjunto',
+      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
+      key: 'documentoSistemaCalidad',
     }
+   
   ]
 
 

@@ -38,6 +38,8 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
   const [fecha, setFecha] = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [archivos, setArchivos] = useState([])
+  const [status, setStatus] = useState('')
+  const [observacionRegistro, setObservacionRegistro] = useState('')
   //const [dataSource, setDataSource] = useState<Array<AmpliacionesObras>>(obra.ampliaciones)
   const [error, setError] = useState('')
   const [showError, setShowError] = useState(false)
@@ -61,10 +63,12 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     obra.ampliaciones = Object.assign([], obra.ampliaciones.filter((a: AmpliacionesObras) => o.id !== a.id))
     onChange(Object.assign({}, obra))
   }
-
+ 
 
 	const cargarAmpliaciones = (record) => {
-		setIdAmpliaciones(JSON.stringify(record))
+    setAmpliacionSeleccionada(record)
+		setStatus(record.status)
+    setObservacionRegistro(record.observacionRegistro)
 		setFecha(record.fecha)
 		setDescripcion(record.descripcion)
 		setArchivos(record.archivos)
@@ -110,26 +114,26 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     {
       title: '',
       key: 'evaluacion',
-      render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'OBSERVADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
+      render: (text, record) => <Tooltip title={record.observacionRegistro}>
+        <div>{record.status === 'OBSERVADA' ? 
+        <DislikeFilled style={{ color: '#F9A822' }} /> : 
+        <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
+        with:100,
     },
     {
 			title: '',
 			key: 'edit',
-			render: (text, record) => (tramite && tramite.status === 'BORRADOR'  || tramite && tramite.status  === 'OBSERVADO'
+			render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status  === 'OBSERVADO' && record.status !== 'APROBADA'
 			|| tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? <div onClick={() => {
-        cargarAmpliaciones(record)
-				setModo(MODO.EDIT)
-				setAmpliacionSeleccionada(Object.assign({}, record))
+        cargarAmpliaciones(Object.assign({}, record))
 			}}><EditOutlined /></div>: '')
 		  },
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status  === 'OBSERVADO'
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status  === 'OBSERVADO' && record.status !== 'APROBADA'
       || tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? 
-      <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
-
-      </Space>),
+      <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : '' ),
     },
     {
       title: 'Fecha',
@@ -180,17 +184,20 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       setShowError(true)
       return
     }
-    if (MODO.EDIT) {
-			obra.ampliaciones =  obra.ampliaciones && obra.ampliaciones.filter(r => JSON.stringify(r) !== idAmpliaciones)
-	  
-		  }
+    
+    
+
+
 
     obra.ampliaciones.push({
       id: getCodigoObra(),
       monto,
       fecha,
       descripcion,
-      archivos
+      archivos,
+      observacionRegistro,
+      
+      
     })
     //setDataSource(Object.assign([], dataSource))
     // obra.ampliaciones = Object.assign([], dataSource)
@@ -199,6 +206,8 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
     setMonto(0)
     setDescripcion('')
     setFecha('')
+    setStatus('')
+    setObservacionRegistro('')
   }
   return <div>
     {showError ? <div className="mb-4">
@@ -297,6 +306,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       </div>
       {getUsuario().isConstructor() ?
       <div className=" text-center">
+        
         <Button type="primary" onClick={add} icon={<PlusOutlined />}> Agregar</Button>
       </div> :''}
       <div className="mt-4 ">

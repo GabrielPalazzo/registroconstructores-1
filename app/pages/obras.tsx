@@ -240,19 +240,22 @@ export default () => {
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
                   <WrapperObras title="Especialidad" obra={obra} field='especialidad1' onChange={o => updateObra(o)}>
-
-                    <SelectSimple
-                      value={obra.especialidad1}
+                  <SelectSimple
+                       value={obra.especialidad1}
                       bindFunction={e => {
                         obra.especialidad1 = e
                         setObra(Object.assign([], obra))
                       }}
-                      defaultOption="Seleccione una especialidad"
+                      labelObservation=""
+                      labeltooltip=""
                       labelMessageError=""
-                      required
+                      defaultOption="Seleccione el tipo de Doc"
+                     required
                       option={tipoEspecialidad.map(u => (
                         <Option value={u.value}>{u.label}</Option>
                       ))} />
+
+                    
                   </WrapperObras>
                 </div>
                 <div className="pt-2" >
@@ -538,7 +541,7 @@ export default () => {
             </div>
             <div className="pb-6" >
 
-              < WrapperObras title="Adjuntar Contrato Inicial / Orden de Compra" obra={obra} field='archivosOrdenDeCompra' onChange={o => updateObra(o)} labelRequired="*">
+              < WrapperObras title="Adjuntar Contrato / Orden de Comprar (de corresponder, también incluir Contrato de UTE inscripto)" obra={obra} field='archivosOrdenDeCompra' onChange={o => updateObra(o)} labelRequired="*">
 
                 <Upload
                   labelMessageError=""
@@ -1089,7 +1092,7 @@ export default () => {
                 {tramite.ddjjObras.length === 0 ? renderNoData() :
                   <Table
                     columns={columns}
-                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA' || determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'DESESTIMADA')}
+                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA' || determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'DESESTIMADA' || determinarEstadoObra(o) === 'SUPERVIZADA')}
                     pagination={{ pageSize: 20 }}
                     scroll={{ x: 1500 }}
                     locale={{

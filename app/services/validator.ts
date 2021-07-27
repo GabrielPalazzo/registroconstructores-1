@@ -548,19 +548,15 @@ class Validator implements ValidatorInterface {
           error:"La fecha Fecha de vencimiento del Contrato / Acta Constitutiva es obligatoria "
         })
 
-      if (this.tramite.matriculaComerciante.fecha && this.tramite.altaAFIP.fecha){
-        const fechaAltaMatricula = moment(this.tramite.matriculaComerciante.fecha,'DD/MM/YYYY')
-        const fechaAltaAFIP = moment(this.tramite.altaAFIP.fecha,'DD/MM/YYYY')
-        if (fechaAltaAFIP.diff(fechaAltaMatricula)>0)
-          toValidate.push({
-            attribute:'matriculaComercianteFecha',
-            dataId:'',
-            error:"La fecha de inscripción en AFIP no puede ser posterior a la fecha de inscripción como constructor"
-          })
-
-      
-        
-      }
+      //if (this.tramite.matriculaComerciante.fecha && this.tramite.altaAFIP.fecha){
+      //  const fechaAltaMatricula = moment(this.tramite.matriculaComerciante.fecha,'DD/MM/YYYY')
+      //  const fechaAltaAFIP = moment(this.tramite.altaAFIP.fecha,'DD/MM/YYYY')
+      //  if (fechaAltaAFIP.diff(fechaAltaMatricula)>0)
+      //    toValidate.push({
+      //      attribute:'matriculaComercianteFecha',
+      //      dataId:'',
+      //      error:"La fecha de inscripción en AFIP no puede ser posterior a la fecha de inscripción como constructor"
+      //    })}
       if (this.tramite.poseeIERIC){
         if(!this.tramite.ieric)
           toValidate.push({

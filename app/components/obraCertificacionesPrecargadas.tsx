@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux'
 
 import WrapperObras from './wrapperObras'
 import Wrapper from './wrapper'
+import useSelection from 'antd/lib/table/hooks/useSelection'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -38,6 +39,8 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   const tramite: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
   const [periodo, setPeriodo] = useState(null)
   const [descripcion, setDescripcion] = useState('')
+  const [status, setStatus] = useState('')
+  
   const [monto, setMonto] = useState(0)
   const [periodoSeleccionado, setPeriodoSeleccionado] = useState(null)
   const [archivos, setArchivos] = useState<Array<Archivo>>([])
@@ -45,6 +48,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   const [showError, setShowError] = useState(false)
   const [showMotivoRechazo, setShowMotivoRechazo] = useState(false)
   const [motivoRechazo, setMotivoRechazo] = useState('')
+  const [observacionRegistro,setObservacionRegistro] =  useState('')
   const [certificadoSeleccionado, setCertificadoSeleccionado] = useState(null)
   const borrarPeriodo = (p) => {
     // setPeriodos(Object.assign([], periodos.filter(v => v.codigo !== p.codigo)))
@@ -52,6 +56,16 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     onChange(Object.assign({}, obra))
   }
 
+   
+ const cargarCertificacion =  (record) =>{
+  setPeriodoSeleccionado(record)
+  setPeriodo(record.periodo)
+  setDescripcion(record.descripcion)
+  setArchivos(record.archivos)
+  setMonto(record.monto)
+  
+
+ }
 
   const Accion = (prop) => {
 
@@ -83,6 +97,8 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     </div>
   }
 
+
+
   let columns = [
     {
       title: 'Estado',
@@ -103,20 +119,16 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     {
       title: '',
       key: 'edit',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status  === 'OBSERVADO'
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR'   || tramite && tramite.status  === 'OBSERVADO' && record.status !== 'APROBADA'
       || tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? <div onClick={() => {
-        setPeriodoSeleccionado(record)
-        setPeriodo(record.periodo)
-        setDescripcion(record.descripcion)
-        setArchivos(record.archivos)
-        setMonto(record.monto)
+        cargarCertificacion(Object.assign({}, record))
       }}><EditOutlined /></div>: '')
     },
 
     {
       title: 'Eliminar',
       key: 'delete ',
-      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status  === 'OBSERVADO'
+      render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status  === 'OBSERVADO' && record.status !=="APROBADA"
       || tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? 
       <div onClick={() => borrarPeriodo(record)}><DeleteOutlined /></div> : ''),
       
@@ -186,7 +198,9 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       periodo,
       monto,
       descripcion,
-      archivos
+      archivos,
+      observacionRegistro,
+ 
     })
 
     setPeriodo(null)
@@ -194,6 +208,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     setDescripcion('')
     setPeriodoSeleccionado('')
     setArchivos([])
+    setObservacionRegistro('')
     obra.certificaciones = periodosCopy
     onChange(Object.assign({}, obra))
     clearState()
