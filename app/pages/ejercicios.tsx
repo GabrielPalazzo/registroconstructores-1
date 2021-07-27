@@ -550,7 +550,7 @@ export default () => {
       return
     }
 
-    if ((tramite.personeria === 'SA' || tramite.personeria === 'PJESP' || tramite.personeria === 'Cooperativa') && (_.isEmpty(archivosActaAsamblea))) {
+    if ((tramite.personeria === 'SA'  || tramite.personeria === 'Cooperativa') && (_.isEmpty(archivosActaAsamblea))) {
       setError('El acta  es requerido')
       setShowError(true)
       return
