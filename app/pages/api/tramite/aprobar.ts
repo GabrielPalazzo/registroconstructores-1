@@ -47,9 +47,13 @@ handler.post(async (req: any, res: NextApiResponse) => {
 
 
   const mapObras = (obra: DDJJObra) => {
+    let status = obra.status
+    if (!obra.status)
+        status = 'APROBADA'
     return {
       ...obra,
-      status: "APROBADA" as any
+      status,
+      fechaAprobacion: status === 'APROBADA' ? new Date().getTime() : null 
     }
   }
 

@@ -98,6 +98,7 @@ type DDJJObra ={
   id: string
   actasObra: Array<Archivo>
   status?:'APROBADA' | 'OBSERVADA' | 'A REVISAR' | 'RECHAZADA' | 'DESESTIMADA' | '' | 'SUPERVIZADA'
+  fechaAprobacion?: number
   denominacion:string
   ubicacion:Array<string>
   datosObra:Array<DatosObraGeneral>
