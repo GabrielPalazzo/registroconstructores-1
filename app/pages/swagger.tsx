@@ -3,6 +3,6 @@ import React from 'react'
 //import "swagger-ui-react/swagger-ui.css"
 
 
-//export default () => {
+export default () => {<div></div> 
 //  return <SwaggerUI url="/swagger.yaml" />
-//}
+}
