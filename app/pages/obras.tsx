@@ -870,11 +870,11 @@ export default () => {
       render: (text, record) => <div><Switch checked={record.status=== 'DESESTIMADA'} onChange={value => desestimarObra(value,record)} />
     </div>
     },
-   // {
-   //   title: 'Editada',
-   //   key: 'Editada',
-   //   render: (text, record: DDJJObra) => <div> {record.fechaAprobacion && record.status !== 'APROBADA' ? 'Editada' : ''}</div>
-   // },
+    {
+    title: 'Editada',
+    key: 'Editada',
+    render: (text, record: DDJJObra) => <div> {record.fechaAprobacion && record.status !== 'APROBADA' ? 'Editada' : ''}</div>
+   },
     {
       title: 'Obs',
       key: 'Obs',
@@ -968,7 +968,7 @@ export default () => {
     }
   ]
 
-  columns = getUsuario().isConstructor() ? columns.slice(1, columns.length ) : [columns[0], columns[1], columns[3],  columns[4], columns[5], columns[6], columns[7], columns[8], columns[9], columns[10], columns[11], columns[12]]
+  columns = getUsuario().isConstructor() ? columns.slice(1, columns.length ) : [columns[0], columns[1], columns[3],  columns[4], columns[5], columns[6], columns[7], columns[8], columns[9], columns[10], columns[11], columns[12], columns[13]]
 
 
   {/*if (isTramiteEditable(tramite)) {
