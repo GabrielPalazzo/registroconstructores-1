@@ -23,10 +23,27 @@ handler.get(async (req: any, res: NextApiResponse) => {
       createAt:1,
       _id:1,
       razonSocial:1,
-      cuit:1
+      cuit:1,
+      submitedAt:1,
+      asignadoA:1,
+      revisiones:1
     } )
     .toArray();
-  res.send({tramites});
+  res.send({
+    tramites:tramites.map(t=>{
+      return{
+        categoria:t.categoria,
+        status: t.status,
+        creatAt: t.creatAt,
+        _id: t._id,
+        razonSocial: t.razonSocial,
+        cuit:t.cuit,
+        submitedAt: t.submitedAt,
+        asignadoA: t.asignadoA,
+        revisiones: t.revisiones
+      }
+    })
+  });
   
 });
 
