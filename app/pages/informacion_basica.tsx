@@ -211,7 +211,7 @@ export default (props) => {
     setNroDocumentoApoderado('')
     setCuitApoderado('')
     setEmailApoderado('')
-    setEsAdministradorLegitimado(true)
+    setEsAdministradorLegitimado(false)
     setTipoApoderado('')
   }
 
@@ -435,37 +435,36 @@ export default (props) => {
         </div>
         {tramite.personeria === 'PF' ? <div>
           <div className="pb-6" >
-            <RadioGroup
-              label="¿Qué tipo de persona desea dar de alta? "
-              labelRequired="*"
-              value={tipoApoderado}
-              bindFunction={setTipoApoderado}
-              labelMessageError=""
-              radioOptions={tipoPersonaPF.map(u => (
-                <Radio value={u.value} >
-                  {u.label}
-                </Radio>
-              ))
-              }
+          <SelectModal
+            title="¿Qué tipo de persona desea dar de alta? "
+            value={tipoApoderado}
+            bindFunction={setTipoApoderado}
+            defaultOption="Seleccione el tipo de Doc"
+            labelRequired="*"
+            labelMessageError=""
+            required
+            option={tipoPersonaPF.map(u => (
+              <Option value={u.value}>{u.label}</Option>
 
-            />
+            ))} />
+            
           </div>
         </div> : <div>
           <div className="pb-6" >
-            <RadioGroup
-              label="¿Qué tipo de persona desea dar de alta? "
-              labelRequired="*"
-              value={tipoApoderado}
-              bindFunction={setTipoApoderado}
-              labelMessageError=""
-              radioOptions={tipoPersona.map(u => (
-                <Radio value={u.value} >
-                  {u.label}
-                </Radio>
-              ))
-              }
 
-            />
+          <SelectModal
+            title="¿Qué tipo de persona desea dar de alta? "
+            value={tipoApoderado}
+            bindFunction={setTipoApoderado}
+            defaultOption="Seleccione el tipo de Doc"
+            labelRequired="*"
+            labelMessageError=""
+            required
+            option={tipoPersona.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))} />
+           
           </div>
         </div>}
         {tipoApoderado === 'Administrativo/Gestor' ? '' :
@@ -1120,17 +1119,20 @@ const tipoPersona = [
   {
     label: 'Apoderado',
     value: 'Apoderado',
+    option: 'Apoderado',
 
   },
   {
     label: 'Representante Legal',
     value: 'Rep Legal',
-    parent: 'PF'
+    parent: 'PF',
+    option: 'Representante Legal',
   },
 
   {
     label: 'Administrativo/Gestor',
     value: 'Administrativo/Gestor',
+    option: 'Administrativo/Gestor',
   }
 
 ]
@@ -1138,17 +1140,20 @@ const tipoPersonaPF = [
   {
     label: 'Apoderado',
     value: 'Apoderado',
+    option: 'Apoderado',
 
   },
   {
     label: 'Titular',
     value: 'Titular',
-    parent: 'PF'
+    parent: 'PF',
+    option: 'Representante Legal',
   },
 
   {
     label: 'Administrativo/Gestor',
     value: 'Administrativo/Gestor',
+    option: 'Administrativo/Gestor',
   }
 
 ]
@@ -1189,14 +1194,17 @@ const tipoDocumento = [
   {
     label: 'DU',
     value: 'DU',
+    option: 'DU',
   },
   {
     label: 'Pasaporte',
     value: 'Pasaporte',
+    option: 'Pasaporte',
   },
   {
     label: 'Cedula de indentidad',
     value: 'CD',
+    option: 'CD',
   },
 
 

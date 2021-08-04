@@ -35,12 +35,15 @@ export default (props) => {
 
   const tramite : TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
 
-  return (<div >
-    <div className="flex pb-2">
-      <div className="w-3/4 ">
+  return (<div>
+
+    <div className="flex pb-1">
+      {props.title && <div className="w-3/4">
         <label className="font-bold text-muted-700 text-sm">{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
       </div>
-    </div>
+      }
+      </div>
+   
     <div className="w-full">
       <Select
         disabled={props.isEditable === undefined ? false : !props.isEditable|| props.locked}

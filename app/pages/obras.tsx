@@ -240,8 +240,8 @@ export default () => {
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
                   <WrapperObras title="Especialidad" obra={obra} field='especialidad1' onChange={o => updateObra(o)}>
-                  <SelectSimple
-                       value={obra.especialidad1}
+                  <SelectModal
+                      value={obra.especialidad1}
                       bindFunction={e => {
                         obra.especialidad1 = e
                         setObra(Object.assign([], obra))
@@ -249,7 +249,7 @@ export default () => {
                       labelObservation=""
                       labeltooltip=""
                       labelMessageError=""
-                      defaultOption="Seleccione el tipo de Doc"
+                      defaultOption=""
                      required
                       option={tipoEspecialidad.map(u => (
                         <Option value={u.value}>{u.label}</Option>
@@ -1115,7 +1115,7 @@ export default () => {
                   <Table
                     columns={columns}
                     scroll={{ x: 1500 }}
-                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'SUPERVIZADA' )}
+                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'SUPERVIZADA' || determinarEstadoObra(o) === 'DESESTIMADA' )}
                     pagination={{ pageSize: 20 }}
                     locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
               </div>
@@ -1164,14 +1164,17 @@ const tipoEspecialidad = [
   {
     label: 'INGENIERIA VIAL',
     value: 'IV',
+    option: 'IV',
   },
   {
     label: 'INGENIERÍA HIDRÁULICA',
     value: 'IH',
+    option: 'IH'
   },
   {
     label: 'SANITARIA',
     value: 'SANITARIA',
+    option: 'SANITARIA',
   },
   {
     label: 'INGENIERÍA FERROVIARIA',
