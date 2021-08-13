@@ -305,7 +305,7 @@ export default () => {
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
                   < WrapperObras title="Especialidad" obra={obra} field='especialidad2' onChange={o => updateObra(o)} labelRequired="*">
-                    <SelectSimple
+                  <SelectModal
                       value={obra.especialidad2}
                       bindFunction={e => {
                         obra.especialidad2 = e
@@ -369,7 +369,7 @@ export default () => {
                 <div  >
                   < WrapperObras title="Especialidad" obra={obra} field='especialidad3' onChange={o => updateObra(o)} labelRequired="">
 
-                    <SelectSimple
+                  <SelectModal
                       value={obra.especialidad3}
                       bindFunction={e => {
                         obra.especialidad3 = e
@@ -467,7 +467,7 @@ export default () => {
                   </WrapperObras>
                 </div>
                 <div className="pb-6" >
-                  < WrapperObras title="% de Participacio" obra={obra} field='participacionUTE' onChange={o => updateObra(o)} labelRequired="*">
+                  < WrapperObras title="% de Participacion" obra={obra} field='participacionUTE' onChange={o => updateObra(o)} labelRequired="*">
 
 
                     <InputNumberModal
@@ -541,7 +541,7 @@ export default () => {
             </div>
             <div className="pb-6" >
 
-              < WrapperObras title="Adjuntar Contrato / Orden de Comprar (de corresponder, también incluir Contrato de UTE inscripto)" obra={obra} field='archivosOrdenDeCompra' onChange={o => updateObra(o)} labelRequired="*">
+              < WrapperObras title="Adjuntar Contrato / Orden de Compra (de corresponder, también incluir Contrato de UTE inscripto)" obra={obra} field='archivosOrdenDeCompra' onChange={o => updateObra(o)} labelRequired="*">
 
                 <Upload
                   labelMessageError=""

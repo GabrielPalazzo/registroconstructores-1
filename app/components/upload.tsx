@@ -26,9 +26,9 @@ interface Props {
 const mapFile = (fileToMap) => {
   return {
     uid: fileToMap.cid,
-    name: fileToMap.name,
+    name: fileToMap.name.replace(',' , '-'),
     status: 'done',
-    url: `/api/files/${fileToMap.cid}?name=${fileToMap.name} `
+    url: `/api/files/${fileToMap.cid}?name=${fileToMap.name} "" `
   }
 }
 
@@ -75,7 +75,7 @@ export default (props: Props) => {
           createdAt: info.file.response.filesSaved[0].createdAt,
           type: info.file.type,
           size: info.file.size,
-          name: info.file.name
+          name: info.file.name.replace(',' , '-')
         } as Archivo)
         //console.log(info)
       } else if (status === 'error') {
@@ -99,6 +99,7 @@ export default (props: Props) => {
       <Dragger key={getCodigoObra()}
       maxCount={2}
        disabled={props.isEditable === undefined ? false : !props.isEditable || props.locked}
+       accept="image/*, .pdf"
         className="flex py-1 text-left"
         {...propsUpload}
         

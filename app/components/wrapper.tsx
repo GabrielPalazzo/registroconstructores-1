@@ -131,7 +131,7 @@ export default (props) => {
           <label className={props.isTitle ? 'text-2xl font-bold py-4' : 'font-bold text-muted-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
         </div>
 
-        {getReviewText() && <div className="pl-2">
+       { getReviewText() && tramite.status==='OBSERVADO'  || getReviewText() && !user.isConstructor() && tramite.status !=='BORRADOR' ?<div className="pl-2">
           {customColors.map(color => (
             <Tooltip
               title={getReviewText()}
@@ -141,7 +141,7 @@ export default (props) => {
               <InfoCircleTwoTone twoToneColor="#f9a822" />
             </Tooltip>
           ))}
-        </div>}
+        </div>: ''} 
       </div>
 
       {

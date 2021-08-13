@@ -162,9 +162,11 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
               actions={[
 
                 <div className="text-left pl-4">
-                  <div className="flex"><Certificado
+                  <div className="flex">
+                    <Certificado
                     cuit={e.cuit} />
-                    {!_.isEmpty(e.rechazos) && <div className="text-left ">
+                  {/* 
+                  {!_.isEmpty(e.rechazos) && <div className="text-left ">
                       <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
                         onClick={() => {
                           showModalObservaciones()
@@ -172,6 +174,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                           setShowProfile2(true)
                         }}> <EyeOutlined /> Ver Observaciones</Button>
                     </div>}
+                    */} 
                   </div>
 
                 </div>,

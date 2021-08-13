@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
-import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space, Tag, Tooltip } from 'antd';
+import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space, Tag, Tooltip,Timeline } from 'antd';
 import { allowGuardar, cambiarADesActualizado, closeSession, getEmptyTramiteAlta, getUsuario, getColorStatus,rechazarTramite } from '../services/business';
-import { ExclamationCircleOutlined , EditOutlined ,SaveOutlined, ArrowLeftOutlined, CloseOutlined  } from '@ant-design/icons';
+import { ExclamationCircleOutlined , EditOutlined ,SaveOutlined, ArrowLeftOutlined, CloseOutlined,BellOutlined   } from '@ant-design/icons';
 import { setUpdateBorrador } from '../redux/actions/main';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite';
 import {useDispatch} from 'react-redux'
 import {useSelector} from 'react-redux'
 import { RootState } from '../redux/store';
+import _ from 'lodash'
 
 const { TextArea } = Input
 
@@ -31,8 +32,9 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
   const [loadingRechazo, setLoadingRechazo] = useState(false)
   const dispatch = useDispatch()
   const [activeProfile2, setActiveProfile2] = useState<TramiteAlta>(null)
+  const [showProfile2, setShowProfile2] = useState(false)
   const tramiteSession = useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
-
+  const [isModalVisibleObservaciones, setIsModalVisibleObservaciones] = useState(false);
   const confirmCancel = () => {
     setShowCancelar(false)
     onExit()
@@ -46,6 +48,18 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     closeSession()
     router.push('/login')
   }
+
+  const showModalObservaciones = () => {
+    setIsModalVisibleObservaciones(true);
+  };
+
+  const handleOkObservaciones = () => {
+    setIsModalVisibleObservaciones(false);
+  };
+
+  const handleCancelObservaciones = () => {
+    setIsModalVisibleObservaciones(false);
+  };
 
 
 
@@ -119,7 +133,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
 
   return <div className="py-2 flex justify-between content-center border-gray-200 border-b-2">
 
-    <Modal title="Basic Modal"
+    <Modal title="RECHAZAR TRAMITE"
       visible={showModalRechazar}
 
       footer={[
@@ -133,6 +147,17 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
       <p />
       <TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)} rows={4} />
 
+    </Modal>
+    <Modal title="Ver observaciones"
+      visible={isModalVisibleObservaciones} onOk={handleOkObservaciones} onCancel={handleCancelObservaciones}
+      width={1000}>
+      <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile2 && activeProfile2.razonSocial}</div>
+      <div className="text-base  text-black-700 pb-4 ">
+        <Timeline>
+          {activeProfile2 && activeProfile2.rechazos.map(e => <div><Timeline.Item>{e.motivo}</Timeline.Item></div>)}
+        
+        </Timeline>
+      </div>
     </Modal>
 
     <Modal
@@ -160,7 +185,14 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
       }} danger type='text'  style={{ fontWeight: 'bold', marginLeft: '10px', color:'#F5222D' }} > <CloseOutlined />Rechazar tramite</Button> : ''}
 
       <Button danger type="text" onClick={() => setShowCancelar(true)} style={{color:'#ED3D8F', fontWeight: 'bold',}}>  <ArrowLeftOutlined /> Cancelar</Button>
-     
+      {!_.isEmpty(tramite.rechazos) && <div className="text-left ">
+                      <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+                        onClick={() => {
+                          showModalObservaciones()
+                          setActiveProfile2(tramite)
+                          setShowProfile2(true)
+                        }}> <BellOutlined /></Button>
+                    </div>}
       {tramite && tramite.cuit && allowGuardar(tramiteSession) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}> <SaveOutlined /> Guardar y salir</Button> : ''}
       <Tooltip title="Estado de la Trámite">
                     <Tag color={getColorStatus(tramite)}>{tramite.status}</Tag>

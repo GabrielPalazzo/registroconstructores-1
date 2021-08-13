@@ -7,8 +7,8 @@ import InputNumberModal from '../components/input_number'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert, Empty, ConfigProvider, message, Popconfirm, Statistic } from 'antd';
-import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined, FolderViewOutlined } from '@ant-design/icons';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert, Empty, ConfigProvider, message, Tooltip, Popconfirm, Statistic } from 'antd';
+import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined, FolderViewOutlined, DislikeFilled,LikeFilled   } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
 import LikeDislike from '../components/like_dislike'
@@ -77,6 +77,8 @@ export default () => {
   const [archivosActaAsamblea, setArchivosActaAsamblea] = useState<Array<Archivo>>([])
   const [error, setError] = useState(null)
   const [modo, setModo] = useState(MODO.NEW)
+
+  const [EjercicioSeleccionado, setEjercicioSeleccionado] = useState(null)
   const [showError, setShowError] = useState(false)
 
   useEffect(() => {
@@ -370,10 +372,12 @@ export default () => {
     setArchivosActaAsamblea(r.archivosActaAsamblea)
 
   }
+ 
   
 
 
   let columnsBalances = [
+   
     {
       title: 'Eliminar',
       key: 'action',

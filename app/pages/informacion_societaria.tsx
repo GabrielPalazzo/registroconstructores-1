@@ -1159,9 +1159,10 @@ export default () => {
           </div>
           <div className="grid grid-cols-1 gap-4 ">
             <div >
+            <Wrapper title="Acta Constitutiva, junto con TODAS sus modificaciones hasta el día de hoy" attributeName="cooperativaarchivoActaConstitutiva"
+                labelRequired="*"  >
               <Upload
-                label="Acta Constitutiva, junto con TODAS sus modificaciones hasta el día de hoy"
-                labelRequired="*"
+                
                 labelMessageError=""
                 defaultValue={tramite.datosSocietarios.cooperativa.archivoActaConstitutiva as any}
                 onOnLoad={file => {
@@ -1180,6 +1181,7 @@ export default () => {
                   setIsLoading(false)
                 }}
               />
+              </Wrapper>
             </div>
           </div>
         </div>
@@ -1221,9 +1223,10 @@ export default () => {
           </div>
           <div className="grid grid-cols-1 gap-4 ">
             <div >
+            <Wrapper title="Modificación del Objeto de la cooperativa a rubro construccion" attributeName="cooperativaarchivomodificacionINAES"
+                labelRequired="*"  >
               <Upload
-                label="Modificación del Objeto de la cooperativa a rubro construccion"
-                labelRequired="*"
+              
                 labelMessageError=""
                 defaultValue={tramite.datosSocietarios.cooperativa.modificacionINAES.archivos as any}
                 onOnLoad={file => {
@@ -1242,6 +1245,7 @@ export default () => {
                   setIsLoading(false)
                 }}
               />
+              </Wrapper>
             </div>
           </div>
         </div>
@@ -1283,9 +1287,11 @@ export default () => {
           </div>
           <div className="grid grid-cols-1 gap-4 ">
             <div >
+            
+            <Wrapper title="Última modificación estatutaria Inscripta en I.N.A.E.S." attributeName="cooperativaarchivultimaModifcacionINAES"
+                labelRequired="*"  >
               <Upload
-                label="Última modificación estatutaria Inscripta en I.N.A.E.S."
-                labelRequired="*"
+                
                 labelMessageError=""
                 defaultValue={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos as any}
                 onOnLoad={file => {
@@ -1304,6 +1310,7 @@ export default () => {
                   setIsLoading(false)
                 }}
               />
+              </Wrapper>
             </div>
           </div>
         </div>
@@ -2020,11 +2027,11 @@ export default () => {
                   }}
                 />
               </div>
-              {/* 
+             {/*
             <div className="mt-8 ">
               <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
             </div>
-*/}
+ */}
             </div>
           </Wrapper>
           <Table columns={columnsModificacionEstatuto}

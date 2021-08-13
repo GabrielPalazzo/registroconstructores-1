@@ -195,7 +195,7 @@ type AutoridadEmpresa  ={
 
 type Ejercicio = {
   codigo?: string
-  status?: 'APROBADO' | 'RECHAZADO' | null | 'EN REVISION'  // APROBADO EN REVISION DES ESTIMADO 
+  status?: 'APROBADO' | 'RECHAZADO' | null | 'EN REVISION' | 'OBSERVADO'  // APROBADO EN REVISION DES ESTIMADO 
   fechaInicio: string
   fechaCierre: string
   activoCorriente: number
