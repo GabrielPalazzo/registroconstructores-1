@@ -86,10 +86,13 @@ export const Certificado: React.FC<CertificadoProps> = ({
 
   useEffect(() => {
     (async () => {
+  
       if (!tramite && !certificado) {
+        console.log('entro sin tramite')
         const certificados: Array<CertificadoCapacidad> = await getCertificados(cuit)
         setCertificado(_.last(certificados))
       } else if (tramite) {
+        console.log('entro con tramite')
         const certGen = await generar()
         setCertificado(certGen)
       }
