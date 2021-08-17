@@ -174,6 +174,8 @@ type DDJJObra ={
     likeProrroga:string
     ubicacion:Array<string>
     ubicacionText:string
+    tipoContratacion:string
+    nivel:string
   }
   
 }

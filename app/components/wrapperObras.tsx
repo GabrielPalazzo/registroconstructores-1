@@ -63,7 +63,9 @@ export default (props) => {
 			redeterminacionesTitle:null,
 			likeProrroga:null,
 			ubicacion:null,
-			ubicacionText:null
+			ubicacionText:null,
+			tipoContratacion:null,
+			nivel:null
 		}
 
 

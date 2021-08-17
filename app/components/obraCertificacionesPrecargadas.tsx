@@ -63,6 +63,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   setDescripcion(record.descripcion)
   setArchivos(record.archivos)
   setMonto(record.monto)
+  setObservacionRegistro(record.observacionRegistro)
   
 
  }
@@ -108,12 +109,15 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     {
       title: '',
       key: 'evaluacion',
-      render: (text, record) => 
+      render: (text, record) => <div>
+        {record.status === 'OBSERVADA' ? 
       <Tooltip title={record.observacionRegistro}>
-        <div>{record.status === 'OBSERVADA' ? 
-        <DislikeFilled style={{ color: '#F9A822' }} /> : 
-        <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div>
-      </Tooltip>
+        <div>
+        <DislikeFilled style={{ color: '#F9A822' }} />
+        </div>
+      </Tooltip> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}
+      </div>
+      
 
     },
     {
