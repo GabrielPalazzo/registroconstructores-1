@@ -48,7 +48,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
 
   const mapObras = (obra: DDJJObra) => {
     let status = obra.status
-    if (!obra.status)
+    if (!obra.status || obra.status === 'SUPERVIZADA')
         status = 'APROBADA'
     return {
       ...obra,
