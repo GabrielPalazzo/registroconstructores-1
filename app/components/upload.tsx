@@ -26,7 +26,7 @@ interface Props {
 const mapFile = (fileToMap) => {
   return {
     uid: fileToMap.cid,
-    name: fileToMap.name.replace(',' , '-'),
+    name: fileToMap.name,
     status: 'done',
     url: `/api/files/${fileToMap.cid}?name=${fileToMap.name} `
 
