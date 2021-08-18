@@ -28,7 +28,8 @@ const mapFile = (fileToMap) => {
     uid: fileToMap.cid,
     name: fileToMap.name.replace(',' , '-'),
     status: 'done',
-    url: `/api/files/${fileToMap.cid}?name=${fileToMap.name} "" `
+    url: `/api/files/${fileToMap.cid}?name=${fileToMap.name} `
+
   }
 }
 
