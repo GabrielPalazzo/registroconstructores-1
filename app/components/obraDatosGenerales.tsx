@@ -271,7 +271,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
         
 
-      <div className="grid grid-cols-3 gap-4 ">
+      <div className="grid grid-cols-1 gap-4 ">
 
         <div className="pb-6" >
 
@@ -292,42 +292,8 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
          
 
         </div>
-        <div className="pb-6" >
-        <WrapperObras title="Tipo de Contratación" obra={obra}  field='tipoContratacion' onChange={o => onChange(Object.assign({}, obra))}>
-    
-          <SelectModal
-            defaultOption="Tipo de contratacion"
-            labelRequired="*"
-            locked={modo === 'VIEW'}
-            labelMessageError=""
-            value={tipoContratacion}
-            bindFunction={(value) => { settipoContratacion(value) }}
-            required
-            option={TipoContratacion.map(u => (
-              <Option value={u.value}>{u.label}</Option>
-
-            ))}
-          />
-          </WrapperObras>
-        </div>
-        <div className="pb-6" >
-        <WrapperObras title="Nivel" obra={obra}  field='nivel' onChange={o => onChange(Object.assign({}, obra))}>
-    
-          <SelectModal
-            locked={modo === 'VIEW'}
-            defaultOption="Nivel"
-            labelRequired="*"
-            labelMessageError=""
-            value={nivel}
-            bindFunction={(value) => { setNivel(value) }}
-            required
-            option={TipoNivel.map(u => (
-              <Option value={u.value}>{u.label}</Option>
-
-            ))}
-          />
-          </WrapperObras>
-        </div>
+        
+       
       </div>
 
       <div className="rounded-lg px-4 py-2 mb-4  pt-4 pb-4 border">
@@ -350,6 +316,37 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
 
             ))}
            
+          />
+        </div>
+        <div className="pb-6" >
+        <SelectModal
+            defaultOption="Tipo de contratacion"
+            labelRequired="*"
+            locked={modo === 'VIEW'}
+            labelMessageError=""
+            value={tipoContratacion}
+            bindFunction={(value) => { settipoContratacion(value) }}
+            required
+            option={TipoContratacion.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))}
+          />
+        </div>
+        <div className="pb-6" >
+       
+          <SelectModal
+            locked={modo === 'VIEW'}
+            defaultOption="Nivel"
+            labelRequired="*"
+            labelMessageError=""
+            value={nivel}
+            bindFunction={(value) => { setNivel(value) }}
+            required
+            option={TipoNivel.map(u => (
+              <Option value={u.value}>{u.label}</Option>
+
+            ))}
           />
         </div>
 
