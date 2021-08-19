@@ -69,8 +69,15 @@ handler.post(async (req: any, res: NextApiResponse) => {
   tramite.ejercicios = tramite.ejercicios.map(mapEjercicios)
 
   const tramiteActualizado = await finalizarTramite(tramite, req.user, req.db)
-  const certificado = await generarCertificado(tramiteActualizado, req.user, req.db)
-  res.json(certificado)
+  try{
+    const certificado = await generarCertificado(tramiteActualizado, req.user, req.db)
+    res.json(certificado)
+  }
+  catch(ex){
+    console.log(ex)
+    res.send(ex)
+  }
+  
 
 });
 

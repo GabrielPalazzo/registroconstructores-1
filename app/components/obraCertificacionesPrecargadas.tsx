@@ -64,7 +64,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   setArchivos(record.archivos)
   setMonto(record.monto)
   setObservacionRegistro(record.observacionRegistro)
-  
+ 
 
  }
 
@@ -190,22 +190,21 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       setShowError(true)
       return
     }
-
+    const backOfficeUser=getUsuario().isBackOffice()
     let periodosCopy = Object.assign([], obra.certificaciones)
 
     if (periodoSeleccionado)
       periodosCopy = obra.certificaciones.filter(v => v.codigo !== periodoSeleccionado.codigo)
+      console.log(periodosCopy)
+      periodosCopy.push({
+        codigo: periodoSeleccionado ? periodoSeleccionado.codigo : getUniqCode(),
+        periodo,
+        monto,
+        descripcion,
+        archivos,
+      })
 
-
-    periodosCopy.push({
-      codigo: periodoSeleccionado ? periodoSeleccionado.codigo : getUniqCode(),
-      periodo,
-      monto,
-      descripcion,
-      archivos,
-      observacionRegistro,
- 
-    })
+      console.log(periodosCopy)
 
     setPeriodo(null)
     setMonto(0)

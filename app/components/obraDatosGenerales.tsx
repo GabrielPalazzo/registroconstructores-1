@@ -320,6 +320,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
         </div>
         <div className="pb-6" >
         <SelectModal
+        title="Tipo de contratacion"
             defaultOption="Tipo de contratacion"
             labelRequired="*"
             locked={modo === 'VIEW'}
@@ -336,6 +337,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
         <div className="pb-6" >
        
           <SelectModal
+          title="Nivel"
             locked={modo === 'VIEW'}
             defaultOption="Nivel"
             labelRequired="*"

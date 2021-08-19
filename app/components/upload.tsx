@@ -29,6 +29,7 @@ const mapFile = (fileToMap) => {
     name: fileToMap.name,
     status: 'done',
     url: `/api/files/${fileToMap.cid}?name=${fileToMap.name} `
+
   }
 }
 
