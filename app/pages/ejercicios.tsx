@@ -7,7 +7,7 @@ import InputNumberModal from '../components/input_number'
 import { HeaderPrincipal } from '../components/header'
 import Upload from '../components/upload'
 import Switch from '../components/switch'
-import { Button, Card, Steps, Modal, Select, Table, Tabs, Space, Alert, Empty, ConfigProvider, message, Tooltip, Popconfirm, Statistic } from 'antd';
+import { Button, Card, Steps, Modal, Select, Table, Tabs, Input,Space, Alert, Empty, ConfigProvider, message, Tooltip, Popconfirm, Statistic } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined, FolderViewOutlined, DislikeFilled,LikeFilled   } from '@ant-design/icons';
 import SelectModal from '../components/select_modal'
 import { Collapse } from 'antd';
@@ -16,7 +16,7 @@ import DatePickerModal from '../components/datePicker_Modal'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica, isConstructora, isTramiteEditable, allowGuardar , getUsuario} from '../services/business';
+import { getEmptyTramiteAlta, getTramiteByCUIT, isPersonaFisica,getCodigoObra,  isConstructora, isTramiteEditable, allowGuardar , getUsuario} from '../services/business';
 import { saveTramite, setTramiteView } from '../redux/actions/main'
 import { updateRevisionTramite } from '../redux/actions/revisionTramite';
 import moment from 'moment'
@@ -30,6 +30,7 @@ import { LinkToFile } from '../components/linkToFile'
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Option } = Select;
+const { TextArea } = Input
 
 function confirm(e) {
   console.log(e);
@@ -75,10 +76,14 @@ export default () => {
   const [capitalSuscripto, setCapitalSuscripto] = useState(0)
   const [archivos, setArchivos] = useState<Array<Archivo>>([])
   const [archivosActaAsamblea, setArchivosActaAsamblea] = useState<Array<Archivo>>([])
+ //const [ejercicioSelecionado, setEjercicioSelecionado] = useState({})
   const [error, setError] = useState(null)
   const [modo, setModo] = useState(MODO.NEW)
+  const [showMotivoRechazo, setShowMotivoRechazo] = useState(false)
+  const [motivoRechazo, setMotivoRechazo] = useState('')
+ 
 
-  const [EjercicioSeleccionado, setEjercicioSeleccionado] = useState(null)
+  const [ejercicioSeleccionado, setEjercicioSeleccionado] = useState(null)
   const [showError, setShowError] = useState(false)
 
   useEffect(() => {
@@ -373,10 +378,53 @@ export default () => {
 
   }
  
+  const Accion = ({ejercicio}) => {
+    if ((!tramite.asignadoA) || (!getUsuario().isConstructor() && tramite.asignadoA && tramite.asignadoA.cuit !== getUsuario().userData().cuit))
+      return <div>{ejercicio.status ? ejercicio.status : 'SIN EVALUAR'}</div>
+
+    return <div>
+      <Select
+        value={ejercicio.status}
+        onChange={e => {
+          setEjercicioSeleccionado(ejercicio)
+          console.log(ejercicioSeleccionado)
+          if (e === 'OBSERVADO'){
+           setShowMotivoRechazo(true)
+          }
+          else{
+            const idx = _.findIndex(tramite.ejercicios, c => { return c.codigo === ejercicio.codigo })
+            tramite.ejercicios[idx] = {
+              ...tramite.ejercicios[idx],
+              status: e as any
+            }
+          }
+                   }
+        }style={{ width: 150 }} >
+        <Option key='APROBADO' value='APROBADO'>APROBADO</Option>
+        <Option key='OBSERVADO' value='OBSERVADO'>OBSERVADO</Option>
+       </Select>
+    </div>
+  }
+
   
 
 
   let columnsBalances = [
+
+    {
+      title: 'Estado',
+      key: 'Estado',
+      render: (text, record) => <Accion ejercicio={record} />
+    },
+    {
+      title: '',
+      key: 'evaluacion',
+      render: (text, record) => <Tooltip title={record.observacionRegistro}>
+        <div>{record.status === 'OBSERVADO' ? 
+        <DislikeFilled style={{ color: '#F9A822' }} /> : 
+        <LikeFilled style={{ color: record.status && record.status === 'APROBADO' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
+        with:100,
+    },
    
     {
       title: 'Eliminar',
@@ -473,6 +521,7 @@ export default () => {
       key: 'adjunto',
     }
   ]
+  columnsBalances = getUsuario().isConstructor() ? columnsBalances.slice(1, columnsBalances.length ) : [columnsBalances[0], columnsBalances[1], columnsBalances[2], columnsBalances[3],  columnsBalances[4], columnsBalances[5], columnsBalances[6], columnsBalances[7], columnsBalances[8], columnsBalances[9], columnsBalances[10], columnsBalances[11], columnsBalances[12], columnsBalances[13]]
 
 
   {/*if (isTramiteEditable(tramite)) {
@@ -482,19 +531,16 @@ export default () => {
     columnsBalances = columnsBalances.slice(2, columnsBalances.length)
   }*/}
 
-
-
-
-
-
-
   const eliminarEjercicio = (r) => {
     tramite.ejercicios = tramite.ejercicios.filter(e => ((e.fechaInicio !== r.fechaInicio) && (r.fechaCierre !== e.fechaCierre)))
     setTramite(Object.assign({}, tramite))
     save()
   }
 
-
+  for (let index=0; index <tramite.ejercicios.length;index++ ) {
+    if (!tramite.ejercicios[index].codigo)
+      tramite.ejercicios[index].codigo = getCodigoObra()
+  }
 
   const guardarEjercicio = async (e) => {
 
@@ -559,11 +605,6 @@ export default () => {
       setShowError(true)
       return
     }
-
-
-
-
-
     if (MODO.EDIT) {
       tramite.ejercicios = tramite.ejercicios.filter(e => JSON.stringify(e) !== idBalance)
     }
@@ -579,10 +620,9 @@ export default () => {
       capitalSuscripto,
       ventasEjercicio: ventasDelEjercicio,
       archivos,
-      archivosActaAsamblea
-     
+      archivosActaAsamblea,
+      codigo:getCodigoObra()
     })
-
     setArchivos([])
     setArchivosActaAsamblea([])
     setCierreEjercicio(null)
@@ -593,7 +633,6 @@ export default () => {
     clearState()
 
   }
-
   const clearState = () => {
     setCierreEjercicio(null)
     setInicioEjercicio(null)
@@ -606,12 +645,32 @@ export default () => {
     setArchivos([])
     setArchivosActaAsamblea([])
   }
-
+ 
   return (<div>
     <HeaderPrincipal tramite={tramite} onExit={() => router.push('/')} onSave={() => {
       save()
       router.push('/')
     }} />
+
+    <Modal
+      visible={showMotivoRechazo}
+      onCancel={() => setShowMotivoRechazo(false)}
+      onOk={(e) => {
+        const idx = _.findIndex(tramite.ejercicios, c => { return c.codigo === ejercicioSeleccionado.codigo })
+
+        tramite.ejercicios[idx] = {
+          ...tramite.ejercicios[idx],
+          status: 'OBSERVADO',
+          observacionRegistro: motivoRechazo
+        }
+        setShowMotivoRechazo(false)
+        setMotivoRechazo('')
+      }}
+
+    >
+      <p>Por favor, indique el motivo de rechazo o desestimación</p>
+      <TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)}></TextArea>
+    </Modal>  
 
     <div className="border-gray-200 border-b-2 flex ">
       <div className="px-20 pt-2 w-3/4">
