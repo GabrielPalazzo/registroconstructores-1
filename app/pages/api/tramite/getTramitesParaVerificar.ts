@@ -34,7 +34,7 @@ handler.get(async (req: any, res: NextApiResponse) => {
       return{
         categoria:t.categoria,
         status: t.status,
-        creatAt: t.creatAt,
+        createAt: t.createAt,
         _id: t._id,
         razonSocial: t.razonSocial,
         cuit:t.cuit,

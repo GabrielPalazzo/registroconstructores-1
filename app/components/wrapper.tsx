@@ -128,7 +128,7 @@ export default (props) => {
       <div className="flex w-3/4">
         <div >
         
-          <label className={props.isTitle ? 'text-2xl font-bold py-4' : 'font-bold text-muted-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
+          <label className={props.isTitle  ? 'text-2xl font-bold py-4' : 'font-bold text-muted-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
         </div>
 
        { getReviewText() && tramite.status==='OBSERVADO'  || getReviewText() && !user.isConstructor() && tramite.status !=='BORRADOR' ?<div className="pl-2">

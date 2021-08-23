@@ -429,11 +429,11 @@ export default () => {
     {
       title: 'Eliminar',
       key: 'action',
-      render: (text, record) => ( tramite.categoria === 'DESACTUALIZADO' && tramite && tramite.status === 'BORRADOR' 
-      || tramite.categoria === 'DESACTUALIZADO' && tramite.status === 'BORRADOR' 
-      || tramite.categoria === 'DESACTUALIZADO' && tramite.status === 'OBSERVADO' 
-      || tramite.categoria === 'PRE INSCRIPTO' && tramite.status === 'BORRADOR' 
-      || tramite.categoria === 'PRE INSCRIPTO' && tramite.status === 'OBSERVADO' ? <Popconfirm
+      render: (text, record) => ( tramite.categoria === 'DESACTUALIZADO' && tramite && tramite.status === 'BORRADOR'  && record.status !=='APROBADO'
+      || tramite.categoria === 'DESACTUALIZADO' && tramite.status === 'BORRADOR'  && record.status !=='APROBADO'
+      || tramite.categoria === 'DESACTUALIZADO' && tramite.status === 'OBSERVADO'  && record.status !=='APROBADO'
+      || tramite.categoria === 'PRE INSCRIPTO' && tramite.status === 'BORRADOR'  && record.status !=='APROBADO'
+      || tramite.categoria === 'PRE INSCRIPTO' && tramite.status === 'OBSERVADO'  && record.status !=='APROBADO' ? <Popconfirm
         title="Esta seguro que lo  desea Eliminar ?"
         onConfirm={() => eliminarEjercicio(record)}
         onCancel={cancel}
@@ -447,10 +447,10 @@ export default () => {
     {
       title: 'Editar',
       key: 'editar',
-      render: (text, record) => ( tramite.categoria === 'DESACTUALIZADO' && tramite && tramite.status === 'BORRADOR' 
-      || tramite.categoria === 'DESACTUALIZADO' && tramite.status === 'OBSERVADO' 
-      || tramite.categoria === 'PRE INSCRIPTO' && tramite.status === 'BORRADOR' 
-      || tramite.categoria === 'PRE INSCRIPTO' && tramite.status === 'OBSERVADO'  ? <div onClick={() => {
+      render: (text, record) => ( tramite.categoria === 'DESACTUALIZADO' && tramite && tramite.status === 'BORRADOR'  && record.status !=='APROBADO'
+      || tramite.categoria === 'DESACTUALIZADO' && tramite.status === 'OBSERVADO'  && record.status !=='APROBADO'
+      || tramite.categoria === 'PRE INSCRIPTO' && tramite.status === 'BORRADOR'  && record.status !=='APROBADO'
+      || tramite.categoria === 'PRE INSCRIPTO' && tramite.status === 'OBSERVADO' && record.status !=='APROBADO'  ? <div onClick={() => {
         cargarEjercicio(record)
         setModo(MODO.EDIT)
         setModalEjercicios(Object.assign({}, record))
