@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
-import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space, Tag, Tooltip,Timeline } from 'antd';
-import { allowGuardar, cambiarADesActualizado, closeSession, getEmptyTramiteAlta, getUsuario, getColorStatus,rechazarTramite } from '../services/business';
-import { ExclamationCircleOutlined , EditOutlined ,SaveOutlined, ArrowLeftOutlined, CloseOutlined,BellOutlined   } from '@ant-design/icons';
+import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space, Tag, Tooltip, Timeline } from 'antd';
+import { allowGuardar, cambiarADesActualizado, closeSession, getEmptyTramiteAlta, getUsuario, getColorStatus, rechazarTramite } from '../services/business';
+import { ExclamationCircleOutlined, EditOutlined, SaveOutlined, ArrowLeftOutlined, CloseOutlined, BellOutlined } from '@ant-design/icons';
 import { setUpdateBorrador } from '../redux/actions/main';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite';
-import {useDispatch} from 'react-redux'
-import {useSelector} from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from '../redux/store';
 import _ from 'lodash'
 
@@ -33,6 +33,8 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
   const dispatch = useDispatch()
   const [activeProfile2, setActiveProfile2] = useState<TramiteAlta>(null)
   const [showProfile2, setShowProfile2] = useState(false)
+  const revisionTramite = useSelector((state: RootState) => state.revisionTramites)
+
   const tramiteSession = useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
   const [isModalVisibleObservaciones, setIsModalVisibleObservaciones] = useState(false);
   const confirmCancel = () => {
@@ -69,7 +71,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
         <div >
           <a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores/normas-internas" target="_blank">
             Normativa e Instructivos
-        </a>
+          </a>
         </div>
       </Menu.Item>
       <Menu.Item>
@@ -81,6 +83,8 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
 
     </Menu>
   );
+  const reviewAbierta = revisionTramite.revision && revisionTramite.revision.reviews.filter(r => !r.isOk)
+
 
   const handleRechazarTramite = async () => {
 
@@ -95,8 +99,8 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     const [waitingConfirmFromServer, setWaitingConfirmFromServer] = useState(false)
     const handleConfirmarAcutalizar = async () => {
       setWaitingConfirmFromServer(true)
-      const  newTramite = await cambiarADesActualizado(tramite)
-      console.log('tramite:',newTramite._id)
+      const newTramite = await cambiarADesActualizado(tramite)
+      console.log('tramite:', newTramite._id)
       await dispatch(setUpdateBorrador(newTramite))
       await dispatch(cargarUltimaRevisionAbierta(newTramite))
       router.push('/informacion_basica')
@@ -105,25 +109,25 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     }
 
     return <div>
-      <Modal 
-        title="Actualización de datos" 
-        visible={showActualizarConfirmacion} 
+      <Modal
+        title="Actualización de datos"
+        visible={showActualizarConfirmacion}
         onCancel={() => setShowActualizarConfirmacion(false)}
         footer={[
-          <Button key="back"  onClick={() => setShowActualizarConfirmacion(false)}>
-          Cancelar
-        </Button>,
-        <Button key="submit" type="primary" loading={waitingConfirmFromServer} onClick={handleConfirmarAcutalizar}>
-          Aceptar
-        </Button>,
+          <Button key="back" onClick={() => setShowActualizarConfirmacion(false)}>
+            Cancelar
+          </Button>,
+          <Button key="submit" type="primary" loading={waitingConfirmFromServer} onClick={handleConfirmarAcutalizar}>
+            Aceptar
+          </Button>,
         ]}
-        >
+      >
         <p>Ud puede comenzar el proceso de actualización y enviarlo cuando considere necesario. </p>
         <p>Una vez que pulsa Aceptar comienza el proceso de actualización. </p>
 
         <p>Desea actualizar la información de su empresa?</p>
       </Modal>
-      <Button onClick={() => setShowActualizarConfirmacion(true)} type='text'  style={{fontWeight: 'bold',}}>  <EditOutlined /> Actualizar datos</Button>
+      <Button onClick={() => setShowActualizarConfirmacion(true)} type='text' style={{ fontWeight: 'bold', }}>  <EditOutlined /> Actualizar datos</Button>
     </div>
   }
 
@@ -149,13 +153,20 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
 
     </Modal>
     <Modal title="Ver observaciones"
-      visible={isModalVisibleObservaciones} onOk={handleOkObservaciones} onCancel={handleCancelObservaciones}
+      visible={isModalVisibleObservaciones}
+      onOk={handleOkObservaciones}
+      onCancel={handleCancelObservaciones}
       width={1000}>
       <div className="text-3xl font-bold  text-black-700 pb-4 ">{activeProfile2 && activeProfile2.razonSocial}</div>
       <div className="text-base  text-black-700 pb-4 ">
         <Timeline>
           {activeProfile2 && activeProfile2.rechazos.map(e => <div><Timeline.Item>{e.motivo}</Timeline.Item></div>)}
-        
+
+          {reviewAbierta &&
+            <div> {reviewAbierta.map(r => <Timeline.Item> {r.review}</Timeline.Item>)}</div>
+
+
+          }
         </Timeline>
       </div>
     </Modal>
@@ -176,28 +187,40 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
       <Logo />
       <div className="pl-4 uppercase text-muted-700 align-middle pt-1 text-sm font-bold pb-4  ">{tramite.razonSocial}</div>
     </div>
-   
+
     <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4 cursor-pointer">
 
-      {(user.isConstructor() && (tramite.categoria == 'INSCRIPTO' && tramite.status === 'VERIFICADO')) || (user.isConstructor() &&(tramite.categoria == 'INSCRIPTO CON ACTUALIZACION' && tramite.status === 'VERIFICADO')) || (user.isConstructor() && (tramite.categoria == 'DESACTUALIZADO' && tramite.status === 'VERIFICADO')) ? <ButtonActualizar /> : <div />}
+      {(user.isConstructor() && (tramite.categoria == 'INSCRIPTO' && tramite.status === 'VERIFICADO')) || (user.isConstructor() && (tramite.categoria == 'INSCRIPTO CON ACTUALIZACION' && tramite.status === 'VERIFICADO')) || (user.isConstructor() && (tramite.categoria == 'DESACTUALIZADO' && tramite.status === 'VERIFICADO')) ?
+        <ButtonActualizar /> : <div />}
+
       {user.isAprobador() && tramite.categoria !== 'INSCRIPTO' ? <Button onClick={() => {
         setShowModalRechazar(true)
-      }} danger type='text'  style={{ fontWeight: 'bold', marginLeft: '10px', color:'#F5222D' }} > <CloseOutlined />Rechazar tramite</Button> : ''}
+      }} danger type='text' style={{ fontWeight: 'bold', marginLeft: '10px', color: '#F5222D' }} >
+        <CloseOutlined />Rechazar tramite</Button> : ''}
 
-      <Button danger type="text" onClick={() => setShowCancelar(true)} style={{color:'#ED3D8F', fontWeight: 'bold',}}>  <ArrowLeftOutlined /> Cancelar</Button>
-      {!_.isEmpty(tramite.rechazos) && <div className="text-left ">
-                      <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
-                        onClick={() => {
-                          showModalObservaciones()
-                          setActiveProfile2(tramite)
-                          setShowProfile2(true)
-                        }}> <BellOutlined /></Button>
-                    </div>}
+
+      <Button danger type="text" onClick={() => setShowCancelar(true)} style={{ color: '#ED3D8F', fontWeight: 'bold', }}>
+        <ArrowLeftOutlined /> Cancelar
+      </Button>
+
+      { tramite.status==='OBSERVADO'  ||  !user.isConstructor() && tramite.status !=='BORRADOR' ?
+      
+      <div className="text-left ">
+        <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
+          onClick={() => {
+            showModalObservaciones()
+            setActiveProfile2(tramite)
+            setShowProfile2(true)
+          }}> <BellOutlined /></Button>
+      </div> : ''
+      }
+
+
       {tramite && tramite.cuit && allowGuardar(tramiteSession) ? <Button type="link" style={{ fontWeight: 'bold', marginLeft: '10px' }} onClick={onSave}> <SaveOutlined /> Guardar y salir</Button> : ''}
       <Tooltip title="Estado de la Trámite">
-                    <Tag color={getColorStatus(tramite)}>{tramite.status}</Tag>
-                  </Tooltip>
-     
+        <Tag color={getColorStatus(tramite)}>{tramite.status}</Tag>
+      </Tooltip>
+
       <Dropdown overlay={menu} trigger={['click']}>
         <div onClick={e => e.preventDefault()}>
           <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2', marginLeft: '10px' }} >{user.userData().GivenName.substring(0, 1)}</Avatar>
