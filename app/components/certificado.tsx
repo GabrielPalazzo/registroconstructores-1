@@ -101,6 +101,7 @@ export const Certificado: React.FC<CertificadoProps> = ({
 
 
   return <div>
+    
     {certificado && <Modal title="Previsualizar"
       visible={showCertificado}
       onOk={() => setShowCertificado(false)}
@@ -110,8 +111,9 @@ export const Certificado: React.FC<CertificadoProps> = ({
           <span>
             {
             <PDFDownloadLink document={<CertificadoPDF certificado={certificado} />} fileName="certificado.pdf">
+            
               {({ blob, url, loading, error }) =>{
-                console.log(error)
+                console.log(certificado)
                 return loading ? 'Loading document...' : 'Descargar Certificado'
               }
                 
