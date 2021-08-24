@@ -1423,7 +1423,7 @@ export default (props) => {
 
 
 
-
+{/*
        <View style={styles.sectionContentTable} >
           <View style={styles.sectionContentTableColumnBorder}  >
             <Text style={{ ...styles.sectionEtiquetaTable, fontWeight: 'heavy' }}>Razon SocialComitente</Text>
@@ -1451,7 +1451,7 @@ export default (props) => {
           </View>
  
         </View> 
-
+*/}
 
 
         <View style={styles.sectionFooter} >
