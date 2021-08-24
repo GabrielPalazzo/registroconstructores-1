@@ -1423,18 +1423,20 @@ export default (props) => {
 
 
 
-{/*
+
        <View style={styles.sectionContentTable} >
           <View style={styles.sectionContentTableColumnBorder}  >
             <Text style={{ ...styles.sectionEtiquetaTable, fontWeight: 'heavy' }}>Razon SocialComitente</Text>
-            {props.certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA').filter( (o:DDJJObra) => _.includes(['Preadjudicada','Adjudicada','Ejecucion'],o.datosObra[0].estado)).map((o: DDJJObra) => <Text style={{ margin: 5 }}  >{o.razonSocialComitente}</Text>)}
+            {props.certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA'|| o.status && o.status === 'SUPERVIZADA' ).filter( (o:DDJJObra) => _.includes(['Preadjudicada','Adjudicada','Ejecucion'],o.datosObra[0].estado)).map((o: DDJJObra) => <Text style={{ margin: 5 }}  >{o.razonSocialComitente}</Text>)}
 
           </View>
+       
         <View style={styles.sectionContentTableColumnBorder3}  >
             <Text style={styles.sectionEtiquetaTable}>Denominación</Text>
-            {props.certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA' ).filter( (o:DDJJObra) => _.includes(['Preadjudicada','Adjudicada','Ejecucion'],o.datosObra[0].estado)).map((o: DDJJObra) => <Text style={{ margin: 5 }} >{o.denominacion}</Text>)}
+            {props.certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA' || o.status && o.status === 'SUPERVIZADA' ).filter( (o:DDJJObra) => _.includes(['Preadjudicada','Adjudicada','Ejecucion'],o.datosObra[0].estado)).map((o: DDJJObra) => <Text style={{ margin: 5 }} >{o.denominacion}</Text>)}
 
           </View>
+       {/*  
           <View style={styles.sectionContentTableColumnBorder2}  >
             <Text style={styles.sectionEtiquetaTable}>Fecha de Adjudicación</Text>
             {props.certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA' ).filter( (o:DDJJObra) => _.includes(['Preadjudicada','Adjudicada','Ejecucion'],o.datosObra[0].estado)).map((o: DDJJObra) => <Text style={{ margin: 5 }}  >{o.datosObra[0].fechaAdjudicacion}</Text>)}
@@ -1449,9 +1451,9 @@ export default (props) => {
             {props.certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA').filter( (o:DDJJObra) => _.includes(['Preadjudicada','Adjudicada','Ejecucion'],o.datosObra[0].estado)).map((o: DDJJObra) => <Text style={{ margin: 5 }} >{numeral(calcularSaldoObra(o)).format('$0,0.00')}</Text>)}
 
           </View>
- 
+ */}
         </View> 
-*/}
+
 
 
         <View style={styles.sectionFooter} >
