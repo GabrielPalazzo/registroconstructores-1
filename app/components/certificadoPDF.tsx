@@ -1423,7 +1423,7 @@ export default (props) => {
 
 
 
-
+{/*
        <View style={styles.sectionContentTable} >
           <View style={styles.sectionContentTableColumnBorder}  >
             <Text style={{ ...styles.sectionEtiquetaTable, fontWeight: 'heavy' }}>Razon SocialComitente</Text>
@@ -1452,7 +1452,7 @@ export default (props) => {
 
           </View>
         </View> 
-
+*/}
 
         <View style={styles.sectionFooter} >
           <Text style={styles.sectionFooterBold}>EL ORGANISMO CONTRATANTE PODRÁ CONSULTAR ESTA INFORMACIÓN EN LA PLATAFORMA CONTRAT.AR (HTTPS://CONTRATAR.GOB.AR/)

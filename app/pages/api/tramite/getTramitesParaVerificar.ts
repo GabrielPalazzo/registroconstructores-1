@@ -21,7 +21,6 @@ handler.get(async (req: any, res: NextApiResponse) => {
       categoria:1,
       status:1,
       createdAt:1,
-     
       _id:1,
       razonSocial:1,
       cuit:1,
