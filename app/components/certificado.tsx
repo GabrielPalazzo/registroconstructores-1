@@ -30,26 +30,28 @@ let columns = [
     key: 'id',
   },
   {
-    title: 'Denominación',
-    dataIndex: 'denominacion',
-    key: 'denominacion',
-  },
-  {
     title: 'Comitente',
     dataIndex: 'comitente',
     render: (text, record: DDJJObra) => <div>{record.razonSocialComitente}</div>,
   },
+  {
+    title: 'Denominación',
+    dataIndex: 'denominacion',
+    key: 'denominacion',
+  },
+  
   {
     title: 'Monto Vigente',
     dataIndex: 'Monto Vigente',
     render: (text, record: DDJJObra) => <div>{numeral(record.montoInicial + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((acc, val) => acc += val) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</div>,
 
   },
+  //{
+  //  title: 'Certificado a la fecha',
+  //  dataIndex: 'certificado',
+  //  render: (text, record: DDJJObra) => <div>{numeral(record.certificaciones.length !== 0 ? record.certificaciones.map(r => r.monto).reduce((acc, val) => acc += val, 0) : 0).format('$0,0.00')}</div>,
+  //}, 
   {
-    title: 'Certificado a la fecha',
-    dataIndex: 'certificado',
-    render: (text, record: DDJJObra) => <div>{numeral(record.certificaciones.length !== 0 ? record.certificaciones.map(r => r.monto).reduce((acc, val) => acc += val, 0) : 0).format('$0,0.00')}</div>,
-  }, {
 
     title: 'Saldo',
     dataIndex: 'saldo',

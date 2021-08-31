@@ -64,7 +64,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   setArchivos(record.archivos)
   setMonto(record.monto)
   setObservacionRegistro(record.observacionRegistro)
- 
+
 
  }
 
@@ -104,7 +104,8 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
     {
       title: 'Estado',
       key: 'Estado',
-      render: (text, record) => <Accion certificacion={record} />
+      render: (text, record) => <Accion certificacion={record} />,
+      width: 100,
     },
     {
       title: '',
@@ -116,8 +117,8 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
         <DislikeFilled style={{ color: '#F9A822' }} />
         </div>
       </Tooltip> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}
-      </div>
-      
+      </div>,
+      width: 50,
 
     },
     {
@@ -126,7 +127,9 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       render: (text, record) => (tramite && tramite.status === 'BORRADOR'   || tramite && tramite.status  === 'OBSERVADO' && record.status !== 'APROBADA'
       || tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? <div onClick={() => {
         cargarCertificacion(Object.assign({}, record))
-      }}><EditOutlined /></div>: '')
+      }}><EditOutlined /></div>: ''),
+      width: 5,
+     
     },
 
     {
@@ -135,31 +138,36 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status  === 'OBSERVADO' && record.status !=="APROBADA"
       || tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? 
       <div onClick={() => borrarPeriodo(record)}><DeleteOutlined /></div> : ''),
-      
+      width: 5,
      
     },
     {
       title: 'Periodo',
       key: 'periodo',
-      render: (text, record) => <div>{moment(record.periodo, 'DD/MM/YYYY').format('MMMM YYYY')}</div>
+      render: (text, record) => <div>{moment(record.periodo, 'DD/MM/YYYY').format('MMMM YYYY')}</div>,
+      width: 75,
     }, 
     {
       title: 'Monto',
       key: 'monto',
       sorter: (a, b) => a.monto - b.monto,
-      render: (text, record) => <div>{numeral(record.monto).format('$0,0.00')}</div>
+      render: (text, record) => <div>{numeral(record.monto).format('$0,0.00')}</div>,
+      width: 100,
     },
     
     {
       title: 'Descripción',
       key: 'descripcion',
-      dataIndex: 'descripcion'
+      dataIndex: 'descripcion',
+      width: 100,
+      ellipsis: true,
     },
     {
       title: 'Adjunto',
       key: 'adjunto',
-      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>
-      
+      render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
+      width: 150,
+      ellipsis: true,
     },
     
   ]
