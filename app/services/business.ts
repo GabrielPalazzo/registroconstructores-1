@@ -485,7 +485,7 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     }
     tramite.asignadoA = null
     tramite.supervision = {
-      supervisadoPor: getUsuario().userData().cuit,
+      supervisadoPor: getUsuario().userData(),
       supervisadoAt: new Date().getTime()
     }
     return saveTramiteService(tramite)
