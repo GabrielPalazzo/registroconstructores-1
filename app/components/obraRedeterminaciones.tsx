@@ -101,12 +101,14 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		{
 			title: 'Estado',
 			key: 'Estado',
-			render: (text, record) => <Accion redeterminacion={record} />
+			render: (text, record) => <Accion redeterminacion={record} />,
+			width: 100,
 		},
 		{
 			title: '',
 			key: 'evaluacion',
-			render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'OBSERVADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>
+			render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'OBSERVADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
+			width: 50,
 		},
 		{
 			title: '',
@@ -116,7 +118,8 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 				cargarRederteminaciones(record)
 				setModo(MODO.EDIT)
 				setRedeterminacionSeleccionada(Object.assign({}, record))
-			}}><EditOutlined /></div>: '')
+			}}><EditOutlined /></div>: ''),
+			width: 25,
 		  },
 		{
 			title: 'Eliminar',
@@ -126,28 +129,33 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			 ? <div onClick={() => eliminarDatos(record)}><DeleteOutlined /></div> : <Space size="middle">
 
 			</Space>),
+			 width: 25,
 		},
 		{
 			title: 'Fecha',
 			dataIndex: 'fecha',
 			key: 'fecha',
 			sorter: (a, b) => a.fecha - b.fecha,
+			width: 75,
 		},
 		{
 			title: 'Monto',
 			dataIndex: 'monto',
 			render: (text, record) => <div>{numeral(record.monto).format('$0,0.00')}</div>,
 			sorter: (a, b) => a.monto - b.monto,
+			width: 100,
 		},
 		{
 			title: 'Descripción',
 			dataIndex: 'descripcion',
-			key: 'descripcion'
+			key: 'descripcion',
+			width: 100,
 		},
 		{
 			title: 'Adjunto',
 			render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
 			key: 'adjunto',
+			width: 150,
 		}
 
 

@@ -46,7 +46,7 @@ export default (props) => {
    
     <div className="w-full">
       <Select
-        disabled={props.isEditable === undefined ? false : !props.isEditable|| props.locked}
+        disabled={props.isEditable === undefined ? false : !props.isEditable || props.locked}
         style={{ width: '100%' }}
         value={props.value}
         onChange={props.bindFunction}>

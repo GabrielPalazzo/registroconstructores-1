@@ -323,7 +323,7 @@ export const ObrasDatosGenerales: React.FC<ObrasDatosGeneralesProps> = ({
         title="Tipo de contratacion"
             defaultOption="Tipo de contratacion"
             labelRequired="*"
-            locked={modo === 'VIEW'}
+            locked={modo === 'VIEW' || obra.datosObra && obra.datosObra.length>0}
             labelMessageError=""
             value={tipoContratacion}
             bindFunction={(value) => { settipoContratacion(value) }}

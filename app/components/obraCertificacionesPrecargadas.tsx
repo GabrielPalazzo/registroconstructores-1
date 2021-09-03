@@ -128,17 +128,17 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       || tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? <div onClick={() => {
         cargarCertificacion(Object.assign({}, record))
       }}><EditOutlined /></div>: ''),
-      width: 5,
+      width: 25,
      
     },
 
     {
-      title: 'Eliminar',
+      title: '',
       key: 'delete ',
       render: (text, record) => (tramite && tramite.status === 'BORRADOR' || tramite && tramite.status  === 'OBSERVADO' && record.status !=="APROBADA"
       || tramite && tramite.status  === 'OBSERVADO' && record.status === 'OBSERVADA' ? 
       <div onClick={() => borrarPeriodo(record)}><DeleteOutlined /></div> : ''),
-      width: 5,
+      width: 25,
      
     },
     {

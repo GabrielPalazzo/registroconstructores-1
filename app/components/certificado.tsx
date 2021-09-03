@@ -25,6 +25,11 @@ export interface CertificadoProps {
 
 let columns = [
   {
+    title: 'Fecha Adj.',
+    render: (text,record: DDJJObra)  => <div> {record.datosObra[0].fechaAdjudicacion}</div>,
+    key: 'id',
+  },
+  {
     title: 'Estado',
     render: (text,record: DDJJObra)  => <div> {record.datosObra[0].estado}</div>,
     key: 'id',

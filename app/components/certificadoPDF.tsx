@@ -1426,6 +1426,17 @@ export default (props) => {
 
 
         <View style={styles.sectionContentTable} >
+        <View style={styles.sectionContentTableColumnBorder}  >
+
+<Text style={styles.sectionEtiquetaTable}>Estado</Text>
+{props.certificado.tramite.ddjjObras.filter(o =>
+  o.status && o.status === 'APROBADA' || o.status && o.status === 'SUPERVIZADA').filter(
+    (o: DDJJObra) => _.includes(['Preadjudicada', 'Adjudicada', 'Ejecucion'],
+      o.datosObra && o.datosObra[0].estado)).map((o: DDJJObra) => <Text style={{ margin: 5 }}  >{o.datosObra[0].estado}</Text>)}
+
+
+
+</View>
 
           <View style={styles.sectionContentTableColumnBorder}  >
 

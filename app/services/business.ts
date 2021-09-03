@@ -1,3 +1,4 @@
+import { getTimeProps } from 'antd/lib/date-picker/generatePicker'
 import axios from 'axios'
 import * as jwt from "jsonwebtoken"
 import _ from 'lodash'
@@ -447,6 +448,10 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
 
   }
 
+  
+  
+  
+
 
   if (tramite.status === 'PENDIENTE DE REVISION' && getUsuario().isBackOffice()) {
     tramite.status = 'A SUPERVISAR'
@@ -479,6 +484,10 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
       //tramite.revisiones=[]
     }
     tramite.asignadoA = null
+    tramite.supervision = {
+      supervisadoPor: getUsuario().userData().cuit,
+      supervisadoAt: new Date().getTime()
+    }
     return saveTramiteService(tramite)
   }
 
