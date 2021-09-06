@@ -451,6 +451,7 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
   
   
   
+  
 
 
   if (tramite.status === 'PENDIENTE DE REVISION' && getUsuario().isBackOffice()) {
@@ -466,7 +467,8 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
 
   if (tramite.status === 'OBSERVADO' && getUsuario().isConstructor()) {
     tramite.status = 'SUBSANADO'
-    tramite.asignadoA = null
+    tramite.asignadoA = tramite.supervision && tramite.supervision.supervisadoPor ? tramite.supervision.supervisadoPor : null
+   
     return saveTramiteService(tramite)
   }
 
@@ -479,6 +481,10 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
   if (tramite.status === 'A SUPERVISAR' && getUsuario().isSupervisor()) {
     if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
       tramite.status = 'OBSERVADO'
+      tramite.supervision = {
+        supervisadoPor: getUsuario().userData(),
+        supervisadoAt: new Date().getTime()
+      }
     } else {
       tramite.status = 'PENDIENTE DE APROBACION'
       //tramite.revisiones=[]

@@ -51,7 +51,7 @@ export const saveTramite = (tramite: TramiteAlta) => async (dispatch, getState) 
  //     tramite.revisiones.push(revisionTramite)
  // }
   if(tramite.revisiones){
-    tramite.revisiones[0] = revisionTramite
+     tramite.revisiones[0] = revisionTramite
   }
        
   const t = await saveTramiteService(tramite)
