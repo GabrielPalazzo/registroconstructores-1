@@ -1426,6 +1426,7 @@ export default (props) => {
 
 
         <View style={styles.sectionContentTable} >
+          
         <View style={styles.sectionContentTableColumnBorder}  >
 
 <Text style={styles.sectionEtiquetaTable}>Estado</Text>

@@ -133,10 +133,24 @@ export default (props) => {
 
             }
           >
-            <p>Se recuerda que la información antes solicitada en los distintos formularios de este trámite, y lo consignado por el interesado y/o sus representantes, revisten carácter de Declaración Jurada. Dichos formularios deberán ser completados según lo establecido por Disposición DI-2021-3-APN-ONC#JGM, y ante cualquier faltante u omisión se aplicará lo allí dispuesto, pudiendo cierta información no ser subsanable.
-            Normativa e instructivos:
-<a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores" target="_blank">https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores</a>
-            </p>
+            <p>Se recuerda que la información antes solicitada en los distintos formularios de este trámite, y lo consignado por el interesado y/o sus representantes, revisten carácter de Declaración Jurada. Dichos formularios deberán ser completados según lo establecido por Disposición DI-2021-3-APN-ONC#JGM,
+               y ante cualquier faltante u omisión se aplicará lo allí dispuesto, pudiendo cierta información no ser subsanable. Normativa e instructivos: 
+               <a href="https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores" target="_blank">https://www.argentina.gob.ar/jefatura/innovacion-publica/onc/registro-nacional-de-constructores</a>
+  
+</p><p>
+La confirmación y envío del trámite presume que el interesado y/o sus representantes se han informado y sus declaraciones juradas cumplen con lo dispuesto en el reglamento mencionado
+</p><p>
+<strong>SE RECUERDA:</strong>
+</p><p>
+La presentación del balance del último ejercicio cerrado deberá realizarse dentro de los SEIS (6) meses, contados a partir de la fecha de cierre del mismo.
+</p><p>
+<strong>ACTUALIZACIÓN / PRE ADJUDICACIONES / ADJUDICACIONES</strong><br/>
+Cualquier trámite de actualización, ya sea por la Actualización anual, general y obligatoria, como así también para declarar una Pre Adjudicación o Adjudicación de Obra, implica que el interesado deba actualizar su Declaración Jurada de Obras por completo. Es decir:
+</p><ul>
+<ol>Actualizar las obras en ejecución, pre adjudicadas y adjudicadas, ya declaradas con anterioridad, y cargar sus avances correspondientes.</ol>
+<ol>Declarar nuevas obras finalizadas o en ejecución, en las que se haya o se encuentre trabajando con posterioridad a lo consignado en la última actualización aprobada, y no se encuentren declaradas al momento de solicitar esta nueva actualización.</ol>
+<ol>No se considerarán, a los efectos de la determinación de la Capacidad Económica Financiera Referencial, todo antecedente y/o avance de obra que no hubiese sido declarado oportunamente.</ol>
+          </ul>
             <p>
               La confirmación y envío del trámite presume que el interesado y/o sus representantes se han informado y sus declaraciones juradas cumplen con lo dispuesto en el reglamento mencionado
 </p>

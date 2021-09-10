@@ -590,7 +590,7 @@ export default () => {
       return
     }
 
-    if ((pasivoCorriente + pasivoNoCorriente) === 0) {
+    if ((pasivoCorriente + pasivoNoCorriente) < 0) {
       setError('El pasivo tiene que  ser mayor a 0')
       return
     }
@@ -702,7 +702,10 @@ export default () => {
 
         </div>
         <div className="mb-4 mt-4">
-          <Alert message="El interesado deberá declarar sus balances según lo establecido en la DI-2021-3- APN-ONC#JGM, artículos 11,12 y anexo al artículo 4 de dicha disposición" type="info" />
+          <Alert message="El interesado deberá declarar sus balances según lo establecido en la DI-2021-3- APN-ONC#JGM, artículos 11,12 y anexo al artículo 4 de dicha disposición
+Deberán declararse, como mínimo, los Balances correspondientes a los últimos 5 Ejercicios Económicos cerrados. En caso de que, por la antigüedad de la empresa, se posea menos Ejercicios cerrados, declarará los Balances de todos.
+Si se consignan antecedentes de obras, de los que se haya certificado y facturado en Ejercicios Económicos anteriores a los ya declarados, se deberá informar y adjuntar los Balances correspondientes, de forma consecutiva, sin obviar la declaración de Ejercicios Económicos intermedios.
+La presentación del balance del último ejercicio cerrado deberá realizarse dentro de los SEIS (6) meses, contados a partir de la fecha de cierre del mismo." type="info" />
         </div>
 
         <div>

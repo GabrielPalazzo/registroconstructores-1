@@ -128,20 +128,25 @@ export default (props) => {
       <div className="flex w-3/4">
         <div >
         
-          <label className={props.isTitle  ? 'text-2xl font-bold py-4' : 'font-bold text-muted-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
-        </div>
-
-       { getReviewText() && tramite.status==='OBSERVADO'  || getReviewText() && !user.isConstructor() && tramite.status !=='BORRADOR' ?<div className="pl-2">
+         
+          { getReviewText() && tramite.status==='OBSERVADO'  || getReviewText() && !user.isConstructor() && tramite.status !=='BORRADOR' ?<div className="">
+          <label className={props.isTitle  ? 'text-2xl text-danger-700 font-bold py-4' : 'font-bold text-danger-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">   {props.labelRequired}
           {customColors.map(color => (
             <Tooltip
               title={getReviewText()}
               placement="right"
               color={color}
               key={color}>
-              <InfoCircleTwoTone twoToneColor="#f9a822" />
+               <p>OBSERVADO  <InfoCircleTwoTone twoToneColor="#f9a822" className="pl-2 text-xl" /></p>
             </Tooltip>
           ))}
-        </div>: ''} 
+           </span></label>
+        </div>:  <label className={props.isTitle  ? 'text-2xl font-bold py-4' : 'font-bold text-muted-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">   {props.labelRequired}  </span></label>
+         } 
+         
+        </div>
+
+       
       </div>
 
       {

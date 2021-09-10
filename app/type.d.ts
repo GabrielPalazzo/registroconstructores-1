@@ -374,7 +374,7 @@ type TramiteAlta = {
         fecha: string
         archivos: Array<Archivo>
       }
-      ultimaModificacion : {
+      ultimaModificacion:{
         datos: string
         fecha: string
         archivos: Array<Archivo>

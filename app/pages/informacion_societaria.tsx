@@ -64,7 +64,6 @@ export default () => {
   const [observaciones, setObservaciones] = useState('')
   const [fotosDNIAutoridades, setFotosDNIAutoridades] = useState([])
   const [autoridadesSociedad, setAutoridadesSociedad] = useState([])
-
   const [inversionesPermanentes, setInversionesPermanentes] = useState([])
 
   const [cuitSistemaCalidad, setCuitSistemaCalidad] = useState('')
@@ -522,6 +521,15 @@ export default () => {
   }
 
   const agregarUltimaModificacion = async () => {
+    if (!tramite.datosSocietarios.sociedadAnonima.ultimaModificacion)
+
+    
+    
+  updateObjTramite()
+  await save()
+  setIsLoading(false)
+  clearState()
+
 
 
 
@@ -1278,7 +1286,7 @@ export default () => {
                   labelMessageError=""
                   value={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.fecha}
                   bindFunction={value => {
-                    tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.datos = value
+                    tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.fecha = value
                     updateObjTramite()
                   }}
                 />
@@ -2027,11 +2035,11 @@ export default () => {
                   }}
                 />
               </div>
-             {/*
+             
             <div className="mt-8 ">
-              <Button type="primary" icon={<PlusOutlined />}> Agregar</Button>
+              <Button type="primary" onClick={agregarUltimaModificacion} icon={<PlusOutlined />}> Agregar</Button>
             </div>
- */}
+ 
             </div>
           </Wrapper>
           <Table columns={columnsModificacionEstatuto}
@@ -2317,9 +2325,7 @@ export default () => {
         <div className="grid grid-cols-1 mb-4 mt-4  ">
           <Wrapper title={isPersonaFisica(tramite) ? "Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1." : "Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b."} attributeName="siIeric" >
             <div className="">
-
-           
-              <Switch
+            <Switch
                 value={tramite.poseeIERIC}
                 onChange={value => {
                   tramite.poseeIERIC = value
@@ -2333,6 +2339,7 @@ export default () => {
                 labeltooltip=""
                 labelMessageError=""
               /></div>
+
 
 
           </Wrapper>

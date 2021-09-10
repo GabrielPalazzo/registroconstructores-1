@@ -1090,7 +1090,12 @@ export default () => {
 
         </div>
         <div className="mb-4 mt-8">
-          <Alert message="El interesado deberá declarar sus antecedentes de ejecución de Obras según lo establecido en el artículo 11 de la DI-2021-3-APN-ONC#JGM" type="info" />
+          <Alert message="El interesado deberá declarar sus antecedentes de ejecución de Obras según lo establecido en el artículo 11 de la DI-2021-3-APN-ONC#JGM
+
+INSCRIPCIONES: Se requieren, como mínimo, la declaración de los antecedentes de los últimos 5 ejercicios cerrados, y los posteriores, incluyendo los compromisos actuales, obras pre adjudicadas, adjudicadas y/o en ejecución, y su avance hasta el día de la fecha del inicio del trámite. Podrán declarar como máximo los antecedentes de los últimos 10 ejercicios.
+
+ACTUALIZACIONES: Deberá actualizarse la Declaración Jurada al día de la fecha del inicio del trámite. Aplicará también para el caso en que se realice la actualización por nuevas obras Pre Adjudicadas o Adjudicadas. Con posterioridad a lo consignado en el último trámite realizado ante este Registro, deberá declararse todo avance de obras ya declaradas anteriormente, como así también todo compromiso asumido, finalizado o en curso, hasta el día de la fecha.
+No se considerarán, a los efectos de la determinación de la Capacidad Económica Financiera Referencial, todo antecedente y/o avance de obra que no hubiese sido declarado oportunamente." type="info" />
         </div>
         <div>
           <Tabs defaultActiveKey="1" onChange={callback} style={{ marginLeft: "0px" }}>
@@ -1100,7 +1105,7 @@ export default () => {
                   <Table
                     columns={columns}
                     dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA' || determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'DESESTIMADA' || determinarEstadoObra(o) === 'SUPERVIZADA')}
-                    pagination={{ pageSize: 20 }}
+                    pagination={{ pageSize: 100 }}
                     scroll={{ x: 1500 }}
                     locale={{
                       emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -1116,7 +1121,7 @@ export default () => {
                     columns={columns}
                     scroll={{ x: 1500 }}
                     dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'SUPERVIZADA' || determinarEstadoObra(o) === 'DESESTIMADA' )}
-                    pagination={{ pageSize: 20 }}
+                    pagination={{ pageSize: 100 }}
                     locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
               </div>
             </TabPane>

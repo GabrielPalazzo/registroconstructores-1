@@ -129,22 +129,22 @@ export default (props) => {
 		</Modal>
 		<div className="flex ">
 			<div className="flex w-3/4">
-				<div  >
 
-					<label className={props.isTitle ? 'text-2xl font-bold py-4' : 'font-bold text-muted-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">{props.labelRequired}</span></label>
-				</div>
-
-				{ getReviewText() && <div className="pl-2">
-					{customColors.map(color => (
-						<Tooltip
-							title={getReviewText()}
-							placement="right"
-							color={color}
-							key={color}>
-							<InfoCircleTwoTone twoToneColor="#f9a822" />
-						</Tooltip>
-					))}
-				</div>}
+				{ getReviewText()   ? <div className="">
+          <label className={props.isTitle  ? 'text-2xl text-danger-700 font-bold py-4' : 'font-bold text-danger-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">   {props.labelRequired}
+          {customColors.map(color => (
+            <Tooltip
+              title={getReviewText()}
+              placement="right"
+              color={color}
+              key={color}>
+              <p className="text-xs">OBSERVADO  <InfoCircleTwoTone twoToneColor="#f9a822" className="pl-2 text-xl" /> </p>
+            </Tooltip>
+          ))}
+           </span></label>
+        </div>:  <label className={props.isTitle  ? 'text-2xl font-bold py-4' : 'font-bold text-muted-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">   {props.labelRequired}  </span></label>
+         } 
+				
 			</div>
 			{!getUsuario().isConstructor() &&  tramite.asignadoA && tramite.categoria!=='INSCRIPTO'  ? 
 				<div className="justify-end w-2/5">
