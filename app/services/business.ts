@@ -71,10 +71,10 @@ export const getTramiteByID = (_id: string): Promise<TramiteAlta> => {
   })
 }
 
-export const getCertificados = (cuit: string): Promise<any> => {
+export const getCertificados = (cuit: string , token: string = null): Promise<any> => {
   return axios.get(`/api/certificado?cuit=${cuit}`, {
     headers: {
-      Authorization: 'Bearer ' + getToken()
+      Authorization: 'Bearer ' + token || getToken() 
     }
   }).then((t) => {
     return t.data.certificados

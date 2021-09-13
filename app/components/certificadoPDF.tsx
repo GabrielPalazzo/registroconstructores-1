@@ -1430,7 +1430,8 @@ export default (props) => {
           <View style={styles.sectionContentTableColumnBorder}  >
 
             <Text style={styles.sectionEtiquetaTable}>Estado</Text>
-            {props.certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA' || o.status && o.status === 'SUPERVIZADA').filter((o: DDJJObra) => _.includes(['Preadjudicada', 'Adjudicada', 'Ejecucion'], o.datosObra && o.datosObra[0].estado)).map((o: DDJJObra) => <Text style={{  margin: 5, alignItems:'flex-end' , textAlign:'center', alignContent:'space-between' }}  >{o.datosObra[0].estado}</Text>)}
+            {props.certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA' || o.status && o.status === 'SUPERVIZADA').filter((o: DDJJObra) => _.includes(['Preadjudicada', 'Adjudicada', 'Ejecucion'], o.datosObra && o.datosObra[0].estado)).map((o: DDJJObra) => 
+            <Text style={{  margin: 5, alignItems:'flex-end' }}  >{o.datosObra[0].estado}</Text>)}
           </View>
 
           <View style={styles.sectionContentTableColumnBorder3}  >
@@ -1439,7 +1440,7 @@ export default (props) => {
             {props.certificado.tramite.ddjjObras.filter(o =>
               o.status && o.status === 'APROBADA' || o.status && o.status === 'SUPERVIZADA').filter(
                 (o: DDJJObra) => _.includes(['Preadjudicada', 'Adjudicada', 'Ejecucion'],
-                  o.datosObra && o.datosObra[0].estado)).map((o: DDJJObra) => <Text style={{ margin: 5, alignItems:'flex-end' , textAlign:'center', alignContent:'space-between' }}  >{o.datosObra[0].fechaAdjudicacion}</Text>)}
+                  o.datosObra && o.datosObra[0].estado)).map((o: DDJJObra) => <Text style={{ margin: 5, alignItems:'flex-end'  }}  >{o.datosObra[0].fechaAdjudicacion}</Text>)}
 
 
 
@@ -1458,7 +1459,7 @@ export default (props) => {
                 (o: DDJJObra) => _.includes(['Preadjudicada', 'Adjudicada', 'Ejecucion'],
                   o.datosObra ? o.datosObra[0].estado : '')).map((o: DDJJObra) =>
 
-                    <Text style={{ margin: 5, alignItems:'flex-end' , textAlign:'center', alignContent:'space-between' }}  >{o.razonSocialComitente}</Text>
+                    <Text style={{ margin: 5, alignItems:'flex-end'  }}  >{o.razonSocialComitente}</Text>
                   )}
           </View>
           <View style={styles.sectionContentTableColumnBorder3}  >
@@ -1477,7 +1478,8 @@ export default (props) => {
             <Text style={styles.sectionEtiquetaTable}>Monto Vigente</Text>
             {props.certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA'
               || o.status && o.status === 'SUPERVIZADA').filter((o: DDJJObra) => _.includes(
-                ['Preadjudicada', 'Adjudicada', 'Ejecucion'], o.datosObra && o.datosObra[0].estado)).map((o: DDJJObra) => <Text style={{ margin: 5, alignItems:'flex-start' }} >{numeral(o.montoInicial).format('$0,0.00')}</Text>)}
+                ['Preadjudicada', 'Adjudicada', 'Ejecucion'], o.datosObra && o.datosObra[0].estado)).map((o: DDJJObra) =>
+                 <Text style={{ margin: 5, alignItems:'flex-start' }} >{numeral(o.montoInicial).format('$0,0.00')}</Text>)}
           </View>
           <View style={styles.sectionContentTableColumnBorder3}  >
             <Text style={styles.sectionEtiquetaTable}>Saldo</Text>

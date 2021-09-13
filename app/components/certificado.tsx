@@ -20,7 +20,8 @@ export interface CertificadoProps {
   capacidadEjecucion?: number,
   obras?: Array<DDJJObra>,
   porcentajesEspecialidades?: Array<any>,
-  tramite?:TramiteAlta
+  tramite?:TramiteAlta,
+  token?: string
 }
 
 let columns = [
@@ -75,7 +76,8 @@ export const Certificado: React.FC<CertificadoProps> = ({
   capacidadEjecucion=0,
   obras= [],
   porcentajesEspecialidades= [],
-  tramite=null
+  tramite=null,
+  token=null
 }) => {
 
   const [certificado, setCertificado] = useState<CertificadoCapacidad>(null)
@@ -95,7 +97,7 @@ export const Certificado: React.FC<CertificadoProps> = ({
     (async () => {
   
       if (!tramite && !certificado) {
-        const certificados: Array<CertificadoCapacidad> = await getCertificados(cuit)
+        const certificados: Array<CertificadoCapacidad> = await getCertificados(cuit, token)
         setCertificado(_.last(certificados))
       } else if (tramite) {
         const certGen = await generar()
