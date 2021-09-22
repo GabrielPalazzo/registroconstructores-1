@@ -115,7 +115,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       title: '',
       key: 'evaluacion',
       render: (text, record) => <Tooltip title={record.observacionRegistro}>
-        <div>{record.status === 'OBSERVADA' ? 
+        <div> { getUsuario().isConstructor() && tramite.status==='OBSERVADO'  && record.status === 'OBSERVADA' || !getUsuario().isConstructor()  && record.status === 'OBSERVADA' ? 
         <DislikeFilled style={{ color: '#F9A822' }} /> : 
         <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
         with:100,

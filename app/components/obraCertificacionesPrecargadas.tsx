@@ -50,6 +50,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
   const [motivoRechazo, setMotivoRechazo] = useState('')
   const [observacionRegistro,setObservacionRegistro] =  useState('')
   const [certificadoSeleccionado, setCertificadoSeleccionado] = useState(null)
+  const [user, setUser]= useState(null)
   const borrarPeriodo = (p) => {
     // setPeriodos(Object.assign([], periodos.filter(v => v.codigo !== p.codigo)))
     obra.certificaciones = Object.assign([], obra.certificaciones.filter(v => v.codigo !== p.codigo))
@@ -111,7 +112,7 @@ export const CertificacionesPrecargadas: React.FC<CertificacionesPrecargadasProp
       title: '',
       key: 'evaluacion',
       render: (text, record) => <div>
-        {record.status === 'OBSERVADA' ? 
+        { getUsuario().isConstructor() && tramite.status==='OBSERVADO'  && record.status === 'OBSERVADA' || !getUsuario().isConstructor()  && record.status === 'OBSERVADA' ? 
       <Tooltip title={record.observacionRegistro}>
         <div>
         <DislikeFilled style={{ color: '#F9A822' }} />

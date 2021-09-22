@@ -905,7 +905,7 @@ export default () => {
         editarObrar(Object.assign({}, record))
       }} className="cursor-pointer"><EditOutlined /></div> : <div onClick={() => {
         setModo(MODO.VIEW)
-        console.log(record)
+        console.log(MODO)
         editarObrar(Object.assign({}, record))
       }} className="cursor-pointer"><CloudDownloadOutlined /></div>),
     
@@ -1090,12 +1090,12 @@ export default () => {
 
         </div>
         <div className="mb-4 mt-8">
-          <Alert message="El interesado deberá declarar sus antecedentes de ejecución de Obras según lo establecido en el artículo 11 de la DI-2021-3-APN-ONC#JGM
-
+           <div className="mb-4 mt-4 divAlert p-2" >El interesado deberá declarar sus antecedentes de ejecución de Obras según lo establecido en el artículo 11 de la DI-2021-3-APN-ONC#JGM
+<br/>
 INSCRIPCIONES: Se requieren, como mínimo, la declaración de los antecedentes de los últimos 5 ejercicios cerrados, y los posteriores, incluyendo los compromisos actuales, obras pre adjudicadas, adjudicadas y/o en ejecución, y su avance hasta el día de la fecha del inicio del trámite. Podrán declarar como máximo los antecedentes de los últimos 10 ejercicios.
-
+<br/>
 ACTUALIZACIONES: Deberá actualizarse la Declaración Jurada al día de la fecha del inicio del trámite. Aplicará también para el caso en que se realice la actualización por nuevas obras Pre Adjudicadas o Adjudicadas. Con posterioridad a lo consignado en el último trámite realizado ante este Registro, deberá declararse todo avance de obras ya declaradas anteriormente, como así también todo compromiso asumido, finalizado o en curso, hasta el día de la fecha.
-No se considerarán, a los efectos de la determinación de la Capacidad Económica Financiera Referencial, todo antecedente y/o avance de obra que no hubiese sido declarado oportunamente." type="info" />
+No se considerarán, a los efectos de la determinación de la Capacidad Económica Financiera Referencial, todo antecedente y/o avance de obra que no hubiese sido declarado oportunamente.</div>
         </div>
         <div>
           <Tabs defaultActiveKey="1" onChange={callback} style={{ marginLeft: "0px" }}>
@@ -1105,7 +1105,7 @@ No se considerarán, a los efectos de la determinación de la Capacidad Económi
                   <Table
                     columns={columns}
                     dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA' || determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'DESESTIMADA' || determinarEstadoObra(o) === 'SUPERVIZADA')}
-                    pagination={{ pageSize: 100 }}
+                    pagination={{ pageSize: 20 }}
                     scroll={{ x: 1500 }}
                     locale={{
                       emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -1121,7 +1121,7 @@ No se considerarán, a los efectos de la determinación de la Capacidad Económi
                     columns={columns}
                     scroll={{ x: 1500 }}
                     dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'SUPERVIZADA' || determinarEstadoObra(o) === 'DESESTIMADA' )}
-                    pagination={{ pageSize: 100 }}
+                    pagination={{ pageSize: 20 }}
                     locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
               </div>
             </TabPane>
@@ -1159,7 +1159,16 @@ No se considerarán, a los efectos de la determinación de la Capacidad Económi
         margin-top:4px;
     }
     .ant-table {font-size:12px !important}
-    `}
+    
+      .divAlert{
+        background-color: #e6f7ff;
+        border: 1px solid #91d5ff;
+        color: rgba(0,0,0,.85);
+        font-size: 14px;
+      }
+      
+      `}
+    
     </style>
 
   </div>

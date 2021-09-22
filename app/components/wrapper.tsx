@@ -137,7 +137,7 @@ export default (props) => {
               placement="right"
               color={color}
               key={color}>
-               <p>OBSERVADO  <InfoCircleTwoTone twoToneColor="#f9a822" className="pl-2 text-xl" /></p>
+               <p className="text-sm">OBSERVADO  <InfoCircleTwoTone twoToneColor="#f9a822" className="pl-2 text-xl" /></p>
             </Tooltip>
           ))}
            </span></label>

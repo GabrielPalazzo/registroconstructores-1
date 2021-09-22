@@ -100,7 +100,7 @@ export default () => {
         </div>
         </div>
     <div className="w-2/5 m-auto text-base  mt-8">
-    <Substeps progressDot current={0} esPersonaFisica={isPersonaFisica(tramite) || isPersonaExtranjera(tramite)} />
+    <Substeps progressDot current={0} esPersonaFisica={isPersonaFisica(tramite) || isPersonaExtranjera(tramite)|| !isConstructora(tramite) } />
     </div>
     
     <div className="px-8  py-6 bg-muted-100">

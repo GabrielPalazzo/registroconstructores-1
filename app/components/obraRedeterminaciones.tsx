@@ -107,7 +107,9 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 		{
 			title: '',
 			key: 'evaluacion',
-			render: (text, record) => <Tooltip title={record.observacionRegistro}><div>{record.status === 'OBSERVADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
+			render: (text, record) => 
+			<Tooltip title={record.observacionRegistro}><div>
+				 { getUsuario().isConstructor() && tramite.status==='OBSERVADO'  && record.status === 'OBSERVADA' || !getUsuario().isConstructor()  && record.status === 'OBSERVADA' ? <DislikeFilled style={{ color: '#F9A822' }} /> : <LikeFilled style={{ color: record.status && record.status === 'APROBADA' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
 			width: 50,
 		},
 		{

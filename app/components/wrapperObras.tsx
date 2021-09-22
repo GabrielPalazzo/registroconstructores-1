@@ -130,7 +130,7 @@ export default (props) => {
 		<div className="flex ">
 			<div className="flex w-3/4">
 
-				{ getReviewText()   ? <div className="">
+				{  getReviewText() && tramite.status==='OBSERVADO'  || getReviewText() && !user.isConstructor() && tramite.status !=='BORRADOR'   ? <div className="">
           <label className={props.isTitle  ? 'text-2xl text-danger-700 font-bold py-4' : 'font-bold text-danger-700 text-sm'}>{props.title}<span className="text-danger-700 ml-1">   {props.labelRequired}
           {customColors.map(color => (
             <Tooltip
@@ -138,7 +138,7 @@ export default (props) => {
               placement="right"
               color={color}
               key={color}>
-              <p className="text-xs">OBSERVADO  <InfoCircleTwoTone twoToneColor="#f9a822" className="pl-2 text-xl" /> </p>
+              <p className="text-sm">OBSERVADO  <InfoCircleTwoTone twoToneColor="#f9a822" className="pl-2 text-xl" /> </p>
             </Tooltip>
           ))}
            </span></label>

@@ -1478,8 +1478,8 @@ export default (props) => {
             <Text style={styles.sectionEtiquetaTable}>Monto Vigente</Text>
             {props.certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA'
               || o.status && o.status === 'SUPERVIZADA').filter((o: DDJJObra) => _.includes(
-                ['Preadjudicada', 'Adjudicada', 'Ejecucion'], o.datosObra && o.datosObra[0].estado)).map((o: DDJJObra) =>
-                 <Text style={{ margin: 5, alignItems:'flex-start' }} >{numeral(o.montoInicial).format('$0,0.00')}</Text>)}
+                ['Preadjudicada', 'Adjudicada', 'Ejecucion'], o.datosObra && o.datosObra[0].estado)).map((o , record: DDJJObra) =>
+                 <Text style={{ margin: 5, alignItems:'flex-start' }} >{numeral(record.montoInicial + (record.redeterminaciones.length !== 0 ? record.redeterminaciones.map(r => r.monto).reduce((acc, val) => acc += val) : 0) + (record.ampliaciones.length !== 0 ? record.ampliaciones.map(r => r.monto).reduce((val, acc) => acc = val + acc) : 0)).format('$0,0.00')}</Text>)}
           </View>
           <View style={styles.sectionContentTableColumnBorder3}  >
             <Text style={styles.sectionEtiquetaTable}>Saldo</Text>
