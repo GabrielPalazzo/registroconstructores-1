@@ -311,6 +311,7 @@ export const ObrasAmpliaciones: React.FC<ObrasAmpliacionesProps> = ({
       </div> :''}
       <div className="mt-4 ">
         <Table
+        pagination={false}
           columns={columnsAmpliaciones}
           dataSource={Object.assign([], obra.ampliaciones)}
           locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }}

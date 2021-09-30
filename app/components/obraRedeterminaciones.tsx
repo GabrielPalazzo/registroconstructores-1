@@ -325,7 +325,8 @@ export const ObrasRedeterminaciones: React.FC<ObrasRedeterminacionesProps> = ({
 			</div>
 			:''}
 			<div className="mt-4 ">
-				<Table columns={columnsRedeterminaciones}
+				<Table pagination={false}
+				 columns={columnsRedeterminaciones}
 					dataSource={Object.assign([], obra.redeterminaciones)}
 					locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }}
 					summary={pageData => {
