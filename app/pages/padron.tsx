@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { closeSession, getCertificados, getTramiteByCUIT, getUsuario, migrarCertificados, migrarEmpresa } from '../services/business'
+import { closeSession, getCertificados, getToken, getTramiteByCUIT, getUsuario, migrarCertificados, migrarEmpresa } from '../services/business'
 import { useRouter } from 'next/router'
 import { Avatar, Dropdown, Menu, Input, Table, Button, Modal } from 'antd'
 import numeral from 'numeral'
@@ -69,8 +69,10 @@ export default () => {
       key: 'Certificado',
       render: (text, record) => <div><Certificado
         cuit={record.tramite.cuit}
+        token={getToken()}
       /></div>
-    }, {
+    }, 
+    {
       title: 'Ficha',
       key: 'Ficha',
       render: (text, record) => <div><Button onClick={() => showTramite(record.tramite.cuit)}>Ver Ficha</Button></div>

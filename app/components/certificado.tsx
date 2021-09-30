@@ -97,9 +97,11 @@ export const Certificado: React.FC<CertificadoProps> = ({
     (async () => {
   
       if (!tramite && !certificado) {
+        console.log(tramite, certificado, cuit, token )
         const certificados: Array<CertificadoCapacidad> = await getCertificados(cuit, token)
         setCertificado(_.last(certificados))
       } else if (tramite) {
+
         const certGen = await generar()
         setCertificado(certGen)
       }

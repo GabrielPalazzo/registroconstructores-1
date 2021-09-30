@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Card, Divider, Drawer, Tag, Input, Collapse, Tabs, Modal, Progress, Table, Empty, Alert, message, Timeline, Tooltip } from 'antd'
 import { Space } from 'antd'
-import { eliminarBorrador, getColorStatus, rechazarTramite, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed, getEmptyObras } from '../services/business'
+import { eliminarBorrador, getColorStatus, rechazarTramite, getObservacionesTecnicoRaw, getReviewAbierta, getStatusObsParsed, getEmptyObras, getToken } from '../services/business'
 import { useDispatch } from 'react-redux'
 import { setUpdateBorrador } from '../redux/actions/main'
 import { useRouter } from 'next/router'
@@ -164,7 +164,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                 <div className="text-left pl-4">
                   <div className="flex">
                     <Certificado
-                    cuit={e.cuit} />
+                    cuit={e.cuit} 
+                    token={getToken()}/>
                   {/* 
                   {!_.isEmpty(e.rechazos) && <div className="text-left ">
                       <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
