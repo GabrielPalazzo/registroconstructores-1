@@ -243,6 +243,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                 </div>
               </div>
               <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
+              <div className="text-sm  text-black-700  "> Cuit: {e.cuit}</div>
+              <div className="text-sm  text-black-700  "> Fecha de creación: {e.createdAt}</div>
+              <div className="text-sm  text-black-700  "> Fecha de envio: {e.submitedAt}</div>
 
             </Card>
           </div>

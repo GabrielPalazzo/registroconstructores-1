@@ -307,6 +307,7 @@ export default () => {
                   <div className="text-right mt-4">
                     <Button type="primary" onClick={async () => {
                       const tramiteATrabajar = await getTramiteByID(t._id)
+                      
                       await dispatch(setTramiteView(tramiteATrabajar))
                       await dispatch(cargarUltimaRevisionAbierta(tramiteATrabajar))
                       router.push('/informacion_basica')

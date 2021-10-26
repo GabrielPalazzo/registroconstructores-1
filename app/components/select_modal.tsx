@@ -32,6 +32,7 @@ interface Props {
 
 
 export default (props) => {
+  console.log(props.locked)
 
   const tramite : TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta)
 

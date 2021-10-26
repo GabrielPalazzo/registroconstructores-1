@@ -8,6 +8,7 @@ const { Step } = Steps;
 
 export default (props) => {
   const router = useRouter()
+  console.log("executed")
 
   return <div className="m-auto text-base mt-8" style={{width:"450px"}}>
   {!props.esPersonaFisica ?

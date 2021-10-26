@@ -31,7 +31,7 @@ export default () => {
   useEffect(() => {
     const usuario = getUsuario().userData()
 
-    if (!getUsuario() || !getUsuario().isBackOffice())
+    if (!getUsuario() || !getUsuario().isBackOffice() )
       router.push('/login')
     else
       setAllowed(true)
@@ -56,7 +56,7 @@ export default () => {
 
 
   const showTramite = async (cuit) => {
-    const tramite = await getTramiteByCUIT(cuit)
+    const tramite = await getTramiteByCUIT(cuit) 
     dispatch(setTramiteView(tramite))
     dispatch(cargarUltimaRevisionAbierta(tramite))
     router.push('/informacion_basica')

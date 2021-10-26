@@ -163,7 +163,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
           {activeProfile2 && activeProfile2.rechazos.map(e => <div><Timeline.Item>{e.motivo}</Timeline.Item></div>)}
 
           {reviewAbierta &&
-            <div> {reviewAbierta.map(r => <Timeline.Item> {r.review}</Timeline.Item>)}</div>
+            <div> {reviewAbierta.map(r => <Timeline.Item> {r.field}: {r.review}</Timeline.Item>)}</div>
 
 
           }
@@ -186,6 +186,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     <div className="flex px-4 pt-4 py-2">
       <Logo />
       <div className="pl-4 uppercase text-muted-700 align-middle pt-1 text-sm font-bold pb-4  ">{tramite.razonSocial}</div>
+      <div className="pl-4 uppercase text-muted-700 align-middle pt-1 text-sm font-bold pb-4  ">cuit:{tramite.cuit}</div>
     </div>
 
     <div className="flex text-sm font-bold text-info-700 pr-6 text-right py-4 cursor-pointer">
