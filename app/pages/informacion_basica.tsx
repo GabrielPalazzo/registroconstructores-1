@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { HeaderPrincipal } from '../components/header'
 import { NavigationStep } from '../components/steps'
-import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox, Alert, Empty, message, Popconfirm } from 'antd';
+import { Input, Table, Space, Steps, Card, Select, Radio, Button, Modal, Checkbox, Alert, Empty, message, Popconfirm, Tooltip } from 'antd';
 import LikeDislike from '../components/like_dislike'
 
 import { Router, useRouter } from 'next/router'
 import DatePicker from '../components/datePicker'
-import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined, FolderViewOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined, CloudDownloadOutlined, FolderViewOutlined,  DislikeFilled,LikeFilled } from '@ant-design/icons';
 import { InputText } from '../components/input_text'
 import InputTextModal from '../components/input_text_modal'
 import SelectMultiple from '../components/select_multiple'
@@ -16,7 +16,7 @@ import RadioGroup from '../components/radioGroup'
 import SelectModal from '../components/select_modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { saveTramite } from '../redux/actions/main'
-import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isInReview, isPersonaFisica, isTramiteEditable, allowGuardar } from '../services/business';
+import { getEmptyTramiteAlta, getReviewAbierta, getTramiteByCUIT, getUsuario, isConstructora, isInReview, isPersonaFisica, isTramiteEditable, allowGuardar,getCodigoObra } from '../services/business';
 import { Loading } from '../components/loading';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
 import { TomarTramite } from '../components/tomarTramite';
@@ -26,7 +26,7 @@ import _ from 'lodash'
 import dynamic from 'next/dynamic'
 import { RootState } from '../redux/store';
 const Upload = dynamic(() => import('../components/upload'))
-
+const { TextArea } = Input
 
 const { Option } = Select;
 function confirm(e) {
@@ -39,6 +39,9 @@ function cancel(e) {
   message.error('Ha cancelado la operacion');
 }
 
+function onChange(pagination, filters, sorter, extra) {
+  console.log('params', pagination, filters, sorter, extra);
+}
 
 
 const renderNoData = () => {
@@ -75,7 +78,7 @@ export default (props) => {
   const tramiteSesion: TramiteAlta = useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta()
   const [tramite, setTramite] = useState<TramiteAlta>(useSelector((state: RootState) => state.appStatus.tramiteAlta) || getEmptyTramiteAlta())
   const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
-  const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion)
+  const tipoAccion: string = useSelector((state: RootState) => state.appStatus.tipoAccion)  || 'SET_TRAMITE_NUEVO'
   const [nombre, setNombre] = useState(' ')
   const [apellido, setApellido] = useState('')
   const [email, setEmail] = useState('')
@@ -107,8 +110,15 @@ export default (props) => {
 
   const [aceptaTerminosYCondiciones, setAceptTerminosYCondiciones] = useState(false)
 
+  const [apoderadosSeleccionado, setApoderadosSeleccionado] = useState(null)
+  const [motivoRechazo, setMotivoRechazo] = useState('')
+  const [showMotivoRechazo, setShowMotivoRechazo] = useState(false)
+  
+
+
+ 
   useEffect(() => {
-    if (!tramite.cuit && !tipoAccion)
+    if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO' )
       router.push('/')
 
     setUsuario(getUsuario())
@@ -180,8 +190,14 @@ export default (props) => {
       setShowError(true)
       return
     }
+
+   
+    
+
     if (!tramite.apoderados)
           tramite.apoderados = []
+          
+    const errores = []
 
     tramite.apoderados && tramite.apoderados.push({
       imagenesDni: [],
@@ -196,10 +212,11 @@ export default (props) => {
       fotosDNI: fotosDNIApoderado,
       actaAutoridades: actaAutoridadesApoderado,
       actaAdminLegitimado: actaAdminLegitimado,
+      codigo:getCodigoObra()
     })
-    save()
+    await save()
     setVisible(false)
-
+    setTramite(Object.assign({}, tramite))
     clearState()
   }
 
@@ -223,16 +240,18 @@ export default (props) => {
     setWaitingType('sync')
     setIsLoading(true)
     if (tramite._id) {
-      await dispatch(saveTramite(tramite))
+      await dispatch(saveTramite(Object.assign({}, tramite)))
     } else {
       if (!(await getTramiteByCUIT(tramite.cuit)))
-        await dispatch(saveTramite(tramite))
+         await dispatch(saveTramite(Object.assign({}, tramite)))
     }
     setIsLoading(false)
 
 
   }
 
+
+ 
 
   const removeApoderadoFromList = (record: Apoderado) => {
     tramite.apoderados = tramite.apoderados.filter((a: Apoderado) => a.cuit !== record.cuit)
@@ -254,7 +273,65 @@ export default (props) => {
     setActaAdminLegitimado(r.actaAdminLegitimado)
     setEsAdministradorLegitimado(r.esAdministrador)
   }
-  const columns = [
+
+
+  for (let index=0; index <tramite.apoderados.length;index++ ) {
+    if (!tramite.apoderados[index].codigo)
+      tramite.apoderados[index].codigo = getCodigoObra()
+  }
+
+  const Accion = ({usuarioApoderado}) => {
+    if ((!tramite.asignadoA) || (!getUsuario().isConstructor() && tramite.asignadoA && tramite.asignadoA.cuit !== getUsuario().userData().cuit))
+      return <div>{usuarioApoderado.status && usuarioApoderado.status ? usuarioApoderado.status : 'SIN EVALUAR'}</div>
+
+    return <div>
+      <Select
+        value={usuarioApoderado.status}
+        onChange={e => {
+          setApoderadosSeleccionado(usuarioApoderado)
+          console.log(apoderadosSeleccionado)
+          if (e === 'OBSERVADO'){
+           setShowMotivoRechazo(true)
+           
+          }
+          else{
+            const idx = _.findIndex(tramite.apoderados, c => { return c.codigo === usuarioApoderado.codigo })
+            tramite.apoderados[idx] = {
+              ...tramite.apoderados[idx],
+              status: e as any
+            }
+           
+          }
+          setTramite(Object.assign({}, tramite))
+          save()
+          
+         }}style={{ width: 150 }} >
+        <Option key='APROBADO' value='APROBADO'>APROBADO</Option>
+        <Option key='OBSERVADO' value='OBSERVADO'>OBSERVADO</Option>
+       </Select>
+    </div>
+  }
+
+  const updateObjTramite = () => {
+    setTramite(Object.assign({}, tramite))
+  }
+  
+  let columns = [
+
+    {
+      title: 'Estado',
+      key: 'Estado',
+      render: (text, record) => <Accion usuarioApoderado={record} />
+    },
+    {
+      title: '',
+      key: 'evaluacion',
+      render: (text, record) => <Tooltip title={record.observacionRegistro}>
+        <div>{record.status === 'OBSERVADO' ? 
+        <DislikeFilled style={{ color: '#F9A822' }} /> : 
+        <LikeFilled style={{ color: record.status && record.status === 'APROBADO' ? '#2E7D33' : '#9CA3AF' }} />}</div></Tooltip>,
+        with:100,
+    },
     {
       title: 'Eliminar',
       key: 'action',
@@ -313,6 +390,8 @@ export default (props) => {
 
 
   ]
+  columns = getUsuario().isConstructor() ? columns.slice(1, columns.length ) : [columns[0], columns[1], columns[2], columns[3],  columns[4], columns[5], columns[6], columns[7], columns[8]]
+
 
 
 
@@ -342,9 +421,8 @@ export default (props) => {
     save()
   }
 
-  const updateObjTramite = () => {
-    setTramite(Object.assign({}, tramite))
-  }
+  
+
 
   const renderApoderadosSection = () => {
     return (<div>
@@ -574,6 +652,28 @@ export default (props) => {
       save()
       router.push('/')
     }} />
+
+<Modal
+      visible={showMotivoRechazo}
+      onCancel={() => setShowMotivoRechazo(false)}
+      onOk={(e) => {
+        const idx = _.findIndex(tramite.apoderados, c => { return c.codigo === apoderadosSeleccionado.codigo })
+
+        tramite.apoderados[idx] = {
+          ...tramite.apoderados[idx],
+          status: 'OBSERVADO',
+          observacionRegistro: motivoRechazo
+        }
+        setShowMotivoRechazo(false)
+        setMotivoRechazo('')
+        setTramite(Object.assign({}, tramite))
+        save()
+      }}
+
+    >
+      <p>Por favor, indique el motivo de rechazo o desestimación</p>
+      <TextArea value={motivoRechazo} onChange={e => setMotivoRechazo(e.target.value)}></TextArea>
+    </Modal>  
     <div className="border-gray-200 border-b-2 flex ">
       <div className="px-20 pt-2 w-3/4">
       <NavigationStep
