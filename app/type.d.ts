@@ -250,6 +250,7 @@ type TramiteAlta = {
   }>
   categoria: 'PRE INSCRIPTO' | 'INSCRIPTO' | 'DESACTUALIZADO' | 'INSCRIPTO CON ACTUALIZACION'
   status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION" | "A SUPERVISAR" | "SUBSANADO" | "PENDIENTE DE APROBACION" | "EN REVISION"
+  subCategoria: 'ACTUALIZACION' | 'INSCRIPCION'
   rechazos:Array<{
     rechazadoPor: Usuario
     fecha: number
@@ -377,11 +378,11 @@ type TramiteAlta = {
         fecha: string
         archivos: Array<Archivo>
       }
-      ultimaModificacion:Array<{
+      ultimaModificacion:{
         datos: string
         fecha: string
         archivos: Array<Archivo>
-      }>
+      }
     }
     ute: {
       archivosContrato: Array<Archivo>

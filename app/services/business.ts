@@ -162,6 +162,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
     documentoConyugue: '',
     status: 'BORRADOR',
     categoria: 'PRE INSCRIPTO',
+    subCategoria: 'INSCRIPCION',
     tipoEmpresa: [],
     vtoIeric: '',
     archivoIERIC: [],
@@ -606,6 +607,7 @@ export const cambiarADesActualizado = async (tramite: TramiteAlta): Promise<Tram
   
   delete tramite["_id"]
   tramite.categoria = 'DESACTUALIZADO'
+  tramite.subCategoria ='ACTUALIZACION'
   tramite.status = 'BORRADOR'
   //await saveTramiteService(tramite)
   return tramite = await saveTramiteService(tramite)

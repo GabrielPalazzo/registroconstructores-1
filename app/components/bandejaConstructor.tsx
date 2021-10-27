@@ -227,6 +227,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   <Tooltip title="Estado de la Inscripción">
                     <Tag >{e.categoria}</Tag>
                   </Tooltip>
+                  
                   <Tooltip title="Estado de la Trámite">
                     <Tag color={getColorStatus(e)}>{e.status}</Tag>
                   </Tooltip>
@@ -246,7 +247,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
               <div className="text-sm  text-black-700  "> Cuit: {e.cuit}</div>
               <div className="text-sm  text-black-700  "> Fecha de creación: {e.createdAt}</div>
               <div className="text-sm  text-black-700  "> Fecha de envio: {e.submitedAt}</div>
-
+              <div className="text-sm  text-black-700  ">Tipo de trámite:<span className="text-sm  font-bold text-black-700   "> {e.subCategoria}</span></div>
             </Card>
           </div>
         ))}
