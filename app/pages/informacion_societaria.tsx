@@ -90,10 +90,9 @@ export default () => {
   const statusGeneralTramite = useSelector((state: RootState) => state.appStatus.resultadoAnalisisTramiteGeneral)
 
   useEffect(() => {
+
     if (!tramite.cuit && tipoAccion !== 'SET_TRAMITE_NUEVO')
       router.push('/')
-
-
 
   }, [])
 
@@ -113,7 +112,7 @@ export default () => {
 
 
 
-
+  console.log(tramite)
   const { Step } = Steps;
   const renderModalCalidad = () => {
     return (<div>
@@ -523,12 +522,12 @@ export default () => {
   const agregarUltimaModificacion = async () => {
     if (!tramite.datosSocietarios.sociedadAnonima.ultimaModificacion)
 
-    
-    
-  updateObjTramite()
-  await save()
-  setIsLoading(false)
-  clearState()
+
+
+      updateObjTramite()
+    await save()
+    setIsLoading(false)
+    clearState()
 
 
 
@@ -605,15 +604,15 @@ export default () => {
 
   const cargarAutoridades = (record) => {
     setIdAutoridad(JSON.stringify(record))
-        setNombre(record.autoridadesSociedad.nombre)
-        setApellido(record.autoridadesSociedad.apellido)
-        setTipoDocumento(record.autoridadesSociedad.tipoDocumento)
-        setTipoCargo(record.autoridadesSociedad.tipoCargo)
-        setTipoOrgano(record.autoridadesSociedad.tipoOrgano)
-        setNroDocumento(record.autoridadesSociedad.nroDocumento)
-        setCuit(record.autoridadesSociedad.cuit)
-        setDireccion(record.autoridadesSociedad.direccion)
-        setFotosDNIAutoridades(record.autoridadesSociedad.fotosDNI)
+    setNombre(record.autoridadesSociedad.nombre)
+    setApellido(record.autoridadesSociedad.apellido)
+    setTipoDocumento(record.autoridadesSociedad.tipoDocumento)
+    setTipoCargo(record.autoridadesSociedad.tipoCargo)
+    setTipoOrgano(record.autoridadesSociedad.tipoOrgano)
+    setNroDocumento(record.autoridadesSociedad.nroDocumento)
+    setCuit(record.autoridadesSociedad.cuit)
+    setDireccion(record.autoridadesSociedad.direccion)
+    setFotosDNIAutoridades(record.autoridadesSociedad.fotosDNI)
   }
 
   const columnsAutoridad = [
@@ -704,7 +703,7 @@ export default () => {
       title: 'Action',
       key: 'action',
       render: (text, record) => (tramite.status === 'BORRADOR' ? <div onClick={() => removeSistemaCalidad(record)} className="cursor-pointer"><DeleteOutlined /></div> : <Space size="middle">
-        
+
       </Space>),
     },
     {
@@ -732,7 +731,7 @@ export default () => {
       render: (text, record) => <div>{record.archivos && record.archivos.map(f => <LinkToFile fileName={f.name} id={f.cid} />)} </div>,
       key: 'documentoSistemaCalidad',
     }
-   
+
   ]
 
 
@@ -791,10 +790,10 @@ export default () => {
 
     <div className="border-gray-200 border-b-2 flex ">
       <div className="px-20 pt-2 w-3/4">
-        <NavigationStep 
-        current={1} 
-        generalStatus={statusGeneralTramite} 
-        completaBalanceYObras={isConstructora(tramite) }  />
+        <NavigationStep
+          current={1}
+          generalStatus={statusGeneralTramite}
+          completaBalanceYObras={isConstructora(tramite)} />
       </div>
       <div className="pt-2 w-1/4">
         {showSaveButton()}
@@ -1167,28 +1166,28 @@ export default () => {
           </div>
           <div className="grid grid-cols-1 gap-4 ">
             <div >
-            <Wrapper title="Acta Constitutiva, junto con TODAS sus modificaciones hasta el día de hoy" attributeName="cooperativaarchivoActaConstitutiva"
+              <Wrapper title="Acta Constitutiva, junto con TODAS sus modificaciones hasta el día de hoy" attributeName="cooperativaarchivoActaConstitutiva"
                 labelRequired="*"  >
-              <Upload
-                
-                labelMessageError=""
-                defaultValue={tramite.datosSocietarios.cooperativa.archivoActaConstitutiva as any}
-                onOnLoad={file => {
-                  if (!tramite.datosSocietarios.cooperativa.archivoActaConstitutiva)
-                    tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = []
+                <Upload
 
-                  tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={fileToRemove => {
-                  tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-              />
+                  labelMessageError=""
+                  defaultValue={tramite.datosSocietarios.cooperativa.archivoActaConstitutiva as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.cooperativa.archivoActaConstitutiva)
+                      tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = []
+
+                    tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.cooperativa.archivoActaConstitutiva = tramite.datosSocietarios.cooperativa.archivoActaConstitutiva.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
               </Wrapper>
             </div>
           </div>
@@ -1231,28 +1230,28 @@ export default () => {
           </div>
           <div className="grid grid-cols-1 gap-4 ">
             <div >
-            <Wrapper title="Modificación del Objeto de la cooperativa a rubro construccion" attributeName="cooperativaarchivomodificacionINAES"
+              <Wrapper title="Modificación del Objeto de la cooperativa a rubro construccion" attributeName="cooperativaarchivomodificacionINAES"
                 labelRequired="*"  >
-              <Upload
-              
-                labelMessageError=""
-                defaultValue={tramite.datosSocietarios.cooperativa.modificacionINAES.archivos as any}
-                onOnLoad={file => {
-                  if (!tramite.datosSocietarios.cooperativa.modificacionINAES.archivos)
-                    tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = []
+                <Upload
 
-                  tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={fileToRemove => {
-                  tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-              />
+                  labelMessageError=""
+                  defaultValue={tramite.datosSocietarios.cooperativa.modificacionINAES.archivos as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.cooperativa.modificacionINAES.archivos)
+                      tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = []
+
+                    tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.cooperativa.modificacionINAES.archivos = tramite.datosSocietarios.cooperativa.modificacionINAES.archivos.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
               </Wrapper>
             </div>
           </div>
@@ -1295,29 +1294,29 @@ export default () => {
           </div>
           <div className="grid grid-cols-1 gap-4 ">
             <div >
-            
-            <Wrapper title="Última modificación estatutaria Inscripta en I.N.A.E.S." attributeName="cooperativaarchivultimaModifcacionINAES"
-                labelRequired="*"  >
-              <Upload
-                
-                labelMessageError=""
-                defaultValue={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos as any}
-                onOnLoad={file => {
-                  if (!tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos)
-                    tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = []
 
-                  tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={fileToRemove => {
-                  tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-              />
+              <Wrapper title="Última modificación estatutaria Inscripta en I.N.A.E.S." attributeName="cooperativaarchivultimaModifcacionINAES"
+                labelRequired="*"  >
+                <Upload
+
+                  labelMessageError=""
+                  defaultValue={tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos as any}
+                  onOnLoad={file => {
+                    if (!tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos)
+                      tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = []
+
+                    tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos = tramite.datosSocietarios.cooperativa.ultimaModifcacionINAES.archivos.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
               </Wrapper>
             </div>
           </div>
@@ -2035,11 +2034,11 @@ export default () => {
                   }}
                 />
               </div>
-             
-            <div className="mt-8 ">
-              <Button type="primary" onClick={agregarUltimaModificacion} icon={<PlusOutlined />}> Agregar</Button>
-            </div>
- 
+
+              <div className="mt-8 ">
+                <Button type="primary" onClick={agregarUltimaModificacion} icon={<PlusOutlined />}> Agregar</Button>
+              </div>
+
             </div>
           </Wrapper>
           <Table columns={columnsModificacionEstatuto}
@@ -2164,25 +2163,35 @@ export default () => {
 
       {isPersonaFisica(tramite) ? <div>
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
-          <Wrapper isTitle title="Alta en AFIP (actividad referente a rubro Construcción)" attributeName="AltaEnAfipPF" >
-            <div className="grid grid-cols-2 gap-4 ">
+
+          <div className="text-2xl font-bold py-4 mt-4"> Alta en AFIP (actividad referente a rubro Construcción</div>
+          <div className="grid grid-cols-2 gap-4 ">
+
+            
               <div >
-                <InputTextModal
+              <Wrapper title="Datos" attributeName="altaAfipDatos" labelRequired="*" >
+                <InputText
+                  attributeName="altaAfipDatos"
                   value={tramite.altaAFIP.datos}
-                  bindFunction={value => {
+                  bindFunction={(value) => {
                     tramite.altaAFIP.datos = value
-                    setTramite(Object.assign({}, tramite))
+                    updateObjTramite()
                   }}
-                  label="Datos"
-                  labelRequired="*"
-                  placeholder=""
+
                   labelMessageError=""
                   required />
+                  </Wrapper>
               </div>
+            
+
+          
+
+
+            <Wrapper title="Fecha" attributeName="altaAfipFecha" labelRequired="*" >
+
               <div >
-                <DatePickerModal
-                  label="Fecha"
-                  labelRequired="*"
+                <DatePicker
+                  label=""
                   placeholder="Fecha"
                   labelObservation=""
                   labeltooltip=""
@@ -2194,52 +2203,62 @@ export default () => {
                   }}
                 />
               </div>
+            </Wrapper>
+          </div>
+          <div className="grid grid-cols-1 gap-4 ">
+          <Wrapper attributeName="Constancia de Inscripción en AFIPl" title="Constancia de Inscripción en AFIP" labelRequired="*">
+
+            <div >
+              <Upload
+                
+                labelMessageError=""
+                defaultValue={tramite.datosSocietarios.personaFisica.constanciaInscripcion as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.personaFisica.constanciaInscripcion)
+                    tramite.datosSocietarios.personaFisica.constanciaInscripcion = []
+                  tramite.datosSocietarios.personaFisica.constanciaInscripcion.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.personaFisica.constanciaInscripcion = tramite.datosSocietarios.personaFisica.constanciaInscripcion.filter(f => f.cid !== fileToRemove.uid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+              />
             </div>
-            <div className="grid grid-cols-1 gap-4 ">
-              <div >
-                <Upload
-                  label="Constancia de Inscripción en AFIP"
-                  labelRequired="*"
-                  labelMessageError=""
-                  defaultValue={tramite.datosSocietarios.personaFisica.constanciaInscripcion as any}
-                  onOnLoad={file => {
-                    if (!tramite.datosSocietarios.personaFisica.constanciaInscripcion)
-                      tramite.datosSocietarios.personaFisica.constanciaInscripcion = []
-                    tramite.datosSocietarios.personaFisica.constanciaInscripcion.push(file)
-                    updateObjTramite()
-                    save()
-                    setIsLoading(false)
-                  }}
-                  onRemove={fileToRemove => {
-                    tramite.datosSocietarios.personaFisica.constanciaInscripcion = tramite.datosSocietarios.personaFisica.constanciaInscripcion.filter(f => f.cid !== fileToRemove.uid)
-                    updateObjTramite()
-                    save()
-                    setIsLoading(false)
-                  }}
-                />
-              </div>
-            </div>
-          </Wrapper>
+            </Wrapper>
+          </div>
         </div>
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
-          <Wrapper isTitle title="Matrícula de Comerciante (inscripción en D.P.P.J / I.G.J.)" attributeName="MatriculaComerciantePF" >
+          <div className="text-2xl font-bold py-4 mt-4"> Matrícula de Comerciante (inscripción en D.P.P.J / I.G.J.)</div>
 
-            <div className="grid grid-cols-2 gap-4 ">
+
+          <div className="grid grid-cols-2 gap-4 ">
+            
               <div >
-                <InputTextModal
+              <Wrapper title="Datos" attributeName="matriculaDatos" labelRequired="*" >
+                <InputText
+                  attributeName="matriculaDatos"
+
                   value={tramite.matriculaComerciante.datos}
                   bindFunction={value => {
                     tramite.matriculaComerciante.datos = value
                     setTramite(Object.assign({}, tramite))
                   }}
-                  label="Datos"
-                  labelRequired="*"
-                  placeholder=""
+
                   labelMessageError=""
-                  required /></div>
+                  required />
+                  </Wrapper>
+                  </div>
+            
+            <Wrapper title="Fecha" attributeName="matriculaFecha" labelRequired="*" >
+
               <div >
-                <DatePickerModal
-                  label="Fecha"
+                <DatePicker
+                  label=""
                   labelRequired="*"
                   placeholder="Fecha"
                   labelObservation=""
@@ -2253,53 +2272,60 @@ export default () => {
                   }}
                 />
               </div>
-            </div>
-            <div className="grid grid-cols-1 gap-4 ">
-              <div >
-                <Upload
-                  label="Matrícula de Comerciante"
-                  labelRequired="*"
-                  labelMessageError=""
-                  defaultValue={tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante as any}
-                  onOnLoad={file => {
-                    if (!tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante)
-                      tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = []
-                    tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.push(file)
-                    updateObjTramite()
-                    save()
-                    setIsLoading(false)
-                  }}
-                  onRemove={fileToRemove => {
-                    tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.filter(f => f.cid !== fileToRemove.uid)
-                    updateObjTramite()
-                    save()
-                    setIsLoading(false)
-                  }}
+            </Wrapper>
+          </div>
+          <div className="grid grid-cols-1 gap-4 ">
+          <Wrapper attributeName="Constancia de Inscripción en AFIPl" title="Matrícula de Comerciante" labelRequired="*">
 
-                />
-              </div>
+            <div >
+              <Upload
+               
+                labelMessageError=""
+                defaultValue={tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante as any}
+                onOnLoad={file => {
+                  if (!tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante)
+                    tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = []
+                  tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.push(file)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+                onRemove={fileToRemove => {
+                  tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante = tramite.datosSocietarios.personaFisica.constanciaMatriculaComerciante.filter(f => f.cid !== fileToRemove.uid)
+                  updateObjTramite()
+                  save()
+                  setIsLoading(false)
+                }}
+
+              />
             </div>
-          </Wrapper>
+            </Wrapper>
+          </div>
         </div>
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
-          <Wrapper isTitle title="Última modificación de Matrícula de Comerciante / Modificación de Actividades en AFIP" attributeName="UltimaModificacionMatriculaPF" >
-            <div className="grid grid-cols-2 gap-4 ">
-              <div >
-                <InputTextModal
-                  label="Datos"
-                  labelRequired=""
-                  placeholder=""
+          <div className="text-2xl font-bold py-4 mt-4"> Última modificación de Matrícula de Comerciante / Modificación de Actividades en AFIP</div>
+          <div className="grid grid-cols-2 gap-4 ">
+             <div >
+             <Wrapper title="Datos" attributeName="ultimaModificacionMatriculaOActividadesAFIPDatos" labelRequired="*" >
+            
+                <InputText
+                  attributeName="ultimaModificacionMatriculaOActividadesAFIPDatos"
                   labelMessageError=""
                   value={tramite.ultimaModificacionMatriculaOActividadesAFIP.datos}
                   bindFunction={value => {
                     tramite.ultimaModificacionMatriculaOActividadesAFIP.datos = value
                     setTramite(Object.assign({}, tramite))
                   }}
-                  required /></div>
+                  required />
+                  </Wrapper>
+                  </div>
+
+            <Wrapper title="Fecha" attributeName="ultimamodificacionMatriculaFecha" labelRequired="*" >
+
               <div >
-                <DatePickerModal
-                  label="Fecha"
-                  labelRequired=""
+                <DatePicker
+                  label=""
+
                   placeholder="Fecha"
                   labelObservation=""
                   labeltooltip=""
@@ -2311,9 +2337,9 @@ export default () => {
                   }}
                 />
               </div>
+            </Wrapper>
 
-            </div>
-          </Wrapper>
+          </div>
         </div>
       </div> : <div></div>}
 
@@ -2325,7 +2351,7 @@ export default () => {
         <div className="grid grid-cols-1 mb-4 mt-4  ">
           <Wrapper title={isPersonaFisica(tramite) ? "Declaro ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas que no me encuentro comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1." : "Declaro que la Persona a la cual represento ante el Registro Nacional de Constructores y Firmas Consultoras de Obras Públicas no es un empleador comprendido en el régimen de de la Ley Nº 22.250 según lo determinado en su artículo 1 incisos a y b."} attributeName="siIeric" >
             <div className="">
-            <Switch
+              <Switch
                 value={tramite.poseeIERIC}
                 onChange={value => {
                   tramite.poseeIERIC = value
@@ -2344,75 +2370,75 @@ export default () => {
 
           </Wrapper>
         </div>
-        {tramite.poseeIERIC ? '' : 
+        {tramite.poseeIERIC ? '' :
 
-        <div className="grid grid-cols-3 gap-4 ">
-          <div>
-            <Wrapper title="IERIC" attributeName="nroIeric" >
-
-            
-              <InputText
-
-                attributeName="ieric"
-                labelRequired="*"
-                placeHolder="IERIC"
-                value={tramite.ieric}
-                bindFunction={(value) => {
-                  tramite.ieric = value
-                  updateObjTramite()
-                }}
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-              />
-            </Wrapper>
-          </div>
-          <div>
-            <Wrapper title="Vencimiento IERIC" attributeName="fechaVtoIeric" >
-              <DatePicker
-                value={tramite.vtoIeric}
-                bindFunction={(value) => {
-                  tramite.vtoIeric = value
-                  updateObjTramite()
-                }}
-
-                labelRequired="*"
-                placeholder="dd/mm/aaaa"
-                labelObservation=""
-                labeltooltip=""
-                labelMessageError=""
-              />
-            </Wrapper>
-          </div>
-
-          <div>
-            <Wrapper title="Adjunte IERIC" attributeName="constanciaIeric" >
-              <Upload
-
-                labelRequired="*"
-                labelMessageError=""
-                defaultValue={tramite.archivoIERIC as any}
-                onOnLoad={file => {
-                  if (!tramite.archivoIERIC)
-                    tramite.archivoIERIC = []
-                  tramite.archivoIERIC.push(file)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-                onRemove={fileToRemove => {
-                  tramite.archivoIERIC = tramite.archivoIERIC.filter(f => f.cid !== fileToRemove.uid)
-                  updateObjTramite()
-                  save()
-                  setIsLoading(false)
-                }}
-              />
-            </Wrapper>
-
-          </div>
+          <div className="grid grid-cols-3 gap-4 ">
+            <div>
+              <Wrapper title="IERIC" attributeName="nroIeric" >
 
 
-        </div>}
+                <InputText
+
+                  attributeName="ieric"
+                  labelRequired="*"
+                  placeHolder="IERIC"
+                  value={tramite.ieric}
+                  bindFunction={(value) => {
+                    tramite.ieric = value
+                    updateObjTramite()
+                  }}
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                />
+              </Wrapper>
+            </div>
+            <div>
+              <Wrapper title="Vencimiento IERIC" attributeName="fechaVtoIeric" >
+                <DatePicker
+                  value={tramite.vtoIeric}
+                  bindFunction={(value) => {
+                    tramite.vtoIeric = value
+                    updateObjTramite()
+                  }}
+
+                  labelRequired="*"
+                  placeholder="dd/mm/aaaa"
+                  labelObservation=""
+                  labeltooltip=""
+                  labelMessageError=""
+                />
+              </Wrapper>
+            </div>
+
+            <div>
+              <Wrapper title="Adjunte IERIC" attributeName="constanciaIeric" >
+                <Upload
+
+                  labelRequired="*"
+                  labelMessageError=""
+                  defaultValue={tramite.archivoIERIC as any}
+                  onOnLoad={file => {
+                    if (!tramite.archivoIERIC)
+                      tramite.archivoIERIC = []
+                    tramite.archivoIERIC.push(file)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                  onRemove={fileToRemove => {
+                    tramite.archivoIERIC = tramite.archivoIERIC.filter(f => f.cid !== fileToRemove.uid)
+                    updateObjTramite()
+                    save()
+                    setIsLoading(false)
+                  }}
+                />
+              </Wrapper>
+
+            </div>
+
+
+          </div>}
       </div>
       <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
         <Collapse accordion>

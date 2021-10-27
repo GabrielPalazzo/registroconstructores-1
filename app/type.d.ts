@@ -18,7 +18,9 @@ type Usuario = {
   "Role": Array<string>
 }
 
-type Apoderado = {
+type Apoderado = { 
+  codigo?: string
+  status?: 'APROBADO' | 'RECHAZADO' | null | 'EN REVISION' | 'OBSERVADO'   // APROBADO EN REVISION DESESTIMADO 
   nombre: string,
   apellido: string,
   email: string,
@@ -31,6 +33,7 @@ type Apoderado = {
   fotosDNI: Array<Archivo>
   actaAutoridades: Array<Archivo>
   actaAdminLegitimado: Array<Archivo>
+  observacionRegistro?:string
 }
 
 type Archivo = {
@@ -97,7 +100,7 @@ type CertificacionesCerradas={
 type DDJJObra ={
   id: string
   actasObra: Array<Archivo>
-  status?:'APROBADA' | 'OBSERVADA' | 'A REVISAR' | 'RECHAZADA' | 'DESESTIMADA' | '' | 'SUPERVIZADA'
+  status?:'APROBADA' | 'OBSERVADA' | 'A REVISAR' | 'RECHAZADA' | 'DESESTIMADA' | '' | 'SUPERVIZADA' | 'REVISADA'
   fechaAprobacion?: number
   denominacion:string
   ubicacion:Array<string>
@@ -197,7 +200,7 @@ type AutoridadEmpresa  ={
 
 type Ejercicio = {
   codigo?: string
-  status?: 'APROBADO' | 'RECHAZADO' | null | 'EN REVISION' | 'OBSERVADO'  // APROBADO EN REVISION DES ESTIMADO 
+  status?: 'APROBADO' | 'RECHAZADO' | null | 'EN REVISION' | 'OBSERVADO'   // APROBADO EN REVISION DES ESTIMADO 
   fechaInicio: string
   fechaCierre: string
   activoCorriente: number
@@ -374,11 +377,11 @@ type TramiteAlta = {
         fecha: string
         archivos: Array<Archivo>
       }
-      ultimaModificacion:{
+      ultimaModificacion:Array<{
         datos: string
         fecha: string
         archivos: Array<Archivo>
-      }
+      }>
     }
     ute: {
       archivosContrato: Array<Archivo>
@@ -423,7 +426,8 @@ type TramiteAlta = {
   }
   aprobacion?:{
     aprobadoPor: Usuario,
-    aprobadoAt: number
+    aprobadoAt: number,
+    aprobadoAtDate: Date
   }
   supervision?:{
     supervisadoPor: Usuario,

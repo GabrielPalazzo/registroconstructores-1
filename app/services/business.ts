@@ -9,7 +9,7 @@ import { CalculadoraCapacidad } from 'rnc-main-lib'
 
 
 export const getToken = () => {
-  return localStorage.getItem('token') ? localStorage.getItem('token') : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNlYmEgQnJvbWJlcmciLCJpYXQiOjE1MTYyMzkwMjJ9.vM1mo49C9FazAkIbDe2UnUXQY7Qfkm3IC4eDpVFLviM'
+  return localStorage.getItem('token') ? localStorage.getItem('token') : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTY1NDYyNjYsImN1aXQiOiIyNzA0OTkwMjA3MiIsIkdpdmVuTmFtZSI6Ik5JTERBIiwiU3VybmFtZSI6IkVOTUEiLCJlbWFpbCI6IiIsInN1YiI6IjM1NDIwYjc5LWFhOWYtNGY3NS1hM2Y1LTU0M2U5YTZhNTUxNSIsIlJvbGUiOlsiQ09OU1RSVUNUT1IiXX0.ZWiEEgmER9R63RPpulmn6ZWvpr4XHxYMp-1idQPLu-w'
 }
 
 export const setToken = (token) => {
@@ -234,6 +234,7 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
           fecha: '',
           archivos: []
         },
+
         contrato: {
           fecha: '',
           archivos: []
@@ -678,16 +679,16 @@ export const hasObservacionesObra =(obra:DDJJObra)=>{
  * @param obra Obra sobre la cual se quiere hacer el analisis
  * @returns Devuele el estado calculado de la obra
  */
-export const determinarEstadoObra = (obra:DDJJObra) : 'APROBADA' | 'OBSERVADA' |'SUPERVIZADA' |'A REVISAR' | 'RECHAZADA' | 'DESESTIMADA'=>{
+export const determinarEstadoObra = (obra:DDJJObra) : 'APROBADA' | 'OBSERVADA' |'SUPERVIZADA' |'A REVISAR' | 'RECHAZADA' | 'DESESTIMADA' | 'REVISADA' | null =>{
 
   if (!obra.status)
     return  !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA')) 
     || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) 
     || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
     || hasObservacionesObra(obra) ? 'OBSERVADA' : 'A REVISAR' 
+    || obra.status === null ? 'REVISADA' : 'A REVISAR' 
 
-   
   
 
-  return obra.status
+    return obra.status
 }
