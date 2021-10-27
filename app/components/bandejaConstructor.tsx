@@ -229,7 +229,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   </Tooltip>
                   
                   <Tooltip title="Estado de la Trámite">
-                    <Tag color={getColorStatus(e)}>{e.status === 'A SUPERVISAR'?'EN REVISION': e.status || e.status === 'VERIFICADO'? '': e.status}</Tag>
+                    <Tag color={getColorStatus(e)}>{e.status === 'A SUPERVISAR'?'EN REVISION': e.status}</Tag>
                   </Tooltip>
                   {e.ddjjObras.map(r =>
                     <div>  {r.datosObra && r.datosObra.map(r => <div>{r.estado === 'Adjudicada' ? <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
