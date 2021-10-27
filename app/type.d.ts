@@ -428,7 +428,7 @@ type TramiteAlta = {
   aprobacion?:{
     aprobadoPor: Usuario,
     aprobadoAt: number,
-    aprobadoAtDate: Date
+    
   }
   supervision?:{
     supervisadoPor: Usuario,
