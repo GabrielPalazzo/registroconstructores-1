@@ -1104,7 +1104,7 @@ No se considerarán, a los efectos de la determinación de la Capacidad Económi
                 {tramite.ddjjObras.length === 0 ? renderNoData() :
                   <Table
                     columns={columns}
-                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA' || determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'DESESTIMADA' || determinarEstadoObra(o) === 'SUPERVIZADA')}
+                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'APROBADA' || determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'DESESTIMADA' || determinarEstadoObra(o) === 'SUPERVIZADA' ||  determinarEstadoObra(o) === null || determinarEstadoObra(o) === '')}
                     pagination={{ pageSize: 20 }}
                     scroll={{ x: 1500 }}
                     locale={{
@@ -1120,7 +1120,7 @@ No se considerarán, a los efectos de la determinación de la Capacidad Económi
                   <Table
                     columns={columns}
                     scroll={{ x: 1500 }}
-                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'SUPERVIZADA' || determinarEstadoObra(o) === 'DESESTIMADA' )}
+                    dataSource={tramite.ddjjObras.filter(o => determinarEstadoObra(o) === 'OBSERVADA' || determinarEstadoObra(o) === 'A REVISAR' || determinarEstadoObra(o) === 'SUPERVIZADA' || determinarEstadoObra(o) === 'DESESTIMADA' || determinarEstadoObra(o) === null || determinarEstadoObra(o) === '')}
                     pagination={{ pageSize: 20 }}
                     locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty> }} />}
               </div>
