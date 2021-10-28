@@ -25,7 +25,7 @@ export default () => {
   const [idProveedor, setIdProveedor] = useState('')
   const [isMigratingData, setIsMigratingData] = useState(false)
   const [allowed,setAllowed] = useState(false)
-
+  const [certificado, setCertificado] = useState<CertificadoCapacidad>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -169,10 +169,13 @@ export default () => {
           loading={isSearching}
           value={textToSearch}
           onChange={(e) => setTextToSearch(e.target.value)}
+         
           onSearch={async () => {
+            
             setIsSearching(true)
-            setCertificados(await getCertificados(textToSearch))
+            setCertificados(await getCertificados(textToSearch, getToken()))
             setIsSearching(false)
+            
           }}
         />
 

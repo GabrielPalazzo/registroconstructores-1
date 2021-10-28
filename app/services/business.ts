@@ -9,7 +9,7 @@ import { CalculadoraCapacidad } from 'rnc-main-lib'
 
 
 export const getToken = () => {
-  return localStorage.getItem('token') ? localStorage.getItem('token') : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTY1NDYyNjYsImN1aXQiOiIyNzA0OTkwMjA3MiIsIkdpdmVuTmFtZSI6Ik5JTERBIiwiU3VybmFtZSI6IkVOTUEiLCJlbWFpbCI6IiIsInN1YiI6IjM1NDIwYjc5LWFhOWYtNGY3NS1hM2Y1LTU0M2U5YTZhNTUxNSIsIlJvbGUiOlsiQ09OU1RSVUNUT1IiXX0.ZWiEEgmER9R63RPpulmn6ZWvpr4XHxYMp-1idQPLu-w'
+  return localStorage.getItem('token') ? localStorage.getItem('token') : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSZWdpc3RybyBkZSBDb25zdHJ1Y3RvcmVzIiwiaWF0IjoxNjA3ODY4NDE0LCJhdWQiOiJodHRwOi8vbG9jYWxob3N0Iiwic3ViIjoibGVvbmFyZG9sZWVuZW5AZ21haWwuY29tIiwiR2l2ZW5OYW1lIjoiUGFibG8gIiwiU3VybmFtZSI6Ikxlc2Nhbm8iLCJjdWl0IjoiMjAzNjc2MjgzNzYiLCJFbWFpbCI6Imxlc2Nhbm9wQGplZmF0dXJhLmdvYi5hciIsIlJvbGUiOlsiSkVGRSBSRUdJU1RSTyJdfQ.S_nPHiFUCMrGsO30pslXrXRqXaAQk9HyS4K3rIGchfU'
 }
 
 export const setToken = (token) => {
