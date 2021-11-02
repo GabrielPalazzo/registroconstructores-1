@@ -899,7 +899,7 @@ export default () => {
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <Wrapper isTitle title="Última modificación del contrato de la U.T.E." attributeName="ultimaModificacionContratoUTE" >
             <div className="grid grid-cols-3 gap-4 ">
-              <div >
+            {/*   <div >
 
                 <InputTextModal
                   label="Datos"
@@ -911,7 +911,7 @@ export default () => {
                     tramite.datosSocietarios.ute.modificacionUTE.datos = value
                     updateObjTramite()
                   }}
-                  required /></div>
+                  required /></div>*/}
               <div >
                 <DatePickerModal
                   label="Fecha"
@@ -928,7 +928,7 @@ export default () => {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-4 ">
+            {/*<div className="grid grid-cols-3 gap-4 ">
               <div >
                 <Upload
                   label=" Última modificación del Contrato de la U.T.E"
@@ -951,7 +951,7 @@ export default () => {
                   }}
                 />
               </div>
-            </div>
+            </div>*/}
           </Wrapper>
         </div>
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
@@ -1259,7 +1259,7 @@ export default () => {
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <div className="text-2xl font-bold py-4">Última modificación estatutaria Inscripta en I.N.A.E.S.</div>
           <div className="grid grid-cols-2 gap-4 ">
-            <div >
+          {/*   <div >
               <Wrapper title="Datos" attributeName="datosultimaModificacionEstatutariaINAES" labelRequired="*">
                 <InputText
                   attributeName="datosultimaModificacionEstatutariaINAES"
@@ -1272,7 +1272,7 @@ export default () => {
                     updateObjTramite()
                   }}
                   required />
-              </Wrapper></div>
+              </Wrapper></div>*/}
 
             <div >
               <Wrapper title="Fecha" attributeName="fechaultimaModificacionINAES" labelRequired="*">
@@ -1292,6 +1292,7 @@ export default () => {
               </Wrapper>
             </div>
           </div>
+         {/*
           <div className="grid grid-cols-1 gap-4 ">
             <div >
 
@@ -1319,7 +1320,7 @@ export default () => {
                 />
               </Wrapper>
             </div>
-          </div>
+                </div>*/}
         </div>
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato / Acta Constitutiva</div>
@@ -1560,7 +1561,7 @@ export default () => {
           <div className="text-2xl font-bold py-4"> Modificación del objeto de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J.)
             <Tooltip title="En caso de que la empresa sea Constructora desde la inscripción inicial de la Sucursal en Argentina, repetir mismos datos y fecha de la Inscripción de la Sucursal en Argentina (inscripta en D.P.P.J / I.G.J."> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
           <div className="grid grid-cols-2 gap-4 ">
-            <div >
+           {/*<div >
               <Wrapper title="Datos" attributeName="DatosModificacionObjetoPJES" labelRequired="*">
                 <InputText
                   attributeName="DatosModificacionObjetoPJES"
@@ -1573,7 +1574,7 @@ export default () => {
                   }}
                   required />
               </Wrapper>
-            </div>
+                </div>*/}
             <div >
               <Wrapper title="Fecha" attributeName="FechaModificacionObjetoPJES" labelRequired="*">
 
@@ -1591,7 +1592,7 @@ export default () => {
               </Wrapper>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4 ">
+          {/*<div className="grid grid-cols-1 gap-4 ">
             <div >
               <Wrapper title="Modificación del Objeto de la Sucursal Argentina al rubro Construcción inscripto en D.P.P.J / I.G.J." attributeName="modificacionObjetoUpload"
                 labelRequired="*"  >
@@ -1614,7 +1615,7 @@ export default () => {
                 />
               </Wrapper>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
 
@@ -1915,7 +1916,7 @@ export default () => {
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <div className="text-2xl font-bold py-4"> Modificación del Contrato Social (inscripta en D.P.P.J / I.G.J. correspondiente a ampliación del objeto social para realizar actividades del rubro Construcción)</div>
           <div className="grid grid-cols-2 gap-4 ">
-            <div >
+           {/* <div >
               <Wrapper title="Datos" attributeName="datosModificacionContratoo" labelRequired="*">
                 <InputText
                   attributeName="datosModificacionContratoo"
@@ -1926,7 +1927,7 @@ export default () => {
                   }}
                   labelMessageError=""
                   required />
-              </Wrapper></div>
+                </Wrapper></div>*/}
             <div >
               <Wrapper title="Fecha" attributeName="fechaModificacionContratoSA" >
                 <DatePicker
@@ -1943,7 +1944,7 @@ export default () => {
               </Wrapper>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4 ">
+         {/*<div className="grid grid-cols-1 gap-4 ">
 
             <div >
               <Wrapper attributeName="DocumentoModificacionObjetoSocial" title="Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J." labelRequired="*">
@@ -1969,7 +1970,7 @@ export default () => {
               </Wrapper>
             </div>
 
-          </div>
+          </div> */}
 
         </div>
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">

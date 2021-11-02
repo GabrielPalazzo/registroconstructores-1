@@ -644,7 +644,7 @@ export default () => {
                   className="input-disabled"
                 />
               </div>
-              <div className="pb-6" >
+             {/*  <div className="pb-6" >
                 < WrapperObras title="Transcurrido" obra={obra} field='transcurrido' onChange={o => updateObra(o)} labelRequired="*">
 
                   <InputNumberModal
@@ -663,7 +663,7 @@ export default () => {
 
                   />
                 </WrapperObras>
-              </div>
+              </div>*/}
               <div className="pb-6" >
 
                 <InputNumberModal
