@@ -663,7 +663,7 @@ export default () => {
 
                   />
                 </WrapperObras>
-              </div>*/}
+              </div>
               <div className="pb-6" >
 
                 <InputNumberModal
@@ -679,7 +679,7 @@ export default () => {
                   bindFunction={e => null}
                   labelMessageError=""
                 />
-              </div>
+              </div>*/}
             </div>
 
             <div className="rounded-lg px-4 py-2 mb-4  pt-4 pb-4 border">

@@ -124,6 +124,7 @@ export default () => {
               required />
           </Wrapper>
         </div>
+      {/* 
         <div className="pt-4">
           <Wrapper attributeName="documentoUltimoDomicilio" title="Adjunte un documento en donde conste el último domicilio legal inscripto en la IGJ o Registro de Comercio" labelRequired="*">
             <Upload
@@ -147,7 +148,7 @@ export default () => {
           </Wrapper>
 
 
-        </div>
+        </div>*/}
       </div>
       <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
         <div className="text-2xl font-bold py-4"> Domicilio Real</div>
