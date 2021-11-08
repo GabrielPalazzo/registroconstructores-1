@@ -11,7 +11,8 @@ import _ from 'lodash'
     
       const tramites :Array<TramiteAlta> = await db.collection('tramites').find().toArray()
 
-      for (let tramite in tramites) {
+      for (let i = 0; i< tramites.length; i++) {
+          let tramite = tramites[i]
           if (!tramite.subCategoria) {
                 const certs = db.collection('certificados').find({"tramite.cuit":tramite.cuit}).toArray()
 
