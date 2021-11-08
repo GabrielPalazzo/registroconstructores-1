@@ -13,7 +13,8 @@
     "migrate:certificados": "npx ts-node  ./jobs/migrate_certificates.ts",
     "migrate:proveedores": "npx ts-node ./jobs/migrar_proveedores.ts",
     "run:liberar_reviews": "npx ts-node ./jobs/liberar_review.ts",
-    "run:cargar_tramite": "npx ts-node ./jobs/cargar_tramite.ts"
+    "run:cargar_tramite": "npx ts-node ./jobs/cargar_tramite.ts",
+    "run:actualizar_subCategorias":"npx ts-node ./jobs/actualizar_subCategorias.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",

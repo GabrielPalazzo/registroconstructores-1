@@ -1,0 +1,25 @@
+import { MongoClient } from 'mongodb'
+import _ from 'lodash'
+(async () => {
+    const client = new MongoClient(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+    
+      await client.connect()
+      const db = client.db(config.registro.dataBase)
+    
+      const tramites :Array<TramiteAlta> = await db.collection('tramites').find().toArray()
+
+      for (let tramite in tramites) {
+          if (!tramite.subCategoria) {
+                const certs = db.collection('certificados').find({"tramite.cuit":tramite.cuit}).toArray()
+
+                tramite.subCategoria = _.isEmpty(certs.filter(c => c.tramite._id !== tramite._id)) ? 'INSCRIPCION' : 'ACTUALIZACION'
+                await db.collection('tramites').save(tramite)
+          }
+      }
+
+      process.exit()
+
+})()
