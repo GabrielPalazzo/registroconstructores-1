@@ -695,12 +695,12 @@ export const determinarEstadoObra = (obra:DDJJObra) : 'APROBADA' | 'OBSERVADA' |
     return obra.status
 }
 
-export const isActualizacion =  (tramite:TramiteAlta) : boolean => {
+//export const isActualizacion =  (tramite:TramiteAlta) : boolean => {
 
-	getCertificados(tramite.cuit)
-		.then(certificados => {
-			!_.isEmpty(certificados.filter( c => c.tramite._id=== tramite._id))
-		})
+	//getCertificados(tramite.cuit)
+	//	.then(certificados => {
+		//	!_.isEmpty(certificados.filter( c => c.tramite._id=== tramite._id))
+	//	})
 	//const certificados = await getCertificados(tramite.cuit)
 	// return !_.isEmpty(certificados.filter( c => c.tramite._id=== tramite._id))
-}
+//}

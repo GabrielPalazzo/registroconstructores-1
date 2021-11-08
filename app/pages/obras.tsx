@@ -1078,7 +1078,8 @@ export default () => {
                 const obraEmpty = getEmptyObras()
                 obraEmpty.id = getCodigoObra()
                 // obra.id = getCodigoObra()
-                setModo(MODO.NEW)
+                setModo(MODO.NEW || MODO.EDIT)
+              
                 setObra(Object.assign({}, obraEmpty))
                 setModalObras(true)
               }} icon={<PlusOutlined />}> Agregar</Button> : ''}
