@@ -2276,7 +2276,7 @@ export default () => {
             </Wrapper>
           </div>
           <div className="grid grid-cols-1 gap-4 ">
-          <Wrapper attributeName="Constancia de Inscripción en AFIPl" title="Matrícula de Comerciante" labelRequired="*">
+          <Wrapper attributeName="constanciaMatriculaComerciante" title="Matrícula de Comerciante" labelRequired="*">
 
             <div >
               <Upload
