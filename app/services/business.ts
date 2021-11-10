@@ -683,12 +683,13 @@ export const hasObservacionesObra =(obra:DDJJObra)=>{
  */
 export const determinarEstadoObra = (obra:DDJJObra) : 'APROBADA' | 'OBSERVADA' |'SUPERVIZADA' |'A REVISAR' | 'RECHAZADA' | 'DESESTIMADA' | 'REVISADA' | null | '' =>{
 
-  if (!obra.status)
+  if (!obra.status || obra.status==='APROBADA')
     return  !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA')) 
     || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) 
     || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
     || hasObservacionesObra(obra) ? 'OBSERVADA' : 'A REVISAR' 
     || obra.status === null ? 'A REVISAR' : 'A REVISAR' 
+  
 
   
 

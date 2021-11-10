@@ -157,7 +157,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
     <div className="px-4 md:px-8 mx-8 ">
       <div className=" grid grid-cols-3  gap-4  ">
         {tramites.filter(mostrarTramite).map((e: TramiteAlta) => (
-          <div className="cursor-pointer    " >
+          <div className="cursor-pointer" >
             <Card className="rounded h-full " style={{ background: "#525252" }}
               actions={[
 
