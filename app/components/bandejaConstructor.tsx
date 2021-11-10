@@ -7,7 +7,7 @@ import { setUpdateBorrador } from '../redux/actions/main'
 import { useRouter } from 'next/router'
 import { CloudDownloadOutlined, EyeOutlined, ArrowRightOutlined, DeleteTwoTone } from '@ant-design/icons';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite'
-import {Certificado} from './certificado'
+import { Certificado } from './certificado'
 import obras from '../pages/obras'
 import { ObrasDatosGenerales } from './obraDatosGenerales'
 import _ from 'lodash'
@@ -108,10 +108,17 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
 
   const mostrarTramite = (t: TramiteAlta) => {
 
+    const esUltimo = (_tramite: TramiteAlta) => {
+      return _.last(
+        _.sortBy(tramites.filter(t => t.cuit === _tramite.cuit), t => {
+          t.aprobacion.aprobadoAt
+        }))._id === _tramite._id
+
+    }
 
     if (t.status !== 'VERIFICADO') return true
 
-    return t.status === 'VERIFICADO' && _.isEmpty(tramites.filter(tr => tr.cuit === t.cuit && tr.status !== 'VERIFICADO'))
+    return t.status === 'VERIFICADO' && esUltimo(t) && _.isEmpty(tramites.filter(tr => tr.cuit === t.cuit && tr.status !== 'VERIFICADO'))
   }
 
 
@@ -164,9 +171,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                 <div className="text-left pl-4">
                   <div className="flex">
                     <Certificado
-                    cuit={e.cuit} 
-                    token={getToken()}/>
-                  {/* 
+                      cuit={e.cuit}
+                      token={getToken()} />
+                    {/* 
                   {!_.isEmpty(e.rechazos) && <div className="text-left ">
                       <Button type="link" style={{ textAlign: "left", padding: 0, color: '#0072bb' }}
                         onClick={() => {
@@ -175,7 +182,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                           setShowProfile2(true)
                         }}> <EyeOutlined /> Ver Observaciones</Button>
                     </div>}
-                    */} 
+                    */}
                   </div>
 
                 </div>,
@@ -227,9 +234,9 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   <Tooltip title="Estado de la Inscripción">
                     <Tag >{e.categoria}</Tag>
                   </Tooltip>
-                  
+
                   <Tooltip title="Estado de la Trámite">
-                    <Tag color={getColorStatus(e)}>{e.status === 'A SUPERVISAR'?'EN REVISION': e.status}</Tag>
+                    <Tag color={getColorStatus(e)}>{e.status === 'A SUPERVISAR' ? 'EN REVISION' : e.status}</Tag>
                   </Tooltip>
                   {e.ddjjObras.map(r =>
                     <div>  {r.datosObra && r.datosObra.map(r => <div>{r.estado === 'Adjudicada' ? <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
