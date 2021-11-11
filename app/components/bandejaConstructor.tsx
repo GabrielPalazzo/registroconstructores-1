@@ -111,7 +111,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
     const esUltimo = (_tramite: TramiteAlta) => {
       return _.last(
         _.sortBy(tramites.filter(t => t.cuit === _tramite.cuit), t => {
-          t.aprobacion.aprobadoAt
+          t.aprobacion
         }))._id === _tramite._id
 
     }
