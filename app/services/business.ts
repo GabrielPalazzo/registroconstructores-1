@@ -623,7 +623,7 @@ export const calcularSaldoObra = (obra: DDJJObra) => {
 
   const saldo = (obra.montoInicial + sumaRedeterminaciones + sumaAmpliaciones) - sumaCertifcaciones
 
-  return saldo < 10 ? 0 : saldo
+  return saldo 
 
 }
 
@@ -682,18 +682,22 @@ export const hasObservacionesObra =(obra:DDJJObra)=>{
  * @returns Devuele el estado calculado de la obra
  */
 export const determinarEstadoObra = (obra:DDJJObra) : 'APROBADA' | 'OBSERVADA' |'SUPERVIZADA' |'A REVISAR' | 'RECHAZADA' | 'DESESTIMADA' | 'REVISADA' | null | '' =>{
-
-  if (!obra.status || obra.status==='APROBADA')
+  if (obra.status==='APROBADA' )
     return  !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA')) 
     || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) 
     || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
-    || hasObservacionesObra(obra) ? 'OBSERVADA' : 'A REVISAR' 
+    || hasObservacionesObra(obra) ? 'OBSERVADA' : 'APROBADA'
+    
+  if (!obra.status )
+    return  !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA')) 
+    || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) 
+    || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
+    || hasObservacionesObra(obra) ? 'OBSERVADA' : 'A REVISAR'
     || obra.status === null ? 'A REVISAR' : 'A REVISAR' 
-  
-
-  
-
+   
     return obra.status
+
+  
 }
 
 //export const isActualizacion =  (tramite:TramiteAlta) : boolean => {
