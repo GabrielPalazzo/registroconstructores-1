@@ -163,7 +163,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
           {activeProfile2 && activeProfile2.rechazos.map(e => <div><Timeline.Item>{e.motivo}</Timeline.Item></div>)}
 
           {reviewAbierta &&
-            <div> {reviewAbierta.map(r => <Timeline.Item> {r.field}: {r.review}</Timeline.Item>)}</div>
+            <div> {reviewAbierta.map(r => <Timeline.Item> {r.field}: {r.review} {r.observacionesDelRegistro}</Timeline.Item>)}</div>
 
 
           }

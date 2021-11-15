@@ -1,11 +1,12 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Svg, Path, Line, Font } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Svg, Path, Line, Font} from '@react-pdf/renderer';
 import moment from 'moment'
 import { calcularSaldoObra, getVigenciaCertificado } from '../services/business';
 import numeral from 'numeral'
 import _ from 'lodash'
 import { Certificado } from './certificado';
 import { debug } from 'console';
+import obras from '../pages/obras';
 
 
 //Font.register({ family: 'Roboto', src: source });
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     color: '#949397',
     fontSize: '10px',
     display: 'flex',
-    width: '500px',
+    width: '300px',
     flexDirection: 'column',
     justifyContent: 'space-between',
     flexGrow: 1,
@@ -227,11 +228,43 @@ const styles = StyleSheet.create({
     
   },
   sectiontable: {
-    height:'100px',
-    minHeight:'100px',
+    height:'70px',
     borderBottom: '1px solid #5b5b5f',
+    padding:'0px',
+    margin:'0px'
     
   },
+  row: {
+    flexDirection: 'row',
+    borderBottomColor: '#bff0fd',
+    borderBottomWidth: 1,
+    alignItems: 'center',
+    height: 24,
+    fontStyle: 'bold',
+},
+description: {
+    width: '60%',
+    textAlign: 'left',
+    borderRightWidth: 1,
+    paddingLeft: 8,
+},
+qty: {
+    width: '10%',
+    borderRightWidth: 1,
+    textAlign: 'right',
+    paddingRight: 8,
+},
+rate: {
+    width: '15%',
+    borderRightWidth: 1,
+    textAlign: 'right',
+    paddingRight: 8,
+},
+amount: {
+    width: '15%',
+    textAlign: 'right',
+    paddingRight: 8,
+},
 });
 
 
@@ -907,6 +940,9 @@ const tipoSubespecialidadIA = [
 
 ]
 
+
+
+
 // Create Document Component
 export default (props) => {
 
@@ -1389,11 +1425,14 @@ export default (props) => {
             <Text  >Registrado como:<Text style={styles.sectionEtiqueta}>{props.certificado.tramite.tipoEmpresa}</Text>  </Text>
             <Text  >Estado:  <Text style={styles.sectionEtiqueta}>{`${props.certificado.tramite.categoria} - ${props.certificado.tramite.status}`}</Text>  </Text>
             <Text  >Cuit:  <Text style={styles.sectionEtiqueta}>{props.certificado.tramite.cuit}</Text>  </Text>
+            <Text  >Tipo de Tramite:  <Text style={styles.sectionEtiqueta}>{props.certificado.tramite.subCategoria}</Text>  </Text>
+            
           </View>
           <View style={styles.sectionContentHeadColumn2}>
             <Text style={styles.sectionH2}>Fecha de vigencia</Text>
             <Text style={styles.sectionH2}>{getVigenciaCertificado(props.certificado.tramite)}</Text>
           </View>
+          
         </View>
         <View style={styles.sectionContent100}>
           <Text>{getEstadoText()}</Text>
@@ -1425,14 +1464,24 @@ export default (props) => {
           </View>
         </View>
 
+        <View style={styles.sectionContentCapacidad} >
+          <View style={styles.sectionContentEspecialidadColumn}  >
+            <Text  >Tipo:</Text>
+            <Text style={styles.sectionEtiqueta}>{_.uniq(especialidades.filter(e => e !== '')).join(', ')}</Text>
+          </View>
+        </View>
 
 
         <View style={styles.sectionContentTitle} >
           <Text  >Compromisos a la fecha</Text>
         </View>
 
-
-
+        <View>
+          
+        
+        
+        </View>
+    
 
         <View style={styles.sectionContentTable} >
 
@@ -1445,7 +1494,7 @@ export default (props) => {
 
           <View style={styles.sectionContentTableColumnBorder3}  >
 
-            <Text style={styles.sectionEtiquetaTable}>Fecha de Adjudicación</Text>
+            <Text style={styles.sectionEtiquetaTable}>Fecha de Adj.</Text>
             {props.certificado.tramite.ddjjObras.filter(o =>
               o.status && o.status === 'APROBADA' || o.status && o.status === 'SUPERVIZADA').filter(
                 (o: DDJJObra) => _.includes(['Preadjudicada', 'Adjudicada', 'Ejecucion'],
@@ -1463,15 +1512,8 @@ export default (props) => {
 
           <Text style={styles.sectionEtiquetaTable}>Comitente</Text>
 
-            {props.certificado.tramite.ddjjObras.filter(o =>
-
-              o.status && o.status === 'APROBADA' ||
-              o.status && o.status === 'SUPERVIZADA').filter(
-                (o: DDJJObra) => _.includes(['Preadjudicada', 'Adjudicada', 'Ejecucion'],
-                  o.datosObra ? o.datosObra[0].estado : '')).map((o: DDJJObra) =>
-
-                  <Text style={styles.sectiontable} >{o.razonSocialComitente}</Text>
-                  )}
+            {props.certificado.tramite.ddjjObras.filter(o =>o.status && o.status === 'APROBADA' || o.status && o.status === 'SUPERVIZADA').filter((o: DDJJObra) => _.includes(['Preadjudicada', 'Adjudicada', 'Ejecucion'],o.datosObra ? o.datosObra[0].estado : '')).map((o: DDJJObra) =>
+             <Text style={styles.sectiontable} >{o.razonSocialComitente}</Text>)}
           </View>
           <View style={styles.sectionContentTableColumnBorder3}  >
 
@@ -1494,6 +1536,7 @@ export default (props) => {
                 ['Preadjudicada', 'Adjudicada', 'Ejecucion'], 
                 o.datosObra && o.datosObra[0].estado)).map((o , record: DDJJObra) =>
                 <Text style={styles.sectiontable}>
+                 
                    {numeral(record.montoInicial + 
                     (record.redeterminaciones && 
                     record.redeterminaciones.length !== 0 ? 
