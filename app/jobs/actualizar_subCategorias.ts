@@ -16,8 +16,10 @@ import config from '../config'
           let tramite = tramites[i]
           if (!tramite.subCategoria) {
                 const certs = await db.collection('certificados').find({"tramite.cuit":tramite.cuit}).toArray()
-                
-                tramite.subCategoria = _.isEmpty(certs.filter(c =>c.tramite &&  c.tramite._id !== tramite._id)) || tramite.categoria === 'PRE INSCRIPTO'  ? 'INSCRIPCION' : 'ACTUALIZACION'
+
+
+                tramite.subCategoria = _.isEmpty(certs.filter(c =>c.tramite &&  c.tramite._id !== tramite._id)) ? 'INSCRIPCION' : 'ACTUALIZACION'
+
                 await db.collection('tramites').save(tramite)
           }
       }
