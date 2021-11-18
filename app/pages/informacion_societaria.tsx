@@ -1038,7 +1038,7 @@ export default () => {
                   /></div>}
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-4 ">
+           {/* <div className="grid grid-cols-1 gap-4 ">
               <div className="pb-6" >
                 <Upload
                   label="Ultima acta de designacion de autoridades inscripta en la Inspeccion General de Justicia o Registro Publico de comercio"
@@ -1061,7 +1061,7 @@ export default () => {
                   }}
                 />
               </div>
-            </div>
+            </div>*/}
             <div className="pb-6" >
               <Upload
                 label="Ultima acta de designacion de autoridades inscripta en la Inspeccion General de Justicia o Registro Publico de comercio"
