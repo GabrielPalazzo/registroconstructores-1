@@ -240,7 +240,7 @@ export default () => {
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
                   <WrapperObras title="Especialidad" obra={obra} field='especialidad1' onChange={o => updateObra(o)}>
-                  <SelectModal
+                  <SelectSimple
                       value={obra.especialidad1}
                       bindFunction={e => {
                         obra.especialidad1 = e
@@ -305,7 +305,7 @@ export default () => {
               <div className="rounded-lg px-4 py-2 mb-4  pb-4 border">
                 <div  >
                   < WrapperObras title="Especialidad" obra={obra} field='especialidad2' onChange={o => updateObra(o)} labelRequired="*">
-                  <SelectModal
+                  <SelectSimple
                       value={obra.especialidad2}
                       bindFunction={e => {
                         obra.especialidad2 = e
@@ -369,7 +369,7 @@ export default () => {
                 <div  >
                   < WrapperObras title="Especialidad" obra={obra} field='especialidad3' onChange={o => updateObra(o)} labelRequired="">
 
-                  <SelectModal
+                  <SelectSimple
                       value={obra.especialidad3}
                       bindFunction={e => {
                         obra.especialidad3 = e
