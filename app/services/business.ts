@@ -437,11 +437,13 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     tramite.status = "PENDIENTE DE REVISION"
     return saveTramiteService(tramite)
   }
+  
 
 
   if (getUsuario().isAprobador()) {
     if (getReviewAbierta(tramite)) {
       tramite.status = 'OBSERVADO'
+      tramite.cantidadObservado = tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
       return saveTramiteService(tramite)
     } else {
       const certificado = await aprobarTramite(tramite)
@@ -469,13 +471,25 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
 
   if (tramite.status === 'OBSERVADO' && getUsuario().isConstructor()) {
     tramite.status = 'SUBSANADO'
+    tramite.cantidadSubsanado = tramite && tramite.cantidadSubsanado ? tramite.cantidadSubsanado + 1 : 1
     tramite.asignadoA = tramite.supervision && tramite.supervision.supervisadoPor ? tramite.supervision.supervisadoPor : null
-   
+
+    return saveTramiteService(tramite)
+  }
+  if ((tramite.status === 'SUBSANADO') && (getUsuario().isBackOffice())) {
+    tramite.status = 'SUBSANADO EN REVISION' 
+    tramite.cantidadSubsanado =  tramite.cantidadSubsanado && tramite.cantidadSubsanado ? tramite.cantidadSubsanado  + 1 : 1
+    tramite.asignadoA = null
     return saveTramiteService(tramite)
   }
 
   if ((tramite.status === 'SUBSANADO') && (getUsuario().isControlador())) {
-    tramite.status = 'A SUPERVISAR'
+    tramite.status = 'A SUPERVISAR' 
+    tramite.asignadoA = null
+    return saveTramiteService(tramite)
+  }
+  if ((tramite.status === 'SUBSANADO') && (getUsuario().isControlador())) {
+    tramite.status = 'SUBSANADO A SUPERVISAR' 
     tramite.asignadoA = null
     return saveTramiteService(tramite)
   }
@@ -483,6 +497,8 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
   if (tramite.status === 'A SUPERVISAR' && getUsuario().isSupervisor()) {
     if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
       tramite.status = 'OBSERVADO'
+      tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
+   
       tramite.supervision = {
         supervisadoPor: getUsuario().userData(),
         supervisadoAt: new Date().getTime()
@@ -502,6 +518,8 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
   if (tramite.status === 'PENDIENTE DE APROBACION') {
     if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
       tramite.status = 'OBSERVADO'
+      tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
+   
       tramite.asignadoA = null
     } else {
       tramite.categoria = 'INSCRIPTO'
@@ -514,6 +532,8 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
 if (tramite.status === 'EN REVISION') {
     if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
       tramite.status = 'OBSERVADO'
+      tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
+   
       tramite.asignadoA = null
     } else {
       tramite.categoria = 'INSCRIPTO'
@@ -617,14 +637,13 @@ export const cambiarADesActualizado = async (tramite: TramiteAlta): Promise<Tram
 
 export const calcularSaldoObra = (obra: DDJJObra) => {
 
-  const sumaRedeterminaciones = obra.redeterminaciones && obra.redeterminaciones.length !== 0 ? obra.redeterminaciones.map(r => parseInt(r.monto.toFixed(2), 10)).reduce((acc, val) => acc += val, 0) : 0
-  const sumaAmpliaciones = obra.ampliaciones && obra.ampliaciones.length !== 0 ? obra.ampliaciones.map(a => parseInt(a.monto.toFixed(2), 10)).reduce((acc, val) => acc += val, 0) : 0
-  const sumaCertifcaciones = obra.certificaciones && obra.certificaciones.length !== 0 ? obra.certificaciones.map(c => c.monto).reduce((acc, val) => acc += val, 0) : 0
+  const sumaRedeterminaciones = obra.redeterminaciones && obra.redeterminaciones.length !== 0 || obra.redeterminaciones && obra.redeterminaciones.length === 0 ? obra.redeterminaciones.map(r => parseInt(r.monto.toFixed(2), 10)).reduce((acc, val) => acc += val, 0) : 0
+  const sumaAmpliaciones = obra.ampliaciones && obra.ampliaciones.length !==  0 || obra.ampliaciones && obra.ampliaciones.length ===  0 ? obra.ampliaciones.map(a => parseInt(a.monto.toFixed(2), 10)).reduce((acc, val) => acc += val, 0) : 0
+  const sumaCertifcaciones = obra.certificaciones && obra.certificaciones.length !== 0 || obra.certificaciones && obra.certificaciones.length === 0 ? obra.certificaciones.map(c => c.monto).reduce((acc, val) => acc += val, 0) : 0
 
-  const saldo = (obra.montoInicial + sumaRedeterminaciones + sumaAmpliaciones) - sumaCertifcaciones
+  const saldo = (obra.montoInicial + sumaRedeterminaciones + sumaAmpliaciones) - sumaCertifcaciones 
 
   return saldo 
-
 }
 
 export const calcularCertificaciones = (obra: DDJJObra) => {

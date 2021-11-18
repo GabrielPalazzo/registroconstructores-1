@@ -11,11 +11,14 @@ import { Certificado } from './certificado'
 import obras from '../pages/obras'
 import { ObrasDatosGenerales } from './obraDatosGenerales'
 import _ from 'lodash'
+import moment from 'moment'
 
 const onSearch = value => console.log(value);
 const { Search } = Input;
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
+
+const format = "DD/MM/YYYY HH:mm"
 
 function callback(key) {
   console.log(key);
@@ -236,7 +239,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
                   </Tooltip>
 
                   <Tooltip title="Estado de la Trámite">
-                    <Tag color={getColorStatus(e)}>{e.status === 'A SUPERVISAR' ? 'EN REVISION' : e.status}</Tag>
+                    <Tag color={getColorStatus(e)}>{ e.status === 'VERIFICADO' ? '' : '' || e.status === 'A SUPERVISAR' ? 'EN REVISION' : e.status  }</Tag>
                   </Tooltip>
                   {e.ddjjObras.map(r =>
                     <div>  {r.datosObra && r.datosObra.map(r => <div>{r.estado === 'Adjudicada' ? <Tag color="gold" >art.13</Tag> : ''}</div>)}</div>)}
@@ -252,8 +255,8 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
               </div>
               <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
               <div className="text-sm  text-black-700  "> Cuit: {e.cuit}</div>
-              <div className="text-sm  text-black-700  "> Fecha de creación: {e.createdAt}</div>
-              <div className="text-sm  text-black-700  "> Fecha de envio: {e.submitedAt}</div>
+              <div className="text-sm  text-black-700  "> Fecha de creación: {moment(e.createdAt).format('DD/MM/YYYY HH:mm')} </div>
+              <div className="text-sm  text-black-700  "> Fecha de envio: {moment(e.submitedAt).format('DD/MM/YYYY HH:mm')}</div>
               <div className="text-sm  text-black-700  ">Tipo de trámite:<span className="text-sm  font-bold text-black-700   "> {e.subCategoria && e.categoria==='DESACTUALIZADO'?'ACTUALIZACION' : 'INSCRIPCION'}</span></div>
             </Card>
           </div>

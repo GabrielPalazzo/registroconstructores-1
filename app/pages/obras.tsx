@@ -964,7 +964,8 @@ export default () => {
 
       title: 'Saldo',
       dataIndex: 'saldo',
-      render: (text, record: DDJJObra) => <div>{numeral(calcularSaldoObra(record)).format('$0,0.00')}</div>
+      render: (text, record: DDJJObra) => <div>
+        {numeral(calcularSaldoObra(record)).format('$0,0.00')}</div>
     }
   ]
 

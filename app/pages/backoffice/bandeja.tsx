@@ -12,6 +12,7 @@ import { setTramiteView } from '../../redux/actions/main';
 import { SET_TRAMITE_NUEVO, SET_TRAMITE_VIEW } from '../../redux/reducers/main';
 import { cargarUltimaRevisionAbierta } from '../../redux/actions/revisionTramite';
 import _ from 'lodash'
+import numeral from 'numeral'
 
 const { TabPane } = Tabs;
 const Panel = Collapse.Panel;
@@ -130,7 +131,11 @@ export default () => {
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
-                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
+                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces OBSERVADO:{t.cantidadObservado ? numeral(t.cantidadObservado).format('0') : numeral(t.cantidadObservado).format('0')} </div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado} </div>
+                    <div className=" text-xs   text-muted-700">ID de tramite:{t._id} </div>
+                    <br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -176,11 +181,16 @@ export default () => {
                       </Tag> : <Tag color="red" className="" >
                         <div><LockFilled />{` ${t.asignadoA.GivenName} ${t.asignadoA.Surname}`} </div>
                       </Tag>}
-                     
+                    
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                     <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
+                    <div className=" text-xs   text-muted-700">ID de tramite:{t._id} </div>
+                    <div className=" text-xs   text-muted-700">OBSERVADO:{t.cantidadObservado} </div>
+                    <div className=" text-xs   text-muted-700">SUBSANADO:{t.cantidadSubsanado} </div>
+  
+                    <br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>

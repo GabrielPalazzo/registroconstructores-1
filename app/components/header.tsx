@@ -199,8 +199,7 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
       }} danger type='text' style={{ fontWeight: 'bold', marginLeft: '10px', color: '#F5222D' }} >
         <CloseOutlined />Rechazar tramite</Button> : ''}
 
-
-      <Button danger type="text" onClick={() => setShowCancelar(true)} style={{ color: '#ED3D8F', fontWeight: 'bold', }}>
+     <Button danger type="text" onClick={() => setShowCancelar(true)} style={{ color: '#ED3D8F', fontWeight: 'bold', }}>
         <ArrowLeftOutlined /> Cancelar
       </Button>
 
@@ -221,14 +220,17 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
       <Tooltip title="Estado de la Trámite">
         <Tag color={getColorStatus(tramite)}>{tramite.status}</Tag>
       </Tooltip>
-
+      <div className=" text-xs   text-muted-700 mr-2 mt-2"> OBSERVADO:{tramite.cantidadObservado} </div>
+      <div className=" text-xs   text-muted-700 mr-2 mt-2">SUBSANADO:{tramite.cantidadSubsanado} </div>
+  
       <Dropdown overlay={menu} trigger={['click']}>
         <div onClick={e => e.preventDefault()}>
           <Avatar style={{ color: '#fff', backgroundColor: '#50B7B2', marginLeft: '10px' }} >{user.userData().GivenName.substring(0, 1)}</Avatar>
         </div>
       </Dropdown>
-
-    </div>
+      </div>
+    
+      
     <style>
       {`
       .ant-tag{height: 25px;

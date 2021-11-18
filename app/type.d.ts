@@ -216,6 +216,8 @@ type Ejercicio = {
 
 
 type TramiteAlta = {
+  cantidadObservado?: number,
+  cantidadSubsanado?:number,
   _id?: string,
   creatorId: Usuario,
   inscripcionAFIPConstancia: Array<Archivo>
@@ -249,7 +251,7 @@ type TramiteAlta = {
     obs: string
   }>
   categoria: 'PRE INSCRIPTO' | 'INSCRIPTO' | 'DESACTUALIZADO' | 'INSCRIPTO CON ACTUALIZACION'
-  status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION" | "A SUPERVISAR" | "SUBSANADO" | "PENDIENTE DE APROBACION" | "EN REVISION"
+  status: "BORRADOR" | "OBSERVADO" | "VERIFICADO" | "PENDIENTE DE REVISION" | "A SUPERVISAR" | "SUBSANADO" | "PENDIENTE DE APROBACION" | "EN REVISION" | "SUBSANADO EN REVISION" | "SUBSANADO A SUPERVISAR"
   subCategoria: 'ACTUALIZACION' | 'INSCRIPCION'
   rechazos:Array<{
     rechazadoPor: Usuario
@@ -434,7 +436,7 @@ type TramiteAlta = {
     supervisadoPor: Usuario,
     supervisadoAt: number 
   }
-  
+ 
 }
 
 type ValidatorErrorElement = {
