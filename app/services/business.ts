@@ -286,7 +286,6 @@ export const getEmptyTramiteAlta = (): TramiteAlta => {
       fechaVencimiento: '',
       archivoAutoridades: []
     }
-
   }
 }
 

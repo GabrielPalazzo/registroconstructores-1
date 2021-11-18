@@ -26,7 +26,9 @@ handler.get(async (req: any, res: NextApiResponse) => {
       cuit:1,
       submitedAt:1,
       asignadoA:1,
-      revisiones:1
+      revisiones:1,
+      cantidadObservado:1,
+      cantidadSubsanado:1
     } )
     .toArray();
   res.send({
@@ -40,6 +42,8 @@ handler.get(async (req: any, res: NextApiResponse) => {
         cuit:t.cuit,
         submitedAt: t.submitedAt,
         asignadoA: t.asignadoA,
+        cantidadObservado:t.cantidadObservado,
+        cantidadSubsanado:t.cantidadSubsanado,
         revisiones: t.revisiones
       }
     })

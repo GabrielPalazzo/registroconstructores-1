@@ -216,8 +216,6 @@ type Ejercicio = {
 
 
 type TramiteAlta = {
-  cantidadObservado?: number,
-  cantidadSubsanado?:number,
   _id?: string,
   creatorId: Usuario,
   inscripcionAFIPConstancia: Array<Archivo>
@@ -436,6 +434,8 @@ type TramiteAlta = {
     supervisadoPor: Usuario,
     supervisadoAt: number 
   }
+  cantidadObservado?: number,
+  cantidadSubsanado?:number,
  
 }
 

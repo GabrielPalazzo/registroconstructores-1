@@ -187,10 +187,9 @@ export default () => {
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                     <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
                     <div className=" text-xs   text-muted-700">ID de tramite:{t._id} </div>
-                    <div className=" text-xs   text-muted-700">OBSERVADO:{t.cantidadObservado} </div>
-                    <div className=" text-xs   text-muted-700">SUBSANADO:{t.cantidadSubsanado} </div>
-  
-                    <br />
+                    <div className=" text-xs   text-muted-700">Cantidad de veces OBSERVADO:{t.cantidadObservado ? numeral(t.cantidadObservado).format('0') : numeral(t.cantidadObservado).format('0')} </div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado} </div>
+                   
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -246,7 +245,10 @@ export default () => {
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
-                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
+                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces OBSERVADO:{t.cantidadObservado ? numeral(t.cantidadObservado).format('0') : numeral(t.cantidadObservado).format('0')} </div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado} </div>
+                   <br/>
                  CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -298,7 +300,11 @@ export default () => {
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
-                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
+                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces OBSERVADO:{t.cantidadObservado ? numeral(t.cantidadObservado).format('0') : numeral(t.cantidadObservado).format('0')} </div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado} </div>
+                   
+                    <br />
                  CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
@@ -348,7 +354,11 @@ export default () => {
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
-                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
+                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces OBSERVADO:{t.cantidadObservado ? numeral(t.cantidadObservado).format('0') : numeral(t.cantidadObservado).format('0')} </div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado} </div>
+                   
+                    <br />
                
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
@@ -402,7 +412,10 @@ export default () => {
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                     <div className=" text-xs text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'): 'NO INFORMA'}</div><br />
-                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
+                    <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces OBSERVADO:{t.cantidadObservado ? numeral(t.cantidadObservado).format('0') : numeral(t.cantidadObservado).format('0')} </div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado} </div>
+                   <br />
                
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
@@ -455,7 +468,10 @@ export default () => {
                     </div>
                     <div className=" text-lg font-bold mt-2 text-black-700">{t.razonSocial}</div>
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
-                    <div className=" text-xs text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'): 'NO INFORMA'}</div><br />
+                    <div className=" text-xs text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'): 'NO INFORMA'}</div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces OBSERVADO:{t.cantidadObservado ? numeral(t.cantidadObservado).format('0') : numeral(t.cantidadObservado).format('0')} </div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado} </div>
+                   <br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
                   </div>
