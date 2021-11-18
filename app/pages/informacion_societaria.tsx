@@ -1196,7 +1196,7 @@ export default () => {
           <div className="text-2xl font-bold pb-4 py-4">Modificación estatutaria Inscripta en I.N.A.E.S (objeto social referente a rubro Construcción)
             <Tooltip title="En caso de que la cooperativa sea Constructora desde su Constitución, repetir mismos datos y fecha de la Inscripción de Acta Constitutiva en I.N.A.E.S "> <QuestionCircleOutlined className="pl-4" /></Tooltip></div>
           <div className="grid grid-cols-2 gap-4 ">
-            <div >
+            {/*<div >
               <Wrapper title="Datos" attributeName="datosModificacionEstatutariaINAES" labelRequired="*">
                 <InputText
                   attributeName="datosModificacionEstatutariaINAES"
@@ -1209,7 +1209,7 @@ export default () => {
                   }}
                   required />
               </Wrapper>
-            </div>
+                </div>*/}
             <div >
               <Wrapper title="Fecha" attributeName="fechamodificacionINAES" labelRequired="*">
                 <DatePickerModal
@@ -1228,7 +1228,7 @@ export default () => {
               </Wrapper>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4 ">
+        {/*  <div className="grid grid-cols-1 gap-4 ">
             <div >
               <Wrapper title="Modificación del Objeto de la cooperativa a rubro construccion" attributeName="cooperativaarchivomodificacionINAES"
                 labelRequired="*"  >
@@ -1254,12 +1254,12 @@ export default () => {
                 />
               </Wrapper>
             </div>
-          </div>
+                </div>*/}
         </div>
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <div className="text-2xl font-bold py-4">Última modificación estatutaria Inscripta en I.N.A.E.S.</div>
           <div className="grid grid-cols-2 gap-4 ">
-          {/*   <div >
+          <div >
               <Wrapper title="Datos" attributeName="datosultimaModificacionEstatutariaINAES" labelRequired="*">
                 <InputText
                   attributeName="datosultimaModificacionEstatutariaINAES"
@@ -1272,7 +1272,7 @@ export default () => {
                     updateObjTramite()
                   }}
                   required />
-              </Wrapper></div>*/}
+              </Wrapper></div>
 
             <div >
               <Wrapper title="Fecha" attributeName="fechaultimaModificacionINAES" labelRequired="*">
@@ -1292,7 +1292,7 @@ export default () => {
               </Wrapper>
             </div>
           </div>
-         {/*
+         
           <div className="grid grid-cols-1 gap-4 ">
             <div >
 
@@ -1320,7 +1320,7 @@ export default () => {
                 />
               </Wrapper>
             </div>
-                </div>*/}
+                </div>
         </div>
         <div className="px-8 mx-16  py-6 bg-white shadow-2xl rounded-xl mb-8">
           <div className="text-2xl font-bold py-4">Fecha de vencimiento del Contrato / Acta Constitutiva</div>
