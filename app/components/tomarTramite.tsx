@@ -64,7 +64,7 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
         await dispatch(InitRevisionTramite())
         await dispatch(lockTramite(Object.assign({},tramite)))
       }
-      tramite.status  === 'EN REVISION'
+      tramite.status 
     }
     
     
@@ -82,8 +82,12 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
   (tramite.status==='A SUPERVISAR' && getUsuario().isSupervisor())  || 
   (tramite.status==='A SUPERVISAR'  && getUsuario().isAprobador())  || 
   (tramite.status=='SUBSANADO' && getUsuario().isBackOffice()) || 
-  (tramite.status=='SUBSANADO EN REVISION' && getUsuario().isBackOffice()) || 
+   (tramite.status=='SUBSANADO EN REVISION' && getUsuario().isSupervisor()) || 
+  (tramite.status=='SUBSANADO EN REVISION' && getUsuario().isControlador()) || 
+  (tramite.status=='SUBSANADO EN REVISION' && getUsuario().isSupervisor()) ||  
+  (tramite.status=='SUBSANADO EN REVISION' && getUsuario().isAprobador()) || 
     (tramite.status=='SUBSANADO A SUPERVISAR' && getUsuario().isSupervisor()) || 
+    (tramite.status=='SUBSANADO A SUPERVISAR' && getUsuario().isAprobador()) || 
     (tramite.status=='EN REVISION' && getUsuario().isBackOffice())
 
   const isLocked = () => !tramite.asignadoA ? false : true
