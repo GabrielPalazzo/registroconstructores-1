@@ -122,7 +122,10 @@ export default (props) => {
               <Button onClick={() => handleCancel()}>Cancelar</Button>,
               <Button disabled={!puedeEnviarTramimte} type="primary" onClick={() => {
                 setIsLoading(true)
-                tramite.submitedAt = !tramite.submitedAt ? new Date() : tramite.submitedAt
+                if(tramite.status === 'BORRADOR') {
+                  tramite.submitedAt = new Date() 
+                }  
+                tramite.submitedAt = !tramite.submitedAt ? new Date()  : tramite.submitedAt
                 sendTramite(tramite).then(result => {
                   dispatch(saveTramite(result))
                   router.push('/success')

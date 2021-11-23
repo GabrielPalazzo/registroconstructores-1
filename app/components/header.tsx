@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/store';
 import _ from 'lodash'
+import obras from '../pages/obras';
 
 const { TextArea } = Input
 
@@ -163,10 +164,11 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
           {activeProfile2 && activeProfile2.rechazos.map(e => <div><Timeline.Item>{e.motivo}</Timeline.Item></div>)}
 
           {reviewAbierta &&
-            <div> {reviewAbierta.map(r => <Timeline.Item> {r.field}: {r.review} {r.observacionesDelRegistro}</Timeline.Item>)}</div>
+            <div> {reviewAbierta.map(r => <Timeline.Item> {r.field}: {r.review} </Timeline.Item> )}</div>
 
 
           }
+           
         </Timeline>
       </div>
     </Modal>

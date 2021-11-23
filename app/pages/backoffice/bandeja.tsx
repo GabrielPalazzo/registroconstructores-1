@@ -133,8 +133,8 @@ export default () => {
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                     <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div>
                     <div className=" text-xs   text-muted-700">Cantidad de veces OBSERVADO:{t.cantidadObservado ? numeral(t.cantidadObservado).format('0') : numeral(t.cantidadObservado).format('0')} </div>
-                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado} </div>
-                    <div className=" text-xs   text-muted-700">ID de tramite:{t._id} </div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado ? numeral(t.cantidadSubsanado).format('0') : numeral(t.cantidadSubsanado).format('0')} </div>
+                   <div className=" text-xs   text-muted-700">ID de tramite:{t._id} </div>
                     <br />
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
@@ -188,7 +188,8 @@ export default () => {
                     <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div><br />
                     <div className=" text-xs   text-muted-700">ID de tramite:{t._id} </div>
                     <div className=" text-xs   text-muted-700">Cantidad de veces OBSERVADO:{t.cantidadObservado ? numeral(t.cantidadObservado).format('0') : numeral(t.cantidadObservado).format('0')} </div>
-                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado} </div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado ? numeral(t.cantidadSubsanado).format('0') : numeral(t.cantidadSubsanado).format('0')} </div>
+                  <br/>
                    
                   CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
@@ -247,7 +248,7 @@ export default () => {
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                     <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div>
                     <div className=" text-xs   text-muted-700">Cantidad de veces OBSERVADO:{t.cantidadObservado ? numeral(t.cantidadObservado).format('0') : numeral(t.cantidadObservado).format('0')} </div>
-                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado} </div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado ? numeral(t.cantidadSubsanado).format('0') : numeral(t.cantidadSubsanado).format('0')} </div>
                    <br/>
                  CUIT: {t.cuit}<br />
                   Exp: {'A Definir'}</div>
@@ -284,7 +285,7 @@ export default () => {
           </TabPane>
 
           <TabPane tab={`A Supervisar (${tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' || t.categoria === 'DESACTUALIZADO'  ).filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').length})`} key="4">
-  {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' || t.categoria === 'DESACTUALIZADO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR').map((t: TramiteAlta) => (
+  {tramites.filter((t: TramiteAlta) => t.categoria === 'PRE INSCRIPTO' || t.categoria === 'DESACTUALIZADO' && t.status !== 'BORRADOR').filter((t: TramiteAlta) => t.status === 'A SUPERVISAR' || t.status === 'SUBSANADO A SUPERVISAR').map((t: TramiteAlta) => (
              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
                   <div>
@@ -302,7 +303,7 @@ export default () => {
                     <div className=" text-xs mb-4  text-muted-700">Inicio del trámite: {moment(t.createdAt).format('DD/MM/YYYY HH:mm')}<br />
                     <div className=" text-xs   text-muted-700">Envio del trámite: {t.submitedAt ? moment(t.submitedAt).format('DD/MM/YYYY HH:mm'):  moment(t.createdAt).format('DD/MM/YYYY HH:mm') }</div>
                     <div className=" text-xs   text-muted-700">Cantidad de veces OBSERVADO:{t.cantidadObservado ? numeral(t.cantidadObservado).format('0') : numeral(t.cantidadObservado).format('0')} </div>
-                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado} </div>
+                    <div className=" text-xs   text-muted-700">Cantidad de veces SUBSANADO:{t.cantidadSubsanado ? numeral(t.cantidadSubsanado).format('0') : numeral(t.cantidadSubsanado).format('0')} </div>
                    
                     <br />
                  CUIT: {t.cuit}<br />

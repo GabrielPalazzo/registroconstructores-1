@@ -150,12 +150,12 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:'Indíque un número de telefono para ser notificado'
         })
-        if(_.isEmpty(this.tramite.constanciaDomicilioLegal)) 
-        toValidate.push({
-          attribute:'ConstanciaDomicilioLegal',
-          dataId:'',
-          error:'La Constancia del domicilio legal es obligatoria'
-        })
+       // if(_.isEmpty(this.tramite.constanciaDomicilioLegal)) 
+       // toValidate.push({
+       //   attribute:'ConstanciaDomicilioLegal',
+       //   dataId:'',
+       //   error:'La Constancia del domicilio legal es obligatoria'
+       // })
       
       
 
@@ -288,24 +288,24 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:"La fecha  de la inscripcion del contrato es obligatoria"
         })
-      if (this.tramite.personeria==='SA'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.datos)
-        toValidate.push({
-          attribute:'modificacionDatosContrato',
-          dataId:'',
-          error:"Los datos de la modificacion del contrato son obligatorios"
-        })
-      if (this.tramite.personeria==='SRL'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.datos)
-        toValidate.push({
-          attribute:'modificacionDatosContrato',
-          dataId:'',
-          error:"Los datos de la modificacion del contrato son obligatorios"
-        })
-      if (this.tramite.personeria==='OFS'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.datos)
-        toValidate.push({
-          attribute:'modificacionDatosContrato',
-          dataId:'',
-          error:"Los datos de la modificacion del contrato son obligatorios"
-        })
+      //if (this.tramite.personeria==='SA'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.datos)
+      //  toValidate.push({
+      //    attribute:'modificacionDatosContrato',
+      //    dataId:'',
+      //    error:"Los datos de la modificacion del contrato son obligatorios"
+      //  })
+      //if (this.tramite.personeria==='SRL'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.datos)
+      //  toValidate.push({
+      //    attribute:'modificacionDatosContrato',
+      //    dataId:'',
+      //    error:"Los datos de la modificacion del contrato son obligatorios"
+      //  })
+      //if (this.tramite.personeria==='OFS'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.datos)
+      //  toValidate.push({
+      //    attribute:'modificacionDatosContrato',
+      //    dataId:'',
+      //    error:"Los datos de la modificacion del contrato son obligatorios"
+      //  })
       if (this.tramite.personeria==='SA'  && !this.tramite.datosSocietarios.sociedadAnonima.modificacion.fecha)
         toValidate.push({
           attribute:'modificacionFechaContrato',
@@ -330,18 +330,18 @@ class Validator implements ValidatorInterface {
           dataId:'',
           error:'El  Contrato Constitutivo, junto con TODAS sus modificaciones hasta el día de hoy es obligatorio'
         })
-      if(this.tramite.personeria==='SA'  &&  _.isEmpty(this.tramite.datosSocietarios.sociedadAnonima.modificacion.archivos)) 
-        toValidate.push({
-          attribute:'ArchivoMODIFICACIONContratoSA',
-          dataId:'',
-          error:'El archivo de la   Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J. es obligatorio'
-        })
-        if(this.tramite.personeria==='SRL'  &&  _.isEmpty(this.tramite.datosSocietarios.sociedadAnonima.modificacion.archivos)) 
-        toValidate.push({
-          attribute:'ArchivoMODIFICACIONContratoSA',
-          dataId:'',
-          error:'El archivo de la   Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J. es obligatorio'
-        })
+     // if(this.tramite.personeria==='SA'  &&  _.isEmpty(this.tramite.datosSocietarios.sociedadAnonima.modificacion.archivos)) 
+     //   toValidate.push({
+     //     attribute:'ArchivoMODIFICACIONContratoSA',
+     //     dataId:'',
+     //     error:'El archivo de la   Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J. es obligatorio'
+     //   })
+     //   if(this.tramite.personeria==='SRL'  &&  _.isEmpty(this.tramite.datosSocietarios.sociedadAnonima.modificacion.archivos)) 
+     //   toValidate.push({
+     //     attribute:'ArchivoMODIFICACIONContratoSA',
+     //     dataId:'',
+     //     error:'El archivo de la   Modificación del Objeto Social a rubro Construcción inscripto en D.P.P.J / I.G.J. es obligatorio'
+     //   })
         if(this.tramite.personeria==='OFS'  &&  _.isEmpty(this.tramite.datosSocietarios.sociedadAnonima.modificacion.archivos)) 
         toValidate.push({
           attribute:'ArchivoMODIFICACIONContratoSA',

@@ -45,15 +45,30 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
 
   const UnLocked = () => {
     return <div onClick={async () => {
-      if ((tramite.status==='PENDIENTE DE REVISION')||(tramite.status==='A SUPERVISAR')||(tramite.status==='SUBSANADO') || (tramite.status==='EN REVISION') || (tramite.status==='PENDIENTE DE APROBACION')) {
+
+      if
+      (tramite.status=== 'SUBSANADO') {
         tramite.asignadoA = user as Usuario
         await dispatch(InitRevisionTramite())
         await dispatch(lockTramite(Object.assign({},tramite)))
       }
-      tramite.status
+      tramite.status === 'SUBSANADO EN REVISION'
       
-        
-    }}>
+    if ((tramite.status==='PENDIENTE DE REVISION') ||
+      (tramite.status==='A SUPERVISAR')||
+      (tramite.status==='EN REVISION') 
+      || (tramite.status==='PENDIENTE DE APROBACION') || 
+      (tramite.status=== 'SUBSANADO EN REVISION') || 
+      (tramite.status=== 'SUBSANADO A SUPERVISAR'))  {
+        tramite.asignadoA = user as Usuario
+        await dispatch(InitRevisionTramite())
+        await dispatch(lockTramite(Object.assign({},tramite)))
+      }
+      tramite.status  === 'EN REVISION'
+    }
+    
+    
+    }>
       <Tag color="green" className="" >
         <div><UnlockFilled /> Tomar Tramite </div>
       </Tag>
@@ -63,7 +78,13 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
   if (!tramite)
     return <div></div>
 
-  const showComponente = () => tramite.status==='PENDIENTE DE REVISION'|| (tramite.status==='A SUPERVISAR' && getUsuario().isSupervisor())  || (tramite.status==='A SUPERVISAR'  && getUsuario().isAprobador())  || (tramite.status=='SUBSANADO' && getUsuario().isBackOffice()) || (tramite.status=='EN REVISION' && getUsuario().isBackOffice())
+  const showComponente = () => tramite.status==='PENDIENTE DE REVISION'|| 
+  (tramite.status==='A SUPERVISAR' && getUsuario().isSupervisor())  || 
+  (tramite.status==='A SUPERVISAR'  && getUsuario().isAprobador())  || 
+  (tramite.status=='SUBSANADO' && getUsuario().isBackOffice()) || 
+  (tramite.status=='SUBSANADO EN REVISION' && getUsuario().isBackOffice()) || 
+    (tramite.status=='SUBSANADO A SUPERVISAR' && getUsuario().isSupervisor()) || 
+    (tramite.status=='EN REVISION' && getUsuario().isBackOffice())
 
   const isLocked = () => !tramite.asignadoA ? false : true
 
