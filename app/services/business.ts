@@ -468,11 +468,6 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     tramite.asignadoA = null
     return saveTramiteService(tramite)
   }
-  if (tramite.status === 'SUBSANADO EN REVISION' && getUsuario().isBackOffice()) {
-    tramite.status = 'SUBSANADO A SUPERVISAR'
-    tramite.asignadoA = null
-    return saveTramiteService(tramite)
-  }
  
 
   if (tramite.status === 'OBSERVADO' && getUsuario().isConstructor()) {
@@ -483,8 +478,19 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     return saveTramiteService(tramite)
   }
 
- 
-  
+  if ((tramite.status === 'SUBSANADO') && (getUsuario().isBackOffice())) {
+    tramite.status = 'SUBSANADO EN REVISION' 
+    tramite.cantidadSubsanado =  tramite.cantidadSubsanado && tramite.cantidadSubsanado ? tramite.cantidadSubsanado  + 1 : 1
+    tramite.asignadoA = null
+    return saveTramiteService(tramite)
+  }
+
+  if ((tramite.status === 'SUBSANADO EN REVISION') && (getUsuario().isAprobador())) {
+    tramite.status = 'SUBSANADO A SUPERVISAR' 
+    tramite.cantidadSubsanado =  tramite.cantidadSubsanado && tramite.cantidadSubsanado ? tramite.cantidadSubsanado  + 1 : 1
+    tramite.asignadoA = null
+    return saveTramiteService(tramite)
+  }
  
   if ((tramite.status === 'SUBSANADO')&& getUsuario().isBackOffice()) {
     tramite.status = 'SUBSANADO A SUPERVISAR' 
@@ -495,6 +501,27 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
   
 
   if (tramite.status === 'SUBSANADO A SUPERVISAR' && getUsuario().isSupervisor() || tramite.status === 'SUBSANADO A SUPERVISAR' && getUsuario().isAprobador() ) {
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+      tramite.status = 'OBSERVADO'
+      tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
+   
+      tramite.supervision = {
+        supervisadoPor: getUsuario().userData(),
+        supervisadoAt: new Date().getTime()
+      }
+    } else {
+      tramite.status = 'PENDIENTE DE APROBACION'
+      //tramite.revisiones=[]
+    }
+    tramite.asignadoA = null
+    tramite.supervision = {
+      supervisadoPor: getUsuario().userData(),
+      supervisadoAt: new Date().getTime()
+    }
+    return saveTramiteService(tramite)
+  }
+
+  if (tramite.status === 'SUBSANADO EN REVISION' && getUsuario().isSupervisor() || tramite.status === 'SUBSANADO EN REVISION' && getUsuario().isAprobador() || tramite.status === 'SUBSANADO EN REVISION' && getUsuario().isControlador() ) {
     if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
       tramite.status = 'OBSERVADO'
       tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
