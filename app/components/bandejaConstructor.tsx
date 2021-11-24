@@ -256,7 +256,7 @@ export const BandejaConstructor: React.FC<BandejaConstructorProps> = ({
               <div className="text-lg font-bold text-black-700  "> {e.razonSocial}</div>
               <div className="text-sm  text-black-700  "> Cuit: {e.cuit}</div>
               <div className="text-sm  text-black-700  "> Fecha de creación: {moment(e.createdAt).format('DD/MM/YYYY HH:mm')} </div>
-              <div className="text-sm  text-black-700  "> Fecha de envio: {moment(e.submitedAt).format('DD/MM/YYYY HH:mm')}</div>
+              <div className="text-sm  text-black-700  "> Fecha de envio: {e.submitedAt  ?  moment(e.submitedAt).format('DD/MM/YYYY HH:mm') : ''}</div>
               <div className="text-sm  text-black-700  ">Tipo de trámite:<span className="text-sm  font-bold text-black-700   "> {e.subCategoria && e.categoria==='DESACTUALIZADO'?'ACTUALIZACION' : 'INSCRIPCION'}</span></div>
             </Card>
           </div>
