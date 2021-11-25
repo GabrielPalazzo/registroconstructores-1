@@ -873,7 +873,8 @@ export default () => {
     {
     title: '',
     key: 'Editada',
-    render: (text, record: DDJJObra) => <div> {record.fechaAprobacion && record.status !== 'APROBADA' ? 'Editada' : ''}</div>
+    render: (text, record: DDJJObra) => 
+    <div> {record.fechaAprobacion && record.status !== 'APROBADA' ? 'Editada' : ''}</div>
    },
     {
       title: 'Obs',
@@ -1177,6 +1178,11 @@ No se considerarán, a los efectos de la determinación de la Capacidad Económi
   )
 }
 const tipoEspecialidad = [
+  {
+    label: '',
+    value: 'VACIO',
+    option: 'VACIO',
+  },
   {
     label: 'INGENIERIA VIAL',
     value: 'IV',

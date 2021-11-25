@@ -437,6 +437,7 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     return saveTramiteService(tramite)
   }
   
+  
 
 
   if (getUsuario().isAprobador()) {
@@ -479,25 +480,17 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
   }
 
   if ((tramite.status === 'SUBSANADO') && (getUsuario().isBackOffice())) {
-    tramite.status = 'SUBSANADO EN REVISION' 
-    tramite.cantidadSubsanado =  tramite.cantidadSubsanado && tramite.cantidadSubsanado ? tramite.cantidadSubsanado  + 1 : 1
-    tramite.asignadoA = null
-    return saveTramiteService(tramite)
-  }
-
-  if ((tramite.status === 'SUBSANADO EN REVISION') && (getUsuario().isAprobador())) {
-    tramite.status = 'SUBSANADO A SUPERVISAR' 
-    tramite.cantidadSubsanado =  tramite.cantidadSubsanado && tramite.cantidadSubsanado ? tramite.cantidadSubsanado  + 1 : 1
-    tramite.asignadoA = null
-    return saveTramiteService(tramite)
-  }
- 
-  if ((tramite.status === 'SUBSANADO')&& getUsuario().isBackOffice()) {
     tramite.status = 'SUBSANADO A SUPERVISAR' 
     tramite.asignadoA = null
     return saveTramiteService(tramite)
   }
 
+
+  if ((tramite.status === 'SUBSANADO EN REVISION') && (getUsuario().isBackOffice())) {
+    tramite.status = 'SUBSANADO A SUPERVISAR' 
+    tramite.asignadoA = null
+    return saveTramiteService(tramite)
+  }
   
 
   if (tramite.status === 'SUBSANADO A SUPERVISAR' && getUsuario().isSupervisor() || tramite.status === 'SUBSANADO A SUPERVISAR' && getUsuario().isAprobador() ) {
@@ -521,7 +514,8 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     return saveTramiteService(tramite)
   }
 
-  if (tramite.status === 'SUBSANADO EN REVISION' && getUsuario().isSupervisor() || tramite.status === 'SUBSANADO EN REVISION' && getUsuario().isAprobador() || tramite.status === 'SUBSANADO EN REVISION' && getUsuario().isControlador() ) {
+
+  if (tramite.status === 'SUBSANADO EN REVISION' && getUsuario().isSupervisor()  ) {
     if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
       tramite.status = 'OBSERVADO'
       tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
@@ -541,7 +535,7 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     }
     return saveTramiteService(tramite)
   }
-  
+ 
 
   
   if (tramite.status === 'A SUPERVISAR' && getUsuario().isSupervisor()) {
@@ -594,19 +588,9 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
     }
     return saveTramiteService(tramite)
   }
-  if (tramite.status === 'SUBSANADO EN REVISION') {
-    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
-      tramite.status = 'OBSERVADO'
-      tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
-   
-      tramite.asignadoA = null
-    } else {
-      tramite.categoria = 'INSCRIPTO'
-      tramite.status = 'VERIFICADO'
-      //tramite.revisiones=[]
-    }
-    return saveTramiteService(tramite)
-  }
+ 
+ 
+  
 
 
 }
@@ -623,7 +607,7 @@ export const allowGuardar = (tramite: TramiteAlta) => {
   if (getUsuario().isControlador() && [ 'PENDIENTE DE REVISION','EN REVISION', 'SUBSANADO','SUBSANADO A SUPERVISAR','SUBSANADO EN REVISON'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
   
-    if (getUsuario().isBackOffice() && ['PENDIENTE DE REVISION', 'EN REVISION', 'SUBSANADO', 'A SUPERVISAR', 'SUBSANADO A SUPERVISAR','SUBSANADO EN REVISON'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
+    if (getUsuario().isBackOffice() && ['PENDIENTE DE REVISION', 'EN REVISION', 'SUBSANADO', 'A SUPERVISAR', 'SUBSANADO A SUPERVISAR','SUBSANADO EN REVISION'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
   if (getUsuario().isSupervisor() && ['PENDIENTE DE REVISION', 'EN REVISION', 'SUBSANADO', 'A SUPERVISAR', 'SUBSANADO A SUPERVISAR','SUBSANADO EN REVISON'].includes(tramite.status) && (tramite.asignadoA && tramite.asignadoA.cuit === getUsuario().userData().cuit))
     return true
@@ -774,13 +758,20 @@ export const determinarEstadoObra = (obra:DDJJObra) : 'APROBADA' | 'OBSERVADA' |
     || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) 
     || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
     || hasObservacionesObra(obra) ? 'OBSERVADA' : 'APROBADA'
-    
+  
+  if (obra.status ===null )
+    return  !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA')) 
+    || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) 
+    || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
+    || hasObservacionesObra(obra) ? 'OBSERVADA' : 'A REVISAR'
+    || obra.status === null ? 'A REVISAR' : '' 
+   
   if (!obra.status )
     return  !_.isEmpty(obra.certificaciones && obra.certificaciones.filter(c => c.status === 'OBSERVADA')) 
     || !_.isEmpty(obra.ampliaciones && obra.ampliaciones.filter(c => c.status === 'OBSERVADA')) 
     || !_.isEmpty(obra.redeterminaciones && obra.redeterminaciones.filter(c => c.status === 'OBSERVADA'))
     || hasObservacionesObra(obra) ? 'OBSERVADA' : 'A REVISAR'
-    || obra.status === null ? 'A REVISAR' : 'A REVISAR' 
+    || obra.status === null ? 'A REVISAR' : '' 
    
     return obra.status
 

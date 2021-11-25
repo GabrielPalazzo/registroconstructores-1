@@ -45,28 +45,21 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
 
   const UnLocked = () => {
     return <div onClick={async () => {
-
-      
-      
-    if ((tramite.status==='PENDIENTE DE REVISION') ||
-      (tramite.status==='A SUPERVISAR')||
-      (tramite.status==='EN REVISION') 
-      || (tramite.status==='PENDIENTE DE APROBACION') || 
-      (tramite.status=== 'SUBSANADO EN REVISION') || 
-      (tramite.status=== 'SUBSANADO A SUPERVISAR'))  {
+ 
+    if ((tramite.status==='SUBSANADO A SUPERVISAR') 
+    || (tramite.status ==='SUBSANADO EN REVISION')
+    || (tramite.status ==='A SUPERVISAR')
+    || (tramite.status ==='EN REVISION')
+    || (tramite.status ==='PENDIENTE DE APROBACION')
+    || (tramite.status ==='PENDIENTE DE REVISION')
+    || (tramite.status ==='SUBSANADO')
+      )  {
         tramite.asignadoA = user as Usuario
         await dispatch(InitRevisionTramite())
         await dispatch(lockTramite(Object.assign({},tramite)))
       }
       tramite.status 
-
-      if
-      (tramite.status=== 'SUBSANADO') {
-        tramite.asignadoA = user as Usuario
-        await dispatch(InitRevisionTramite())
-        await dispatch(lockTramite(Object.assign({},tramite)))
-      }
-      tramite.status === 'SUBSANADO EN REVISION'
+    
     }
     
     
@@ -81,13 +74,10 @@ export const TomarTramite: React.FC<TomarTramiteProps> = ({
     return <div></div>
 
   const showComponente = () => tramite.status==='PENDIENTE DE REVISION'|| 
-  (tramite.status==='A SUPERVISAR' && getUsuario().isSupervisor())  || 
-  (tramite.status==='A SUPERVISAR'  && getUsuario().isAprobador())  || 
-  (tramite.status=='SUBSANADO' && getUsuario().isBackOffice()) || 
-   (tramite.status=='SUBSANADO EN REVISION' && getUsuario().isSupervisor()) || 
-  (tramite.status=='SUBSANADO EN REVISION' && getUsuario().isControlador()) || 
-  (tramite.status=='SUBSANADO EN REVISION' && getUsuario().isBackOffice()) ||  
-  (tramite.status=='SUBSANADO EN REVISION' && getUsuario().isAprobador()) || 
+    (tramite.status==='A SUPERVISAR' && getUsuario().isSupervisor())  || 
+    (tramite.status==='A SUPERVISAR'  && getUsuario().isAprobador())  || 
+    (tramite.status=='SUBSANADO' && getUsuario().isBackOffice()) ||  
+    (tramite.status=='SUBSANADO EN REVISION' && getUsuario().isBackOffice()) ||  
     (tramite.status=='SUBSANADO A SUPERVISAR' && getUsuario().isSupervisor()) || 
     (tramite.status=='SUBSANADO A SUPERVISAR' && getUsuario().isAprobador()) || 
     (tramite.status=='EN REVISION' && getUsuario().isBackOffice())
