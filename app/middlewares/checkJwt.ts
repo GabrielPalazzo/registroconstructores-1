@@ -18,7 +18,7 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
    if (!_.isEmpty(BLACK_LIST.filter(t =>  jwt.decode(token).cuit === t)))
     return res.status(403).send('Acceso denegado. Su token no se encuentra habilitado para realizar esta operación');
 
-   next() // pass the execution off to whatever request the client intended
+   next() 
  }) 
 };
 
