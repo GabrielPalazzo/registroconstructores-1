@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import { Button, Modal, Avatar, Dropdown, Menu, Input, Alert, Space, Tag, Tooltip, Timeline } from 'antd';
-import { allowGuardar, cambiarADesActualizado, closeSession, getEmptyTramiteAlta, getUsuario, getColorStatus, rechazarTramite } from '../services/business';
+import { allowGuardar, cambiarADesActualizado, closeSession, getEmptyTramiteAlta, getUsuario, getColorStatus, rechazarTramite, hasObservacionesObra } from '../services/business';
 import { ExclamationCircleOutlined, EditOutlined, SaveOutlined, ArrowLeftOutlined, CloseOutlined, BellOutlined } from '@ant-design/icons';
 import { setUpdateBorrador } from '../redux/actions/main';
 import { cargarUltimaRevisionAbierta } from '../redux/actions/revisionTramite';
@@ -21,6 +21,7 @@ export interface HeaderPrincipalProps {
 
 
 export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
+ 
   tramite,
   onExit,
   onSave
@@ -85,7 +86,11 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
     </Menu>
   );
   const reviewAbierta = revisionTramite.revision && revisionTramite.revision.reviews.filter(r => !r.isOk)
+  
+ 
 
+
+	
 
   const handleRechazarTramite = async () => {
 
@@ -164,11 +169,8 @@ export const HeaderPrincipal: React.FC<HeaderPrincipalProps> = ({
           {activeProfile2 && activeProfile2.rechazos.map(e => <div><Timeline.Item>{e.motivo}</Timeline.Item></div>)}
 
           {reviewAbierta &&
-            <div> {reviewAbierta.map(r => <Timeline.Item> {r.field}: {r.review} </Timeline.Item> )}</div>
-
-
-          }
-           
+            <div> {reviewAbierta.map(r => <Timeline.Item> {r.field}: {r.review} </Timeline.Item> )}</div>}
+          
         </Timeline>
       </div>
     </Modal>

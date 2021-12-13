@@ -434,6 +434,10 @@ type TramiteAlta = {
     supervisadoPor: Usuario,
     supervisadoAt: number 
   }
+  userBackoffice?:{
+    userPor: Usuario,
+    userDate:number
+  }
   cantidadObservado?: number,
   cantidadSubsanado?:number,
  

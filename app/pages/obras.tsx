@@ -874,7 +874,7 @@ export default () => {
     title: '',
     key: 'Editada',
     render: (text, record: DDJJObra) => 
-    <div> {record.fechaAprobacion && record.status !== 'APROBADA' ? 'Editada' : ''}</div>
+    <div> {record.fechaAprobacion && record.status !== 'APROBADA' ? 'Editada' : 'Nueva'}</div>
    },
     {
       title: 'Obs',
