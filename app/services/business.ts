@@ -459,14 +459,35 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
 
 
   if (tramite.status === 'PENDIENTE DE REVISION' && getUsuario().isBackOffice()) {
-    tramite.status = 'A SUPERVISAR'
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+      tramite.status = 'OBSERVADO'
+      tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
+      tramite.userBackoffice = {
+        userPor: getUsuario().userData(),
+        userDate: new Date().getTime()
+      }
+    } else{
+      tramite.status = 'A SUPERVISAR'
     tramite.asignadoA = null
+   
+    }
     return saveTramiteService(tramite)
+    
   }
 
   if (tramite.status === 'EN REVISION' && getUsuario().isBackOffice()) {
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+      tramite.status = 'OBSERVADO'
+      tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
+      tramite.userBackoffice = {
+        userPor: getUsuario().userData(),
+        userDate: new Date().getTime()
+      }
+     } else{
     tramite.status = 'A SUPERVISAR'
     tramite.asignadoA = null
+   }
+    
     return saveTramiteService(tramite)
   }
  
@@ -474,15 +495,26 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
   if (tramite.status === 'OBSERVADO' && getUsuario().isConstructor()) {
     tramite.status = 'SUBSANADO'
     tramite.cantidadSubsanado = tramite && tramite.cantidadSubsanado ? tramite.cantidadSubsanado + 1 : 1
-    tramite.asignadoA = tramite.supervision && tramite.supervision.supervisadoPor ? tramite.supervision.supervisadoPor : null
-
-    return saveTramiteService(tramite)
+    tramite.asignadoA = tramite.supervision && tramite.supervision.supervisadoPor ? tramite.supervision.supervisadoPor :  tramite.userBackoffice && tramite.userBackoffice.userPor
+   return saveTramiteService(tramite)
   }
 
   if ((tramite.status === 'SUBSANADO') && (getUsuario().isBackOffice())) {
-    tramite.status = 'SUBSANADO A SUPERVISAR' 
+    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+      tramite.status = 'OBSERVADO'
+      tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
+      tramite.userBackoffice = {
+        userPor: getUsuario().userData(),
+        userDate: new Date().getTime()
+      }
+    } else{
+      tramite.status = 'SUBSANADO A SUPERVISAR'
     tramite.asignadoA = null
+   
+    }
     return saveTramiteService(tramite)
+    
+    
   }
 
 
@@ -494,7 +526,7 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
   
 
   if (tramite.status === 'SUBSANADO A SUPERVISAR' && getUsuario().isSupervisor() || tramite.status === 'SUBSANADO A SUPERVISAR' && getUsuario().isAprobador() ) {
-    if (getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
+    if (getReviewAbierta(tramite) && getReviewAbierta(tramite).reviews.filter(r => !r.isOk).length > 0) {
       tramite.status = 'OBSERVADO'
       tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
    
@@ -520,9 +552,9 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
       tramite.status = 'OBSERVADO'
       tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
    
-      tramite.supervision = {
-        supervisadoPor: getUsuario().userData(),
-        supervisadoAt: new Date().getTime()
+      tramite.userBackoffice = {
+        userPor: getUsuario().userData(),
+        userDate: new Date().getTime()
       }
     } else {
       tramite.status = 'PENDIENTE DE APROBACION'
@@ -580,7 +612,10 @@ export const sendTramite = async (tramite: TramiteAlta): Promise<TramiteAlta> =>
       tramite.status = 'OBSERVADO'
       tramite.cantidadObservado =  tramite.cantidadObservado && tramite.cantidadObservado ? tramite.cantidadObservado + 1 : 1
    
-      tramite.asignadoA = null
+      tramite.userBackoffice = {
+        userPor: getUsuario().userData(),
+        userDate: new Date().getTime()
+      }
     } else {
       tramite.categoria = 'INSCRIPTO'
       tramite.status = 'VERIFICADO'

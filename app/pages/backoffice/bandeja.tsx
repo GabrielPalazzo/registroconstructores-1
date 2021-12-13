@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Tabs, Collapse, Tag, Menu, Dropdown, Avatar,Input } from 'antd';
+import { Button, Card, Tabs, Collapse, Tag, Menu, Dropdown, Avatar,Input,Select } from 'antd';
 import { ArrowRightOutlined, DownCircleOutlined, CloudDownloadOutlined, LockFilled, UnlockFilled } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
@@ -39,13 +39,16 @@ export default () => {
   const [showing, setShowing] = useState(false)
   const [usuario, setUsuario] = useState<Usuario>(null)
   const [tramites, setTramites] = useState<Array<TramiteAlta>>(null)
+  const [tramitesOriginal, setTramitesOriginal] = useState<Array<TramiteAlta>>(null)
   const router = useRouter()
   const dispatch = useDispatch()
 
   useEffect(() => {
     (async () => {
+      const t = (await getTramitesParaVerificar())
       setUsuario(getUsuario().userData())
-      setTramites((await getTramitesParaVerificar()))
+      setTramites(t)
+      setTramitesOriginal(t)
     })()
   }, [])
 
@@ -56,6 +59,11 @@ export default () => {
   const cerrarSesion = () => {
     closeSession()
     router.push('/login')
+  }
+  const filtrarTramiteporEstado =(e)=>{
+    console.log(e.target.value)
+    e.target.value !== 'TODOS' ? setTramites(tramitesOriginal.filter(tr => tr.status === e.target.value )) : setTramites(tramitesOriginal)
+
   }
 
   const menu = (
@@ -100,6 +108,24 @@ export default () => {
 
       <div className="px-4 md:px-20 py-6  ">
         <div className="text-2xl font-bold py-4">{`Hola ${usuario.GivenName} ${usuario.Surname}`} </div>
+        <div>
+        <div className="text-sml font-bold py-4">Filtrar por Estado 
+                <select 
+                className="border ml-5 p-2 rounded-xl shadow-2xl"
+                onChange={filtrarTramiteporEstado}>
+                
+                  <option value="TODOS">TODOS</option>
+                  <option value="OBSERVADO">OBSERVADO</option>
+                  <option value="PENDIENTE DE REVISION"> PENDIENTE DE REVISION</option>
+                  <option value="A SUPERVISAR" >A SUPERVISAR</option>
+                  <option value="SUBSANADO">SUBSANADO</option>
+                  <option value="PENDIENTE DE APROBACION">PENDIENTE DE APROBACION</option>
+                  <option value="EN REVISION">EN REVISION</option>
+                  <option value="SUBSANADO EN REVISION">SUBSANADO EN REVISION</option>
+                  <option value="SUBSANADO A SUPERVISAR">SUBSANADO A SUPERVISAR</option>
+                </select>
+                </div>
+           </div>
        
 
         <Tabs defaultActiveKey={getDefaultTabActive()} onChange={callback}>
@@ -116,7 +142,9 @@ export default () => {
             //t.status === 'SUBSANADO' ||  
             //t.status === 'A SUPERVISAR' ||  
             //t.status === 'PENDIENTE DE APROBACION' ).map((t: TramiteAlta) => (
+              
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
+                
        <div className="flex justify-between">
                   <div>
                     <div className="flex">
@@ -226,8 +254,8 @@ export default () => {
           <TabPane tab={`Mis Asignados (${tramites.filter((t: TramiteAlta) =>  t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR'  && t.status !== 'OBSERVADO' && t.asignadoA && t.asignadoA.cuit === usuario.cuit
             || t.categoria === 'DESACTUALIZADO' && t.status !== 'BORRADOR'  && t.status !== 'OBSERVADO' && t.asignadoA && t.asignadoA.cuit === usuario.cuit).length})`} key="3">
             {tramites.filter((t: TramiteAlta) => 
-            t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR'  && t.status !== 'OBSERVADO'
-            || t.categoria === 'DESACTUALIZADO' && t.status !== 'BORRADOR'  && t.status !== 'OBSERVADO'
+            t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR' 
+            || t.categoria === 'DESACTUALIZADO' && t.status !== 'BORRADOR'  
            ).filter((t: TramiteAlta) => t.asignadoA && t.asignadoA.cuit === usuario.cuit).map((t: TramiteAlta) => (
              
              <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
@@ -456,7 +484,7 @@ export default () => {
 
           </TabPane>
         
-        <TabPane tab="Borradores *" key="7">
+       {/* <TabPane tab="Borradores *" key="7">
             {tramites.filter((t: TramiteAlta) => t.status === 'BORRADOR').map((t: TramiteAlta) => (
               <div className="rounded-lg bg-muted-100 px-4 py-4 pb-4 mb-4">
                 <div className="flex justify-between">
@@ -507,7 +535,7 @@ export default () => {
 
               </div>
             ))}
-          </TabPane>
+          </TabPane>*/}
 
 
         </Tabs>
