@@ -251,8 +251,8 @@ export default () => {
             ))}
           </TabPane>
        
-          <TabPane tab={`Mis Asignados (${tramites.filter((t: TramiteAlta) =>  t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR'  && t.status !== 'OBSERVADO' && t.asignadoA && t.asignadoA.cuit === usuario.cuit
-            || t.categoria === 'DESACTUALIZADO' && t.status !== 'BORRADOR'  && t.status !== 'OBSERVADO' && t.asignadoA && t.asignadoA.cuit === usuario.cuit).length})`} key="3">
+          <TabPane tab={`Mis Asignados (${tramites.filter((t: TramiteAlta) =>  t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR'  && t.asignadoA && t.asignadoA.cuit === usuario.cuit
+            || t.categoria === 'DESACTUALIZADO' && t.status !== 'BORRADOR'   && t.asignadoA && t.asignadoA.cuit === usuario.cuit).length})`} key="3">
             {tramites.filter((t: TramiteAlta) => 
             t.categoria === 'PRE INSCRIPTO' && t.status !== 'BORRADOR' 
             || t.categoria === 'DESACTUALIZADO' && t.status !== 'BORRADOR'  
