@@ -667,7 +667,7 @@ export const getUniqCode = () => {
 }
 
 export const generarCertificado = async (tramite: TramiteAlta, usuario: Usuario, db): Promise<CertificadoCapacidad> => {
-
+  console.log('generar certificado')
   const calculadora = new CalculadoraCapacidad(tramite)
   await calculadora.init()
   const capacidadEjecucion = calculadora

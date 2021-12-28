@@ -177,7 +177,7 @@ export const Certificado: React.FC<CertificadoProps> = ({
         </div>
       </div>
       <div className="text-xl font-bold mt-4 mb-4">Compromisos: </div>
-      <Table dataSource={certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA' || o.status === 'SUPERVIZADA').filter( (o:DDJJObra) => _.includes(['Preadjudicada','Adjudicada','Ejecucion'],o.datosObra[0].estado))} columns={columns} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
+      <Table dataSource={certificado.tramite.ddjjObras.filter(o => o.status && o.status === 'APROBADA' || o.status === 'SUPERVIZADA').filter( (o:DDJJObra) => _.includes(['Preadjudicada','Adjudicada','Ejecucion'],o.datosObra[0].estado && o.datosObra[0].estado))} columns={columns} locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<span> No hay información cargada </span>}></Empty>, }} />
 
 
 

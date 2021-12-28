@@ -2,10 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
 import _ from 'lodash'
 
-const BLACK_LIST = ['20367628376']
+//const BLACK_LIST = ['20367628376']
 
 
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
+ //console.log('entro')
  const authHeader = req.headers['authorization'] ? req.headers['authorization']  : 'Bearer ' + req.query.token
  
  
@@ -18,8 +19,8 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
    if (err) return res.status(403).send('Acceso denegado. Su token no es valido');
    req.user = user
     
-  // if (!_.isEmpty(BLACK_LIST.filter(t =>  jwt.decode(token).cuit === t)))
-    //return res.status(403).send('Acceso denegado. Su token no se encuentra habilitado para realizar esta operación');
+  //if (!_.isEmpty(BLACK_LIST.filter(t =>  jwt.decode(token).cuit === t)))
+  //  return res.status(403).send('Acceso denegado. Su token no se encuentra habilitado para realizar esta operación');
 
    next() 
  }) 

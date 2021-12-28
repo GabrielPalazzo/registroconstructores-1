@@ -5,9 +5,10 @@ const client = new MongoClient(process.env.MONGO_URI, {
   useUnifiedTopology: true,
 });
 
-console.log(process.env.MONGO_URI)
+
 
 export async function setUpDb(db) {
+  console.log('setUpDb')
   db
     .collection('tokens')
     .createIndex({ expireAt: -1 }, { expireAfterSeconds: 0 });
@@ -16,6 +17,7 @@ export async function setUpDb(db) {
 }
 
 export default async function database(req, res, next) {
+  console.log('database')
   if (!client.isConnected()) await client.connect();
   req.dbClient = client;
   req.db = client.db(process.env.DB_NAME);
