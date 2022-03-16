@@ -1401,7 +1401,7 @@ export default (props) => {
 
 
           </Svg>
-          <Text >2021: Año de Martín Miguel de Güemes</Text>
+          <Text >2022: Año de Martín Miguel de Güemes</Text>
         </View>
         <View style={styles.sectionContentHead} >
           <View style={styles.sectionContentHeadColumn3}  >
