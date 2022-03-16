@@ -159,10 +159,10 @@ export default () => {
     </div>
 
     <div className="w-1/2 p-4">
-      <div className="text-2xl font-bold py-4"> Consulta de Certificados otorgados</div>
+      <div className="text-2xl font-bold py-4"> Consulta de Certificados Otorgados</div>
       <div className="flex items-center">
         <Search
-          placeholder="Ingrese el nombre de la empresa o CUIT"
+          placeholder="Ingrese el nombre de la Empresa o CUIT"
           allowClear
           enterButton="Buscar"
           size="large"
